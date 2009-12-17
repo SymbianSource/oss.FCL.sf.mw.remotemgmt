@@ -1,0 +1,64 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DB Caps mmp file
+*
+*/
+
+
+
+#include "defaultcaps.hrh"
+#include <platform_paths.hrh>
+
+TARGET          nsmldbcaps.dll
+TARGETTYPE      DLL
+UID             0x1000008d 0x101F6DE4
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./def/eabidbcaps
+#elif defined(WINSCW)
+DEFFILE		./def/bwinscwdbcaps
+#elif defined(WINS)
+DEFFILE		./def/bwinsdbcaps
+#else
+DEFFILE		./def/bmarmdbcaps
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+USERINCLUDE	../inc
+USERINCLUDE	../../../../common/inc
+USERINCLUDE	../../../../common/debug/inc
+USERINCLUDE	../../../../common/wbxml/inc
+USERINCLUDE	../../../../common/wbxml/inc/devinf
+USERINCLUDE	../../../../common/wbxml/inc/syncml
+USERINCLUDE	../../../../common/syncagent/inc //unicodeconverter
+
+SOURCEPATH		../src
+SOURCE       	nsmldbcaps.cpp
+SOURCE          NSmlPropParam.cpp
+SOURCE          NSmlDevInfProp.cpp
+SOURCE          NSmlCtCap.cpp
+SOURCE          NSmlCtCapData.cpp
+SOURCE          NSmlCtCapsHandler.cpp
+SOURCE          NSmlFilterCap.cpp
+SOURCE          NSmlFilterCapData.cpp
+SOURCE          NSmlFilterCapsHandler.cpp
+SOURCE          NSmlDbMeta.cpp
+SOURCE          NSmlDbMetaHandler.cpp
+SOURCE		NSmldbcapsSerializer.cpp
+
+LIBRARY         euser.lib nsmlwbxml.lib nsmldebug.lib bafl.lib nsmlagentcommon.lib smlstoreformat.lib
+
+

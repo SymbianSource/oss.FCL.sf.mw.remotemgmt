@@ -1,0 +1,143 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+REM SyncML Common modules
+
+#ifndef __NSMLCOMMON_IBY__
+#define __NSMLCOMMON_IBY__
+
+#include <bldvariant.hrh>
+
+#if defined(__SYNCML_DS) || defined(__SYNCML_DM)
+
+#ifndef __SYNCML_DM
+REM Tree db client
+file=ABI_DIR\BUILD_DIR\nsmldmtreedbclient.dll		SHARED_LIB_DIR\nsmldmtreedbclient.dll
+file=ABI_DIR\BUILD_DIR\nsmldmclientserverutils.dll	SHARED_LIB_DIR\nsmldmclientserverutils.dll
+
+#ifdef __SYNCML_DM_FOTA
+ECOM_PLUGIN(nsmldmdevdetailadapter.dll,nsmldmdevdetailadapter.rsc)
+ECOM_PLUGIN(nsmldmdevinfoadapter.dll,nsmldmdevinfoadapter.rs)
+ECOM_PLUGIN(nsmldmfotaadapter.dll,nsmldmfotaadapter.rsc)
+data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F9A02.SPD		private\100012a5\policy\101F9A02.SPD
+ECOM_PLUGIN(wpdm.dll,wpdm.rsc)
+
+file=ABI_DIR\BUILD_DIR\nsmldmiapmatcher.dll		SHARED_LIB_DIR\nsmldmiapmatcher.dll
+
+REM Tree db handler
+file=ABI_DIR\BUILD_DIR\nsmldmtreedbhandler.dll		SHARED_LIB_DIR\nsmldmtreedbhandler.dll
+
+REM callback server
+file=ABI_DIR\BUILD_DIR\nsmldmcallbackserver.exe		PROGRAMS_DIR\nsmldmcallbackserver.exe
+data=DATAZ_\private\101F9A06\backup_registration.xml	private\101F9A06\backup_registration.xml
+
+REM Host server base
+file=ABI_DIR\BUILD_DIR\nsmldmhostserver.dll		SHARED_LIB_DIR\nsmldmhostserver.dll
+
+REM Host servers
+file=ABI_DIR\BUILD_DIR\nsmldmhostserver1.exe		PROGRAMS_DIR\nsmldmhostserver1.exe
+file=ABI_DIR\BUILD_DIR\nsmldmhostserver2.exe		PROGRAMS_DIR\nsmldmhostserver2.exe
+file=ABI_DIR\BUILD_DIR\nsmldmhostserver3.exe		PROGRAMS_DIR\nsmldmhostserver3.exe
+file=ABI_DIR\BUILD_DIR\nsmldmhostserver4.exe		PROGRAMS_DIR\nsmldmhostserver4.exe
+
+REM Tree module
+file=ABI_DIR\BUILD_DIR\nsmldmmodule.dll			SHARED_LIB_DIR\nsmldmmodule.dll
+
+REM Sync Agent
+file=ABI_DIR\BUILD_DIR\nsmldmagent.dll			SHARED_LIB_DIR\nsmldmagent.dll
+
+REM wappushalert
+ECOM_PLUGIN(nsmldmwappushalert.dll,101F6DE3.rsc)
+#endif __SYNCML_DM_FOTA
+#endif //__SYNCML_DM
+
+REM \common\inc\policy
+data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FB.SPD		private\100012a5\policy\101F99FB.SPD
+
+REM \common\wbxml
+file=ABI_DIR\BUILD_DIR\nsmlwbxml.dll			SHARED_LIB_DIR\nsmlwbxml.dll
+
+REM \common\transport
+file=ABI_DIR\BUILD_DIR\nsmltransport.dll		SHARED_LIB_DIR\nsmltransport.dll
+
+REM \common\http
+file=ABI_DIR\BUILD_DIR\nsmlhttp.dll			SHARED_LIB_DIR\nsmlhttp.dll
+
+REM  \dm\settings		
+file=ABI_DIR\BUILD_DIR\NSmlDMSettings.dll		SHARED_LIB_DIR\NSmlDMSettings.dll
+
+REM \ds\settings
+file=ABI_DIR\BUILD_DIR\NSmlDSSettings.dll		SHARED_LIB_DIR\NSmlDSSettings.dll
+
+#ifdef __SYNCML_OBEX
+
+REM \common\obexclient
+file=ABI_DIR\BUILD_DIR\nsmlobexclient.dll		SHARED_LIB_DIR\nsmlobexclient.dll
+
+REM \common\obexcommserver
+file=ABI_DIR\BUILD_DIR\nsmlobexcommserver.dll		SHARED_LIB_DIR\nsmlobexcommserver.dll
+
+REM \common\obexserverbinding
+file=ABI_DIR\BUILD_DIR\nsmlobexserverbinding.dll	SHARED_LIB_DIR\nsmlobexserverbinding.dll
+
+REM \common\obexdsplugin
+ECOM_PLUGIN(nsmlobexdsplugin.dll,101F9684.rsc)
+data=DATAZ_\private\101F99F6\capability\101F6DE4.xml	private\101F99F6\capability\101F6DE4.xml
+
+#ifdef __SYNCML_DM_OBEX
+REM \common\obexdmplugin
+ECOM_PLUGIN(nsmlobexdmplugin.dll,101F968C.rsc)
+data=DATAZ_\private\101F99F6\capability\101F6DE5.xml	private\101F99F6\capability\101F6DE5.xml
+#endif //__SYNCML_DM_OBEX
+
+#endif //__SYNCML_OBEX
+
+REM \common\syncagent
+file=ABI_DIR\BUILD_DIR\nsmlagentcommon.dll		SHARED_LIB_DIR\nsmlagentcommon.dll
+
+REM \common\historylog
+file=ABI_DIR\BUILD_DIR\nsmlhistorylog.dll		SHARED_LIB_DIR\nsmlhistorylog.dll
+
+REM \common\sosserver
+file=ABI_DIR\BUILD_DIR\nsmlsosserver.exe		PROGRAMS_DIR\nsmlsosserver.exe
+data=DATAZ_\private\101F99FB\backup_registration.xml	private\101F99FB\backup_registration.xml	
+
+REM \common\sosserver_clientapi
+file=ABI_DIR\BUILD_DIR\SyncMLClientAPI.dll		SHARED_LIB_DIR\SyncMLClientAPI.dll
+
+REM common\sosserver_privateapi
+file=ABI_DIR\BUILD_DIR\NSmlPrivateAPI.dll		SHARED_LIB_DIR\NSmlPrivateAPI.dll
+
+REM \common\sosserver_TransportHandler
+file=ABI_DIR\BUILD_DIR\nsmltransporthandler.dll		SHARED_LIB_DIR\nsmltransporthandler.dll
+
+REM common\Alert Queue
+file=ABI_DIR\BUILD_DIR\NSmlAlertQueue.dll		SHARED_LIB_DIR\NSmlAlertQueue.dll
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlDSTypesRes.rsc	RESOURCE_FILES_DIR\NSmlDSTypesRes.rsc
+
+REM stub sis file
+data=ZSYSTEM\install\syncmlfw_stub.sis    System\Install\syncmlfw_stub.sis
+
+REM Debug modules for debugging purposes
+
+REM \common\xml
+REM file=ABI_DIR\BUILD_DIR\nsmlxml.dll			SHARED_LIB_DIR\nsmlxml.dll
+
+REM \common\debug
+REM file=ABI_DIR\BUILD_DIR\nsmldebug.dll		SHARED_LIB_DIR\nsmldebug.dll
+
+#endif // (__SYNCML_DS) || defined(__SYNCML_DM)
+#endif //__NSMLCOMMON_IBY__

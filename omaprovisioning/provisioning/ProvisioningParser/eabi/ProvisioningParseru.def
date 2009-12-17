@@ -1,0 +1,8 @@
+EXPORTS
+	_ZN14CWPWbxmlParser4NewLEv @ 1 NONAME
+	_ZN14CWPWbxmlParser6ParseLERK6TDesC8R10MWPBuilder @ 2 NONAME
+	_ZTI14CWPWbxmlParser @ 3 NONAME ; #<TI>#
+	_ZTI16CWPNameValuePair @ 4 NONAME ; #<TI>#
+	_ZTV14CWPWbxmlParser @ 5 NONAME ; #<VT>#
+	_ZTV16CWPNameValuePair @ 6 NONAME ; #<VT>#
+

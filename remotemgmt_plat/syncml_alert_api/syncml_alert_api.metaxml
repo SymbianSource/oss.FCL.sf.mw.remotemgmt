@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="5ce65ca24b4a0fc4554e97396f4a35f4" dataversion="1.0">
+  <name>SyncML Alert API</name>
+  <description>API for alert modules to start a session. In addition, DM authentication info can be handled via the interface.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmlprivateapi.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

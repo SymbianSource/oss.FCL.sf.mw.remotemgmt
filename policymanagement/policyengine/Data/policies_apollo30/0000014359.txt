@@ -1,0 +1,1 @@
+<desc>This policy defines who has rights to modify certificate mapping policies. Currentlyonly certificate owner can edit mapping rules!</desc>

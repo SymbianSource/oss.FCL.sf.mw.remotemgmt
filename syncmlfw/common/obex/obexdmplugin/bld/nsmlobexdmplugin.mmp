@@ -1,0 +1,85 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncML Obex plugin for Device Management
+*
+*/
+
+
+#include <defaultcaps.hrh>
+#include <platform_paths.hrh>
+
+TARGET      	nsmlobexdmplugin.dll
+TARGETTYPE	PLUGIN
+CAPABILITY	CAP_ECOM_PLUGIN
+VENDORID 	VID_DEFAULT
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID 		0x10009D8D 0x101F968C
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+SOURCEPATH     	../src
+
+SOURCE      	NSmlObexDMplugin.cpp
+SOURCE      	NSmlProxy.cpp
+SOURCE          NSmlObexPacketWaiter.cpp
+SOURCE          NSmlDisListener.cpp
+SOURCE          NSmlPluginServiceTimer.cpp
+
+START RESOURCE 101f968c.rss
+TARGET		nsmlobexdmplugin.rsc
+END
+
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/libc /epoc32/include/ecom
+
+USERINCLUDE     ../inc 
+USERINCLUDE	../../../inc 
+USERINCLUDE	../../../transport/inc 
+USERINCLUDE	../../../obex/obexcommserver/inc 
+USERINCLUDE	../../../wbxml/inc 
+USERINCLUDE	../../../wbxml/inc/syncml 
+USERINCLUDE	../../../syncagent/inc 
+USERINCLUDE	../../../debug/inc 
+USERINCLUDE	../../../xml/inc 
+USERINCLUDE	../../../xml/inc/syncml 
+USERINCLUDE	../../../xml/inc/devinf 
+USERINCLUDE	../../../wbxml/inc/devinf
+USERINCLUDE	../../../sosserver_privateapi/inc
+USERINCLUDE ../../../alerthandler/inc
+USERINCLUDE ../../../sosserver/inc
+
+
+
+LIBRARY     euser.lib
+LIBRARY 	nsmldebug.lib
+LIBRARY     irobex.lib 
+LIBRARY		nsmlobexcommserver.lib
+LIBRARY		ecom.lib			
+LIBRARY		nsmlxml.lib
+LIBRARY		nsmlprivateapi.lib
+
+
+
+
+SMPSAFE

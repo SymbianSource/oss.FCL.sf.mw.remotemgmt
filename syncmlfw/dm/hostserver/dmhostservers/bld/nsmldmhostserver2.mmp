@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for specialized DM Host Server 3 
+*
+*/
+
+
+#include "data_caging_paths.hrh"
+#include  <platform_paths.hrh>
+
+#include "defaultcaps.hrh"
+CAPABILITY 	ReadDeviceData WriteDeviceData
+EPOCHEAPSIZE	0x500 0x400000 	// minimum and maximum heap sizes 
+EPOCSTACKSIZE	0x3000
+VENDORID 	VID_DEFAULT
+UID             0 0x101F9A03
+TARGET          nsmldmhostserver2.exe
+TARGETTYPE      exe
+
+
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE /epoc32/include/libc
+USERINCLUDE    	../inc
+USERINCLUDE    	../../../dmutils/inc
+USERINCLUDE		../../dmhostserverbase/inc
+
+SOURCEPATH      ../src
+SOURCE			nsmldmhostserver2.cpp
+
+LIBRARY         euser.lib nsmldebug.lib nsmldmhostserver.lib
+
+SMPSAFE

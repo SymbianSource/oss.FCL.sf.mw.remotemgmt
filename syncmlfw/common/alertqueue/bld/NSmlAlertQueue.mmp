@@ -1,0 +1,84 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncLog
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include "defaultcaps.hrh"
+#include <platform_paths.hrh>
+
+TARGET          nsmlalertqueue.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DF0
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./def/eabi
+#elif defined(WINSCW)
+DEFFILE		./def/bwinscw
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	/epoc32/include/libc 
+SYSTEMINCLUDE	/epoc32/include/ecom 
+SYSTEMINCLUDE	/epoc32/include/syncml
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE		../../wbxml/inc
+USERINCLUDE		../../wbxml/inc/syncml
+USERINCLUDE		../../wbxml/inc/devinf
+USERINCLUDE		../../syncagent/inc
+USERINCLUDE     ../../../ds/inc
+USERINCLUDE     ../../../ds/settings/inc
+USERINCLUDE     ../../../ds/hostserver/dshostclient/inc
+USERINCLUDE     ../../../dm/settings/inc
+USERINCLUDE		../../../ds/syncagent/inc
+USERINCLUDE     ../../historylog/inc
+USERINCLUDE     ../../sosserver/inc
+
+SOURCEPATH      ../src
+SOURCE          NSmlAlertParserBase.cpp
+SOURCE          NSmlDSAlertParser12.cpp
+SOURCE          NSmlDMAlertParser11.cpp
+SOURCE          NSmlDSAlertParser11.cpp
+SOURCE          NSmlAlertInfo.cpp
+SOURCE          NSmlAlertJobInfo.cpp
+SOURCE          NSmlAlertHandler.cpp
+SOURCE          NSmlMessageQueue.cpp
+SOURCE          NSmlMessageItem.cpp
+SOURCE          NSmlParserFactory.cpp
+
+LIBRARY         euser.lib estor.lib bafl.lib efsrv.lib nsmlwbxml.lib
+LIBRARY		nsmlhistorylog.lib
+LIBRARY		nsmldssettings.lib
+LIBRARY		nsmldmsettings.lib
+LIBRARY		nsmldshostclient.lib
+LIBRARY         nsmlagentcommon.lib
+LIBRARY		charconv.lib
+LIBRARY 	ecom.lib
+LIBRARY 	nsmldebug.lib
+LIBRARY         centralrepository.lib
+
+SOURCEPATH	../src/ContentTypes
+
+START RESOURCE	NSmlDSTypesRes.rss
+HEADER
+TARGETPATH	RESOURCE_FILES_DIR
+END
+
+SMPSAFE

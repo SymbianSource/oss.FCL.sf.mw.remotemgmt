@@ -1,0 +1,191 @@
+;
+; Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:  Stub Package file for data sync
+;
+
+; Languages
+&EN
+
+; Header
+; Name, UID for installation, Maj.Ver., Min.Ver., Variant, FLAG TO SPECIFY UNICODE, System component
+#{"SyncML Framework"}, (0x20012490), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+; DLLs
+
+; from syncmlfw/common
+""-"z:\sys\bin\NSmlAlertQueue.dll"
+""-"z:\sys\bin\nsmlhistorylog.dll"
+""-"z:\sys\bin\nsmlhttp.dll"
+""-"z:\sys\bin\SyncMLClientAPI.dll"
+""-"z:\sys\bin\NSmlPrivateAPI.dll"
+""-"z:\sys\bin\nsmltransporthandler.dll"
+""-"z:\sys\bin\nsmlagentcommon.dll"
+""-"z:\sys\bin\nsmltransport.dll"
+""-"z:\sys\bin\nsmlobexclient.dll"
+""-"z:\sys\bin\nsmlobexcommserver.dll"
+""-"z:\sys\bin\nsmlobexserverbinding.dll"
+""-"z:\sys\bin\nsmlwbxml.dll"
+
+; from syncmlfw/ds
+""-"z:\sys\bin\NSmlAdapterLog.dll"
+""-"z:\sys\bin\nsmlagentlog.dll"
+""-"z:\sys\bin\NSmlDSSettings.dll"
+""-"z:\sys\bin\smldataprovider.dll"
+""-"z:\sys\bin\nsmlchangefinder.dll"
+""-"z:\sys\bin\nsmldbcaps.dll"
+""-"z:\sys\bin\syncmldatafilter.dll"
+""-"z:\sys\bin\nsmlfilter.dll"
+""-"z:\sys\bin\smlstoreformat.dll"
+""-"z:\sys\bin\nsmldshostclient.dll"
+""-"z:\sys\bin\nsmldshostserver.dll"
+""-"z:\sys\bin\nsmldsagent.dll"
+""-"z:\sys\bin\nsmlemailmtm.dll"
+""-"z:\sys\bin\nsmlemailmtmserver.dll"
+""-"z:\sys\bin\nsmlxmlparser.dll"
+""-"z:\sys\bin\nsmldatamod.dll"
+""-"z:\sys\bin\nsmlCGIScriptParser.dll"
+""-"z:\sys\bin\NsmlProfileUtil.dll"
+""-"z:\sys\bin\nsmlfolderparser.dll"
+
+
+; from syncmlfw/dm
+""-"z:\sys\bin\NSmlDMSettings.dll"
+""-"z:\sys\bin\nsmldmclientserverutils.dll"
+""-"z:\sys\bin\nsmldmiapmatcher.dll"
+""-"z:\sys\bin\nsmldmtreedbhandler.dll"
+""-"z:\sys\bin\nsmldmtreedbclient.dll"
+""-"z:\sys\bin\nsmldmhostserver.dll"
+""-"z:\sys\bin\nsmldmmodule.dll"
+""-"z:\sys\bin\nsmldmagent.dll"
+
+; EXEs
+; from syncmlfw/common
+""-"z:\sys\bin\nsmlsosserver.exe"
+
+; from syncmlfw/ds
+""-"z:\sys\bin\nsmldshostserver1.exe"
+""-"z:\sys\bin\nsmldshostserver2.exe"
+""-"z:\sys\bin\netmon.exe"
+
+; from syncmlfw/dm
+""-"z:\sys\bin\nsmldmcallbackserver.exe"
+""-"z:\sys\bin\nsmldmhostserver1.exe"
+""-"z:\sys\bin\nsmldmhostserver2.exe"
+""-"z:\sys\bin\nsmldmhostserver3.exe"
+""-"z:\sys\bin\nsmldmhostserver4.exe"
+
+
+; Ecom plugin
+; from ds
+""-"z:\sys\bin\nsmlcontactsdataprovider.dll"
+""-"z:\resource\plugin\nsmlcontactsdataprovider.r*"
+
+""-"z:\sys\bin\nsmlagendadataprovider.dll"
+""-"z:\resource\plugin\nsmlagendadataprovider.r*"
+
+""-"z:\sys\bin\nsmlemailDataProvider.dll"
+""-"z:\resource\plugin\nsmlemailDataProvider.r*"
+
+""-"z:\sys\bin\nsmlnotepaddataprovider.dll" 
+""-"z:\resource\plugin\nsmlnotepaddataprovider.r*"
+
+""-"z:\sys\bin\nsmlobexdsplugin.dll"
+""-"z:\resource\plugin\101F9684.r*"
+
+""-"z:\sys\bin\nsmldswappushalert.dll"
+""-"z:\resource\plugin\nsmldswappushalert.r*"
+
+""-"z:\sys\bin\nsmldsalert.dll"
+""-"z:\resource\plugin\nsmldsalert.r*"
+
+""-"z:\sys\bin\wpds.dll"
+""-"z:\resource\plugin\wpds.r*"
+
+""-"z:\sys\bin\nsmldefaultagendahandler.dll"
+""-"z:\resource\plugin\nsmldefaultagendahandler.r*"
+; from dm
+""-"z:\sys\bin\nsmldmdevdetailadapter.dll"
+""-"z:\resource\plugin\nsmldmdevdetailadapter.r*"
+
+""-"z:\sys\bin\nsmldmdevinfoadapter.dll"
+""-"z:\resource\plugin\nsmldmdevinfoadapter.r*"
+
+""-"z:\sys\bin\nsmldmfotaadapter.dll"
+""-"z:\resource\plugin\nsmldmfotaadapter.r*"
+
+""-"z:\sys\bin\wpdm.dll"
+""-"z:\resource\plugin\wpdm.r*"
+
+""-"z:\sys\bin\nsmldmwappushalert.dll"
+""-"z:\resource\plugin\101F6DE3.r*"
+
+""-"z:\sys\bin\nsmlobexdmplugin.dll"
+""-"z:\resource\plugin\101F968C.r*"
+
+""-"z:\sys\bin\nsmldmsettingsadapter.dll"
+""-"z:\resource\plugin\nsmldmsettingsadapter.r*"
+
+""-"z:\sys\bin\nsmldmsettingsadapter12.dll"
+""-"z:\resource\plugin\nsmldmsettingsadapter12.r*"
+
+""-"z:\sys\bin\nsmldmbrowseradapter.dll"
+""-"z:\resource\plugin\nsmldmbrowseradapter.r*"
+
+""-"z:\sys\bin\nsmldssettingsadapter.dll"
+""-"z:\resource\plugin\nsmldssettingsadapter.r*"
+
+""-"z:\sys\bin\nsmldmemailadapter.dll"
+""-"z:\resource\plugin\nsmldmemailadapter.r*"
+
+""-"z:\sys\bin\nsmldmmmsadapter.dll"
+""-"z:\resource\plugin\nsmldmmmsadapter.r*"
+
+""-"z:\sys\bin\nsmldmimpsadapter.dll"
+""-"z:\resource\plugin\nsmldmimpsadapter.r*"
+
+
+
+;Resource files
+
+""-"z:\resource\NSmlContactsDataStoreFormat_1_1_2.r*"
+""-"z:\resource\NSmlContactsDataStoreFormat_1_2.r*"
+""-"z:\resource\NSmlAgendaDataStore_1_1_2.r*"
+""-"z:\resource\\nsmlemaildatastoreformat.r*"
+""-"z:\resource\NSmlNotepadDataStoreFormat.r*"
+""-"z:\resource\NSmlDMProfileRes.r*"
+""-"z:\resource\NSmlDsProvisioningAdapter.r*"
+""-"z:\resource\nsmlemailmtmserver.r*"
+""-"z:\resource\NSmlDmProvisioningAdapter.r*"
+""-"z:\resource\NSmlTransport.r*"
+""-"z:\resource\NSmlDSProfileRes.r*"
+""-"z:\resource\NSmlDSTypesRes.r*"
+""-"z:\resource\nsmldefaultagendahandler_1_2.r*"
+
+
+; Misc files
+
+""-"z:\private\101F9A06\backup_registration.xml"
+""-"z:\private\101F99F6\capability\101F6DE4.xml"
+""-"z:\private\101F99F6\capability\101F6DE5.xml"
+""-"z:\private\101F99FB\backup_registration.xml"
+""-"z:\resource\messaging\bif\nsmlsp_sms_no.r*"
+""-"z:\private\101F99FD\backup_registration.xml"
+""-"z:\private\101F99FE\backup_registration.xml"
+

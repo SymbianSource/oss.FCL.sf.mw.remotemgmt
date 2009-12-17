@@ -1,0 +1,36 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+
+../inc/SCPPlugin.h                |../../../../inc/SCPPlugin.h
+../inc/SCPPlugin.inl              |../../../../inc/SCPPlugin.inl 
+../inc/SCP_IDs.h                  |../../../../inc/SCP_IDs.h 
+
+../rom/SCPServer.iby          		CORE_MW_LAYER_IBY_EXPORT_PATH(scpserver.iby)
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_MMPFILES
+SCPServer.mmp
+
+
+// End of File

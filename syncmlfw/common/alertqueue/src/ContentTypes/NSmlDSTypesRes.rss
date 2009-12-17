@@ -1,0 +1,142 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource data for Content types 
+*
+*/
+
+
+
+STRUCT CONTTYPE
+	{
+	WORD num;
+	LTEXT conttext;
+	}
+
+
+STRUCT TYPES
+	{
+	STRUCT conttypes[];
+	}
+
+
+RESOURCE TYPES nsml_ds_content_types
+	{
+	conttypes =
+		{
+		CONTTYPE{ num = 0x00; conttext = "*/*"; },
+		CONTTYPE{ num = 0x01; conttext = "text/*"; },
+		CONTTYPE{ num = 0x02; conttext = "text/html"; },
+		CONTTYPE{ num = 0x03; conttext = "text/plain"; },
+		CONTTYPE{ num = 0x04; conttext = "text/x-hdml"; },
+		CONTTYPE{ num = 0x05; conttext = "text/x-ttml"; },
+		CONTTYPE{ num = 0x06; conttext = "text/x-vCalendar"; },	
+		CONTTYPE{ num = 0x07; conttext = "text/x-vCard"; },	
+		CONTTYPE{ num = 0x08; conttext = "text/vnd.wap.wml"; },
+		CONTTYPE{ num = 0x09; conttext = "text/vnd.wap.wmlscript"; },
+		CONTTYPE{ num = 0x0a; conttext = "text/vnd.wap.wta-event"; },
+		CONTTYPE{ num = 0x0b; conttext = "multipart/*"; },
+		CONTTYPE{ num = 0x0c; conttext = "multipart/mixed"; },
+		CONTTYPE{ num = 0x0d; conttext = "multipart/form-data"; },
+		CONTTYPE{ num = 0x0e; conttext = "multipart/byterantes"; },
+		CONTTYPE{ num = 0x0f; conttext = "multipart/alternative"; },
+		CONTTYPE{ num = 0x10; conttext = "application/*"; },
+		CONTTYPE{ num = 0x11; conttext = "application/java-vm"; },
+		CONTTYPE{ num = 0x12; conttext = "application/x-www-form-urlencoded"; },
+		CONTTYPE{ num = 0x13; conttext = "application/x-hdmlc"; },
+		CONTTYPE{ num = 0x14; conttext = "application/vnd.wap.wmlc"; },
+		CONTTYPE{ num = 0x15; conttext = "application/vnd.wap.wmlscriptc"; },
+		CONTTYPE{ num = 0x16; conttext = "application/vnd.wap.wta-eventc"; },
+		CONTTYPE{ num = 0x17; conttext = "application/vnd.wap.uaprof"; },
+		CONTTYPE{ num = 0x18; conttext = "application/vnd.wap.wtls-ca-certificate"; },
+		CONTTYPE{ num = 0x19; conttext = "application/vnd.wap.wtls-user-certificate"; },
+		CONTTYPE{ num = 0x1a; conttext = "application/x-x509-ca-cert"; },
+		CONTTYPE{ num = 0x1b; conttext = "application/x-x509-user-cert"; },
+		CONTTYPE{ num = 0x1c; conttext = "image/*"; },
+		CONTTYPE{ num = 0x1d; conttext = "image/gif"; },
+		CONTTYPE{ num = 0x1e; conttext = "image/jpeg"; },
+		CONTTYPE{ num = 0x1f; conttext = "image/tiff"; },
+		CONTTYPE{ num = 0x20; conttext = "image/png"; },
+		CONTTYPE{ num = 0x21; conttext = "image/vnd.wap.wbmp"; },
+		CONTTYPE{ num = 0x22; conttext = "application/vnd.wap.multipart.*"; },
+		CONTTYPE{ num = 0x23; conttext = "application/vnd.wap.multipart.mixed"; },
+		CONTTYPE{ num = 0x24; conttext = "application/vnd.wap.multipart.form-data"; },
+		CONTTYPE{ num = 0x25; conttext = "application/vnd.wap.multipart.byteranges"; },
+		CONTTYPE{ num = 0x26; conttext = "application/vnd.wap.multipart.alternative"; },
+		CONTTYPE{ num = 0x27; conttext = "application/xml"; },
+		CONTTYPE{ num = 0x28; conttext = "text/xml"; },
+		CONTTYPE{ num = 0x29; conttext = "application/vnd.wap.wbxml"; },
+		CONTTYPE{ num = 0x2a; conttext = "application/x-x968-cross-cert"; },
+		CONTTYPE{ num = 0x2b; conttext = "application/x-x968-ca-cert"; },
+		CONTTYPE{ num = 0x2c; conttext = "application/x-x968-user-cert"; },
+		CONTTYPE{ num = 0x2d; conttext = "text/vnd.wap.si"; },
+		CONTTYPE{ num = 0x2e; conttext = "application/vnd.wap.sic"; },
+		CONTTYPE{ num = 0x2f; conttext = "text/vnd.wap.sl"; },
+		CONTTYPE{ num = 0x30; conttext = "application/vnd.wap.slc"; },
+		CONTTYPE{ num = 0x31; conttext = "text/vnd.wap.co"; },
+		CONTTYPE{ num = 0x32; conttext = "application/vnd.wap.coc"; },
+		CONTTYPE{ num = 0x33; conttext = "application/vnd.wap.multipart.related"; },
+		CONTTYPE{ num = 0x34; conttext = "application/vnd.wap.sia"; },
+		CONTTYPE{ num = 0x35; conttext = "text/vnd.wap.connectivity-xml"; },
+		CONTTYPE{ num = 0x36; conttext = "application/vnd.wap.connectivity-wbxml"; },
+		CONTTYPE{ num = 0x37; conttext = "application/pkcs7-mime"; },
+		CONTTYPE{ num = 0x38; conttext = "application/vnd.wap.hashed-certificate"; },
+		CONTTYPE{ num = 0x39; conttext = "application/vnd.wap.signed-certificate"; },
+		CONTTYPE{ num = 0x3a; conttext = "application/vnd.wap.cert-response"; },
+		CONTTYPE{ num = 0x3b; conttext = "application/xhtml+xml"; },
+		CONTTYPE{ num = 0x3c; conttext = "application/wml+xml"; },
+		CONTTYPE{ num = 0x3d; conttext = "text/css"; },
+		CONTTYPE{ num = 0x3e; conttext = "application/vnd.wap.mms-message"; },
+		CONTTYPE{ num = 0x3f; conttext = "application/vnd.wap.rollover-certificate"; },
+		CONTTYPE{ num = 0x40; conttext = "application/vnd.wap.locc+wbxml"; },
+		CONTTYPE{ num = 0x41; conttext = "application/vnd.wap.loc+xml"; },
+		CONTTYPE{ num = 0x42; conttext = "application/vnd.syncml.dm+wbxml"; },
+		CONTTYPE{ num = 0x43; conttext = "application/vnd.syncml.dm+xml"; },
+		CONTTYPE{ num = 0x44; conttext = "application/vnd.syncml.notification"; },
+		CONTTYPE{ num = 0x45; conttext = "application/vnd.wap.xhtml+xml"; },
+		CONTTYPE{ num = 0x46; conttext = "application/vnd.wv.csp.cir"; },
+		CONTTYPE{ num = 0x47; conttext = "application/vnd.oma.dd+xml"; },
+		CONTTYPE{ num = 0x48; conttext = "application/vnd.oma.drm.message"; },
+		CONTTYPE{ num = 0x49; conttext = "application/vnd.oma.drm.content"; },
+		CONTTYPE{ num = 0x4a; conttext = "application/vnd.oma.drm.rights+xml"; },
+		CONTTYPE{ num = 0x4b; conttext = "application/vnd.oma.drm.rights+wbxml"; },
+		CONTTYPE{ num = 0x4c; conttext = "application/vnd.wv.csp+xml"; },
+		CONTTYPE{ num = 0x4d; conttext = "application/vnd.wv.csp+wbxml"; },
+		CONTTYPE{ num = 0x4e; conttext = "application/vnd.syncml.ds.notification"; },
+		
+		/* Reserved values. Must be IANA-registered before assigned a number. */
+		CONTTYPE{ num = 0x0201; conttext = "application/vnd.uplanet.cacheop-wbxml"; },
+		CONTTYPE{ num = 0x0202; conttext = "application/vnd.uplanet.signal"; },
+		CONTTYPE{ num = 0x0203; conttext = "application/vnd.uplanet.alert-wbxml"; },
+		CONTTYPE{ num = 0x0204; conttext = "application/vnd.uplanet.list-wbxml"; },
+		CONTTYPE{ num = 0x0205; conttext = "application/vnd.uplanet.listcmd-wbxml"; },
+		CONTTYPE{ num = 0x0206; conttext = "application/vnd.uplanet.channel-wbxml"; },
+		CONTTYPE{ num = 0x0207; conttext = "application/vnd.uplanet.provisioning-status-uri"; },
+		CONTTYPE{ num = 0x0208; conttext = "x-wap.multipart/vnd.uplanet.header-set"; },
+		CONTTYPE{ num = 0x0209; conttext = "application/vnd.uplanet.bearer-choice-wbxml"; },
+		CONTTYPE{ num = 0x020A; conttext = "application/vnd.phonecom.mmc-wbxml"; },
+		CONTTYPE{ num = 0x020B; conttext = "application/vnd.nokia.syncset+wbxml"; },
+		CONTTYPE{ num = 0x020C; conttext = "image/x-up-wpng"; },
+		CONTTYPE{ num = 0x0300; conttext = "application/iota.mmc-wbxml"; },
+		CONTTYPE{ num = 0x0301; conttext = "application/iota.mmc-xml"; },
+		CONTTYPE{ num = 0x302; conttext = "application/vnd.syncml+xml"; },
+		CONTTYPE{ num = 0x303; conttext = "application/vnd.syncml+wbxml"; },
+		CONTTYPE{ num = 0x304; conttext = "text/vnd.wap.emn+xml"; },
+		CONTTYPE{ num = 0x305; conttext = "text/calendar"; },
+		CONTTYPE{ num = 0x306; conttext = "application/vnd.omads-email+xml"; },
+		CONTTYPE{ num = 0x307; conttext = "application/vnd.omads-file+xml"; },
+		CONTTYPE{ num = 0x308; conttext = "application/vnd.omads-folder+xml"; },
+		CONTTYPE{ num = 0x309; conttext = "text/directory;profile=vCard"; },
+		CONTTYPE{ num = 0x30A; conttext = "text/vnd.wap.emn+wbxml"; }
+		};
+	}

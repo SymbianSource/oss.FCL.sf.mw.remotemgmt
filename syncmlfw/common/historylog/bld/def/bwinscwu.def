@@ -1,0 +1,86 @@
+EXPORTS
+	??0CSmlAlertInfo@@QAE@XZ @ 1 NONAME ; CSmlAlertInfo::CSmlAlertInfo(void)
+	??0TTaskInfo@CSyncMLHistoryJob@@QAE@XZ @ 2 NONAME ; CSyncMLHistoryJob::TTaskInfo::TTaskInfo(void)
+	??1CNSmlHistoryArray@@UAE@XZ @ 3 NONAME ; CNSmlHistoryArray::~CNSmlHistoryArray(void)
+	??1CSmlAlertInfo@@UAE@XZ @ 4 NONAME ; CSmlAlertInfo::~CSmlAlertInfo(void)
+	??1CSyncMLHistoryEntry@@UAE@XZ @ 5 NONAME ; CSyncMLHistoryEntry::~CSyncMLHistoryEntry(void)
+	??1CSyncMLHistoryJob@@UAE@XZ @ 6 NONAME ; CSyncMLHistoryJob::~CSyncMLHistoryJob(void)
+	??1CSyncMLHistoryPushMsg@@UAE@XZ @ 7 NONAME ; CSyncMLHistoryPushMsg::~CSyncMLHistoryPushMsg(void)
+	?AddAlertsL@CSyncMLHistoryPushMsg@@QAEXAAV?$RPointerArray@VCSmlAlertInfo@@@@@Z @ 8 NONAME ; void CSyncMLHistoryPushMsg::AddAlertsL(class RPointerArray<class CSmlAlertInfo> &)
+	?Alert@CSyncMLHistoryPushMsg@@QBEABVCSmlAlertInfo@@H@Z @ 9 NONAME ; class CSmlAlertInfo const & CSyncMLHistoryPushMsg::Alert(int) const
+	?AlertCount@CSyncMLHistoryPushMsg@@QBEHXZ @ 10 NONAME ; int CSyncMLHistoryPushMsg::AlertCount(void) const
+	?AppendEntryL@CNSmlHistoryArray@@QAEXPAVCSyncMLHistoryEntry@@@Z @ 11 NONAME ; void CNSmlHistoryArray::AppendEntryL(class CSyncMLHistoryEntry *)
+	?Connection@CSmlAlertInfo@@QBEHXZ @ 12 NONAME ; int CSmlAlertInfo::Connection(void) const
+	?Count@CNSmlHistoryArray@@QAEHXZ @ 13 NONAME ; int CNSmlHistoryArray::Count(void)
+	?CreateSession@CSmlAlertInfo@@QBEHXZ @ 14 NONAME ; int CSmlAlertInfo::CreateSession(void) const
+	?DeleteAllEntries@CNSmlHistoryArray@@QAEXXZ @ 15 NONAME ; void CNSmlHistoryArray::DeleteAllEntries(void)
+	?DoDynamicCast@CSyncMLHistoryEntry@@KAPAV1@VTUid@@PAV1@@Z @ 16 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::DoDynamicCast(class TUid, class CSyncMLHistoryEntry *)
+	?DoDynamicCast@CSyncMLHistoryEntry@@KAPBV1@VTUid@@PBV1@@Z @ 17 NONAME ; class CSyncMLHistoryEntry const * CSyncMLHistoryEntry::DoDynamicCast(class TUid, class CSyncMLHistoryEntry const *)
+	?Entry@CNSmlHistoryArray@@QAEAAVCSyncMLHistoryEntry@@H@Z @ 18 NONAME ; class CSyncMLHistoryEntry & CNSmlHistoryArray::Entry(int)
+	?EntryId@CSyncMLHistoryEntry@@QBEHXZ @ 19 NONAME ; int CSyncMLHistoryEntry::EntryId(void) const
+	?EntryType@CSyncMLHistoryEntry@@QBE?AVTUid@@XZ @ 20 NONAME ; class TUid CSyncMLHistoryEntry::EntryType(void) const
+	?ErrorCode@CSmlAlertInfo@@QBEHXZ @ 21 NONAME ; int CSmlAlertInfo::ErrorCode(void) const
+	?ExternalizeL@CNSmlHistoryArray@@QBEXAAVRWriteStream@@@Z @ 22 NONAME ; void CNSmlHistoryArray::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlAlertInfo@@QBEXAAVRWriteStream@@@Z @ 23 NONAME ; void CSmlAlertInfo::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryEntry@@UBEXAAVRWriteStream@@@Z @ 24 NONAME ; void CSyncMLHistoryEntry::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryJob@@UBEXAAVRWriteStream@@@Z @ 25 NONAME ; void CSyncMLHistoryJob::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryPushMsg@@UBEXAAVRWriteStream@@@Z @ 26 NONAME ; void CSyncMLHistoryPushMsg::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@TTaskInfo@CSyncMLHistoryJob@@QBEXAAVRWriteStream@@@Z @ 27 NONAME ; void CSyncMLHistoryJob::TTaskInfo::ExternalizeL(class RWriteStream &) const
+	?FinishTime@CSyncMLHistoryJob@@QBE?AVTTime@@XZ @ 28 NONAME ; class TTime CSyncMLHistoryJob::FinishTime(void) const
+	?IncReceivedCount@CSyncMLHistoryPushMsg@@QAEXXZ @ 29 NONAME ; void CSyncMLHistoryPushMsg::IncReceivedCount(void)
+	?InternalizeL@CNSmlHistoryArray@@QAEXAAVRReadStream@@@Z @ 30 NONAME ; void CNSmlHistoryArray::InternalizeL(class RReadStream &)
+	?InternalizeL@CSmlAlertInfo@@QAEXAAVRReadStream@@@Z @ 31 NONAME ; void CSmlAlertInfo::InternalizeL(class RReadStream &)
+	?InternalizeL@TTaskInfo@CSyncMLHistoryJob@@QAEXAAVRReadStream@@@Z @ 32 NONAME ; void CSyncMLHistoryJob::TTaskInfo::InternalizeL(class RReadStream &)
+	?JobControl@CSmlAlertInfo@@QBE?AW4TJobControl@1@XZ @ 33 NONAME ; enum CSmlAlertInfo::TJobControl CSmlAlertInfo::JobControl(void) const
+	?LastSuccessSyncTime@CSyncMLHistoryJob@@QBE?AVTTime@@XZ @ 34 NONAME ; class TTime CSyncMLHistoryJob::LastSuccessSyncTime(void) const
+	?MsgDigest@CSyncMLHistoryPushMsg@@QBEABVTDesC8@@XZ @ 35 NONAME ; class TDesC8 const & CSyncMLHistoryPushMsg::MsgDigest(void) const
+	?NewL@CNSmlHistoryArray@@SAPAV1@XZ @ 36 NONAME ; class CNSmlHistoryArray * CNSmlHistoryArray::NewL(void)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@AAVRReadStream@@@Z @ 37 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class RReadStream &)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@ABV1@@Z @ 38 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class CSyncMLHistoryEntry const &)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@VTUid@@@Z @ 39 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class TUid)
+	?NewL@CSyncMLHistoryJob@@SAPAV1@HABV?$RArray@H@@@Z @ 40 NONAME ; class CSyncMLHistoryJob * CSyncMLHistoryJob::NewL(int, class RArray<int> const &)
+	?NewL@CSyncMLHistoryJob@@SAPAV1@XZ @ 41 NONAME ; class CSyncMLHistoryJob * CSyncMLHistoryJob::NewL(void)
+	?NewL@CSyncMLHistoryPushMsg@@SAPAV1@XZ @ 42 NONAME ; class CSyncMLHistoryPushMsg * CSyncMLHistoryPushMsg::NewL(void)
+	?NewLC@CSmlAlertInfo@@SAPAV1@XZ @ 43 NONAME ; class CSmlAlertInfo * CSmlAlertInfo::NewLC(void)
+	?Profile@CSmlAlertInfo@@QBEHXZ @ 44 NONAME ; int CSmlAlertInfo::Profile(void) const
+	?Profile@CSyncMLHistoryJob@@UBEHXZ @ 45 NONAME ; int CSyncMLHistoryJob::Profile(void) const
+	?Profile@CSyncMLHistoryPushMsg@@UBEHXZ @ 46 NONAME ; int CSyncMLHistoryPushMsg::Profile(void) const
+	?Protocol@CSmlAlertInfo@@QBE?AW4TSmlUsageType@@XZ @ 47 NONAME ; enum TSmlUsageType CSmlAlertInfo::Protocol(void) const
+	?ReceivedCount@CSyncMLHistoryPushMsg@@QBEHXZ @ 48 NONAME ; int CSyncMLHistoryPushMsg::ReceivedCount(void) const
+	?RemoveEntry@CNSmlHistoryArray@@QAEPAVCSyncMLHistoryEntry@@H@Z @ 49 NONAME ; class CSyncMLHistoryEntry * CNSmlHistoryArray::RemoveEntry(int)
+	?Reserved@CSyncMLHistoryEntry@@EAEPAXVTUid@@@Z @ 50 NONAME ; void * CSyncMLHistoryEntry::Reserved(class TUid)
+	?Reset@CSmlAlertInfo@@QAEXXZ @ 51 NONAME ; void CSmlAlertInfo::Reset(void)
+	?ResetAlerts@CSyncMLHistoryPushMsg@@QAEXXZ @ 52 NONAME ; void CSyncMLHistoryPushMsg::ResetAlerts(void)
+	?ResultCode@CSyncMLHistoryJob@@UBEHXZ @ 53 NONAME ; int CSyncMLHistoryJob::ResultCode(void) const
+	?ResultCode@CSyncMLHistoryPushMsg@@UBEHXZ @ 54 NONAME ; int CSyncMLHistoryPushMsg::ResultCode(void) const
+	?SessionId@CSmlAlertInfo@@QBEHXZ @ 55 NONAME ; int CSmlAlertInfo::SessionId(void) const
+	?SetConfirmation@CSmlAlertInfo@@QAEXH@Z @ 56 NONAME ; void CSmlAlertInfo::SetConfirmation(int)
+	?SetConnectionId@CSmlAlertInfo@@QAEXH@Z @ 57 NONAME ; void CSmlAlertInfo::SetConnectionId(int)
+	?SetEntryId@CSyncMLHistoryEntry@@AAEXH@Z @ 58 NONAME ; void CSyncMLHistoryEntry::SetEntryId(int)
+	?SetErrorCode@CSmlAlertInfo@@QAEXH@Z @ 59 NONAME ; void CSmlAlertInfo::SetErrorCode(int)
+	?SetJobControl@CSmlAlertInfo@@QAEXW4TJobControl@1@@Z @ 60 NONAME ; void CSmlAlertInfo::SetJobControl(enum CSmlAlertInfo::TJobControl)
+	?SetLastSyncResult@CSyncMLHistoryJob@@QAEXVTTime@@@Z @ 61 NONAME ; void CSyncMLHistoryJob::SetLastSyncResult(class TTime)
+	?SetMsgDigest@CSyncMLHistoryPushMsg@@QAEXABVTDesC8@@@Z @ 62 NONAME ; void CSyncMLHistoryPushMsg::SetMsgDigest(class TDesC8 const &)
+	?SetOwnerShip@CNSmlHistoryArray@@QAEXH@Z @ 63 NONAME ; void CNSmlHistoryArray::SetOwnerShip(int)
+	?SetProfileId@CSmlAlertInfo@@QAEXH@Z @ 64 NONAME ; void CSmlAlertInfo::SetProfileId(int)
+	?SetProtocolType@CSmlAlertInfo@@QAEXW4TSmlUsageType@@@Z @ 65 NONAME ; void CSmlAlertInfo::SetProtocolType(enum TSmlUsageType)
+	?SetResult@CSyncMLHistoryJob@@QAEXVTTime@@H@Z @ 66 NONAME ; void CSyncMLHistoryJob::SetResult(class TTime, int)
+	?SetResultCode@CSyncMLHistoryPushMsg@@QAEXH@Z @ 67 NONAME ; void CSyncMLHistoryPushMsg::SetResultCode(int)
+	?SetSessionId@CSmlAlertInfo@@QAEXH@Z @ 68 NONAME ; void CSmlAlertInfo::SetSessionId(int)
+	?SetTransportId@CSmlAlertInfo@@QAEXH@Z @ 69 NONAME ; void CSmlAlertInfo::SetTransportId(int)
+	?SetVendorSpecificInfoL@CSmlAlertInfo@@QAEXABVTDesC8@@@Z @ 70 NONAME ; void CSmlAlertInfo::SetVendorSpecificInfoL(class TDesC8 const &)
+	?SortEntries@CNSmlHistoryArray@@QAEXW4TSortOrder@CSyncMLHistoryEntry@@@Z @ 71 NONAME ; void CNSmlHistoryArray::SortEntries(enum CSyncMLHistoryEntry::TSortOrder)
+	?TaskAt@CSyncMLHistoryJob@@QBEABVTTaskInfo@1@H@Z @ 72 NONAME ; class CSyncMLHistoryJob::TTaskInfo const & CSyncMLHistoryJob::TaskAt(int) const
+	?TaskById@CSyncMLHistoryJob@@QAEAAVTTaskInfo@1@H@Z @ 73 NONAME ; class CSyncMLHistoryJob::TTaskInfo & CSyncMLHistoryJob::TaskById(int)
+	?TaskCount@CSyncMLHistoryJob@@QBEHXZ @ 74 NONAME ; int CSyncMLHistoryJob::TaskCount(void) const
+	?TaskIds@CSmlAlertInfo@@QAEAAV?$RArray@H@@XZ @ 75 NONAME ; class RArray<int> & CSmlAlertInfo::TaskIds(void)
+	?TaskIds@CSmlAlertInfo@@QBEABV?$RArray@H@@XZ @ 76 NONAME ; class RArray<int> const & CSmlAlertInfo::TaskIds(void) const
+	?TaskSyncTypes@CSmlAlertInfo@@QAEAAV?$RArray@W4TSmlSyncType@@@@XZ @ 77 NONAME ; class RArray<enum TSmlSyncType> & CSmlAlertInfo::TaskSyncTypes(void)
+	?TaskSyncTypes@CSmlAlertInfo@@QBEABV?$RArray@W4TSmlSyncType@@@@XZ @ 78 NONAME ; class RArray<enum TSmlSyncType> const & CSmlAlertInfo::TaskSyncTypes(void) const
+	?TimeStamp@CSyncMLHistoryJob@@UBE?AVTTime@@XZ @ 79 NONAME ; class TTime CSyncMLHistoryJob::TimeStamp(void) const
+	?TimeStamp@CSyncMLHistoryPushMsg@@UBE?AVTTime@@XZ @ 80 NONAME ; class TTime CSyncMLHistoryPushMsg::TimeStamp(void) const
+	?Transport@CSmlAlertInfo@@QBEHXZ @ 81 NONAME ; int CSmlAlertInfo::Transport(void) const
+	?VendorSpecificInfo@CSmlAlertInfo@@QBEABVTDesC8@@XZ @ 82 NONAME ; class TDesC8 const & CSmlAlertInfo::VendorSpecificInfo(void) const
+	?GetUimode@CSmlAlertInfo@@QAEHXZ @ 83 NONAME ; int CSmlAlertInfo::GetUimode(void)
+	?SetUimode@CSmlAlertInfo@@QAEXH@Z @ 84 NONAME ; void CSmlAlertInfo::SetUimode(int)
+

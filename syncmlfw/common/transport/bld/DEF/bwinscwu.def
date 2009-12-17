@@ -1,0 +1,14 @@
+EXPORTS
+	??0CNSmlTransport@@QAE@XZ @ 1 NONAME ; CNSmlTransport::CNSmlTransport(void)
+	??1CNSmlTransport@@UAE@XZ @ 2 NONAME ; CNSmlTransport::~CNSmlTransport(void)
+	?ChangeTargetURIL@CNSmlTransport@@QAEXAAVTDesC8@@@Z @ 3 NONAME ; void CNSmlTransport::ChangeTargetURIL(class TDesC8 &)
+	?ConnectL@CNSmlTransport@@QAEXVTUid@@HPAV?$CArrayFixFlat@K@@AAVTDesC8@@2AAVTRequestStatus@@22H@Z @ 4 NONAME ; void CNSmlTransport::ConnectL(class TUid, int, class CArrayFixFlat<unsigned long> *, class TDesC8 &, class TDesC8 &, class TRequestStatus &, class TDesC8 &, class TDesC8 &, int)
+	?ConstructL@CNSmlTransport@@QAEXXZ @ 5 NONAME ; void CNSmlTransport::ConstructL(void)
+	?Disconnect@CNSmlTransport@@QAEXXZ @ 6 NONAME ; void CNSmlTransport::Disconnect(void)
+	?NewL@CNSmlTransport@@SAPAV1@XZ @ 7 NONAME ; class CNSmlTransport * CNSmlTransport::NewL(void)
+	?NewLC@CNSmlTransport@@SAPAV1@XZ @ 8 NONAME ; class CNSmlTransport * CNSmlTransport::NewLC(void)
+	?Receive@CNSmlTransport@@QAEXAAVTPtr8@@AAVTRequestStatus@@@Z @ 9 NONAME ; void CNSmlTransport::Receive(class TPtr8 &, class TRequestStatus &)
+	?Send@CNSmlTransport@@QAEXAAVTDesC8@@HAAVTRequestStatus@@@Z @ 10 NONAME ; void CNSmlTransport::Send(class TDesC8 &, int, class TRequestStatus &)
+	?SetBTConnInfo@CNSmlTransport@@QAEXVTBTDevAddr@@VTUUID@@@Z @ 11 NONAME ; void CNSmlTransport::SetBTConnInfo(class TBTDevAddr, class TUUID)
+	?SetExtObserver@CNSmlTransport@@QAEXPAVMExtBTSearcherObserver@@@Z @ 12 NONAME ; void CNSmlTransport::SetExtObserver(class MExtBTSearcherObserver *)
+

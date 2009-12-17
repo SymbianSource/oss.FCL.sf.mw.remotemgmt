@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+// PowerMgmt is needed for RProcess::Kill
+// DiskAdmin may be needed for RFS wipe & file scan & file delete
+CAPABILITY    CAP_SERVER PowerMgmt DiskAdmin AllFiles
+TARGET        terminalcontrol.exe
+targettype    exe
+UID           0x00000000 0x10207825
+SECUREID      0x10207825
+VENDORID      VID_DEFAULT
+
+SOURCEPATH    ../src
+SOURCE        TerminalControlServer.cpp
+SOURCE        TerminalControlSession.cpp
+SOURCE        TcTrustedSession.cpp
+SOURCE        TcFileScan.cpp
+
+USERINCLUDE   .
+USERINCLUDE   ../inc
+USERINCLUDE		../../inc
+USERINCLUDE   ../../../inc    // domain private headers
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY       efsrv.lib
+LIBRARY       starterclient.lib
+LIBRARY       apgrfx.lib
+LIBRARY       apparc.lib
+LIBRARY       scpclient.lib
+LIBRARY       rfs.lib
+LIBRARY       syslangutil.lib
+LIBRARY       hal.lib
+LIBRARY       dmutil.lib
+LIBRARY       policyengine.lib
+LIBRARY		  	charconv.lib
+LIBRARY       flogger.lib
+LIBRARY                 featmgr.lib
+LIBRARY       devenccommonutils.lib // Device encryption utility

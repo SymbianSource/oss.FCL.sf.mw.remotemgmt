@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DM Utilities
+*
+*/
+
+
+#include "defaultcaps.hrh"
+#include  <platform_paths.hrh>
+
+TARGET          nsmldmiapmatcher.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DE4
+VENDORID 	VID_DEFAULT
+CAPABILITY 	CAP_GENERAL_DLL
+
+
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabiiapmatcher
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscwiapmatcher
+#elif defined(WINS)
+DEFFILE		./def/bwinsiapmatcher
+#else
+DEFFILE		./def/bmarmiapmatcher
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+
+USERINCLUDE     ../inc
+
+SOURCEPATH      ../src
+SOURCE		nsmldmiapmatcher.cpp
+
+LIBRARY     euser.lib charconv.lib
+LIBRARY		nsmldebug.lib
+LIBRARY     featmgr.lib
+
+#ifdef ARMCC
+LIBRARY ecom.lib
+#endif
+
+SMPSAFE

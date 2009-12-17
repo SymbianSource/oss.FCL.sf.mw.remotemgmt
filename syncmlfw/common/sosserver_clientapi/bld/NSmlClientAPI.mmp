@@ -1,0 +1,79 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+
+
+#include "defaultcaps.hrh"
+#include <platform_paths.hrh>
+
+TARGET          SyncMLClientAPI.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F99FC
+VENDORID 	VID_DEFAULT
+CAPABILITY 	CAP_CLIENT_DLL
+
+
+#if defined(ARMCC)
+DEFFILE		./def/eabi
+#elif defined(WINSCW)
+DEFFILE		./def/bwinscw
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE		../../historylog/src/NSmlAlertInfo.cpp
+SOURCE		../../historylog/src/NSmlHistoryArray.cpp
+SOURCE		../../historylog/src/NSmlHistoryEntry.cpp
+SOURCE		../../historylog/src/NSmlHistoryJob.cpp
+SOURCE		../../historylog/src/NSmlHistoryPushMsg.cpp
+
+SOURCE          NSmlClientAPI.cpp
+SOURCE          NSmlDSClientAPI.cpp
+SOURCE          NSmlDMClientAPI.cpp
+SOURCE          NSmlClientAPIUtils.cpp
+SOURCE          NSmlClientAPIActiveCallback.cpp
+SOURCE			NSmlErrorCodeConversion.cpp NSmlContactSuiteClientAPI.cpp NSmlClientContactSuiteAPIActiveCallback.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../http/inc
+USERINCLUDE	../../debug/inc
+USERINCLUDE ../../syncagent/inc		//for nsmlerror.h
+USERINCLUDE ../../transport/inc
+USERINCLUDE     ../../sosserver/inc
+USERINCLUDE     ../../sosserver_transporthandler/inc
+USERINCLUDE     ../../historylog/inc
+USERINCLUDE     ../../../ds/inc
+USERINCLUDE		../../../ds/syncagent/inc
+USERINCLUDE		../../../dm/syncagent/inc
+
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	/epoc32/include/ecom
+SYSTEMINCLUDE	/epoc32/include/http
+SYSTEMINCLUDE	/epoc32/include/libc
+
+LIBRARY         euser.lib estor.lib FeatMgr.lib bafl.lib
+LIBRARY		eikcore.lib efsrv.lib ecom.lib
+LIBRARY		nsmltransporthandler.lib
+LIBRARY		nsmldebug.lib
+LIBRARY		syncmldatafilter.lib
+
+DEBUGLIBRARY flogger.lib
+
+SMPSAFE

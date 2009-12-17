@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="7517fdb66a513ac6015e6002e3bff40f" dataversion="1.0">
+  <name>Policy Management Certificate API</name>
+  <description>An API for getting the certificate of active DM SSL session.</description>
+  <type>c++</type>
+  <subsystem>policymanagement</subsystem>
+  <libs>
+    <lib name="dmutil.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

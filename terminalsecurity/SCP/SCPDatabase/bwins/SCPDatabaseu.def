@@ -1,0 +1,15 @@
+EXPORTS
+	?IsParamValueSharedL@CSCPParamDBController@@QAEHPAVHBufC16@@J@Z @ 1 NONAME ; int CSCPParamDBController::IsParamValueSharedL(class HBufC16 *, long)
+	?DropValuesL@CSCPParamDBController@@QAEHHAAV?$RPointerArray@VHBufC16@@@@J@Z @ 2 NONAME ; int CSCPParamDBController::DropValuesL(int, class RPointerArray<class HBufC16> &, long)
+	?DropValuesL@CSCPParamDBController@@QAEHHJ@Z @ 3 NONAME ; int CSCPParamDBController::DropValuesL(int, long)
+	?ListApplicationsL@CSCPParamDBController@@QAEHAAV?$RArray@VTUid@@@@@Z @ 4 NONAME ; int CSCPParamDBController::ListApplicationsL(class RArray<class TUid> &)
+	?ListEntriesL@CSCPParamDBController@@QAEHAAV?$RArray@J@@AAV?$RPointerArray@VHBufC16@@@@J@Z @ 5 NONAME ; int CSCPParamDBController::ListEntriesL(class RArray<long> &, class RPointerArray<class HBufC16> &, long)
+	?GetValueL@CSCPParamDBController@@QAEHHAAJ0@Z @ 6 NONAME ; int CSCPParamDBController::GetValueL(int, long &, long &)
+	?ListParamsUsedByAppL@CSCPParamDBController@@QAEHAAV?$RArray@H@@J@Z @ 7 NONAME ; int CSCPParamDBController::ListParamsUsedByAppL(class RArray<int> &, long)
+	?SetValueL@CSCPParamDBController@@QAEHHJJ@Z @ 8 NONAME ; int CSCPParamDBController::SetValueL(int, long, long)
+	?NewLC@CSCPParamDBController@@SAPAV1@XZ @ 9 NONAME ; class CSCPParamDBController * CSCPParamDBController::NewLC(void)
+	?SetValuesL@CSCPParamDBController@@QAEHHABV?$RPointerArray@VHBufC16@@@@J@Z @ 10 NONAME ; int CSCPParamDBController::SetValuesL(int, class RPointerArray<class HBufC16> const &, long)
+	?GetValuesL@CSCPParamDBController@@QAEHHAAV?$RPointerArray@VHBufC16@@@@J@Z @ 11 NONAME ; int CSCPParamDBController::GetValuesL(int, class RPointerArray<class HBufC16> &, long)
+	?NewL@CSCPParamDBController@@SAPAV1@XZ @ 12 NONAME ; class CSCPParamDBController * CSCPParamDBController::NewL(void)
+	??1CSCPParamDBController@@UAE@XZ @ 13 NONAME ; CSCPParamDBController::~CSCPParamDBController(void)
+

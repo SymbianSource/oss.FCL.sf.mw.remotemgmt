@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: definition of dm constants/exported methods
+* 	This is part of remotemgmt_plat.
+*
+*/
+ 
+
+
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+
+
+CAPABILITY   CAP_APPLICATION
+
+
+TARGET        PMRFSServer.exe
+TARGETTYPE    exe
+UID           0x102073EA 0x102073EA
+VENDORID 	  VID_DEFAULT
+
+
+USERINCLUDE    ../inc
+USERINCLUDE    ../../../../policyengine/policyengineclient/inc
+USERINCLUDE    ../../../../include
+
+
+
+SOURCEPATH    ../src
+SOURCE      TempServer.cpp
+SOURCE		  TempSession.cpp
+
+
+
+SYSTEMINCLUDE  /epoc32/include/ecom
+SYSTEMINCLUDE  /epoc32/include
+APP_LAYER_SYSTEMINCLUDE
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY		  ecom.lib
+LIBRARY 	  flogger.lib
+LIBRARY 	  estor.lib
+LIBRARY       PolicyEngine.lib
+
+
+
+
+SMPSAFE

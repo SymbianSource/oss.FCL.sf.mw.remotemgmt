@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*      Constants used both in code and resources of SCP server.   
+*      
+*
+*/
+
+
+#ifndef SCPSERVER_PLUGIN_DEFS_HRH
+#define SCPSERVER_PLUGIN_DEFS_HRH
+
+// ***************************************************************************
+// **  THIS FILE IS INCLUDED IN RESOURCES (.rss) AND PROJECT FILES (.mmp).  **
+// **                     ONLY MACROS ARE ALLOWED.                          **
+// ***************************************************************************
+
+// MACROS
+
+#define SCP_CMDUID_UNLOCK					0x1020783D
+#define SCP_TARM_SEC_EVENT_UID		        0x10274261
+#define SCP_TARM_SEC_EVENT_REP_UID          0x10274266
+#define SCP_SECOBS_UID						0x10000938
+#define SCP_PLUGIN_IF_UID					0x1027425E
+#define SCP_SERVER_UID                      0x10207836
+#define SCP_TARM_ADMIN_FLAG_UID             0xA00003D8 
+
+
+#endif // SCPSERVER_PLUGIN_DEFS_HRH

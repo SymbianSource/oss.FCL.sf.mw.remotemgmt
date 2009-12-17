@@ -1,0 +1,4 @@
+EXPORTS
+	?NewL@CWPWbxmlParser@@SAPAV1@XZ @ 1 NONAME ; public: static class CWPWbxmlParser * __cdecl CWPWbxmlParser::NewL(void)
+	?ParseL@CWPWbxmlParser@@QAEXABVTDesC8@@AAVMWPBuilder@@@Z @ 2 NONAME ; public: void __thiscall CWPWbxmlParser::ParseL(class TDesC8 const &,class MWPBuilder &)
+

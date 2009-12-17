@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of policymanagement components
+*
+*/
+
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+#include "defaultcaps.hrh"
+CAPABILITY CAP_SERVER DiskAdmin
+
+
+TARGET        dmutilserver.exe
+
+targettype exe
+
+
+EPOCSTACKSIZE      0x10000
+
+UID             0x10207843
+SECUREID        0x10207843
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+SOURCE          DMUtilServer.cpp
+SOURCE          DMUtilSession.cpp
+SOURCE 					ACLStorage.cpp
+
+USERINCLUDE     . ../inc 
+USERINCLUDE 		../../include // debug
+USERINCLUDE     ../../policyengine/centreptoolclient/inc
+USERINCLUDE     ../../../inc // domain private headers
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/ecom
+
+#ifdef __TARM_SYMBIAN_CONVERGENCY
+SYSTEMINCLUDE   /Epoc32/include/devman
+SYSTEMINCLUDE   /Epoc32/include/syncml
+#else
+ // nothing
+#endif // __TARM_SYMBIAN_CONVERGENCY
+
+// Symbian
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         centralrepository.lib
+LIBRARY					flogger.lib
+
+#ifdef __TARM_SYMBIAN_CONVERGENCY
+ LIBRARY				dmtreeclient.lib
+ LIBRARY				SmlClient.lib
+#else
+ LIBRARY				nsmldmtreedbhandler.lib
+ LIBRARY  			syncmlclientapi.lib
+ LIBRARY 				nsmldmmodule.lib
+ LIBRARY 				nsmldmtreedbclient.lib
+#endif // __TARM_SYMBIAN_CONVERGENCY
+
+// S60
+LIBRARY         rfs.lib
+LIBRARY         sysutil.lib
+LIBRARY         commonengine.lib
+// TARM
+LIBRARY					policyengine.lib
+LIBRARY					centreptool.lib
+
+#ifdef RD_MULTIPLE_DRIVE
+LIBRARY         platformenv.lib 
+LIBRARY          estor.lib 
+LIBRARY		ecom.lib
+#endif
+
+
+SMPSAFE

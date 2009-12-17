@@ -1,0 +1,1 @@
+<ru ruid="thirdparty_secure_ids_policy_permanent_rule2" ef="pe"><ta><sus><su><sm mid="seid"> <av dt= "str">SECUREID[10206970]</av> <sa aid="urn:oasis:names:tc:xacml:1.0:subject:subject-id" dt="str"/> </sm></su></sus></ta></ru>~10496

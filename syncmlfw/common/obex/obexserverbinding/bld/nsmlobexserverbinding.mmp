@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncML Obex server binding
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+
+#include "defaultcaps.hrh"
+
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+TARGET          nsmlobexserverbinding.dll
+TARGETTYPE      dll
+UID		0x101F6DE4 270495204
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE   /epoc32/include/libc 
+
+SOURCEPATH      ../src
+USERINCLUDE     ../inc
+USERINCLUDE	../../../../common/transport/inc
+USERINCLUDE	../../../../common/debug/inc
+USERINCLUDE	../../../../common/inc
+USERINCLUDE	../../../../common/syncagent/inc
+USERINCLUDE	../../obexcommserver/inc
+
+SOURCE		nsmlobexserverbinding.cpp
+
+
+LIBRARY     euser.lib 
+LIBRARY		nsmldebug.lib 
+LIBRARY		nsmlobexcommserver.lib
+
+#ifdef ARMCC
+LIBRARY ecom.lib
+#endif
+
+SMPSAFE

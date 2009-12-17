@@ -1,0 +1,8 @@
+EXPORTS
+	?AddSessionTrustL@RTrustClient@@QAEHAAVTCertInfo@@@Z @ 1 NONAME ; int RTrustClient::AddSessionTrustL(class TCertInfo &)
+	?Close@RTrustClient@@QAEXXZ @ 2 NONAME ; void RTrustClient::Close(void)
+	?Connect@RTrustClient@@QAEHXZ @ 3 NONAME ; int RTrustClient::Connect(void)
+	?GetElement@RTrustClient@@QAEHAAVTDesC8@@@Z @ 4 NONAME ; int RTrustClient::GetElement(class TDesC8 &)
+	?GetElementListL@RTrustClient@@QAEHAAW4TElementType@@@Z @ 5 NONAME ; int RTrustClient::GetElementListL(enum TElementType &)
+	?GetXACMLDescription@RTrustClient@@QAEHAAVTDesC8@@@Z @ 6 NONAME ; int RTrustClient::GetXACMLDescription(class TDesC8 &)
+

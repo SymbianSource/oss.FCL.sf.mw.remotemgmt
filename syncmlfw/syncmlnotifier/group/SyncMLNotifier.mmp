@@ -1,0 +1,84 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Notifier framework for SyncML DS and DM engine
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include  <platform_paths.hrh>
+
+TARGET          syncmlnotifier.dll
+TARGETTYPE      DLL
+UID             0x101fdfae 0x101F8769
+
+TARGETPATH      /system/libs
+
+VENDORID        VID_DEFAULT
+CAPABILITY		CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+SOURCE          SyncMLNotifierMain.cpp
+SOURCE          SyncMLNotifierBase.cpp
+SOURCE          SyncMLAppLaunchNotifier.cpp
+SOURCE          SyncMLDlgNotifier.cpp
+SOURCE          SyncMLFwUpdNotifier.cpp
+SOURCE          SyncMLTimedMessageQuery.cpp
+SOURCE          SyncMLTimedQueryDialog.cpp
+SOURCE          SyncMLQueryTimer.cpp
+SOURCE          SyncMLQueryDialog.cpp
+SOURCE			SyncMLMessageQueryDialog.cpp SyncMLPreSyncPluginInterface.cpp
+SOURCE          SyncMLTimedDateQuery.cpp
+SOURCE          SyncMLTimedInputTextQuery.cpp
+SOURCE          SyncMLTimedNumberQueryDialog.cpp SyncMLAknPopUpList.cpp syncmlmmcwatcher.cpp
+
+START RESOURCE ../data/SyncMLNotifier.rss
+    HEADER
+    TARGETPATH  RESOURCE_FILES_DIR
+    LANGUAGE_IDS
+END 
+
+USERINCLUDE     ../inc
+
+// Default system include paths for app layer modules.
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/uikon
+
+LIBRARY euser.lib cone.lib                  // Symbian OS framework libraries
+LIBRARY avkon.lib                           // UI library
+LIBRARY bafl.lib                            // Basic Application Framework Library
+LIBRARY commonengine.lib                    // Series 60 common components library
+LIBRARY charconv.lib                        // Character conversion library
+LIBRARY eikcoctl.lib eiksrv.lib             // Eikon libraries
+LIBRARY eikdlg.lib                          // Eikon libraries
+LIBRARY eikcore.lib                         // Library for eikonEnv static functions (BringForwards)
+LIBRARY eiksrvui.lib                        // Eikon server ui (for suppressing app -key)
+LIBRARY esock.lib                           // Sockects library for host resolver
+LIBRARY aknskins.lib                        // Skinned icons
+LIBRARY syncservice.lib
+LIBRARY syncmlclientapi.lib
+LIBRARY aknnotifierwrapper.lib
+LIBRARY centralrepository.lib               // Central Repository
+LIBRARY connmon.lib
+LIBRARY ecom.lib estor.lib  eikctl.lib egul.lib aknicon.lib aknskinsrv.lib efsrv.lib
+LIBRARY disknotifyhandler.lib 
+
+//#ifdef RD_DM_TEXT_INPUT_ALERT
+LIBRARY insock.lib  //For IP address dialog
+//#endif
+DEBUGLIBRARY flogger.lib                    // File logging services
+
+
+SMPSAFE
+// End of File
+

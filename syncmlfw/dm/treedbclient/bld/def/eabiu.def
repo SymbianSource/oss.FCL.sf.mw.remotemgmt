@@ -1,0 +1,27 @@
+EXPORTS
+	_ZN22RNSmlDMCallbackSession10DeleteAclLERK6TDesC8 @ 1 NONAME
+	_ZN22RNSmlDMCallbackSession10SetServerLERK6TDesC8 @ 2 NONAME
+	_ZN22RNSmlDMCallbackSession10UpdateAclLERK6TDesC8S2_ @ 3 NONAME
+	_ZN22RNSmlDMCallbackSession11StartAtomicEv @ 4 NONAME
+	_ZN22RNSmlDMCallbackSession12CommitAtomicEv @ 5 NONAME
+	_ZN22RNSmlDMCallbackSession13GetLuidAllocLEmRK6TDesC8 @ 6 NONAME
+	_ZN22RNSmlDMCallbackSession13ResourceCountEv @ 7 NONAME
+	_ZN22RNSmlDMCallbackSession14EraseServerIdLERK6TDesC8 @ 8 NONAME
+	_ZN22RNSmlDMCallbackSession14GetUriSegListLEmRK6TDesC8R13CArrayFixFlatI17TSmlDmMappingInfoE @ 9 NONAME
+	_ZN22RNSmlDMCallbackSession14RenameMappingLEmRK6TDesC8S2_ @ 10 NONAME
+	_ZN22RNSmlDMCallbackSession14RollbackAtomicEv @ 11 NONAME
+	_ZN22RNSmlDMCallbackSession15AddMappingInfoLEmRK6TDesC8S2_ @ 12 NONAME
+	_ZN22RNSmlDMCallbackSession16CheckDynamicAclLERK6TDesC814TNSmlDmCmdTypeP15CNSmlDmMgmtTree @ 13 NONAME
+	_ZN22RNSmlDMCallbackSession18RemoveMappingInfoLEmRK6TDesC8i @ 14 NONAME
+	_ZN22RNSmlDMCallbackSession18UpdateMappingInfoLEmRK6TDesC8R8CBufBase @ 15 NONAME
+	_ZN22RNSmlDMCallbackSession20DefaultACLsToServerLERK6TDesC8 @ 16 NONAME
+	_ZN22RNSmlDMCallbackSession22DefaultACLsToChildrenLERK6TDesC8R8CBufBase @ 17 NONAME
+	_ZN22RNSmlDMCallbackSession5CloseEv @ 18 NONAME
+	_ZN22RNSmlDMCallbackSession7ConnectEv @ 19 NONAME
+	_ZN22RNSmlDMCallbackSession7GetAclLERK6TDesC8R8CBufBasei @ 20 NONAME
+	_ZN22RNSmlDMCallbackSession9CheckAclLERK6TDesC814TNSmlDmCmdType @ 21 NONAME
+	_ZN22RNSmlDMCallbackSessionC1Ev @ 22 NONAME
+	_ZN22RNSmlDMCallbackSessionC2Ev @ 23 NONAME
+	_ZN22RNSmlDMCallbackSessionD1Ev @ 24 NONAME
+	_ZN22RNSmlDMCallbackSessionD2Ev @ 25 NONAME
+

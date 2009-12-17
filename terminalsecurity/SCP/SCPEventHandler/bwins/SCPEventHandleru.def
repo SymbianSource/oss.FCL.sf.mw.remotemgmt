@@ -1,0 +1,5 @@
+EXPORTS
+	?NewL@CSCPEventHandler@@SAPAV1@XZ @ 1 NONAME ; class CSCPEventHandler * CSCPEventHandler::NewL(void)
+	?NotifyChangesL@CSCPEventHandler@@QAEXW4THandlerServiceId@@W4THandlerOperation@@@Z @ 2 NONAME ; void CSCPEventHandler::NotifyChangesL(enum THandlerServiceId, enum THandlerOperation)
+	?NewLC@CSCPEventHandler@@SAPAV1@XZ @ 3 NONAME ; class CSCPEventHandler * CSCPEventHandler::NewLC(void)
+

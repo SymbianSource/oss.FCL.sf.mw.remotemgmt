@@ -1,0 +1,24 @@
+EXPORTS
+	_Z22CreateCNsmlObexClientLv @ 1 NONAME
+	_ZN11TBTConnInfoC1Ev @ 2 NONAME
+	_ZN11TBTConnInfoC2Ev @ 3 NONAME
+	_ZN11TBTConnInfoD0Ev @ 4 NONAME
+	_ZN11TBTConnInfoD1Ev @ 5 NONAME
+	_ZN11TBTConnInfoD2Ev @ 6 NONAME
+	_ZTI11TBTConnInfo @ 7 NONAME ; #<TI>#
+	_ZTI15CBTObexSearcher @ 8 NONAME ; #<TI>#
+	_ZTI15CNsmlObexClient @ 9 NONAME ; #<TI>#
+	_ZTI17CIrDAObexSearcher @ 10 NONAME ; #<TI>#
+	_ZTI17CObexSearcherBase @ 11 NONAME ; #<TI>#
+	_ZTI19TSdpAttributeParser @ 12 NONAME ; #<TI>#
+	_ZTI22CNSmlBTServiceSearcher @ 13 NONAME ; #<TI>#
+	_ZTI24CNSmlObexServiceSearcher @ 14 NONAME ; #<TI>#
+	_ZTV11TBTConnInfo @ 15 NONAME ; #<VT>#
+	_ZTV15CBTObexSearcher @ 16 NONAME ; #<VT>#
+	_ZTV15CNsmlObexClient @ 17 NONAME ; #<VT>#
+	_ZTV17CIrDAObexSearcher @ 18 NONAME ; #<VT>#
+	_ZTV17CObexSearcherBase @ 19 NONAME ; #<VT>#
+	_ZTV19TSdpAttributeParser @ 20 NONAME ; #<VT>#
+	_ZTV22CNSmlBTServiceSearcher @ 21 NONAME ; #<VT>#
+	_ZTV24CNSmlObexServiceSearcher @ 22 NONAME ; #<VT>#
+

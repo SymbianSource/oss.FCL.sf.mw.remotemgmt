@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="70067326698168502c97444ef40f492e" dataversion="1.0">
+  <name>SCP Server API</name>
+  <description>An API to Secure code functionality</description>
+  <type>c++</type>
+  <subsystem>terminalsecurity</subsystem>
+  <libs>
+    <lib name="SCPClient.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

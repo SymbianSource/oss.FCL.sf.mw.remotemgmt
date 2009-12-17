@@ -1,0 +1,43 @@
+EXPORTS
+	??0CNSmlDMCrypt@@QAE@XZ @ 1 NONAME ; CNSmlDMCrypt::CNSmlDMCrypt(void)
+	??1CNSmlDMCrypt@@UAE@XZ @ 2 NONAME ; CNSmlDMCrypt::~CNSmlDMCrypt(void)
+	??1CNSmlDMProfile@@UAE@XZ @ 3 NONAME ; CNSmlDMProfile::~CNSmlDMProfile(void)
+	??1CNSmlDMSettings@@UAE@XZ @ 4 NONAME ; CNSmlDMSettings::~CNSmlDMSettings(void)
+	?AssignL@CNSmlDMProfileListItem@@QAEXPBV1@@Z @ 5 NONAME ; void CNSmlDMProfileListItem::AssignL(class CNSmlDMProfileListItem const *)
+	?CreateProfileL@CNSmlDMSettings@@QAEPAVCNSmlDMProfile@@H@Z @ 6 NONAME ; class CNSmlDMProfile * CNSmlDMSettings::CreateProfileL(int)
+	?CreateProfileL@CNSmlDMSettings@@QAEPAVCNSmlDMProfile@@XZ @ 7 NONAME ; class CNSmlDMProfile * CNSmlDMSettings::CreateProfileL(void)
+	?Database@CNSmlDMSettings@@QAEPAVRDbNamedDatabase@@XZ @ 8 NONAME ; class RDbNamedDatabase * CNSmlDMSettings::Database(void)
+	?DecryptedL@CNSmlDMCrypt@@QAEAAVTDesC16@@ABV2@@Z @ 9 NONAME ; class TDesC16 & CNSmlDMCrypt::DecryptedL(class TDesC16 const &)
+	?DeleteProfileL@CNSmlDMSettings@@QAEHH@Z @ 10 NONAME ; int CNSmlDMSettings::DeleteProfileL(int)
+	?EncryptedL@CNSmlDMCrypt@@QAEAAVTDesC16@@ABV2@@Z @ 11 NONAME ; class TDesC16 & CNSmlDMCrypt::EncryptedL(class TDesC16 const &)
+	?EqualData@CNSmlDMProfile@@QBEHPAV1@@Z @ 12 NONAME ; int CNSmlDMProfile::EqualData(class CNSmlDMProfile *) const
+	?GetProfileListL@CNSmlDMSettings@@QAEXPAV?$CArrayPtr@VCNSmlDMProfileListItem@@@@@Z @ 13 NONAME ; void CNSmlDMSettings::GetProfileListL(class CArrayPtr<class CNSmlDMProfileListItem> *)
+	?HasLastSyncL@CNSmlDMProfile@@QAEHXZ @ 14 NONAME ; int CNSmlDMProfile::HasLastSyncL(void)
+	?HasLogL@CNSmlDMProfile@@QAEHXZ @ 15 NONAME ; int CNSmlDMProfile::HasLogL(void)
+	?IntValue@CNSmlDMProfile@@QBEHW4TNSmlDMProfileData@@@Z @ 16 NONAME ; int CNSmlDMProfile::IntValue(enum TNSmlDMProfileData) const
+	?IntValue@CNSmlDMProfileListItem@@QBEHW4TNSmlDMProfileData@@@Z @ 17 NONAME ; int CNSmlDMProfileListItem::IntValue(enum TNSmlDMProfileData) const
+	?IsDMAllowedL@CNSmlDMSettings@@QAEHXZ @ 18 NONAME ; int CNSmlDMSettings::IsDMAllowedL(void)
+	?IsNew@CNSmlDMProfile@@QBEHXZ @ 19 NONAME ; int CNSmlDMProfile::IsNew(void) const
+	?IsNullL@CNSmlDMProfile@@QAEHABVTDesC16@@@Z @ 20 NONAME ; int CNSmlDMProfile::IsNullL(class TDesC16 const &)
+	?LastSyncReadStreamL@CNSmlDMProfile@@QAEAAVRReadStream@@XZ @ 21 NONAME ; class RReadStream & CNSmlDMProfile::LastSyncReadStreamL(void)
+	?LastSyncStreamCommitL@CNSmlDMProfile@@QAEXXZ @ 22 NONAME ; void CNSmlDMProfile::LastSyncStreamCommitL(void)
+	?LastSyncWriteStreamL@CNSmlDMProfile@@QAEAAVRWriteStream@@XZ @ 23 NONAME ; class RWriteStream & CNSmlDMProfile::LastSyncWriteStreamL(void)
+	?LogReadStreamL@CNSmlDMProfile@@QAEAAVRReadStream@@XZ @ 24 NONAME ; class RReadStream & CNSmlDMProfile::LogReadStreamL(void)
+	?LogWriteStreamL@CNSmlDMProfile@@QAEAAVRWriteStream@@XZ @ 25 NONAME ; class RWriteStream & CNSmlDMProfile::LogWriteStreamL(void)
+	?NewL@CNSmlDMProfileListItem@@SAPAV1@H@Z @ 26 NONAME ; class CNSmlDMProfileListItem * CNSmlDMProfileListItem::NewL(int)
+	?NewL@CNSmlDMSettings@@SAPAV1@XZ @ 27 NONAME ; class CNSmlDMSettings * CNSmlDMSettings::NewL(void)
+	?NewLC@CNSmlDMProfileListItem@@SAPAV1@H@Z @ 28 NONAME ; class CNSmlDMProfileListItem * CNSmlDMProfileListItem::NewLC(int)
+	?NewLC@CNSmlDMSettings@@SAPAV1@XZ @ 29 NONAME ; class CNSmlDMSettings * CNSmlDMSettings::NewLC(void)
+	?NonceLC@CNSmlDMProfile@@QAEPAVHBufC16@@W4TNSmlDMProfileData@@@Z @ 30 NONAME ; class HBufC16 * CNSmlDMProfile::NonceLC(enum TNSmlDMProfileData)
+	?ProfileL@CNSmlDMSettings@@QAEPAVCNSmlDMProfile@@H@Z @ 31 NONAME ; class CNSmlDMProfile * CNSmlDMSettings::ProfileL(int)
+	?SaveL@CNSmlDMProfile@@QAEHXZ @ 32 NONAME ; int CNSmlDMProfile::SaveL(void)
+	?ScanAndRepairRestoredProfilesL@CNSmlDMSettings@@QAEXXZ @ 33 NONAME ; void CNSmlDMSettings::ScanAndRepairRestoredProfilesL(void)
+	?ServerIdFoundL@CNSmlDMSettings@@QAEHABVTDesC16@@@Z @ 34 NONAME ; int CNSmlDMSettings::ServerIdFoundL(class TDesC16 const &)
+	?ServerIdFoundL@CNSmlDMSettings@@QAEHABVTDesC16@@H@Z @ 35 NONAME ; int CNSmlDMSettings::ServerIdFoundL(class TDesC16 const &, int)
+	?SetDMAllowedFlagL@CNSmlDMSettings@@QAEXH@Z @ 36 NONAME ; void CNSmlDMSettings::SetDMAllowedFlagL(int)
+	?SetIntValue@CNSmlDMProfile@@QAEXW4TNSmlDMProfileData@@H@Z @ 37 NONAME ; void CNSmlDMProfile::SetIntValue(enum TNSmlDMProfileData, int)
+	?SetNonceL@CNSmlDMProfile@@QAEXW4TNSmlDMProfileData@@ABVTDesC16@@@Z @ 38 NONAME ; void CNSmlDMProfile::SetNonceL(enum TNSmlDMProfileData, class TDesC16 const &)
+	?SetStrValue@CNSmlDMProfile@@QAEXW4TNSmlDMProfileData@@ABVTDesC16@@@Z @ 39 NONAME ; void CNSmlDMProfile::SetStrValue(enum TNSmlDMProfileData, class TDesC16 const &)
+	?StrValue@CNSmlDMProfile@@QBEABVTDesC16@@W4TNSmlDMProfileData@@@Z @ 40 NONAME ; class TDesC16 const & CNSmlDMProfile::StrValue(enum TNSmlDMProfileData) const
+	?WriteStreamCommitL@CNSmlDMProfile@@QAEXXZ @ 41 NONAME ; void CNSmlDMProfile::WriteStreamCommitL(void)
+

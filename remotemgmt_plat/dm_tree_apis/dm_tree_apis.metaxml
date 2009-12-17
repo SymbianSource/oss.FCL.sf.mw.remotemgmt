@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<api id="4169854996158bae06fc2697777fea70" dataversion="1.0">
+  <name>DM Tree APIs</name>
+  <description>DM Tree handling functions</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmldmmodule.lib" />
+    <lib name="nsmldmtreedbclient.lib" />
+    <lib name="nsmldmtreedbhandler.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

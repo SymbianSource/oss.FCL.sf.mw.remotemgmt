@@ -1,0 +1,56 @@
+#
+# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+# All rights reserved.
+# This component and the accompanying materials are made available
+# under the terms of "Eclipse Public License v1.0"
+# which accompanies this distribution, and is available
+# at the URL "http://www.eclipse.org/legal/epl-v10.html".
+#
+# Initial Contributors:
+# Nokia Corporation - initial contribution.
+#
+# Contributors:
+#
+# Description: Implementation of policymanagement components
+#
+
+## Parameters that are expected:
+# SOURCEDIR 
+# TARGETDIR
+# FILEPATTERN *.txt
+
+GENERICCOPYDEBUG:=0
+ifeq ($(strip $(GENERICCOPYDEBUG)),1)
+$(info <SOURCEDIR sourcedir='$(SOURCEDIR)'/>)
+$(info <TARGETDIR targetdir='$(TARGETDIR)'/>)
+$(info <FILEPATTERN filepattern='$(FILEPATTERN)'/>)
+endif
+
+# Check if all the inputs are present
+$(if $(SOURCEDIR),,$(error Must define TARGETFILE))
+$(if $(TARGETDIR),,$(error Must define GENPATH))
+$(if $(FILEPATTERN),,$(error Must define MIFFILE))
+
+GENERICCOPYGUARD:=$(call sanitise,TARGET_$(TARGETDIR))
+
+define genericcopyfiles
+$(GENERICCOPYGUARD):=1
+
+RESOURCE:: ALL_$(TARGETDIR)
+
+ALL_$(TARGETDIR): $(TARGETDIR)_NEW_ENV
+	$(call startrule,copyfiles,FORCESUCCESS) \
+	$(GNUCP) $(EPOCROOT)/$(SOURCEDIR)/$(FILEPATTERN) $(EPOCROOT)/$(TARGETDIR)/ \
+	$(call endrule,copyfiles)
+
+$(TARGETDIR)_NEW_ENV: RM_$(TARGETDIR)
+	$(GNUMKDIR) -p $(EPOCROOT)/$(TARGETDIR)
+
+RM_$(TARGETDIR):
+	-$(GNURM) -f $(EPOCROOT)/$(TARGETDIR)/$(FILEPATTERN)
+
+endef
+
+ifeq ($($(GENERICCOPYGUARD)),)
+$(eval $(call genericcopyfiles))
+endif

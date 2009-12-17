@@ -1,0 +1,9 @@
+EXPORTS
+	_Z14NSmlDebugDumpLPviPhiPKh @ 1 NONAME
+	_Z14NSmlDebugInitLv @ 2 NONAME
+	_Z15NSmlDebugPrintLPKhiPhi @ 3 NONAME
+	_Z20NSmlDebugPrintArgs8LPKhz @ 4 NONAME
+	_Z20NSmlDebugPrint_CodeLiPKhiPhi @ 5 NONAME
+	_Z21NSmlDebugPrintArgs16LPKtz @ 6 NONAME
+	_Z21NSmlDebugPrintHeaderLPhi @ 7 NONAME
+

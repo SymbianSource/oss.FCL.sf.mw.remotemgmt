@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+#ifndef _SCPCLIENT_IBY_
+#define _SCPCLIENT_IBY_
+
+//#ifdef __SAP_TERMINAL_CONTROL_FW
+
+file=ABI_DIR\BUILD_DIR\SCPClient.dll                 SHARED_LIB_DIR\SCPClient.dll
+
+//#endif // __SAP_TERMINAL_CONTROL_FW
+
+#endif // _SCPCLIENT_IBY_

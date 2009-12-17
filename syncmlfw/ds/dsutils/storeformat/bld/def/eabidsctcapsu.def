@@ -1,0 +1,124 @@
+EXPORTS
+	_ZN13CSmlDataField12SetDataTypeLER7RString @ 1 NONAME
+	_ZN13CSmlDataField14SetEnumValuesLER6RArrayI7RStringE @ 2 NONAME
+	_ZN13CSmlDataField15SetDisplayNameLER7TDesC16 @ 3 NONAME
+	_ZN13CSmlDataField5NewLCERK11RStringPoolR11RReadStream @ 4 NONAME
+	_ZN13CSmlDataField5NewLCERK11RStringPoolR15TResourceReader @ 5 NONAME
+	_ZN13CSmlDataField5NewLCEv @ 6 NONAME
+	_ZN13CSmlDataField8SetNameLER7RString @ 7 NONAME
+	_ZN13CSmlDataFieldD0Ev @ 8 NONAME
+	_ZN13CSmlDataFieldD1Ev @ 9 NONAME
+	_ZN13CSmlDataFieldD2Ev @ 10 NONAME
+	_ZN14CSmlMimeFormat12SetMimeTypeLER8RStringF @ 11 NONAME
+	_ZN14CSmlMimeFormat13SetFieldLevelEi @ 12 NONAME
+	_ZN14CSmlMimeFormat15SetMimeVersionLER8RStringF @ 13 NONAME
+	_ZN14CSmlMimeFormat18SetDataPropertiesLER13RPointerArrayI16CSmlDataPropertyE @ 14 NONAME
+	_ZN14CSmlMimeFormat5NewLCERK11RStringPoolR11RReadStream @ 15 NONAME
+	_ZN14CSmlMimeFormat5NewLCERK11RStringPoolR15TResourceReader @ 16 NONAME
+	_ZN14CSmlMimeFormat5NewLCEv @ 17 NONAME
+	_ZN14CSmlMimeFormatD0Ev @ 18 NONAME
+	_ZN14CSmlMimeFormatD1Ev @ 19 NONAME
+	_ZN14CSmlMimeFormatD2Ev @ 20 NONAME
+	_ZN16CSmlDataProperty10SetMaxSizeEt @ 21 NONAME
+	_ZN16CSmlDataProperty11SetMaxOccurEt @ 22 NONAME
+	_ZN16CSmlDataProperty13SetDataFieldLER13CSmlDataField @ 23 NONAME
+	_ZN16CSmlDataProperty18SetPropertyParamsLER13RPointerArrayI21CSmlDataPropertyParamE @ 24 NONAME
+	_ZN16CSmlDataProperty19SetSupportedOptionsEm @ 25 NONAME
+	_ZN16CSmlDataProperty5NewLCERK11RStringPoolR11RReadStream @ 26 NONAME
+	_ZN16CSmlDataProperty5NewLCERK11RStringPoolR15TResourceReader @ 27 NONAME
+	_ZN16CSmlDataProperty5NewLCEv @ 28 NONAME
+	_ZN16CSmlDataPropertyD0Ev @ 29 NONAME
+	_ZN16CSmlDataPropertyD1Ev @ 30 NONAME
+	_ZN16CSmlDataPropertyD2Ev @ 31 NONAME
+	_ZN19CSmlDataStoreFormat10SetMaxSizeEt @ 32 NONAME
+	_ZN19CSmlDataStoreFormat11SetMaxItemsEt @ 33 NONAME
+	_ZN19CSmlDataStoreFormat15SetDisplayNameLER7TDesC16 @ 34 NONAME
+	_ZN19CSmlDataStoreFormat15SetMimeFormatsLER13RPointerArrayI14CSmlMimeFormatE @ 35 NONAME
+	_ZN19CSmlDataStoreFormat15SetSyncTypeMaskE16TSmlSyncTypeMask @ 36 NONAME
+	_ZN19CSmlDataStoreFormat19SetMimeFormatRxPrefEi @ 37 NONAME
+	_ZN19CSmlDataStoreFormat19SetMimeFormatTxPrefEi @ 38 NONAME
+	_ZN19CSmlDataStoreFormat19SetSupportedOptionsEm @ 39 NONAME
+	_ZN19CSmlDataStoreFormat20SetFolderPropertiesLER13RPointerArrayI16CSmlDataPropertyE @ 40 NONAME
+	_ZN19CSmlDataStoreFormat22SetFilterCapabilitiesLER13RPointerArrayI20CSmlFilterCapabilityE @ 41 NONAME
+	_ZN19CSmlDataStoreFormat5NewLCERK11RStringPoolR11RReadStream @ 42 NONAME
+	_ZN19CSmlDataStoreFormat5NewLCERK11RStringPoolR15TResourceReader @ 43 NONAME
+	_ZN19CSmlDataStoreFormat5NewLCEv @ 44 NONAME
+	_ZN19CSmlDataStoreFormatD0Ev @ 45 NONAME
+	_ZN19CSmlDataStoreFormatD1Ev @ 46 NONAME
+	_ZN19CSmlDataStoreFormatD2Ev @ 47 NONAME
+	_ZN20CSmlFilterCapability12SetMimeTypeLER8RStringF @ 48 NONAME
+	_ZN20CSmlFilterCapability15SetKeyWordListLER6RArrayI7RStringE @ 49 NONAME
+	_ZN20CSmlFilterCapability15SetMimeVersionLER8RStringF @ 50 NONAME
+	_ZN20CSmlFilterCapability18SetPropertiesListLER6RArrayI7RStringE @ 51 NONAME
+	_ZN20CSmlFilterCapability5NewLCERK11RStringPoolR11RReadStream @ 52 NONAME
+	_ZN20CSmlFilterCapability5NewLCERK11RStringPoolR15TResourceReader @ 53 NONAME
+	_ZN20CSmlFilterCapability5NewLCEv @ 54 NONAME
+	_ZN20CSmlFilterCapabilityD0Ev @ 55 NONAME
+	_ZN20CSmlFilterCapabilityD1Ev @ 56 NONAME
+	_ZN20CSmlFilterCapabilityD2Ev @ 57 NONAME
+	_ZN21CSmlDataPropertyParam13SetDataFieldLER13CSmlDataField @ 58 NONAME
+	_ZN21CSmlDataPropertyParam5NewLCERK11RStringPoolR11RReadStream @ 59 NONAME
+	_ZN21CSmlDataPropertyParam5NewLCERK11RStringPoolR15TResourceReader @ 60 NONAME
+	_ZN21CSmlDataPropertyParam5NewLCEv @ 61 NONAME
+	_ZN21CSmlDataPropertyParamD0Ev @ 62 NONAME
+	_ZN21CSmlDataPropertyParamD1Ev @ 63 NONAME
+	_ZN21CSmlDataPropertyParamD2Ev @ 64 NONAME
+	_ZNK13CSmlDataField11DisplayNameEv @ 65 NONAME
+	_ZNK13CSmlDataField12ExternalizeLER12RWriteStream @ 66 NONAME
+	_ZNK13CSmlDataField14EnumValueCountEv @ 67 NONAME
+	_ZNK13CSmlDataField4NameEv @ 68 NONAME
+	_ZNK13CSmlDataField8DataTypeEv @ 69 NONAME
+	_ZNK13CSmlDataField9EnumValueEi @ 70 NONAME
+	_ZNK14CSmlMimeFormat10FieldLevelEv @ 71 NONAME
+	_ZNK14CSmlMimeFormat11MimeVersionEv @ 72 NONAME
+	_ZNK14CSmlMimeFormat12ExternalizeLER12RWriteStream @ 73 NONAME
+	_ZNK14CSmlMimeFormat13PropertyCountEv @ 74 NONAME
+	_ZNK14CSmlMimeFormat8MimeTypeEv @ 75 NONAME
+	_ZNK14CSmlMimeFormat8PropertyEi @ 76 NONAME
+	_ZNK16CSmlDataProperty10HasMaxSizeEv @ 77 NONAME
+	_ZNK16CSmlDataProperty10ParamCountEv @ 78 NONAME
+	_ZNK16CSmlDataProperty11HasMaxOccurEv @ 79 NONAME
+	_ZNK16CSmlDataProperty11IsSupportedENS_7TOptionE @ 80 NONAME
+	_ZNK16CSmlDataProperty12ExternalizeLER12RWriteStream @ 81 NONAME
+	_ZNK16CSmlDataProperty5FieldEv @ 82 NONAME
+	_ZNK16CSmlDataProperty5ParamEi @ 83 NONAME
+	_ZNK16CSmlDataProperty7MaxSizeEv @ 84 NONAME
+	_ZNK16CSmlDataProperty8MaxOccurEv @ 85 NONAME
+	_ZNK19CSmlDataStoreFormat10HasMaxSizeEv @ 86 NONAME
+	_ZNK19CSmlDataStoreFormat10MimeFormatEi @ 87 NONAME
+	_ZNK19CSmlDataStoreFormat11DisplayNameEv @ 88 NONAME
+	_ZNK19CSmlDataStoreFormat11HasMaxItemsEv @ 89 NONAME
+	_ZNK19CSmlDataStoreFormat11IsSupportedENS_7TOptionE @ 90 NONAME
+	_ZNK19CSmlDataStoreFormat12ExternalizeLER12RWriteStream @ 91 NONAME
+	_ZNK19CSmlDataStoreFormat14FolderPropertyEi @ 92 NONAME
+	_ZNK19CSmlDataStoreFormat15MimeFormatCountEv @ 93 NONAME
+	_ZNK19CSmlDataStoreFormat16FilterCapabilityEi @ 94 NONAME
+	_ZNK19CSmlDataStoreFormat16MimeFormatRxPrefEv @ 95 NONAME
+	_ZNK19CSmlDataStoreFormat16MimeFormatTxPrefEv @ 96 NONAME
+	_ZNK19CSmlDataStoreFormat19FolderPropertyCountEv @ 97 NONAME
+	_ZNK19CSmlDataStoreFormat21FilterCapabilityCountEv @ 98 NONAME
+	_ZNK19CSmlDataStoreFormat7MaxSizeEv @ 99 NONAME
+	_ZNK19CSmlDataStoreFormat8MaxItemsEv @ 100 NONAME
+	_ZNK19CSmlDataStoreFormat9SyncTypesEv @ 101 NONAME
+	_ZNK20CSmlFilterCapability11MimeVersionEv @ 102 NONAME
+	_ZNK20CSmlFilterCapability12ExternalizeLER12RWriteStream @ 103 NONAME
+	_ZNK20CSmlFilterCapability12KeywordCountEv @ 104 NONAME
+	_ZNK20CSmlFilterCapability12PropertyNameEi @ 105 NONAME
+	_ZNK20CSmlFilterCapability13PropertyCountEv @ 106 NONAME
+	_ZNK20CSmlFilterCapability7KeywordEi @ 107 NONAME
+	_ZNK20CSmlFilterCapability8MimeTypeEv @ 108 NONAME
+	_ZNK21CSmlDataPropertyParam12ExternalizeLER12RWriteStream @ 109 NONAME
+	_ZNK21CSmlDataPropertyParam5FieldEv @ 110 NONAME
+	_ZTI13CSmlDataField @ 111 NONAME ; #<TI>#
+	_ZTI14CSmlMimeFormat @ 112 NONAME ; #<TI>#
+	_ZTI16CSmlDataProperty @ 113 NONAME ; #<TI>#
+	_ZTI19CSmlDataStoreFormat @ 114 NONAME ; #<TI>#
+	_ZTI20CSmlFilterCapability @ 115 NONAME ; #<TI>#
+	_ZTI21CSmlDataPropertyParam @ 116 NONAME ; #<TI>#
+	_ZTV13CSmlDataField @ 117 NONAME ; #<VT>#
+	_ZTV14CSmlMimeFormat @ 118 NONAME ; #<VT>#
+	_ZTV16CSmlDataProperty @ 119 NONAME ; #<VT>#
+	_ZTV19CSmlDataStoreFormat @ 120 NONAME ; #<VT>#
+	_ZTV20CSmlFilterCapability @ 121 NONAME ; #<VT>#
+	_ZTV21CSmlDataPropertyParam @ 122 NONAME ; #<VT>#
+

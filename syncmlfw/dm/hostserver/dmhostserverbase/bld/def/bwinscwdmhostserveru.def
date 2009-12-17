@@ -1,0 +1,6 @@
+EXPORTS
+	??0CNSmlDMHostServer@@IAE@XZ @ 1 NONAME ; CNSmlDMHostServer::CNSmlDMHostServer(void)
+	??1CNSmlDMHostServer@@UAE@XZ @ 2 NONAME ; CNSmlDMHostServer::~CNSmlDMHostServer(void)
+	?CallNewSessionL@CNSmlDMHostServer@@IBEPAVCSession2@@ABVTVersion@@ABVRMessage2@@@Z @ 3 NONAME ; class CSession2 * CNSmlDMHostServer::CallNewSessionL(class TVersion const &, class RMessage2 const &) const
+	?InitHostServer@CNSmlDMHostServer@@KAHABVTDesC16@@P6AHPAX@Z@Z @ 4 NONAME ; int CNSmlDMHostServer::InitHostServer(class TDesC16 const &, int (*)(void *))
+

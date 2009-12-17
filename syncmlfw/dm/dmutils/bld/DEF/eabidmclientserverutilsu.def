@@ -1,0 +1,46 @@
+EXPORTS
+	_ZN15CNSmlDmMgmtTree11NodeListPtrEv @ 1 NONAME
+	_ZN15CNSmlDmMgmtTree11ParseWBXMLLER11RReadStream @ 2 NONAME
+	_ZN15CNSmlDmMgmtTree11SetServerIdEh @ 3 NONAME
+	_ZN15CNSmlDmMgmtTree12GenerateXMLLER8CBufBase @ 4 NONAME
+	_ZN15CNSmlDmMgmtTree13SetAdapterUidEm @ 5 NONAME
+	_ZN15CNSmlDmMgmtTree14GenerateWBXMLLER12RWriteStream @ 6 NONAME
+	_ZN15CNSmlDmMgmtTree19FindLoadedAdaptersLER6RArrayImEP15CNSmlDmNodeList @ 7 NONAME
+	_ZN15CNSmlDmMgmtTree21FindNameFromNodeListLERK6TDesC8RP15CNSmlDmNodeList @ 8 NONAME
+	_ZN15CNSmlDmMgmtTree4NewLEv @ 9 NONAME
+	_ZN15CNSmlDmNodeList10GetImplUidERmRh @ 10 NONAME
+	_ZN19NSmlDmCmdArgHandler10ParseDataLER11RReadStreamRP6HBufC8S4_S4_S4_ @ 11 NONAME
+	_ZN19NSmlDmCmdArgHandler11PacketDataLER12RWriteStreamRK6TDesC8S4_S4_S4_ @ 12 NONAME
+	_ZN19NSmlDmCmdArgHandler13ParseResultsLER11RReadStreamR13RPointerArrayI20CNSmlDmResultElementE @ 13 NONAME
+	_ZN19NSmlDmCmdArgHandler14PacketResultsLER12RWriteStreamRK13RPointerArrayI20CNSmlDmResultElementE @ 14 NONAME
+	_ZN19NSmlDmCmdArgHandler14ParseMappingsLER11RReadStreamR12CArrayPtrSegI6HBufC8ES5_ @ 15 NONAME
+	_ZN19NSmlDmCmdArgHandler14ParseStatusesLER11RReadStreamR6RArrayI20TNSmlDmStatusElementE @ 16 NONAME
+	_ZN19NSmlDmCmdArgHandler15PacketMappingsLER12RWriteStreamRK12CArrayPtrSegI6HBufC8ES6_ @ 17 NONAME
+	_ZN19NSmlDmCmdArgHandler15PacketStatusesLER12RWriteStreamRK6RArrayI20TNSmlDmStatusElementE @ 18 NONAME
+	_ZN19NSmlDmCmdArgHandler19ParseCopyArgumentsLER11RReadStreamRP6HBufC8S4_S4_S4_S4_ @ 19 NONAME
+	_ZN19NSmlDmCmdArgHandler20PacketCopyArgumentsLER12RWriteStreamRK6TDesC8S4_S4_S4_S4_ @ 20 NONAME
+	_ZN19NSmlDmCmdArgHandler20ParseFetchArgumentsLER11RReadStreamRP6HBufC8S4_S4_R13CArrayFixFlatI17TSmlDmMappingInfoER13RPointerArrayIS2_E @ 21 NONAME
+	_ZN19NSmlDmCmdArgHandler21PacketFetchArgumentsLER12RWriteStreamRK6TDesC8S4_S4_RK13CArrayFixFlatI17TSmlDmMappingInfoE @ 22 NONAME
+	_ZN20CNSmlDmResultElementD0Ev @ 23 NONAME
+	_ZN20CNSmlDmResultElementD1Ev @ 24 NONAME
+	_ZN20CNSmlDmResultElementD2Ev @ 25 NONAME
+	_ZN9NSmlDmURI10LastURISegERK6TDesC8 @ 26 NONAME
+	_ZN9NSmlDmURI10RemovePropERK6TDesC8 @ 27 NONAME
+	_ZN9NSmlDmURI12NumOfURISegsERK6TDesC8 @ 28 NONAME
+	_ZN9NSmlDmURI13RemoveLastSegERK6TDesC8 @ 29 NONAME
+	_ZN9NSmlDmURI14RemoveDotSlashERK6TDesC8 @ 30 NONAME
+	_ZN9NSmlDmURI6URISegERK6TDesC8i @ 31 NONAME
+	_ZN9NSmlDmURI9ParentURIERK6TDesC8 @ 32 NONAME
+	_ZTI11CNSmlDmNode @ 33 NONAME ; #<TI>#
+	_ZTI13CNSmlDmPcdata @ 34 NONAME ; #<TI>#
+	_ZTI15CNSmlDmMgmtTree @ 35 NONAME ; #<TI>#
+	_ZTI19CNSmlDmDFProperties @ 36 NONAME ; #<TI>#
+	_ZTI19CNSmlDmRTProperties @ 37 NONAME ; #<TI>#
+	_ZTI20CNSmlDmResultElement @ 38 NONAME ; #<TI>#
+	_ZTV11CNSmlDmNode @ 39 NONAME ; #<VT>#
+	_ZTV13CNSmlDmPcdata @ 40 NONAME ; #<VT>#
+	_ZTV15CNSmlDmMgmtTree @ 41 NONAME ; #<VT>#
+	_ZTV19CNSmlDmDFProperties @ 42 NONAME ; #<VT>#
+	_ZTV19CNSmlDmRTProperties @ 43 NONAME ; #<VT>#
+	_ZTV20CNSmlDmResultElement @ 44 NONAME ; #<VT>#
+

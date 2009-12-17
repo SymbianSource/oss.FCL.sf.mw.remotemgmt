@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<api id="e5134c11377fd68a7cf126ccf599b1e0" dataversion="1.0">
+  <name>OMA DS Extensions API</name>
+  <description>set of utility classes that help the plug-in adapters to handle synchronization tasks.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmlchangefinder.lib" />
+    <lib name="nsmldatamod.lib" />
+    <lib name="nsmlxmlparser.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,17 @@
+EXPORTS
+	_ZN21CSCPParamDBController10GetValuesLEiR13RPointerArrayI7HBufC16El @ 1 NONAME
+	_ZN21CSCPParamDBController10SetValuesLEiRK13RPointerArrayI7HBufC16El @ 2 NONAME
+	_ZN21CSCPParamDBController11DropValuesLEiR13RPointerArrayI7HBufC16El @ 3 NONAME
+	_ZN21CSCPParamDBController11DropValuesLEil @ 4 NONAME
+	_ZN21CSCPParamDBController12ListEntriesLER6RArrayIlER13RPointerArrayI7HBufC16El @ 5 NONAME
+	_ZN21CSCPParamDBController17ListApplicationsLER6RArrayI4TUidE @ 6 NONAME
+	_ZN21CSCPParamDBController19IsParamValueSharedLEP7HBufC16l @ 7 NONAME
+	_ZN21CSCPParamDBController20ListParamsUsedByAppLER6RArrayIiEl @ 8 NONAME
+	_ZN21CSCPParamDBController4NewLEv @ 9 NONAME
+	_ZN21CSCPParamDBController5NewLCEv @ 10 NONAME
+	_ZN21CSCPParamDBController9GetValueLEiRlS0_ @ 11 NONAME
+	_ZN21CSCPParamDBController9SetValueLEill @ 12 NONAME
+	_ZN21CSCPParamDBControllerD0Ev @ 13 NONAME
+	_ZN21CSCPParamDBControllerD1Ev @ 14 NONAME
+	_ZN21CSCPParamDBControllerD2Ev @ 15 NONAME
+

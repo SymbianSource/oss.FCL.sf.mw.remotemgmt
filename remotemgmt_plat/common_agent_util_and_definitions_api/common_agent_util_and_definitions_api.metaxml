@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<api id="e86fa6a07de2be8f54ec874c82bbee0c" dataversion="1.0">
+  <name>Common Agent util and definitions API</name>
+  <description>Provides common services from the common agent for both data sync and device management agents/clients.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmlagentcommon.lib" />
+    <lib name="nsmldebug.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,33 @@
+EXPORTS
+	_ZN13CNSmlDmModule10AddObjectLERK6TDesC8S2_S2_ii @ 1 NONAME
+	_ZN13CNSmlDmModule10SetServerLERK6TDesC8 @ 2 NONAME
+	_ZN13CNSmlDmModule11CopyObjectLERK6TDesC8S2_S2_i @ 3 NONAME
+	_ZN13CNSmlDmModule11EndMessageLEv @ 4 NONAME
+	_ZN13CNSmlDmModule12FetchObjectLERK6TDesC8S2_iii @ 5 NONAME
+	_ZN13CNSmlDmModule13DeleteObjectLERK6TDesC8i @ 6 NONAME
+	_ZN13CNSmlDmModule13IsDDFChangedLEv @ 7 NONAME
+	_ZN13CNSmlDmModule13UpdateObjectLERK6TDesC8S2_S2_iii @ 8 NONAME
+	_ZN13CNSmlDmModule14ExecuteObjectLERK6TDesC8S2_S2_iS2_i @ 9 NONAME
+	_ZN13CNSmlDmModule17StartTransactionLEv @ 10 NONAME
+	_ZN13CNSmlDmModule18CommitTransactionLEv @ 11 NONAME
+	_ZN13CNSmlDmModule18MarkGenAlertsSentLERK6TDesC8 @ 12 NONAME
+	_ZN13CNSmlDmModule18MarkGenAlertsSentLEv @ 13 NONAME
+	_ZN13CNSmlDmModule26DisconnectFromOtherServersEv @ 14 NONAME
+	_ZN13CNSmlDmModule4NewLEP21MNSmlDmModuleCallBack @ 15 NONAME
+	_ZN13CNSmlDmModule9MoreDataLERP8CBufBase @ 16 NONAME
+	_ZN13CNSmlDmModule9RollBackLEv @ 17 NONAME
+	_ZTI10CNSmlDmDDF @ 18 NONAME ; #<TI>#
+	_ZTI13CNSmlDmModule @ 19 NONAME ; #<TI>#
+	_ZTI15CNSmlDmCommands @ 20 NONAME ; #<TI>#
+	_ZTI19CNSmlDmLinkCallback @ 21 NONAME ; #<TI>#
+	_ZTI20CNSmlCallbackElement @ 22 NONAME ; #<TI>#
+	_ZTI20CNSmlDmCommandBuffer @ 23 NONAME ; #<TI>#
+	_ZTI23CNSmlGetPropertyElement @ 24 NONAME ; #<TI>#
+	_ZTV10CNSmlDmDDF @ 25 NONAME ; #<VT>#
+	_ZTV13CNSmlDmModule @ 26 NONAME ; #<VT>#
+	_ZTV15CNSmlDmCommands @ 27 NONAME ; #<VT>#
+	_ZTV19CNSmlDmLinkCallback @ 28 NONAME ; #<VT>#
+	_ZTV20CNSmlCallbackElement @ 29 NONAME ; #<VT>#
+	_ZTV20CNSmlDmCommandBuffer @ 30 NONAME ; #<VT>#
+	_ZTV23CNSmlGetPropertyElement @ 31 NONAME ; #<VT>#
+

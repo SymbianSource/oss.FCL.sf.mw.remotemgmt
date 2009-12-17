@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="f7ff1875494d294453f4c9531ec7ec98" dataversion="1.0">
+  <name>DS constant definitions API</name>
+  <description>Constants used in Data Synchronization components</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

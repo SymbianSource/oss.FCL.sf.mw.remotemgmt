@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="2bfc5f8389a5ee4dda4f0604f45a477c" dataversion="1.0">
+  <name>Device Management Parameter API</name>
+  <description>OMA Device Management Internal CR keys</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

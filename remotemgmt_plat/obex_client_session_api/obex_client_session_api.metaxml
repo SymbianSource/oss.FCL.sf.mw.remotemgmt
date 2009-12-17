@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="f11a32e14015db323024118a995aee89" dataversion="1.0">
+  <name>Obex Client session API</name>
+  <description>API for exposing the client functionality of Obex commserver.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmlobexcommserver.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

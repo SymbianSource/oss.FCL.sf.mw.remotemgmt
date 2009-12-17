@@ -1,0 +1,154 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Build info file for SyncML
+*
+*/
+
+#include <platform_paths.hrh>
+
+// Symbian removals
+PRJ_PLATFORMS
+DEFAULT   
+PRJ_EXPORTS
+
+../conf/datasync.confml				MW_LAYER_CONFML(datasync.confml)
+../conf/datasync_2000CF7E.crml		MW_LAYER_CRML(datasync_2000CF7E.crml)
+../conf/devman.confml				MW_LAYER_CONFML(devman.confml)
+../conf/devman_101F9A0A.crml		MW_LAYER_CRML(devman_101F9A0A.crml)
+../conf/nsmlemailadapter.confml		MW_LAYER_CONFML(nsmlemailadapter.confml)
+../conf/nsmlemailadapter_101F99DF.crml	MW_LAYER_CRML(nsmlemailadapter_101F99DF.crml)
+../conf/nsmlhttp.confml				MW_LAYER_CONFML(nsmlhttp.confml)
+../conf/nsmlhttp_101F6DE4.crml		MW_LAYER_CRML(nsmlhttp_101F6DE4.crml)
+../conf/secon.confml				MW_LAYER_CONFML(secon.confml)
+../conf/secon_2000F83D.crml			MW_LAYER_CRML(secon_2000F83D.crml)
+../conf/DSDefaultProfileSetting.confml				MW_LAYER_CONFML(DSDefaultProfileSetting.confml)
+../conf/DSDefaultProfileSetting_20021338.crml		MW_LAYER_CRML(DSDefaultProfileSetting_20021338.crml)
+../conf/geofield.confml     MW_LAYER_CONFML(geofield.confml)
+../conf/geofield_20022EE1.crml     MW_LAYER_CRML(geofield_20022EE1.crml)
+../conf/datasyncsessioninfo.confml				MW_LAYER_CONFML(datasyncsessioninfo.confml)
+../conf/datasyncsessioninfo_20029F15.crml     MW_LAYER_CRML(datasyncsessioninfo_20029F15.crml)
+
+//for IAD support
+syncmlfw_stub.sis  /epoc32/data/z/system/install/syncmlfw_stub.sis 
+../rom/NSml_variant.iby			CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(NSml_variant.iby)
+../rom/NSmlResources.iby		LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(NSmlResources.iby)
+
+../rom/NSmlCommon.iby			CORE_MW_LAYER_IBY_EXPORT_PATH(NSmlCommon.iby)
+../rom/NSmlDMSync.iby			CORE_MW_LAYER_IBY_EXPORT_PATH(NSmlDMSync.iby)
+../rom/NSmlDSSync.iby			CORE_MW_LAYER_IBY_EXPORT_PATH(NSmlDSSync.iby)
+PRJ_MMPFILES
+
+// SYNCML COMMON MODULES
+#include "../common/inc/bld.inf"
+#include "../common/alerthandler/bld/bld.inf"
+#include "../common/notifiers/inc/bld.inf"
+
+#include "../common/inc/symbianheaders/bld.inf"
+#include "../common/inc/modifiedheaders/bld.inf"
+#include "../common/inc/policy/bld.inf"
+
+#include "../common/debug/bld/bld.inf"
+#include "../common/wbxml/bld/bld.inf"
+#include "../common/xml/bld/bld.inf"
+#include "../common/transport/bld/bld.inf"
+#include "../common/http/bld/bld.inf"
+#include "../common/sosserver_privateapi/bld/bld.inf"
+#ifdef __SYNCML_OBEX
+#include "../common/obex/obexclient/bld/bld.inf"
+/*#include "../common/obex/obexciusbserver/bld/bld.inf"*/
+#include "../common/obex/obexcommserver/bld/bld.inf"
+#include "../common/obex/obexserverbinding/bld/bld.inf"
+#include "../common/obex/obexdsplugin/bld/bld.inf"
+#ifdef __SYNCML_DM_OBEX
+#ifdef __SYNCML_DM
+#include "../common/obex/obexdmplugin/bld/bld.inf"
+#endif //__SYNCML_DM
+#endif //__SYNCML_DM_OBEX
+#endif //__SYNCML_OBEX
+
+// SYNCML DATA SYNCHRONISATION MODULES
+#include "../ds/inc/bld.inf"
+#include "../ds/dsutils/filter/bld/bld.inf"	
+
+// SYNCML COMMON MODULES
+#include "../common/syncagent/bld/bld.inf"
+#include "../common/historylog/bld/bld.inf"
+#include "../common/sosserver_transporthandler/bld/bld.inf"
+#include "../common/sosserver_clientapi/bld/bld.inf"
+
+// SYNCML DATA SYNCHRONISATION MODULES
+#include "../ds/settings/bld/bld.inf"
+
+// SYNCML  DEVICE MANAGEMENT MODULES
+#include "../dm/settings/bld/bld.inf"
+
+// SYNCML DATA SYNCHRONISATION MODULES
+#include "../ds/adapters/dataproviderbase/bld/bld.inf"
+#include "../ds/dsutils/storeformat/bld/bld.inf"
+#include "../ds/dsutils/changefinder/bld/bld.inf"
+#include "../ds/dsutils/dbcaps/bld/bld.inf"
+#include "../ds/dsutils/filterutils/bld/bld.inf"
+#include "../ds/adapterlog/bld/bld.inf"
+#include "../ds/hostserver/dshostclient/bld/bld.inf"
+#include "../ds/hostserver/dshostserverbase/bld/bld.inf"
+#include "../ds/hostserver/dshostservers/bld/bld.inf"
+#include "../ds/dsutils/ProfileUtil/bld/bld.inf"
+#include "../ds/netmon/bld/bld.inf"
+
+// SYNCML COMMON MODULES
+#include "../common/alertqueue/bld/bld.inf"
+
+// SYNCML DATA SYNCHRONISATION MODULES
+#include "../ds/agentlog/bld/bld.inf"
+#include "../ds/syncagent/bld/bld.inf"
+
+// SYNCML  DEVICE MANAGEMENT MODULES
+#include "../dm/bld/bld.inf"
+#include "../dm/dmutils/bld/bld.inf"
+#include "../dm/treedbclient/bld/bld.inf"
+#include "../dm/treedbhandler/bld/bld.inf"
+#include "../dm/callbackServer/bld/bld.inf"
+#include "../dm/hostserver/dmhostserverbase/bld/bld.inf"
+#include "../dm/hostserver/dmhostservers/bld/bld.inf"
+#include "../dm/treemodule/bld/bld.inf"
+#include "../dm/syncagent/bld/bld.inf"
+#include "../dm/dmnetworkmon/bld/bld.inf"
+
+//#include "../dm/adapters/bld/bld.inf"
+
+// ONE COMMON MODULE
+#include "../common/sosserver/bld/bld.inf"
+
+// Last DS MODULEs
+#ifdef __SYNCML_DS_ALERT
+#include "../ds/wappushalert/bld/bld.inf"
+#endif //__SYNCML_DS_ALERT
+#include "../ds/alerthandler/bld/bld.inf"
+#include "../ds/provisioningadapter/bld/bld.inf"
+
+// Last DM MODULEs
+#ifdef __SYNCML_DM
+#include "../dm/wappushalert/bld/bld.inf"
+#endif //__SYNCML_DM
+
+#ifdef __SYNCML_DM_OTA
+#include "../dm/provisioningadapter/bld/bld.inf"
+#endif //__SYNCML_DM_OTA
+
+// Disabling OTA configuration
+//#include "../ds/ota/bld/bld.inf"
+
+#include "../syncmlnotifier/group/bld.inf"
+#include "../syncservice/group/bld.inf"
+

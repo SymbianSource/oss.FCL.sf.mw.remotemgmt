@@ -1,0 +1,6 @@
+-w2
+
+-i..\Inc
+-d_UNICODE
+APP_LAYER_SYSTEMINCLUDE
+..\Src\*.cpp 

@@ -1,0 +1,32 @@
+EXPORTS
+	_ZN16CNSmlDmDbHandler10DeleteAclLERK6TDesC8 @ 1 NONAME
+	_ZN16CNSmlDmDbHandler10SetServerLERK6TDesC8 @ 2 NONAME
+	_ZN16CNSmlDmDbHandler10UpdateAclLERK6TDesC8S2_ @ 3 NONAME
+	_ZN16CNSmlDmDbHandler14EraseServerIdLERK6TDesC8 @ 4 NONAME
+	_ZN16CNSmlDmDbHandler14RenameMappingLEmRK6TDesC8S2_ @ 5 NONAME
+	_ZN16CNSmlDmDbHandler15AddMappingInfoLEmRK6TDesC8S2_ @ 6 NONAME
+	_ZN16CNSmlDmDbHandler16GetMappingInfoLCEmRK6TDesC8RP6HBufC8 @ 7 NONAME
+	_ZN16CNSmlDmDbHandler17WriteAclInfoToDbLEv @ 8 NONAME
+	_ZN16CNSmlDmDbHandler18GetURISegmentListLEmRK6TDesC8R9CArrayFixI17TSmlDmMappingInfoE @ 9 NONAME
+	_ZN16CNSmlDmDbHandler18RemoveMappingInfoLEmRK6TDesC8i @ 10 NONAME
+	_ZN16CNSmlDmDbHandler18UpdateMappingInfoLEmRK6TDesC8R8CBufBase @ 11 NONAME
+	_ZN16CNSmlDmDbHandler20DefaultACLsToServerLERK6TDesC8 @ 12 NONAME
+	_ZN16CNSmlDmDbHandler21WriteMappingInfoToDbLEv @ 13 NONAME
+	_ZN16CNSmlDmDbHandler4NewLEv @ 14 NONAME
+	_ZN16CNSmlDmDbHandler5NewLCEv @ 15 NONAME
+	_ZN16CNSmlDmDbHandler7GetAclLERK6TDesC8R8CBufBasei @ 16 NONAME
+	_ZN16CNSmlDmDbHandler9CheckAclLERK6TDesC814TNSmlDmCmdType @ 17 NONAME
+	_ZN16CNSmlDmDbHandlerD0Ev @ 18 NONAME
+	_ZN16CNSmlDmDbHandlerD1Ev @ 19 NONAME
+	_ZN16CNSmlDmDbHandlerD2Ev @ 20 NONAME
+	_ZTI15CNSmlAclElement @ 21 NONAME ; #<TI>#
+	_ZTI16CNSmlDmACLParser @ 22 NONAME ; #<TI>#
+	_ZTI16CNSmlDmDbHandler @ 23 NONAME ; #<TI>#
+	_ZTI17CNSmlDmURIMapping @ 24 NONAME ; #<TI>#
+	_ZTI21CNSmlDmAdapterElement @ 25 NONAME ; #<TI>#
+	_ZTV15CNSmlAclElement @ 26 NONAME ; #<VT>#
+	_ZTV16CNSmlDmACLParser @ 27 NONAME ; #<VT>#
+	_ZTV16CNSmlDmDbHandler @ 28 NONAME ; #<VT>#
+	_ZTV17CNSmlDmURIMapping @ 29 NONAME ; #<VT>#
+	_ZTV21CNSmlDmAdapterElement @ 30 NONAME ; #<VT>#
+

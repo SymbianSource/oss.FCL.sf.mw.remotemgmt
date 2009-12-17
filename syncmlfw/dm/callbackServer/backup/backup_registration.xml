@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- Copyright (c) 2004, Symbian Software Ltd. All Rights Reserved -->
+
+<backup_registration version="1.0">
+    <passive_backup>
+	<include_file name = "NSmlDmTree.db">
+        </include_file>
+
+    </passive_backup>
+    <restore requires_reboot = "no"/>
+</backup_registration>

@@ -1,0 +1,1 @@
+<po poid="wlan_enforcement_policy" rcaid="rpor">|5655<ta><res><re><rm mid="seid"> <av dt= "str">WLANEnforcement</av> <ra aid="urn:oasis:names:tc:xacml:1.0:resource:resource-id" dt="str"/> </rm></re></res></ta>|5908</po>~1793

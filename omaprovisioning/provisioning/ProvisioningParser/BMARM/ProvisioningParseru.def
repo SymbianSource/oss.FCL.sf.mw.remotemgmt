@@ -1,0 +1,4 @@
+EXPORTS
+	NewL__14CWPWbxmlParser @ 1 NONAME R3UNUSED ; CWPWbxmlParser::NewL(void)
+	ParseL__14CWPWbxmlParserRC6TDesC8R10MWPBuilder @ 2 NONAME R3UNUSED ; CWPWbxmlParser::ParseL(TDesC8 const &, MWPBuilder &)
+

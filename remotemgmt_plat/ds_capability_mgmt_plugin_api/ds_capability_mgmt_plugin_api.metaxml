@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api id="a47e332167eae998726badaa52886786" dataversion="2.0">
+  <name>ds_capability_mgmt_plugin_api</name>
+  <description>This api is used for CENREP key details used by DCMO plugin of datasync
+capabilities</description>
+  <type>c++</type>
+  <collection>DSCapabilityManagementPluginApi</collection>
+  <libs/>
+  <release category="platform" sinceversion="2.0"/>
+  <attributes>
+    <htmldocprovided>no</htmldocprovided>
+    <adaptation>no</adaptation>
+  </attributes>
+</api>

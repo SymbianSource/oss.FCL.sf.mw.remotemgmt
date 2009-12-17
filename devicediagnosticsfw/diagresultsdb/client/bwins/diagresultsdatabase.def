@@ -1,0 +1,65 @@
+EXPORTS
+	??0RDiagResultsDatabase@@QAE@XZ @ 1 NONAME ; RDiagResultsDatabase::RDiagResultsDatabase(void)
+	??0RDiagResultsDatabaseRecord@@QAE@XZ @ 2 NONAME ; RDiagResultsDatabaseRecord::RDiagResultsDatabaseRecord(void)
+	??0TDiagResultsDatabaseTestRecordInfo@@QAE@XZ @ 3 NONAME ; TDiagResultsDatabaseTestRecordInfo::TDiagResultsDatabaseTestRecordInfo(void)
+	??0TDiagResultsDbRecordInfoArrayPacked@@QAE@AAPAVCBufFlat@@@Z @ 4 NONAME ; TDiagResultsDbRecordInfoArrayPacked::TDiagResultsDbRecordInfoArrayPacked(class CBufFlat * &)
+	??1CDiagResultsDatabaseItem@@UAE@XZ @ 5 NONAME ; CDiagResultsDatabaseItem::~CDiagResultsDatabaseItem(void)
+	??1CDiagResultsDbRecordEngineParam@@UAE@XZ @ 6 NONAME ; CDiagResultsDbRecordEngineParam::~CDiagResultsDbRecordEngineParam(void)
+	??1RDiagResultsDatabase@@QAE@XZ @ 7 NONAME ; RDiagResultsDatabase::~RDiagResultsDatabase(void)
+	??1RDiagResultsDatabaseRecord@@QAE@XZ @ 8 NONAME ; RDiagResultsDatabaseRecord::~RDiagResultsDatabaseRecord(void)
+	?CancelInitiateGetLastResults@RDiagResultsDatabase@@QBEXXZ @ 9 NONAME ; void RDiagResultsDatabase::CancelInitiateGetLastResults(void) const
+	?CancelLogTestResult@RDiagResultsDatabaseRecord@@QBEXXZ @ 10 NONAME ; void RDiagResultsDatabaseRecord::CancelLogTestResult(void) const
+	?Close@RDiagResultsDatabase@@QAEHXZ @ 11 NONAME ; int RDiagResultsDatabase::Close(void)
+	?Close@RDiagResultsDatabaseRecord@@QAEXXZ @ 12 NONAME ; void RDiagResultsDatabaseRecord::Close(void)
+	?Connect@RDiagResultsDatabase@@QAEHVTUid@@@Z @ 13 NONAME ; int RDiagResultsDatabase::Connect(class TUid)
+	?Connect@RDiagResultsDatabaseRecord@@QAEHAAVRDiagResultsDatabase@@VTUid@@H@Z @ 14 NONAME ; int RDiagResultsDatabaseRecord::Connect(class RDiagResultsDatabase &, class TUid, int)
+	?CreateNewRecord@RDiagResultsDatabaseRecord@@QAEHAAVRDiagResultsDatabase@@AAVTUid@@AAVCDiagResultsDbRecordEngineParam@@@Z @ 15 NONAME ; int RDiagResultsDatabaseRecord::CreateNewRecord(class RDiagResultsDatabase &, class TUid &, class CDiagResultsDbRecordEngineParam &)
+	?DRMTimeL@TDiagResultsDatabaseTestRecordInfo@@SA?AVTTime@@XZ @ 16 NONAME ; class TTime TDiagResultsDatabaseTestRecordInfo::DRMTimeL(void)
+	?DependencyExecution@CDiagResultsDbRecordEngineParam@@QBEHXZ @ 17 NONAME ; int CDiagResultsDbRecordEngineParam::DependencyExecution(void) const
+	?DetailsData@CDiagResultsDatabaseItem@@QBEPBVCBufFlat@@XZ @ 18 NONAME ; class CBufFlat const * CDiagResultsDatabaseItem::DetailsData(void) const
+	?ExecutionsUidArray@CDiagResultsDbRecordEngineParam@@QBEABV?$RArray@VTUid@@@@XZ @ 19 NONAME ; class RArray<class TUid> const & CDiagResultsDbRecordEngineParam::ExecutionsUidArray(void) const
+	?ExternalizeL@CDiagResultsDatabaseItem@@QBEXAAVRWriteStream@@@Z @ 20 NONAME ; void CDiagResultsDatabaseItem::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CDiagResultsDbRecordEngineParam@@QBEXAAVRWriteStream@@@Z @ 21 NONAME ; void CDiagResultsDbRecordEngineParam::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@TDiagResultsDatabaseTestRecordInfo@@QBEXAAVRWriteStream@@@Z @ 22 NONAME ; void TDiagResultsDatabaseTestRecordInfo::ExternalizeL(class RWriteStream &) const
+	?GetAllRecordInfos@RDiagResultsDatabase@@QAEHAAV?$CArrayFixFlat@VTDiagResultsDatabaseTestRecordInfo@@@@@Z @ 23 NONAME ; int RDiagResultsDatabase::GetAllRecordInfos(class CArrayFixFlat<class TDiagResultsDatabaseTestRecordInfo> &)
+	?GetDatabaseMaximumSize@RDiagResultsDatabase@@SAHAAH@Z @ 24 NONAME ; int RDiagResultsDatabase::GetDatabaseMaximumSize(int &)
+	?GetEngineParam@RDiagResultsDatabaseRecord@@QBEHAAPAVCDiagResultsDbRecordEngineParam@@@Z @ 25 NONAME ; int RDiagResultsDatabaseRecord::GetEngineParam(class CDiagResultsDbRecordEngineParam * &) const
+	?GetLastNotCompletedRecord@RDiagResultsDatabase@@QBEHAAVTUid@@@Z @ 26 NONAME ; int RDiagResultsDatabase::GetLastNotCompletedRecord(class TUid &) const
+	?GetLastRecord@RDiagResultsDatabase@@QBEHAAVTUid@@@Z @ 27 NONAME ; int RDiagResultsDatabase::GetLastRecord(class TUid &) const
+	?GetLastResult@RDiagResultsDatabase@@QAEHAAPAVCDiagResultsDatabaseItem@@@Z @ 28 NONAME ; int RDiagResultsDatabase::GetLastResult(class CDiagResultsDatabaseItem * &)
+	?GetLastResults@RDiagResultsDatabase@@QBEHAAV?$RPointerArray@VCDiagResultsDatabaseItem@@@@@Z @ 29 NONAME ; int RDiagResultsDatabase::GetLastResults(class RPointerArray<class CDiagResultsDatabaseItem> &) const
+	?GetRecordCount@RDiagResultsDatabase@@QBEHAAI@Z @ 30 NONAME ; int RDiagResultsDatabase::GetRecordCount(unsigned int &) const
+	?GetRecordInfo@RDiagResultsDatabaseRecord@@QBEHAAVTDiagResultsDatabaseTestRecordInfo@@@Z @ 31 NONAME ; int RDiagResultsDatabaseRecord::GetRecordInfo(class TDiagResultsDatabaseTestRecordInfo &) const
+	?GetRecordUids@RDiagResultsDatabase@@QBEHAAV?$CArrayFixFlat@VTUid@@@@@Z @ 32 NONAME ; int RDiagResultsDatabase::GetRecordUids(class CArrayFixFlat<class TUid> &) const
+	?GetStatus@RDiagResultsDatabaseRecord@@QBEHAAW4TRecordStatus@1@@Z @ 33 NONAME ; int RDiagResultsDatabaseRecord::GetStatus(enum RDiagResultsDatabaseRecord::TRecordStatus &) const
+	?GetTestRecordId@RDiagResultsDatabaseRecord@@QBEHAAVTUid@@@Z @ 34 NONAME ; int RDiagResultsDatabaseRecord::GetTestRecordId(class TUid &) const
+	?GetTestResult@RDiagResultsDatabaseRecord@@QBEHVTUid@@AAPAVCDiagResultsDatabaseItem@@@Z @ 35 NONAME ; int RDiagResultsDatabaseRecord::GetTestResult(class TUid, class CDiagResultsDatabaseItem * &) const
+	?GetTestResults@RDiagResultsDatabaseRecord@@QBEHAAV?$RPointerArray@VCDiagResultsDatabaseItem@@@@@Z @ 36 NONAME ; int RDiagResultsDatabaseRecord::GetTestResults(class RPointerArray<class CDiagResultsDatabaseItem> &) const
+	?GetTestUids@RDiagResultsDatabaseRecord@@QBEHAAV?$CArrayFixFlat@VTUid@@@@@Z @ 37 NONAME ; int RDiagResultsDatabaseRecord::GetTestUids(class CArrayFixFlat<class TUid> &) const
+	?InitiateGetLastResult@RDiagResultsDatabase@@QAEXVTUid@@AAVTRequestStatus@@@Z @ 38 NONAME ; void RDiagResultsDatabase::InitiateGetLastResult(class TUid, class TRequestStatus &)
+	?InitiateGetLastResults@RDiagResultsDatabase@@QAEXABV?$CArrayFixFlat@VTUid@@@@AAVTRequestStatus@@@Z @ 39 NONAME ; void RDiagResultsDatabase::InitiateGetLastResults(class CArrayFixFlat<class TUid> const &, class TRequestStatus &)
+	?InternalizeL@CDiagResultsDatabaseItem@@AAEXAAVRReadStream@@@Z @ 40 NONAME ; void CDiagResultsDatabaseItem::InternalizeL(class RReadStream &)
+	?InternalizeL@CDiagResultsDbRecordEngineParam@@AAEXAAVRReadStream@@@Z @ 41 NONAME ; void CDiagResultsDbRecordEngineParam::InternalizeL(class RReadStream &)
+	?InternalizeL@TDiagResultsDatabaseTestRecordInfo@@QAEXAAVRReadStream@@@Z @ 42 NONAME ; void TDiagResultsDatabaseTestRecordInfo::InternalizeL(class RReadStream &)
+	?IsSuspended@RDiagResultsDatabaseRecord@@QBEHAAH@Z @ 43 NONAME ; int RDiagResultsDatabaseRecord::IsSuspended(int &) const
+	?IsTestCompleted@RDiagResultsDatabaseRecord@@QBEHAAH@Z @ 44 NONAME ; int RDiagResultsDatabaseRecord::IsTestCompleted(int &) const
+	?LogTestResult@RDiagResultsDatabaseRecord@@QAEHAAVTRequestStatus@@ABVCDiagResultsDatabaseItem@@@Z @ 45 NONAME ; int RDiagResultsDatabaseRecord::LogTestResult(class TRequestStatus &, class CDiagResultsDatabaseItem const &)
+	?NewL@CDiagResultsDatabaseItem@@SAPAV1@AAVRReadStream@@@Z @ 46 NONAME ; class CDiagResultsDatabaseItem * CDiagResultsDatabaseItem::NewL(class RReadStream &)
+	?NewL@CDiagResultsDatabaseItem@@SAPAV1@ABV1@@Z @ 47 NONAME ; class CDiagResultsDatabaseItem * CDiagResultsDatabaseItem::NewL(class CDiagResultsDatabaseItem const &)
+	?NewL@CDiagResultsDatabaseItem@@SAPAV1@VTUid@@HW4TResult@1@VTTime@@2PAVCBufFlat@@@Z @ 48 NONAME ; class CDiagResultsDatabaseItem * CDiagResultsDatabaseItem::NewL(class TUid, int, enum CDiagResultsDatabaseItem::TResult, class TTime, class TTime, class CBufFlat *)
+	?NewL@CDiagResultsDbRecordEngineParam@@SAPAV1@AAVRReadStream@@@Z @ 49 NONAME ; class CDiagResultsDbRecordEngineParam * CDiagResultsDbRecordEngineParam::NewL(class RReadStream &)
+	?NewL@CDiagResultsDbRecordEngineParam@@SAPAV1@PAV?$RArray@VTUid@@@@H@Z @ 50 NONAME ; class CDiagResultsDbRecordEngineParam * CDiagResultsDbRecordEngineParam::NewL(class RArray<class TUid> *, int)
+	?NewLC@CDiagResultsDatabaseItem@@SAPAV1@VTUid@@HW4TResult@1@VTTime@@2PAVCBufFlat@@@Z @ 51 NONAME ; class CDiagResultsDatabaseItem * CDiagResultsDatabaseItem::NewLC(class TUid, int, enum CDiagResultsDatabaseItem::TResult, class TTime, class TTime, class CBufFlat *)
+	?NewLC@CDiagResultsDbRecordEngineParam@@SAPAV1@PAV?$RArray@VTUid@@@@H@Z @ 52 NONAME ; class CDiagResultsDbRecordEngineParam * CDiagResultsDbRecordEngineParam::NewLC(class RArray<class TUid> *, int)
+	?PackArrayL@TDiagResultsDbRecordInfoArrayPacked@@QAEXABV?$CArrayFixFlat@VTDiagResultsDatabaseTestRecordInfo@@@@@Z @ 53 NONAME ; void TDiagResultsDbRecordInfoArrayPacked::PackArrayL(class CArrayFixFlat<class TDiagResultsDatabaseTestRecordInfo> const &)
+	?Size@CDiagResultsDatabaseItem@@QBEHXZ @ 54 NONAME ; int CDiagResultsDatabaseItem::Size(void) const
+	?Suspend@RDiagResultsDatabaseRecord@@QAEHXZ @ 55 NONAME ; int RDiagResultsDatabaseRecord::Suspend(void)
+	?TestCompleted@RDiagResultsDatabaseRecord@@QAEHH@Z @ 56 NONAME ; int RDiagResultsDatabaseRecord::TestCompleted(int)
+	?TestResult@CDiagResultsDatabaseItem@@QBE?AW4TResult@1@XZ @ 57 NONAME ; enum CDiagResultsDatabaseItem::TResult CDiagResultsDatabaseItem::TestResult(void) const
+	?TestUid@CDiagResultsDatabaseItem@@QBE?AVTUid@@XZ @ 58 NONAME ; class TUid CDiagResultsDatabaseItem::TestUid(void) const
+	?TimeCompleted@CDiagResultsDatabaseItem@@QBE?AVTTime@@XZ @ 59 NONAME ; class TTime CDiagResultsDatabaseItem::TimeCompleted(void) const
+	?TimeStarted@CDiagResultsDatabaseItem@@QBE?AVTTime@@XZ @ 60 NONAME ; class TTime CDiagResultsDatabaseItem::TimeStarted(void) const
+	?UnpackArrayL@TDiagResultsDbRecordInfoArrayPacked@@QAEXAAV?$CArrayFixFlat@VTDiagResultsDatabaseTestRecordInfo@@@@@Z @ 61 NONAME ; void TDiagResultsDbRecordInfoArrayPacked::UnpackArrayL(class CArrayFixFlat<class TDiagResultsDatabaseTestRecordInfo> &)
+	?Version@RDiagResultsDatabase@@QBE?AVTVersion@@XZ @ 62 NONAME ; class TVersion RDiagResultsDatabase::Version(void) const
+	?WasDependency@CDiagResultsDatabaseItem@@QBEHXZ @ 63 NONAME ; int CDiagResultsDatabaseItem::WasDependency(void) const
+

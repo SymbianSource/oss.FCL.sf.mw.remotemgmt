@@ -1,0 +1,6 @@
+<?xml version="1.0" standalone="yes"?>
+
+<backup_registration version="1.0">
+   <dbms_backup policy="101F84D6"/>
+   <restore requires_reboot="no"/>
+</backup_registration>

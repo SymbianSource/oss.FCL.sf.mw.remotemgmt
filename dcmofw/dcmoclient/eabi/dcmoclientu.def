@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN11RDCMOClient4NewLEv @ 1 NONAME
+	_ZTI11RDCMOClient @ 2 NONAME ; #<TI>#
+	_ZTV11RDCMOClient @ 3 NONAME ; #<VT>#
+

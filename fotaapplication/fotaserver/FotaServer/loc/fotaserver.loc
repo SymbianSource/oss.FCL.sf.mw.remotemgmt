@@ -1,0 +1,132 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Localisation file. 
+*
+*/
+
+
+
+
+// l: param specified in Series_60_3_0_QVGA_Portrait_Application_LAF_Document_1.0.pdf
+
+//d:-----------------------------------------------------------
+//d:APPLICATION TITLES
+//d:-----------------------------------------------------------
+
+//d:Title of the application on the title pane
+//l:title_pane_t2/opt9
+//w:
+//r:3.1
+#define qtn_fota_title			"Download"
+
+//d:Updating progress bar
+//l:popup_note_wait_window
+//w:
+//r:3.1
+#define qtn_fota_wait_downloading	 "Downloading"
+
+//d:Updating progress bar
+//l:popup_note_wait_window
+//w:
+//r:3.1
+#define qtn_fota_wait_installing  "Updating..."
+
+//d:restarting note after updating
+//l:popup_note_window
+//w:
+//r:3.1
+#define qtn_fota_restarting_phone  "Restarting phone"
+
+
+//d:radio button item to display 1 hour
+//l:list_set_graphic_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_reminder_1_hour   	"1 hour"
+
+//d:radio button item to display 4 hour
+//l:list_set_graphic_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_reminder_4_hours 	"4 hours"
+
+//d:radio button item to display 1 day
+//l:list_set_graphic_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_reminder_1_day  	"1 day"
+
+//d:radio button item to display 3 days
+//l:list_set_graphic_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_reminder_3_days 	"3 days"
+
+//d:radio button item to display no remainder
+//l:list_set_graphic_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_no_reminder    	"No reminder"
+
+//d:Title of the radio button setting page on the title pane
+//l:title_pane_t2/opt9
+//w:
+//r:3.2
+#define qtn_apps_dm_title           "Device Manager"
+
+
+//d:Title of the radio button setting page, placed on control itself
+//l:list_setting_pane_t1
+//w:
+//r:3.2
+#define qtn_fota_reminder_setting		"Remind after"
+
+
+//d:radio button item to display 1 minute
+//l:list_set_graphic_pane_t1
+//w:
+//r:5.0
+#define qtn_fota_reminder_1_minute 	"1 minute"
+
+//d:radio button item to display %N minutes
+//l:list_set_graphic_pane_t1
+//w:
+//r:5.0
+#define qtn_fota_reminder_minutes 	"%N minutes"
+
+//d:radio button item to display %N hours
+//l:list_set_graphic_pane_t1
+//w:
+//r:5.0
+#define qtn_fota_reminder_hours 	"%N hours"
+
+//d:radio button item to display %N days
+//l:list_set_graphic_pane_t1
+//w:
+//r:5.0
+#define qtn_fota_reminder_days 	"%N days"
+
+//d:Progress bar shown during decryption operation
+//l:popup_note_wait_window
+//w:
+//r:5.2
+#define qtn_fota_decrypting_encrypt_process "Decrypting"
+
+//d:Progress bar shown during encryption operation
+//l:popup_note_wait_window
+//w:
+//r:5.2
+#define qtn_fota_encrypting_encrypt_process "Encrypting"
+
+// End of File

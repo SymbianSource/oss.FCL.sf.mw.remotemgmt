@@ -1,0 +1,11 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="factorydmprofiles.xml" target="private\101F99FB\">
+	<setting ref="factorydmprofile/DMFactorySettings"/>
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xi="http://www.w3.org/2001/xinclude">
+		<xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+    <xsl:template match="configuration/data">
+     	<Variant>
+       	<xsl:copy-of select="factorydmprofile"/>
+     	</Variant>
+    </xsl:template>
+	</xsl:stylesheet>
+</file>

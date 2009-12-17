@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+#ifndef __SCPSERVER_IBY__
+#define __SCPSERVER_IBY__
+
+//#ifdef __SAP_TERMINAL_CONTROL_FW
+
+// SCP server binary
+file=ABI_DIR\BUILD_DIR\SCPServer.exe    PROGRAMS_DIR\SCPServer.exe
+
+//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
+
+// Include the plugins:
+// Pattern-
+ECOM_PLUGIN( SCPPatternPlugin.dll, 10274262.rsc )
+
+
+// History/Specific words-
+ECOM_PLUGIN( SCPHistoryPlugin.dll, 10274264.rsc )
+
+// Timestamp-
+ECOM_PLUGIN( SCPTimestampPlugin.dll, A00003D6.rsc )
+
+//#endif
+
+//#endif // __SAP_TERMINAL_CONTROL_FW
+
+#endif // __SCPSERVER_IBY__

@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DS Settings Provisioning Adapter
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+#include "defaultcaps.hrh"
+#include "../bld/NSmlDsProvisioningAdapterUIDs.h"
+
+CAPABILITY 	CAP_ECOM_PLUGIN
+VENDORID 	VID_DEFAULT
+TARGET		wpds.dll
+TARGETTYPE	PLUGIN
+UID		    KECOMUid2 KNSmlDsProvisioningAdapterDllUid3
+
+SOURCEPATH	../src
+SOURCE		NSmlDsProvisioningAdapter.cpp 
+SOURCE		NSmlDsProvisioningAdapterGroupProxy.cpp NSmlDsProvisioningAdapterMain.cpp
+
+SOURCEPATH	../bld
+
+START RESOURCE 101F84DE.rss
+TARGET		wpds.rsc
+END 
+
+START RESOURCE	../src/NSmlDSProvisioningAdapter.rss
+HEADER
+TARGETPATH	RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END 
+
+USERINCLUDE	../inc ../bld ../../../common/inc ../../inc ../../../common/debug/inc
+USERINCLUDE	../../dsutils/dbcaps/inc ../../../common/sosserver_transporthandler/inc
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	/epoc32/include/ecom
+
+LIBRARY     euser.lib ECom.lib commdb.lib charconv.lib apengine.lib
+LIBRARY     nsmldbcaps.lib bafl.lib efsrv.lib nsmldebug.lib syncmlclientapi.lib
+LIBRARY     ProvisioningEngine.lib
+
+SMPSAFE

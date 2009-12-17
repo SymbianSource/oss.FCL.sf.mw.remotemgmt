@@ -1,0 +1,4 @@
+EXPORTS
+	?CreateDSAgentL@@YAPAVCNSmlDSAgent@@PAVMSyncMLProgressObserver@@@Z @ 1 NONAME ; class CNSmlDSAgent * CreateDSAgentL(class MSyncMLProgressObserver *)
+	?Synchronise@CNSmlDSAgent@@UAEXAAVTRequestStatus@@HHPAV?$CArrayFix@UTNSmlContentSpecificSyncType@@@@W4TNSmlSyncInitiation@@HPAVHBufC8@@@Z @ 2 NONAME ; void CNSmlDSAgent::Synchronise(class TRequestStatus &, int, int, class CArrayFix<struct TNSmlContentSpecificSyncType> *, enum TNSmlSyncInitiation, int, class HBufC8 *)
+

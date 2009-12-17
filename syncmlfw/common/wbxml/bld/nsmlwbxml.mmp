@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  MMP file for WBXML.
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+TARGET          nsmlwbxml.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DF0
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./DEF/bwins
+#else
+DEFFILE		./DEF/bmarm
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE   /epoc32/include/libc
+USERINCLUDE	../../inc
+
+// generic
+USERINCLUDE	../inc
+SOURCEPATH      ../src
+SOURCE		XMLElement.cpp
+SOURCE          XMLWorkspace.cpp
+SOURCE          XMLStaticWorkspace.cpp
+SOURCE          XMLDynamicWorkspace.cpp
+SOURCE          WBXMLParser.cpp
+SOURCE          WBXMLGenerator.cpp
+SOURCE          WBXMLAttributes.cpp
+
+// SyncML
+USERINCLUDE	../inc/syncml
+SOURCEPATH      ../src/syncml
+SOURCE		smldtd.cpp
+SOURCE		smlmetinfdtd.cpp
+SOURCE		WBXMLSyncMLParser.cpp
+SOURCE		WBXMLSyncMLGenerator.cpp
+
+// DevInf
+USERINCLUDE	../inc/devinf
+SOURCEPATH      ../src/devinf
+SOURCE		smldevinfdtd.cpp
+SOURCE		WBXMLDevInfParser.cpp
+SOURCE		WBXMLDevInfGenerator.cpp
+
+LIBRARY         euser.lib estor.lib
+
+#ifdef ARMCC
+LIBRARY ECOM.LIB
+#endif
+
+SMPSAFE

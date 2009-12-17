@@ -1,0 +1,38 @@
+EXPORTS
+	?NewPnpUtilLC@@YAPAVCPnpUtilImpl@@XZ @ 1 NONAME ; class CPnpUtilImpl * NewPnpUtilLC(void)
+	??1CPnpUtilImpl@@UAE@XZ @ 2 NONAME ; CPnpUtilImpl::~CPnpUtilImpl(void)
+	?CreateNewNonceL@CPnpUtilImpl@@UAEXIAAVTDes8@@@Z @ 3 NONAME ; void CPnpUtilImpl::CreateNewNonceL(unsigned int, class TDes8 &)
+	?CreateNewToken@CPnpUtilImpl@@QAEHKAAH@Z @ 4 NONAME ; int CPnpUtilImpl::CreateNewToken(unsigned long, int &)
+	?FetchAccessPoint@CPnpUtilImpl@@QAEHAAK@Z @ 5 NONAME ; int CPnpUtilImpl::FetchAccessPoint(unsigned long &)
+	?FetchHomeNetworkInfoL@CPnpUtilImpl@@UAEXXZ @ 6 NONAME ; void CPnpUtilImpl::FetchHomeNetworkInfoL(void)
+	?FetchNetworkInfoL@CPnpUtilImpl@@UAEXXZ @ 7 NONAME ; void CPnpUtilImpl::FetchNetworkInfoL(void)
+	?FormatMncCodeL@CPnpUtilImpl@@QBEXV?$TBuf@$03@@V?$TBuf@$07@@AAV3@@Z @ 8 NONAME ; void CPnpUtilImpl::FormatMncCodeL(class TBuf<4>, class TBuf<8>, class TBuf<8> &) const
+	?GetKeyInfoL@CPnpUtilImpl@@UAEXAAVTDes8@@@Z @ 9 NONAME ; void CPnpUtilImpl::GetKeyInfoL(class TDes8 &)
+	?GetNonceL@CPnpUtilImpl@@UAEXAAVTDes8@@@Z @ 10 NONAME ; void CPnpUtilImpl::GetNonceL(class TDes8 &)
+	?GetNonceValidityTimeL@CPnpUtilImpl@@QAEHXZ @ 11 NONAME ; int CPnpUtilImpl::GetNonceValidityTimeL(void)
+	?GetTokenValidityTime@CPnpUtilImpl@@QAEHXZ @ 12 NONAME ; int CPnpUtilImpl::GetTokenValidityTime(void)
+	?GetTokenValue@CPnpUtilImpl@@QAEHAAH@Z @ 13 NONAME ; int CPnpUtilImpl::GetTokenValue(int &)
+	?HomeMccL@CPnpUtilImpl@@UBE?BV?$TBuf@$03@@XZ @ 14 NONAME ; class TBuf<4> const CPnpUtilImpl::HomeMccL(void) const
+	?HomeMncL@CPnpUtilImpl@@UBE?BV?$TBuf@$07@@XZ @ 15 NONAME ; class TBuf<8> const CPnpUtilImpl::HomeMncL(void) const
+	?ImsiL@CPnpUtilImpl@@QBEXAAV?$TBuf@$0P@@@@Z @ 16 NONAME ; void CPnpUtilImpl::ImsiL(class TBuf<15> &) const
+	?NetworkMccL@CPnpUtilImpl@@UBE?BV?$TBuf@$03@@XZ @ 17 NONAME ; class TBuf<4> const CPnpUtilImpl::NetworkMccL(void) const
+	?NetworkMncL@CPnpUtilImpl@@UBE?BV?$TBuf@$07@@XZ @ 18 NONAME ; class TBuf<8> const CPnpUtilImpl::NetworkMncL(void) const
+	?NewLC@CPnpUtilImpl@@SAPAV1@XZ @ 19 NONAME ; class CPnpUtilImpl * CPnpUtilImpl::NewLC(void)
+	?OperatorLongName@CPnpUtilImpl@@QAEHAAV?$TBuf@$0BE@@@@Z @ 20 NONAME ; int CPnpUtilImpl::OperatorLongName(class TBuf<20> &)
+	?RegisteredInHomeNetworkL@CPnpUtilImpl@@QAEHXZ @ 21 NONAME ; int CPnpUtilImpl::RegisteredInHomeNetworkL(void)
+	?SetHomeMccL@CPnpUtilImpl@@QAEXV?$TBuf@$03@@@Z @ 22 NONAME ; void CPnpUtilImpl::SetHomeMccL(class TBuf<4>)
+	?SetHomeMncL@CPnpUtilImpl@@QAEXV?$TBuf@$07@@@Z @ 23 NONAME ; void CPnpUtilImpl::SetHomeMncL(class TBuf<8>)
+	?SetNetworkMccL@CPnpUtilImpl@@UAEXV?$TBuf@$03@@@Z @ 24 NONAME ; void CPnpUtilImpl::SetNetworkMccL(class TBuf<4>)
+	?SetNetworkMncL@CPnpUtilImpl@@UAEXV?$TBuf@$07@@@Z @ 25 NONAME ; void CPnpUtilImpl::SetNetworkMncL(class TBuf<8>)
+	?StoreAccessPoint@CPnpUtilImpl@@QAEHK@Z @ 26 NONAME ; int CPnpUtilImpl::StoreAccessPoint(unsigned long)
+	?VerifySignatureL@CPnpUtilImpl@@QAEHABVTDesC8@@000@Z @ 27 NONAME ; int CPnpUtilImpl::VerifySignatureL(class TDesC8 const &, class TDesC8 const &, class TDesC8 const &, class TDesC8 const &)
+	?Version@CPnpUtilImpl@@UAEHAAVTDes16@@@Z @ 28 NONAME ; int CPnpUtilImpl::Version(class TDes16 &)
+	?ConstructUriWithPnPUtilL@CPnpProvUtil@@QAEXAAVTDes16@@W4TServers@@@Z @ 29 NONAME ; void CPnpProvUtil::ConstructUriWithPnPUtilL(class TDes16 &, enum TServers)
+	?GetApplicationUidL@CPnpProvUtil@@QAEKXZ @ 30 NONAME ; unsigned long CPnpProvUtil::GetApplicationUidL(void)
+	?GetProvAdapterAppIdsL@CPnpProvUtil@@QAEXAAV?$RPointerArray@VHBufC16@@@@@Z @ 31 NONAME ; void CPnpProvUtil::GetProvAdapterAppIdsL(class RPointerArray<class HBufC16> &)
+	?LaunchOnlineSupportL@CPnpProvUtil@@QAEXAAVTDesC16@@W4TConnectReason@@W4TStartMode@@H0@Z @ 32 NONAME ; void CPnpProvUtil::LaunchOnlineSupportL(class TDesC16 &, enum TConnectReason, enum TStartMode, int, class TDesC16 &)
+	?NewL@CPnpProvUtil@@SAPAV1@XZ @ 33 NONAME ; class CPnpProvUtil * CPnpProvUtil::NewL(void)
+	?NewLC@CPnpProvUtil@@SAPAV1@XZ @ 34 NONAME ; class CPnpProvUtil * CPnpProvUtil::NewLC(void)
+	?SetApplicationUidL@CPnpProvUtil@@QAEXK@Z @ 35 NONAME ; void CPnpProvUtil::SetApplicationUidL(unsigned long)
+	?SetProvAdapterAppIdL@CPnpProvUtil@@QAEXAAVTDesC16@@@Z @ 36 NONAME ; void CPnpProvUtil::SetProvAdapterAppIdL(class TDesC16 &)
+

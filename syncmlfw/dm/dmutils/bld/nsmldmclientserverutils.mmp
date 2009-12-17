@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DM Utilities
+*
+*/
+
+
+#include "defaultcaps.hrh"
+#include  <platform_paths.hrh>
+
+TARGET          nsmldmclientserverutils.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DE5
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE			./DEF/eabidmclientserverutils
+#elif defined(WINSCW)
+DEFFILE			./DEF/bwinscwdmclientserverutils
+#elif defined(WINS)
+DEFFILE			./def/bwinsdmclientserverutils
+#else
+DEFFILE			./def/bmarmdmclientserverutils
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/ecom
+
+USERINCLUDE    	../inc
+USERINCLUDE    	../inc/exported
+USERINCLUDE		../../treemodule/inc
+
+SOURCEPATH      ../src
+SOURCE			nsmldmtreedtd.cpp nsmldmcmdarghandler.cpp nsmldmuri.cpp
+
+LIBRARY     	euser.lib estor.lib
+LIBRARY			nsmldebug.lib
+LIBRARY featmgr.lib
+
+#ifdef ARMCC
+LIBRARY ecom.lib
+#endif
+
+SMPSAFE

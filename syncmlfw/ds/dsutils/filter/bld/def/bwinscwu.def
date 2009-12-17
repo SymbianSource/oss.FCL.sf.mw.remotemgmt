@@ -1,0 +1,62 @@
+EXPORTS
+	??1CSyncMLFilter@@UAE@XZ @ 1 NONAME ; CSyncMLFilter::~CSyncMLFilter(void)
+	??1CSyncMLFilterProperty@@UAE@XZ @ 2 NONAME ; CSyncMLFilterProperty::~CSyncMLFilterProperty(void)
+	?AddDefaultValueBoolL@CSyncMLFilterProperty@@QAEXHH@Z @ 3 NONAME ; void CSyncMLFilterProperty::AddDefaultValueBoolL(int, int)
+	?AddDefaultValueDateL@CSyncMLFilterProperty@@QAEXABVTTime@@H@Z @ 4 NONAME ; void CSyncMLFilterProperty::AddDefaultValueDateL(class TTime const &, int)
+	?AddDefaultValueIntL@CSyncMLFilterProperty@@QAEXHH@Z @ 5 NONAME ; void CSyncMLFilterProperty::AddDefaultValueIntL(int, int)
+	?AddDefaultValueText16L@CSyncMLFilterProperty@@QAEXAAVTDesC16@@H@Z @ 6 NONAME ; void CSyncMLFilterProperty::AddDefaultValueText16L(class TDesC16 &, int)
+	?AddDefaultValueText8L@CSyncMLFilterProperty@@QAEXAAVTDesC8@@H@Z @ 7 NONAME ; void CSyncMLFilterProperty::AddDefaultValueText8L(class TDesC8 &, int)
+	?AddDefaultValueTimeL@CSyncMLFilterProperty@@QAEXABVTTime@@H@Z @ 8 NONAME ; void CSyncMLFilterProperty::AddDefaultValueTimeL(class TTime const &, int)
+	?CanUseQueryValue@CSyncMLFilterProperty@@QBEHXZ @ 9 NONAME ; int CSyncMLFilterProperty::CanUseQueryValue(void) const
+	?ClearDefaultValuesL@CSyncMLFilterProperty@@QAEXXZ @ 10 NONAME ; void CSyncMLFilterProperty::ClearDefaultValuesL(void)
+	?DataSize@CSyncMLFilter@@QAEHXZ @ 11 NONAME ; int CSyncMLFilter::DataSize(void)
+	?DataSize@CSyncMLFilterProperty@@QAEHXZ @ 12 NONAME ; int CSyncMLFilterProperty::DataSize(void)
+	?DefaultValueBoolL@CSyncMLFilterProperty@@QBEHH@Z @ 13 NONAME ; int CSyncMLFilterProperty::DefaultValueBoolL(int) const
+	?DefaultValueCount@CSyncMLFilterProperty@@QBEHXZ @ 14 NONAME ; int CSyncMLFilterProperty::DefaultValueCount(void) const
+	?DefaultValueDataType@CSyncMLFilterProperty@@QBE?AW4TSyncMLFilterPropertyDataType@@XZ @ 15 NONAME ; enum TSyncMLFilterPropertyDataType CSyncMLFilterProperty::DefaultValueDataType(void) const
+	?DefaultValueDateL@CSyncMLFilterProperty@@QBEABVTTime@@H@Z @ 16 NONAME ; class TTime const & CSyncMLFilterProperty::DefaultValueDateL(int) const
+	?DefaultValueIntL@CSyncMLFilterProperty@@QBEHH@Z @ 17 NONAME ; int CSyncMLFilterProperty::DefaultValueIntL(int) const
+	?DefaultValueText16L@CSyncMLFilterProperty@@QBEABVTDesC16@@H@Z @ 18 NONAME ; class TDesC16 const & CSyncMLFilterProperty::DefaultValueText16L(int) const
+	?DefaultValueText8L@CSyncMLFilterProperty@@QBEABVTDesC8@@H@Z @ 19 NONAME ; class TDesC8 const & CSyncMLFilterProperty::DefaultValueText8L(int) const
+	?DefaultValueTimeL@CSyncMLFilterProperty@@QBEABVTTime@@H@Z @ 20 NONAME ; class TTime const & CSyncMLFilterProperty::DefaultValueTimeL(int) const
+	?DisplayDescription@CSyncMLFilter@@QBEABVTDesC16@@XZ @ 21 NONAME ; class TDesC16 const & CSyncMLFilter::DisplayDescription(void) const
+	?DisplayName@CSyncMLFilter@@QBEABVTDesC16@@XZ @ 22 NONAME ; class TDesC16 const & CSyncMLFilter::DisplayName(void) const
+	?DisplayName@CSyncMLFilterProperty@@QBEABVTDesC16@@XZ @ 23 NONAME ; class TDesC16 const & CSyncMLFilterProperty::DisplayName(void) const
+	?Enabled@CSyncMLFilter@@QBEHXZ @ 24 NONAME ; int CSyncMLFilter::Enabled(void) const
+	?ExternalizeL@CSyncMLFilter@@QBEXAAVRWriteStream@@@Z @ 25 NONAME ; void CSyncMLFilter::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLFilterProperty@@QBEXAAVRWriteStream@@@Z @ 26 NONAME ; void CSyncMLFilterProperty::ExternalizeL(class RWriteStream &) const
+	?FilterId@CSyncMLFilter@@QBEIXZ @ 27 NONAME ; unsigned int CSyncMLFilter::FilterId(void) const
+	?FilterProperties@CSyncMLFilter@@QAEAAV?$RPointerArray@VCSyncMLFilterProperty@@@@XZ @ 28 NONAME ; class RPointerArray<class CSyncMLFilterProperty> & CSyncMLFilter::FilterProperties(void)
+	?IsDefaultValueSelected@CSyncMLFilterProperty@@QBEHH@Z @ 29 NONAME ; int CSyncMLFilterProperty::IsDefaultValueSelected(int) const
+	?IsQueryValueSelected@CSyncMLFilterProperty@@QBEHXZ @ 30 NONAME ; int CSyncMLFilterProperty::IsQueryValueSelected(void) const
+	?MatchTypeSupported@CSyncMLFilter@@QBEHXZ @ 31 NONAME ; int CSyncMLFilter::MatchTypeSupported(void) const
+	?MaxTextLength@CSyncMLFilterProperty@@QBEIXZ @ 32 NONAME ; unsigned int CSyncMLFilterProperty::MaxTextLength(void) const
+	?NewLC@CSyncMLFilter@@SAPAV1@AAVRReadStream@@@Z @ 33 NONAME ; class CSyncMLFilter * CSyncMLFilter::NewLC(class RReadStream &)
+	?NewLC@CSyncMLFilter@@SAPAV1@AAVTResourceReader@@@Z @ 34 NONAME ; class CSyncMLFilter * CSyncMLFilter::NewLC(class TResourceReader &)
+	?NewLC@CSyncMLFilter@@SAPAV1@XZ @ 35 NONAME ; class CSyncMLFilter * CSyncMLFilter::NewLC(void)
+	?NewLC@CSyncMLFilterProperty@@SAPAV1@AAVRReadStream@@@Z @ 36 NONAME ; class CSyncMLFilterProperty * CSyncMLFilterProperty::NewLC(class RReadStream &)
+	?NewLC@CSyncMLFilterProperty@@SAPAV1@AAVTResourceReader@@@Z @ 37 NONAME ; class CSyncMLFilterProperty * CSyncMLFilterProperty::NewLC(class TResourceReader &)
+	?NewLC@CSyncMLFilterProperty@@SAPAV1@XZ @ 38 NONAME ; class CSyncMLFilterProperty * CSyncMLFilterProperty::NewLC(void)
+	?QueryValueBoolL@CSyncMLFilterProperty@@QBEHXZ @ 39 NONAME ; int CSyncMLFilterProperty::QueryValueBoolL(void) const
+	?QueryValueDataType@CSyncMLFilterProperty@@QBE?AW4TSyncMLFilterPropertyDataType@@XZ @ 40 NONAME ; enum TSyncMLFilterPropertyDataType CSyncMLFilterProperty::QueryValueDataType(void) const
+	?QueryValueDateL@CSyncMLFilterProperty@@QBEABVTTime@@XZ @ 41 NONAME ; class TTime const & CSyncMLFilterProperty::QueryValueDateL(void) const
+	?QueryValueIntL@CSyncMLFilterProperty@@QBEHXZ @ 42 NONAME ; int CSyncMLFilterProperty::QueryValueIntL(void) const
+	?QueryValueText16L@CSyncMLFilterProperty@@QBEABVTDesC16@@XZ @ 43 NONAME ; class TDesC16 const & CSyncMLFilterProperty::QueryValueText16L(void) const
+	?QueryValueText8L@CSyncMLFilterProperty@@QBEABVTDesC8@@XZ @ 44 NONAME ; class TDesC8 const & CSyncMLFilterProperty::QueryValueText8L(void) const
+	?QueryValueTimeL@CSyncMLFilterProperty@@QBEABVTTime@@XZ @ 45 NONAME ; class TTime const & CSyncMLFilterProperty::QueryValueTimeL(void) const
+	?SelectDefaultValueL@CSyncMLFilterProperty@@QAEXH@Z @ 46 NONAME ; void CSyncMLFilterProperty::SelectDefaultValueL(int)
+	?SetEnabledL@CSyncMLFilter@@QAEXH@Z @ 47 NONAME ; void CSyncMLFilter::SetEnabledL(int)
+	?SetMatchTypeSupported@CSyncMLFilter@@QAEXH@Z @ 48 NONAME ; void CSyncMLFilter::SetMatchTypeSupported(int)
+	?SetQueryValueBoolL@CSyncMLFilterProperty@@QAEXH@Z @ 49 NONAME ; void CSyncMLFilterProperty::SetQueryValueBoolL(int)
+	?SetQueryValueDateL@CSyncMLFilterProperty@@QAEXABVTTime@@@Z @ 50 NONAME ; void CSyncMLFilterProperty::SetQueryValueDateL(class TTime const &)
+	?SetQueryValueIntL@CSyncMLFilterProperty@@QAEXH@Z @ 51 NONAME ; void CSyncMLFilterProperty::SetQueryValueIntL(int)
+	?SetQueryValueText16L@CSyncMLFilterProperty@@QAEXABVTDesC16@@@Z @ 52 NONAME ; void CSyncMLFilterProperty::SetQueryValueText16L(class TDesC16 const &)
+	?SetQueryValueText8L@CSyncMLFilterProperty@@QAEXABVTDesC8@@@Z @ 53 NONAME ; void CSyncMLFilterProperty::SetQueryValueText8L(class TDesC8 const &)
+	?SetQueryValueTimeL@CSyncMLFilterProperty@@QAEXABVTTime@@@Z @ 54 NONAME ; void CSyncMLFilterProperty::SetQueryValueTimeL(class TTime const &)
+	?SetSupportedByServerL@CSyncMLFilter@@QAEXH@Z @ 55 NONAME ; void CSyncMLFilter::SetSupportedByServerL(int)
+	?SupportedByServer@CSyncMLFilter@@QBEHXZ @ 56 NONAME ; int CSyncMLFilter::SupportedByServer(void) const
+	?SupportsEmptySelection@CSyncMLFilterProperty@@QBEHXZ @ 57 NONAME ; int CSyncMLFilterProperty::SupportsEmptySelection(void) const
+	?SupportsMultipleSelection@CSyncMLFilterProperty@@QBEHXZ @ 58 NONAME ; int CSyncMLFilterProperty::SupportsMultipleSelection(void) const
+	?UnselectDefaultValueL@CSyncMLFilterProperty@@QAEXH@Z @ 59 NONAME ; void CSyncMLFilterProperty::UnselectDefaultValueL(int)
+	?UnselectQueryValueL@CSyncMLFilterProperty@@QAEXXZ @ 60 NONAME ; void CSyncMLFilterProperty::UnselectQueryValueL(void)
+

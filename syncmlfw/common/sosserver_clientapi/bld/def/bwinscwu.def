@@ -1,0 +1,248 @@
+EXPORTS
+	??0CSmlAlertInfo@@QAE@XZ @ 1 NONAME ; CSmlAlertInfo::CSmlAlertInfo(void)
+	??0RSyncMLConnection@@QAE@XZ @ 2 NONAME ; RSyncMLConnection::RSyncMLConnection(void)
+	??0RSyncMLDataProvider@@QAE@XZ @ 3 NONAME ; RSyncMLDataProvider::RSyncMLDataProvider(void)
+	??0RSyncMLDataSyncJob@@QAE@XZ @ 4 NONAME ; RSyncMLDataSyncJob::RSyncMLDataSyncJob(void)
+	??0RSyncMLDataSyncProfile@@QAE@XZ @ 5 NONAME ; RSyncMLDataSyncProfile::RSyncMLDataSyncProfile(void)
+	??0RSyncMLDevMan@@QAE@XZ @ 6 NONAME ; RSyncMLDevMan::RSyncMLDevMan(void)
+	??0RSyncMLDevManJob@@QAE@XZ @ 7 NONAME ; RSyncMLDevManJob::RSyncMLDevManJob(void)
+	??0RSyncMLDevManProfile@@QAE@XZ @ 8 NONAME ; RSyncMLDevManProfile::RSyncMLDevManProfile(void)
+	??0RSyncMLHistoryLog@@QAE@XZ @ 9 NONAME ; RSyncMLHistoryLog::RSyncMLHistoryLog(void)
+	??0RSyncMLSession@@QAE@XZ @ 10 NONAME ; RSyncMLSession::RSyncMLSession(void)
+	??0RSyncMLTask@@QAE@XZ @ 11 NONAME ; RSyncMLTask::RSyncMLTask(void)
+	??0RSyncMLTransport@@QAE@XZ @ 12 NONAME ; RSyncMLTransport::RSyncMLTransport(void)
+	??0TNSmlErrorConversion@@QAE@H@Z @ 13 NONAME ; TNSmlErrorConversion::TNSmlErrorConversion(int)
+	??0TTaskInfo@CSyncMLHistoryJob@@QAE@XZ @ 14 NONAME ; CSyncMLHistoryJob::TTaskInfo::TTaskInfo(void)
+	??1CNSmlHistoryArray@@UAE@XZ @ 15 NONAME ; CNSmlHistoryArray::~CNSmlHistoryArray(void)
+	??1CSmlAlertInfo@@UAE@XZ @ 16 NONAME ; CSmlAlertInfo::~CSmlAlertInfo(void)
+	??1CSyncMLHistoryEntry@@UAE@XZ @ 17 NONAME ; CSyncMLHistoryEntry::~CSyncMLHistoryEntry(void)
+	??1CSyncMLHistoryJob@@UAE@XZ @ 18 NONAME ; CSyncMLHistoryJob::~CSyncMLHistoryJob(void)
+	??1CSyncMLHistoryPushMsg@@UAE@XZ @ 19 NONAME ; CSyncMLHistoryPushMsg::~CSyncMLHistoryPushMsg(void)
+	?AddAlertsL@CSyncMLHistoryPushMsg@@QAEXAAV?$RPointerArray@VCSmlAlertInfo@@@@@Z @ 20 NONAME ; void CSyncMLHistoryPushMsg::AddAlertsL(class RPointerArray<class CSmlAlertInfo> &)
+	?Alert@CSyncMLHistoryPushMsg@@QBEABVCSmlAlertInfo@@H@Z @ 21 NONAME ; class CSmlAlertInfo const & CSyncMLHistoryPushMsg::Alert(int) const
+	?AlertCount@CSyncMLHistoryPushMsg@@QBEHXZ @ 22 NONAME ; int CSyncMLHistoryPushMsg::AlertCount(void) const
+	?AllowsMultipleDataStores@RSyncMLDataProvider@@QBEHXZ @ 23 NONAME ; int RSyncMLDataProvider::AllowsMultipleDataStores(void) const
+	?AppendEntryL@CNSmlHistoryArray@@QAEXPAVCSyncMLHistoryEntry@@@Z @ 24 NONAME ; void CNSmlHistoryArray::AppendEntryL(class CSyncMLHistoryEntry *)
+	?CancelEvent@RSyncMLSession@@QAEXXZ @ 25 NONAME ; void RSyncMLSession::CancelEvent(void)
+	?CancelProgress@RSyncMLSession@@QAEXXZ @ 26 NONAME ; void RSyncMLSession::CancelProgress(void)
+	?ClearRootAclL@RSyncMLDevMan@@QAEXXZ @ 27 NONAME ; void RSyncMLDevMan::ClearRootAclL(void)
+	?ClientDataSource@RSyncMLTask@@QBEABVTDesC16@@XZ @ 28 NONAME ; class TDesC16 const & RSyncMLTask::ClientDataSource(void) const
+	?Close@RSyncMLConnection@@QAEXXZ @ 29 NONAME ; void RSyncMLConnection::Close(void)
+	?Close@RSyncMLDataProvider@@QAEXXZ @ 30 NONAME ; void RSyncMLDataProvider::Close(void)
+	?Close@RSyncMLDevMan@@QAEXXZ @ 31 NONAME ; void RSyncMLDevMan::Close(void)
+	?Close@RSyncMLHistoryLog@@QAEXXZ @ 32 NONAME ; void RSyncMLHistoryLog::Close(void)
+	?Close@RSyncMLJobBase@@QAEXXZ @ 33 NONAME ; void RSyncMLJobBase::Close(void)
+	?Close@RSyncMLProfileBase@@QAEXXZ @ 34 NONAME ; void RSyncMLProfileBase::Close(void)
+	?Close@RSyncMLSession@@QAEXXZ @ 35 NONAME ; void RSyncMLSession::Close(void)
+	?Close@RSyncMLSettings@@QAEXXZ @ 36 NONAME ; void RSyncMLSettings::Close(void)
+	?Close@RSyncMLTask@@QAEXXZ @ 37 NONAME ; void RSyncMLTask::Close(void)
+	?Close@RSyncMLTransport@@QAEXXZ @ 38 NONAME ; void RSyncMLTransport::Close(void)
+	?Connection@CSmlAlertInfo@@QBEHXZ @ 39 NONAME ; int CSmlAlertInfo::Connection(void) const
+	?ConnectionId@RSyncMLConnection@@QBEHXZ @ 40 NONAME ; int RSyncMLConnection::ConnectionId(void) const
+	?Convert@TNSmlErrorConversion@@QBEHXZ @ 41 NONAME ; int TNSmlErrorConversion::Convert(void) const
+	?Count@CNSmlHistoryArray@@QAEHXZ @ 42 NONAME ; int CNSmlHistoryArray::Count(void)
+	?Count@RSyncMLHistoryLog@@QBEHXZ @ 43 NONAME ; int RSyncMLHistoryLog::Count(void) const
+	?CreateL@RSyncMLConnection@@QAEXAAVRSyncMLProfileBase@@H@Z @ 44 NONAME ; void RSyncMLConnection::CreateL(class RSyncMLProfileBase &, int)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@H@Z @ 45 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HABV?$RArray@H@@@Z @ 46 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, class RArray<int> const &)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HH@Z @ 47 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, int)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HHABV?$RArray@H@@@Z @ 48 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, int, class RArray<int> const &)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HHW4TSmlSyncType@@@Z @ 49 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, int, enum TSmlSyncType)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HHW4TSmlSyncType@@ABV?$RArray@H@@@Z @ 50 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, int, enum TSmlSyncType, class RArray<int> const &)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HW4TSmlSyncType@@@Z @ 51 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, enum TSmlSyncType)
+	?CreateL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@HW4TSmlSyncType@@ABV?$RArray@H@@@Z @ 52 NONAME ; void RSyncMLDataSyncJob::CreateL(class RSyncMLSession &, int, enum TSmlSyncType, class RArray<int> const &)
+	?CreateL@RSyncMLDataSyncProfile@@QAEXAAVRSyncMLSession@@@Z @ 53 NONAME ; void RSyncMLDataSyncProfile::CreateL(class RSyncMLSession &)
+	?CreateL@RSyncMLDevManJob@@QAEXAAVRSyncMLSession@@H@Z @ 54 NONAME ; void RSyncMLDevManJob::CreateL(class RSyncMLSession &, int)
+	?CreateL@RSyncMLDevManJob@@QAEXAAVRSyncMLSession@@HH@Z @ 55 NONAME ; void RSyncMLDevManJob::CreateL(class RSyncMLSession &, int, int)
+	?CreateL@RSyncMLDevManProfile@@QAEXAAVRSyncMLSession@@@Z @ 56 NONAME ; void RSyncMLDevManProfile::CreateL(class RSyncMLSession &)
+	?CreateL@RSyncMLTask@@QAEXAAVRSyncMLDataSyncProfile@@HABVTDesC16@@1@Z @ 57 NONAME ; void RSyncMLTask::CreateL(class RSyncMLDataSyncProfile &, int, class TDesC16 const &, class TDesC16 const &)
+	?CreateL@RSyncMLTask@@QAEXAAVRSyncMLDataSyncProfile@@HABVTDesC16@@1AAV?$RPointerArray@VCSyncMLFilter@@@@@Z @ 58 NONAME ; void RSyncMLTask::CreateL(class RSyncMLDataSyncProfile &, int, class TDesC16 const &, class TDesC16 const &, class RPointerArray<class CSyncMLFilter> &)
+	?CreateSession@CSmlAlertInfo@@QBEHXZ @ 59 NONAME ; int CSmlAlertInfo::CreateSession(void) const
+	?CreatorId@RSyncMLProfileBase@@QBEHXZ @ 60 NONAME ; int RSyncMLProfileBase::CreatorId(void) const
+	?CreatorId@RSyncMLTask@@QBEHXZ @ 61 NONAME ; int RSyncMLTask::CreatorId(void) const
+	?CurrentJobL@RSyncMLSession@@QBEXAAHAAW4TSmlUsageType@@@Z @ 62 NONAME ; void RSyncMLSession::CurrentJobL(int &, enum TSmlUsageType &) const
+	?DataProvider@RSyncMLTask@@QBEHXZ @ 63 NONAME ; int RSyncMLTask::DataProvider(void) const
+	?DefaultDataStoreName@RSyncMLDataProvider@@QBEABVTDesC16@@XZ @ 64 NONAME ; class TDesC16 const & RSyncMLDataProvider::DefaultDataStoreName(void) const
+	?DefaultSyncType@RSyncMLTask@@QBE?AW4TSmlSyncType@@XZ @ 65 NONAME ; enum TSmlSyncType RSyncMLTask::DefaultSyncType(void) const
+	?DeleteAllEntries@CNSmlHistoryArray@@QAEXXZ @ 66 NONAME ; void CNSmlHistoryArray::DeleteAllEntries(void)
+	?DeleteAllEntriesL@RSyncMLHistoryLog@@QAEXXZ @ 67 NONAME ; void RSyncMLHistoryLog::DeleteAllEntriesL(void)
+	?DeleteAllowed@RSyncMLProfileBase@@QBEHXZ @ 68 NONAME ; int RSyncMLProfileBase::DeleteAllowed(void) const
+	?DeleteConnectionByConnectionIdL@RSyncMLProfileBase@@QAEXH@Z @ 69 NONAME ; void RSyncMLProfileBase::DeleteConnectionByConnectionIdL(int)
+	?DeleteConnectionL@RSyncMLDataSyncProfile@@QAEXH@Z @ 70 NONAME ; void RSyncMLDataSyncProfile::DeleteConnectionL(int)
+	?DeleteConnectionL@RSyncMLProfileBase@@QAEXH@Z @ 71 NONAME ; void RSyncMLProfileBase::DeleteConnectionL(int)
+	?DeleteProfileL@RSyncMLSession@@QAEXH@Z @ 72 NONAME ; void RSyncMLSession::DeleteProfileL(int)
+	?DeleteTaskL@RSyncMLDataSyncProfile@@QAEXH@Z @ 73 NONAME ; void RSyncMLDataSyncProfile::DeleteTaskL(int)
+	?DisplayName@RSyncMLDataProvider@@QBEABVTDesC16@@XZ @ 74 NONAME ; class TDesC16 const & RSyncMLDataProvider::DisplayName(void) const
+	?DisplayName@RSyncMLProfileBase@@QBEABVTDesC16@@XZ @ 75 NONAME ; class TDesC16 const & RSyncMLProfileBase::DisplayName(void) const
+	?DisplayName@RSyncMLTask@@QBEABVTDesC16@@XZ @ 76 NONAME ; class TDesC16 const & RSyncMLTask::DisplayName(void) const
+	?DisplayName@RSyncMLTransport@@QBEABVTDesC16@@XZ @ 77 NONAME ; class TDesC16 const & RSyncMLTransport::DisplayName(void) const
+	?DoDynamicCast@CSyncMLHistoryEntry@@KAPAV1@VTUid@@PAV1@@Z @ 78 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::DoDynamicCast(class TUid, class CSyncMLHistoryEntry *)
+	?DoDynamicCast@CSyncMLHistoryEntry@@KAPBV1@VTUid@@PBV1@@Z @ 79 NONAME ; class CSyncMLHistoryEntry const * CSyncMLHistoryEntry::DoDynamicCast(class TUid, class CSyncMLHistoryEntry const *)
+	?Enabled@RSyncMLTask@@QBEHXZ @ 80 NONAME ; int RSyncMLTask::Enabled(void) const
+	?Entry@CNSmlHistoryArray@@QAEAAVCSyncMLHistoryEntry@@H@Z @ 81 NONAME ; class CSyncMLHistoryEntry & CNSmlHistoryArray::Entry(int)
+	?Entry@RSyncMLHistoryLog@@QBEABVCSyncMLHistoryEntry@@H@Z @ 82 NONAME ; class CSyncMLHistoryEntry const & RSyncMLHistoryLog::Entry(int) const
+	?EntryId@CSyncMLHistoryEntry@@QBEHXZ @ 83 NONAME ; int CSyncMLHistoryEntry::EntryId(void) const
+	?EntryType@CSyncMLHistoryEntry@@QBE?AVTUid@@XZ @ 84 NONAME ; class TUid CSyncMLHistoryEntry::EntryType(void) const
+	?ErrorCode@CSmlAlertInfo@@QBEHXZ @ 85 NONAME ; int CSmlAlertInfo::ErrorCode(void) const
+	?ExternalizeL@CNSmlHistoryArray@@QBEXAAVRWriteStream@@@Z @ 86 NONAME ; void CNSmlHistoryArray::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlAlertInfo@@QBEXAAVRWriteStream@@@Z @ 87 NONAME ; void CSmlAlertInfo::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryEntry@@UBEXAAVRWriteStream@@@Z @ 88 NONAME ; void CSyncMLHistoryEntry::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryJob@@UBEXAAVRWriteStream@@@Z @ 89 NONAME ; void CSyncMLHistoryJob::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSyncMLHistoryPushMsg@@UBEXAAVRWriteStream@@@Z @ 90 NONAME ; void CSyncMLHistoryPushMsg::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@TTaskInfo@CSyncMLHistoryJob@@QBEXAAVRWriteStream@@@Z @ 91 NONAME ; void CSyncMLHistoryJob::TTaskInfo::ExternalizeL(class RWriteStream &) const
+	?FilterMatchType@RSyncMLTask@@QBE?AW4TSyncMLFilterMatchType@@XZ @ 92 NONAME ; enum TSyncMLFilterMatchType RSyncMLTask::FilterMatchType(void) const
+	?FinishTime@CSyncMLHistoryJob@@QBE?AVTTime@@XZ @ 93 NONAME ; class TTime CSyncMLHistoryJob::FinishTime(void) const
+	?GetDataStoreNamesL@RSyncMLDataProvider@@QBEXAAVCDesC16Array@@@Z @ 94 NONAME ; void RSyncMLDataProvider::GetDataStoreNamesL(class CDesC16Array &) const
+	?GetPropertyL@RSyncMLConnection@@QBEABVTDesC8@@ABV2@@Z @ 95 NONAME ; class TDesC8 const & RSyncMLConnection::GetPropertyL(class TDesC8 const &) const
+	?GetValueL@RSyncMLSettings@@QBEHW4TSmlGlobalSetting@@@Z @ 96 NONAME ; int RSyncMLSettings::GetValueL(enum TSmlGlobalSetting) const
+	?Identifier@RSyncMLConnection@@QBEHXZ @ 97 NONAME ; int RSyncMLConnection::Identifier(void) const
+	?Identifier@RSyncMLDataProvider@@QBEHXZ @ 98 NONAME ; int RSyncMLDataProvider::Identifier(void) const
+	?Identifier@RSyncMLJobBase@@QBEHXZ @ 99 NONAME ; int RSyncMLJobBase::Identifier(void) const
+	?Identifier@RSyncMLProfileBase@@QBEHXZ @ 100 NONAME ; int RSyncMLProfileBase::Identifier(void) const
+	?Identifier@RSyncMLTask@@QBEHXZ @ 101 NONAME ; int RSyncMLTask::Identifier(void) const
+	?Identifier@RSyncMLTransport@@QBEHXZ @ 102 NONAME ; int RSyncMLTransport::Identifier(void) const
+	?IncReceivedCount@CSyncMLHistoryPushMsg@@QAEXXZ @ 103 NONAME ; void CSyncMLHistoryPushMsg::IncReceivedCount(void)
+	?InternalizeL@CNSmlHistoryArray@@QAEXAAVRReadStream@@@Z @ 104 NONAME ; void CNSmlHistoryArray::InternalizeL(class RReadStream &)
+	?InternalizeL@CSmlAlertInfo@@QAEXAAVRReadStream@@@Z @ 105 NONAME ; void CSmlAlertInfo::InternalizeL(class RReadStream &)
+	?InternalizeL@TTaskInfo@CSyncMLHistoryJob@@QAEXAAVRReadStream@@@Z @ 106 NONAME ; void CSyncMLHistoryJob::TTaskInfo::InternalizeL(class RReadStream &)
+	?IsReadOnly@RSyncMLConnection@@QBEHXZ @ 107 NONAME ; int RSyncMLConnection::IsReadOnly(void) const
+	?IsReadOnly@RSyncMLProfileBase@@QBEHXZ @ 108 NONAME ; int RSyncMLProfileBase::IsReadOnly(void) const
+	?IsReadOnly@RSyncMLTask@@QBEHXZ @ 109 NONAME ; int RSyncMLTask::IsReadOnly(void) const
+	?JobControl@CSmlAlertInfo@@QBE?AW4TJobControl@1@XZ @ 110 NONAME ; enum CSmlAlertInfo::TJobControl CSmlAlertInfo::JobControl(void) const
+	?LastSuccessSyncTime@CSyncMLHistoryJob@@QBE?AVTTime@@XZ @ 111 NONAME ; class TTime CSyncMLHistoryJob::LastSuccessSyncTime(void) const
+	?ListConnectionsByConnectionIdL@RSyncMLProfileBase@@QBEXAAV?$RArray@H@@@Z @ 112 NONAME ; void RSyncMLProfileBase::ListConnectionsByConnectionIdL(class RArray<int> &) const
+	?ListConnectionsL@RSyncMLProfileBase@@QBEXAAV?$RArray@H@@@Z @ 113 NONAME ; void RSyncMLProfileBase::ListConnectionsL(class RArray<int> &) const
+	?ListDataProvidersL@RSyncMLSession@@QBEXAAV?$RArray@H@@@Z @ 114 NONAME ; void RSyncMLSession::ListDataProvidersL(class RArray<int> &) const
+	?ListProfilesL@RSyncMLSession@@QBEXAAV?$RArray@H@@W4TSmlUsageType@@@Z @ 115 NONAME ; void RSyncMLSession::ListProfilesL(class RArray<int> &, enum TSmlUsageType) const
+	?ListProtocolVersionsL@RSyncMLSession@@QBE?AW4TSmlProtocolVersion@@W4TSmlUsageType@@AAV?$RArray@W4TSmlProtocolVersion@@@@@Z @ 116 NONAME ; enum TSmlProtocolVersion RSyncMLSession::ListProtocolVersionsL(enum TSmlUsageType, class RArray<enum TSmlProtocolVersion> &) const
+	?ListQueuedJobsL@RSyncMLSession@@QBEXAAV?$RArray@H@@W4TSmlUsageType@@@Z @ 117 NONAME ; void RSyncMLSession::ListQueuedJobsL(class RArray<int> &, enum TSmlUsageType) const
+	?ListTasksL@RSyncMLDataSyncProfile@@QBEXAAV?$RArray@H@@@Z @ 118 NONAME ; void RSyncMLDataSyncProfile::ListTasksL(class RArray<int> &) const
+	?ListTransportsL@RSyncMLSession@@QBEXAAV?$RArray@H@@@Z @ 119 NONAME ; void RSyncMLSession::ListTransportsL(class RArray<int> &) const
+	?MimeType@RSyncMLDataProvider@@QBEABVTDesC16@@H@Z @ 120 NONAME ; class TDesC16 const & RSyncMLDataProvider::MimeType(int) const
+	?MimeTypeCount@RSyncMLDataProvider@@QBEHXZ @ 121 NONAME ; int RSyncMLDataProvider::MimeTypeCount(void) const
+	?MimeVersion@RSyncMLDataProvider@@QBEABVTDesC16@@H@Z @ 122 NONAME ; class TDesC16 const & RSyncMLDataProvider::MimeVersion(int) const
+	?MsgDigest@CSyncMLHistoryPushMsg@@QBEABVTDesC8@@XZ @ 123 NONAME ; class TDesC8 const & CSyncMLHistoryPushMsg::MsgDigest(void) const
+	?NewL@CNSmlHistoryArray@@SAPAV1@XZ @ 124 NONAME ; class CNSmlHistoryArray * CNSmlHistoryArray::NewL(void)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@AAVRReadStream@@@Z @ 125 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class RReadStream &)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@ABV1@@Z @ 126 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class CSyncMLHistoryEntry const &)
+	?NewL@CSyncMLHistoryEntry@@SAPAV1@VTUid@@@Z @ 127 NONAME ; class CSyncMLHistoryEntry * CSyncMLHistoryEntry::NewL(class TUid)
+	?NewL@CSyncMLHistoryJob@@SAPAV1@HABV?$RArray@H@@@Z @ 128 NONAME ; class CSyncMLHistoryJob * CSyncMLHistoryJob::NewL(int, class RArray<int> const &)
+	?NewL@CSyncMLHistoryJob@@SAPAV1@XZ @ 129 NONAME ; class CSyncMLHistoryJob * CSyncMLHistoryJob::NewL(void)
+	?NewL@CSyncMLHistoryPushMsg@@SAPAV1@XZ @ 130 NONAME ; class CSyncMLHistoryPushMsg * CSyncMLHistoryPushMsg::NewL(void)
+	?NewLC@CSmlAlertInfo@@SAPAV1@XZ @ 131 NONAME ; class CSmlAlertInfo * CSmlAlertInfo::NewLC(void)
+	?OpenByConnectionIdL@RSyncMLConnection@@QAEXAAVRSyncMLProfileBase@@H@Z @ 132 NONAME ; void RSyncMLConnection::OpenByConnectionIdL(class RSyncMLProfileBase &, int)
+	?OpenL@RSyncMLConnection@@QAEXAAVRSyncMLProfileBase@@H@Z @ 133 NONAME ; void RSyncMLConnection::OpenL(class RSyncMLProfileBase &, int)
+	?OpenL@RSyncMLDataProvider@@QAEXAAVRSyncMLSession@@H@Z @ 134 NONAME ; void RSyncMLDataProvider::OpenL(class RSyncMLSession &, int)
+	?OpenL@RSyncMLDataSyncJob@@QAEXAAVRSyncMLSession@@H@Z @ 135 NONAME ; void RSyncMLDataSyncJob::OpenL(class RSyncMLSession &, int)
+	?OpenL@RSyncMLDataSyncProfile@@QAEXAAVRSyncMLSession@@HW4TSmlOpenMode@@@Z @ 136 NONAME ; void RSyncMLDataSyncProfile::OpenL(class RSyncMLSession &, int, enum TSmlOpenMode)
+	?OpenL@RSyncMLDevMan@@QAEXAAVRSyncMLSession@@@Z @ 137 NONAME ; void RSyncMLDevMan::OpenL(class RSyncMLSession &)
+	?OpenL@RSyncMLDevManJob@@QAEXAAVRSyncMLSession@@H@Z @ 138 NONAME ; void RSyncMLDevManJob::OpenL(class RSyncMLSession &, int)
+	?OpenL@RSyncMLDevManProfile@@QAEXAAVRSyncMLSession@@H@Z @ 139 NONAME ; void RSyncMLDevManProfile::OpenL(class RSyncMLSession &, int)
+	?OpenL@RSyncMLDevManProfile@@QAEXAAVRSyncMLSession@@HW4TSmlOpenMode@@@Z @ 140 NONAME ; void RSyncMLDevManProfile::OpenL(class RSyncMLSession &, int, enum TSmlOpenMode)
+	?OpenL@RSyncMLHistoryLog@@QAEXAAVRSyncMLSession@@H@Z @ 141 NONAME ; void RSyncMLHistoryLog::OpenL(class RSyncMLSession &, int)
+	?OpenL@RSyncMLSession@@QAEXXZ @ 142 NONAME ; void RSyncMLSession::OpenL(void)
+	?OpenL@RSyncMLSettings@@QAEXAAVRSyncMLSession@@@Z @ 143 NONAME ; void RSyncMLSettings::OpenL(class RSyncMLSession &)
+	?OpenL@RSyncMLTask@@QAEXAAVRSyncMLDataSyncProfile@@H@Z @ 144 NONAME ; void RSyncMLTask::OpenL(class RSyncMLDataSyncProfile &, int)
+	?OpenL@RSyncMLTransport@@QAEXAAVRSyncMLSession@@H@Z @ 145 NONAME ; void RSyncMLTransport::OpenL(class RSyncMLSession &, int)
+	?Password@RSyncMLProfileBase@@QBEABVTDesC8@@XZ @ 146 NONAME ; class TDesC8 const & RSyncMLProfileBase::Password(void) const
+	?Priority@RSyncMLConnection@@QBEIXZ @ 147 NONAME ; unsigned int RSyncMLConnection::Priority(void) const
+	?Profile@CSmlAlertInfo@@QBEHXZ @ 148 NONAME ; int CSmlAlertInfo::Profile(void) const
+	?Profile@CSyncMLHistoryJob@@UBEHXZ @ 149 NONAME ; int CSyncMLHistoryJob::Profile(void) const
+	?Profile@CSyncMLHistoryPushMsg@@UBEHXZ @ 150 NONAME ; int CSyncMLHistoryPushMsg::Profile(void) const
+	?Profile@RSyncMLConnection@@QBEHXZ @ 151 NONAME ; int RSyncMLConnection::Profile(void) const
+	?Profile@RSyncMLHistoryLog@@QBEHXZ @ 152 NONAME ; int RSyncMLHistoryLog::Profile(void) const
+	?Profile@RSyncMLJobBase@@QBEHXZ @ 153 NONAME ; int RSyncMLJobBase::Profile(void) const
+	?Profile@RSyncMLTask@@QBEHXZ @ 154 NONAME ; int RSyncMLTask::Profile(void) const
+	?Properties@RSyncMLTransport@@QBEABVCSyncMLTransportPropertiesArray@@XZ @ 155 NONAME ; class CSyncMLTransportPropertiesArray const & RSyncMLTransport::Properties(void) const
+	?Protocol@CSmlAlertInfo@@QBE?AW4TSmlUsageType@@XZ @ 156 NONAME ; enum TSmlUsageType CSmlAlertInfo::Protocol(void) const
+	?ProtocolVersion@RSyncMLProfileBase@@QBE?AW4TSmlProtocolVersion@@XZ @ 157 NONAME ; enum TSmlProtocolVersion RSyncMLProfileBase::ProtocolVersion(void) const
+	?ReceivedCount@CSyncMLHistoryPushMsg@@QBEHXZ @ 158 NONAME ; int CSyncMLHistoryPushMsg::ReceivedCount(void) const
+	?RemoveEntry@CNSmlHistoryArray@@QAEPAVCSyncMLHistoryEntry@@H@Z @ 159 NONAME ; class CSyncMLHistoryEntry * CNSmlHistoryArray::RemoveEntry(int)
+	?RequestEventL@RSyncMLSession@@QAEXAAVMSyncMLEventObserver@@@Z @ 160 NONAME ; void RSyncMLSession::RequestEventL(class MSyncMLEventObserver &)
+	?RequestProgressL@RSyncMLSession@@QAEXAAVMSyncMLProgressObserver@@@Z @ 161 NONAME ; void RSyncMLSession::RequestProgressL(class MSyncMLProgressObserver &)
+	?RequiredProtocolVersionL@RSyncMLDataProvider@@QBE?AW4TSmlProtocolVersion@@XZ @ 162 NONAME ; enum TSmlProtocolVersion RSyncMLDataProvider::RequiredProtocolVersionL(void) const
+	?Reserved@CSyncMLHistoryEntry@@EAEPAXVTUid@@@Z @ 163 NONAME ; void * CSyncMLHistoryEntry::Reserved(class TUid)
+	?Reset@CSmlAlertInfo@@QAEXXZ @ 164 NONAME ; void CSmlAlertInfo::Reset(void)
+	?ResetAlerts@CSyncMLHistoryPushMsg@@QAEXXZ @ 165 NONAME ; void CSyncMLHistoryPushMsg::ResetAlerts(void)
+	?ResultCode@CSyncMLHistoryJob@@UBEHXZ @ 166 NONAME ; int CSyncMLHistoryJob::ResultCode(void) const
+	?ResultCode@CSyncMLHistoryPushMsg@@UBEHXZ @ 167 NONAME ; int CSyncMLHistoryPushMsg::ResultCode(void) const
+	?RetryCount@RSyncMLConnection@@QBEIXZ @ 168 NONAME ; unsigned int RSyncMLConnection::RetryCount(void) const
+	?SanUserInteraction@RSyncMLProfileBase@@QBE?AW4TSmlServerAlertedAction@@XZ @ 169 NONAME ; enum TSmlServerAlertedAction RSyncMLProfileBase::SanUserInteraction(void) const
+	?ServerDataSource@RSyncMLTask@@QBEABVTDesC16@@XZ @ 170 NONAME ; class TDesC16 const & RSyncMLTask::ServerDataSource(void) const
+	?ServerId@RSyncMLProfileBase@@QBEABVTDesC8@@XZ @ 171 NONAME ; class TDesC8 const & RSyncMLProfileBase::ServerId(void) const
+	?ServerPassword@RSyncMLProfileBase@@QBEABVTDesC8@@XZ @ 172 NONAME ; class TDesC8 const & RSyncMLProfileBase::ServerPassword(void) const
+	?ServerURI@RSyncMLConnection@@QBEABVTDesC8@@XZ @ 173 NONAME ; class TDesC8 const & RSyncMLConnection::ServerURI(void) const
+	?SessionId@CSmlAlertInfo@@QBEHXZ @ 174 NONAME ; int CSmlAlertInfo::SessionId(void) const
+	?SetConfirmation@CSmlAlertInfo@@QAEXH@Z @ 175 NONAME ; void CSmlAlertInfo::SetConfirmation(int)
+	?SetConnectionId@CSmlAlertInfo@@QAEXH@Z @ 176 NONAME ; void CSmlAlertInfo::SetConnectionId(int)
+	?SetCreatorId@RSyncMLDataSyncProfile@@QAEXH@Z @ 177 NONAME ; void RSyncMLDataSyncProfile::SetCreatorId(int)
+	?SetCreatorId@RSyncMLProfileBase@@QAEXH@Z @ 178 NONAME ; void RSyncMLProfileBase::SetCreatorId(int)
+	?SetCreatorId@RSyncMLTask@@QAEXH@Z @ 179 NONAME ; void RSyncMLTask::SetCreatorId(int)
+	?SetDefaultSyncTypeL@RSyncMLTask@@QAEXW4TSmlSyncType@@@Z @ 180 NONAME ; void RSyncMLTask::SetDefaultSyncTypeL(enum TSmlSyncType)
+	?SetDisplayNameL@RSyncMLDataSyncProfile@@QAEXABVTDesC16@@@Z @ 181 NONAME ; void RSyncMLDataSyncProfile::SetDisplayNameL(class TDesC16 const &)
+	?SetDisplayNameL@RSyncMLProfileBase@@QAEXABVTDesC16@@@Z @ 182 NONAME ; void RSyncMLProfileBase::SetDisplayNameL(class TDesC16 const &)
+	?SetDisplayNameL@RSyncMLTask@@QAEXABVTDesC16@@@Z @ 183 NONAME ; void RSyncMLTask::SetDisplayNameL(class TDesC16 const &)
+	?SetEnabledL@RSyncMLTask@@QAEXH@Z @ 184 NONAME ; void RSyncMLTask::SetEnabledL(int)
+	?SetEntryId@CSyncMLHistoryEntry@@AAEXH@Z @ 185 NONAME ; void CSyncMLHistoryEntry::SetEntryId(int)
+	?SetErrorCode@CSmlAlertInfo@@QAEXH@Z @ 186 NONAME ; void CSmlAlertInfo::SetErrorCode(int)
+	?SetFilterMatchTypeL@RSyncMLTask@@QBEXW4TSyncMLFilterMatchType@@@Z @ 187 NONAME ; void RSyncMLTask::SetFilterMatchTypeL(enum TSyncMLFilterMatchType) const
+	?SetJobControl@CSmlAlertInfo@@QAEXW4TJobControl@1@@Z @ 188 NONAME ; void CSmlAlertInfo::SetJobControl(enum CSmlAlertInfo::TJobControl)
+	?SetLastSyncResult@CSyncMLHistoryJob@@QAEXVTTime@@@Z @ 189 NONAME ; void CSyncMLHistoryJob::SetLastSyncResult(class TTime)
+	?SetMsgDigest@CSyncMLHistoryPushMsg@@QAEXABVTDesC8@@@Z @ 190 NONAME ; void CSyncMLHistoryPushMsg::SetMsgDigest(class TDesC8 const &)
+	?SetOwnerShip@CNSmlHistoryArray@@QAEXH@Z @ 191 NONAME ; void CNSmlHistoryArray::SetOwnerShip(int)
+	?SetPasswordL@RSyncMLDataSyncProfile@@QAEXABVTDesC8@@@Z @ 192 NONAME ; void RSyncMLDataSyncProfile::SetPasswordL(class TDesC8 const &)
+	?SetPasswordL@RSyncMLProfileBase@@QAEXABVTDesC8@@@Z @ 193 NONAME ; void RSyncMLProfileBase::SetPasswordL(class TDesC8 const &)
+	?SetPriority@RSyncMLConnection@@QAEXI@Z @ 194 NONAME ; void RSyncMLConnection::SetPriority(unsigned int)
+	?SetProfileId@CSmlAlertInfo@@QAEXH@Z @ 195 NONAME ; void CSmlAlertInfo::SetProfileId(int)
+	?SetPropertyL@RSyncMLConnection@@QAEXABVTDesC8@@0@Z @ 196 NONAME ; void RSyncMLConnection::SetPropertyL(class TDesC8 const &, class TDesC8 const &)
+	?SetProtocolType@CSmlAlertInfo@@QAEXW4TSmlUsageType@@@Z @ 197 NONAME ; void CSmlAlertInfo::SetProtocolType(enum TSmlUsageType)
+	?SetProtocolVersionL@RSyncMLProfileBase@@QAEXW4TSmlProtocolVersion@@@Z @ 198 NONAME ; void RSyncMLProfileBase::SetProtocolVersionL(enum TSmlProtocolVersion)
+	?SetResult@CSyncMLHistoryJob@@QAEXVTTime@@H@Z @ 199 NONAME ; void CSyncMLHistoryJob::SetResult(class TTime, int)
+	?SetResultCode@CSyncMLHistoryPushMsg@@QAEXH@Z @ 200 NONAME ; void CSyncMLHistoryPushMsg::SetResultCode(int)
+	?SetRetryCount@RSyncMLConnection@@QAEXI@Z @ 201 NONAME ; void RSyncMLConnection::SetRetryCount(unsigned int)
+	?SetSanUserInteractionL@RSyncMLProfileBase@@QAEXW4TSmlServerAlertedAction@@@Z @ 202 NONAME ; void RSyncMLProfileBase::SetSanUserInteractionL(enum TSmlServerAlertedAction)
+	?SetServerIdL@RSyncMLProfileBase@@QAEXABVTDesC8@@@Z @ 203 NONAME ; void RSyncMLProfileBase::SetServerIdL(class TDesC8 const &)
+	?SetServerPasswordL@RSyncMLProfileBase@@QAEXABVTDesC8@@@Z @ 204 NONAME ; void RSyncMLProfileBase::SetServerPasswordL(class TDesC8 const &)
+	?SetServerURIL@RSyncMLConnection@@QAEXABVTDesC8@@@Z @ 205 NONAME ; void RSyncMLConnection::SetServerURIL(class TDesC8 const &)
+	?SetSessionId@CSmlAlertInfo@@QAEXH@Z @ 206 NONAME ; void CSmlAlertInfo::SetSessionId(int)
+	?SetTransportId@CSmlAlertInfo@@QAEXH@Z @ 207 NONAME ; void CSmlAlertInfo::SetTransportId(int)
+	?SetUserInteractionNotifierTimeoutL@RSyncMLDevMan@@QAEXI@Z @ 208 NONAME ; void RSyncMLDevMan::SetUserInteractionNotifierTimeoutL(unsigned int)
+	?SetUserNameL@RSyncMLDataSyncProfile@@QAEXABVTDesC8@@@Z @ 209 NONAME ; void RSyncMLDataSyncProfile::SetUserNameL(class TDesC8 const &)
+	?SetUserNameL@RSyncMLProfileBase@@QAEXABVTDesC8@@@Z @ 210 NONAME ; void RSyncMLProfileBase::SetUserNameL(class TDesC8 const &)
+	?SetValueL@RSyncMLSettings@@QAEXW4TSmlGlobalSetting@@H@Z @ 211 NONAME ; void RSyncMLSettings::SetValueL(enum TSmlGlobalSetting, int)
+	?SetVendorSpecificInfoL@CSmlAlertInfo@@QAEXABVTDesC8@@@Z @ 212 NONAME ; void CSmlAlertInfo::SetVendorSpecificInfoL(class TDesC8 const &)
+	?SortEntries@CNSmlHistoryArray@@QAEXW4TSortOrder@CSyncMLHistoryEntry@@@Z @ 213 NONAME ; void CNSmlHistoryArray::SortEntries(enum CSyncMLHistoryEntry::TSortOrder)
+	?SortEntries@RSyncMLHistoryLog@@QAEXW4TSortOrder@CSyncMLHistoryEntry@@@Z @ 214 NONAME ; void RSyncMLHistoryLog::SortEntries(enum CSyncMLHistoryEntry::TSortOrder)
+	?StartListeningL@RSyncMLTransport@@QBEXXZ @ 215 NONAME ; void RSyncMLTransport::StartListeningL(void) const
+	?StopL@RSyncMLDataSyncJob@@QAEXXZ @ 216 NONAME ; void RSyncMLDataSyncJob::StopL(void)
+	?StopL@RSyncMLDevManJob@@QAEXXZ @ 217 NONAME ; void RSyncMLDevManJob::StopL(void)
+	?StopListeningL@RSyncMLTransport@@QBEXXZ @ 218 NONAME ; void RSyncMLTransport::StopListeningL(void) const
+	?SupportedServerFiltersL@RSyncMLTask@@QBEAAV?$RPointerArray@VCSyncMLFilter@@@@AAW4TSyncMLFilterChangeInfo@@@Z @ 219 NONAME ; class RPointerArray<class CSyncMLFilter> & RSyncMLTask::SupportedServerFiltersL(enum TSyncMLFilterChangeInfo &) const
+	?SupportsCapability@RSyncMLTransport@@QBEHW4TSmlTransportCap@@@Z @ 220 NONAME ; int RSyncMLTransport::SupportsCapability(enum TSmlTransportCap) const
+	?SupportsUserSelectableMatchType@RSyncMLTask@@QBEHXZ @ 221 NONAME ; int RSyncMLTask::SupportsUserSelectableMatchType(void) const
+	?TaskAt@CSyncMLHistoryJob@@QBEABVTTaskInfo@1@H@Z @ 222 NONAME ; class CSyncMLHistoryJob::TTaskInfo const & CSyncMLHistoryJob::TaskAt(int) const
+	?TaskById@CSyncMLHistoryJob@@QAEAAVTTaskInfo@1@H@Z @ 223 NONAME ; class CSyncMLHistoryJob::TTaskInfo & CSyncMLHistoryJob::TaskById(int)
+	?TaskCount@CSyncMLHistoryJob@@QBEHXZ @ 224 NONAME ; int CSyncMLHistoryJob::TaskCount(void) const
+	?TaskIDs@RSyncMLDataSyncJob@@QBEABV?$RArray@H@@XZ @ 225 NONAME ; class RArray<int> const & RSyncMLDataSyncJob::TaskIDs(void) const
+	?TaskIds@CSmlAlertInfo@@QAEAAV?$RArray@H@@XZ @ 226 NONAME ; class RArray<int> & CSmlAlertInfo::TaskIds(void)
+	?TaskIds@CSmlAlertInfo@@QBEABV?$RArray@H@@XZ @ 227 NONAME ; class RArray<int> const & CSmlAlertInfo::TaskIds(void) const
+	?TaskSyncTypes@CSmlAlertInfo@@QAEAAV?$RArray@W4TSmlSyncType@@@@XZ @ 228 NONAME ; class RArray<enum TSmlSyncType> & CSmlAlertInfo::TaskSyncTypes(void)
+	?TaskSyncTypes@CSmlAlertInfo@@QBEABV?$RArray@W4TSmlSyncType@@@@XZ @ 229 NONAME ; class RArray<enum TSmlSyncType> const & CSmlAlertInfo::TaskSyncTypes(void) const
+	?TimeStamp@CSyncMLHistoryJob@@UBE?AVTTime@@XZ @ 230 NONAME ; class TTime CSyncMLHistoryJob::TimeStamp(void) const
+	?TimeStamp@CSyncMLHistoryPushMsg@@UBE?AVTTime@@XZ @ 231 NONAME ; class TTime CSyncMLHistoryPushMsg::TimeStamp(void) const
+	?Transport@CSmlAlertInfo@@QBEHXZ @ 232 NONAME ; int CSmlAlertInfo::Transport(void) const
+	?Type@RSyncMLProfileBase@@QBE?AW4TSmlUsageType@@XZ @ 233 NONAME ; enum TSmlUsageType RSyncMLProfileBase::Type(void) const
+	?UpdateL@RSyncMLConnection@@QAEXXZ @ 234 NONAME ; void RSyncMLConnection::UpdateL(void)
+	?UpdateL@RSyncMLDataSyncProfile@@QAEXXZ @ 235 NONAME ; void RSyncMLDataSyncProfile::UpdateL(void)
+	?UpdateL@RSyncMLProfileBase@@QAEXXZ @ 236 NONAME ; void RSyncMLProfileBase::UpdateL(void)
+	?UpdateL@RSyncMLTask@@QAEXXZ @ 237 NONAME ; void RSyncMLTask::UpdateL(void)
+	?UserInteractionNotifierTimeout@RSyncMLDevMan@@QBEIXZ @ 238 NONAME ; unsigned int RSyncMLDevMan::UserInteractionNotifierTimeout(void) const
+	?UserName@RSyncMLProfileBase@@QBEABVTDesC8@@XZ @ 239 NONAME ; class TDesC8 const & RSyncMLProfileBase::UserName(void) const
+	?VendorSpecificInfo@CSmlAlertInfo@@QBEABVTDesC8@@XZ @ 240 NONAME ; class TDesC8 const & CSmlAlertInfo::VendorSpecificInfo(void) const
+	?Version@RSyncMLDataProvider@@QBE?AVTVersion@@XZ @ 241 NONAME ; class TVersion RSyncMLDataProvider::Version(void) const
+	?GetUimode@CSmlAlertInfo@@QAEHXZ @ 242 NONAME ; int CSmlAlertInfo::GetUimode(void)
+	?SetUimode@CSmlAlertInfo@@QAEXH@Z @ 243 NONAME ; void CSmlAlertInfo::SetUimode(int)
+	?CloseContactSuiteSession@RContactSuiteSyncMLSession@@QAEXXZ @ 244 NONAME ; void RContactSuiteSyncMLSession::CloseContactSuiteSession(void)
+	?RequestContactSuiteProgressL@RContactSuiteSyncMLSession@@QAEXHAAVMSyncMLProgressObserver@@@Z @ 245 NONAME ; void RContactSuiteSyncMLSession::RequestContactSuiteProgressL(int, class MSyncMLProgressObserver &)
+	?ProfileLocked@RSyncMLProfileBase@@QBEHHH@Z @ 246 NONAME ; int RSyncMLProfileBase::ProfileLocked(int, int) const
+

@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Profile Util mmp file
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET        NsmlProfileUtil.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x2001955A
+CAPABILITY    CAP_GENERAL_DLL
+VENDORID      VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./def/eabiProfileUtil.def
+#elif defined(WINSCW)
+DEFFILE		./def/bwinscwProfileUtil.def
+#endif
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../../settings/inc
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH    ../src
+SOURCE        NsmlProfileUtil.cpp
+
+LIBRARY       euser.lib
+LIBRARY       estor.lib
+LIBRARY       nsmldssettings.lib
+LIBRARY       centralrepository.lib
+LIBRARY       nsmldebug.lib
+
+
+
+
+
+
+
+
+
+
+

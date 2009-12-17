@@ -1,0 +1,70 @@
+EXPORTS
+	_ZN13CSyncMLFilter11SetEnabledLEi @ 1 NONAME
+	_ZN13CSyncMLFilter16FilterPropertiesEv @ 2 NONAME
+	_ZN13CSyncMLFilter21SetMatchTypeSupportedEi @ 3 NONAME
+	_ZN13CSyncMLFilter21SetSupportedByServerLEi @ 4 NONAME
+	_ZN13CSyncMLFilter5NewLCER11RReadStream @ 5 NONAME
+	_ZN13CSyncMLFilter5NewLCER15TResourceReader @ 6 NONAME
+	_ZN13CSyncMLFilter5NewLCEv @ 7 NONAME
+	_ZN13CSyncMLFilter8DataSizeEv @ 8 NONAME
+	_ZN13CSyncMLFilterD0Ev @ 9 NONAME
+	_ZN13CSyncMLFilterD1Ev @ 10 NONAME
+	_ZN13CSyncMLFilterD2Ev @ 11 NONAME
+	_ZN21CSyncMLFilterProperty17SetQueryValueIntLEi @ 12 NONAME
+	_ZN21CSyncMLFilterProperty18SetQueryValueBoolLEi @ 13 NONAME
+	_ZN21CSyncMLFilterProperty18SetQueryValueDateLERK5TTime @ 14 NONAME
+	_ZN21CSyncMLFilterProperty18SetQueryValueTimeLERK5TTime @ 15 NONAME
+	_ZN21CSyncMLFilterProperty19AddDefaultValueIntLEii @ 16 NONAME
+	_ZN21CSyncMLFilterProperty19ClearDefaultValuesLEv @ 17 NONAME
+	_ZN21CSyncMLFilterProperty19SelectDefaultValueLEi @ 18 NONAME
+	_ZN21CSyncMLFilterProperty19SetQueryValueText8LERK6TDesC8 @ 19 NONAME
+	_ZN21CSyncMLFilterProperty19UnselectQueryValueLEv @ 20 NONAME
+	_ZN21CSyncMLFilterProperty20AddDefaultValueBoolLEii @ 21 NONAME
+	_ZN21CSyncMLFilterProperty20AddDefaultValueDateLERK5TTimei @ 22 NONAME
+	_ZN21CSyncMLFilterProperty20AddDefaultValueTimeLERK5TTimei @ 23 NONAME
+	_ZN21CSyncMLFilterProperty20SetQueryValueText16LERK7TDesC16 @ 24 NONAME
+	_ZN21CSyncMLFilterProperty21AddDefaultValueText8LER6TDesC8i @ 25 NONAME
+	_ZN21CSyncMLFilterProperty21UnselectDefaultValueLEi @ 26 NONAME
+	_ZN21CSyncMLFilterProperty22AddDefaultValueText16LER7TDesC16i @ 27 NONAME
+	_ZN21CSyncMLFilterProperty5NewLCER11RReadStream @ 28 NONAME
+	_ZN21CSyncMLFilterProperty5NewLCER15TResourceReader @ 29 NONAME
+	_ZN21CSyncMLFilterProperty5NewLCEv @ 30 NONAME
+	_ZN21CSyncMLFilterProperty8DataSizeEv @ 31 NONAME
+	_ZN21CSyncMLFilterPropertyD0Ev @ 32 NONAME
+	_ZN21CSyncMLFilterPropertyD1Ev @ 33 NONAME
+	_ZN21CSyncMLFilterPropertyD2Ev @ 34 NONAME
+	_ZNK13CSyncMLFilter11DisplayNameEv @ 35 NONAME
+	_ZNK13CSyncMLFilter12ExternalizeLER12RWriteStream @ 36 NONAME
+	_ZNK13CSyncMLFilter17SupportedByServerEv @ 37 NONAME
+	_ZNK13CSyncMLFilter18DisplayDescriptionEv @ 38 NONAME
+	_ZNK13CSyncMLFilter18MatchTypeSupportedEv @ 39 NONAME
+	_ZNK13CSyncMLFilter7EnabledEv @ 40 NONAME
+	_ZNK13CSyncMLFilter8FilterIdEv @ 41 NONAME
+	_ZNK21CSyncMLFilterProperty11DisplayNameEv @ 42 NONAME
+	_ZNK21CSyncMLFilterProperty12ExternalizeLER12RWriteStream @ 43 NONAME
+	_ZNK21CSyncMLFilterProperty13MaxTextLengthEv @ 44 NONAME
+	_ZNK21CSyncMLFilterProperty14QueryValueIntLEv @ 45 NONAME
+	_ZNK21CSyncMLFilterProperty15QueryValueBoolLEv @ 46 NONAME
+	_ZNK21CSyncMLFilterProperty15QueryValueDateLEv @ 47 NONAME
+	_ZNK21CSyncMLFilterProperty15QueryValueTimeLEv @ 48 NONAME
+	_ZNK21CSyncMLFilterProperty16CanUseQueryValueEv @ 49 NONAME
+	_ZNK21CSyncMLFilterProperty16DefaultValueIntLEi @ 50 NONAME
+	_ZNK21CSyncMLFilterProperty16QueryValueText8LEv @ 51 NONAME
+	_ZNK21CSyncMLFilterProperty17DefaultValueBoolLEi @ 52 NONAME
+	_ZNK21CSyncMLFilterProperty17DefaultValueCountEv @ 53 NONAME
+	_ZNK21CSyncMLFilterProperty17DefaultValueDateLEi @ 54 NONAME
+	_ZNK21CSyncMLFilterProperty17DefaultValueTimeLEi @ 55 NONAME
+	_ZNK21CSyncMLFilterProperty17QueryValueText16LEv @ 56 NONAME
+	_ZNK21CSyncMLFilterProperty18DefaultValueText8LEi @ 57 NONAME
+	_ZNK21CSyncMLFilterProperty18QueryValueDataTypeEv @ 58 NONAME
+	_ZNK21CSyncMLFilterProperty19DefaultValueText16LEi @ 59 NONAME
+	_ZNK21CSyncMLFilterProperty20DefaultValueDataTypeEv @ 60 NONAME
+	_ZNK21CSyncMLFilterProperty20IsQueryValueSelectedEv @ 61 NONAME
+	_ZNK21CSyncMLFilterProperty22IsDefaultValueSelectedEi @ 62 NONAME
+	_ZNK21CSyncMLFilterProperty22SupportsEmptySelectionEv @ 63 NONAME
+	_ZNK21CSyncMLFilterProperty25SupportsMultipleSelectionEv @ 64 NONAME
+	_ZTI13CSyncMLFilter @ 65 NONAME ; #<TI>#
+	_ZTI21CSyncMLFilterProperty @ 66 NONAME ; #<TI>#
+	_ZTV13CSyncMLFilter @ 67 NONAME ; #<VT>#
+	_ZTV21CSyncMLFilterProperty @ 68 NONAME ; #<VT>#
+

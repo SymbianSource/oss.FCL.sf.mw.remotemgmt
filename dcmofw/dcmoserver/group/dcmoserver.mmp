@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DCMO Server
+*
+*/
+
+#include <platform_paths.hrh>
+
+
+CAPABILITY			CAP_SERVER DiskAdmin AllFiles
+
+TARGET        	dcmoserver.exe
+TARGETTYPE    	exe
+UID           	0 0x2001FE47
+VENDORID 				VID_DEFAULT
+TARGETPATH      /system/libs
+
+SOURCEPATH    	../src
+SOURCE       	 	dcmoserver.cpp
+SOURCE       	 	dcmosession.cpp
+SOURCE       	 	dcmonotifieraob.cpp
+SOURCE					dcmogenericcontrol.cpp
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+USERINCLUDE   	../inc
+USERINCLUDE   	../../inc
+
+START RESOURCE 	../data/dcmo.rss
+    HEADER
+    TARGETPATH  resource
+    LANGUAGE_IDS
+END 
+
+LIBRARY     	euser.lib commonengine.lib efsrv.lib
+LIBRARY       ecom.lib
+LIBRARY       centralrepository.lib
+LIBRARY				aknnotify.lib eiksrv.lib
+LIBRARY    		flogger.lib

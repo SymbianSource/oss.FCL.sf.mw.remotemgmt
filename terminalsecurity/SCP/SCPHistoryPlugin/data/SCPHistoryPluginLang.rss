@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME SCHI
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <scphistoryplugin.loc>
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF16 { buf=""; }
+
+// RESOURCE DEFINITIONS 
+
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_info_check
+//    - Warning text for the situation when the code cannot be the 
+//       same as previous n security codes.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_info_check                      
+				{ buf = qtn_set_sec_code_info_check ; }
+				
+
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_info_previous
+//    - Warning text for the situation when the code cannot be the 
+//       same as the previous security code.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_info_previous                     
+				{ buf = qtn_set_sec_code_info_previous ; }				
+				
+			
+			
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_personal
+//    - Warning text for the situation security code not allowed. Blocklisted.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_personal                      
+        { buf = qtn_set_sec_code_personal ; }
+				
+// End of File

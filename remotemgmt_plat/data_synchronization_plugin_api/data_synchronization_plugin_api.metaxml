@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<api id="3ff136600efc68b5264e600c91e94daf" dataversion="1.0">
+  <name>Data Synchronization plug-in API</name>
+  <description>ECOM plug-in API for adding content to be synchronized</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="smldataprovider.lib" />
+    <lib name="smlstoreformat.lib" />
+    <lib name="syncmldatafilter.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

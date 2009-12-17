@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncML Policy files
+*
+*/
+
+
+PRJ_EXPORTS
+
+// ARMv5 udeb
+101F99FB.SPD        /epoc32/release/armv5/udeb/z/private/100012a5/policy/101F99FB.SPD
+101F99FD.SPD        /epoc32/release/armv5/udeb/z/private/100012a5/policy/101F99FD.SPD
+101F99FE.SPD        /epoc32/release/armv5/udeb/z/private/100012a5/policy/101F99FE.SPD
+
+// ARMv5 urel
+101F99FB.SPD        /epoc32/release/armv5/urel/z/private/100012a5/policy/101F99FB.SPD
+101F99FD.SPD        /epoc32/release/armv5/urel/z/private/100012a5/policy/101F99FD.SPD
+101F99FE.SPD        /epoc32/release/armv5/urel/z/private/100012a5/policy/101F99FE.SPD
+
+// WINSCW udeb
+101F99FB.SPD        /epoc32/release/winscw/udeb/z/private/100012a5/policy/101F99FB.SPD
+101F99FD.SPD        /epoc32/release/winscw/udeb/z/private/100012a5/policy/101F99FD.SPD
+101F99FE.SPD        /epoc32/release/winscw/udeb/z/private/100012a5/policy/101F99FE.SPD
+
+// WINSCW urel
+101F99FB.SPD        /epoc32/release/winscw/urel/z/private/100012a5/policy/101F99FB.SPD
+101F99FD.SPD        /epoc32/release/winscw/urel/z/private/100012a5/policy/101F99FD.SPD
+101F99FE.SPD        /epoc32/release/winscw/urel/z/private/100012a5/policy/101F99FE.SPD
+
+// ROM
+101F99FB.SPD        /epoc32/data/z/private/100012a5/policy/101F99FB.spd
+101F99FD.SPD        /epoc32/data/z/private/100012a5/policy/101F99FD.spd
+101F99FE.SPD        /epoc32/data/z/private/100012a5/policy/101F99FE.spd

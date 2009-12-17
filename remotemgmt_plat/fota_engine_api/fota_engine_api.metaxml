@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="ef60432365e0879fc544b70bc21d7097" dataversion="1.0">
+  <name>FOTA Engine API</name>
+  <description>Offering means to start update as well as download process of firmware update package.</description>
+  <type>c++</type>
+  <subsystem>fotaapplication</subsystem>
+  <libs>
+    <lib name="fotaengine.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

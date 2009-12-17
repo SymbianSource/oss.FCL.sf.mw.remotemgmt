@@ -1,0 +1,26 @@
+EXPORTS
+	_Z14CreateDSAgentLP23MSyncMLProgressObserver @ 1 NONAME
+	_ZN12CNSmlDSAgent11SynchroniseER14TRequestStatusiiP9CArrayFixI28TNSmlContentSpecificSyncTypeE19TNSmlSyncInitiationiP6HBufC8 @ 2 NONAME
+	_ZTI11CNSmlDSCmds @ 3 NONAME ; #<TI>#
+	_ZTI12CNSmlDSAgent @ 4 NONAME ; #<TI>#
+	_ZTI12TNSmlDSError @ 5 NONAME ; #<TI>#
+	_ZTI14CNSmlDSContent @ 6 NONAME ; #<TI>#
+	_ZTI17CNSmlDSLUIDBuffer @ 7 NONAME ; #<TI>#
+	_ZTI18CNSmlDSBatchBuffer @ 8 NONAME ; #<TI>#
+	_ZTI18CNSmlDSContentItem @ 9 NONAME ; #<TI>#
+	_ZTI19CNSmlDSMapContainer @ 10 NONAME ; #<TI>#
+	_ZTIN18CNSmlDSBatchBuffer16CNSmlDSBatchItemE @ 11 NONAME ; #<TI>#
+	_ZTIN19CNSmlDSMapContainer8CMapItemE @ 12 NONAME ; #<TI>#
+	_ZTV11CNSmlDSCmds @ 13 NONAME ; #<VT>#
+	_ZTV12CNSmlDSAgent @ 14 NONAME ; #<VT>#
+	_ZTV12TNSmlDSError @ 15 NONAME ; #<VT>#
+	_ZTV14CNSmlDSContent @ 16 NONAME ; #<VT>#
+	_ZTV17CNSmlDSLUIDBuffer @ 17 NONAME ; #<VT>#
+	_ZTV18CNSmlDSBatchBuffer @ 18 NONAME ; #<VT>#
+	_ZTV18CNSmlDSContentItem @ 19 NONAME ; #<VT>#
+	_ZTV19CNSmlDSMapContainer @ 20 NONAME ; #<VT>#
+	_ZTVN18CNSmlDSBatchBuffer16CNSmlDSBatchItemE @ 21 NONAME ; #<VT>#
+	_ZTVN19CNSmlDSMapContainer8CMapItemE @ 22 NONAME ; #<VT>#
+	_ZTI13CNsmlDSNetmon @ 23 NONAME ; #<TI>#
+	_ZTV13CNsmlDSNetmon @ 24 NONAME ; #<VT>#
+

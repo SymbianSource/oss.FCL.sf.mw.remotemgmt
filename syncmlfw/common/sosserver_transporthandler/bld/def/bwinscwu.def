@@ -1,0 +1,20 @@
+EXPORTS
+	??0CSyncMLTransportPropertiesArray@@QAE@H@Z @ 1 NONAME ; CSyncMLTransportPropertiesArray::CSyncMLTransportPropertiesArray(int)
+	??1CNSmlTransportHandler@@UAE@XZ @ 2 NONAME ; CNSmlTransportHandler::~CNSmlTransportHandler(void)
+	?AddL@CSyncMLTransportPropertiesArray@@QAEHABVTSyncMLTransportPropertyInfo@@@Z @ 3 NONAME ; int CSyncMLTransportPropertiesArray::AddL(class TSyncMLTransportPropertyInfo const &)
+	?Array@CNSmlTransportHandler@@QAEAAVCSyncMLTransportPropertiesArray@@XZ @ 4 NONAME ; class CSyncMLTransportPropertiesArray & CNSmlTransportHandler::Array(void)
+	?At@CSyncMLTransportPropertiesArray@@QAEAAVTSyncMLTransportPropertyInfo@@H@Z @ 5 NONAME ; class TSyncMLTransportPropertyInfo & CSyncMLTransportPropertiesArray::At(int)
+	?At@CSyncMLTransportPropertiesArray@@QBEABVTSyncMLTransportPropertyInfo@@H@Z @ 6 NONAME ; class TSyncMLTransportPropertyInfo const & CSyncMLTransportPropertiesArray::At(int) const
+	?Count@CSyncMLTransportPropertiesArray@@QBEHXZ @ 7 NONAME ; int CSyncMLTransportPropertiesArray::Count(void) const
+	?CreateL@CNSmlTransportHandler@@QAEXH@Z @ 8 NONAME ; void CNSmlTransportHandler::CreateL(int)
+	?Delete@CSyncMLTransportPropertiesArray@@QAEXH@Z @ 9 NONAME ; void CSyncMLTransportPropertiesArray::Delete(int)
+	?DisplayName@CNSmlTransportHandler@@QAEAAVTDesC16@@XZ @ 10 NONAME ; class TDesC16 & CNSmlTransportHandler::DisplayName(void)
+	?ExternalizeL@CSyncMLTransportPropertiesArray@@QBEXAAVRWriteStream@@@Z @ 11 NONAME ; void CSyncMLTransportPropertiesArray::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@TSyncMLTransportPropertyInfo@@QBEXAAVRWriteStream@@@Z @ 12 NONAME ; void TSyncMLTransportPropertyInfo::ExternalizeL(class RWriteStream &) const
+	?Find@CNSmlTransportHandler@@QBEHABVTDesC8@@@Z @ 13 NONAME ; int CNSmlTransportHandler::Find(class TDesC8 const &) const
+	?Find@CSyncMLTransportPropertiesArray@@QBEHABVTDesC8@@@Z @ 14 NONAME ; int CSyncMLTransportPropertiesArray::Find(class TDesC8 const &) const
+	?InternalizeL@CSyncMLTransportPropertiesArray@@QAEXAAVRReadStream@@@Z @ 15 NONAME ; void CSyncMLTransportPropertiesArray::InternalizeL(class RReadStream &)
+	?InternalizeL@TSyncMLTransportPropertyInfo@@QAEXAAVRReadStream@@@Z @ 16 NONAME ; void TSyncMLTransportPropertyInfo::InternalizeL(class RReadStream &)
+	?NewL@CNSmlTransportHandler@@SAPAV1@W4TSmlUsageType@@@Z @ 17 NONAME ; class CNSmlTransportHandler * CNSmlTransportHandler::NewL(enum TSmlUsageType)
+	?Reset@CNSmlTransportHandler@@QAEXXZ @ 18 NONAME ; void CNSmlTransportHandler::Reset(void)
+

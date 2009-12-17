@@ -1,0 +1,92 @@
+EXPORTS
+	??0CNSmlCtCapsHandler@@QAE@PAUsml_devinf_ctcaplist_s@@@Z @ 1 NONAME ; CNSmlCtCapsHandler::CNSmlCtCapsHandler(struct sml_devinf_ctcaplist_s *)
+	??0CNSmlDbMetaHandler@@QAE@PAUsml_metinf_metinf_s@@@Z @ 2 NONAME ; CNSmlDbMetaHandler::CNSmlDbMetaHandler(struct sml_metinf_metinf_s *)
+	??0CNSmlDbMetaHandler@@QAE@XZ @ 3 NONAME ; CNSmlDbMetaHandler::CNSmlDbMetaHandler(void)
+	??0CNSmlDevInfProp@@QAE@PAUsml_devinf_property_s@@@Z @ 4 NONAME ; CNSmlDevInfProp::CNSmlDevInfProp(struct sml_devinf_property_s *)
+	??0CNSmlFilterCapsHandler@@QAE@PAUsml_devinf_filtercaplist_s@@@Z @ 5 NONAME ; CNSmlFilterCapsHandler::CNSmlFilterCapsHandler(struct sml_devinf_filtercaplist_s *)
+	??0CNSmlPropParam@@QAE@PAUsml_devinf_propparam_s@@@Z @ 6 NONAME ; CNSmlPropParam::CNSmlPropParam(struct sml_devinf_propparam_s *)
+	??0TNSmlCtCapData@@QAE@W4TNSmlCtCapTag@0@ABVTDesC8@@@Z @ 7 NONAME ; TNSmlCtCapData::TNSmlCtCapData(enum TNSmlCtCapData::TNSmlCtCapTag, class TDesC8 const &)
+	??0TNSmlDbCapsSerializer@@QAE@XZ @ 8 NONAME ; TNSmlDbCapsSerializer::TNSmlDbCapsSerializer(void)
+	??0TNSmlFilterCapData@@QAE@W4TNSmlFilterCapTag@0@ABVTDesC8@@@Z @ 9 NONAME ; TNSmlFilterCapData::TNSmlFilterCapData(enum TNSmlFilterCapData::TNSmlFilterCapTag, class TDesC8 const &)
+	??1CNSmlDbCaps@@UAE@XZ @ 10 NONAME ; CNSmlDbCaps::~CNSmlDbCaps(void)
+	??1CNSmlDbMeta@@UAE@XZ @ 11 NONAME ; CNSmlDbMeta::~CNSmlDbMeta(void)
+	??1CNSmlDevInfProp@@UAE@XZ @ 12 NONAME ; CNSmlDevInfProp::~CNSmlDevInfProp(void)
+	?AddCtCapLC@CNSmlDbCaps@@QAEPAVCNSmlCtCap@@XZ @ 13 NONAME ; class CNSmlCtCap * CNSmlDbCaps::AddCtCapLC(void)
+	?AddDevInfPropLC@CNSmlCtCap@@QAEPAVCNSmlDevInfProp@@ABVTDesC8@@@Z @ 14 NONAME ; class CNSmlDevInfProp * CNSmlCtCap::AddDevInfPropLC(class TDesC8 const &)
+	?AddFilterCapLC@CNSmlDbCaps@@QAEPAVCNSmlFilterCap@@ABVTDesC8@@0@Z @ 15 NONAME ; class CNSmlFilterCap * CNSmlDbCaps::AddFilterCapLC(class TDesC8 const &, class TDesC8 const &)
+	?AddFilterKeywordL@CNSmlFilterCap@@QAEXABVTDesC8@@@Z @ 16 NONAME ; void CNSmlFilterCap::AddFilterKeywordL(class TDesC8 const &)
+	?AddFilterRxL@CNSmlDbCaps@@QAEXABVTDesC8@@0@Z @ 17 NONAME ; void CNSmlDbCaps::AddFilterRxL(class TDesC8 const &, class TDesC8 const &)
+	?AddParamLC@CNSmlDevInfProp@@QAEPAVCNSmlPropParam@@ABVTDesC8@@@Z @ 18 NONAME ; class CNSmlPropParam * CNSmlDevInfProp::AddParamLC(class TDesC8 const &)
+	?AddPropNameL@CNSmlFilterCap@@QAEXABVTDesC8@@@Z @ 19 NONAME ; void CNSmlFilterCap::AddPropNameL(class TDesC8 const &)
+	?AddRxL@CNSmlDbCaps@@QAEXABVTDesC8@@0@Z @ 20 NONAME ; void CNSmlDbCaps::AddRxL(class TDesC8 const &, class TDesC8 const &)
+	?AddTxL@CNSmlDbCaps@@QAEXABVTDesC8@@0@Z @ 21 NONAME ; void CNSmlDbCaps::AddTxL(class TDesC8 const &, class TDesC8 const &)
+	?AddValEnumL@CNSmlDevInfProp@@QAEXABVTDesC8@@@Z @ 22 NONAME ; void CNSmlDevInfProp::AddValEnumL(class TDesC8 const &)
+	?AddValEnumL@CNSmlPropParam@@QAEXABVTDesC8@@@Z @ 23 NONAME ; void CNSmlPropParam::AddValEnumL(class TDesC8 const &)
+	?AnchorLast@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 24 NONAME ; class TPtrC8 CNSmlDbMetaHandler::AnchorLast(void) const
+	?AnchorNext@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 25 NONAME ; class TPtrC8 CNSmlDbMetaHandler::AnchorNext(void) const
+	?Clear@CNSmlDbMeta@@QAEXXZ @ 26 NONAME ; void CNSmlDbMeta::Clear(void)
+	?Compare@TNSmlCtCapData@@SAHABU1@0@Z @ 27 NONAME ; int TNSmlCtCapData::Compare(struct TNSmlCtCapData const &, struct TNSmlCtCapData const &)
+	?Compare@TNSmlFilterCapData@@SAHABU1@0@Z @ 28 NONAME ; int TNSmlFilterCapData::Compare(struct TNSmlFilterCapData const &, struct TNSmlFilterCapData const &)
+	?ConvertDeviceInfoL@CNSmlDbCaps@@QAEHPAUsml_devinf_devinf_s@@@Z @ 29 NONAME ; int CNSmlDbCaps::ConvertDeviceInfoL(struct sml_devinf_devinf_s *)
+	?CreateFilterCapsHandlerL@CNSmlDbCaps@@QBEPAVCNSmlFilterCapsHandler@@XZ @ 30 NONAME ; class CNSmlFilterCapsHandler * CNSmlDbCaps::CreateFilterCapsHandlerL(void) const
+	?CreateHandlerL@CNSmlDbCaps@@QBEPAVCNSmlCtCapsHandler@@XZ @ 31 NONAME ; class CNSmlCtCapsHandler * CNSmlDbCaps::CreateHandlerL(void) const
+	?CreateHandlerL@CNSmlDbMeta@@QBEPAVCNSmlDbMetaHandler@@XZ @ 32 NONAME ; class CNSmlDbMetaHandler * CNSmlDbMeta::CreateHandlerL(void) const
+	?CtCaps@CNSmlDbCaps@@QBEPAUsml_devinf_ctcaplist_s@@XZ @ 33 NONAME ; struct sml_devinf_ctcaplist_s * CNSmlDbCaps::CtCaps(void) const
+	?DatastoreL@CNSmlDbCaps@@QBEPAUsml_devinf_datastore_s@@XZ @ 34 NONAME ; struct sml_devinf_datastore_s * CNSmlDbCaps::DatastoreL(void) const
+	?ExternalizeL@TNSmlDbCapsSerializer@@QBEXABVCNSmlDbCaps@@AAVRWriteStream@@@Z @ 35 NONAME ; void TNSmlDbCapsSerializer::ExternalizeL(class CNSmlDbCaps const &, class RWriteStream &) const
+	?ExternalizeL@TNSmlDbCapsSerializer@@QBEXABVCNSmlDbCaps@@ABV?$CArrayFix@UTNSmlFilterCapData@@@@AAVRWriteStream@@@Z @ 36 NONAME ; void TNSmlDbCapsSerializer::ExternalizeL(class CNSmlDbCaps const &, class CArrayFix<struct TNSmlFilterCapData> const &, class RWriteStream &) const
+	?FilterCaps@CNSmlDbCaps@@QBEPAUsml_devinf_filtercaplist_s@@XZ @ 37 NONAME ; struct sml_devinf_filtercaplist_s * CNSmlDbCaps::FilterCaps(void) const
+	?Format@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 38 NONAME ; class TPtrC8 CNSmlDbMetaHandler::Format(void) const
+	?GetCtCapsL@CNSmlCtCapsHandler@@QAEXAAV?$CArrayFix@UTNSmlCtCapData@@@@ABVTDesC8@@@Z @ 39 NONAME ; void CNSmlCtCapsHandler::GetCtCapsL(class CArrayFix<struct TNSmlCtCapData> &, class TDesC8 const &)
+	?GetEmiL@CNSmlDbMetaHandler@@QBEXAAVCDesC8Array@@@Z @ 40 NONAME ; void CNSmlDbMetaHandler::GetEmiL(class CDesC8Array &) const
+	?GetFilterCapsL@CNSmlFilterCapsHandler@@QAEXAAV?$CArrayFix@UTNSmlFilterCapData@@@@ABVTDesC8@@@Z @ 41 NONAME ; void CNSmlFilterCapsHandler::GetFilterCapsL(class CArrayFix<struct TNSmlFilterCapData> &, class TDesC8 const &)
+	?InternalizeL@TNSmlDbCapsSerializer@@QBEPAVCNSmlDbCaps@@AAVRReadStream@@@Z @ 42 NONAME ; class CNSmlDbCaps * TNSmlDbCapsSerializer::InternalizeL(class RReadStream &) const
+	?Mark@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 43 NONAME ; class TPtrC8 CNSmlDbMetaHandler::Mark(void) const
+	?MaxMsgSize@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 44 NONAME ; class TPtrC8 CNSmlDbMetaHandler::MaxMsgSize(void) const
+	?MaxObjSize@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 45 NONAME ; class TPtrC8 CNSmlDbMetaHandler::MaxObjSize(void) const
+	?MemFreeID@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 46 NONAME ; class TPtrC8 CNSmlDbMetaHandler::MemFreeID(void) const
+	?MemFreeMem@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 47 NONAME ; class TPtrC8 CNSmlDbMetaHandler::MemFreeMem(void) const
+	?MemShared@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 48 NONAME ; class TPtrC8 CNSmlDbMetaHandler::MemShared(void) const
+	?MetInfL@CNSmlDbMeta@@QBEPAUsml_metinf_metinf_s@@XZ @ 49 NONAME ; struct sml_metinf_metinf_s * CNSmlDbMeta::MetInfL(void) const
+	?NewL@CNSmlDbCaps@@SAPAV1@XZ @ 50 NONAME ; class CNSmlDbCaps * CNSmlDbCaps::NewL(void)
+	?NewL@CNSmlDbMeta@@SAPAV1@XZ @ 51 NONAME ; class CNSmlDbMeta * CNSmlDbMeta::NewL(void)
+	?NewLC@CNSmlDbCaps@@SAPAV1@XZ @ 52 NONAME ; class CNSmlDbCaps * CNSmlDbCaps::NewLC(void)
+	?NewLC@CNSmlDbMeta@@SAPAV1@XZ @ 53 NONAME ; class CNSmlDbMeta * CNSmlDbMeta::NewLC(void)
+	?NextNonce@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 54 NONAME ; class TPtrC8 CNSmlDbMetaHandler::NextNonce(void) const
+	?SetAnchorLastL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 55 NONAME ; void CNSmlDbMeta::SetAnchorLastL(class TDesC8 const &)
+	?SetAnchorNextL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 56 NONAME ; void CNSmlDbMeta::SetAnchorNextL(class TDesC8 const &)
+	?SetCtTypeL@CNSmlCtCap@@QAEXABVTDesC8@@@Z @ 57 NONAME ; void CNSmlCtCap::SetCtTypeL(class TDesC8 const &)
+	?SetDataTypeL@CNSmlDevInfProp@@QAEXABVTDesC8@@@Z @ 58 NONAME ; void CNSmlDevInfProp::SetDataTypeL(class TDesC8 const &)
+	?SetDataTypeL@CNSmlPropParam@@QAEXABVTDesC8@@@Z @ 59 NONAME ; void CNSmlPropParam::SetDataTypeL(class TDesC8 const &)
+	?SetDisplayNameL@CNSmlDbCaps@@QAEXABVTDesC8@@@Z @ 60 NONAME ; void CNSmlDbCaps::SetDisplayNameL(class TDesC8 const &)
+	?SetDisplayNameL@CNSmlDevInfProp@@QAEXABVTDesC8@@@Z @ 61 NONAME ; void CNSmlDevInfProp::SetDisplayNameL(class TDesC8 const &)
+	?SetDisplayNameL@CNSmlPropParam@@QAEXABVTDesC8@@@Z @ 62 NONAME ; void CNSmlPropParam::SetDisplayNameL(class TDesC8 const &)
+	?SetEmiL@CNSmlDbMeta@@QAEXABVCDesC8Array@@@Z @ 63 NONAME ; void CNSmlDbMeta::SetEmiL(class CDesC8Array const &)
+	?SetFieldLevelL@CNSmlCtCap@@QAEXXZ @ 64 NONAME ; void CNSmlCtCap::SetFieldLevelL(void)
+	?SetFormatL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 65 NONAME ; void CNSmlDbMeta::SetFormatL(class TDesC8 const &)
+	?SetFromL@TNSmlDbCapsSerializer@@QBEXABVCSmlDataProperty@@AAVCNSmlDevInfProp@@@Z @ 66 NONAME ; void TNSmlDbCapsSerializer::SetFromL(class CSmlDataProperty const &, class CNSmlDevInfProp &) const
+	?SetMarkL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 67 NONAME ; void CNSmlDbMeta::SetMarkL(class TDesC8 const &)
+	?SetMaxGuidSizeL@CNSmlDbCaps@@QAEXABVTDesC8@@@Z @ 68 NONAME ; void CNSmlDbCaps::SetMaxGuidSizeL(class TDesC8 const &)
+	?SetMaxMsgSizeL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 69 NONAME ; void CNSmlDbMeta::SetMaxMsgSizeL(class TDesC8 const &)
+	?SetMaxObjSizeL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 70 NONAME ; void CNSmlDbMeta::SetMaxObjSizeL(class TDesC8 const &)
+	?SetMaxOccurL@CNSmlDevInfProp@@QAEXABVTDesC8@@@Z @ 71 NONAME ; void CNSmlDevInfProp::SetMaxOccurL(class TDesC8 const &)
+	?SetMaxSizeL@CNSmlDevInfProp@@QAEXABVTDesC8@@@Z @ 72 NONAME ; void CNSmlDevInfProp::SetMaxSizeL(class TDesC8 const &)
+	?SetMemFreeIDL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 73 NONAME ; void CNSmlDbMeta::SetMemFreeIDL(class TDesC8 const &)
+	?SetMemFreeMemL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 74 NONAME ; void CNSmlDbMeta::SetMemFreeMemL(class TDesC8 const &)
+	?SetMemSharedL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 75 NONAME ; void CNSmlDbMeta::SetMemSharedL(class TDesC8 const &)
+	?SetNextNonceL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 76 NONAME ; void CNSmlDbMeta::SetNextNonceL(class TDesC8 const &)
+	?SetNoTruncateL@CNSmlDevInfProp@@QAEXXZ @ 77 NONAME ; void CNSmlDevInfProp::SetNoTruncateL(void)
+	?SetRxPrefL@CNSmlDbCaps@@QAEXABVTDesC8@@0@Z @ 78 NONAME ; void CNSmlDbCaps::SetRxPrefL(class TDesC8 const &, class TDesC8 const &)
+	?SetSizeL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 79 NONAME ; void CNSmlDbMeta::SetSizeL(class TDesC8 const &)
+	?SetSourceRefL@CNSmlDbCaps@@QAEXABVTDesC8@@@Z @ 80 NONAME ; void CNSmlDbCaps::SetSourceRefL(class TDesC8 const &)
+	?SetSupportHierarchicalSyncL@CNSmlDbCaps@@QAEXXZ @ 81 NONAME ; void CNSmlDbCaps::SetSupportHierarchicalSyncL(void)
+	?SetSyncType@CNSmlDbCaps@@QAEXW4ENSmlSyncTypes@1@@Z @ 82 NONAME ; void CNSmlDbCaps::SetSyncType(enum CNSmlDbCaps::ENSmlSyncTypes)
+	?SetTxPrefL@CNSmlDbCaps@@QAEXABVTDesC8@@0@Z @ 83 NONAME ; void CNSmlDbCaps::SetTxPrefL(class TDesC8 const &, class TDesC8 const &)
+	?SetTypeL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 84 NONAME ; void CNSmlDbMeta::SetTypeL(class TDesC8 const &)
+	?SetVerCtL@CNSmlCtCap@@QAEXABVTDesC8@@@Z @ 85 NONAME ; void CNSmlCtCap::SetVerCtL(class TDesC8 const &)
+	?SetVersionL@CNSmlDbMeta@@QAEXABVTDesC8@@@Z @ 86 NONAME ; void CNSmlDbMeta::SetVersionL(class TDesC8 const &)
+	?Size@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 87 NONAME ; class TPtrC8 CNSmlDbMetaHandler::Size(void) const
+	?SupportsSyncType@CNSmlDbCaps@@QBEHW4ENSmlSyncTypes@1@@Z @ 88 NONAME ; int CNSmlDbCaps::SupportsSyncType(enum CNSmlDbCaps::ENSmlSyncTypes) const
+	?Type@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 89 NONAME ; class TPtrC8 CNSmlDbMetaHandler::Type(void) const
+	?Version@CNSmlDbMetaHandler@@QBE?AVTPtrC8@@XZ @ 90 NONAME ; class TPtrC8 CNSmlDbMetaHandler::Version(void) const
+

@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of policymanagement components
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+TARGET        	centreptool.dll
+TARGETTYPE    	dll
+UID           	0x1000008D 0x1020781A
+VENDORID      	VID_DEFAULT
+CAPABILITY      CAP_CLIENT_DLL
+
+SOURCEPATH    	../centreptoolclient/src
+SOURCE        	CentRepToolClient.cpp
+
+USERINCLUDE   	. ../centreptoolclient/inc  
+USERINCLUDE     ../../include
+USERINCLUDE     ../../../inc // domain private headers
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY					flogger.lib
+LIBRARY       	euser.lib
+LIBRARY 	  		featmgr.lib	
+
+
+
+SMPSAFE

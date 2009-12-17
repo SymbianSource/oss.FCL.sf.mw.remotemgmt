@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  AgentLog
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+#include "defaultcaps.hrh"
+
+TARGET          nsmlagentlog.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DE4
+CAPABILITY  CAP_GENERAL_DLL
+VENDORID	VID_DEFAULT
+
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../dsutils/dbcaps/inc
+USERINCLUDE     ../../../common/inc
+USERINCLUDE     ../../../common/wbxml/inc/devinf
+USERINCLUDE     ../../../common/wbxml/inc/syncml
+USERINCLUDE     ../../../common/wbxml/inc
+USERINCLUDE     ../../../common/debug/inc
+
+SOURCEPATH      ../src
+SOURCE          nsmlagentlog.cpp
+
+LIBRARY         euser.lib efsrv.lib edbms.lib estor.lib charconv.lib
+LIBRARY         nsmldebug.lib nsmldbcaps.lib sysutil.lib bafl.lib
+

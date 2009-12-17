@@ -1,0 +1,13 @@
+EXPORTS
+	_ZN17CNSmlDMHostServer14InitHostServerERK7TDesC16PFiPvE @ 1 NONAME
+	_ZN17CNSmlDMHostServerC1Ev @ 2 NONAME
+	_ZN17CNSmlDMHostServerC2Ev @ 3 NONAME
+	_ZN17CNSmlDMHostServerD0Ev @ 4 NONAME
+	_ZN17CNSmlDMHostServerD1Ev @ 5 NONAME
+	_ZN17CNSmlDMHostServerD2Ev @ 6 NONAME
+	_ZNK17CNSmlDMHostServer15CallNewSessionLERK8TVersionRK9RMessage2 @ 7 NONAME
+	_ZTI17CNSmlDMHostServer @ 8 NONAME ; #<TI>#
+	_ZTI18CNSmlDMHostSession @ 9 NONAME ; #<TI>#
+	_ZTV17CNSmlDMHostServer @ 10 NONAME ; #<VT>#
+	_ZTV18CNSmlDMHostSession @ 11 NONAME ; #<VT>#
+

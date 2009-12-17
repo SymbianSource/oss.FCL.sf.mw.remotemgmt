@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="8d53812d56803ad2bef7ddd15c91413e" dataversion="1.0">
+  <name>Adaptive History List API</name>
+  <description>API providing basic list data structure. Order of items in the list is based on access frequency.</description>
+  <type>c++</type>
+  <subsystem>ahle</subsystem>
+  <libs>
+    <lib name="ahle2client.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

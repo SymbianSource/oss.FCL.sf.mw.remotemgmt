@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncML HTTP client
+*
+*/
+
+
+
+#include "defaultcaps.hrh"
+#include <platform_paths.hrh>
+
+
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+TARGET          nsmlhttp.dll
+TARGETTYPE      dll
+UID		0x101F6DE4 270495204
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE          nsmldialiap.cpp nsmlhttpclient.cpp nsmlhttp.cpp
+SOURCE          NSmlXptShutdownTimer.cpp
+SOURCE		nsmlnetworkstatusengine.cpp
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE			/epoc32/include/libc /epoc32/include/ecom	/epoc32/include/http
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+SYSTEMINCLUDE			/epoc32/include/mw/http
+#endif
+
+USERINCLUDE     ../inc ../../inc ../../transport/inc ../../wbxml/inc ../../wbxml/inc/syncml ../../syncagent/inc ../../debug/inc 
+
+USERINCLUDE ../../xml/inc ../../xml/inc/syncml ../../xml/inc/devinf ../../wbxml/inc/devinf
+
+USERINCLUDE  ../../../../inc  // internal header include path
+
+LIBRARY         euser.lib 
+LIBRARY			commdb.lib 
+LIBRARY 		nsmldebug.lib
+LIBRARY			http.lib 
+LIBRARY			inetprotutil.lib 
+LIBRARY			bafl.lib 
+LIBRARY			nsmlxml.lib 
+LIBRARY			esock.lib
+LIBRARY			ecom.lib
+LIBRARY		    centralrepository.lib
+LIBRARY			nsmlagentcommon.lib
+LIBRARY			featmgr.lib
+LIBRARY			cmmanager.lib
+LIBRARY			ezlib.lib
+LIBRARY			connmon.lib
+LIBRARY         	connmonext.lib
+
+SMPSAFE

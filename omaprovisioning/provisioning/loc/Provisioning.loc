@@ -1,0 +1,125 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     This is a localisation file for Provisioning
+*
+*  -------------------------------------------------------------------
+*
+*/
+
+
+
+// LOCALISATION STRINGS
+
+//****************************************************************
+//ProvisioningHandler
+
+//d:From line for authenticated messages
+//l:list_double_graphic_pane_t2
+#define qtn_mce_inbox_sender_servprov "Service provider"
+
+//d:From line for non-authenticated messages
+//l:list_double_graphic_pane_t2
+#define qtn_mce_push_inbox_sender_unkw "Unknown"
+
+//d:Message contents when bootstrap is performed succesfully
+//l:popup_info_list_pane_t1
+#define qtn_op_info_sms_autsuc "You have received a Trusted provisioning server setting from your service provider. Message was authenticated successfully and the setting was saved to General settings"
+
+//d:Message contents when bootstrap fails to authenticate
+//l:popup_info_list_pane_t1
+#define qtn_op_info_sms_autfai "You have received a Trusted provisioning server setting. Message was not authenticated successfully and it was deleted."
+
+//d:Message contents when bootstrap is tried when one has already been saved
+//l:popup_info_list_pane_t1
+#define qtn_op_info_boot "You have received a Trusted provisioning server setting from the service provider. Setting was not saved, because the Trusted provisioning server is already defined in the general settings"
+
+//****************************************************************
+//AccesspointAdapter
+
+//d: Summary text for accespoints
+//l: popup_info_list_pane_t2/opt1
+#define qtn_sm_wml_accesspoints "Access points:"
+
+//****************************************************************
+//BrowserAdapter
+
+//d: Summary text for browser entries
+//l: popup_info_list_pane_t2/opt1
+#define qtn_op_head_browser "Browser settings:"
+
+//d: Summary text for bookmark entries
+//l: popup_info_list_pane_t2/opt1
+#define qtn_sm_bookmarks "Bookmarks"
+
+//d: Summary text for MMS entries
+//l: popup_info_list_pane_t2/opt1
+#define qtn_sm_mms_accesspoints "Multimedia access pts.:"
+
+//d:This is the default name for new WAP access point. 
+//l:query_popup_data_pane_t1/opt4
+//
+#define qtn_sm_wapap_name "WAP access point"
+
+//d:This is the default name for new bookmark. 
+//d:It appears in the bookmark name text query
+//d:as the default value.
+//l:query_popup_data_pane_t1/opt4
+//
+#define qtn_sm_bookmark_name "New bookmark"
+
+//****************************************************************
+//IMAdapter
+
+//d: Summary text for IM entries
+//l: popup_info_list_pane_t2/opt1
+#define qtn_op_head_imsettings "Wireless Village settings"
+
+//****************************************************************
+//Email Adapter
+
+//d: Summary text for email settings
+//l: popup_info_list_pane_t2/opt1
+//
+#define qtn_sm_mailboxes "Mailbox settings:"
+
+
+//d:This is the default name for Mail settings.
+//d:Maximum lenght is 30 characters.
+//l:query_popup_data_pane_t1/opt4
+//
+#define qtn_sm_remote_mailbox_name "New remote mailbox"
+
+//****************************************************************
+//ProvisioningSC
+
+//d:Information message put to inbox when settings were read successfully from a card.
+//l:popup_info_list_pane_t1
+//
+#define qtn_op_info_sms_autsuc1 "Trusted provisioning server name was found from your SIM card. Server name was saved to the configuration context list in General settings." 
+
+
+//d:Information note text displayed when memory is so low that settings can not be saved.
+//l:popup_note_window
+//
+#define qtn_op_mem_low "Memory low. Delete some data and switch the phone off and on to be able to save new Configuration context from the SIM card."
+
+//******************************************************************
+//Provisioning BC
+
+//d:Heading for popup note shown when authentication fails
+//l:heading_pane_t1
+
+#define qtn_op_info_sms_autfai_heading "Authentication Failed:"
+// End of File

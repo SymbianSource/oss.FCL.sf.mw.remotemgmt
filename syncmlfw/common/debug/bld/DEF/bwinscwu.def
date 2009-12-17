@@ -1,0 +1,9 @@
+EXPORTS
+	?NSmlDebugDumpL@@YAXPAXHPAEHPBE@Z @ 1 NONAME ; void NSmlDebugDumpL(void *, int, unsigned char *, int, unsigned char const *)
+	?NSmlDebugInitL@@YAXXZ @ 2 NONAME ; void NSmlDebugInitL(void)
+	?NSmlDebugPrintArgs16L@@YAXPBGZZ @ 3 NONAME ; void NSmlDebugPrintArgs16L(unsigned short const *, ...)
+	?NSmlDebugPrintArgs8L@@YAXPBEZZ @ 4 NONAME ; void NSmlDebugPrintArgs8L(unsigned char const *, ...)
+	?NSmlDebugPrintHeaderL@@YAXPAEH@Z @ 5 NONAME ; void NSmlDebugPrintHeaderL(unsigned char *, int)
+	?NSmlDebugPrintL@@YAXPBEHPAEH@Z @ 6 NONAME ; void NSmlDebugPrintL(unsigned char const *, int, unsigned char *, int)
+	?NSmlDebugPrint_CodeL@@YAXHPBEHPAEH@Z @ 7 NONAME ; void NSmlDebugPrint_CodeL(int, unsigned char const *, int, unsigned char *, int)
+

@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+// LOCALISATION STRINGS:
+
+/*
+		Note : In this project, StringLoader wrapper is not used and
+		Formatting string are to change as following:
+		%N = %i
+		Do Not Change these markings!
+		Info about formatting Strings in general:
+		
+		Symbian OS v9.1 » 
+			Symbian OS guide » 
+				Base »
+					 Using User Library (E32) » 
+					 		Buffers and Strings » 
+					 				Using Descriptors » 
+					 					How to Use Descriptors » 
+					 								Format string syntax
+*/
+
+
+// Notification Texts
+
+//d: Information note. After entering wrong security code in the security code query, the user data is cleared from the device
+//d: and must be set up again. An information note is shown to the user that there is only one attempt left before losing all data.
+//d: Use translations for "Lock code" in TARM_Lock_code_reference.xls
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_warning_attempts_left "Incorrect lock code. One attempt left before data is erased."
+
+
+//d: Information note. Security code has expired and user is forced to give new security code.
+//d: After the note a data query "Enter new lock code:" (provided by S60) is displayed.
+//d: Use translations for "Lock code" in TARM_Lock_code_reference.xls
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_aging "Lock code expired."
+
+
+//d: Information note. User is notified that security code cannot be changed more often than x times in y hours.
+//d: The first %i is replaced with the maximum amount of security code changes.
+//d: The second %i is replaced with the amount of hours.
+//d: Both parameters can be max 2 digits (99).
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_change_day "Lock code can be changed %0N times in %1N hours"
+
+
+//d: Information note. User is notified that security code cannot be changed more often than 1 time in y hours.
+//d: %i is replaced with the amount of hours.
+//d: Parameter can be max 2 digits (99).
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_change_hours "Lock code can be changed once in %N hours"
+
+//d: Information note. User is notified that security code cannot be changed more often than x times in 1 hour.
+//d: %i is replaced with hte amount of security code changes.
+//d: Parameter can be max 2 digits (99).
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_change_times "Lock code can be changed %N times in an hour"
+
+
+//d: Information note. User is notified that security code cannot be changed more often than 1 time1 in 1 hour.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_change_ones "Lock code can be changed once in an hour"
+
+
+
+// End of File
+

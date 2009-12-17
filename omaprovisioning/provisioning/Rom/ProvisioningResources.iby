@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Image description file for the Provisioning Resources
+*
+*/
+
+
+#ifndef __PROVISIONINGRESOURCES_IBY__
+#define __PROVISIONINGRESOURCES_IBY__
+
+
+data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningHandlerResource.rsc                  RESOURCE_FILES_DIR\ProvisioningHandler.rsc
+//data=DATAZ_\RESOURCE_FILES_DIR\WPAPAdapterResource.rsc                          RESOURCE_FILES_DIR\WPAPAdapter.rsc
+#ifdef __MMS
+ data=DATAZ_\RESOURCE_FILES_DIR\WPWAPAdapterResource.rsc                        RESOURCE_FILES_DIR\WPWAPAdapter.rsc
+#endif
+#ifdef __IM
+ data=DATAZ_\RESOURCE_FILES_DIR\WPWVAdapterResource.rsc                         RESOURCE_FILES_DIR\WPWVAdapter.rsc
+#endif
+data=DATAZ_\RESOURCE_FILES_DIR\WpstreamingadapterResource.rsc                   RESOURCE_FILES_DIR\Wpstreamingadapter.rsc
+
+data=DATAZ_\RESOURCE_FILES_DIR\WPMbxNbrAdapterResource.rsc                      RESOURCE_FILES_DIR\WPMbxNbrAdapter.rsc
+
+//data=DATAZ_\RESOURCE_FILES_DIR\WPSIPAdapterResource.rsc                         RESOURCE_FILES_DIR\WPSIPAdapter.rsc
+
+
+
+// Resource files for OMA Provisioning
+
+data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningBC.rsc                       RESOURCE_FILES_DIR\ProvisioningBC.rsc
+
+data=DATAZ_\RESOURCE_FILES_DIR\messaging\bif\prov.rsc                   resource\messaging\bif\prov.rsc
+
+//data=DATAZ_\APP_RESOURCE_DIR\ProvisioningCx.rsc                         APP_RESOURCE_DIR\ProvisioningCx.rsc
+
+#ifdef __SMART_CARD_PROV
+   data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningSC.rsc                    RESOURCE_FILES_DIR\ProvisioningSC.rsc
+#endif
+
+#ifdef FF_PROV_AUTHTYPE_PLUGIN
+  data=DATAZ_\RESOURCE_FILES_DIR\AuthtypepluginRsc.rsc            RESOURCE_FILES_DIR\AuthtypepluginRsc.rsc
+#endif
+
+#endif // __PROVISIONINGRESOURCES_IBY__

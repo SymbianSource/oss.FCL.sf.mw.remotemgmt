@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of policymanagement components
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+TARGET          policyengine.dll
+TARGETTYPE      dll
+CAPABILITY      CAP_CLIENT_DLL
+UID             0x1000008D 0x10207816
+VENDORID        VID_DEFAULT
+
+
+SOURCEPATH    	../policyengineclient/src
+SOURCE        	PolicyEngineClient.cpp
+SOURCE		  		Contexts.cpp
+
+USERINCLUDE   	. 
+USERINCLUDE     ../policyengineserver/inc 
+USERINCLUDE     ../../include 
+USERINCLUDE     ../policyengineclient/inc
+USERINCLUDE     ../../../inc // domain private headers
+
+MW_LAYER_SYSTEMINCLUDE
+
+
+LIBRARY					flogger.lib
+LIBRARY       	euser.lib
+LIBRARY       	eikcore.lib 
+LIBRARY 	  		centralrepository.lib	
+LIBRARY 	  		featmgr.lib	
+library 		inetprotutil.lib
+LIBRARY         dmutil.lib
+
+
+SMPSAFE

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="b3431826bf24ebecc34294f5d7476a3b" dataversion="1.0">
+  <name>Terminal Security Device Lock API</name>
+  <description>An API for managing device lock.</description>
+  <type>c++</type>
+  <subsystem>terminalsecurity</subsystem>
+  <libs>
+    <lib name="TerminalControl.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

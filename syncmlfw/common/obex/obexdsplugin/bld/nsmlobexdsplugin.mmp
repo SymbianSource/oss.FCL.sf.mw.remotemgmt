@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SyncML Obex plugin for data syncronization
+*
+*/
+
+
+#include <defaultcaps.hrh>
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+
+TARGET      	nsmlobexdsplugin.dll
+TARGETTYPE	PLUGIN
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID 		0x10009D8D 0x101F9684
+CAPABILITY	CAP_ECOM_PLUGIN
+VENDORID 	VID_DEFAULT
+
+//MACRO __MDO_ENABLED
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+SOURCEPATH     	../src
+
+SOURCE      	NSmlObexDSplugin.cpp
+SOURCE      	Proxy.cpp
+SOURCE          DisListener.cpp
+SOURCE          PluginServiceTimer.cpp
+
+START RESOURCE 101f9684.rss
+TARGET		nsmlobexdsplugin.rsc
+END
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/libc /epoc32/include/ecom
+
+
+USERINCLUDE     ../inc 
+USERINCLUDE	../../../inc 
+USERINCLUDE	../../../alerthandler/inc 
+USERINCLUDE	../../../transport/inc 
+USERINCLUDE	../../../obex/obexcommserver/inc 
+USERINCLUDE	../../../wbxml/inc 
+USERINCLUDE	../../../wbxml/inc/syncml 
+USERINCLUDE	../../../syncagent/inc 
+USERINCLUDE	../../../debug/inc 
+USERINCLUDE	../../../xml/inc 
+USERINCLUDE	../../../xml/inc/syncml 
+USERINCLUDE	../../../xml/inc/devinf 
+USERINCLUDE	../../../wbxml/inc/devinf
+
+
+LIBRARY     euser.lib
+LIBRARY 	nsmldebug.lib
+LIBRARY     irobex.lib 
+LIBRARY		nsmlobexcommserver.lib
+LIBRARY		ecom.lib			
+LIBRARY		nsmlxml.lib
+LIBRARY		bluetooth.lib
+LIBRARY		esock.lib
+
+
+SMPSAFE

@@ -1,0 +1,3 @@
+EXPORTS
+	?DCMOCustCmdAllReasonsNewL@DCMOCustCmdsFactory@@SAPAVMSsmCustomCommand@@XZ @ 1 NONAME ; class MSsmCustomCommand * DCMOCustCmdsFactory::DCMOCustCmdAllReasonsNewL(void)
+

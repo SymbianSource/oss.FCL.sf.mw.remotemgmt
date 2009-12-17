@@ -1,0 +1,56 @@
+EXPORTS
+	??0CNSmlDSCrypt@@QAE@XZ @ 1 NONAME ; CNSmlDSCrypt::CNSmlDSCrypt(void)
+	??1CNSmlDSCrypt@@UAE@XZ @ 2 NONAME ; CNSmlDSCrypt::~CNSmlDSCrypt(void)
+	??1CNSmlDSProfile@@UAE@XZ @ 3 NONAME ; CNSmlDSProfile::~CNSmlDSProfile(void)
+	??1CNSmlDSSettings@@UAE@XZ @ 4 NONAME ; CNSmlDSSettings::~CNSmlDSSettings(void)
+	??1CNSmlRoamTable@@UAE@XZ @ 5 NONAME ; CNSmlRoamTable::~CNSmlRoamTable(void)
+	?AddContentTypeL@CNSmlDSProfile@@QAEPAVCNSmlDSContentType@@HAAVTDesC16@@0@Z @ 6 NONAME ; class CNSmlDSContentType * CNSmlDSProfile::AddContentTypeL(int, class TDesC16 &, class TDesC16 &)
+	?AssignL@CNSmlDSProfileListItem@@QAEXPBV1@@Z @ 7 NONAME ; void CNSmlDSProfileListItem::AssignL(class CNSmlDSProfileListItem const *)
+	?ContentType@CNSmlDSProfile@@QBEPAVCNSmlDSContentType@@H@Z @ 8 NONAME ; class CNSmlDSContentType * CNSmlDSProfile::ContentType(int) const
+	?ContentTypeId@CNSmlDSProfile@@QBEPAVCNSmlDSContentType@@H@Z @ 9 NONAME ; class CNSmlDSContentType * CNSmlDSProfile::ContentTypeId(int) const
+	?CreateProfileL@CNSmlDSSettings@@QAEPAVCNSmlDSProfile@@H@Z @ 10 NONAME ; class CNSmlDSProfile * CNSmlDSSettings::CreateProfileL(int)
+	?CreateProfileL@CNSmlDSSettings@@QAEPAVCNSmlDSProfile@@XZ @ 11 NONAME ; class CNSmlDSProfile * CNSmlDSSettings::CreateProfileL(void)
+	?Database@CNSmlDSSettings@@QAEPAVRDbNamedDatabase@@XZ @ 12 NONAME ; class RDbNamedDatabase * CNSmlDSSettings::Database(void)
+	?DecryptedL@CNSmlDSCrypt@@QAEAAVTDesC16@@ABV2@@Z @ 13 NONAME ; class TDesC16 & CNSmlDSCrypt::DecryptedL(class TDesC16 const &)
+	?DeleteContentTypeL@CNSmlDSProfile@@QAEHH@Z @ 14 NONAME ; int CNSmlDSProfile::DeleteContentTypeL(int)
+	?DeleteProfileL@CNSmlDSSettings@@QAEHH@Z @ 15 NONAME ; int CNSmlDSSettings::DeleteProfileL(int)
+	?EncryptedL@CNSmlDSCrypt@@QAEAAVTDesC16@@ABV2@@Z @ 16 NONAME ; class TDesC16 & CNSmlDSCrypt::EncryptedL(class TDesC16 const &)
+	?FilterReadStreamL@CNSmlDSContentType@@QAEAAVRReadStream@@XZ @ 17 NONAME ; class RReadStream & CNSmlDSContentType::FilterReadStreamL(void)
+	?FilterWriteStreamL@CNSmlDSContentType@@QAEAAVRWriteStream@@XZ @ 18 NONAME ; class RWriteStream & CNSmlDSContentType::FilterWriteStreamL(void)
+	?GetAllProfileListL@CNSmlDSSettings@@QAEXPAV?$CArrayPtrFlat@VCNSmlDSProfileListItem@@@@@Z @ 19 NONAME ; void CNSmlDSSettings::GetAllProfileListL(class CArrayPtrFlat<class CNSmlDSProfileListItem> *)
+	?GetItemIAPL@CNSmlRoamTable@@QAEKHH@Z @ 20 NONAME ; unsigned long CNSmlRoamTable::GetItemIAPL(int, int)
+	?GetItemsForIdL@CNSmlRoamTable@@QAEPAV?$CArrayFixFlat@K@@H@Z @ 21 NONAME ; class CArrayFixFlat<unsigned long> * CNSmlRoamTable::GetItemsForIdL(int)
+	?GetProfileListL@CNSmlDSSettings@@QAEXPAV?$CArrayPtrFlat@VCNSmlDSProfileListItem@@@@@Z @ 22 NONAME ; void CNSmlDSSettings::GetProfileListL(class CArrayPtrFlat<class CNSmlDSProfileListItem> *)
+	?HasFilterL@CNSmlDSContentType@@QAEHXZ @ 23 NONAME ; int CNSmlDSContentType::HasFilterL(void)
+	?HasLogL@CNSmlDSProfile@@QAEHXZ @ 24 NONAME ; int CNSmlDSProfile::HasLogL(void)
+	?IntValue@CNSmlDSContentType@@QBEHW4TNSmlDSContentTypeData@@@Z @ 25 NONAME ; int CNSmlDSContentType::IntValue(enum TNSmlDSContentTypeData) const
+	?IntValue@CNSmlDSProfile@@QBEHW4TNSmlDSProfileData@@@Z @ 26 NONAME ; int CNSmlDSProfile::IntValue(enum TNSmlDSProfileData) const
+	?IntValue@CNSmlDSProfileListItem@@QBEHW4TNSmlDSProfileData@@@Z @ 27 NONAME ; int CNSmlDSProfileListItem::IntValue(enum TNSmlDSProfileData) const
+	?IsNew@CNSmlDSProfile@@QBEHXZ @ 28 NONAME ; int CNSmlDSProfile::IsNew(void) const
+	?IsNullL@CNSmlDSProfile@@QAEHABVTDesC16@@@Z @ 29 NONAME ; int CNSmlDSProfile::IsNullL(class TDesC16 const &)
+	?LogReadStreamL@CNSmlDSProfile@@QAEAAVRReadStream@@XZ @ 30 NONAME ; class RReadStream & CNSmlDSProfile::LogReadStreamL(void)
+	?LogWriteStreamL@CNSmlDSProfile@@QAEAAVRWriteStream@@XZ @ 31 NONAME ; class RWriteStream & CNSmlDSProfile::LogWriteStreamL(void)
+	?NewL@CNSmlDSProfileListItem@@SAPAV1@H@Z @ 32 NONAME ; class CNSmlDSProfileListItem * CNSmlDSProfileListItem::NewL(int)
+	?NewL@CNSmlDSSettings@@SAPAV1@XZ @ 33 NONAME ; class CNSmlDSSettings * CNSmlDSSettings::NewL(void)
+	?NewL@CNSmlRoamTable@@SAPAV1@AAVRDbNamedDatabase@@@Z @ 34 NONAME ; class CNSmlRoamTable * CNSmlRoamTable::NewL(class RDbNamedDatabase &)
+	?NewLC@CNSmlDSProfileListItem@@SAPAV1@H@Z @ 35 NONAME ; class CNSmlDSProfileListItem * CNSmlDSProfileListItem::NewLC(int)
+	?NewLC@CNSmlDSSettings@@SAPAV1@XZ @ 36 NONAME ; class CNSmlDSSettings * CNSmlDSSettings::NewLC(void)
+	?NewLC@CNSmlRoamTable@@SAPAV1@AAVRDbNamedDatabase@@@Z @ 37 NONAME ; class CNSmlRoamTable * CNSmlRoamTable::NewLC(class RDbNamedDatabase &)
+	?ProfileIdL@CNSmlDSSettings@@QAEHH@Z @ 38 NONAME ; int CNSmlDSSettings::ProfileIdL(int)
+	?ProfileL@CNSmlDSSettings@@QAEPAVCNSmlDSProfile@@HW4TNSmlDSContentTypeGetMode@@@Z @ 39 NONAME ; class CNSmlDSProfile * CNSmlDSSettings::ProfileL(int, enum TNSmlDSContentTypeGetMode)
+	?PutItemsL@CNSmlRoamTable@@QAEXHPAV?$CArrayFixFlat@K@@@Z @ 40 NONAME ; void CNSmlRoamTable::PutItemsL(int, class CArrayFixFlat<unsigned long> *)
+	?RemoveAllByIdL@CNSmlRoamTable@@QAEXH@Z @ 41 NONAME ; void CNSmlRoamTable::RemoveAllByIdL(int)
+	?SaveL@CNSmlDSProfile@@QAEHXZ @ 42 NONAME ; int CNSmlDSProfile::SaveL(void)
+	?SetHiddenL@CNSmlDSProfile@@QAEHH@Z @ 43 NONAME ; int CNSmlDSProfile::SetHiddenL(int)
+	?SetIntValue@CNSmlDSContentType@@QAEXW4TNSmlDSContentTypeData@@H@Z @ 44 NONAME ; void CNSmlDSContentType::SetIntValue(enum TNSmlDSContentTypeData, int)
+	?SetIntValue@CNSmlDSProfile@@QAEXW4TNSmlDSProfileData@@H@Z @ 45 NONAME ; void CNSmlDSProfile::SetIntValue(enum TNSmlDSProfileData, int)
+	?SetStrValue@CNSmlDSContentType@@QAEXW4TNSmlDSContentTypeData@@ABVTDesC16@@@Z @ 46 NONAME ; void CNSmlDSContentType::SetStrValue(enum TNSmlDSContentTypeData, class TDesC16 const &)
+	?SetStrValue@CNSmlDSProfile@@QAEXW4TNSmlDSProfileData@@ABVTDesC16@@@Z @ 47 NONAME ; void CNSmlDSProfile::SetStrValue(enum TNSmlDSProfileData, class TDesC16 const &)
+	?SetVisibility@CNSmlDSProfile@@QAEXW4TNSmlDSProfileData@@W4TNSmlDSFieldVisibility@@@Z @ 48 NONAME ; void CNSmlDSProfile::SetVisibility(enum TNSmlDSProfileData, enum TNSmlDSFieldVisibility)
+	?StrValue@CNSmlDSContentType@@QBEABVTDesC16@@W4TNSmlDSContentTypeData@@@Z @ 49 NONAME ; class TDesC16 const & CNSmlDSContentType::StrValue(enum TNSmlDSContentTypeData) const
+	?StrValue@CNSmlDSProfile@@QBEABVTDesC16@@W4TNSmlDSProfileData@@@Z @ 50 NONAME ; class TDesC16 const & CNSmlDSProfile::StrValue(enum TNSmlDSProfileData) const
+	?UpdateHiddenProfilesL@CNSmlDSSettings@@QAEXXZ @ 51 NONAME ; void CNSmlDSSettings::UpdateHiddenProfilesL(void)
+	?Visibility@CNSmlDSProfile@@QBE?AW4TNSmlDSFieldVisibility@@W4TNSmlDSProfileData@@@Z @ 52 NONAME ; enum TNSmlDSFieldVisibility CNSmlDSProfile::Visibility(enum TNSmlDSProfileData) const
+	?WriteStreamCommitL@CNSmlDSContentType@@QAEXXZ @ 53 NONAME ; void CNSmlDSContentType::WriteStreamCommitL(void)
+	?WriteStreamCommitL@CNSmlDSProfile@@QAEXXZ @ 54 NONAME ; void CNSmlDSProfile::WriteStreamCommitL(void)
+

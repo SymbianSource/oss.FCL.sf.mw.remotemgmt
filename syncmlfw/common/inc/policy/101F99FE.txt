@@ -1,0 +1,10 @@
+[database]
+read
+SID = 101F99FE
+write
+SID = 101F99FE
+schema
+SID = 101F99FE
+
+[BACKUP]
+SID = 101F99FE

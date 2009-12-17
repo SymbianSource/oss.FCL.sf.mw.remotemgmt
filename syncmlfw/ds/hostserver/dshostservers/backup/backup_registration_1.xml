@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- Copyright (c) 2004, Symbian Software Ltd. All Rights Reserved -->
+
+<backup_registration version="1.0">
+
+    <passive_backup>
+        <include_directory name = "\" />
+    </passive_backup>
+
+    <dbms_backup policy="101F99FD" />
+
+    <restore requires_reboot = "no"/>
+
+</backup_registration>

@@ -1,0 +1,141 @@
+EXPORTS
+	_ZN10CWPAdapter4NewLERK4TUid @ 1 NONAME
+	_ZN10CWPAdapterC2Ev @ 2 NONAME
+	_ZN10CWPAdapterD0Ev @ 3 NONAME
+	_ZN10CWPAdapterD1Ev @ 4 NONAME
+	_ZN10CWPAdapterD2Ev @ 5 NONAME
+	_ZN12CWPBootstrap10BootstrapLER14CWPPushMessageR9CWPEngineRK7TDesC16 @ 6 NONAME
+	_ZN12CWPBootstrap4NewLERK7TDesC16 @ 7 NONAME
+	_ZN12CWPParameter12InternalizeLER11RReadStream @ 8 NONAME
+	_ZN12CWPParameter4NewLEv @ 9 NONAME
+	_ZN12CWPParameter5NewLCEv @ 10 NONAME
+	_ZN12CWPParameter5SetIDEi @ 11 NONAME
+	_ZN12CWPParameter8SetNameLERK7TDesC16 @ 12 NONAME
+	_ZN12CWPParameter9SetValueLERK7TDesC16 @ 13 NONAME
+	_ZN13WPAdapterUtil10ReadHBufCLERK7TDesC16S2_i @ 14 NONAME
+	_ZN13WPAdapterUtil12AccesspointLER17CWPCharacteristic @ 15 NONAME
+	_ZN13WPAdapterUtil8CheckURIERK7TDesC16 @ 16 NONAME
+	_ZN13WPAdapterUtil9CheckIPv4ERK7TDesC16 @ 17 NONAME
+	_ZN13WPAdapterUtil9CheckIPv6ERK7TDesC16 @ 18 NONAME
+	_ZN14CWPPushMessage12InternalizeLER11RReadStream @ 19 NONAME
+	_ZN14CWPPushMessage12ParseHeaderLEv @ 20 NONAME
+	_ZN14CWPPushMessage13AuthenticateLERK7TDesC16S2_ @ 21 NONAME
+	_ZN14CWPPushMessage14SetOriginatorLERK6TDesC8 @ 22 NONAME
+	_ZN14CWPPushMessage16SetAuthenticatedEi @ 23 NONAME
+	_ZN14CWPPushMessage3SetEP6HBufC8S1_ @ 24 NONAME
+	_ZN14CWPPushMessage4NewLEv @ 25 NONAME
+	_ZN14CWPPushMessage4SetLERK6TDesC8S2_ @ 26 NONAME
+	_ZN14CWPPushMessage5NewLCEv @ 27 NONAME
+	_ZN14CWPPushMessage8RestoreLER9CMsvStore @ 28 NONAME
+	_ZN14CWPPushMessage8SetSavedEi @ 29 NONAME
+	_ZN14WPPhoneFactory7CreateLEv @ 30 NONAME
+	_ZN14WPPhoneFactory8CreateLCEv @ 31 NONAME
+	_ZN16WPElementFactory16CreateParameterLERK7TDesC16S2_ @ 32 NONAME
+	_ZN16WPElementFactory16CreateParameterLEiRK7TDesC16 @ 33 NONAME
+	_ZN16WPElementFactory17CreateParameterLCERK7TDesC16S2_ @ 34 NONAME
+	_ZN16WPElementFactory17CreateParameterLCEiRK7TDesC16 @ 35 NONAME
+	_ZN16WPElementFactory21CreateCharacteristicLERK7TDesC16 @ 36 NONAME
+	_ZN16WPElementFactory21CreateCharacteristicLEi @ 37 NONAME
+	_ZN16WPElementFactory22CreateCharacteristicLCERK7TDesC16 @ 38 NONAME
+	_ZN16WPElementFactory22CreateCharacteristicLCEi @ 39 NONAME
+	_ZN16WPElementFactory7CreateLEi @ 40 NONAME
+	_ZN16WPElementFactory8CreateLCEi @ 41 NONAME
+	_ZN17CWPCharacteristic10ParameterLEiP9CArrayFixI7TPtrC16E @ 42 NONAME
+	_ZN17CWPCharacteristic11InsertLinkLERS_ @ 43 NONAME
+	_ZN17CWPCharacteristic13DeleteAllDataEv @ 44 NONAME
+	_ZN17CWPCharacteristic7AcceptLER10MWPVisitor @ 45 NONAME
+	_ZN17CWPCharacteristic7InsertLEP10MWPElement @ 46 NONAME
+	_ZN17CWPCharacteristic8SetDataLERK6TDesC8 @ 47 NONAME
+	_ZN17CWPCharacteristic8SetDataLERK6TDesC8i @ 48 NONAME
+	_ZN17CWPCharacteristic8SetNameLERK7TDesC16 @ 49 NONAME
+	_ZN9CWPEngine11ContextTPSLEm @ 50 NONAME
+	_ZN9CWPEngine12ContextNameLEm @ 51 NONAME
+	_ZN9CWPEngine12ContextUidsLEv @ 52 NONAME
+	_ZN9CWPEngine12CreateLinksLEv @ 53 NONAME
+	_ZN9CWPEngine12InternalizeLER11RReadStream @ 54 NONAME
+	_ZN9CWPEngine13SetAsDefaultLEi @ 55 NONAME
+	_ZN9CWPEngine14ContextExistsLERK7TDesC16 @ 56 NONAME
+	_ZN9CWPEngine14ContextExistsLEm @ 57 NONAME
+	_ZN9CWPEngine14CreateContextLERK7TDesC16S2_RK12MDesC16Array @ 58 NONAME
+	_ZN9CWPEngine14DeleteContextLEm @ 59 NONAME
+	_ZN9CWPEngine15ContextProxiesLEm @ 60 NONAME
+	_ZN9CWPEngine15CurrentContextLEv @ 61 NONAME
+	_ZN9CWPEngine15ImportDocumentLERK6TDesC8 @ 62 NONAME
+	_ZN9CWPEngine17ContextDataCountLEm @ 63 NONAME
+	_ZN9CWPEngine18DeleteContextDataLEm @ 64 NONAME
+	_ZN9CWPEngine18SetCurrentContextLEm @ 65 NONAME
+	_ZN9CWPEngine24RegisterContextObserverLEP18MWPContextObserver @ 66 NONAME
+	_ZN9CWPEngine25UnregisterContextObserverEP18MWPContextObserver @ 67 NONAME
+	_ZN9CWPEngine4NewLEv @ 68 NONAME
+	_ZN9CWPEngine5NewLCEv @ 69 NONAME
+	_ZN9CWPEngine5SaveLEi @ 70 NONAME
+	_ZN9CWPEngine7AcceptLER10MWPVisitor @ 71 NONAME
+	_ZN9CWPEngine8ContextLERK7TDesC16 @ 72 NONAME
+	_ZN9CWPEngine8DetailsLEiR14MWPPairVisitor @ 73 NONAME
+	_ZN9CWPEngine8RestoreLER12CStreamStore9TStreamId @ 74 NONAME
+	_ZN9CWPEngine9PopulateLEv @ 75 NONAME
+	_ZNK12CWPBootstrap3TPSEv @ 76 NONAME
+	_ZNK12CWPParameter12ExternalizeLER12RWriteStream @ 77 NONAME
+	_ZNK12CWPParameter2IDEv @ 78 NONAME
+	_ZNK12CWPParameter4NameEv @ 79 NONAME
+	_ZNK12CWPParameter4TypeEv @ 80 NONAME
+	_ZNK12CWPParameter5ValueEv @ 81 NONAME
+	_ZNK14CWPPushMessage10OriginatorEv @ 82 NONAME
+	_ZNK14CWPPushMessage12ExternalizeLER12RWriteStream @ 83 NONAME
+	_ZNK14CWPPushMessage12InitiatorURIEv @ 84 NONAME
+	_ZNK14CWPPushMessage13AuthenticatedEv @ 85 NONAME
+	_ZNK14CWPPushMessage3MACEv @ 86 NONAME
+	_ZNK14CWPPushMessage3SECEv @ 87 NONAME
+	_ZNK14CWPPushMessage4BodyEv @ 88 NONAME
+	_ZNK14CWPPushMessage5SavedEv @ 89 NONAME
+	_ZNK14CWPPushMessage6HeaderEv @ 90 NONAME
+	_ZNK14CWPPushMessage6StoreLER9CMsvStore @ 91 NONAME
+	_ZNK14CWPPushMessage8PushFlagEv @ 92 NONAME
+	_ZNK17CWPCharacteristic4DataEi @ 93 NONAME
+	_ZNK17CWPCharacteristic4DataEv @ 94 NONAME
+	_ZNK17CWPCharacteristic4NameEv @ 95 NONAME
+	_ZNK9CWPEngine11SummaryTextEi @ 96 NONAME
+	_ZNK9CWPEngine12ExternalizeLER12RWriteStream @ 97 NONAME
+	_ZNK9CWPEngine12SummaryTitleEi @ 98 NONAME
+	_ZNK9CWPEngine15CanSetAsDefaultEi @ 99 NONAME
+	_ZNK9CWPEngine6StoreLER12CStreamStore @ 100 NONAME
+	_ZNK9CWPEngine7BuilderEv @ 101 NONAME
+	_ZNK9CWPEngine9ItemCountEv @ 102 NONAME
+	_ZTI10CWPAdapter @ 103 NONAME ; #<TI>#
+	_ZTI12CWPBootstrap @ 104 NONAME ; #<TI>#
+	_ZTI12CWPParameter @ 105 NONAME ; #<TI>#
+	_ZTI12CWPPhoneEmul @ 106 NONAME ; #<TI>#
+	_ZTI12CWPValidator @ 107 NONAME ; #<TI>#
+	_ZTI14CWPPushMessage @ 108 NONAME ; #<TI>#
+	_ZTI17CWPAdapterManager @ 109 NONAME ; #<TI>#
+	_ZTI17CWPCharacteristic @ 110 NONAME ; #<TI>#
+	_ZTI18TWPFindAccesspoint @ 111 NONAME ; #<TI>#
+	_ZTI22CWPMultiContextManager @ 112 NONAME ; #<TI>#
+	_ZTI24CWPBindingContextManager @ 113 NONAME ; #<TI>#
+	_ZTI7CWPRoot @ 114 NONAME ; #<TI>#
+	_ZTI8CWPPhone @ 115 NONAME ; #<TI>#
+	_ZTI9CWPEngine @ 116 NONAME ; #<TI>#
+	_ZTV10CWPAdapter @ 117 NONAME ; #<VT>#
+	_ZTV12CWPBootstrap @ 118 NONAME ; #<VT>#
+	_ZTV12CWPParameter @ 119 NONAME ; #<VT>#
+	_ZTV12CWPPhoneEmul @ 120 NONAME ; #<VT>#
+	_ZTV12CWPValidator @ 121 NONAME ; #<VT>#
+	_ZTV14CWPPushMessage @ 122 NONAME ; #<VT>#
+	_ZTV17CWPAdapterManager @ 123 NONAME ; #<VT>#
+	_ZTV17CWPCharacteristic @ 124 NONAME ; #<VT>#
+	_ZTV18TWPFindAccesspoint @ 125 NONAME ; #<VT>#
+	_ZTV22CWPMultiContextManager @ 126 NONAME ; #<VT>#
+	_ZTV24CWPBindingContextManager @ 127 NONAME ; #<VT>#
+	_ZTV7CWPRoot @ 128 NONAME ; #<VT>#
+	_ZTV8CWPPhone @ 129 NONAME ; #<VT>#
+	_ZTV9CWPEngine @ 130 NONAME ; #<VT>#
+	_ZThn4_N12CWPParameter12InternalizeLER11RReadStream @ 131 NONAME ; #<thunk>#
+	_ZThn4_NK12CWPParameter12ExternalizeLER12RWriteStream @ 132 NONAME ; #<thunk>#
+	_ZThn4_NK12CWPParameter4TypeEv @ 133 NONAME ; #<thunk>#
+	_ZN13WPAdapterUtil13SetAPDetailsLEj @ 134 NONAME
+	_ZN13WPAdapterUtil8GetAPIDLEv @ 135 NONAME
+	_ZTI15CWPInternetAPDB @ 136 NONAME ; #<TI>#
+	_ZTV15CWPInternetAPDB @ 137 NONAME ; #<VT>#
+	_ZN9CWPEngine15GetAccessDeniedEv @ 138 NONAME
+	_ZN9CWPEngine15SetAccessDeniedEi @ 139 NONAME
+

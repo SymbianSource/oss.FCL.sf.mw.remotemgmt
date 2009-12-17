@@ -1,0 +1,11 @@
+EXPORTS
+	_Z14CreateDMAgentLP23MSyncMLProgressObserver @ 1 NONAME
+	_ZTI11CNSmlDMCmds @ 2 NONAME ; #<TI>#
+	_ZTI12CNSmlDMAgent @ 3 NONAME ; #<TI>#
+	_ZTI12TNSmlDMError @ 4 NONAME ; #<TI>#
+	_ZTI19CNSmlDMGenericAlert @ 5 NONAME ; #<TI>#
+	_ZTV11CNSmlDMCmds @ 6 NONAME ; #<VT>#
+	_ZTV12CNSmlDMAgent @ 7 NONAME ; #<VT>#
+	_ZTV12TNSmlDMError @ 8 NONAME ; #<VT>#
+	_ZTV19CNSmlDMGenericAlert @ 9 NONAME ; #<VT>#
+

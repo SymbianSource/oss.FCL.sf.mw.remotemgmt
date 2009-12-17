@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of syncmlfw/dm component
+* 	This is part of syncmlfw.
+*
+*/
+
+
+#include "data_caging_paths.hrh"
+#include "defaultcaps.hrh"
+#include  <platform_paths.hrh>
+
+CAPABILITY 	ReadUserData WriteUserData
+EPOCHEAPSIZE	0x500 0x400000 	// minimum and maximum heap sizes 
+EPOCSTACKSIZE	0x3000
+VENDORID 	VID_DEFAULT
+UID             0 0x101F9A04
+TARGET          nsmldmhostserver3.exe
+TARGETTYPE      exe
+
+
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE    /epoc32/include/libc
+USERINCLUDE    	../inc
+USERINCLUDE    	../../../dmutils/inc
+USERINCLUDE		../../dmhostserverbase/inc
+
+SOURCEPATH      ../src
+SOURCE			nsmldmhostserver3.cpp
+
+LIBRARY         euser.lib nsmldebug.lib nsmldmhostserver.lib
+
+SMPSAFE

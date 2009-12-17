@@ -1,0 +1,112 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME SCPN
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <eikcore.rsg>
+
+#include <avkon.loc>
+
+#include "SCPNotifier.hrh"
+#include <scpnotifier.loc>
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.hrh>
+#include <avkon.mbg>
+
+RESOURCE RSS_SIGNATURE { }
+
+//RESOURCE TBUF16 { buf=""; }
+RESOURCE TBUF { buf= ""; }
+
+RESOURCE EIK_APP_INFO
+    {
+    }
+
+//  RESOURCE DEFINITIONS 
+
+#define ESCPQueryFlags (EGeneralQueryFlags | EEikDialogFlagNotifyEsc)
+
+// ---------------------------------------------------------
+//   
+//    r_scp_code_query
+//    Used to request the enhanced security code from the user
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_scp_code_query
+    {
+    flags = ESCPQueryFlags | EEikDialogFlagVirtualInput;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                    layout = ECodeLayout;                    
+                    control = SECRETED
+                        {                         
+                        };
+                };
+            }
+        };
+    }   
+
+RESOURCE TBUF r_scpdialog_ok_text
+    {
+    buf = text_softkey_ok;
+    }
+
+RESOURCE DIALOG r_scpdialog_emergencycalls_only
+    {
+    flags=ESCPQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtNote;
+            id=EGeneralNote;
+            control= AVKON_NOTE 
+                { 
+                    layout = EGeneralLayout;
+                    singular_label = qtn_emerg_emergency_only;
+                    animation = R_QGN_NOTE_ERROR_ANIM;
+                };
+            }
+        };
+    }
+        	
+RESOURCE TBUF r_set_sec_code
+    {
+    buf = qtn_set_sec_code_setting_query;
+    }
+/*RESOURCE TBUF r_set_sec_code_startup_query
+    {
+    buf = qtn_set_sec_code_startup_query;
+    }*/
+// end of file
+

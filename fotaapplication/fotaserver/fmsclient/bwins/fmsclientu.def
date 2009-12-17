@@ -1,0 +1,10 @@
+EXPORTS
+	?MonitorForBatteryL@RFMSClient@@QAEXI@Z @ 1 NONAME ; void RFMSClient::MonitorForBatteryL(unsigned int)
+	?NotifyForResumeL@RFMSClient@@QAEXABW4TOmaDLInterruptReason@@ABHABW4TDriveNumber@@1@Z @ 2 NONAME ; void RFMSClient::NotifyForResumeL(enum TOmaDLInterruptReason const &, int const &, enum TDriveNumber const &, int const &)
+	?Close@RFMSClient@@QAEXXZ @ 3 NONAME ; void RFMSClient::Close(void)
+	?Cancel@RFMSClient@@QAEXXZ @ 4 NONAME ; void RFMSClient::Cancel(void)
+	?OpenL@RFMSClient@@QAEHXZ @ 5 NONAME ; int RFMSClient::OpenL(void)
+	?CancelNotifyForResume@RFMSClient@@QAEXXZ @ 6 NONAME ; void RFMSClient::CancelNotifyForResume(void)
+	?IsPhoneCallActive@RFMSClient@@QAEHAAH@Z @ 7 NONAME ; int RFMSClient::IsPhoneCallActive(int &)
+	?MonitorActivePhoneCallEnd@RFMSClient@@QAEHHH@Z @ 8 NONAME ; int RFMSClient::MonitorActivePhoneCallEnd(int, int)
+

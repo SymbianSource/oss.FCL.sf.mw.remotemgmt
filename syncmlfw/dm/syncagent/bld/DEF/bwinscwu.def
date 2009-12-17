@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateDMAgentL@@YAPAVCNSmlDMAgent@@PAVMSyncMLProgressObserver@@@Z @ 1 NONAME ; class CNSmlDMAgent * CreateDMAgentL(class MSyncMLProgressObserver *)
+

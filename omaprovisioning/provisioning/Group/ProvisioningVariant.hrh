@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Local variation flags for OMA Provisioning
+*
+*/
+
+
+#ifndef PROVISIONINGVARIANT_HRH
+#define PROVISIONINGVARIANT_HRH
+
+
+// DATA TYPES
+
+/**
+* Local variation flags for OMA Provisioning.
+*/
+enum TProvisioningVariant
+    {
+    /** Binding settings to a configuration context. When a configuration
+    * context is deleted, this flag indicates that the settings in the context
+    * are deleted, too. 
+    *
+    * The settings are in 101F84D6.ini, setting "R-LVFlags".
+    */
+    EWPMultipleCxBinding = 1,
+    
+    /** Value for confirming push message authentication. Currently there are only 
+    * two variants :
+    * 1 : Supports all authentications (value 0xf)
+    * 2 : Supports only NETWPIN authentication (value 1)
+    */
+    EAuthNETWPINOnly	= 1,
+    
+    /* Value for confirming push message authentication. Addition of new variant for supporting
+    * networkpin and userpin. In this variant user cannot recieve message with No Security
+    *  variant 3: Supports only UserPin and Network Pin*/
+    
+    EAuthNoSecurity = 3
+    };
+
+#endif
+
+// End of File

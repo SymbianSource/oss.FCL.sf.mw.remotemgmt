@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for TransportHandler
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+TARGET          nsmltransporthandler.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DF0
+CAPABILITY 	CAP_CLIENT_DLL
+VENDORID 	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./def/eabi
+#elif defined(WINSCW)
+DEFFILE		./def/bwinscw
+#endif
+
+SOURCEPATH      ../src 
+SOURCE          NSmlTransportHandler.cpp
+SOURCE          NSmlTransportPropertyInfo.cpp
+SOURCE          NSmlTransportPropertiesArray.cpp
+
+START RESOURCE	../src/NSmlTransport.rss
+HEADER
+TARGETPATH	RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+
+
+LIBRARY         euser.lib estor.lib bafl.lib efsrv.lib
+
+SMPSAFE

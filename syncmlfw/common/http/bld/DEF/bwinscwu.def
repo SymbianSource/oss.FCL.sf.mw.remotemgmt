@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateCNSmlHTTPL@@YAPAVCNSmlHTTP@@XZ @ 1 NONAME ; class CNSmlHTTP * CreateCNSmlHTTPL(void)
+

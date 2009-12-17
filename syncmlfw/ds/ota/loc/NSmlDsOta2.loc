@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localisation file for NSmlDSOta settings
+*
+*/
+
+
+//d:Unknown message type. This is shown in MCE inbox when received unsupported message type.
+//d:defined in other ui specification
+//l:list_double_graphic_pane_t2
+//w:
+//r:3.0
+//
+#define qtn_mce_message_unknown "Unknown message type"
+
+// End of File

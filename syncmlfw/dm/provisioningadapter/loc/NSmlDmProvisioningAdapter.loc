@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Main class for handling provisioning Provisioning message
+*
+*/
+
+
+//d:OMA settings string
+//d:The message header in inbox
+//l:popup_info_list_pane_t1
+#define qtn_op_head_syncdm "SyncML DM settings:"
+
+//d: Default Name set for DM profile
+//l:query_popup_data_pane_t1/opt4
+#define qtn_op_default_name_syncdm "Unnamed Set"
+// End of File

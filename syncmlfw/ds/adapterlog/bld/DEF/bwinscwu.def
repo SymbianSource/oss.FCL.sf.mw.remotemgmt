@@ -1,0 +1,10 @@
+EXPORTS
+	?IsStreamPresentL@CNSmlAdapterLog@@UBEHVTUid@@@Z @ 1 NONAME ; int CNSmlAdapterLog::IsStreamPresentL(class TUid) const
+	?NewL@CNSmlAdapterLog@@SAPAV1@XZ @ 2 NONAME ; class CNSmlAdapterLog * CNSmlAdapterLog::NewL(void)
+	?NewLC@CNSmlAdapterLog@@SAPAV1@XZ @ 3 NONAME ; class CNSmlAdapterLog * CNSmlAdapterLog::NewLC(void)
+	?OpenReadStreamLC@CNSmlAdapterLog@@UAEXAAVRReadStream@@VTUid@@@Z @ 4 NONAME ; void CNSmlAdapterLog::OpenReadStreamLC(class RReadStream &, class TUid)
+	?OpenWriteStreamLC@CNSmlAdapterLog@@UAEXAAVRWriteStream@@VTUid@@@Z @ 5 NONAME ; void CNSmlAdapterLog::OpenWriteStreamLC(class RWriteStream &, class TUid)
+	?SetAdapterLogKeyL@CNSmlAdapterLog@@QAEXHABVTDesC16@@00@Z @ 6 NONAME ; void CNSmlAdapterLog::SetAdapterLogKeyL(int, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?SetServerIdL@CNSmlAdapterLog@@QAEXAAVTDesC16@@0@Z @ 7 NONAME ; void CNSmlAdapterLog::SetServerIdL(class TDesC16 &, class TDesC16 &)
+	?SyncTaskKey@CNSmlAdapterLog@@UBEKXZ @ 8 NONAME ; unsigned long CNSmlAdapterLog::SyncTaskKey(void) const
+

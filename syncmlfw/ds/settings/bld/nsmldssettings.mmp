@@ -1,0 +1,78 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DS-settings 
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+CAPABILITY 	CAP_GENERAL_DLL
+TARGET          NSmlDSSettings.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DE4
+VENDORID	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabidssettings
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscwdssettings
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE          NSmlDSResourceProfile.cpp
+SOURCE          NSmlDSResourceProfiles.cpp
+SOURCE          NSmlDSResourceContentType.cpp
+SOURCE          NSmlDSSettings.cpp
+SOURCE          NSmlDSProfileListItem.cpp
+SOURCE          NSmlDSProfile.cpp
+SOURCE          NSmlDSContentType.cpp
+SOURCE          NSmlDSCrypt.cpp
+SOURCE		nsmlroam.cpp
+SOURCE          NSmlRoamTable.cpp
+SOURCE			NSmlProfileContentHandler.cpp
+
+USERINCLUDE     ../inc 
+USERINCLUDE	../../inc 
+USERINCLUDE	../../../common/inc 
+
+
+SYSTEMINCLUDE	/epoc32/include/libc
+SYSTEMINCLUDE	/epoc32/include/ecom 
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         bafl.lib ecom.lib efsrv.lib edbms.lib estor.lib euser.lib sysutil.lib
+
+LIBRARY			XMLInterface.lib
+LIBRARY			commdb.lib
+LIBRARY			centralrepository.lib
+
+
+#ifdef __SYNCML_OBEX //pre-defined local sync profiles for PC Suite
+SOURCEPATH	../src/pcsuite
+#else
+SOURCEPATH	../src/empty
+#endif //__SYNCML_OBEX
+
+
+
+START RESOURCE	NSmlDSProfileRes.rss
+HEADER
+TARGETPATH	RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+

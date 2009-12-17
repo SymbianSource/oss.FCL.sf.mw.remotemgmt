@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN19FotaCustCmdsFactory25FotaCustCmdAllReasonsNewLEv @ 1 NONAME
+	_ZN19FotaCustCmdsFactory29FotaCustCmdFirmwareUpdateNewLEv @ 2 NONAME
+	_ZN19FotaCustCmdsFactory24FotaCustCmdFirstBootNewLEv @ 3 NONAME
+

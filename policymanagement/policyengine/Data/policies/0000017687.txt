@@ -1,0 +1,1 @@
+<desc>Application Meta Policy. This metapolicy is used for giving policy modifing right for applications.</desc>

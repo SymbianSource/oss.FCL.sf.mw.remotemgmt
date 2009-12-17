@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Provisioning API Test Automation mmp file
+* 	This is part of remotemgmt_plat.
+*
+*/
+
+
+
+#if defined(__S60_)
+        // To get the MW_LAYER_SYSTEMINCLUDE-definition
+        #include <platform_paths.hrh>
+#endif
+
+TARGET          testengineapis.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+CAPABILITY      CAP_GENERAL_DLL
+//CAPABILITY      CAP_ECOM_PLUGIN
+VENDORID		VID_DEFAULT
+
+//CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+
+//TARGETPATH      ?target_path
+DEFFILE         testengineapis.def
+
+SOURCEPATH      ../src
+SOURCE          testengineapis.cpp
+SOURCE          testengineapisBlocks.cpp
+SOURCEPATH      ../../../../omaprovisioning/provisioning/provisioningengine/Src
+SOURCE		CWPCharacteristic.cpp
+SOURCE		ProvisioningEngineMain.cpp
+//RESOURCE      resource_file
+//RESOURCE      resource_file2
+
+USERINCLUDE     ../inc 
+USERINCLUDE	. ../../../../omaprovisioning/provisioning/Group ../../../../omaprovisioning/provisioning/provisioningengine/Inc
+MW_LAYER_SYSTEMINCLUDE
+
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+    SYSTEMINCLUDE 	/epoc32/include/push
+    SYSTEMINCLUDE   /epoc32/include/ecom
+#else
+    SYSTEMINCLUDE   /epoc32/include 
+#endif
+
+LIBRARY         euser.lib EFSRV.LIB
+LIBRARY         stiftestinterface.lib
+LIBRARY         provisioningengine.lib ecom.lib  WapPushUtils.lib estor.lib bafl.lib
+//LIBRARY			msgs.lib BioDB.lib Bifu.lib
+//LIBRARY         etext.lib
+//LIBRARY         smcm.lib
+LIBRARY         centralrepository.lib commdb.lib apengine.lib
+
+
+LANG            SC
+
+/*
+START WINS      
+?wins_specific_information
+END
+
+START MARM
+?marm_specific_information
+END
+*/
+// Other possible keywords:
+ 
+// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
+/*
+START BITMAP ?target
+TARGETPATH   ?emulated_path_on_target_machine
+HEADER
+SOURCE       ?color_depth ?source_bitmap
+END
+*/
+// DEFFILE ?filename
+// AIF ?filename
+
+
+SMPSAFE
+// End of File
+

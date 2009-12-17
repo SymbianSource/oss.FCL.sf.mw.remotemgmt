@@ -1,0 +1,503 @@
+EXPORTS
+	_ZN10sml_chal_sC1Ev @ 1 NONAME
+	_ZN10sml_chal_sC2Ev @ 2 NONAME
+	_ZN10sml_chal_sD0Ev @ 3 NONAME
+	_ZN10sml_chal_sD1Ev @ 4 NONAME
+	_ZN10sml_chal_sD2Ev @ 5 NONAME
+	_ZN10sml_cred_sC1Ev @ 6 NONAME
+	_ZN10sml_cred_sC2Ev @ 7 NONAME
+	_ZN10sml_cred_sD0Ev @ 8 NONAME
+	_ZN10sml_cred_sD1Ev @ 9 NONAME
+	_ZN10sml_cred_sD2Ev @ 10 NONAME
+	_ZN10sml_exec_sC1Ev @ 11 NONAME
+	_ZN10sml_exec_sC2Ev @ 12 NONAME
+	_ZN10sml_exec_sD0Ev @ 13 NONAME
+	_ZN10sml_exec_sD1Ev @ 14 NONAME
+	_ZN10sml_exec_sD2Ev @ 15 NONAME
+	_ZN10sml_item_sC1Ev @ 16 NONAME
+	_ZN10sml_item_sC2Ev @ 17 NONAME
+	_ZN10sml_item_sD0Ev @ 18 NONAME
+	_ZN10sml_item_sD1Ev @ 19 NONAME
+	_ZN10sml_item_sD2Ev @ 20 NONAME
+	_ZN10sml_sync_sC1Ev @ 21 NONAME
+	_ZN10sml_sync_sC2Ev @ 22 NONAME
+	_ZN10sml_sync_sD0Ev @ 23 NONAME
+	_ZN10sml_sync_sD1Ev @ 24 NONAME
+	_ZN10sml_sync_sD2Ev @ 25 NONAME
+	_ZN11CXMLElement11EndElementLEPvh @ 26 NONAME
+	_ZN11CXMLElement13BeginElementLEhRK17TXMLElementParams @ 27 NONAME
+	_ZN11CXMLElement8SetDataLERK6TDesC8 @ 28 NONAME
+	_ZN11CXMLElement8ValidateEv @ 29 NONAME
+	_ZN11CXMLElementC1Ev @ 30 NONAME
+	_ZN11CXMLElementC2Ev @ 31 NONAME
+	_ZN11CXMLElementD0Ev @ 32 NONAME
+	_ZN11CXMLElementD1Ev @ 33 NONAME
+	_ZN11CXMLElementD2Ev @ 34 NONAME
+	_ZN11sml_alert_sC1Ev @ 35 NONAME
+	_ZN11sml_alert_sC2Ev @ 36 NONAME
+	_ZN11sml_alert_sD0Ev @ 37 NONAME
+	_ZN11sml_alert_sD1Ev @ 38 NONAME
+	_ZN11sml_alert_sD2Ev @ 39 NONAME
+	_ZN12CWBXMLParser12SetDocumentLER11RReadStream @ 40 NONAME
+	_ZN12CWBXMLParser18SetDocumentHandlerEP21MWBXMLDocumentHandler @ 41 NONAME
+	_ZN12CWBXMLParser19SetExtensionHandlerEP22MWBXMLExtensionHandler @ 42 NONAME
+	_ZN12CWBXMLParser4NewLEv @ 43 NONAME
+	_ZN12CWBXMLParser6ParseLEv @ 44 NONAME
+	_ZN12CWBXMLParserD0Ev @ 45 NONAME
+	_ZN12CWBXMLParserD1Ev @ 46 NONAME
+	_ZN12CWBXMLParserD2Ev @ 47 NONAME
+	_ZN12sml_atomic_sC1E17SmlProtoElement_t @ 48 NONAME
+	_ZN12sml_atomic_sC2E17SmlProtoElement_t @ 49 NONAME
+	_ZN12sml_atomic_sD0Ev @ 50 NONAME
+	_ZN12sml_atomic_sD1Ev @ 51 NONAME
+	_ZN12sml_atomic_sD2Ev @ 52 NONAME
+	_ZN12sml_filter_sC1Ev @ 53 NONAME
+	_ZN12sml_filter_sC2Ev @ 54 NONAME
+	_ZN12sml_filter_sD0Ev @ 55 NONAME
+	_ZN12sml_filter_sD1Ev @ 56 NONAME
+	_ZN12sml_filter_sD2Ev @ 57 NONAME
+	_ZN12sml_pcdata_s11FreeContentEv @ 58 NONAME
+	_ZN12sml_pcdata_s8SetDataLERK6TDesC8 @ 59 NONAME
+	_ZN12sml_pcdata_s9TruncateLEi @ 60 NONAME
+	_ZN12sml_pcdata_sC1E15SmlPcdataType_t20SmlPcdataExtension_t @ 61 NONAME
+	_ZN12sml_pcdata_sC1Ev @ 62 NONAME
+	_ZN12sml_pcdata_sC2E15SmlPcdataType_t20SmlPcdataExtension_t @ 63 NONAME
+	_ZN12sml_pcdata_sC2Ev @ 64 NONAME
+	_ZN12sml_pcdata_sD0Ev @ 65 NONAME
+	_ZN12sml_pcdata_sD1Ev @ 66 NONAME
+	_ZN12sml_pcdata_sD2Ev @ 67 NONAME
+	_ZN12sml_search_sC1Ev @ 68 NONAME
+	_ZN12sml_search_sC2Ev @ 69 NONAME
+	_ZN12sml_search_sD0Ev @ 70 NONAME
+	_ZN12sml_search_sD1Ev @ 71 NONAME
+	_ZN12sml_search_sD2Ev @ 72 NONAME
+	_ZN12sml_source_sC1Ev @ 73 NONAME
+	_ZN12sml_source_sC2Ev @ 74 NONAME
+	_ZN12sml_source_sD0Ev @ 75 NONAME
+	_ZN12sml_source_sD1Ev @ 76 NONAME
+	_ZN12sml_source_sD2Ev @ 77 NONAME
+	_ZN12sml_status_sC1Ev @ 78 NONAME
+	_ZN12sml_status_sC2Ev @ 79 NONAME
+	_ZN12sml_status_sD0Ev @ 80 NONAME
+	_ZN12sml_status_sD1Ev @ 81 NONAME
+	_ZN12sml_status_sD2Ev @ 82 NONAME
+	_ZN12sml_syncml_s11EndElementLEPvh @ 83 NONAME
+	_ZN12sml_syncml_s13BeginElementLEhRK17TXMLElementParams @ 84 NONAME
+	_ZN12sml_target_sC1Ev @ 85 NONAME
+	_ZN12sml_target_sC2Ev @ 86 NONAME
+	_ZN12sml_target_sD0Ev @ 87 NONAME
+	_ZN12sml_target_sD1Ev @ 88 NONAME
+	_ZN12sml_target_sD2Ev @ 89 NONAME
+	_ZN13sml_generic_sC1Ev @ 90 NONAME
+	_ZN13sml_generic_sC2Ev @ 91 NONAME
+	_ZN13sml_generic_sD0Ev @ 92 NONAME
+	_ZN13sml_generic_sD1Ev @ 93 NONAME
+	_ZN13sml_generic_sD2Ev @ 94 NONAME
+	_ZN13sml_get_put_sC1Ev @ 95 NONAME
+	_ZN13sml_get_put_sC2Ev @ 96 NONAME
+	_ZN13sml_get_put_sD0Ev @ 97 NONAME
+	_ZN13sml_get_put_sD1Ev @ 98 NONAME
+	_ZN13sml_get_put_sD2Ev @ 99 NONAME
+	_ZN13sml_results_sC1Ev @ 100 NONAME
+	_ZN13sml_results_sC2Ev @ 101 NONAME
+	_ZN13sml_results_sD0Ev @ 102 NONAME
+	_ZN13sml_results_sD1Ev @ 103 NONAME
+	_ZN13sml_results_sD2Ev @ 104 NONAME
+	_ZN14sml_map_item_sC1Ev @ 105 NONAME
+	_ZN14sml_map_item_sC2Ev @ 106 NONAME
+	_ZN14sml_map_item_sD0Ev @ 107 NONAME
+	_ZN14sml_map_item_sD1Ev @ 108 NONAME
+	_ZN14sml_map_item_sD2Ev @ 109 NONAME
+	_ZN14sml_sync_hdr_sC1Ev @ 110 NONAME
+	_ZN14sml_sync_hdr_sC2Ev @ 111 NONAME
+	_ZN14sml_sync_hdr_sD0Ev @ 112 NONAME
+	_ZN14sml_sync_hdr_sD1Ev @ 113 NONAME
+	_ZN14sml_sync_hdr_sD2Ev @ 114 NONAME
+	_ZN15CWBXMLGenerator10AddEntityLEm @ 115 NONAME
+	_ZN15CWBXMLGenerator11AddElementLEhRK6TDesC819TWBXMLContentFormat @ 116 NONAME
+	_ZN15CWBXMLGenerator11AddElementLEhRK6TDesC8RK16CWBXMLAttributes19TWBXMLContentFormat @ 117 NONAME
+	_ZN15CWBXMLGenerator11EndElementLEv @ 118 NONAME
+	_ZN15CWBXMLGenerator12HandleResultEii @ 119 NONAME
+	_ZN15CWBXMLGenerator12SetWorkspaceEP13CXMLWorkspacei @ 120 NONAME
+	_ZN15CWBXMLGenerator13BeginElementLEhii @ 121 NONAME
+	_ZN15CWBXMLGenerator14BeginDocumentLEhlmRK6TDesC8 @ 122 NONAME
+	_ZN15CWBXMLGenerator15SwitchCodePageLEh @ 123 NONAME
+	_ZN15CWBXMLGenerator22CreateStaticWorkspaceLEi @ 124 NONAME
+	_ZN15CWBXMLGenerator23CreateDynamicWorkspaceLEv @ 125 NONAME
+	_ZN15CWBXMLGenerator5ResetEv @ 126 NONAME
+	_ZN15CWBXMLGenerator7AddExtLEi @ 127 NONAME
+	_ZN15CWBXMLGenerator8DocumentEv @ 128 NONAME
+	_ZN15CWBXMLGenerator9AddExt_ILEiRK6TDesC8 @ 129 NONAME
+	_ZN15CWBXMLGenerator9AddExt_TLEim @ 130 NONAME
+	_ZN15CWBXMLGeneratorC1Ev @ 131 NONAME
+	_ZN15CWBXMLGeneratorC2Ev @ 132 NONAME
+	_ZN15CWBXMLGeneratorD0Ev @ 133 NONAME
+	_ZN15CWBXMLGeneratorD1Ev @ 134 NONAME
+	_ZN15CWBXMLGeneratorD2Ev @ 135 NONAME
+	_ZN15sml_item_list_sC1Ev @ 136 NONAME
+	_ZN15sml_item_list_sC2Ev @ 137 NONAME
+	_ZN15sml_item_list_sD0Ev @ 138 NONAME
+	_ZN15sml_item_list_sD1Ev @ 139 NONAME
+	_ZN15sml_item_list_sD2Ev @ 140 NONAME
+	_ZN16CWBXMLAttributes13AddAttributeLEhRK6TDesC8 @ 141 NONAME
+	_ZN16CWBXMLAttributes4NewLEv @ 142 NONAME
+	_ZN16CWBXMLAttributes5NewLCEv @ 143 NONAME
+	_ZN16sml_devinf_ext_sC1Ev @ 144 NONAME
+	_ZN16sml_devinf_ext_sC2Ev @ 145 NONAME
+	_ZN16sml_devinf_ext_sD0Ev @ 146 NONAME
+	_ZN16sml_devinf_ext_sD1Ev @ 147 NONAME
+	_ZN16sml_devinf_ext_sD2Ev @ 148 NONAME
+	_ZN16sml_metinf_mem_sC1Ev @ 149 NONAME
+	_ZN16sml_metinf_mem_sC2Ev @ 150 NONAME
+	_ZN16sml_metinf_mem_sD0Ev @ 151 NONAME
+	_ZN16sml_metinf_mem_sD1Ev @ 152 NONAME
+	_ZN16sml_metinf_mem_sD2Ev @ 153 NONAME
+	_ZN17TXMLElementParamsC1EPvP10CNSmlStackI11CXMLElementES4_ @ 154 NONAME
+	_ZN17TXMLElementParamsC2EPvP10CNSmlStackI11CXMLElementES4_ @ 155 NONAME
+	_ZN17sml_devinf_xmit_sC1Ev @ 156 NONAME
+	_ZN17sml_devinf_xmit_sC2Ev @ 157 NONAME
+	_ZN17sml_devinf_xmit_sD0Ev @ 158 NONAME
+	_ZN17sml_devinf_xmit_sD1Ev @ 159 NONAME
+	_ZN17sml_devinf_xmit_sD2Ev @ 160 NONAME
+	_ZN17sml_pcdata_list_sC1Ev @ 161 NONAME
+	_ZN17sml_pcdata_list_sC2Ev @ 162 NONAME
+	_ZN17sml_pcdata_list_sD0Ev @ 163 NONAME
+	_ZN17sml_pcdata_list_sD1Ev @ 164 NONAME
+	_ZN17sml_pcdata_list_sD2Ev @ 165 NONAME
+	_ZN17sml_source_list_sC1Ev @ 166 NONAME
+	_ZN17sml_source_list_sC2Ev @ 167 NONAME
+	_ZN17sml_source_list_sD0Ev @ 168 NONAME
+	_ZN17sml_source_list_sD1Ev @ 169 NONAME
+	_ZN17sml_source_list_sD2Ev @ 170 NONAME
+	_ZN18sml_devinf_ctcap_sC1EP11CXMLElement @ 171 NONAME
+	_ZN18sml_devinf_ctcap_sC1Ev @ 172 NONAME
+	_ZN18sml_devinf_ctcap_sC2EP11CXMLElement @ 173 NONAME
+	_ZN18sml_devinf_ctcap_sC2Ev @ 174 NONAME
+	_ZN18sml_devinf_ctcap_sD0Ev @ 175 NONAME
+	_ZN18sml_devinf_ctcap_sD1Ev @ 176 NONAME
+	_ZN18sml_devinf_ctcap_sD2Ev @ 177 NONAME
+	_ZN18sml_devinf_dsmem_sC1Ev @ 178 NONAME
+	_ZN18sml_devinf_dsmem_sC2Ev @ 179 NONAME
+	_ZN18sml_devinf_dsmem_sD0Ev @ 180 NONAME
+	_ZN18sml_devinf_dsmem_sD1Ev @ 181 NONAME
+	_ZN18sml_devinf_dsmem_sD2Ev @ 182 NONAME
+	_ZN19CXMLStaticWorkspace4NewLEi @ 183 NONAME
+	_ZN19CXMLStaticWorkspace5ResetEv @ 184 NONAME
+	_ZN19CXMLStaticWorkspace6WriteLERK6TDesC8 @ 185 NONAME
+	_ZN19CXMLStaticWorkspace6WriteLEh @ 186 NONAME
+	_ZN19CXMLStaticWorkspaceD0Ev @ 187 NONAME
+	_ZN19CXMLStaticWorkspaceD1Ev @ 188 NONAME
+	_ZN19CXMLStaticWorkspaceD2Ev @ 189 NONAME
+	_ZN19sml_devinf_ctdata_sC1Ev @ 190 NONAME
+	_ZN19sml_devinf_ctdata_sC2Ev @ 191 NONAME
+	_ZN19sml_devinf_ctdata_sD0Ev @ 192 NONAME
+	_ZN19sml_devinf_ctdata_sD1Ev @ 193 NONAME
+	_ZN19sml_devinf_ctdata_sD2Ev @ 194 NONAME
+	_ZN19sml_devinf_devinf_sC1Ev @ 195 NONAME
+	_ZN19sml_devinf_devinf_sC2Ev @ 196 NONAME
+	_ZN19sml_devinf_devinf_sD0Ev @ 197 NONAME
+	_ZN19sml_devinf_devinf_sD1Ev @ 198 NONAME
+	_ZN19sml_devinf_devinf_sD2Ev @ 199 NONAME
+	_ZN19sml_map_item_list_sC1Ev @ 200 NONAME
+	_ZN19sml_map_item_list_sC2Ev @ 201 NONAME
+	_ZN19sml_map_item_list_sD0Ev @ 202 NONAME
+	_ZN19sml_map_item_list_sD1Ev @ 203 NONAME
+	_ZN19sml_map_item_list_sD2Ev @ 204 NONAME
+	_ZN19sml_metinf_anchor_sC1Ev @ 205 NONAME
+	_ZN19sml_metinf_anchor_sC2Ev @ 206 NONAME
+	_ZN19sml_metinf_anchor_sD0Ev @ 207 NONAME
+	_ZN19sml_metinf_anchor_sD1Ev @ 208 NONAME
+	_ZN19sml_metinf_anchor_sD2Ev @ 209 NONAME
+	_ZN19sml_metinf_metinf_sC1Ev @ 210 NONAME
+	_ZN19sml_metinf_metinf_sC2Ev @ 211 NONAME
+	_ZN19sml_metinf_metinf_sD0Ev @ 212 NONAME
+	_ZN19sml_metinf_metinf_sD1Ev @ 213 NONAME
+	_ZN19sml_metinf_metinf_sD2Ev @ 214 NONAME
+	_ZN20CXMLDynamicWorkspace4NewLEv @ 215 NONAME
+	_ZN20CXMLDynamicWorkspace5ResetEv @ 216 NONAME
+	_ZN20CXMLDynamicWorkspace6WriteLERK6TDesC8 @ 217 NONAME
+	_ZN20CXMLDynamicWorkspace6WriteLEh @ 218 NONAME
+	_ZN20CXMLDynamicWorkspaceD0Ev @ 219 NONAME
+	_ZN20CXMLDynamicWorkspaceD1Ev @ 220 NONAME
+	_ZN20CXMLDynamicWorkspaceD2Ev @ 221 NONAME
+	_ZN20sml_devinf_extlist_sC1Ev @ 222 NONAME
+	_ZN20sml_devinf_extlist_sC2Ev @ 223 NONAME
+	_ZN20sml_devinf_extlist_sD0Ev @ 224 NONAME
+	_ZN20sml_devinf_extlist_sD1Ev @ 225 NONAME
+	_ZN20sml_devinf_extlist_sD2Ev @ 226 NONAME
+	_ZN20sml_devinf_synccap_sC1Ev @ 227 NONAME
+	_ZN20sml_devinf_synccap_sC2Ev @ 228 NONAME
+	_ZN20sml_devinf_synccap_sD0Ev @ 229 NONAME
+	_ZN20sml_devinf_synccap_sD1Ev @ 230 NONAME
+	_ZN20sml_devinf_synccap_sD2Ev @ 231 NONAME
+	_ZN21CWBXMLDevInfGenerator13smlDeviceInfoEP19sml_devinf_devinf_s @ 232 NONAME
+	_ZN21CWBXMLDevInfGenerator16CreateWorkspaceLEv @ 233 NONAME
+	_ZN21CWBXMLSyncMLGenerator10smlCopyCmdEP13sml_generic_s @ 234 NONAME
+	_ZN21CWBXMLSyncMLGenerator10smlEndSyncEv @ 235 NONAME
+	_ZN21CWBXMLSyncMLGenerator10smlMoveCmdEP13sml_generic_s @ 236 NONAME
+	_ZN21CWBXMLSyncMLGenerator11SetTruncateEi @ 237 NONAME
+	_ZN21CWBXMLSyncMLGenerator11smlAlertCmdEP11sml_alert_s @ 238 NONAME
+	_ZN21CWBXMLSyncMLGenerator12WasTruncatedEv @ 239 NONAME
+	_ZN21CWBXMLSyncMLGenerator12smlDeleteCmdEP13sml_generic_s @ 240 NONAME
+	_ZN21CWBXMLSyncMLGenerator12smlEndAtomicEv @ 241 NONAME
+	_ZN21CWBXMLSyncMLGenerator12smlStartSyncEP10sml_sync_s @ 242 NONAME
+	_ZN21CWBXMLSyncMLGenerator12smlStatusCmdEP12sml_status_s @ 243 NONAME
+	_ZN21CWBXMLSyncMLGenerator13smlEndMessageEh @ 244 NONAME
+	_ZN21CWBXMLSyncMLGenerator13smlReplaceCmdEP13sml_generic_s @ 245 NONAME
+	_ZN21CWBXMLSyncMLGenerator13smlResultsCmdEP13sml_results_s @ 246 NONAME
+	_ZN21CWBXMLSyncMLGenerator14smlEndSequenceEv @ 247 NONAME
+	_ZN21CWBXMLSyncMLGenerator14smlStartAtomicEP12sml_atomic_s @ 248 NONAME
+	_ZN21CWBXMLSyncMLGenerator15smlStartMessageEP14sml_sync_hdr_s @ 249 NONAME
+	_ZN21CWBXMLSyncMLGenerator16CreateWorkspaceLEi @ 250 NONAME
+	_ZN21CWBXMLSyncMLGenerator16SetContentLengthEi @ 251 NONAME
+	_ZN21CWBXMLSyncMLGenerator16smlStartSequenceEP12sml_atomic_s @ 252 NONAME
+	_ZN21CWBXMLSyncMLGenerator9smlAddCmdEP13sml_generic_s @ 253 NONAME
+	_ZN21CWBXMLSyncMLGenerator9smlGetCmdEP13sml_get_put_s @ 254 NONAME
+	_ZN21CWBXMLSyncMLGenerator9smlMapCmdEP9sml_map_s @ 255 NONAME
+	_ZN21CWBXMLSyncMLGenerator9smlPutCmdEP13sml_get_put_s @ 256 NONAME
+	_ZN21CWBXMLSyncMLGeneratorC1El @ 257 NONAME
+	_ZN21CWBXMLSyncMLGeneratorC2El @ 258 NONAME
+	_ZN21sml_devinf_property_sC1Ev @ 259 NONAME
+	_ZN21sml_devinf_property_sC2Ev @ 260 NONAME
+	_ZN21sml_devinf_property_sD0Ev @ 261 NONAME
+	_ZN21sml_devinf_property_sD1Ev @ 262 NONAME
+	_ZN21sml_devinf_property_sD2Ev @ 263 NONAME
+	_ZN21sml_devinf_xmitlist_sC1Ev @ 264 NONAME
+	_ZN21sml_devinf_xmitlist_sC2Ev @ 265 NONAME
+	_ZN21sml_devinf_xmitlist_sD0Ev @ 266 NONAME
+	_ZN21sml_devinf_xmitlist_sD1Ev @ 267 NONAME
+	_ZN21sml_devinf_xmitlist_sD2Ev @ 268 NONAME
+	_ZN21sml_field_or_record_sC1Ev @ 269 NONAME
+	_ZN21sml_field_or_record_sC2Ev @ 270 NONAME
+	_ZN21sml_field_or_record_sD0Ev @ 271 NONAME
+	_ZN21sml_field_or_record_sD1Ev @ 272 NONAME
+	_ZN21sml_field_or_record_sD2Ev @ 273 NONAME
+	_ZN21sml_source_ref_list_sC1Ev @ 274 NONAME
+	_ZN21sml_source_ref_list_sC2Ev @ 275 NONAME
+	_ZN21sml_source_ref_list_sD0Ev @ 276 NONAME
+	_ZN21sml_source_ref_list_sD1Ev @ 277 NONAME
+	_ZN21sml_source_ref_list_sD2Ev @ 278 NONAME
+	_ZN21sml_target_ref_list_sC1Ev @ 279 NONAME
+	_ZN21sml_target_ref_list_sC2Ev @ 280 NONAME
+	_ZN21sml_target_ref_list_sD0Ev @ 281 NONAME
+	_ZN21sml_target_ref_list_sD1Ev @ 282 NONAME
+	_ZN21sml_target_ref_list_sD2Ev @ 283 NONAME
+	_ZN22CWBXMLDevInfDocHandler4NewLEP21MWBXMLDevInfCallbacks @ 284 NONAME
+	_ZN22CWBXMLDevInfDocHandlerD0Ev @ 285 NONAME
+	_ZN22CWBXMLDevInfDocHandlerD1Ev @ 286 NONAME
+	_ZN22CWBXMLDevInfDocHandlerD2Ev @ 287 NONAME
+	_ZN22CWBXMLSyncMLDocHandler4NewLEP21MWBXMLSyncMLCallbacks @ 288 NONAME
+	_ZN22CWBXMLSyncMLDocHandlerD0Ev @ 289 NONAME
+	_ZN22CWBXMLSyncMLDocHandlerD1Ev @ 290 NONAME
+	_ZN22CWBXMLSyncMLDocHandlerD2Ev @ 291 NONAME
+	_ZN22sml_devinf_ctcaplist_sC1Ev @ 292 NONAME
+	_ZN22sml_devinf_ctcaplist_sC2Ev @ 293 NONAME
+	_ZN22sml_devinf_ctcaplist_sD0Ev @ 294 NONAME
+	_ZN22sml_devinf_ctcaplist_sD1Ev @ 295 NONAME
+	_ZN22sml_devinf_ctcaplist_sD2Ev @ 296 NONAME
+	_ZN22sml_devinf_datastore_sC1Ev @ 297 NONAME
+	_ZN22sml_devinf_datastore_sC2Ev @ 298 NONAME
+	_ZN22sml_devinf_datastore_sD0Ev @ 299 NONAME
+	_ZN22sml_devinf_datastore_sD1Ev @ 300 NONAME
+	_ZN22sml_devinf_datastore_sD2Ev @ 301 NONAME
+	_ZN22sml_devinf_filtercap_sC1Ev @ 302 NONAME
+	_ZN22sml_devinf_filtercap_sC2Ev @ 303 NONAME
+	_ZN22sml_devinf_filtercap_sD0Ev @ 304 NONAME
+	_ZN22sml_devinf_filtercap_sD1Ev @ 305 NONAME
+	_ZN22sml_devinf_filtercap_sD2Ev @ 306 NONAME
+	_ZN22sml_devinf_propparam_sC1Ev @ 307 NONAME
+	_ZN22sml_devinf_propparam_sC2Ev @ 308 NONAME
+	_ZN22sml_devinf_propparam_sD0Ev @ 309 NONAME
+	_ZN22sml_devinf_propparam_sD1Ev @ 310 NONAME
+	_ZN22sml_devinf_propparam_sD2Ev @ 311 NONAME
+	_ZN23sml_devinf_ctdatalist_sC1Ev @ 312 NONAME
+	_ZN23sml_devinf_ctdatalist_sC2Ev @ 313 NONAME
+	_ZN23sml_devinf_ctdatalist_sD0Ev @ 314 NONAME
+	_ZN23sml_devinf_ctdatalist_sD1Ev @ 315 NONAME
+	_ZN23sml_devinf_ctdatalist_sD2Ev @ 316 NONAME
+	_ZN23sml_devinf_ctdataprop_sC1Ev @ 317 NONAME
+	_ZN23sml_devinf_ctdataprop_sC2Ev @ 318 NONAME
+	_ZN23sml_devinf_ctdataprop_sD0Ev @ 319 NONAME
+	_ZN23sml_devinf_ctdataprop_sD1Ev @ 320 NONAME
+	_ZN23sml_devinf_ctdataprop_sD2Ev @ 321 NONAME
+	_ZN25sml_devinf_propertylist_sC1Ev @ 322 NONAME
+	_ZN25sml_devinf_propertylist_sC2Ev @ 323 NONAME
+	_ZN25sml_devinf_propertylist_sD0Ev @ 324 NONAME
+	_ZN25sml_devinf_propertylist_sD1Ev @ 325 NONAME
+	_ZN25sml_devinf_propertylist_sD2Ev @ 326 NONAME
+	_ZN26sml_devinf_datastorelist_sC1Ev @ 327 NONAME
+	_ZN26sml_devinf_datastorelist_sC2Ev @ 328 NONAME
+	_ZN26sml_devinf_datastorelist_sD0Ev @ 329 NONAME
+	_ZN26sml_devinf_datastorelist_sD1Ev @ 330 NONAME
+	_ZN26sml_devinf_datastorelist_sD2Ev @ 331 NONAME
+	_ZN26sml_devinf_filtercaplist_sC1Ev @ 332 NONAME
+	_ZN26sml_devinf_filtercaplist_sC2Ev @ 333 NONAME
+	_ZN26sml_devinf_filtercaplist_sD0Ev @ 334 NONAME
+	_ZN26sml_devinf_filtercaplist_sD1Ev @ 335 NONAME
+	_ZN26sml_devinf_filtercaplist_sD2Ev @ 336 NONAME
+	_ZN26sml_devinf_propparamlist_sC1Ev @ 337 NONAME
+	_ZN26sml_devinf_propparamlist_sC2Ev @ 338 NONAME
+	_ZN26sml_devinf_propparamlist_sD0Ev @ 339 NONAME
+	_ZN26sml_devinf_propparamlist_sD1Ev @ 340 NONAME
+	_ZN26sml_devinf_propparamlist_sD2Ev @ 341 NONAME
+	_ZN27sml_devinf_ctdataproplist_sC1Ev @ 342 NONAME
+	_ZN27sml_devinf_ctdataproplist_sC2Ev @ 343 NONAME
+	_ZN27sml_devinf_ctdataproplist_sD0Ev @ 344 NONAME
+	_ZN27sml_devinf_ctdataproplist_sD1Ev @ 345 NONAME
+	_ZN27sml_devinf_ctdataproplist_sD2Ev @ 346 NONAME
+	_ZN29sml_source_or_target_parent_sC1Ev @ 347 NONAME
+	_ZN29sml_source_or_target_parent_sC2Ev @ 348 NONAME
+	_ZN29sml_source_or_target_parent_sD0Ev @ 349 NONAME
+	_ZN29sml_source_or_target_parent_sD1Ev @ 350 NONAME
+	_ZN29sml_source_or_target_parent_sD2Ev @ 351 NONAME
+	_ZN9sml_map_sC1Ev @ 352 NONAME
+	_ZN9sml_map_sC2Ev @ 353 NONAME
+	_ZN9sml_map_sD0Ev @ 354 NONAME
+	_ZN9sml_map_sD1Ev @ 355 NONAME
+	_ZN9sml_map_sD2Ev @ 356 NONAME
+	_ZNK11CXMLElement12NeedsCleanupEv @ 357 NONAME
+	_ZNK11CXMLElement4DataEv @ 358 NONAME
+	_ZNK12sml_pcdata_s4DataEv @ 359 NONAME
+	_ZNK12sml_syncml_s12NeedsCleanupEv @ 360 NONAME
+	_ZNK15CWBXMLAttribute4NameEv @ 361 NONAME
+	_ZNK15CWBXMLAttribute5ValueEv @ 362 NONAME
+	_ZNK15CWBXMLGenerator9WorkspaceEv @ 363 NONAME
+	_ZNK16CWBXMLAttributes5CountEv @ 364 NONAME
+	_ZNK16CWBXMLAttributes9AttributeEi @ 365 NONAME
+	_ZNK19CXMLStaticWorkspace4SizeEv @ 366 NONAME
+	_ZNK19CXMLStaticWorkspace6BufferEv @ 367 NONAME
+	_ZNK19CXMLStaticWorkspace7MaxSizeEv @ 368 NONAME
+	_ZNK19CXMLStaticWorkspace8FreeSizeEv @ 369 NONAME
+	_ZNK20CXMLDynamicWorkspace4SizeEv @ 370 NONAME
+	_ZNK20CXMLDynamicWorkspace6BufferEv @ 371 NONAME
+	_ZNK20CXMLDynamicWorkspace7MaxSizeEv @ 372 NONAME
+	_ZNK20CXMLDynamicWorkspace8FreeSizeEv @ 373 NONAME
+	_ZNK21CWBXMLSyncMLGenerator12DataConsumedEv @ 374 NONAME
+	_ZNK21CWBXMLSyncMLGenerator9ItemIndexEv @ 375 NONAME
+	_ZTI10sml_chal_s @ 376 NONAME ; #<TI>#
+	_ZTI10sml_cred_s @ 377 NONAME ; #<TI>#
+	_ZTI10sml_exec_s @ 378 NONAME ; #<TI>#
+	_ZTI10sml_item_s @ 379 NONAME ; #<TI>#
+	_ZTI10sml_sync_s @ 380 NONAME ; #<TI>#
+	_ZTI11CXMLElement @ 381 NONAME ; #<TI>#
+	_ZTI11sml_alert_s @ 382 NONAME ; #<TI>#
+	_ZTI12CWBXMLParser @ 383 NONAME ; #<TI>#
+	_ZTI12sml_atomic_s @ 384 NONAME ; #<TI>#
+	_ZTI12sml_filter_s @ 385 NONAME ; #<TI>#
+	_ZTI12sml_pcdata_s @ 386 NONAME ; #<TI>#
+	_ZTI12sml_search_s @ 387 NONAME ; #<TI>#
+	_ZTI12sml_source_s @ 388 NONAME ; #<TI>#
+	_ZTI12sml_status_s @ 389 NONAME ; #<TI>#
+	_ZTI12sml_syncml_s @ 390 NONAME ; #<TI>#
+	_ZTI12sml_target_s @ 391 NONAME ; #<TI>#
+	_ZTI13CXMLWorkspace @ 392 NONAME ; #<TI>#
+	_ZTI13sml_generic_s @ 393 NONAME ; #<TI>#
+	_ZTI13sml_get_put_s @ 394 NONAME ; #<TI>#
+	_ZTI13sml_results_s @ 395 NONAME ; #<TI>#
+	_ZTI14sml_map_item_s @ 396 NONAME ; #<TI>#
+	_ZTI14sml_sync_hdr_s @ 397 NONAME ; #<TI>#
+	_ZTI15CWBXMLAttribute @ 398 NONAME ; #<TI>#
+	_ZTI15CWBXMLGenerator @ 399 NONAME ; #<TI>#
+	_ZTI15sml_item_list_s @ 400 NONAME ; #<TI>#
+	_ZTI16CWBXMLAttributes @ 401 NONAME ; #<TI>#
+	_ZTI16sml_devinf_ext_s @ 402 NONAME ; #<TI>#
+	_ZTI16sml_metinf_mem_s @ 403 NONAME ; #<TI>#
+	_ZTI17sml_devinf_xmit_s @ 404 NONAME ; #<TI>#
+	_ZTI17sml_pcdata_list_s @ 405 NONAME ; #<TI>#
+	_ZTI17sml_source_list_s @ 406 NONAME ; #<TI>#
+	_ZTI17sml_syncml_body_s @ 407 NONAME ; #<TI>#
+	_ZTI18sml_devinf_ctcap_s @ 408 NONAME ; #<TI>#
+	_ZTI18sml_devinf_dsmem_s @ 409 NONAME ; #<TI>#
+	_ZTI19CXMLStaticWorkspace @ 410 NONAME ; #<TI>#
+	_ZTI19sml_devinf_ctdata_s @ 411 NONAME ; #<TI>#
+	_ZTI19sml_devinf_devinf_s @ 412 NONAME ; #<TI>#
+	_ZTI19sml_map_item_list_s @ 413 NONAME ; #<TI>#
+	_ZTI19sml_metinf_anchor_s @ 414 NONAME ; #<TI>#
+	_ZTI19sml_metinf_metinf_s @ 415 NONAME ; #<TI>#
+	_ZTI20CXMLDynamicWorkspace @ 416 NONAME ; #<TI>#
+	_ZTI20sml_devinf_extlist_s @ 417 NONAME ; #<TI>#
+	_ZTI20sml_devinf_synccap_s @ 418 NONAME ; #<TI>#
+	_ZTI21sml_devinf_property_s @ 419 NONAME ; #<TI>#
+	_ZTI21sml_devinf_xmitlist_s @ 420 NONAME ; #<TI>#
+	_ZTI21sml_field_or_record_s @ 421 NONAME ; #<TI>#
+	_ZTI21sml_source_ref_list_s @ 422 NONAME ; #<TI>#
+	_ZTI21sml_target_ref_list_s @ 423 NONAME ; #<TI>#
+	_ZTI22CWBXMLDevInfDocHandler @ 424 NONAME ; #<TI>#
+	_ZTI22CWBXMLSyncMLDocHandler @ 425 NONAME ; #<TI>#
+	_ZTI22sml_devinf_ctcaplist_s @ 426 NONAME ; #<TI>#
+	_ZTI22sml_devinf_datastore_s @ 427 NONAME ; #<TI>#
+	_ZTI22sml_devinf_filtercap_s @ 428 NONAME ; #<TI>#
+	_ZTI22sml_devinf_propparam_s @ 429 NONAME ; #<TI>#
+	_ZTI23sml_devinf_ctdatalist_s @ 430 NONAME ; #<TI>#
+	_ZTI23sml_devinf_ctdataprop_s @ 431 NONAME ; #<TI>#
+	_ZTI25sml_devinf_propertylist_s @ 432 NONAME ; #<TI>#
+	_ZTI26sml_devinf_datastorelist_s @ 433 NONAME ; #<TI>#
+	_ZTI26sml_devinf_filtercaplist_s @ 434 NONAME ; #<TI>#
+	_ZTI26sml_devinf_propparamlist_s @ 435 NONAME ; #<TI>#
+	_ZTI27sml_devinf_ctdataproplist_s @ 436 NONAME ; #<TI>#
+	_ZTI29sml_source_or_target_parent_s @ 437 NONAME ; #<TI>#
+	_ZTI9sml_map_s @ 438 NONAME ; #<TI>#
+	_ZTV10sml_chal_s @ 439 NONAME ; #<VT>#
+	_ZTV10sml_cred_s @ 440 NONAME ; #<VT>#
+	_ZTV10sml_exec_s @ 441 NONAME ; #<VT>#
+	_ZTV10sml_item_s @ 442 NONAME ; #<VT>#
+	_ZTV10sml_sync_s @ 443 NONAME ; #<VT>#
+	_ZTV11CXMLElement @ 444 NONAME ; #<VT>#
+	_ZTV11sml_alert_s @ 445 NONAME ; #<VT>#
+	_ZTV12CWBXMLParser @ 446 NONAME ; #<VT>#
+	_ZTV12sml_atomic_s @ 447 NONAME ; #<VT>#
+	_ZTV12sml_filter_s @ 448 NONAME ; #<VT>#
+	_ZTV12sml_pcdata_s @ 449 NONAME ; #<VT>#
+	_ZTV12sml_search_s @ 450 NONAME ; #<VT>#
+	_ZTV12sml_source_s @ 451 NONAME ; #<VT>#
+	_ZTV12sml_status_s @ 452 NONAME ; #<VT>#
+	_ZTV12sml_syncml_s @ 453 NONAME ; #<VT>#
+	_ZTV12sml_target_s @ 454 NONAME ; #<VT>#
+	_ZTV13CXMLWorkspace @ 455 NONAME ; #<VT>#
+	_ZTV13sml_generic_s @ 456 NONAME ; #<VT>#
+	_ZTV13sml_get_put_s @ 457 NONAME ; #<VT>#
+	_ZTV13sml_results_s @ 458 NONAME ; #<VT>#
+	_ZTV14sml_map_item_s @ 459 NONAME ; #<VT>#
+	_ZTV14sml_sync_hdr_s @ 460 NONAME ; #<VT>#
+	_ZTV15CWBXMLAttribute @ 461 NONAME ; #<VT>#
+	_ZTV15CWBXMLGenerator @ 462 NONAME ; #<VT>#
+	_ZTV15sml_item_list_s @ 463 NONAME ; #<VT>#
+	_ZTV16CWBXMLAttributes @ 464 NONAME ; #<VT>#
+	_ZTV16sml_devinf_ext_s @ 465 NONAME ; #<VT>#
+	_ZTV16sml_metinf_mem_s @ 466 NONAME ; #<VT>#
+	_ZTV17sml_devinf_xmit_s @ 467 NONAME ; #<VT>#
+	_ZTV17sml_pcdata_list_s @ 468 NONAME ; #<VT>#
+	_ZTV17sml_source_list_s @ 469 NONAME ; #<VT>#
+	_ZTV17sml_syncml_body_s @ 470 NONAME ; #<VT>#
+	_ZTV18sml_devinf_ctcap_s @ 471 NONAME ; #<VT>#
+	_ZTV18sml_devinf_dsmem_s @ 472 NONAME ; #<VT>#
+	_ZTV19CXMLStaticWorkspace @ 473 NONAME ; #<VT>#
+	_ZTV19sml_devinf_ctdata_s @ 474 NONAME ; #<VT>#
+	_ZTV19sml_devinf_devinf_s @ 475 NONAME ; #<VT>#
+	_ZTV19sml_map_item_list_s @ 476 NONAME ; #<VT>#
+	_ZTV19sml_metinf_anchor_s @ 477 NONAME ; #<VT>#
+	_ZTV19sml_metinf_metinf_s @ 478 NONAME ; #<VT>#
+	_ZTV20CXMLDynamicWorkspace @ 479 NONAME ; #<VT>#
+	_ZTV20sml_devinf_extlist_s @ 480 NONAME ; #<VT>#
+	_ZTV20sml_devinf_synccap_s @ 481 NONAME ; #<VT>#
+	_ZTV21sml_devinf_property_s @ 482 NONAME ; #<VT>#
+	_ZTV21sml_devinf_xmitlist_s @ 483 NONAME ; #<VT>#
+	_ZTV21sml_field_or_record_s @ 484 NONAME ; #<VT>#
+	_ZTV21sml_source_ref_list_s @ 485 NONAME ; #<VT>#
+	_ZTV21sml_target_ref_list_s @ 486 NONAME ; #<VT>#
+	_ZTV22CWBXMLDevInfDocHandler @ 487 NONAME ; #<VT>#
+	_ZTV22CWBXMLSyncMLDocHandler @ 488 NONAME ; #<VT>#
+	_ZTV22sml_devinf_ctcaplist_s @ 489 NONAME ; #<VT>#
+	_ZTV22sml_devinf_datastore_s @ 490 NONAME ; #<VT>#
+	_ZTV22sml_devinf_filtercap_s @ 491 NONAME ; #<VT>#
+	_ZTV22sml_devinf_propparam_s @ 492 NONAME ; #<VT>#
+	_ZTV23sml_devinf_ctdatalist_s @ 493 NONAME ; #<VT>#
+	_ZTV23sml_devinf_ctdataprop_s @ 494 NONAME ; #<VT>#
+	_ZTV25sml_devinf_propertylist_s @ 495 NONAME ; #<VT>#
+	_ZTV26sml_devinf_datastorelist_s @ 496 NONAME ; #<VT>#
+	_ZTV26sml_devinf_filtercaplist_s @ 497 NONAME ; #<VT>#
+	_ZTV26sml_devinf_propparamlist_s @ 498 NONAME ; #<VT>#
+	_ZTV27sml_devinf_ctdataproplist_s @ 499 NONAME ; #<VT>#
+	_ZTV29sml_source_or_target_parent_s @ 500 NONAME ; #<VT>#
+	_ZTV9sml_map_s @ 501 NONAME ; #<VT>#
+

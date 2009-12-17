@@ -1,0 +1,107 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+ *     This is a localisation file for SCPPatternPlugin
+ *     A SCPPatternPlugin.loc file is the one and only place where the logical strings
+ *     to be localised are defined. 
+ * >>>
+ * The text between >>> and <<< is just to document the syntax and
+ * you can remove it if you like.
+ *
+*/
+
+
+
+// LOCALISATION STRINGS
+
+/*
+		Note : In this project, StringLoader wrapper is not used and
+		Formatting string are to change as following:
+		%N = %i
+		Do Not Change these markings!
+		Info about formatting Strings in general:
+		
+		Symbian OS v9.1 » 
+			Symbian OS guide » 
+				Base »
+					 Using User Library (E32) » 
+					 		Buffers and Strings » 
+					 				Using Descriptors » 
+					 					How to Use Descriptors » 
+					 								Format string syntax
+*/
+
+
+// Notification Texts
+
+
+//d: Information note. Security code entered by the user is not accepted because it contains more than x characters.
+//d: %i is the maximum amount of characters allowed in the security code.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_max "Cannot contain more than %N characters"
+
+
+//d: Information note. Security code entered by the user is not accepted because security code must contain at least x characters.
+//d: %i is the minimum amount of characters that the security code must contain.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_min  "Must be at least %N characters"
+
+
+//d: Information note. Security code entered by the user is not accepted because it must include both upper and lower case characters.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_upper_lower "Must include upper and lower case characters"
+
+
+//d: Information note. Security code entered by the user is not accepted because it must include both letters and numbers.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_letters_numbers "Must include letters and numbers"
+
+
+//d: Information note. Security code entered by the user is not accepted because characters cannot be repeated more than x time.
+//d: %i is maximum amount of times that the characters can be repeated.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_repeated "Characters cannot be repeated more than %N times"
+
+//d: Information note. Security code entered by the user is not accepted because characters cannot be repeated.
+//d: This note is displayed in case the character cannot be repeated at all. In other case qtn_set_sec_code_repeated is displayed.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_repeated_once "Characters cannot be repeated"
+
+
+//d: Information note. Security code entered by the user is not allowed because more than two consecutive numbers are not allowed.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_consecutive "More than two consecutive numbers not allowed"
+
+//d: Information note. Security code entered by the user is not allowed because it doesn't contain N number of special characters.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_min_special_chars "Code must contain at least %N special characters"
+
+//d: Information note. Security code entered by the user is not allowed because it is a simple lock code.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_consecutive_character_not_allowed "Code must not contain consecutive characters"
+//d: Information note. Security code entered by the user is not allowed because it is a simple lock code.
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_repeat_character_not_allowed "Code must not contain single repeated character"
+// End of File
+

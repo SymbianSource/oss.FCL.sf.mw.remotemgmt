@@ -1,0 +1,100 @@
+EXPORTS
+	??1CSmlDataField@@UAE@XZ @ 1 NONAME ; CSmlDataField::~CSmlDataField(void)
+	??1CSmlDataProperty@@UAE@XZ @ 2 NONAME ; CSmlDataProperty::~CSmlDataProperty(void)
+	??1CSmlDataPropertyParam@@UAE@XZ @ 3 NONAME ; CSmlDataPropertyParam::~CSmlDataPropertyParam(void)
+	??1CSmlDataStoreFormat@@UAE@XZ @ 4 NONAME ; CSmlDataStoreFormat::~CSmlDataStoreFormat(void)
+	??1CSmlFilterCapability@@UAE@XZ @ 5 NONAME ; CSmlFilterCapability::~CSmlFilterCapability(void)
+	??1CSmlMimeFormat@@UAE@XZ @ 6 NONAME ; CSmlMimeFormat::~CSmlMimeFormat(void)
+	?DataType@CSmlDataField@@QBE?AVRString@@XZ @ 7 NONAME ; class RString CSmlDataField::DataType(void) const
+	?DisplayName@CSmlDataField@@QBEABVTDesC16@@XZ @ 8 NONAME ; class TDesC16 const & CSmlDataField::DisplayName(void) const
+	?DisplayName@CSmlDataStoreFormat@@QBEABVTDesC16@@XZ @ 9 NONAME ; class TDesC16 const & CSmlDataStoreFormat::DisplayName(void) const
+	?EnumValue@CSmlDataField@@QBE?AVRString@@H@Z @ 10 NONAME ; class RString CSmlDataField::EnumValue(int) const
+	?EnumValueCount@CSmlDataField@@QBEHXZ @ 11 NONAME ; int CSmlDataField::EnumValueCount(void) const
+	?ExternalizeL@CSmlDataField@@QBEXAAVRWriteStream@@@Z @ 12 NONAME ; void CSmlDataField::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlDataProperty@@QBEXAAVRWriteStream@@@Z @ 13 NONAME ; void CSmlDataProperty::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlDataPropertyParam@@QBEXAAVRWriteStream@@@Z @ 14 NONAME ; void CSmlDataPropertyParam::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlDataStoreFormat@@QBEXAAVRWriteStream@@@Z @ 15 NONAME ; void CSmlDataStoreFormat::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlFilterCapability@@QBEXAAVRWriteStream@@@Z @ 16 NONAME ; void CSmlFilterCapability::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CSmlMimeFormat@@QBEXAAVRWriteStream@@@Z @ 17 NONAME ; void CSmlMimeFormat::ExternalizeL(class RWriteStream &) const
+	?Field@CSmlDataProperty@@QBEABVCSmlDataField@@XZ @ 18 NONAME ; class CSmlDataField const & CSmlDataProperty::Field(void) const
+	?Field@CSmlDataPropertyParam@@QBEABVCSmlDataField@@XZ @ 19 NONAME ; class CSmlDataField const & CSmlDataPropertyParam::Field(void) const
+	?FieldLevel@CSmlMimeFormat@@QBEHXZ @ 20 NONAME ; int CSmlMimeFormat::FieldLevel(void) const
+	?FilterCapability@CSmlDataStoreFormat@@QBEABVCSmlFilterCapability@@H@Z @ 21 NONAME ; class CSmlFilterCapability const & CSmlDataStoreFormat::FilterCapability(int) const
+	?FilterCapabilityCount@CSmlDataStoreFormat@@QBEHXZ @ 22 NONAME ; int CSmlDataStoreFormat::FilterCapabilityCount(void) const
+	?FolderProperty@CSmlDataStoreFormat@@QBEABVCSmlDataProperty@@H@Z @ 23 NONAME ; class CSmlDataProperty const & CSmlDataStoreFormat::FolderProperty(int) const
+	?FolderPropertyCount@CSmlDataStoreFormat@@QBEHXZ @ 24 NONAME ; int CSmlDataStoreFormat::FolderPropertyCount(void) const
+	?HasMaxItems@CSmlDataStoreFormat@@QBEHXZ @ 25 NONAME ; int CSmlDataStoreFormat::HasMaxItems(void) const
+	?HasMaxOccur@CSmlDataProperty@@QBEHXZ @ 26 NONAME ; int CSmlDataProperty::HasMaxOccur(void) const
+	?HasMaxSize@CSmlDataProperty@@QBEHXZ @ 27 NONAME ; int CSmlDataProperty::HasMaxSize(void) const
+	?HasMaxSize@CSmlDataStoreFormat@@QBEHXZ @ 28 NONAME ; int CSmlDataStoreFormat::HasMaxSize(void) const
+	?IsSupported@CSmlDataProperty@@QBEHW4TOption@1@@Z @ 29 NONAME ; int CSmlDataProperty::IsSupported(enum CSmlDataProperty::TOption) const
+	?IsSupported@CSmlDataStoreFormat@@QBEHW4TOption@1@@Z @ 30 NONAME ; int CSmlDataStoreFormat::IsSupported(enum CSmlDataStoreFormat::TOption) const
+	?Keyword@CSmlFilterCapability@@QBE?AVRString@@H@Z @ 31 NONAME ; class RString CSmlFilterCapability::Keyword(int) const
+	?KeywordCount@CSmlFilterCapability@@QBEHXZ @ 32 NONAME ; int CSmlFilterCapability::KeywordCount(void) const
+	?MaxItems@CSmlDataStoreFormat@@QBEHXZ @ 33 NONAME ; int CSmlDataStoreFormat::MaxItems(void) const
+	?MaxOccur@CSmlDataProperty@@QBEHXZ @ 34 NONAME ; int CSmlDataProperty::MaxOccur(void) const
+	?MaxSize@CSmlDataProperty@@QBEHXZ @ 35 NONAME ; int CSmlDataProperty::MaxSize(void) const
+	?MaxSize@CSmlDataStoreFormat@@QBEHXZ @ 36 NONAME ; int CSmlDataStoreFormat::MaxSize(void) const
+	?MimeFormat@CSmlDataStoreFormat@@QBEABVCSmlMimeFormat@@H@Z @ 37 NONAME ; class CSmlMimeFormat const & CSmlDataStoreFormat::MimeFormat(int) const
+	?MimeFormatCount@CSmlDataStoreFormat@@QBEHXZ @ 38 NONAME ; int CSmlDataStoreFormat::MimeFormatCount(void) const
+	?MimeFormatRxPref@CSmlDataStoreFormat@@QBEHXZ @ 39 NONAME ; int CSmlDataStoreFormat::MimeFormatRxPref(void) const
+	?MimeFormatTxPref@CSmlDataStoreFormat@@QBEHXZ @ 40 NONAME ; int CSmlDataStoreFormat::MimeFormatTxPref(void) const
+	?MimeType@CSmlFilterCapability@@QBE?AVRStringF@@XZ @ 41 NONAME ; class RStringF CSmlFilterCapability::MimeType(void) const
+	?MimeType@CSmlMimeFormat@@QBE?AVRStringF@@XZ @ 42 NONAME ; class RStringF CSmlMimeFormat::MimeType(void) const
+	?MimeVersion@CSmlFilterCapability@@QBE?AVRStringF@@XZ @ 43 NONAME ; class RStringF CSmlFilterCapability::MimeVersion(void) const
+	?MimeVersion@CSmlMimeFormat@@QBE?AVRStringF@@XZ @ 44 NONAME ; class RStringF CSmlMimeFormat::MimeVersion(void) const
+	?Name@CSmlDataField@@QBE?AVRString@@XZ @ 45 NONAME ; class RString CSmlDataField::Name(void) const
+	?NewLC@CSmlDataField@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 46 NONAME ; class CSmlDataField * CSmlDataField::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlDataField@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 47 NONAME ; class CSmlDataField * CSmlDataField::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlDataField@@SAPAV1@XZ @ 48 NONAME ; class CSmlDataField * CSmlDataField::NewLC(void)
+	?NewLC@CSmlDataProperty@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 49 NONAME ; class CSmlDataProperty * CSmlDataProperty::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlDataProperty@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 50 NONAME ; class CSmlDataProperty * CSmlDataProperty::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlDataProperty@@SAPAV1@XZ @ 51 NONAME ; class CSmlDataProperty * CSmlDataProperty::NewLC(void)
+	?NewLC@CSmlDataPropertyParam@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 52 NONAME ; class CSmlDataPropertyParam * CSmlDataPropertyParam::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlDataPropertyParam@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 53 NONAME ; class CSmlDataPropertyParam * CSmlDataPropertyParam::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlDataPropertyParam@@SAPAV1@XZ @ 54 NONAME ; class CSmlDataPropertyParam * CSmlDataPropertyParam::NewLC(void)
+	?NewLC@CSmlDataStoreFormat@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 55 NONAME ; class CSmlDataStoreFormat * CSmlDataStoreFormat::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlDataStoreFormat@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 56 NONAME ; class CSmlDataStoreFormat * CSmlDataStoreFormat::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlDataStoreFormat@@SAPAV1@XZ @ 57 NONAME ; class CSmlDataStoreFormat * CSmlDataStoreFormat::NewLC(void)
+	?NewLC@CSmlFilterCapability@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 58 NONAME ; class CSmlFilterCapability * CSmlFilterCapability::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlFilterCapability@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 59 NONAME ; class CSmlFilterCapability * CSmlFilterCapability::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlFilterCapability@@SAPAV1@XZ @ 60 NONAME ; class CSmlFilterCapability * CSmlFilterCapability::NewLC(void)
+	?NewLC@CSmlMimeFormat@@SAPAV1@ABVRStringPool@@AAVRReadStream@@@Z @ 61 NONAME ; class CSmlMimeFormat * CSmlMimeFormat::NewLC(class RStringPool const &, class RReadStream &)
+	?NewLC@CSmlMimeFormat@@SAPAV1@ABVRStringPool@@AAVTResourceReader@@@Z @ 62 NONAME ; class CSmlMimeFormat * CSmlMimeFormat::NewLC(class RStringPool const &, class TResourceReader &)
+	?NewLC@CSmlMimeFormat@@SAPAV1@XZ @ 63 NONAME ; class CSmlMimeFormat * CSmlMimeFormat::NewLC(void)
+	?Param@CSmlDataProperty@@QBEABVCSmlDataPropertyParam@@H@Z @ 64 NONAME ; class CSmlDataPropertyParam const & CSmlDataProperty::Param(int) const
+	?ParamCount@CSmlDataProperty@@QBEHXZ @ 65 NONAME ; int CSmlDataProperty::ParamCount(void) const
+	?Property@CSmlMimeFormat@@QBEABVCSmlDataProperty@@H@Z @ 66 NONAME ; class CSmlDataProperty const & CSmlMimeFormat::Property(int) const
+	?PropertyCount@CSmlFilterCapability@@QBEHXZ @ 67 NONAME ; int CSmlFilterCapability::PropertyCount(void) const
+	?PropertyCount@CSmlMimeFormat@@QBEHXZ @ 68 NONAME ; int CSmlMimeFormat::PropertyCount(void) const
+	?PropertyName@CSmlFilterCapability@@QBE?AVRString@@H@Z @ 69 NONAME ; class RString CSmlFilterCapability::PropertyName(int) const
+	?SetDataFieldL@CSmlDataProperty@@QAEXAAVCSmlDataField@@@Z @ 70 NONAME ; void CSmlDataProperty::SetDataFieldL(class CSmlDataField &)
+	?SetDataFieldL@CSmlDataPropertyParam@@QAEXAAVCSmlDataField@@@Z @ 71 NONAME ; void CSmlDataPropertyParam::SetDataFieldL(class CSmlDataField &)
+	?SetDataPropertiesL@CSmlMimeFormat@@QAEXAAV?$RPointerArray@VCSmlDataProperty@@@@@Z @ 72 NONAME ; void CSmlMimeFormat::SetDataPropertiesL(class RPointerArray<class CSmlDataProperty> &)
+	?SetDataTypeL@CSmlDataField@@QAEXAAVRString@@@Z @ 73 NONAME ; void CSmlDataField::SetDataTypeL(class RString &)
+	?SetDisplayNameL@CSmlDataField@@QAEXAAVTDesC16@@@Z @ 74 NONAME ; void CSmlDataField::SetDisplayNameL(class TDesC16 &)
+	?SetDisplayNameL@CSmlDataStoreFormat@@QAEXAAVTDesC16@@@Z @ 75 NONAME ; void CSmlDataStoreFormat::SetDisplayNameL(class TDesC16 &)
+	?SetEnumValuesL@CSmlDataField@@QAEXAAV?$RArray@VRString@@@@@Z @ 76 NONAME ; void CSmlDataField::SetEnumValuesL(class RArray<class RString> &)
+	?SetFieldLevel@CSmlMimeFormat@@QAEXH@Z @ 77 NONAME ; void CSmlMimeFormat::SetFieldLevel(int)
+	?SetFilterCapabilitiesL@CSmlDataStoreFormat@@QAEXAAV?$RPointerArray@VCSmlFilterCapability@@@@@Z @ 78 NONAME ; void CSmlDataStoreFormat::SetFilterCapabilitiesL(class RPointerArray<class CSmlFilterCapability> &)
+	?SetFolderPropertiesL@CSmlDataStoreFormat@@QAEXAAV?$RPointerArray@VCSmlDataProperty@@@@@Z @ 79 NONAME ; void CSmlDataStoreFormat::SetFolderPropertiesL(class RPointerArray<class CSmlDataProperty> &)
+	?SetKeyWordListL@CSmlFilterCapability@@QAEXAAV?$RArray@VRString@@@@@Z @ 80 NONAME ; void CSmlFilterCapability::SetKeyWordListL(class RArray<class RString> &)
+	?SetMaxItems@CSmlDataStoreFormat@@QAEXG@Z @ 81 NONAME ; void CSmlDataStoreFormat::SetMaxItems(unsigned short)
+	?SetMaxOccur@CSmlDataProperty@@QAEXG@Z @ 82 NONAME ; void CSmlDataProperty::SetMaxOccur(unsigned short)
+	?SetMaxSize@CSmlDataProperty@@QAEXG@Z @ 83 NONAME ; void CSmlDataProperty::SetMaxSize(unsigned short)
+	?SetMaxSize@CSmlDataStoreFormat@@QAEXG@Z @ 84 NONAME ; void CSmlDataStoreFormat::SetMaxSize(unsigned short)
+	?SetMimeFormatRxPref@CSmlDataStoreFormat@@QAEXH@Z @ 85 NONAME ; void CSmlDataStoreFormat::SetMimeFormatRxPref(int)
+	?SetMimeFormatTxPref@CSmlDataStoreFormat@@QAEXH@Z @ 86 NONAME ; void CSmlDataStoreFormat::SetMimeFormatTxPref(int)
+	?SetMimeFormatsL@CSmlDataStoreFormat@@QAEXAAV?$RPointerArray@VCSmlMimeFormat@@@@@Z @ 87 NONAME ; void CSmlDataStoreFormat::SetMimeFormatsL(class RPointerArray<class CSmlMimeFormat> &)
+	?SetMimeTypeL@CSmlFilterCapability@@QAEXAAVRStringF@@@Z @ 88 NONAME ; void CSmlFilterCapability::SetMimeTypeL(class RStringF &)
+	?SetMimeTypeL@CSmlMimeFormat@@QAEXAAVRStringF@@@Z @ 89 NONAME ; void CSmlMimeFormat::SetMimeTypeL(class RStringF &)
+	?SetMimeVersionL@CSmlFilterCapability@@QAEXAAVRStringF@@@Z @ 90 NONAME ; void CSmlFilterCapability::SetMimeVersionL(class RStringF &)
+	?SetMimeVersionL@CSmlMimeFormat@@QAEXAAVRStringF@@@Z @ 91 NONAME ; void CSmlMimeFormat::SetMimeVersionL(class RStringF &)
+	?SetNameL@CSmlDataField@@QAEXAAVRString@@@Z @ 92 NONAME ; void CSmlDataField::SetNameL(class RString &)
+	?SetPropertiesListL@CSmlFilterCapability@@QAEXAAV?$RArray@VRString@@@@@Z @ 93 NONAME ; void CSmlFilterCapability::SetPropertiesListL(class RArray<class RString> &)
+	?SetPropertyParamsL@CSmlDataProperty@@QAEXAAV?$RPointerArray@VCSmlDataPropertyParam@@@@@Z @ 94 NONAME ; void CSmlDataProperty::SetPropertyParamsL(class RPointerArray<class CSmlDataPropertyParam> &)
+	?SetSupportedOptions@CSmlDataProperty@@QAEXK@Z @ 95 NONAME ; void CSmlDataProperty::SetSupportedOptions(unsigned long)
+	?SetSupportedOptions@CSmlDataStoreFormat@@QAEXK@Z @ 96 NONAME ; void CSmlDataStoreFormat::SetSupportedOptions(unsigned long)
+	?SetSyncTypeMask@CSmlDataStoreFormat@@QAEXVTSmlSyncTypeMask@@@Z @ 97 NONAME ; void CSmlDataStoreFormat::SetSyncTypeMask(class TSmlSyncTypeMask)
+	?SyncTypes@CSmlDataStoreFormat@@QBE?AVTSmlSyncTypeMask@@XZ @ 98 NONAME ; class TSmlSyncTypeMask CSmlDataStoreFormat::SyncTypes(void) const
+

@@ -1,0 +1,134 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME SCPP
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <scppatternplugin.loc>
+#include <eikon.rh>
+
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF16 { buf=""; }
+
+       
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_max
+//    - Warning text for the situation when the code has reached the maximum
+//      length
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_max                      
+				{ buf = qtn_set_sec_code_max ; }
+
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_min
+//    - Warning text for the situation when the code has reached the minumum
+//      length
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_min                     
+				{ buf = qtn_set_sec_code_min; }
+
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_upper_lower
+//    - Warning text for the situation when the code must have both upper and
+//      lower cases within.
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_upper_lower                       
+				{ buf = qtn_set_sec_code_upper_lower  ; }
+
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_letters_numbers
+//    - Warning text for the situation when the code must have both numeric and
+//      alphas within.
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_letters_numbers                      
+				{ buf = qtn_set_sec_code_letters_numbers ; }
+			
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_repeated
+//    - Warning text for the situation when the code have n amount of same chars
+//
+//-----------------------------------------------------------------------------
+//	
+RESOURCE TBUF  r_set_sec_code_repeated                      
+				{ buf = qtn_set_sec_code_repeated ; }
+				
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_repeated_once
+//    - Warning text for the situation when the code has too many same char, and
+//    the maximum is one.
+//
+//-----------------------------------------------------------------------------
+//	
+RESOURCE TBUF  r_set_sec_code_repeated_once                     
+				{ buf = qtn_set_sec_code_repeated_once ; }				
+					
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_consecutive
+//    - Warning text for the situation when the code have n amount of same nums
+//      in a row.
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_consecutive                     
+				{ buf = qtn_set_sec_code_consecutive ; }
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_min_special_chars
+//    - Warning text for the situation when the code doesn't have n number of
+//      special characters.
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_min_special_chars                     
+                { buf = qtn_set_sec_code_min_special_chars ; }
+
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_consecutive_chars
+//    - Warning text for the situation when the code entered is a simple string
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_consecutive_chars                     
+                { buf = qtn_set_sec_consecutive_character_not_allowed ; }
+//-----------------------------------------------------------------------------
+//   
+//    r_set_sec_code_single_repeat
+//    - Warning text for the situation when the code entered is a simple string
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF  r_set_sec_code_single_repeat                     
+                { buf = qtn_set_sec_code_repeat_character_not_allowed ; }                
+              
+// End of file

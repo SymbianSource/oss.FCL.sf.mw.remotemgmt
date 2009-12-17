@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of syncmlfw/dm component
+* 	This is part of syncmlfw.
+*
+*/
+
+
+
+STRUCT DMPROFILES
+	{
+	STRUCT dmprofiles[];
+	}
+
+STRUCT DMPROFILE
+	{
+	LTEXT profiledisplayname;
+	WORD iapid = -1;
+	LONG transportid;// = 0x101F99F0;	//KUidNSmlMediumTypeInternet in nsmlconstants.h
+	LTEXT serverusername;
+	LTEXT serverpassword;
+	LTEXT clientpassword;
+	LTEXT serverurl;
+	LTEXT serverid;
+	LONG dmsessionid;
+	BYTE serveralertaction=1;
+	BYTE authenticationrequired = 0;
+	LONG creatorid = 0;
+	BYTE deleteallowed = 1;
+	BYTE profilehidden = 0;
+	BYTE httpauthused = 0;
+	LTEXT httpauthusername;
+	LTEXT httpauthpassword;
+	BYTE profilelock = 0;
+	}

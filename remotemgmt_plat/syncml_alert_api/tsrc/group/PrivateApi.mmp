@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: definition of dm constants/exported methods
+* 	This is part of remotemgmt_plat.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+
+#ifdef EKA2
+#include "defaultcaps.hrh"
+CAPABILITY CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+#endif
+
+TARGET          PrivateApi.dll
+TARGETPATH		PROGRAMS_DIR
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+
+DEFFILE         PrivateApi.def
+
+SOURCEPATH      ../src
+SOURCE          PrivateApi.cpp
+SOURCE          PrivateApiBlocks.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE		../../../../inc
+USERINCLUDE		../../../../../sosserver/inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         nsmlprivateapi.lib
+LIBRARY			efsrv.lib
+LIBRARY			syncmlclientapi.lib
+
+
+SMPSAFE
+// End of File
+

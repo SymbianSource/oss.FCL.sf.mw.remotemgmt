@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for the ProvisioningSC
+*
+*/
+
+#include <platform_paths.hrh>
+
+
+#include <data_caging_paths.hrh>
+
+#if defined(WINS)
+TARGET          provisioningsc.dll
+TARGETTYPE      DLL
+#else
+TARGET          provisioningsc.exe
+TARGETTYPE      EXE
+#endif
+
+UID             0x1000008d 0x10207275
+
+
+CAPABILITY      CAP_APPLICATION 
+VENDORID        VID_DEFAULT
+
+
+SOURCEPATH      ../Src
+SOURCE          CWPProvisioningSC.cpp
+SOURCE          CWPImsiDbHandler.cpp
+SOURCE          CWPBioMsgHandler.cpp
+SOURCE          CWPWimHandler.cpp
+
+USERINCLUDE     ../Inc
+USERINCLUDE     ../../ProvisioningEngine/Inc
+
+
+APP_LAYER_SYSTEMINCLUDE
+//SYSTEMINCLUDE   /epoc32/include/cshelp
+SYSTEMINCLUDE 	/epoc32/include/push
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+SYSTEMINCLUDE 	/epoc32/include/platform/mw/push
+#endif
+
+SYSTEMINCLUDE   /epoc32/include/ecom
+
+// for localisation
+SOURCEPATH      ../Data
+USERINCLUDE     ../../Group
+START RESOURCE ProvisioningSC.rss
+HEADER
+TARGETPATH  RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+
+LIBRARY         euser.lib 
+
+LIBRARY         provisioningengine.lib
+LIBRARY         edbms.lib               // database
+LIBRARY         efsrv.lib               // RFs
+
+LIBRARY         msgs.lib                // msvsession, entry
+LIBRARY         biodb.lib               // bif 
+LIBRARY         bifu.lib                // bif reader
+
+LIBRARY         wappushutils.lib        // cpushmessage
+LIBRARY         smcm.lib                // smsheader
+LIBRARY         etext.lib               // rich text
+LIBRARY         aknnotify.lib           // global note
+LIBRARY         sysutil.lib
+
+LIBRARY         wimclient.lib
+DEBUGLIBRARY    flogger.lib
+
+LIBRARY         ecom.lib
+
+
+SMPSAFE

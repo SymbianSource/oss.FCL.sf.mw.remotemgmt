@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2003 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of syncmlfw/dm component
+* 	This is part of syncmlfw.
+*
+*/
+
+
+#include <defaultcaps.hrh>
+#include  <platform_paths.hrh>
+
+
+TARGET          nsmldmwappushalert.dll
+TARGETTYPE	PLUGIN
+UID             0x10009D8D 0x101F6DE3
+CAPABILITY	CAP_ECOM_PLUGIN
+VENDORID 	VID_DEFAULT
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+SYSTEMINCLUDE 	/epoc32/include/push
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+SYSTEMINCLUDE		/epoc32/include/platform/mw/push
+#endif
+
+SOURCEPATH      ../src
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../inc 
+
+START RESOURCE	101F6DE3.rss
+TARGET		nsmldmwappushalert.rsc
+END
+
+SOURCE          nsmldmwappushalert.cpp
+
+LIBRARY         euser.lib 
+LIBRARY         ecom.lib 
+LIBRARY         wappushutils.lib 
+LIBRARY         nsmldebug.lib
+LIBRARy		nsmlprivateapi.lib
+SMPSAFE

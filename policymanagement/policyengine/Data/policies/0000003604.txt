@@ -1,0 +1,1 @@
+<ru ruid="syncml_enforcement_policy_rule_permanent" ef="de"><ta /></ru>~3072

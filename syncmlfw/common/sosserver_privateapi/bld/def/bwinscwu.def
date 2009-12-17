@@ -1,0 +1,12 @@
+EXPORTS
+	??0CNSmlDMAuthInfo@@QAE@XZ @ 1 NONAME ; CNSmlDMAuthInfo::CNSmlDMAuthInfo(void)
+	??0RNSmlPrivateAPI@@QAE@XZ @ 2 NONAME ; RNSmlPrivateAPI::RNSmlPrivateAPI(void)
+	??1CNSmlDMAuthInfo@@UAE@XZ @ 3 NONAME ; CNSmlDMAuthInfo::~CNSmlDMAuthInfo(void)
+	?AddDMGenericAlertRequestL@RNSmlPrivateAPI@@QBEHABVTDesC8@@00H0@Z @ 4 NONAME ; int RNSmlPrivateAPI::AddDMGenericAlertRequestL(class TDesC8 const &, class TDesC8 const &, class TDesC8 const &, int, class TDesC8 const &) const
+	?Close@RNSmlPrivateAPI@@QAEXXZ @ 5 NONAME ; void RNSmlPrivateAPI::Close(void)
+	?GetDMAuthInfoL@RNSmlPrivateAPI@@QAEXAAVCNSmlDMAuthInfo@@@Z @ 6 NONAME ; void RNSmlPrivateAPI::GetDMAuthInfoL(class CNSmlDMAuthInfo &)
+	?OpenL@RNSmlPrivateAPI@@QAEXXZ @ 7 NONAME ; void RNSmlPrivateAPI::OpenL(void)
+	?SendL@RNSmlPrivateAPI@@QAEXABVTDesC8@@W4TSmlUsageType@@W4TSmlProtocolVersion@@VTUid@@@Z @ 8 NONAME ; void RNSmlPrivateAPI::SendL(class TDesC8 const &, enum TSmlUsageType, enum TSmlProtocolVersion, class TUid)
+	?SetDMAuthInfoL@RNSmlPrivateAPI@@QAEXABVCNSmlDMAuthInfo@@@Z @ 9 NONAME ; void RNSmlPrivateAPI::SetDMAuthInfoL(class CNSmlDMAuthInfo const &)
+	?AddDMGenericAlertRequestL@RNSmlPrivateAPI@@QBEHABVTDesC8@@AAV?$RArray@UCNSmlDMAlertItem@@@@@Z @ 10 NONAME ; int RNSmlPrivateAPI::AddDMGenericAlertRequestL(class TDesC8 const &, class RArray<struct CNSmlDMAlertItem> &) const
+

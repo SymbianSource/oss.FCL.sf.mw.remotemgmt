@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for dm tree db handler
+*
+*/
+
+
+
+#include "defaultcaps.hrh"
+#include  <platform_paths.hrh>
+
+TARGET          nsmldmtreedbhandler.dll
+TARGETTYPE      dll
+UID             0x1000008d 268437795
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/libc /epoc32/include/ecom 
+
+SOURCEPATH      ../src
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../inc/exported
+USERINCLUDE     ../../treedbclient/inc
+USERINCLUDE     ../../dmutils/inc
+USERINCLUDE     ../../dmutils/inc/exported
+SOURCE			nsmldmdbhandler.cpp nsmldmaclparser.cpp
+
+LIBRARY         euser.lib efsrv.lib edbms.lib charconv.lib
+LIBRARY         estor.lib nsmldebug.lib sysutil.lib
+LIBRARY			bafl.lib nsmldmclientserverutils.lib
+
+
+#ifdef ARMCC
+LIBRARY ecom.lib
+#endif
+
+SMPSAFE

@@ -1,0 +1,64 @@
+EXPORTS
+	_ZN12CNSmlDMCrypt10DecryptedLERK7TDesC16 @ 1 NONAME
+	_ZN12CNSmlDMCrypt10EncryptedLERK7TDesC16 @ 2 NONAME
+	_ZN12CNSmlDMCryptC1Ev @ 3 NONAME
+	_ZN12CNSmlDMCryptC2Ev @ 4 NONAME
+	_ZN12CNSmlDMCryptD0Ev @ 5 NONAME
+	_ZN12CNSmlDMCryptD1Ev @ 6 NONAME
+	_ZN12CNSmlDMCryptD2Ev @ 7 NONAME
+	_ZN14CNSmlDMProfile11SetIntValueE18TNSmlDMProfileDatai @ 8 NONAME
+	_ZN14CNSmlDMProfile11SetStrValueE18TNSmlDMProfileDataRK7TDesC16 @ 9 NONAME
+	_ZN14CNSmlDMProfile12HasLastSyncLEv @ 10 NONAME
+	_ZN14CNSmlDMProfile14LogReadStreamLEv @ 11 NONAME
+	_ZN14CNSmlDMProfile15LogWriteStreamLEv @ 12 NONAME
+	_ZN14CNSmlDMProfile18WriteStreamCommitLEv @ 13 NONAME
+	_ZN14CNSmlDMProfile19LastSyncReadStreamLEv @ 14 NONAME
+	_ZN14CNSmlDMProfile20LastSyncWriteStreamLEv @ 15 NONAME
+	_ZN14CNSmlDMProfile21LastSyncStreamCommitLEv @ 16 NONAME
+	_ZN14CNSmlDMProfile5SaveLEv @ 17 NONAME
+	_ZN14CNSmlDMProfile7HasLogLEv @ 18 NONAME
+	_ZN14CNSmlDMProfile7IsNullLERK7TDesC16 @ 19 NONAME
+	_ZN14CNSmlDMProfile7NonceLCE18TNSmlDMProfileData @ 20 NONAME
+	_ZN14CNSmlDMProfile9SetNonceLE18TNSmlDMProfileDataRK7TDesC16 @ 21 NONAME
+	_ZN14CNSmlDMProfileD0Ev @ 22 NONAME
+	_ZN14CNSmlDMProfileD1Ev @ 23 NONAME
+	_ZN14CNSmlDMProfileD2Ev @ 24 NONAME
+	_ZN15CNSmlDMSettings12IsDMAllowedLEv @ 25 NONAME
+	_ZN15CNSmlDMSettings14CreateProfileLEi @ 26 NONAME
+	_ZN15CNSmlDMSettings14CreateProfileLEv @ 27 NONAME
+	_ZN15CNSmlDMSettings14DeleteProfileLEi @ 28 NONAME
+	_ZN15CNSmlDMSettings14ServerIdFoundLERK7TDesC16 @ 29 NONAME
+	_ZN15CNSmlDMSettings14ServerIdFoundLERK7TDesC16i @ 30 NONAME
+	_ZN15CNSmlDMSettings15GetProfileListLEP9CArrayPtrI22CNSmlDMProfileListItemE @ 31 NONAME
+	_ZN15CNSmlDMSettings17SetDMAllowedFlagLEi @ 32 NONAME
+	_ZN15CNSmlDMSettings30ScanAndRepairRestoredProfilesLEv @ 33 NONAME
+	_ZN15CNSmlDMSettings4NewLEv @ 34 NONAME
+	_ZN15CNSmlDMSettings5NewLCEv @ 35 NONAME
+	_ZN15CNSmlDMSettings8DatabaseEv @ 36 NONAME
+	_ZN15CNSmlDMSettings8ProfileLEi @ 37 NONAME
+	_ZN15CNSmlDMSettingsD0Ev @ 38 NONAME
+	_ZN15CNSmlDMSettingsD1Ev @ 39 NONAME
+	_ZN15CNSmlDMSettingsD2Ev @ 40 NONAME
+	_ZN22CNSmlDMProfileListItem4NewLEi @ 41 NONAME
+	_ZN22CNSmlDMProfileListItem5NewLCEi @ 42 NONAME
+	_ZN22CNSmlDMProfileListItem7AssignLEPKS_ @ 43 NONAME
+	_ZNK14CNSmlDMProfile5IsNewEv @ 44 NONAME
+	_ZNK14CNSmlDMProfile8IntValueE18TNSmlDMProfileData @ 45 NONAME
+	_ZNK14CNSmlDMProfile8StrValueE18TNSmlDMProfileData @ 46 NONAME
+	_ZNK14CNSmlDMProfile9EqualDataEPS_ @ 47 NONAME
+	_ZNK22CNSmlDMProfileListItem8IntValueE18TNSmlDMProfileData @ 48 NONAME
+	_ZTI12CNSmlDMCrypt @ 49 NONAME ; #<TI>#
+	_ZTI14CNSmlDMProfile @ 50 NONAME ; #<TI>#
+	_ZTI15CNSmlDMSettings @ 51 NONAME ; #<TI>#
+	_ZTI22CNSmlDMProfileListItem @ 52 NONAME ; #<TI>#
+	_ZTI22CNSmlDMResourceProfile @ 53 NONAME ; #<TI>#
+	_ZTI23CNSmlDMResourceProfiles @ 54 NONAME ; #<TI>#
+	_ZTI24CDMProfileContentHandler @ 55 NONAME ; #<TI>#
+	_ZTV12CNSmlDMCrypt @ 56 NONAME ; #<VT>#
+	_ZTV14CNSmlDMProfile @ 57 NONAME ; #<VT>#
+	_ZTV15CNSmlDMSettings @ 58 NONAME ; #<VT>#
+	_ZTV22CNSmlDMProfileListItem @ 59 NONAME ; #<VT>#
+	_ZTV22CNSmlDMResourceProfile @ 60 NONAME ; #<VT>#
+	_ZTV23CNSmlDMResourceProfiles @ 61 NONAME ; #<VT>#
+	_ZTV24CDMProfileContentHandler @ 62 NONAME ; #<VT>#
+

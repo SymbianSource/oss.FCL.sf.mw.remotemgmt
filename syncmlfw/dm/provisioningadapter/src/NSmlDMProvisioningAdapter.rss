@@ -1,0 +1,37 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DM Settings Provisioning Adapter
+*
+*/
+
+
+
+//  RESOURCE IDENTIFIER
+//NAME    WPDM // 4 letter ID
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <uikon.rh>
+#include <nsmldmprovisioningadapter.loc>
+
+STRUCT STRING
+	{
+	LTEXT text;
+	}
+
+RESOURCE STRING r_syncmldm_provisioning_title	{ text = qtn_op_head_syncdm; }
+RESOURCE STRING r_syncmldm_default_name 		{ text = qtn_op_default_name_syncdm; }
+
+// End of File

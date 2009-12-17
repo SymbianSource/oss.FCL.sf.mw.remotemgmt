@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  bld file for remotemgmt component
+* 	This is part of remotemgmt.
+*
+*/
+
+
+// mw layer
+// remotemgmt ADO
+
+//Componets:
+
+// policymanagement
+#include "../policymanagement/group/bld.inf"
+
+//syncmlfw
+#include "../syncmlfw/group/bld.inf"
+
+//terminalsecurity
+#include "../terminalsecurity/group/bld.inf"
+
+//omaprovisioning
+#include "../omaprovisioning/group/bld.inf"
+
+//remotemgmt_plat
+#include "../remotemgmt_plat/group/bld.inf"
+
+//devicediagnosticsfw
+#include "../devicediagnosticsfw/group/bld.inf"
+
+//dcmofw
+#include "../dcmofw/group/bld.inf"
+
+//fotaapplication
+#include "../fotaapplication/group/bld.inf"
+
+//remotemgmt_pub
+#include "../remotemgmt_pub/group/bld.inf"

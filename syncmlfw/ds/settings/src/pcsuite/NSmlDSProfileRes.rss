@@ -1,0 +1,425 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource data for DS-settings 
+*
+*/
+
+
+#include "../NSmlDSProfile.rh"
+#include <nsmldsprofileres.loc>
+
+RESOURCE PROFILES nsml_ds_profiles
+	{
+	profiles=
+		{
+		PROFILE
+			{
+			profiledisplayname=qtn_nsds_va_suite_prf_n1;
+			//username="xxx";
+			//password="xxx";
+			serverurl="PC Suite";
+			serverid="PC Suite";
+			serveralertedaction = ESmlEnableSync;
+			profilehidden=0;
+			transportid=0x101F99F1;
+			deleteallowed=0;
+			visibility="nrhrnnrrhnrnnrnrnn";
+			protocolversion=ESmlVersion1_2;
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";
+
+			contenttypes=
+				{
+#ifdef __SYNCML_DS_CAL
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDE; // Calendar
+					clientdatasource = "";
+					serverdatasource = "Calendar";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101F6DDE;
+					}
+#endif
+#ifdef __SYNCML_DS_CON
+#ifdef __SYNCML_DS_CAL
+					 ,
+#endif
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDD; // Calendar
+					clientdatasource = "";
+					serverdatasource = "Contacts";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101F6DDD;
+					}
+#endif
+#ifdef __SYNCML_DS_EMAIL
+#if defined (__SYNCML_DS_CON) || defined (__SYNCML_DS_CAL)
+					 ,
+#endif
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDF; // Email
+					clientdatasource = "";
+					serverdatasource = "Email";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101F6DDF;
+					enabled = 0;
+					}
+#endif
+#ifdef __SYNCML_DS_NOTEPAD
+#if defined (__SYNCML_DS_CON) || defined (__SYNCML_DS_CAL) || defined (__SYNCML_DS_EMAIL)
+					,
+#endif
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F8612; // Notepad
+					clientdatasource = "";
+					serverdatasource = "Notes";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					}
+#endif
+#if defined (__SYNCML_DS_CON) || defined (__SYNCML_DS_CAL) || defined (__SYNCML_DS_EMAIL) || defined (__SYNCML_DS_NOTEPAD)
+					,
+#endif
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x102751BA; // Bookmarks
+					clientdatasource = "";
+					serverdatasource = "Bookmarks";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					}				
+				};
+			},
+		PROFILE
+			{
+			profiledisplayname="PC Suite Data Sync";
+			//username="xxx";
+			//password="xxx";
+			serverurl="PC Suite Data Sync";
+			serverid="PC Suite Data Sync";
+			profilehidden=1;
+			transportid=0x101F99F1;
+			deleteallowed=0;
+			visibility="hhhhhhhhhhhhhhhhhh";
+			protocolversion=ESmlVersion1_2;
+			serveralertedaction = ESmlEnableSync;		
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";		
+			contenttypes=
+				{
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDE; // Calendar
+					clientdatasource = "";
+					serverdatasource = "Calendar";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDD; // Contacts
+					clientdatasource = "";
+					serverdatasource = "Contacts";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F8612; // Notepad
+					clientdatasource = "";
+					serverdatasource = "Notes";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101FF972; // Media gallery
+					clientdatasource = "";
+					serverdatasource = "Gallery";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					},
+				CONTENTTYPE
+ 					{
+					adapter_implementation_uid = 0x10206B5C; // SMS 
+ 					clientdatasource = "";
+ 					serverdatasource = "sms";
+ 					synctype = ESmlTwoWay;
+ 					filtervisibility = "h";
+ 					synctypevisibility = "h";
+ 					creatorid = 0x101FF968;
+ 					},
+				CONTENTTYPE
+ 					{
+					adapter_implementation_uid = 0x101FB0E9; // MMS
+ 					clientdatasource = "";
+ 					serverdatasource = "mms";
+ 					synctype = ESmlTwoWay;
+ 					filtervisibility = "h";
+ 					synctypevisibility = "h";
+ 					creatorid = 0x101FF968;
+ 					},
+ 					CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x102751BA; // Bookmarks
+					clientdatasource = "";
+					serverdatasource = "Bookmarks";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+ 					},
+ 					CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDF; // Email
+					clientdatasource = "";
+					serverdatasource = "Email";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					}					
+				};
+			},
+		PROFILE
+			{
+			profiledisplayname="SMS";
+			//username="xxx";
+			//password="xxx";
+			serverurl="sms";
+			serverid="sms";
+			profilehidden=1;
+			transportid=0x101F99F1;
+			deleteallowed=0;
+			visibility="hhhhhhhhhhhhhhhhhh";
+			protocolversion=ESmlVersion1_2;
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";
+			contenttypes=
+				{
+				CONTENTTYPE
+ 					{
+					adapter_implementation_uid = 0x10206B5C; // SMS 
+ 					clientdatasource = "";
+ 					serverdatasource = "sms";
+ 					synctype = ESmlTwoWay;
+ 					filtervisibility = "h";
+ 					synctypevisibility = "h";
+ 					creatorid = 0x101FF968;
+ 					}
+ 				};
+ 			}
+#ifdef __SYNCML_TWIN_SUITE
+					,
+        PROFILE
+            {
+            profiledisplayname="Twin";
+            //username="xxx";
+            //password="xxx";
+            serverurl="Twin";
+            serverid="Twin";
+            serveralertedaction = ESmlEnableSync;
+            profilehidden=0;
+            transportid=0x101F99F1;
+            deleteallowed=0;
+            visibility="nrhrnnrrhnrnnrnrnn";
+            protocolversion=ESmlVersion1_2;
+            //httpauthused = 1;
+            //httpauthusername = "UName";
+            //httpauthpassword = "PWord";
+
+            contenttypes=
+                {
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x101F6DDE; // Calendar
+                    clientdatasource = "";
+                    serverdatasource = "Calendar";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "r";
+                    creatorid = 0x101F6DDE;
+                    }
+                     ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x101F6DDD; // Contacts
+                    clientdatasource = "";
+                    serverdatasource = "Contacts";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "r";
+                    creatorid = 0x101F6DDD;
+                    }
+                     ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x101F6DDF; // Email
+                    clientdatasource = "";
+                    serverdatasource = "Email";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "r";
+                    creatorid = 0x101F6DDF;
+                    enabled = 0;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x101F8612; // Notepad
+                    clientdatasource = "";
+                    serverdatasource = "Notes";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x102751BA; // Bookmarks
+                    clientdatasource = "";
+                    serverdatasource = "Bookmarks";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,                
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x10282E73; // Image Metadata
+                    clientdatasource = "";
+                    serverdatasource = "ImageMetadata";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x10282E74; // Music Metadata
+                    clientdatasource = "";
+                    serverdatasource = "MusicMetadata";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x10282E75; // Video Metadata
+                    clientdatasource = "";
+                    serverdatasource = "VideoMetadata";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x10206B5C; // SMS 
+                    clientdatasource = "";
+                    serverdatasource = "sms";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }
+                    ,
+                CONTENTTYPE
+                    {
+                    adapter_implementation_uid = 0x101FB0E9; // MMS
+                    clientdatasource = "";
+                    serverdatasource = "mms";
+                    synctype = ESmlTwoWay;
+                    filtervisibility = "h";
+                    synctypevisibility = "h";
+                    creatorid = 0x101FF968;
+                    }                    
+                };
+            }
+#endif
+#ifdef __SYNCML_ISYNC
+,
+PROFILE
+			{
+			profiledisplayname="iSync";
+			//username="xxx";
+			//password="xxx";
+			serverurl="iSync";
+			serverid="iSync";
+			profilehidden=1;
+			transportid=0x101F99F1;
+			deleteallowed=0;
+			visibility="hhhhhhhhhhhhhhhhhh";
+			protocolversion=ESmlVersion1_2;
+			serveralertedaction = ESmlEnableSync;		
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";		
+			contenttypes=
+				{
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDE; // Calendar
+					clientdatasource = "";
+					serverdatasource = "Calendar";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "h";
+					creatorid = 0x101FF968;
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDD; // Contacts
+					clientdatasource = "";
+					serverdatasource = "Contacts";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					}
+				};
+			}
+#endif	
+		};
+	}

@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DM tree etc.
+*
+*/
+
+
+
+#include "defaultcaps.hrh"
+#include  <platform_paths.hrh>
+
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+TARGET          nsmldmmodule.dll
+TARGETTYPE      dll
+UID             0x1000008d 268437795
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./def/bwins
+#else
+DEFFILE		./def/bmarm
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE			nsmldmmodule.cpp
+SOURCE			nsmldmddf.cpp
+SOURCE			nsmldmcommandbuffer.cpp
+SOURCE			nsmldmhostclient.cpp
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE    /epoc32/include/libc 
+SYSTEMINCLUDE 	/epoc32/include/ecom 
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../inc/exported
+USERINCLUDE     ../../dmutils/inc
+USERINCLUDE     ../../dmutils/inc/exported
+USERINCLUDE     ../../treedbclient/inc
+// FOTA
+USERINCLUDE     ../../adapters/inc
+// FOTA end
+
+ 
+LIBRARY         euser.lib
+LIBRARY         nsmldebug.lib
+LIBRARY         estor.lib
+LIBRARY         efsrv.lib
+LIBRARY         ecom.lib
+LIBRARY			nsmldmhostserver.lib
+LIBRARY         nsmldmclientserverutils.lib
+LIBRARY			nsmldmtreedbclient.lib 
+LIBRARY 		featmgr.lib
+
+SMPSAFE

@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Defines fields for creation of sync profile from resource files.
+*
+*/
+
+
+#include "NSmlDSResourceProfiledefs.h"
+
+STRUCT PROFILES
+	{
+	STRUCT profiles[];
+	}
+
+STRUCT PROFILE
+	{
+	STRUCT contenttypes[];
+	LTEXT profiledisplayname;
+	WORD iapid = 0;
+	LONG transportid = 1;
+	LTEXT serverusername;
+	LTEXT serverpassword;
+	LTEXT serverurl;
+	LTEXT serverid;
+	WORD serveralertedaction = ESmlConfirmSync;
+	BYTE deleteallowed = 1;
+	BYTE profilehidden = 0;
+	LTEXT visibility;
+	WORD protocolversion = ESmlVersion1_2;
+	LONG creatorid;	
+	BYTE httpauthused = 0;
+	LTEXT httpauthusername;
+	LTEXT httpauthpassword;
+	}
+
+STRUCT CONTENTTYPE
+	{
+	LONG adapter_implementation_uid;
+	LTEXT clientdatasource;
+	LTEXT serverdatasource;
+	WORD synctype = ESmlTwoWay;
+	LTEXT filtervisibility;
+	LTEXT synctypevisibility;
+	LONG creatorid;
+	BYTE enabled = 1;	
+	}

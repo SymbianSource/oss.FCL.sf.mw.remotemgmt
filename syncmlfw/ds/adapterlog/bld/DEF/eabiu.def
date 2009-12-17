@@ -1,0 +1,16 @@
+EXPORTS
+	_ZN15CNSmlAdapterLog12SetServerIdLER7TDesC16S1_ @ 1 NONAME
+	_ZN15CNSmlAdapterLog16OpenReadStreamLCER11RReadStream4TUid @ 2 NONAME
+	_ZN15CNSmlAdapterLog17OpenWriteStreamLCER12RWriteStream4TUid @ 3 NONAME
+	_ZN15CNSmlAdapterLog17SetAdapterLogKeyLEiRK7TDesC16S2_S2_ @ 4 NONAME
+	_ZN15CNSmlAdapterLog4NewLEv @ 5 NONAME
+	_ZN15CNSmlAdapterLog5NewLCEv @ 6 NONAME
+	_ZNK15CNSmlAdapterLog11SyncTaskKeyEv @ 7 NONAME
+	_ZNK15CNSmlAdapterLog16IsStreamPresentLE4TUid @ 8 NONAME
+	_ZTI15CNSmlAdapterLog @ 9 NONAME ; #<TI>#
+	_ZTV15CNSmlAdapterLog @ 10 NONAME ; #<VT>#
+	_ZThn4_N15CNSmlAdapterLog16OpenReadStreamLCER11RReadStream4TUid @ 11 NONAME ; #<thunk>#
+	_ZThn4_N15CNSmlAdapterLog17OpenWriteStreamLCER12RWriteStream4TUid @ 12 NONAME ; #<thunk>#
+	_ZThn4_NK15CNSmlAdapterLog11SyncTaskKeyEv @ 13 NONAME ; #<thunk>#
+	_ZThn4_NK15CNSmlAdapterLog16IsStreamPresentLE4TUid @ 14 NONAME ; #<thunk>#
+

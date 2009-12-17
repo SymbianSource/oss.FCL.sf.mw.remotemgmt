@@ -1,0 +1,92 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+#include <platform_paths.hrh>
+
+#include "defaultcaps.hrh"
+CAPABILITY		CAP_GENERAL_DLL
+VENDORID		VID_DEFAULT
+TARGET          nsmldsagent.dll
+TARGETTYPE      dll
+UID             0x101F6DE4 0x101F6DE4
+
+#if defined(ARMCC)
+DEFFILE			./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE			./DEF/bwinscw
+#endif
+
+SOURCEPATH      ../src 
+
+SOURCE          nsmldsagent.cpp
+SOURCE          nsmldscmds.cpp
+SOURCE          nsmldsmapcontainer.cpp
+SOURCE          nsmldscontent.cpp
+SOURCE			nsmldscontentitem.cpp
+SOURCE          nsmldsluidbuffer.cpp
+SOURCE          nsmldserror.cpp
+SOURCE			nsmldsbatchbuffer.cpp
+//RD_AUTO_RESTART
+SOURCE           nsmldsnetmon.cpp
+//RD_AUTO_RESTART
+
+USERINCLUDE     ../inc    
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../agentlog/inc  
+USERINCLUDE     ../../settings/inc
+USERINCLUDE     ../../dsutils/dbcaps/inc
+USERINCLUDE     ../../dsutils/changefinder/inc
+USERINCLUDE     ../../dsutils/changefinder/inc/exported
+USERINCLUDE     ../../dsutils/filterutils/inc
+//RD_AUTO_RESTART
+USERINCLUDE     ../../dsutils/ProfileUtil/inc
+//RD_AUTO_RESTART
+USERINCLUDE		../../hostserver/dshostclient/inc
+USERINCLUDE     ../../../common/inc      
+USERINCLUDE     ../../../common/syncagent/inc
+USERINCLUDE     ../../../common/wbxml/inc
+USERINCLUDE     ../../../common/wbxml/inc/syncml
+USERINCLUDE     ../../../common/wbxml/inc/devinf
+USERINCLUDE     ../../../common/debug/inc
+USERINCLUDE		../../../common/historylog/inc
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	/epoc32/include/ecom
+SYSTEMINCLUDE	/epoc32/include/syncml
+
+LIBRARY         euser.lib   
+LIBRARY         estor.lib
+LIBRARY			bafl.lib
+LIBRARY			syncmldatafilter.lib
+LIBRARY         nsmlagentcommon.lib       
+LIBRARY         nsmldebug.lib
+LIBRARY         nsmlwbxml.lib
+LIBRARY         nsmlagentlog.lib         
+LIBRARY         nsmldbcaps.lib
+LIBRARY         nsmlchangefinder.lib 
+LIBRARY         nsmldssettings.lib
+LIBRARY         nsmlfilter.lib
+LIBRARY			nsmldshostclient.lib
+LIBRARY			nsmlhistorylog.lib
+//RD_AUTO_RESTART
+LIBRARY 		ConnMon.lib
+LIBRARY        	connmonext.lib
+LIBRARY         NsmlProfileUtil.lib
+LIBRARY         syncmlclientapi.lib
+LIBRARY			centralrepository.lib
+//RD_AUTO_RESTART
+

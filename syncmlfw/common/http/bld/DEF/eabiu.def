@@ -1,0 +1,13 @@
+EXPORTS
+	_Z16CreateCNSmlHTTPLv @ 1 NONAME
+	_ZTI16CNSmlDialUpAgent @ 2 NONAME ; #<TI>#
+	_ZTI17CHttpEventHandler @ 3 NONAME ; #<TI>#
+	_ZTI21CNSmlXptShutdownTimer @ 4 NONAME ; #<TI>#
+	_ZTI9CNSmlHTTP @ 5 NONAME ; #<TI>#
+	_ZTV16CNSmlDialUpAgent @ 6 NONAME ; #<VT>#
+	_ZTV17CHttpEventHandler @ 7 NONAME ; #<VT>#
+	_ZTV21CNSmlXptShutdownTimer @ 8 NONAME ; #<VT>#
+	_ZTV9CNSmlHTTP @ 9 NONAME ; #<VT>#
+	_ZTI24CNsmlNetworkStatusEngine @ 10 NONAME ; #<TI>#
+	_ZTV24CNsmlNetworkStatusEngine @ 11 NONAME ; #<VT>#
+

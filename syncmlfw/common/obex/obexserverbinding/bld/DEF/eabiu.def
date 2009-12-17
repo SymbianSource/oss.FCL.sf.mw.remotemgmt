@@ -1,0 +1,5 @@
+EXPORTS
+	_Z29CreateCNsmlObexServerBindingLv @ 1 NONAME
+	_ZTI22CNSmlObexServerBinding @ 2 NONAME ; #<TI>#
+	_ZTV22CNSmlObexServerBinding @ 3 NONAME ; #<VT>#
+

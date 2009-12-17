@@ -1,0 +1,80 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of policymanagement components
+*
+*/
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+TARGET        policyengineserver.exe
+EPOCSTACKSIZE 16384
+targettype    exe
+CAPABILITY    CAP_SERVER NetworkControl
+UID           0 0x10207814
+SECUREID      0x10207815
+VENDORID      VID_DEFAULT
+
+SOURCEPATH    ../policyengineserver/src
+SOURCE        PolicyEngineServer.cpp
+SOURCE	      PolicyProcessor.cpp
+SOURCE	      PolicyStorage.cpp
+SOURCE	      TrustedSession.cpp
+SOURCE 	      PolicyManager.cpp
+SOURCE	      PolicyParser.cpp
+SOURCE	      ElementBase.cpp	
+SOURCE 		  	Elements.cpp
+SOURCE		  	DataTypes.cpp
+SOURCE 		  	OperationParser.cpp
+SOURCE 		  	SettingEnforcementManager.cpp
+SOURCE 		  	EMailEnforcement.cpp
+SOURCE 		  	CommsDatEnforcement.cpp
+SOURCE		  	datasyncmlenforcement.cpp
+SOURCE		  	IMEnforcement.cpp
+
+
+USERINCLUDE   . ../policyengineserver/inc
+USERINCLUDE		../policyengineclient/inc
+USERINCLUDE   ../../include 
+USERINCLUDE   ../policyengineui/inc
+USERINCLUDE   ../centreptoolclient/inc
+USERINCLUDE   ../../dmutilserver/inc
+USERINCLUDE   ../../../inc // domain private headers
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE /epoc32/include/xml
+SYSTEMINCLUDE /epoc32/include/comms-infras/commdb/protection
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+SYSTEMINCLUDE 	/epoc32/include/platform/xml
+SYSTEMINCLUDE 	/epoc32/include/platform/comms-infras/commdb/protection
+#endif
+
+LIBRARY     euser.lib 
+LIBRARY		  efsrv.lib 
+LIBRARY		  xmlframework.lib 
+LIBRARY		  bafl.lib 
+LIBRARY		  centralrepository.lib 
+LIBRARY		  policyengine.lib
+LIBRARY		  centreptool.lib
+LIBRARY		  x509.lib 
+LIBRARY		  crypto.lib 
+LIBRARY 	  x500.lib
+LIBRARY		  imut.lib
+LIBRARY 	  dmutil.lib
+LIBRARY		  estor.lib
+LIBRARY		  commdb.lib
+LIBRARY		  commsdat.lib
+LIBRARY		  flogger.lib
+LIBRARY 	  featmgr.lib
+
+SMPSAFE

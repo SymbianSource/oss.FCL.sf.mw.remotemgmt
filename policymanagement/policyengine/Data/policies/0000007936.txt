@@ -1,0 +1,1 @@
+<po poid="customization_management_enforcement_policy" rcaid="rpor">|8215<ta><res><re><rm mid="seid"> <av dt= "str">CustomizationManagement</av> <ra aid="urn:oasis:names:tc:xacml:1.0:resource:resource-id" dt="str"/> </rm></re></res></ta>|8468|8724</po>~1793

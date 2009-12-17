@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+TARGET          nsmlagentcommon.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DF0
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE          NSmlAgentBase.cpp
+SOURCE          nsmlcmdsbase.cpp
+SOURCE          nsmlstatuscontainer.cpp
+SOURCE          nsmlresponsecontroller.cpp
+SOURCE          nsmlerror.cpp
+SOURCE          nsmluri.cpp
+SOURCE          nsmlunicodeconverter.cpp
+SOURCE          nsmlphoneinfo.cpp
+SOURCE          nsmlresultscontainer.cpp
+SOURCE          nsmlauth.cpp
+
+USERINCLUDE     ../inc  
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../wbxml/inc
+USERINCLUDE     ../../wbxml/inc/syncml
+USERINCLUDE     ../../wbxml/inc/devinf
+USERINCLUDE     ../../xml/inc
+USERINCLUDE     ../../xml/inc/syncml 
+USERINCLUDE     ../../xml/inc/devinf
+USERINCLUDE     ../../debug/inc
+USERINCLUDE     ../../transport/inc
+USERINCLUDE     ../../http/inc
+
+MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	/epoc32/include/libc
+SYSTEMINCLUDE   /epoc32/include/ecom
+SYSTEMINCLUDE   /epoc32/include/http 
+
+LIBRARY         euser.lib     
+LIBRARY         charconv.lib
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         imut.lib
+LIBRARY         hash.lib
+LIBRARY         etel.lib
+LIBRARY         etelmm.lib
+LIBRARY         sysutil.lib
+
+LIBRARY         nsmldebug.lib
+LIBRARY         nsmltransport.lib
+LIBRARY         nsmlwbxml.lib
+LIBRARY         nsmlxml.lib
+LIBRARY		centralrepository.lib
+
+#ifdef ARMCC
+LIBRARY ECOM.LIB
+#endif
+//RD_AUTO_RESTART
+LIBRARY         commdb.lib 
+LIBRARY         esock.lib 
+LIBRARY         apengine.lib
+//RD_AUTO_RESTART
+
+SMPSAFE

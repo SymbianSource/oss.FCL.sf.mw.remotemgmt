@@ -1,0 +1,102 @@
+EXPORTS
+	Value__C12CWPParameter @ 1 NONAME R3UNUSED ; CWPParameter::Value(void) const
+	AcceptL__9CWPEngineR10MWPVisitor @ 2 NONAME R3UNUSED ; CWPEngine::AcceptL(MWPVisitor &)
+	Authenticated__C14CWPPushMessage @ 3 NONAME R3UNUSED ; CWPPushMessage::Authenticated(void) const
+	Body__C14CWPPushMessage @ 4 NONAME R3UNUSED ; CWPPushMessage::Body(void) const
+	Builder__C9CWPEngine @ 5 NONAME R3UNUSED ; CWPEngine::Builder(void) const
+	CanSetAsDefault__C9CWPEnginei @ 6 NONAME R3UNUSED ; CWPEngine::CanSetAsDefault(int) const
+	CreateCharacteristicLC__16WPElementFactoryi @ 7 NONAME R3UNUSED ; WPElementFactory::CreateCharacteristicLC(int)
+	CreateCharacteristicL__16WPElementFactoryi @ 8 NONAME R3UNUSED ; WPElementFactory::CreateCharacteristicL(int)
+	CreateLC__16WPElementFactoryi @ 9 NONAME R3UNUSED ; WPElementFactory::CreateLC(int)
+	CreateL__16WPElementFactoryi @ 10 NONAME R3UNUSED ; WPElementFactory::CreateL(int)
+	CreateLinksL__9CWPEngine @ 11 NONAME R3UNUSED ; CWPEngine::CreateLinksL(void)
+	CreateParameterLC__16WPElementFactoryiRC7TDesC16 @ 12 NONAME R3UNUSED ; WPElementFactory::CreateParameterLC(int, TDesC16 const &)
+	CreateParameterL__16WPElementFactoryiRC7TDesC16 @ 13 NONAME R3UNUSED ; WPElementFactory::CreateParameterL(int, TDesC16 const &)
+	Data__C17CWPCharacteristic @ 14 NONAME R3UNUSED ; CWPCharacteristic::Data(void) const
+	ExternalizeL__C12CWPParameterR12RWriteStream @ 15 NONAME R3UNUSED ; CWPParameter::ExternalizeL(RWriteStream &) const
+	ExternalizeL__C14CWPPushMessageR12RWriteStream @ 16 NONAME R3UNUSED ; CWPPushMessage::ExternalizeL(RWriteStream &) const
+	Header__C14CWPPushMessage @ 17 NONAME R3UNUSED ; CWPPushMessage::Header(void) const
+	ID__C12CWPParameter @ 18 NONAME R3UNUSED ; CWPParameter::ID(void) const
+	ImportDocumentL__9CWPEngineRC6TDesC8 @ 19 NONAME R3UNUSED ; CWPEngine::ImportDocumentL(TDesC8 const &)
+	InsertL__17CWPCharacteristicP10MWPElement @ 20 NONAME R3UNUSED ; CWPCharacteristic::InsertL(MWPElement *)
+	InsertLinkL__17CWPCharacteristicR17CWPCharacteristic @ 21 NONAME R3UNUSED ; CWPCharacteristic::InsertLinkL(CWPCharacteristic &)
+	InternalizeL__12CWPParameterR11RReadStream @ 22 NONAME R3UNUSED ; CWPParameter::InternalizeL(RReadStream &)
+	InternalizeL__14CWPPushMessageR11RReadStream @ 23 NONAME R3UNUSED ; CWPPushMessage::InternalizeL(RReadStream &)
+	ItemCount__C9CWPEngine @ 24 NONAME R3UNUSED ; CWPEngine::ItemCount(void) const
+	NewLC__12CWPParameter @ 25 NONAME R3UNUSED ; CWPParameter::NewLC(void)
+	NewLC__14CWPPushMessage @ 26 NONAME R3UNUSED ; CWPPushMessage::NewLC(void)
+	NewLC__9CWPEngine @ 27 NONAME R3UNUSED ; CWPEngine::NewLC(void)
+	NewL__12CWPParameter @ 28 NONAME R3UNUSED ; CWPParameter::NewL(void)
+	NewL__14CWPPushMessage @ 29 NONAME R3UNUSED ; CWPPushMessage::NewL(void)
+	NewL__9CWPEngine @ 30 NONAME R3UNUSED ; CWPEngine::NewL(void)
+	ParameterL__17CWPCharacteristiciPt9CArrayFix1Z7TPtrC16 @ 31 NONAME R3UNUSED ; CWPCharacteristic::ParameterL(int, CArrayFix<TPtrC16> *)
+	PopulateL__9CWPEngine @ 32 NONAME R3UNUSED ; CWPEngine::PopulateL(void)
+	RestoreL__14CWPPushMessageR9CMsvStore @ 33 NONAME R3UNUSED ; CWPPushMessage::RestoreL(CMsvStore &)
+	RestoreL__9CWPEngineR12CStreamStoreG9TStreamId @ 34 NONAME R3UNUSED ; CWPEngine::RestoreL(CStreamStore &, TStreamId)
+	SaveL__9CWPEnginei @ 35 NONAME R3UNUSED ; CWPEngine::SaveL(int)
+	SetAsDefaultL__9CWPEnginei @ 36 NONAME R3UNUSED ; CWPEngine::SetAsDefaultL(int)
+	SetAuthenticated__14CWPPushMessagei @ 37 NONAME R3UNUSED ; CWPPushMessage::SetAuthenticated(int)
+	SetDataL__17CWPCharacteristicRC6TDesC8 @ 38 NONAME R3UNUSED ; CWPCharacteristic::SetDataL(TDesC8 const &)
+	SetID__12CWPParameteri @ 39 NONAME R3UNUSED ; CWPParameter::SetID(int)
+	SetL__14CWPPushMessageRC6TDesC8T1 @ 40 NONAME R3UNUSED ; CWPPushMessage::SetL(TDesC8 const &, TDesC8 const &)
+	SetValueL__12CWPParameterRC7TDesC16 @ 41 NONAME R3UNUSED ; CWPParameter::SetValueL(TDesC16 const &)
+	Set__14CWPPushMessageP6HBufC8T1 @ 42 NONAME R3UNUSED ; CWPPushMessage::Set(HBufC8 *, HBufC8 *)
+	StoreL__C14CWPPushMessageR9CMsvStore @ 43 NONAME R3UNUSED ; CWPPushMessage::StoreL(CMsvStore &) const
+	StoreL__C9CWPEngineR12CStreamStore @ 44 NONAME R3UNUSED ; CWPEngine::StoreL(CStreamStore &) const
+	SummaryText__C9CWPEnginei @ 45 NONAME R3UNUSED ; CWPEngine::SummaryText(int) const
+	SummaryTitle__C9CWPEnginei @ 46 NONAME R3UNUSED ; CWPEngine::SummaryTitle(int) const
+	Type__C12CWPParameter @ 47 NONAME R3UNUSED ; CWPParameter::Type(void) const
+	AcceptL__17CWPCharacteristicR10MWPVisitor @ 48 NONAME R3UNUSED ; CWPCharacteristic::AcceptL(MWPVisitor &)
+	InitiatorURI__C14CWPPushMessage @ 49 NONAME R3UNUSED ; CWPPushMessage::InitiatorURI(void) const
+	MAC__C14CWPPushMessage @ 50 NONAME R3UNUSED ; CWPPushMessage::MAC(void) const
+	ParseHeaderL__14CWPPushMessage @ 51 NONAME R3UNUSED ; CWPPushMessage::ParseHeaderL(void)
+	SEC__C14CWPPushMessage @ 52 NONAME R3UNUSED ; CWPPushMessage::SEC(void) const
+	DetailsL__9CWPEngineiR14MWPPairVisitor @ 53 NONAME R3UNUSED ; CWPEngine::DetailsL(int, MWPPairVisitor &)
+	PushFlag__C14CWPPushMessage @ 54 NONAME R3UNUSED ; CWPPushMessage::PushFlag(void) const
+	__10CWPAdapter @ 55 NONAME R3UNUSED ; CWPAdapter::CWPAdapter(void)
+	NewL__10CWPAdapterRC4TUid @ 56 NONAME R3UNUSED ; CWPAdapter::NewL(TUid const &)
+	"_._10CWPAdapter" @ 57 NONAME R3UNUSED ; CWPAdapter::~CWPAdapter(void)
+	ExternalizeL__C9CWPEngineR12RWriteStream @ 58 NONAME R3UNUSED ; CWPEngine::ExternalizeL(RWriteStream &) const
+	InternalizeL__9CWPEngineR11RReadStream @ 59 NONAME R3UNUSED ; CWPEngine::InternalizeL(RReadStream &)
+	ReadHBufCL__13WPAdapterUtilRC7TDesC16T1i @ 60 NONAME R3UNUSED ; WPAdapterUtil::ReadHBufCL(TDesC16 const &, TDesC16 const &, int)
+	AccesspointL__13WPAdapterUtilR17CWPCharacteristic @ 61 NONAME R3UNUSED ; WPAdapterUtil::AccesspointL(CWPCharacteristic &)
+	AuthenticateL__14CWPPushMessageRC7TDesC16T1 @ 62 NONAME R3UNUSED ; CWPPushMessage::AuthenticateL(TDesC16 const &, TDesC16 const &)
+	BootstrapL__12CWPBootstrapR14CWPPushMessageR9CWPEngineRC7TDesC16 @ 63 NONAME ; CWPBootstrap::BootstrapL(CWPPushMessage &, CWPEngine &, TDesC16 const &)
+	NewL__12CWPBootstrapRC7TDesC16 @ 64 NONAME R3UNUSED ; CWPBootstrap::NewL(TDesC16 const &)
+	CreateLC__14WPPhoneFactory @ 65 NONAME R3UNUSED ; WPPhoneFactory::CreateLC(void)
+	CreateL__14WPPhoneFactory @ 66 NONAME R3UNUSED ; WPPhoneFactory::CreateL(void)
+	TPS__C12CWPBootstrap @ 67 NONAME R3UNUSED ; CWPBootstrap::TPS(void) const
+	SetOriginatorL__14CWPPushMessageRC6TDesC8 @ 68 NONAME R3UNUSED ; CWPPushMessage::SetOriginatorL(TDesC8 const &)
+	Originator__C14CWPPushMessage @ 69 NONAME R3UNUSED ; CWPPushMessage::Originator(void) const
+	ContextExistsL__9CWPEngineRC7TDesC16 @ 70 NONAME R3UNUSED ; CWPEngine::ContextExistsL(TDesC16 const &)
+	ContextExistsL__9CWPEngineUl @ 71 NONAME R3UNUSED ; CWPEngine::ContextExistsL(unsigned long)
+	ContextL__9CWPEngineRC7TDesC16 @ 72 NONAME R3UNUSED ; CWPEngine::ContextL(TDesC16 const &)
+	ContextNameL__9CWPEngineUl @ 73 NONAME R3UNUSED ; CWPEngine::ContextNameL(unsigned long)
+	ContextProxiesL__9CWPEngineUl @ 74 NONAME R3UNUSED ; CWPEngine::ContextProxiesL(unsigned long)
+	ContextTPSL__9CWPEngineUl @ 75 NONAME R3UNUSED ; CWPEngine::ContextTPSL(unsigned long)
+	ContextUidsL__9CWPEngine @ 76 NONAME R3UNUSED ; CWPEngine::ContextUidsL(void)
+	CreateContextL__9CWPEngineRC7TDesC16T1RC12MDesC16Array @ 77 NONAME ; CWPEngine::CreateContextL(TDesC16 const &, TDesC16 const &, MDesC16Array const &)
+	DeleteContextL__9CWPEngineUl @ 78 NONAME R3UNUSED ; CWPEngine::DeleteContextL(unsigned long)
+	Data__C17CWPCharacteristici @ 79 NONAME R3UNUSED ; CWPCharacteristic::Data(int) const
+	SetDataL__17CWPCharacteristicRC6TDesC8i @ 80 NONAME R3UNUSED ; CWPCharacteristic::SetDataL(TDesC8 const &, int)
+	Saved__C14CWPPushMessage @ 81 NONAME R3UNUSED ; CWPPushMessage::Saved(void) const
+	SetSaved__14CWPPushMessagei @ 82 NONAME R3UNUSED ; CWPPushMessage::SetSaved(int)
+	CreateParameterLC__16WPElementFactoryRC7TDesC16T1 @ 83 NONAME R3UNUSED ; WPElementFactory::CreateParameterLC(TDesC16 const &, TDesC16 const &)
+	CreateParameterL__16WPElementFactoryRC7TDesC16T1 @ 84 NONAME R3UNUSED ; WPElementFactory::CreateParameterL(TDesC16 const &, TDesC16 const &)
+	Name__C12CWPParameter @ 85 NONAME R3UNUSED ; CWPParameter::Name(void) const
+	SetNameL__12CWPParameterRC7TDesC16 @ 86 NONAME R3UNUSED ; CWPParameter::SetNameL(TDesC16 const &)
+	DeleteAllData__17CWPCharacteristic @ 87 NONAME R3UNUSED ; CWPCharacteristic::DeleteAllData(void)
+	CurrentContextL__9CWPEngine @ 88 NONAME R3UNUSED ; CWPEngine::CurrentContextL(void)
+	SetCurrentContextL__9CWPEngineUl @ 89 NONAME R3UNUSED ; CWPEngine::SetCurrentContextL(unsigned long)
+	ContextDataCountL__9CWPEngineUl @ 90 NONAME R3UNUSED ; CWPEngine::ContextDataCountL(unsigned long)
+	DeleteContextDataL__9CWPEngineUl @ 91 NONAME R3UNUSED ; CWPEngine::DeleteContextDataL(unsigned long)
+	CheckURI__13WPAdapterUtilRC7TDesC16 @ 92 NONAME R3UNUSED ; WPAdapterUtil::CheckURL(TDesC16 const &)
+	CheckIPv6__13WPAdapterUtilRC7TDesC16 @ 93 NONAME R3UNUSED ; WPAdapterUtil::CheckIPv6(TDesC16 const &)
+	CreateCharacteristicLC__16WPElementFactoryRC7TDesC16 @ 94 NONAME R3UNUSED ; WPElementFactory::CreateCharacteristicLC(TDesC16 const &)
+	CreateCharacteristicL__16WPElementFactoryRC7TDesC16 @ 95 NONAME R3UNUSED ; WPElementFactory::CreateCharacteristicL(TDesC16 const &)
+	Name__C17CWPCharacteristic @ 96 NONAME R3UNUSED ; CWPCharacteristic::Name(void) const
+	SetNameL__17CWPCharacteristicRC7TDesC16 @ 97 NONAME R3UNUSED ; CWPCharacteristic::SetNameL(TDesC16 const &)
+	CheckIPv4__13WPAdapterUtilRC7TDesC16 @ 98 NONAME R3UNUSED ; WPAdapterUtil::CheckIPv4(TDesC16 const &)
+	RegisterContextObserverL__9CWPEngineP18MWPContextObserver @ 99 NONAME R3UNUSED ; CWPEngine::RegisterContextObserverL(MWPContextObserver *)
+	UnregisterContextObserver__9CWPEngineP18MWPContextObserver @ 100 NONAME R3UNUSED ; CWPEngine::UnregisterContextObserver(MWPContextObserver *)
+

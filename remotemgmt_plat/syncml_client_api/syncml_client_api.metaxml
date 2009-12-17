@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<api id="8fc744943692b17ce9f28c0ab07b4450" dataversion="1.0">
+  <name>SyncML Client API</name>
+  <description>API for clients of the Data Synchronzation and Device Management. Used to start, stop and observe synchronization/device management session, and modify data synchronization/device management settings.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+    <lib name="nsmltransporthandler.lib" />
+    <lib name="syncmlclientapi.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

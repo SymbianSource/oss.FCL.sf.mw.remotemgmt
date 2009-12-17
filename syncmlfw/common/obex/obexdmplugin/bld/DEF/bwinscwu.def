@@ -1,0 +1,4 @@
+EXPORTS
+	?ImplementationGroupProxy@@YAPBUTImplementationProxy@@AAH@Z @ 1 NONAME ; struct TImplementationProxy const * ImplementationGroupProxy(int &)
+	?NewL@CNSmlObexDMplugin@@SAPAV1@XZ @ 2 NONAME ; class CNSmlObexDMplugin * CNSmlObexDMplugin::NewL(void)
+

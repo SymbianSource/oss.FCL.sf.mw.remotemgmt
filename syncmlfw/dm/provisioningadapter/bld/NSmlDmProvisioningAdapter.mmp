@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DM Settings Provisioning Adapter
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include "defaultcaps.hrh"
+#include "../bld/NSmlDmProvisioningAdapterUIDs.h"
+#include  <platform_paths.hrh>
+
+TARGET		wpdm.dll
+TARGETTYPE	PLUGIN
+UID         KECOMUid2 KNSmlDmProvisioningAdapterDllUid3
+CAPABILITY 	CAP_ECOM_PLUGIN
+VENDORID 	VID_DEFAULT
+
+SOURCEPATH	../src
+SOURCE		NSmlDmProvisioningAdapter.cpp
+SOURCE		NSmlDmProvisioningAdapterGroupProxy.cpp
+
+SOURCEPATH	../bld
+
+START RESOURCE 101f84e0.rss
+TARGET		wpdm.rsc
+END
+
+START RESOURCE ../src/NSmlDMProvisioningAdapter.rss
+HEADER
+TARGETPATH	RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	 /epoc32/include/ecom 
+USERINCLUDE		../inc ../bld 
+USERINCLUDE		../../../common/sosserver_transporthandler/inc
+
+
+LIBRARY         euser.lib commdb.lib charconv.lib bafl.lib efsrv.lib apengine.lib
+LIBRARY         nsmldebug.lib syncmlclientapi.lib nsmlprivateapi.lib
+LIBRARY         provisioningengine.lib featmgr.lib centralrepository.lib
+
+#ifdef ARMCC
+LIBRARY ecom.lib
+#endif
+
+SMPSAFE

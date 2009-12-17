@@ -1,0 +1,106 @@
+EXPORTS
+	?AcceptL@CWPCharacteristic@@QAEXAAVMWPVisitor@@@Z @ 1 NONAME ; public: void __thiscall CWPCharacteristic::AcceptL(class MWPVisitor &)
+	?AcceptL@CWPEngine@@QAEXAAVMWPVisitor@@@Z @ 2 NONAME ; public: void __thiscall CWPEngine::AcceptL(class MWPVisitor &)
+	?Authenticated@CWPPushMessage@@QBEHXZ @ 3 NONAME ; public: int __thiscall CWPPushMessage::Authenticated(void)const 
+	?Body@CWPPushMessage@@QBEABVTDesC8@@XZ @ 4 NONAME ; public: class TDesC8 const & __thiscall CWPPushMessage::Body(void)const 
+	?Builder@CWPEngine@@QBEAAVMWPBuilder@@XZ @ 5 NONAME ; public: class MWPBuilder & __thiscall CWPEngine::Builder(void)const 
+	?CanSetAsDefault@CWPEngine@@QBEHH@Z @ 6 NONAME ; public: int __thiscall CWPEngine::CanSetAsDefault(int)const 
+	?CreateCharacteristicL@WPElementFactory@@SAPAVCWPCharacteristic@@H@Z @ 7 NONAME ; public: static class CWPCharacteristic * __cdecl WPElementFactory::CreateCharacteristicL(int)
+	?CreateCharacteristicLC@WPElementFactory@@SAPAVCWPCharacteristic@@H@Z @ 8 NONAME ; public: static class CWPCharacteristic * __cdecl WPElementFactory::CreateCharacteristicLC(int)
+	?CreateL@WPElementFactory@@SAPAVMWPElement@@H@Z @ 9 NONAME ; public: static class MWPElement * __cdecl WPElementFactory::CreateL(int)
+	?CreateLC@WPElementFactory@@SAPAVMWPElement@@H@Z @ 10 NONAME ; public: static class MWPElement * __cdecl WPElementFactory::CreateLC(int)
+	?CreateLinksL@CWPEngine@@QAEXXZ @ 11 NONAME ; public: void __thiscall CWPEngine::CreateLinksL(void)
+	?CreateParameterL@WPElementFactory@@SAPAVCWPParameter@@HABVTDesC16@@@Z @ 12 NONAME ; public: static class CWPParameter * __cdecl WPElementFactory::CreateParameterL(int,class TDesC16 const &)
+	?CreateParameterLC@WPElementFactory@@SAPAVCWPParameter@@HABVTDesC16@@@Z @ 13 NONAME ; public: static class CWPParameter * __cdecl WPElementFactory::CreateParameterLC(int,class TDesC16 const &)
+	?Data@CWPCharacteristic@@QBEABVTDesC8@@XZ @ 14 NONAME ; public: class TDesC8 const & __thiscall CWPCharacteristic::Data(void)const 
+	?ExternalizeL@CWPParameter@@UBEXAAVRWriteStream@@@Z @ 15 NONAME ; public: virtual void __thiscall CWPParameter::ExternalizeL(class RWriteStream &)const 
+	?ExternalizeL@CWPPushMessage@@QBEXAAVRWriteStream@@@Z @ 16 NONAME ; public: void __thiscall CWPPushMessage::ExternalizeL(class RWriteStream &)const 
+	?Header@CWPPushMessage@@QBEABVTDesC8@@XZ @ 17 NONAME ; public: class TDesC8 const & __thiscall CWPPushMessage::Header(void)const 
+	?ID@CWPParameter@@QBEHXZ @ 18 NONAME ; public: int __thiscall CWPParameter::ID(void)const 
+	?ImportDocumentL@CWPEngine@@QAEXABVTDesC8@@@Z @ 19 NONAME ; public: void __thiscall CWPEngine::ImportDocumentL(class TDesC8 const &)
+	?InsertL@CWPCharacteristic@@QAEXPAVMWPElement@@@Z @ 20 NONAME ; public: void __thiscall CWPCharacteristic::InsertL(class MWPElement *)
+	?InsertLinkL@CWPCharacteristic@@QAEXAAV1@@Z @ 21 NONAME ; public: void __thiscall CWPCharacteristic::InsertLinkL(class CWPCharacteristic &)
+	?InternalizeL@CWPParameter@@UAEXAAVRReadStream@@@Z @ 22 NONAME ; public: virtual void __thiscall CWPParameter::InternalizeL(class RReadStream &)
+	?InternalizeL@CWPPushMessage@@QAEXAAVRReadStream@@@Z @ 23 NONAME ; public: void __thiscall CWPPushMessage::InternalizeL(class RReadStream &)
+	?ItemCount@CWPEngine@@QBEHXZ @ 24 NONAME ; public: int __thiscall CWPEngine::ItemCount(void)const 
+	?NewL@CWPEngine@@SAPAV1@XZ @ 25 NONAME ; public: static class CWPEngine * __cdecl CWPEngine::NewL(void)
+	?NewL@CWPParameter@@SAPAV1@XZ @ 26 NONAME ; public: static class CWPParameter * __cdecl CWPParameter::NewL(void)
+	?NewL@CWPPushMessage@@SAPAV1@XZ @ 27 NONAME ; public: static class CWPPushMessage * __cdecl CWPPushMessage::NewL(void)
+	?NewLC@CWPEngine@@SAPAV1@XZ @ 28 NONAME ; public: static class CWPEngine * __cdecl CWPEngine::NewLC(void)
+	?NewLC@CWPParameter@@SAPAV1@XZ @ 29 NONAME ; public: static class CWPParameter * __cdecl CWPParameter::NewLC(void)
+	?NewLC@CWPPushMessage@@SAPAV1@XZ @ 30 NONAME ; public: static class CWPPushMessage * __cdecl CWPPushMessage::NewLC(void)
+	?ParameterL@CWPCharacteristic@@QAEXHPAV?$CArrayFix@VTPtrC16@@@@@Z @ 31 NONAME ; public: void __thiscall CWPCharacteristic::ParameterL(int,class CArrayFix<class TPtrC16> *)
+	?PopulateL@CWPEngine@@QAEXXZ @ 32 NONAME ; public: void __thiscall CWPEngine::PopulateL(void)
+	?RestoreL@CWPEngine@@QAEXAAVCStreamStore@@VTStreamId@@@Z @ 33 NONAME ; public: void __thiscall CWPEngine::RestoreL(class CStreamStore &,class TStreamId)
+	?RestoreL@CWPPushMessage@@QAEXAAVCMsvStore@@@Z @ 34 NONAME ; public: void __thiscall CWPPushMessage::RestoreL(class CMsvStore &)
+	?SaveL@CWPEngine@@QAEXH@Z @ 35 NONAME ; public: void __thiscall CWPEngine::SaveL(int)
+	?Set@CWPPushMessage@@QAEXPAVHBufC8@@0@Z @ 36 NONAME ; public: void __thiscall CWPPushMessage::Set(class HBufC8 *,class HBufC8 *)
+	?SetAsDefaultL@CWPEngine@@QAEXH@Z @ 37 NONAME ; public: void __thiscall CWPEngine::SetAsDefaultL(int)
+	?SetAuthenticated@CWPPushMessage@@QAEXH@Z @ 38 NONAME ; public: void __thiscall CWPPushMessage::SetAuthenticated(int)
+	?SetDataL@CWPCharacteristic@@QAEXABVTDesC8@@@Z @ 39 NONAME ; public: void __thiscall CWPCharacteristic::SetDataL(class TDesC8 const &)
+	?SetID@CWPParameter@@QAEXH@Z @ 40 NONAME ; public: void __thiscall CWPParameter::SetID(int)
+	?SetL@CWPPushMessage@@QAEXABVTDesC8@@0@Z @ 41 NONAME ; public: void __thiscall CWPPushMessage::SetL(class TDesC8 const &,class TDesC8 const &)
+	?SetValueL@CWPParameter@@QAEXABVTDesC16@@@Z @ 42 NONAME ; public: void __thiscall CWPParameter::SetValueL(class TDesC16 const &)
+	?StoreL@CWPEngine@@QBE?AVTStreamId@@AAVCStreamStore@@@Z @ 43 NONAME ; public: class TStreamId  __thiscall CWPEngine::StoreL(class CStreamStore &)const 
+	?StoreL@CWPPushMessage@@QBEXAAVCMsvStore@@@Z @ 44 NONAME ; public: void __thiscall CWPPushMessage::StoreL(class CMsvStore &)const 
+	?SummaryText@CWPEngine@@QBEABVTDesC16@@H@Z @ 45 NONAME ; public: class TDesC16 const & __thiscall CWPEngine::SummaryText(int)const 
+	?SummaryTitle@CWPEngine@@QBEABVTDesC16@@H@Z @ 46 NONAME ; public: class TDesC16 const & __thiscall CWPEngine::SummaryTitle(int)const 
+	?Type@CWPParameter@@UBEHXZ @ 47 NONAME ; public: virtual int __thiscall CWPParameter::Type(void)const 
+	?Value@CWPParameter@@QBEABVTDesC16@@XZ @ 48 NONAME ; public: class TDesC16 const & __thiscall CWPParameter::Value(void)const 
+	?InitiatorURI@CWPPushMessage@@QBEABVTDesC8@@XZ @ 49 NONAME ; public: class TDesC8 const & __thiscall CWPPushMessage::InitiatorURI(void)const 
+	?MAC@CWPPushMessage@@QBEABVTDesC8@@XZ @ 50 NONAME ; public: class TDesC8 const & __thiscall CWPPushMessage::MAC(void)const 
+	?ParseHeaderL@CWPPushMessage@@QAEXXZ @ 51 NONAME ; public: void __thiscall CWPPushMessage::ParseHeaderL(void)
+	?SEC@CWPPushMessage@@QBEIXZ @ 52 NONAME ; public: unsigned int __thiscall CWPPushMessage::SEC(void)const 
+	?DetailsL@CWPEngine@@QAEHHAAVMWPPairVisitor@@@Z @ 53 NONAME ; public: int __thiscall CWPEngine::DetailsL(int,class MWPPairVisitor &)
+	?PushFlag@CWPPushMessage@@QBEHXZ @ 54 NONAME ; public: int __thiscall CWPPushMessage::PushFlag(void)const 
+	??0CWPAdapter@@IAE@XZ @ 55 NONAME ; protected: __thiscall CWPAdapter::CWPAdapter(void)
+	??1CWPAdapter@@UAE@XZ @ 56 NONAME ; public: virtual __thiscall CWPAdapter::~CWPAdapter(void)
+	?NewL@CWPAdapter@@SAPAV1@ABVTUid@@@Z @ 57 NONAME ; public: static class CWPAdapter * __cdecl CWPAdapter::NewL(class TUid const &)
+	?ExternalizeL@CWPEngine@@QBEXAAVRWriteStream@@@Z @ 58 NONAME ; public: void __thiscall CWPEngine::ExternalizeL(class RWriteStream &)const 
+	?InternalizeL@CWPEngine@@QAEXAAVRReadStream@@@Z @ 59 NONAME ; public: void __thiscall CWPEngine::InternalizeL(class RReadStream &)
+	?ReadHBufCL@WPAdapterUtil@@SAPAVHBufC16@@ABVTDesC16@@0H@Z @ 60 NONAME ; public: static class HBufC16 * __cdecl WPAdapterUtil::ReadHBufCL(class TDesC16 const &,class TDesC16 const &,int)
+	?AccesspointL@WPAdapterUtil@@SAPAVCWPCharacteristic@@AAV2@@Z @ 61 NONAME ; public: static class CWPCharacteristic * __cdecl WPAdapterUtil::AccesspointL(class CWPCharacteristic &)
+	?AuthenticateL@CWPPushMessage@@QAEHABVTDesC16@@0@Z @ 62 NONAME ; public: int __thiscall CWPPushMessage::AuthenticateL(class TDesC16 const &,class TDesC16 const &)
+	?BootstrapL@CWPBootstrap@@QAE?AW4TBootstrapResult@1@AAVCWPPushMessage@@AAVCWPEngine@@ABVTDesC16@@@Z @ 63 NONAME ; public: enum CWPBootstrap::TBootstrapResult  __thiscall CWPBootstrap::BootstrapL(class CWPPushMessage &,class CWPEngine &,class TDesC16 const &)
+	?NewL@CWPBootstrap@@SAPAV1@ABVTDesC16@@@Z @ 64 NONAME ; public: static class CWPBootstrap * __cdecl CWPBootstrap::NewL(class TDesC16 const &)
+	?CreateL@WPPhoneFactory@@SAPAVMWPPhone@@XZ @ 65 NONAME ; public: static class MWPPhone * __cdecl WPPhoneFactory::CreateL(void)
+	?CreateLC@WPPhoneFactory@@SAPAVMWPPhone@@XZ @ 66 NONAME ; public: static class MWPPhone * __cdecl WPPhoneFactory::CreateLC(void)
+	?TPS@CWPBootstrap@@QBEABVTDesC16@@XZ @ 67 NONAME ; public: class TDesC16 const & __thiscall CWPBootstrap::TPS(void)const 	?Uid@CWPAdapter@@QBEKXZ @ 68 NONAME ; public: unsigned long __thiscall CWPAdapter::Uid(void)const 
+	?SetOriginatorL@CWPPushMessage@@QAEXABVTDesC8@@@Z @ 68 NONAME ; public: void __thiscall CWPPushMessage::SetOriginatorL(class TDesC8 const &)
+	?Originator@CWPPushMessage@@QBEABVTDesC8@@XZ @ 69 NONAME ; public: class TDesC8 const & __thiscall CWPPushMessage::Originator(void)const 
+	?ContextExistsL@CWPEngine@@QAEHABVTDesC16@@@Z @ 70 NONAME ; public: int __thiscall CWPEngine::ContextExistsL(class TDesC16 const &)
+	?ContextExistsL@CWPEngine@@QAEHK@Z @ 71 NONAME ; public: int __thiscall CWPEngine::ContextExistsL(unsigned long)
+	?ContextL@CWPEngine@@QAEKABVTDesC16@@@Z @ 72 NONAME ; public: unsigned long __thiscall CWPEngine::ContextL(class TDesC16 const &)
+	?ContextNameL@CWPEngine@@QAEPAVHBufC16@@K@Z @ 73 NONAME ; public: class HBufC16 * __thiscall CWPEngine::ContextNameL(unsigned long)
+	?ContextProxiesL@CWPEngine@@QAEPAVCDesC16Array@@K@Z @ 74 NONAME ; public: class CDesC16Array * __thiscall CWPEngine::ContextProxiesL(unsigned long)
+	?ContextTPSL@CWPEngine@@QAEPAVHBufC16@@K@Z @ 75 NONAME ; public: class HBufC16 * __thiscall CWPEngine::ContextTPSL(unsigned long)
+	?ContextUidsL@CWPEngine@@QAEPAV?$CArrayFix@K@@XZ @ 76 NONAME ; public: class CArrayFix<unsigned long> * __thiscall CWPEngine::ContextUidsL(void)
+	?CreateContextL@CWPEngine@@QAEKABVTDesC16@@0ABVMDesC16Array@@@Z @ 77 NONAME ; public: unsigned long __thiscall CWPEngine::CreateContextL(class TDesC16 const &,class TDesC16 const &,class MDesC16Array const &)
+	?DeleteContextL@CWPEngine@@QAEXK@Z @ 78 NONAME ; public: void __thiscall CWPEngine::DeleteContextL(unsigned long)
+	?Data@CWPCharacteristic@@QBEABVTDesC8@@H@Z @ 79 NONAME ; public: class TDesC8 const & __thiscall CWPCharacteristic::Data(int)const 
+	?SetDataL@CWPCharacteristic@@QAEXABVTDesC8@@H@Z @ 80 NONAME ; public: void __thiscall CWPCharacteristic::SetDataL(class TDesC8 const &,int)
+	?Saved@CWPPushMessage@@QBEHXZ @ 81 NONAME ; public: int __thiscall CWPPushMessage::Saved(void)const 
+	?SetSaved@CWPPushMessage@@QAEXH@Z @ 82 NONAME ; public: void __thiscall CWPPushMessage::SetSaved(int)
+	?CreateParameterL@WPElementFactory@@SAPAVCWPParameter@@ABVTDesC16@@0@Z @ 83 NONAME ; public: static class CWPParameter * __cdecl WPElementFactory::CreateParameterL(class TDesC16 const &,class TDesC16 const &)
+	?CreateParameterLC@WPElementFactory@@SAPAVCWPParameter@@ABVTDesC16@@0@Z @ 84 NONAME ; public: static class CWPParameter * __cdecl WPElementFactory::CreateParameterLC(class TDesC16 const &,class TDesC16 const &)
+	?Name@CWPParameter@@QBEABVTDesC16@@XZ @ 85 NONAME ; public: class TDesC16 const & __thiscall CWPParameter::Name(void)const 
+	?SetNameL@CWPParameter@@QAEXABVTDesC16@@@Z @ 86 NONAME ; public: void __thiscall CWPParameter::SetNameL(class TDesC16 const &)
+	?DeleteAllData@CWPCharacteristic@@QAEXXZ @ 87 NONAME ; public: void __thiscall CWPCharacteristic::DeleteAllData(void)
+	?CurrentContextL@CWPEngine@@QAEKXZ @ 88 NONAME ; public: unsigned long __thiscall CWPEngine::CurrentContextL(void)
+	?SetCurrentContextL@CWPEngine@@QAEXK@Z @ 89 NONAME ; public: void __thiscall CWPEngine::SetCurrentContextL(unsigned long)
+	?ContextDataCountL@CWPEngine@@QAEHK@Z @ 90 NONAME ; public: int __thiscall CWPEngine::ContextDataCountL(unsigned long)
+	?DeleteContextDataL@CWPEngine@@QAEHK@Z @ 91 NONAME ; public: int __thiscall CWPEngine::DeleteContextDataL(unsigned long)
+	?CheckURI@WPAdapterUtil@@SAHABVTDesC16@@@Z @ 92 NONAME ; public: static int __cdecl WPAdapterUtil::CheckURL(class TDesC16 const &)
+	?CheckIPv6@WPAdapterUtil@@SAHABVTDesC16@@@Z @ 93 NONAME ; public: static int __cdecl WPAdapterUtil::CheckIPv6(class TDesC16 const &)
+	?CreateCharacteristicL@WPElementFactory@@SAPAVCWPCharacteristic@@ABVTDesC16@@@Z @ 94 NONAME ; public: static class CWPCharacteristic * __cdecl WPElementFactory::CreateCharacteristicL(class TDesC16 const &)
+	?CreateCharacteristicLC@WPElementFactory@@SAPAVCWPCharacteristic@@ABVTDesC16@@@Z @ 95 NONAME ; public: static class CWPCharacteristic * __cdecl WPElementFactory::CreateCharacteristicLC(class TDesC16 const &)
+	?Name@CWPCharacteristic@@QBEABVTDesC16@@XZ @ 96 NONAME ; public: class TDesC16 const & __thiscall CWPCharacteristic::Name(void)const 
+	?SetNameL@CWPCharacteristic@@QAEXABVTDesC16@@@Z @ 97 NONAME ; public: void __thiscall CWPCharacteristic::SetNameL(class TDesC16 const &)
+	?CheckIPv4@WPAdapterUtil@@SAHABVTDesC16@@@Z @ 98 NONAME ; public: static int __cdecl WPAdapterUtil::CheckIPv4(class TDesC16 const &)
+	?RegisterContextObserverL@CWPEngine@@QAEXPAVMWPContextObserver@@@Z @ 99 NONAME ; public: void __thiscall CWPEngine::RegisterContextObserverL(class MWPContextObserver *)
+	?UnregisterContextObserver@CWPEngine@@QAEHPAVMWPContextObserver@@@Z @ 100 NONAME ; public: int __thiscall CWPEngine::UnregisterContextObserver(class MWPContextObserver *)
+	?SetAPDetailsL@WPAdapterUtil@@SAXI@Z @ 101 NONAME ; void WPAdapterUtil::SetAPDetailsL(unsigned int)
+	?GetAPIDL@WPAdapterUtil@@SAIXZ @ 102 NONAME ; unsigned int WPAdapterUtil::GetAPIDL(void)
+	?GetAccessDenied@CWPEngine@@QAEHXZ @ 103 NONAME ; int CWPEngine::GetAccessDenied(void)
+	?SetAccessDenied@CWPEngine@@QAEXH@Z @ 104 NONAME ; void CWPEngine::SetAccessDenied(int)
+

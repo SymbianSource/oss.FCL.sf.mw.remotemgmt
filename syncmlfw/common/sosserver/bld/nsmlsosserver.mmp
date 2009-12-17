@@ -1,0 +1,91 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for SOS server
+*
+*/
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+#include "defaultcaps.hrh"
+#include "bldvariant.hrh" //tarm
+CAPABILITY 	CAP_SERVER NetworkControl PowerMgmt DiskAdmin
+VENDORID 	VID_DEFAULT
+TARGETTYPE      exe
+TARGET          nsmlsosserver.exe
+UID             0 0x101F99FB
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/libc 
+SYSTEMINCLUDE   /epoc32/include/ecom 
+SYSTEMINCLUDE   /epoc32/include/syncml
+SYSTEMINCLUDE   /epoc32/include/connect
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+SYSTEMINCLUDE		/epoc32/include/platform/mw/connect
+#endif
+
+USERINCLUDE 	../inc
+USERINCLUDE 	../../sosserver_transporthandler/inc
+USERINCLUDE 	../../alertqueue/inc
+USERINCLUDE 	../../historylog/inc
+USERINCLUDE 	../../syncagent/inc
+USERINCLUDE 	../../transport/inc
+USERINCLUDE	../../debug/inc
+USERINCLUDE	../../inc
+
+USERINCLUDE	../../wbxml/inc/syncml
+USERINCLUDE	../../wbxml/inc
+
+USERINCLUDE	../../../ds/inc
+USERINCLUDE	../../../ds/settings/inc
+USERINCLUDE 	../../../ds/agentlog/inc
+USERINCLUDE 	../../../ds/syncagent/inc
+USERINCLUDE 	../../../ds/hostserver/dshostclient/inc
+USERINCLUDE 	../../../ds/dsutils/dbcaps/inc
+USERINCLUDE	../../../dm/settings/inc
+USERINCLUDE	../../../dm/syncagent/inc
+USERINCLUDE  ../../../../inc  // internal header include path
+//RD_AUTO_RESTART
+USERINCLUDE     ../../../ds/dsutils/ProfileUtil/inc
+//RD_AUTO_RESTART
+SOURCEPATH      ../src
+SOURCE	    	nsmlsosserver.cpp
+SOURCE      	NSmlSOSBackup.cpp
+SOURCE	    	nsmlsossession.cpp
+SOURCE      	NSmlJob.cpp
+SOURCE 			nsmlsosthread.cpp
+SOURCE	    	nsmlsoshandler.cpp
+SOURCE      	NSmlProfile.cpp
+SOURCE      	NSmlTask.cpp
+SOURCE      	NSmlConnection.cpp
+SOURCE      	NSmlHistoryLog.cpp
+SOURCE      	NSmlDataProvider.cpp
+SOURCE      	NSmlJobObject.cpp
+
+LIBRARY     	euser.lib estor.lib ecom.lib bafl.lib efsrv.lib nsmldebug.lib edbms.lib
+LIBRARY     	nsmldssettings.lib 
+LIBRARY     	nsmldmsettings.lib 
+LIBRARY			nsmltransport.lib
+LIBRARY     	nsmltransporthandler.lib
+LIBRARY     	nsmlalertqueue.lib
+LIBRARY     	nsmldshostclient.lib
+LIBRARY		nsmlhistorylog.lib
+LIBRARY		syncmldatafilter.lib
+LIBRARY		nsmlagentlog.lib
+LIBRARY		policyengine.lib
+LIBRARY		abclient.lib
+LIBRARY     centralrepository.lib //tarm
+LIBRARY                 featmgr.lib
+
+SMPSAFE

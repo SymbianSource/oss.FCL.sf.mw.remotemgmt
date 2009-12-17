@@ -1,0 +1,5 @@
+EXPORTS
+	??0TBTConnInfo@@QAE@XZ @ 1 NONAME ; TBTConnInfo::TBTConnInfo(void)
+	??1TBTConnInfo@@UAE@XZ @ 2 NONAME ; TBTConnInfo::~TBTConnInfo(void)
+	?CreateCNsmlObexClientL@@YAPAVCNsmlObexClient@@XZ @ 3 NONAME ; class CNsmlObexClient * CreateCNsmlObexClientL(void)
+

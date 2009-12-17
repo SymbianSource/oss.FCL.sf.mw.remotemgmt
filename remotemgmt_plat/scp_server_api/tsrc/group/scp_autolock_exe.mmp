@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: definition of dm constants/exported methods
+* 	This is part of remotemgmt_plat.
+*
+*/
+ 
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+CAPABILITY   CAP_APPLICATION
+
+TARGET        SCPClientTestServer_AL.exe
+TARGETTYPE    exe
+
+UID			0x100059B5
+SECUREID   	0x100059B5
+
+VENDORID 	  VID_DEFAULT
+
+SOURCEPATH    ../src
+
+SOURCE        SCPClientTestServer_AL.cpp
+SOURCE		  SCPClientTestSession_AL.cpp
+
+USERINCLUDE   ../inc
+
+SYSTEMINCLUDE  /epoc32/include/ecom
+APP_LAYER_SYSTEMINCLUDE
+
+
+LIBRARY		euser.lib
+LIBRARY		ecom.lib
+LIBRARY 	flogger.lib
+LIBRARY 	estor.lib
+LIBRARY     stiftestinterface.lib
+
+LIBRARY		scpclient.lib
+
+//end of file

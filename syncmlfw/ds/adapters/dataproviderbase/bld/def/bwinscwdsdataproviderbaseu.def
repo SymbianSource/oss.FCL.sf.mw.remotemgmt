@@ -1,0 +1,52 @@
+EXPORTS
+	??1CSmlDataProvider@@UAE@XZ @ 1 NONAME ; CSmlDataProvider::~CSmlDataProvider(void)
+	?AddedItems@CSmlDataStore@@QBEABVMSmlDataItemUidSet@@XZ @ 2 NONAME ; class MSmlDataItemUidSet const & CSmlDataStore::AddedItems(void) const
+	?BeginBatchL@CSmlDataStore@@QAEXXZ @ 3 NONAME ; void CSmlDataStore::BeginBatchL(void)
+	?BeginTransactionL@CSmlDataStore@@QAEXXZ @ 4 NONAME ; void CSmlDataStore::BeginTransactionL(void)
+	?CancelBatch@CSmlDataStore@@QAEXXZ @ 5 NONAME ; void CSmlDataStore::CancelBatch(void)
+	?CancelRequest@CSmlDataStore@@QAEXXZ @ 6 NONAME ; void CSmlDataStore::CancelRequest(void)
+	?CheckServerFiltersL@CSmlDataProvider@@QAEXAAV?$RPointerArray@VCSyncMLFilter@@@@AAW4TSyncMLFilterChangeInfo@@@Z @ 7 NONAME ; void CSmlDataProvider::CheckServerFiltersL(class RPointerArray<class CSyncMLFilter> &, enum TSyncMLFilterChangeInfo &)
+	?CheckSupportedServerFiltersL@CSmlDataProvider@@QAEXABVCSmlDataStoreFormat@@AAV?$RPointerArray@VCSyncMLFilter@@@@AAW4TSyncMLFilterChangeInfo@@@Z @ 8 NONAME ; void CSmlDataProvider::CheckSupportedServerFiltersL(class CSmlDataStoreFormat const &, class RPointerArray<class CSyncMLFilter> &, enum TSyncMLFilterChangeInfo &)
+	?CloseItem@CSmlDataStore@@QAEXXZ @ 9 NONAME ; void CSmlDataStore::CloseItem(void)
+	?CommitBatchL@CSmlDataStore@@QAEXAAV?$RArray@H@@AAVTRequestStatus@@@Z @ 10 NONAME ; void CSmlDataStore::CommitBatchL(class RArray<int> &, class TRequestStatus &)
+	?CommitChangeInfoL@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 11 NONAME ; void CSmlDataStore::CommitChangeInfoL(class TRequestStatus &)
+	?CommitChangeInfoL@CSmlDataStore@@QAEXAAVTRequestStatus@@ABVMSmlDataItemUidSet@@@Z @ 12 NONAME ; void CSmlDataStore::CommitChangeInfoL(class TRequestStatus &, class MSmlDataItemUidSet const &)
+	?CommitItemL@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 13 NONAME ; void CSmlDataStore::CommitItemL(class TRequestStatus &)
+	?CommitTransactionL@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 14 NONAME ; void CSmlDataStore::CommitTransactionL(class TRequestStatus &)
+	?CreateItemL@CSmlDataStore@@QAEXAAHHHABVTDesC8@@1AAVTRequestStatus@@@Z @ 15 NONAME ; void CSmlDataStore::CreateItemL(int &, int, int, class TDesC8 const &, class TDesC8 const &, class TRequestStatus &)
+	?DefaultStoreL@CSmlDataProvider@@QAEABVTDesC16@@XZ @ 16 NONAME ; class TDesC16 const & CSmlDataProvider::DefaultStoreL(void)
+	?DeleteAllItemsL@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 17 NONAME ; void CSmlDataStore::DeleteAllItemsL(class TRequestStatus &)
+	?DeleteItemL@CSmlDataStore@@QAEXHAAVTRequestStatus@@@Z @ 18 NONAME ; void CSmlDataStore::DeleteItemL(int, class TRequestStatus &)
+	?DeletedItems@CSmlDataStore@@QBEABVMSmlDataItemUidSet@@XZ @ 19 NONAME ; class MSmlDataItemUidSet const & CSmlDataStore::DeletedItems(void) const
+	?ExternalizeL@MSmlDataItemUidSet@@QBEXAAVRWriteStream@@@Z @ 20 NONAME ; void MSmlDataItemUidSet::ExternalizeL(class RWriteStream &) const
+	?GenerateFieldFilterQueryL@CSmlDataProvider@@QAEXABV?$RPointerArray@VCSyncMLFilter@@@@AAVTDes16@@AAV?$RPointerArray@VCSmlDataProperty@@@@AAVTDesC16@@@Z @ 21 NONAME ; void CSmlDataProvider::GenerateFieldFilterQueryL(class RPointerArray<class CSyncMLFilter> const &, class TDes16 &, class RPointerArray<class CSmlDataProperty> &, class TDesC16 &)
+	?GenerateRecordFilterQueryLC@CSmlDataProvider@@QAEPAVHBufC16@@ABV?$RPointerArray@VCSyncMLFilter@@@@W4TSyncMLFilterMatchType@@AAVTDes16@@AAW4TSyncMLFilterType@@AAVTDesC16@@@Z @ 22 NONAME ; class HBufC16 * CSmlDataProvider::GenerateRecordFilterQueryLC(class RPointerArray<class CSyncMLFilter> const &, enum TSyncMLFilterMatchType, class TDes16 &, enum TSyncMLFilterType &, class TDesC16 &)
+	?HasSyncHistory@CSmlDataStore@@QBEHXZ @ 23 NONAME ; int CSmlDataStore::HasSyncHistory(void) const
+	?Identifier@CSmlDataProvider@@QBEHXZ @ 24 NONAME ; int CSmlDataProvider::Identifier(void) const
+	?ItemAt@MSmlDataItemUidSet@@QBEHH@Z @ 25 NONAME ; int MSmlDataItemUidSet::ItemAt(int) const
+	?ItemCount@MSmlDataItemUidSet@@QBEHXZ @ 26 NONAME ; int MSmlDataItemUidSet::ItemCount(void) const
+	?ItemIndex@MSmlDataItemUidSet@@QBEHH@Z @ 27 NONAME ; int MSmlDataItemUidSet::ItemIndex(int) const
+	?ListStoresLC@CSmlDataProvider@@QAEPAVCDesC16Array@@XZ @ 28 NONAME ; class CDesC16Array * CSmlDataProvider::ListStoresLC(void)
+	?MaxObjectSize@CSmlDataStore@@QBEHXZ @ 29 NONAME ; int CSmlDataStore::MaxObjectSize(void) const
+	?ModifiedItems@CSmlDataStore@@QBEABVMSmlDataItemUidSet@@XZ @ 30 NONAME ; class MSmlDataItemUidSet const & CSmlDataStore::ModifiedItems(void) const
+	?MoveItemL@CSmlDataStore@@QAEXHHAAVTRequestStatus@@@Z @ 31 NONAME ; void CSmlDataStore::MoveItemL(int, int, class TRequestStatus &)
+	?MovedItems@CSmlDataStore@@QBEABVMSmlDataItemUidSet@@XZ @ 32 NONAME ; class MSmlDataItemUidSet const & CSmlDataStore::MovedItems(void) const
+	?NewL@CSmlDataProvider@@SAPAV1@H@Z @ 33 NONAME ; class CSmlDataProvider * CSmlDataProvider::NewL(int)
+	?NewStoreInstanceLC@CSmlDataProvider@@QAEPAVCSmlDataStore@@XZ @ 34 NONAME ; class CSmlDataStore * CSmlDataProvider::NewStoreInstanceLC(void)
+	?OnFrameworkEvent@CSmlDataProvider@@QAEXW4TSmlFrameworkEvent@@HH@Z @ 35 NONAME ; void CSmlDataProvider::OnFrameworkEvent(enum TSmlFrameworkEvent, int, int)
+	?OpenItemL@CSmlDataStore@@QAEXHAAH00AAVTDes8@@1AAVTRequestStatus@@@Z @ 36 NONAME ; void CSmlDataStore::OpenItemL(int, int &, int &, int &, class TDes8 &, class TDes8 &, class TRequestStatus &)
+	?OpenL@CSmlDataStore@@QAEXABVTDesC16@@AAVMSmlSyncRelationship@@AAVTRequestStatus@@@Z @ 37 NONAME ; void CSmlDataStore::OpenL(class TDesC16 const &, class MSmlSyncRelationship &, class TRequestStatus &)
+	?ReadItemL@CSmlDataStore@@QAEXAAVTDes8@@@Z @ 38 NONAME ; void CSmlDataStore::ReadItemL(class TDes8 &)
+	?ReplaceItemL@CSmlDataStore@@QAEXHHHHAAVTRequestStatus@@@Z @ 39 NONAME ; void CSmlDataStore::ReplaceItemL(int, int, int, int, class TRequestStatus &)
+	?ResetChangeInfoL@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 40 NONAME ; void CSmlDataStore::ResetChangeInfoL(class TRequestStatus &)
+	?RevertTransaction@CSmlDataStore@@QAEXAAVTRequestStatus@@@Z @ 41 NONAME ; void CSmlDataStore::RevertTransaction(class TRequestStatus &)
+	?SetRemoteMaxObjectSize@CSmlDataStore@@QAEXH@Z @ 42 NONAME ; void CSmlDataStore::SetRemoteMaxObjectSize(int)
+	?SetRemoteStoreFormatL@CSmlDataStore@@QAEXABVCSmlDataStoreFormat@@@Z @ 43 NONAME ; void CSmlDataStore::SetRemoteStoreFormatL(class CSmlDataStoreFormat const &)
+	?SoftDeleteItemL@CSmlDataStore@@QAEXHAAVTRequestStatus@@@Z @ 44 NONAME ; void CSmlDataStore::SoftDeleteItemL(int, class TRequestStatus &)
+	?SoftDeletedItems@CSmlDataStore@@QBEABVMSmlDataItemUidSet@@XZ @ 45 NONAME ; class MSmlDataItemUidSet const & CSmlDataStore::SoftDeletedItems(void) const
+	?StoreFormatL@CSmlDataProvider@@QAEABVCSmlDataStoreFormat@@XZ @ 46 NONAME ; class CSmlDataStoreFormat const & CSmlDataProvider::StoreFormatL(void)
+	?StoreName@CSmlDataStore@@QBEABVTDesC16@@XZ @ 47 NONAME ; class TDesC16 const & CSmlDataStore::StoreName(void) const
+	?SupportedServerFiltersL@CSmlDataProvider@@QAEABV?$RPointerArray@VCSyncMLFilter@@@@XZ @ 48 NONAME ; class RPointerArray<class CSyncMLFilter> const & CSmlDataProvider::SupportedServerFiltersL(void)
+	?SupportsOperation@CSmlDataProvider@@QBEHVTUid@@@Z @ 49 NONAME ; int CSmlDataProvider::SupportsOperation(class TUid) const
+	?WriteItemL@CSmlDataStore@@QAEXABVTDesC8@@@Z @ 50 NONAME ; void CSmlDataStore::WriteItemL(class TDesC8 const &)
+

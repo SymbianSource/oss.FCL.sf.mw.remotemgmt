@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN11RTempClient11PerformRFSLEv @ 1 NONAME
+	_ZN11RTempClient5CloseEv @ 2 NONAME
+	_ZN11RTempClient7ConnectEv @ 3 NONAME
+

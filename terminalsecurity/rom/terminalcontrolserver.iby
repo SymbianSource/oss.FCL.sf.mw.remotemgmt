@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+#ifndef __TERMINALCONTROLSERVER_IBY__
+#define __TERMINALCONTROLSERVER_IBY__
+
+//#ifdef __SAP_TERMINAL_CONTROL_FW
+//#ifdef __SAP_POLICY_MANAGEMENT
+
+S60_APP_EXE(TerminalControl)
+
+// PMRfsAdapter formatting scripts
+data=\epoc32\release\armv5\urel\Z\private\1020783F\format_e_.txt		private\1020783F\format_e_.txt
+
+//#endif //__SAP_POLICY_MANAGEMENT
+//#endif //__SAP_TERMINAL_CONTROL_FW
+
+#endif //__TERMINALCONTROLSERVER_IBY__

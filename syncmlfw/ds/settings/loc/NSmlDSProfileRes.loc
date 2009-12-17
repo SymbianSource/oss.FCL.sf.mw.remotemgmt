@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localisation file for Remote Synchronisation
+*
+*/
+ 
+
+
+//d:Default title of the new profile 
+//d:Name of pc suite profile 1
+//d:This is shown in mainview listbox after settings db has been created
+//d:for the first time
+//l:list_set_graphic_pane_t1
+//
+#define qtn_nsds_va_suite_prf_n1 "PC Suite"
+
+//d:Name of pc suite profile 2
+//d:This profile is hidden by default, 
+//d:but it is possible that dm changes profile
+//d:that uses this to visible, so this must be localised
+//d:If this becomes visible, it is shown in mainview listbox. This is shown
+//d:like NSDS_VA_SUITE_PRF_N1. It should be possible to test this text by
+//d:using NSDS_VA_SUITE_PRF_N1 instead. NOTE: Remember to delete 
+//d:database c\system\data\NSmlDSSettings.db to recreate predefined profiles
+//l:list_set_graphic_pane_t1
+//
+#define qtn_nsds_va_suite_prf_n2 "PC Suite Phone Editor"

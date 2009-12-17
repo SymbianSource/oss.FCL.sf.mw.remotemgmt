@@ -1,0 +1,14 @@
+EXPORTS
+	?LibEntryL@@YAPAVCScriptBase@@AAVCTestModuleIf@@@Z @ 1 NONAME ; class CScriptBase * __cdecl LibEntryL(class CTestModuleIf &)
+	?AcceptL@CWPCharacteristic@@QAEXAAVMWPVisitor@@@Z @ 2 NONAME ; void CWPCharacteristic::AcceptL(class MWPVisitor &)
+	?Data@CWPCharacteristic@@QBEABVTDesC8@@H@Z @ 3 NONAME ; class TDesC8 const & CWPCharacteristic::Data(int) const
+	?Data@CWPCharacteristic@@QBEABVTDesC8@@XZ @ 4 NONAME ; class TDesC8 const & CWPCharacteristic::Data(void) const
+	?DeleteAllData@CWPCharacteristic@@QAEXXZ @ 5 NONAME ; void CWPCharacteristic::DeleteAllData(void)
+	?InsertL@CWPCharacteristic@@QAEXPAVMWPElement@@@Z @ 6 NONAME ; void CWPCharacteristic::InsertL(class MWPElement *)
+	?InsertLinkL@CWPCharacteristic@@QAEXAAV1@@Z @ 7 NONAME ; void CWPCharacteristic::InsertLinkL(class CWPCharacteristic &)
+	?Name@CWPCharacteristic@@QBEABVTDesC16@@XZ @ 8 NONAME ; class TDesC16 const & CWPCharacteristic::Name(void) const
+	?ParameterL@CWPCharacteristic@@QAEXHPAV?$CArrayFix@VTPtrC16@@@@@Z @ 9 NONAME ; void CWPCharacteristic::ParameterL(int, class CArrayFix<class TPtrC16> *)
+	?SetDataL@CWPCharacteristic@@QAEXABVTDesC8@@@Z @ 10 NONAME ; void CWPCharacteristic::SetDataL(class TDesC8 const &)
+	?SetDataL@CWPCharacteristic@@QAEXABVTDesC8@@H@Z @ 11 NONAME ; void CWPCharacteristic::SetDataL(class TDesC8 const &, int)
+	?SetNameL@CWPCharacteristic@@QAEXABVTDesC16@@@Z @ 12 NONAME ; void CWPCharacteristic::SetNameL(class TDesC16 const &)
+

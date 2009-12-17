@@ -1,0 +1,34 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                OMA Provisioning Adapter API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/CWPAdapter.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPAdapter.h)
+../inc/MWPContextExtension.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPContextExtension.h)
+../inc/WPAdapterUtil.h     MW_LAYER_PLATFORM_EXPORT_PATH(WPAdapterUtil.h)
+../inc/CWPParameter.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPParameter.h)
+../inc/MWPPairVisitor.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPPairVisitor.h)
+../inc/MWPElement.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPElement.h)
+../inc/CWPCharacteristic.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPCharacteristic.h)
+../inc/MWPVisitor.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPVisitor.h)

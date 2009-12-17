@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Common Agent util and definitions API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/nsmldebug.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmldebug.h)
+../inc/nsmldefines.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmldefines.h)
+../inc/NSmlUnicodeConverter.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmlunicodeconverter.h)
+../inc/nsmlphoneinfo.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmlphoneinfo.h)
+../inc/nsmlconstantdefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmlconstantdefs.h)
+../inc/nsmlconstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(nsmlconstants.h)

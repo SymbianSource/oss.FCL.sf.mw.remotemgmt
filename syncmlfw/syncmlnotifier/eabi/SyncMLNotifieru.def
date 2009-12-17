@@ -1,0 +1,7 @@
+EXPORTS
+	_Z13NotifierArrayv @ 1 NONAME
+	_ZTI23CPreSyncPluginInterface @ 2 NONAME ; #<TI>#
+	_ZTV23CPreSyncPluginInterface @ 3 NONAME ; #<VT>#
+	_ZTI17CSyncmlmmcwatcher @ 4 NONAME ; #<TI>#
+	_ZTV17CSyncmlmmcwatcher @ 5 NONAME ; #<VT>#
+

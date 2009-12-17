@@ -1,0 +1,104 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+REM SyncML Data Synchronisation
+
+#include <bldvariant.hrh>
+
+#ifndef __NSMLDSSYNC_IBY__
+#define __NSMLDSSYNC_IBY__
+
+#ifdef __SYNCML_DS // nothing should be installed from this .iby file if __SYNCML_DS feature is not selected
+
+REM Sync settings OTA configuration disabled
+REM data=DATAZ_\BIOFILE_DIR\nsmlsp_sms_no.rsc				BIOFILE_DIR\nsmlsp_sms_no.rsc
+
+REM Policy files
+data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FD.SPD		private\100012a5\policy\101F99FD.SPD
+data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FE.SPD		private\100012a5\policy\101F99FE.SPD
+
+REM SyncML  Data Synchronisation plug-in adapters
+
+#ifdef  __SYNCML_DS_CAL // SyncML data synchronization calendar plug-in
+ECOM_PLUGIN(nsmlagendadataprovider.dll,nsmlagendadataprovider.rsc)
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc		RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc
+#endif // __SYNCML_DS_CAL
+
+#ifdef __SYNCML_DS_CON //  SyncML data synchronization contacts plug-in
+ECOM_PLUGIN(nsmlcontactsdataprovider.dll,nsmlcontactsdataprovider.rsc)
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc
+#endif // __SYNCML_DS_CON
+
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc             RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc
+REM \ds\adapters\dataproviderbase
+file=ABI_DIR\BUILD_DIR\smldataprovider.dll		SHARED_LIB_DIR\smldataprovider.dll
+
+REM \ds\Adapter Log
+file=ABI_DIR\BUILD_DIR\NSmlAdapterLog.dll		SHARED_LIB_DIR\NSmlAdapterLog.dll
+
+REM \ds\datamod
+file=ABI_DIR\BUILD_DIR\nsmldatamod.dll                  SHARED_LIB_DIR\nsmldatamod.dll
+
+REM \ds\dshostclient
+file=ABI_DIR\BUILD_DIR\NSmldshostclient.dll		SHARED_LIB_DIR\NSmldshostclient.dll
+
+REM \ds\dshostserverbase
+file=ABI_DIR\BUILD_DIR\nsmldshostserver.dll		SHARED_LIB_DIR\nsmldshostserver.dll
+
+REM \ds\dshostservers
+file=ABI_DIR\BUILD_DIR\nsmldshostserver2.exe		PROGRAMS_DIR\nsmldshostserver2.exe
+file=ABI_DIR\BUILD_DIR\nsmldshostserver1.exe		PROGRAMS_DIR\nsmldshostserver1.exe
+file=ABI_DIR\BUILD_DIR\netmon.exe		PROGRAMS_DIR\netmon.exe
+data=DATAZ_\private\101F99FD\backup_registration.xml	private\101F99FD\backup_registration.xml
+data=DATAZ_\private\101F99FE\backup_registration.xml	private\101F99FE\backup_registration.xml
+
+REM \ds\setting
+REM data=DATAZ_\private\101F99FB\VariantData.xml	\private\101F99FB\VariantData.xml
+
+REM \ds\agentlog
+file=ABI_DIR\BUILD_DIR\nsmlagentlog.dll                 SHARED_LIB_DIR\nsmlagentlog.dll
+
+#ifdef __SYNCML_DS_ALERT
+REM ds\wappushalert
+ECOM_PLUGIN(nsmldswappushalert.dll,nsmldswappushalert.rsc)
+
+REM \ds\alerthandler
+ECOM_PLUGIN(nsmldsalert.dll,nsmldsalert.rsc)
+#endif //__SYNCML_DS_ALERT
+
+REM \ds\provisioningadapter
+ECOM_PLUGIN(wpds.dll,wpds.rsc)
+
+REM \ds\dsutils
+file=ABI_DIR\BUILD_DIR\nsmlchangefinder.dll          	SHARED_LIB_DIR\nsmlchangefinder.dll
+file=ABI_DIR\BUILD_DIR\nsmldbcaps.dll                	SHARED_LIB_DIR\nsmldbcaps.dll
+file=ABI_DIR\BUILD_DIR\nsmlCGIScriptParser.dll       	SHARED_LIB_DIR\nsmlCGIScriptParser.dll
+file=ABI_DIR\BUILD_DIR\nsmlfilter.dll			SHARED_LIB_DIR\nsmlfilter.dll
+file=ABI_DIR\BUILD_DIR\syncmldatafilter.dll			SHARED_LIB_DIR\syncmldatafilter.dll
+file=ABI_DIR\BUILD_DIR\smlstoreformat.dll		SHARED_LIB_DIR\smlstoreformat.dll
+file=ABI_DIR\BUILD_DIR\NsmlProfileUtil.dll			SHARED_LIB_DIR\NsmlProfileUtil.dll
+file=ABI_DIR\BUILD_DIR\nsmlfolderparser.dll		SHARED_LIB_DIR\nsmlfolderparser.dll
+
+REM defaultagendahandler plugin
+ECOM_PLUGIN(nsmldefaultagendahandler.dll,nsmldefaultagendahandler.rsc)
+data=DATAZ_\resource\nsmldefaultagendahandler_1_2.RSC \resource\nsmldefaultagendahandler_1_2.rsc
+REM \ds\syncagent
+file=ABI_DIR\BUILD_DIR\nsmldsagent.dll			SHARED_LIB_DIR\nsmldsagent.dll
+
+#endif // __SYNCML_DS
+
+#endif //__NSMLDSSYNC_IBY__

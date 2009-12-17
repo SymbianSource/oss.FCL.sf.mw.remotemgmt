@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+#include <data_caging_paths.hrh>
+#include <bldvariant.hrh>
+
+TARGET          scpclient.dll
+TARGETTYPE      DLL
+UID             0x1000008D 0x10207837
+TARGETPATH      SHARED_LIB_DIR
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+SOURCE          SCPClient.cpp
+SOURCE          SCPQueryDialog.cpp
+SOURCE          SCPParamObject.cpp SCPLockObserver.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../SCPServer/inc
+USERINCLUDE     ../../../../inc   // domain private headers
+
+MW_LAYER_SYSTEMINCLUDE
+
+START RESOURCE ../data/SCPNotifier.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR  
+LANGUAGE_IDS
+END
+
+LIBRARY         euser.lib
+LIBRARY         cone.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         eikcore.lib
+LIBRARY         fbscli.lib
+LIBRARY         efsrv.lib
+LIBRARY         avkon.lib
+LIBRARY         aknnotify.lib
+LIBRARY         eikdlg.lib
+LIBRARY         ws32.lib
+LIBRARY         commonengine.lib
+LIBRARY         bafl.lib
+LIBRARY					flogger.lib
+LIBRARY         featmgr.lib
+LIBRARY     centralrepository.lib  // CenRep
+LIBRARY					aknnotify.lib
+LIBRARY 		estor.lib
+
+// End of file
+

@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __NSMLRESOURCES_IBY__
+#define __NSMLRESOURCES_IBY__
+
+#include <bldvariant.hrh>
+
+#ifdef __SYNCML_DS
+
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlDsProvisioningAdapter.rsc	RESOURCE_FILES_DIR\NSmlDsProvisioningAdapter.rsc
+
+REM data=DATAZ_\RESOURCE_FILES_DIR\nsmlemailmtmserver.rsc			RESOURCE_FILES_DIR\nsmlemailmtmserver.rsc
+
+#endif
+
+
+#ifdef __SYNCML_DM
+
+REM \dm\provisioningadapter
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlDmProvisioningAdapter.rsc	RESOURCE_FILES_DIR\NSmlDmProvisioningAdapter.rsc
+
+#endif //__SYNCML_DM
+
+data=DATAZ_\RESOURCE_FILES_DIR\NSmlTransport.rsc	RESOURCE_FILES_DIR\NSmlTransport.rsc
+
+#endif //__NSMLRESOURCES_IBY__

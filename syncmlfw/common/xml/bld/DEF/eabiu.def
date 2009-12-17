@@ -1,0 +1,95 @@
+EXPORTS
+	_ZN10CXMLParser12SetDocumentLER11RReadStream @ 1 NONAME
+	_ZN10CXMLParser18SetDocumentHandlerEP21MWBXMLDocumentHandler @ 2 NONAME
+	_ZN10CXMLParser19SetExtensionHandlerEP22MWBXMLExtensionHandler @ 3 NONAME
+	_ZN10CXMLParser4NewLEv @ 4 NONAME
+	_ZN10CXMLParser6ParseLEv @ 5 NONAME
+	_ZN10CXMLParserD0Ev @ 6 NONAME
+	_ZN10CXMLParserD1Ev @ 7 NONAME
+	_ZN10CXMLParserD2Ev @ 8 NONAME
+	_ZN13CXMLGenerator10AddEntityLEm @ 9 NONAME
+	_ZN13CXMLGenerator11AddElementLEhRK6TDesC817TXMLContentFormat @ 10 NONAME
+	_ZN13CXMLGenerator11AddElementLEhRK6TDesC8RK16CWBXMLAttributes17TXMLContentFormat @ 11 NONAME
+	_ZN13CXMLGenerator11EndElementLEv @ 12 NONAME
+	_ZN13CXMLGenerator12HandleResultEii @ 13 NONAME
+	_ZN13CXMLGenerator12SetWorkspaceEP13CXMLWorkspacei @ 14 NONAME
+	_ZN13CXMLGenerator13BeginElementLEhii @ 15 NONAME
+	_ZN13CXMLGenerator14BeginDocumentLEhlmRK6TDesC8 @ 16 NONAME
+	_ZN13CXMLGenerator14SetIndentLevelEi @ 17 NONAME
+	_ZN13CXMLGenerator15SwitchCodePageLEh @ 18 NONAME
+	_ZN13CXMLGenerator17SetNamespaceNameLERK6TDesC8NS_24TNSmlNamespaceAppendTypeE @ 19 NONAME
+	_ZN13CXMLGenerator18SetTranslateTableLERK6TDesC8 @ 20 NONAME
+	_ZN13CXMLGenerator22CreateStaticWorkspaceLEi @ 21 NONAME
+	_ZN13CXMLGenerator23CreateDynamicWorkspaceLEv @ 22 NONAME
+	_ZN13CXMLGenerator5ResetEv @ 23 NONAME
+	_ZN13CXMLGenerator7AddExtLEi @ 24 NONAME
+	_ZN13CXMLGenerator8DocumentEv @ 25 NONAME
+	_ZN13CXMLGenerator9AddExt_ILEiRK6TDesC8 @ 26 NONAME
+	_ZN13CXMLGenerator9AddExt_TLEim @ 27 NONAME
+	_ZN13CXMLGeneratorC1Ev @ 28 NONAME
+	_ZN13CXMLGeneratorC2Ev @ 29 NONAME
+	_ZN13CXMLGeneratorD0Ev @ 30 NONAME
+	_ZN13CXMLGeneratorD1Ev @ 31 NONAME
+	_ZN13CXMLGeneratorD2Ev @ 32 NONAME
+	_ZN19CWbxml2XmlConverter4NewLEv @ 33 NONAME
+	_ZN19CWbxml2XmlConverter5NewLCEv @ 34 NONAME
+	_ZN19CWbxml2XmlConverter8ConvertLEPKhl @ 35 NONAME
+	_ZN19CWbxml2XmlConverter8ConvertLER11RReadStream @ 36 NONAME
+	_ZN19CWbxml2XmlConverterD0Ev @ 37 NONAME
+	_ZN19CWbxml2XmlConverterD1Ev @ 38 NONAME
+	_ZN19CWbxml2XmlConverterD2Ev @ 39 NONAME
+	_ZN19CXMLDevInfGenerator11InitializeLEv @ 40 NONAME
+	_ZN19CXMLDevInfGenerator13smlDeviceInfoEP19sml_devinf_devinf_s @ 41 NONAME
+	_ZN19CXMLDevInfGenerator16CreateWorkspaceLEv @ 42 NONAME
+	_ZN19CXMLSyncMLGenerator10smlCopyCmdEP13sml_generic_s @ 43 NONAME
+	_ZN19CXMLSyncMLGenerator10smlEndSyncEv @ 44 NONAME
+	_ZN19CXMLSyncMLGenerator10smlExecCmdEP10sml_exec_s @ 45 NONAME
+	_ZN19CXMLSyncMLGenerator10smlMoveCmdEP13sml_generic_s @ 46 NONAME
+	_ZN19CXMLSyncMLGenerator11InitializeLEv @ 47 NONAME
+	_ZN19CXMLSyncMLGenerator11SetTruncateEi @ 48 NONAME
+	_ZN19CXMLSyncMLGenerator11smlAlertCmdEP11sml_alert_s @ 49 NONAME
+	_ZN19CXMLSyncMLGenerator12WasTruncatedEv @ 50 NONAME
+	_ZN19CXMLSyncMLGenerator12smlDeleteCmdEP13sml_generic_s @ 51 NONAME
+	_ZN19CXMLSyncMLGenerator12smlEndAtomicEv @ 52 NONAME
+	_ZN19CXMLSyncMLGenerator12smlStartSyncEP10sml_sync_s @ 53 NONAME
+	_ZN19CXMLSyncMLGenerator12smlStatusCmdEP12sml_status_s @ 54 NONAME
+	_ZN19CXMLSyncMLGenerator13smlEndMessageEh @ 55 NONAME
+	_ZN19CXMLSyncMLGenerator13smlReplaceCmdEP13sml_generic_s @ 56 NONAME
+	_ZN19CXMLSyncMLGenerator13smlResultsCmdEP13sml_results_s @ 57 NONAME
+	_ZN19CXMLSyncMLGenerator14smlDeviceInfoLEP19sml_devinf_devinf_s @ 58 NONAME
+	_ZN19CXMLSyncMLGenerator14smlEndSequenceEv @ 59 NONAME
+	_ZN19CXMLSyncMLGenerator14smlStartAtomicEP12sml_atomic_s @ 60 NONAME
+	_ZN19CXMLSyncMLGenerator15smlStartMessageEP14sml_sync_hdr_s @ 61 NONAME
+	_ZN19CXMLSyncMLGenerator16CreateWorkspaceLEv @ 62 NONAME
+	_ZN19CXMLSyncMLGenerator16smlStartSequenceEP12sml_atomic_s @ 63 NONAME
+	_ZN19CXMLSyncMLGenerator9smlAddCmdEP13sml_generic_s @ 64 NONAME
+	_ZN19CXMLSyncMLGenerator9smlGetCmdEP13sml_get_put_s @ 65 NONAME
+	_ZN19CXMLSyncMLGenerator9smlMapCmdEP9sml_map_s @ 66 NONAME
+	_ZN19CXMLSyncMLGenerator9smlPutCmdEP13sml_get_put_s @ 67 NONAME
+	_ZN20CXMLDevInfDocHandler4NewLEP21MWBXMLDevInfCallbacks @ 68 NONAME
+	_ZN20CXMLDevInfDocHandlerD0Ev @ 69 NONAME
+	_ZN20CXMLDevInfDocHandlerD1Ev @ 70 NONAME
+	_ZN20CXMLDevInfDocHandlerD2Ev @ 71 NONAME
+	_ZN20CXMLSyncMLDocHandler4NewLEP21MWBXMLSyncMLCallbacks @ 72 NONAME
+	_ZN20CXMLSyncMLDocHandlerD0Ev @ 73 NONAME
+	_ZN20CXMLSyncMLDocHandlerD1Ev @ 74 NONAME
+	_ZN20CXMLSyncMLDocHandlerD2Ev @ 75 NONAME
+	_ZNK13CXMLGenerator11IndentLevelEv @ 76 NONAME
+	_ZNK13CXMLGenerator9WorkspaceEv @ 77 NONAME
+	_ZNK19CWbxml2XmlConverter8DocumentEv @ 78 NONAME
+	_ZNK19CXMLSyncMLGenerator12DataConsumedEv @ 79 NONAME
+	_ZNK19CXMLSyncMLGenerator9ItemIndexEv @ 80 NONAME
+	_ZTI10CXMLParser @ 81 NONAME ; #<TI>#
+	_ZTI13CXMLGenerator @ 82 NONAME ; #<TI>#
+	_ZTI19CWbxml2XmlConverter @ 83 NONAME ; #<TI>#
+	_ZTI19CXMLSyncMLGenerator @ 84 NONAME ; #<TI>#
+	_ZTI20CXMLDevInfDocHandler @ 85 NONAME ; #<TI>#
+	_ZTI20CXMLSyncMLDocHandler @ 86 NONAME ; #<TI>#
+	_ZTV10CXMLParser @ 87 NONAME ; #<VT>#
+	_ZTV13CXMLGenerator @ 88 NONAME ; #<VT>#
+	_ZTV19CWbxml2XmlConverter @ 89 NONAME ; #<VT>#
+	_ZTV19CXMLSyncMLGenerator @ 90 NONAME ; #<VT>#
+	_ZTV20CXMLDevInfDocHandler @ 91 NONAME ; #<VT>#
+	_ZTV20CXMLSyncMLDocHandler @ 92 NONAME ; #<VT>#
+	_ZThn72_N19CXMLSyncMLGenerator14smlDeviceInfoLEP19sml_devinf_devinf_s @ 93 NONAME ; #<thunk>#
+

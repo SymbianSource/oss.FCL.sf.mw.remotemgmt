@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+#include <data_caging_paths.hrh>
+#include <defaultcaps.hrh>
+#include <bldvariant.hrh>
+
+TARGET          scppatternplugin.dll
+TARGETTYPE      PLUGIN
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID             0x10009D8D 0x10274262
+VENDORID        VID_DEFAULT
+CAPABILITY      CAP_ECOM_PLUGIN
+
+SOURCEPATH      ../src
+SOURCE          SCPPatternPlugin.cpp
+SOURCE          SCPPatternPluginImpCollection.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../../inc   // domain private headers
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../data
+
+
+
+// PlugIn's RSS for SCPPatternPlugin
+START RESOURCE  SCPPatternPlugin.rss
+HEADER
+TARGETPATH      ECOM_RESOURCE_DIR
+LANGUAGE_IDS
+END
+
+
+// PlugIn's Localisation RSS for SCPPatternPlugin
+START RESOURCE  SCPPatternPluginLang.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+
+LIBRARY         euser.lib 
+LIBRARY         ecom.lib 
+LIBRARY         scpclient.lib
+LIBRARY			bafl.lib	 // for BaFutil
+LIBRARY			cone.lib	// CoeEnvironment
+LIBRARY			efsrv.lib	// FileServer
+LIBRARY					flogger.lib
+LIBRARY                 featmgr.lib
+// End of File

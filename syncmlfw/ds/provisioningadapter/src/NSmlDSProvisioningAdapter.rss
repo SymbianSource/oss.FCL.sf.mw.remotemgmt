@@ -1,0 +1,35 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  DS Settings Provisioning Adapter
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <uikon.rh>
+#include <nsmldsprovisioningadapter.loc>
+
+STRUCT STRING
+	{
+	LTEXT text;
+	}
+
+RESOURCE STRING r_sync_provisioning_title	{ text = qtn_op_head_syncdata; }
+RESOURCE STRING r_sync_default_name		{ text = qtn_op_default_name_syncdata; }
+
+// End of File

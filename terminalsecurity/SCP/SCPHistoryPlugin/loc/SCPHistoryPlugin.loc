@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+
+// LOCALISATION STRINGS:
+
+/*
+		Note : In this project, StringLoader wrapper is not used and
+		Formatting string are to change as following:
+		%N = %i
+		Do Not Change these markings!
+		Info about formatting Strings in general:
+		
+		Symbian OS v9.1 » 
+			Symbian OS guide » 
+				Base »
+					 Using User Library (E32) » 
+					 		Buffers and Strings » 
+					 				Using Descriptors » 
+					 					How to Use Descriptors » 
+					 								Format string syntax
+*/
+
+
+// Notification Texts
+
+
+//d: Information note. Security code entered by the user is not accepted
+//d: because code cannot be the same as previous %i security codes.
+//d: %i is the amount of previous security codes.
+//d: Use translations for "Lock code" in TARM_Lock_code_reference.xls
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_info_check "Lock code cannot be same as previous %N lock codes."
+
+//d: Information note. Security code entered by the user is not accepted
+//d: because code cannot be the same as the previous security code. If the lock code cannot be same as x pervious codes
+//d: an information note qtn_set_sec_code_info_check is displayed.
+//d: Use translations for "Lock code" in TARM_Lock_code_reference.xls
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_info_previous "Lock code cannot be same as the previous one"
+
+//d: Information note. Security code entered by the user is not accepted because words or letters or combinations
+//d: that are in the block list are not allowed. Block list is defined by TARM.
+//d: Use translations for "Lock code" in TARM_Lock_code_reference.xls
+//l: popup_note_window/opt2
+//r: 3.2.2, 3.2.3, 5.0
+#define qtn_set_sec_code_personal "Information included in the lock code is not allowed"
+
+
+// End of File
+

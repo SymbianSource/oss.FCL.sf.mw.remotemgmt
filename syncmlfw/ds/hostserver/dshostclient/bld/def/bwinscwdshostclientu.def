@@ -1,0 +1,101 @@
+EXPORTS
+	??0CNSmlDSHostItem@@IAE@XZ @ 1 NONAME ; CNSmlDSHostItem::CNSmlDSHostItem(void)
+	??0TNSmlDbItemModification@@QAE@ABV0@@Z @ 2 NONAME ; TNSmlDbItemModification::TNSmlDbItemModification(class TNSmlDbItemModification const &)
+	??0TNSmlDbItemModification@@QAE@HW4TNSmlDbItemModificationType@0@@Z @ 3 NONAME ; TNSmlDbItemModification::TNSmlDbItemModification(int, enum TNSmlDbItemModification::TNSmlDbItemModificationType)
+	??1CNSmlDPInformation@@UAE@XZ @ 4 NONAME ; CNSmlDPInformation::~CNSmlDPInformation(void)
+	??1CNSmlDSHostClient@@UAE@XZ @ 5 NONAME ; CNSmlDSHostClient::~CNSmlDSHostClient(void)
+	??1CNSmlDSHostItem@@UAE@XZ @ 6 NONAME ; CNSmlDSHostItem::~CNSmlDSHostItem(void)
+	??4TNSmlDbItemModification@@QAEAAV0@ABV0@@Z @ 7 NONAME ; class TNSmlDbItemModification & TNSmlDbItemModification::operator=(class TNSmlDbItemModification const &)
+	?AddGroupL@RNSmlDbItemModificationSet@@QAEXABVMSmlDataItemUidSet@@W4TNSmlDbItemModificationType@TNSmlDbItemModification@@@Z @ 8 NONAME ; void RNSmlDbItemModificationSet::AddGroupL(class MSmlDataItemUidSet const &, enum TNSmlDbItemModification::TNSmlDbItemModificationType)
+	?AddItemL@RNSmlDbItemModificationSet@@QAEHABVTNSmlDbItemModification@@@Z @ 9 NONAME ; int RNSmlDbItemModificationSet::AddItemL(class TNSmlDbItemModification const &)
+	?AddedItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 10 NONAME ; void CNSmlDSHostClient::AddedItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?AllItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 11 NONAME ; void CNSmlDSHostClient::AllItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?BeginBatchL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 12 NONAME ; void CNSmlDSHostClient::BeginBatchL(int, class TDesC16 const &, int &)
+	?BeginTransactionL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 13 NONAME ; void CNSmlDSHostClient::BeginTransactionL(int, class TDesC16 const &, int &)
+	?CancelBatchL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 14 NONAME ; void CNSmlDSHostClient::CancelBatchL(int, class TDesC16 const &, int &)
+	?CancelRequestL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 15 NONAME ; void CNSmlDSHostClient::CancelRequestL(int, class TDesC16 const &, int &)
+	?CheckServerFiltersL@CNSmlDSHostClient@@QBEXHAAV?$RPointerArray@VCSyncMLFilter@@@@AAW4TSyncMLFilterChangeInfo@@AAH@Z @ 16 NONAME ; void CNSmlDSHostClient::CheckServerFiltersL(int, class RPointerArray<class CSyncMLFilter> &, enum TSyncMLFilterChangeInfo &, int &) const
+	?CheckSupportedServerFiltersL@CNSmlDSHostClient@@QBEXHABVCNSmlDbCaps@@ABV?$CArrayFix@UTNSmlFilterCapData@@@@AAV?$RPointerArray@VCSyncMLFilter@@@@AAW4TSyncMLFilterChangeInfo@@AAH@Z @ 17 NONAME ; void CNSmlDSHostClient::CheckSupportedServerFiltersL(int, class CNSmlDbCaps const &, class CArrayFix<struct TNSmlFilterCapData> const &, class RPointerArray<class CSyncMLFilter> &, enum TSyncMLFilterChangeInfo &, int &) const
+	?Close@RNSmlDbItemModificationSet@@QAEXXZ @ 18 NONAME ; void RNSmlDbItemModificationSet::Close(void)
+	?CloseItemL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 19 NONAME ; void CNSmlDSHostClient::CloseItemL(int, class TDesC16 const &, int &)
+	?CommitBatchL@CNSmlDSHostClient@@QAEXAAV?$RArray@H@@HABVTDesC16@@AAH@Z @ 20 NONAME ; void CNSmlDSHostClient::CommitBatchL(class RArray<int> &, int, class TDesC16 const &, int &)
+	?CommitChangeInfoL@CNSmlDSHostClient@@QAEXABVMSmlDataItemUidSet@@HABVTDesC16@@AAH@Z @ 21 NONAME ; void CNSmlDSHostClient::CommitChangeInfoL(class MSmlDataItemUidSet const &, int, class TDesC16 const &, int &)
+	?CommitChangeInfoL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 22 NONAME ; void CNSmlDSHostClient::CommitChangeInfoL(int, class TDesC16 const &, int &)
+	?CommitItemL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 23 NONAME ; void CNSmlDSHostClient::CommitItemL(int, class TDesC16 const &, int &)
+	?CommitTransactionL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 24 NONAME ; void CNSmlDSHostClient::CommitTransactionL(int, class TDesC16 const &, int &)
+	?ConstructL@CNSmlDSHostItem@@IAEXXZ @ 25 NONAME ; void CNSmlDSHostItem::ConstructL(void)
+	?CreateAllDataProvidersL@CNSmlDSHostClient@@QAEXAAV?$RArray@H@@@Z @ 26 NONAME ; void CNSmlDSHostClient::CreateAllDataProvidersL(class RArray<int> &)
+	?CreateDataProvidersL@CNSmlDSHostClient@@QAEXABV?$RArray@H@@AAV2@@Z @ 27 NONAME ; void CNSmlDSHostClient::CreateDataProvidersL(class RArray<int> const &, class RArray<int> &)
+	?CreateItemL@CNSmlDSHostClient@@QAEXAAHHHABVTDesC8@@1HABVTDesC16@@0@Z @ 28 NONAME ; void CNSmlDSHostClient::CreateItemL(int &, int, int, class TDesC8 const &, class TDesC8 const &, int, class TDesC16 const &, int &)
+	?DataProviderInformationL@CNSmlDSHostClient@@QBEPAUTNSmlDPInformation@@HAAH@Z @ 29 NONAME ; struct TNSmlDPInformation * CNSmlDSHostClient::DataProviderInformationL(int, int &) const
+	?DefaultStoreL@CNSmlDSHostClient@@QAEPAVHBufC16@@HAAH@Z @ 30 NONAME ; class HBufC16 * CNSmlDSHostClient::DefaultStoreL(int, int &)
+	?DeleteAllItemsL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 31 NONAME ; void CNSmlDSHostClient::DeleteAllItemsL(int, class TDesC16 const &, int &)
+	?DeleteItemL@CNSmlDSHostClient@@QAEXHHABVTDesC16@@AAH@Z @ 32 NONAME ; void CNSmlDSHostClient::DeleteItemL(int, int, class TDesC16 const &, int &)
+	?DeletedItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 33 NONAME ; void CNSmlDSHostClient::DeletedItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?DisplayName@CNSmlDPInformation@@QBEPBVHBufC16@@XZ @ 34 NONAME ; class HBufC16 const * CNSmlDPInformation::DisplayName(void) const
+	?ExternalizeL@CNSmlDPInformation@@QBEXAAVRWriteStream@@@Z @ 35 NONAME ; void CNSmlDPInformation::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@CNSmlDSHostItem@@QBEXAAVRWriteStream@@@Z @ 36 NONAME ; void CNSmlDSHostItem::ExternalizeL(class RWriteStream &) const
+	?ExternalizeL@RNSmlDbItemModificationSet@@QBEXAAVRWriteStream@@@Z @ 37 NONAME ; void RNSmlDbItemModificationSet::ExternalizeL(class RWriteStream &) const
+	?FieldChange@CNSmlDSHostItem@@QBEHXZ @ 38 NONAME ; int CNSmlDSHostItem::FieldChange(void) const
+	?GetFilterL@CNSmlDSHostClient@@QAEXHABVTDesC16@@ABV?$RPointerArray@VCSyncMLFilter@@@@AAPAVCNSmlFilter@@W4TSyncMLFilterMatchType@@AAH@Z @ 39 NONAME ; void CNSmlDSHostClient::GetFilterL(int, class TDesC16 const &, class RPointerArray<class CSyncMLFilter> const &, class CNSmlFilter * &, enum TSyncMLFilterMatchType, int &)
+	?HasSyncHistoryL@CNSmlDSHostClient@@QBEHHABVTDesC16@@AAH@Z @ 40 NONAME ; int CNSmlDSHostClient::HasSyncHistoryL(int, class TDesC16 const &, int &) const
+	?InformationD@CNSmlDPInformation@@QAEPAUTNSmlDPInformation@@XZ @ 41 NONAME ; struct TNSmlDPInformation * CNSmlDPInformation::InformationD(void)
+	?InternalizeL@CNSmlDPInformation@@QAEXAAVRReadStream@@@Z @ 42 NONAME ; void CNSmlDPInformation::InternalizeL(class RReadStream &)
+	?InternalizeL@CNSmlDSHostItem@@QAEXAAVRReadStream@@@Z @ 43 NONAME ; void CNSmlDSHostItem::InternalizeL(class RReadStream &)
+	?InternalizeL@RNSmlDbItemModificationSet@@QAEXAAVRReadStream@@@Z @ 44 NONAME ; void RNSmlDbItemModificationSet::InternalizeL(class RReadStream &)
+	?ItemAt@RNSmlDbItemModificationSet@@QBE?AVTNSmlDbItemModification@@H@Z @ 45 NONAME ; class TNSmlDbItemModification RNSmlDbItemModificationSet::ItemAt(int) const
+	?ItemCount@RNSmlDbItemModificationSet@@QBEHXZ @ 46 NONAME ; int RNSmlDbItemModificationSet::ItemCount(void) const
+	?ItemId@TNSmlDbItemModification@@QBEHXZ @ 47 NONAME ; int TNSmlDbItemModification::ItemId(void) const
+	?ItemIndex@RNSmlDbItemModificationSet@@QBEHH@Z @ 48 NONAME ; int RNSmlDbItemModificationSet::ItemIndex(int) const
+	?ListStoresL@CNSmlDSHostClient@@QAEXPAVCDesC16Array@@HAAH@Z @ 49 NONAME ; void CNSmlDSHostClient::ListStoresL(class CDesC16Array *, int, int &)
+	?MaxObjectSizeL@CNSmlDSHostClient@@QBEHHABVTDesC16@@AAH@Z @ 50 NONAME ; int CNSmlDSHostClient::MaxObjectSizeL(int, class TDesC16 const &, int &) const
+	?MimeType@CNSmlDSHostItem@@QBEPBVHBufC8@@XZ @ 51 NONAME ; class HBufC8 const * CNSmlDSHostItem::MimeType(void) const
+	?MimeTypes@CNSmlDPInformation@@QBEPBVCDesC8Array@@XZ @ 52 NONAME ; class CDesC8Array const * CNSmlDPInformation::MimeTypes(void) const
+	?MimeVer@CNSmlDSHostItem@@QBEPBVHBufC8@@XZ @ 53 NONAME ; class HBufC8 const * CNSmlDSHostItem::MimeVer(void) const
+	?MimeVers@CNSmlDPInformation@@QBEPBVCDesC8Array@@XZ @ 54 NONAME ; class CDesC8Array const * CNSmlDPInformation::MimeVers(void) const
+	?ModificationType@TNSmlDbItemModification@@QBE?AW4TNSmlDbItemModificationType@1@XZ @ 55 NONAME ; enum TNSmlDbItemModification::TNSmlDbItemModificationType TNSmlDbItemModification::ModificationType(void) const
+	?ModifiedItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 56 NONAME ; void CNSmlDSHostClient::ModifiedItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?MoveItemL@CNSmlDSHostClient@@QAEXHHHABVTDesC16@@AAH@Z @ 57 NONAME ; void CNSmlDSHostClient::MoveItemL(int, int, int, class TDesC16 const &, int &)
+	?MovedItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 58 NONAME ; void CNSmlDSHostClient::MovedItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?NewL@CNSmlDPInformation@@SAPAV1@XZ @ 59 NONAME ; class CNSmlDPInformation * CNSmlDPInformation::NewL(void)
+	?NewL@CNSmlDSHostClient@@SAPAV1@XZ @ 60 NONAME ; class CNSmlDSHostClient * CNSmlDSHostClient::NewL(void)
+	?NewL@CNSmlDSHostItem@@SAPAV1@XZ @ 61 NONAME ; class CNSmlDSHostItem * CNSmlDSHostItem::NewL(void)
+	?NewLC@CNSmlDPInformation@@SAPAV1@XZ @ 62 NONAME ; class CNSmlDPInformation * CNSmlDPInformation::NewLC(void)
+	?NewLC@CNSmlDSHostClient@@SAPAV1@XZ @ 63 NONAME ; class CNSmlDSHostClient * CNSmlDSHostClient::NewLC(void)
+	?NewLC@CNSmlDSHostItem@@SAPAV1@XZ @ 64 NONAME ; class CNSmlDSHostItem * CNSmlDSHostItem::NewLC(void)
+	?OpenItemL@CNSmlDSHostClient@@QAEXHAAH00AAPAVHBufC8@@1HABVTDesC16@@0@Z @ 65 NONAME ; void CNSmlDSHostClient::OpenItemL(int, int &, int &, int &, class HBufC8 * &, class HBufC8 * &, int, class TDesC16 const &, int &)
+	?OpenL@CNSmlDSHostClient@@QAEXHABVTDesC16@@00AAH@Z @ 66 NONAME ; void CNSmlDSHostClient::OpenL(int, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, int &)
+	?ParentUid@CNSmlDSHostItem@@QBEHXZ @ 67 NONAME ; int CNSmlDSHostItem::ParentUid(void) const
+	?ProtocolVersion@CNSmlDPInformation@@QBE?AW4TSmlProtocolVersion@@XZ @ 68 NONAME ; enum TSmlProtocolVersion CNSmlDPInformation::ProtocolVersion(void) const
+	?ReadItemL@CNSmlDSHostClient@@QAEXAAVTDes8@@HABVTDesC16@@AAH@Z @ 69 NONAME ; void CNSmlDSHostClient::ReadItemL(class TDes8 &, int, class TDesC16 const &, int &)
+	?RemoveItem@RNSmlDbItemModificationSet@@QAEXH@Z @ 70 NONAME ; void RNSmlDbItemModificationSet::RemoveItem(int)
+	?ReplaceItemL@CNSmlDSHostClient@@QAEXHHHHHABVTDesC16@@AAH@Z @ 71 NONAME ; void CNSmlDSHostClient::ReplaceItemL(int, int, int, int, int, class TDesC16 const &, int &)
+	?Reset@RNSmlDbItemModificationSet@@QAEXXZ @ 72 NONAME ; void RNSmlDbItemModificationSet::Reset(void)
+	?ResetChangeInfoL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 73 NONAME ; void CNSmlDSHostClient::ResetChangeInfoL(int, class TDesC16 const &, int &)
+	?RevertTransactionL@CNSmlDSHostClient@@QAEXHABVTDesC16@@AAH@Z @ 74 NONAME ; void CNSmlDSHostClient::RevertTransactionL(int, class TDesC16 const &, int &)
+	?SetDisplayNameL@CNSmlDPInformation@@QAEXABVTDesC16@@@Z @ 75 NONAME ; void CNSmlDPInformation::SetDisplayNameL(class TDesC16 const &)
+	?SetFieldChange@CNSmlDSHostItem@@QAEXH@Z @ 76 NONAME ; void CNSmlDSHostItem::SetFieldChange(int)
+	?SetId@CNSmlDPInformation@@QBEXH@Z @ 77 NONAME ; void CNSmlDPInformation::SetId(int) const
+	?SetMimeTypeL@CNSmlDSHostItem@@QAEXABVTDesC8@@@Z @ 78 NONAME ; void CNSmlDSHostItem::SetMimeTypeL(class TDesC8 const &)
+	?SetMimeTypesL@CNSmlDPInformation@@QAEXPAVCDesC8Array@@@Z @ 79 NONAME ; void CNSmlDPInformation::SetMimeTypesL(class CDesC8Array *)
+	?SetMimeVerL@CNSmlDSHostItem@@QAEXABVTDesC8@@@Z @ 80 NONAME ; void CNSmlDSHostItem::SetMimeVerL(class TDesC8 const &)
+	?SetMimeVersL@CNSmlDPInformation@@QAEXPAVCDesC8Array@@@Z @ 81 NONAME ; void CNSmlDPInformation::SetMimeVersL(class CDesC8Array *)
+	?SetParentUid@CNSmlDSHostItem@@QAEXH@Z @ 82 NONAME ; void CNSmlDSHostItem::SetParentUid(int)
+	?SetProtocolVersion@CNSmlDPInformation@@QAEXW4TSmlProtocolVersion@@@Z @ 83 NONAME ; void CNSmlDPInformation::SetProtocolVersion(enum TSmlProtocolVersion)
+	?SetRemoteDataStoreFormatL@CNSmlDSHostClient@@QAEXABVCNSmlDbCaps@@HABVTDesC16@@AAH@Z @ 84 NONAME ; void CNSmlDSHostClient::SetRemoteDataStoreFormatL(class CNSmlDbCaps const &, int, class TDesC16 const &, int &)
+	?SetRemoteMaxObjectSizeL@CNSmlDSHostClient@@QAEXHHABVTDesC16@@AAH@Z @ 85 NONAME ; void CNSmlDSHostClient::SetRemoteMaxObjectSizeL(int, int, class TDesC16 const &, int &)
+	?SetSize@CNSmlDSHostItem@@QAEXH@Z @ 86 NONAME ; void CNSmlDSHostItem::SetSize(int)
+	?SetUid@CNSmlDSHostItem@@QAEXH@Z @ 87 NONAME ; void CNSmlDSHostItem::SetUid(int)
+	?SetVersion@CNSmlDPInformation@@QAEXABVTVersion@@@Z @ 88 NONAME ; void CNSmlDPInformation::SetVersion(class TVersion const &)
+	?Size@CNSmlDSHostItem@@QBEHXZ @ 89 NONAME ; int CNSmlDSHostItem::Size(void) const
+	?SoftDeleteItemL@CNSmlDSHostClient@@QAEXHHABVTDesC16@@AAH@Z @ 90 NONAME ; void CNSmlDSHostClient::SoftDeleteItemL(int, int, class TDesC16 const &, int &)
+	?SoftDeleteItemsL@CNSmlDSHostClient@@QBEXAAVRNSmlDbItemModificationSet@@HABVTDesC16@@AAH@Z @ 91 NONAME ; void CNSmlDSHostClient::SoftDeleteItemsL(class RNSmlDbItemModificationSet &, int, class TDesC16 const &, int &) const
+	?StoreFormatL@CNSmlDSHostClient@@QAEPAVCNSmlDbCaps@@HAAH@Z @ 92 NONAME ; class CNSmlDbCaps * CNSmlDSHostClient::StoreFormatL(int, int &)
+	?StreamSize@RNSmlDbItemModificationSet@@QBEHXZ @ 93 NONAME ; int RNSmlDbItemModificationSet::StreamSize(void) const
+	?SupportedServerFiltersL@CNSmlDSHostClient@@QBEPAV?$RPointerArray@VCSyncMLFilter@@@@HAAW4TSyncMLFilterMatchType@@AAW4TSyncMLFilterChangeInfo@@AAH@Z @ 94 NONAME ; class RPointerArray<class CSyncMLFilter> * CNSmlDSHostClient::SupportedServerFiltersL(int, enum TSyncMLFilterMatchType &, enum TSyncMLFilterChangeInfo &, int &) const
+	?SupportsOperationL@CNSmlDSHostClient@@QBEHVTUid@@HAAH@Z @ 95 NONAME ; int CNSmlDSHostClient::SupportsOperationL(class TUid, int, int &) const
+	?Uid@CNSmlDSHostItem@@QBEHXZ @ 96 NONAME ; int CNSmlDSHostItem::Uid(void) const
+	?UpdateServerIdL@CNSmlDSHostClient@@QAEXAAVTDesC16@@0AAH@Z @ 97 NONAME ; void CNSmlDSHostClient::UpdateServerIdL(class TDesC16 &, class TDesC16 &, int &)
+	?Version@CNSmlDPInformation@@QBEABVTVersion@@XZ @ 98 NONAME ; class TVersion const & CNSmlDPInformation::Version(void) const
+	?WriteItemL@CNSmlDSHostClient@@QAEXABVTDesC8@@HABVTDesC16@@AAH@Z @ 99 NONAME ; void CNSmlDSHostClient::WriteItemL(class TDesC8 const &, int, class TDesC16 const &, int &)
+

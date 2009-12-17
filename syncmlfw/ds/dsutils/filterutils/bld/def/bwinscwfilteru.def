@@ -1,0 +1,22 @@
+EXPORTS
+	??0CNSmlFilterHandler@@QAE@PAUsml_filter_s@@@Z @ 1 NONAME ; CNSmlFilterHandler::CNSmlFilterHandler(struct sml_filter_s *)
+	??0TNSmlFieldPropData@@QAE@W4TNSmlFieldPropTag@0@ABVTDesC8@@@Z @ 2 NONAME ; TNSmlFieldPropData::TNSmlFieldPropData(enum TNSmlFieldPropData::TNSmlFieldPropTag, class TDesC8 const &)
+	??1CNSmlFilter@@UAE@XZ @ 3 NONAME ; CNSmlFilter::~CNSmlFilter(void)
+	?AddFieldDataPropLC@CNSmlFilter@@QAEPAVCNSmlDevInfProp@@ABVTDesC8@@@Z @ 4 NONAME ; class CNSmlDevInfProp * CNSmlFilter::AddFieldDataPropLC(class TDesC8 const &)
+	?Compare@TNSmlFieldPropData@@SAHABU1@0@Z @ 5 NONAME ; int TNSmlFieldPropData::Compare(struct TNSmlFieldPropData const &, struct TNSmlFieldPropData const &)
+	?CreateHandlerL@CNSmlFilter@@QBEPAVCNSmlFilterHandler@@XZ @ 6 NONAME ; class CNSmlFilterHandler * CNSmlFilter::CreateHandlerL(void) const
+	?FieldDataPropsL@CNSmlFilterHandler@@QAEXAAV?$CArrayFix@UTNSmlFieldPropData@@@@ABVTDesC8@@@Z @ 7 NONAME ; void CNSmlFilterHandler::FieldDataPropsL(class CArrayFix<struct TNSmlFieldPropData> &, class TDesC8 const &)
+	?FieldMetaType@CNSmlFilterHandler@@QBE?AVTPtrC8@@XZ @ 8 NONAME ; class TPtrC8 CNSmlFilterHandler::FieldMetaType(void) const
+	?FilterL@CNSmlFilter@@QBEPAUsml_filter_s@@XZ @ 9 NONAME ; struct sml_filter_s * CNSmlFilter::FilterL(void) const
+	?FilterMetaType@CNSmlFilterHandler@@QBE?AVTPtrC8@@XZ @ 10 NONAME ; class TPtrC8 CNSmlFilterHandler::FilterMetaType(void) const
+	?FilterType@CNSmlFilterHandler@@QBE?AVTPtrC8@@XZ @ 11 NONAME ; class TPtrC8 CNSmlFilterHandler::FilterType(void) const
+	?NewL@CNSmlFilter@@SAPAV1@XZ @ 12 NONAME ; class CNSmlFilter * CNSmlFilter::NewL(void)
+	?NewLC@CNSmlFilter@@SAPAV1@XZ @ 13 NONAME ; class CNSmlFilter * CNSmlFilter::NewLC(void)
+	?Properties@CNSmlFilter@@QBEPAUsml_devinf_propertylist_s@@XZ @ 14 NONAME ; struct sml_devinf_propertylist_s * CNSmlFilter::Properties(void) const
+	?RecordData@CNSmlFilterHandler@@QBE?AVTPtrC8@@XZ @ 15 NONAME ; class TPtrC8 CNSmlFilterHandler::RecordData(void) const
+	?RecordMetaType@CNSmlFilterHandler@@QBE?AVTPtrC8@@XZ @ 16 NONAME ; class TPtrC8 CNSmlFilterHandler::RecordMetaType(void) const
+	?SetFieldMetaTypeL@CNSmlFilter@@QAEXABVTDesC8@@@Z @ 17 NONAME ; void CNSmlFilter::SetFieldMetaTypeL(class TDesC8 const &)
+	?SetFilterMetaTypeL@CNSmlFilter@@QAEXABVTDesC8@@@Z @ 18 NONAME ; void CNSmlFilter::SetFilterMetaTypeL(class TDesC8 const &)
+	?SetFilterTypeL@CNSmlFilter@@QAEXABVTDesC8@@@Z @ 19 NONAME ; void CNSmlFilter::SetFilterTypeL(class TDesC8 const &)
+	?SetRecordL@CNSmlFilter@@QAEXABVTDesC8@@0@Z @ 20 NONAME ; void CNSmlFilter::SetRecordL(class TDesC8 const &, class TDesC8 const &)
+

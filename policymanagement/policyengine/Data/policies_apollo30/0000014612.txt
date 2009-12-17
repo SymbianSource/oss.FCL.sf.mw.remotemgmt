@@ -1,0 +1,1 @@
+<ru ruid="certificate_mapping_rights_policy_rule1" ef="pe"><ta><res><re><rm mid="seid"> <av dt= "str">cert_mapping_policy</av> <ra aid="policy_target" dt="str"/> </rm></re></res></ta><con><app fid="seid"><sa aid="trusted_subject" dt="str"/><sa aid="target_trusted_subject" dt="str"/></app></con></ru>~14080

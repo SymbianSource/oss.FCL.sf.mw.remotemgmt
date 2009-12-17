@@ -1,0 +1,3 @@
+EXPORTS
+	?NewL@RDCMOClient@@SAPAV1@XZ @ 1 NONAME ; class RDCMOClient * RDCMOClient::NewL(void)
+

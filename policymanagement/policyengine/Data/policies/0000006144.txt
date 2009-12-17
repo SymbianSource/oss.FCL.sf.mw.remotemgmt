@@ -1,0 +1,1 @@
+<po poid="im_enforcement_policy" rcaid="rpor">|6423<ta><res><re><rm mid="seid"> <av dt= "str">InstantMessagingEnforcemnt</av> <ra aid="urn:oasis:names:tc:xacml:1.0:resource:resource-id" dt="str"/> </rm></re></res></ta>|6676</po>~1793

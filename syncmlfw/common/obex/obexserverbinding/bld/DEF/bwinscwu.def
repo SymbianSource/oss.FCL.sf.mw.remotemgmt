@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateCNsmlObexServerBindingL@@YAPAVCNSmlObexServerBinding@@XZ @ 1 NONAME ; class CNSmlObexServerBinding * CreateCNsmlObexServerBindingL(void)
+

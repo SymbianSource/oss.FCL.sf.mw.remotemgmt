@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization strings for Authtypeplugin.
+*
+*/
+
+//  LOCALISATION STRINGS
+
+//d:Authtype Plugin caption
+//d:Authtypeplugin
+//l:list_single_large_graphic_pane_t1
+#define qtn_set_conf_msg_authentication_cp "Configuration Message Authentication"
+
+//d:Heading for List dialog popped up
+//l:heading_pane_t1
+#define qtn_set_conf_auth_method "Authentication method:"
+
+//d:Network Pin selection item
+//l:list_single_pane_t1_cp2
+#define qtn_conf_auth_network_pin "Network PIN"
+
+//d:Network or User PIN selection item 
+//l:list_single_pane_t1_cp2
+#define qtn_conf_auth_network_or_user_pin "Network or user PIN"
+
+//d:All methods supported selection item
+//l:list_single_pane_t1_cp2
+#define qtn_conf_auth_all_auth "All methods supported"
+
+//d: Note shown on selection of All methods supported
+//l: popup_note_window
+#define qtn_conf_auth_all_auth_note "All authentication methods are supported. Insecure configuration messages can also be recieved."
+
+//d:Note shown on selection of Network or User PIN item
+//l:popup_note_window
+#define qtn_conf_auth_network_or_user_pin_note "You might be prompted for User pin. Insecure configuration messages will not be authenticated."
+
+
+
+// End of File

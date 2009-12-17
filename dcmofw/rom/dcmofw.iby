@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Image description file for project dcmofw
+*
+*/
+
+
+#ifndef _DCMOFW_IBY_
+#define _DCMOFW_IBY_
+
+file=ABI_DIR\BUILD_DIR\dcmoclient.dll		SHARED_LIB_DIR\dcmoclient.dll
+
+#ifdef FF_RUNTIME_DEVICE_CAPABILITY_CONFIGURATION
+data=DATAZ_\RESOURCE_FILES_DIR\dcmo.rsc	RESOURCE_FILES_DIR\dcmo.rsc
+file=ABI_DIR\BUILD_DIR\dcmoserver.exe		PROGRAMS_DIR\dcmoserver.exe
+
+data=\epoc32\data\Z\private\10202BE9\2001FE47.txt       private\10202BE9\2001FE47.txt
+data=\epoc32\data\Z\private\10202BE9\2000253D.txt       private\10202BE9\2000253D.txt
+#endif
+#endif
+

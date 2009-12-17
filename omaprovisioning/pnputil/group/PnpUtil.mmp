@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2004-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:    Project definition file for project PnpUtil
+*
+*/
+
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+
+TARGET          pnp.dll
+TARGETTYPE      DLL
+UID             0x10000079 0x1020433A
+TARGETPATH      /system/libs
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+SOURCE          PnpUtil.cpp
+SOURCE          PnpUtilImpl.cpp
+SOURCE          PnpProvUtil.cpp
+
+USERINCLUDE     ../inc
+
+// Default system include paths for application layer modules.
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib apparc.lib  apgrfx.lib
+LIBRARY         etelmm.lib
+LIBRARY         etel.lib
+LIBRARY	        cryptography.lib        // For RInteger, CRSASignature, CRSAPKCS1v15Verifier...
+LIBRARY	        hash.lib 
+LIBRARY         centralrepository.lib
+DEBUGLIBRARY    flogger.lib             //for logging
+
+nostrictdef
+
+
+SMPSAFE

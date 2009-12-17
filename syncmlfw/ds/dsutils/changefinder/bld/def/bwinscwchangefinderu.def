@@ -1,0 +1,38 @@
+EXPORTS
+	??0CNSmlDataItemUidSet@@QAE@XZ @ 1 NONAME ; CNSmlDataItemUidSet::CNSmlDataItemUidSet(void)
+	??0TNSmlSnapshotItem@@QAE@ABH@Z @ 2 NONAME ; TNSmlSnapshotItem::TNSmlSnapshotItem(int const &)
+	??0TNSmlSnapshotItem@@QAE@XZ @ 3 NONAME ; TNSmlSnapshotItem::TNSmlSnapshotItem(void)
+	??1CNSmlChangeFinder@@UAE@XZ @ 4 NONAME ; CNSmlChangeFinder::~CNSmlChangeFinder(void)
+	?AddItem@CNSmlDataItemUidSet@@QAEHH@Z @ 5 NONAME ; int CNSmlDataItemUidSet::AddItem(int)
+	?CloseL@CNSmlChangeFinder@@QAEXXZ @ 6 NONAME ; void CNSmlChangeFinder::CloseL(void)
+	?CommitChangesL@CNSmlChangeFinder@@QAEXABVMSmlDataItemUidSet@@@Z @ 7 NONAME ; void CNSmlChangeFinder::CommitChangesL(class MSmlDataItemUidSet const &)
+	?CommitChangesL@CNSmlChangeFinder@@QAEXXZ @ 8 NONAME ; void CNSmlChangeFinder::CommitChangesL(void)
+	?Compare@TNSmlSnapshotItem@@QBEHABV1@@Z @ 9 NONAME ; int TNSmlSnapshotItem::Compare(class TNSmlSnapshotItem const &) const
+	?DataStoreUid@CNSmlChangeFinder@@QBE_JXZ @ 10 NONAME ; long long CNSmlChangeFinder::DataStoreUid(void) const
+	?ExternalizeL@TNSmlSnapshotItem@@QBEXAAVRWriteStream@@@Z @ 11 NONAME ; void TNSmlSnapshotItem::ExternalizeL(class RWriteStream &) const
+	?FindChangedItemsL@CNSmlChangeFinder@@QAEXAAVCNSmlDataItemUidSet@@@Z @ 12 NONAME ; void CNSmlChangeFinder::FindChangedItemsL(class CNSmlDataItemUidSet &)
+	?FindDeletedItemsL@CNSmlChangeFinder@@QAEXAAVCNSmlDataItemUidSet@@@Z @ 13 NONAME ; void CNSmlChangeFinder::FindDeletedItemsL(class CNSmlDataItemUidSet &)
+	?FindMovedItemsL@CNSmlChangeFinder@@QAEXAAVCNSmlDataItemUidSet@@@Z @ 14 NONAME ; void CNSmlChangeFinder::FindMovedItemsL(class CNSmlDataItemUidSet &)
+	?FindNewItemsL@CNSmlChangeFinder@@QAEXAAVCNSmlDataItemUidSet@@@Z @ 15 NONAME ; void CNSmlChangeFinder::FindNewItemsL(class CNSmlDataItemUidSet &)
+	?FindSoftDeletedItemsL@CNSmlChangeFinder@@QAEXAAVCNSmlDataItemUidSet@@@Z @ 16 NONAME ; void CNSmlChangeFinder::FindSoftDeletedItemsL(class CNSmlDataItemUidSet &)
+	?InternalizeL@CNSmlDataItemUidSet@@QAEXAAVRReadStream@@@Z @ 17 NONAME ; void CNSmlDataItemUidSet::InternalizeL(class RReadStream &)
+	?InternalizeL@TNSmlSnapshotItem@@QAEXAAVRReadStream@@@Z @ 18 NONAME ; void TNSmlSnapshotItem::InternalizeL(class RReadStream &)
+	?ItemAddedL@CNSmlChangeFinder@@QAEXABVTNSmlSnapshotItem@@@Z @ 19 NONAME ; void CNSmlChangeFinder::ItemAddedL(class TNSmlSnapshotItem const &)
+	?ItemDeleted@CNSmlChangeFinder@@QAEXABVTNSmlSnapshotItem@@@Z @ 20 NONAME ; void CNSmlChangeFinder::ItemDeleted(class TNSmlSnapshotItem const &)
+	?ItemId@TNSmlSnapshotItem@@QBEABHXZ @ 21 NONAME ; int const & TNSmlSnapshotItem::ItemId(void) const
+	?ItemMovedL@CNSmlChangeFinder@@QAEXABVTNSmlSnapshotItem@@@Z @ 22 NONAME ; void CNSmlChangeFinder::ItemMovedL(class TNSmlSnapshotItem const &)
+	?ItemSoftDeletedL@CNSmlChangeFinder@@QAEXABVTNSmlSnapshotItem@@@Z @ 23 NONAME ; void CNSmlChangeFinder::ItemSoftDeletedL(class TNSmlSnapshotItem const &)
+	?ItemUpdatedL@CNSmlChangeFinder@@QAEXABVTNSmlSnapshotItem@@@Z @ 24 NONAME ; void CNSmlChangeFinder::ItemUpdatedL(class TNSmlSnapshotItem const &)
+	?LastChangedDate@TNSmlSnapshotItem@@QBEABVTTime@@XZ @ 25 NONAME ; class TTime const & TNSmlSnapshotItem::LastChangedDate(void) const
+	?NewL@CNSmlChangeFinder@@SAPAV1@AAVMSmlSyncRelationship@@VTKeyArrayFix@@AAHH@Z @ 26 NONAME ; class CNSmlChangeFinder * CNSmlChangeFinder::NewL(class MSmlSyncRelationship &, class TKeyArrayFix, int &, int)
+	?ParentId@TNSmlSnapshotItem@@QBEABHXZ @ 27 NONAME ; int const & TNSmlSnapshotItem::ParentId(void) const
+	?Reset@CNSmlDataItemUidSet@@QAEXXZ @ 28 NONAME ; void CNSmlDataItemUidSet::Reset(void)
+	?ResetL@CNSmlChangeFinder@@QAEXXZ @ 29 NONAME ; void CNSmlChangeFinder::ResetL(void)
+	?SetDataStoreUid@CNSmlChangeFinder@@QAEX_J@Z @ 30 NONAME ; void CNSmlChangeFinder::SetDataStoreUid(long long)
+	?SetItemId@TNSmlSnapshotItem@@QAEXABH@Z @ 31 NONAME ; void TNSmlSnapshotItem::SetItemId(int const &)
+	?SetLastChangedDate@TNSmlSnapshotItem@@QAEXABVTTime@@@Z @ 32 NONAME ; void TNSmlSnapshotItem::SetLastChangedDate(class TTime const &)
+	?SetNewSnapshot@CNSmlChangeFinder@@QAEXPAV?$CArrayFixSeg@VTNSmlSnapshotItem@@@@@Z @ 33 NONAME ; void CNSmlChangeFinder::SetNewSnapshot(class CArrayFixSeg<class TNSmlSnapshotItem> *)
+	?SetParentId@TNSmlSnapshotItem@@QAEXABH@Z @ 34 NONAME ; void TNSmlSnapshotItem::SetParentId(int const &)
+	?SetSoftDelete@TNSmlSnapshotItem@@QAEXABH@Z @ 35 NONAME ; void TNSmlSnapshotItem::SetSoftDelete(int const &)
+	?SoftDelete@TNSmlSnapshotItem@@QBEABHXZ @ 36 NONAME ; int const & TNSmlSnapshotItem::SoftDelete(void) const
+

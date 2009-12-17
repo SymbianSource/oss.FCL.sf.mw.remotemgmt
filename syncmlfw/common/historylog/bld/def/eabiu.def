@@ -1,0 +1,108 @@
+EXPORTS
+	_ZN13CSmlAlertInfo12InternalizeLER11RReadStream @ 1 NONAME
+	_ZN13CSmlAlertInfo12SetErrorCodeEi @ 2 NONAME
+	_ZN13CSmlAlertInfo12SetProfileIdEi @ 3 NONAME
+	_ZN13CSmlAlertInfo12SetSessionIdEi @ 4 NONAME
+	_ZN13CSmlAlertInfo13SetJobControlENS_11TJobControlE @ 5 NONAME
+	_ZN13CSmlAlertInfo13TaskSyncTypesEv @ 6 NONAME
+	_ZN13CSmlAlertInfo14SetTransportIdEi @ 7 NONAME
+	_ZN13CSmlAlertInfo15SetConfirmationEi @ 8 NONAME
+	_ZN13CSmlAlertInfo15SetConnectionIdEi @ 9 NONAME
+	_ZN13CSmlAlertInfo15SetProtocolTypeE13TSmlUsageType @ 10 NONAME
+	_ZN13CSmlAlertInfo22SetVendorSpecificInfoLERK6TDesC8 @ 11 NONAME
+	_ZN13CSmlAlertInfo5NewLCEv @ 12 NONAME
+	_ZN13CSmlAlertInfo5ResetEv @ 13 NONAME
+	_ZN13CSmlAlertInfo7TaskIdsEv @ 14 NONAME
+	_ZN13CSmlAlertInfoC1Ev @ 15 NONAME
+	_ZN13CSmlAlertInfoC2Ev @ 16 NONAME
+	_ZN13CSmlAlertInfoD0Ev @ 17 NONAME
+	_ZN13CSmlAlertInfoD1Ev @ 18 NONAME
+	_ZN13CSmlAlertInfoD2Ev @ 19 NONAME
+	_ZN17CNSmlHistoryArray11RemoveEntryEi @ 20 NONAME
+	_ZN17CNSmlHistoryArray11SortEntriesEN19CSyncMLHistoryEntry10TSortOrderE @ 21 NONAME
+	_ZN17CNSmlHistoryArray12AppendEntryLEP19CSyncMLHistoryEntry @ 22 NONAME
+	_ZN17CNSmlHistoryArray12InternalizeLER11RReadStream @ 23 NONAME
+	_ZN17CNSmlHistoryArray12SetOwnerShipEi @ 24 NONAME
+	_ZN17CNSmlHistoryArray16DeleteAllEntriesEv @ 25 NONAME
+	_ZN17CNSmlHistoryArray4NewLEv @ 26 NONAME
+	_ZN17CNSmlHistoryArray5CountEv @ 27 NONAME
+	_ZN17CNSmlHistoryArray5EntryEi @ 28 NONAME
+	_ZN17CNSmlHistoryArrayD0Ev @ 29 NONAME
+	_ZN17CNSmlHistoryArrayD1Ev @ 30 NONAME
+	_ZN17CNSmlHistoryArrayD2Ev @ 31 NONAME
+	_ZN17CSyncMLHistoryJob17SetLastSyncResultE5TTime @ 32 NONAME
+	_ZN17CSyncMLHistoryJob4NewLEiRK6RArrayIiE @ 33 NONAME
+	_ZN17CSyncMLHistoryJob4NewLEv @ 34 NONAME
+	_ZN17CSyncMLHistoryJob8TaskByIdEi @ 35 NONAME
+	_ZN17CSyncMLHistoryJob9SetResultE5TTimei @ 36 NONAME
+	_ZN17CSyncMLHistoryJob9TTaskInfo12InternalizeLER11RReadStream @ 37 NONAME
+	_ZN17CSyncMLHistoryJob9TTaskInfoC1Ev @ 38 NONAME
+	_ZN17CSyncMLHistoryJob9TTaskInfoC2Ev @ 39 NONAME
+	_ZN17CSyncMLHistoryJobD0Ev @ 40 NONAME
+	_ZN17CSyncMLHistoryJobD1Ev @ 41 NONAME
+	_ZN17CSyncMLHistoryJobD2Ev @ 42 NONAME
+	_ZN19CSyncMLHistoryEntry10SetEntryIdEi @ 43 NONAME
+	_ZN19CSyncMLHistoryEntry13DoDynamicCastE4TUidPKS_ @ 44 NONAME
+	_ZN19CSyncMLHistoryEntry13DoDynamicCastE4TUidPS_ @ 45 NONAME
+	_ZN19CSyncMLHistoryEntry4NewLE4TUid @ 46 NONAME
+	_ZN19CSyncMLHistoryEntry4NewLER11RReadStream @ 47 NONAME
+	_ZN19CSyncMLHistoryEntry4NewLERKS_ @ 48 NONAME
+	_ZN19CSyncMLHistoryEntry8ReservedE4TUid @ 49 NONAME
+	_ZN19CSyncMLHistoryEntryD0Ev @ 50 NONAME
+	_ZN19CSyncMLHistoryEntryD1Ev @ 51 NONAME
+	_ZN19CSyncMLHistoryEntryD2Ev @ 52 NONAME
+	_ZN21CSyncMLHistoryPushMsg10AddAlertsLER13RPointerArrayI13CSmlAlertInfoE @ 53 NONAME
+	_ZN21CSyncMLHistoryPushMsg11ResetAlertsEv @ 54 NONAME
+	_ZN21CSyncMLHistoryPushMsg12SetMsgDigestERK6TDesC8 @ 55 NONAME
+	_ZN21CSyncMLHistoryPushMsg13SetResultCodeEi @ 56 NONAME
+	_ZN21CSyncMLHistoryPushMsg16IncReceivedCountEv @ 57 NONAME
+	_ZN21CSyncMLHistoryPushMsg4NewLEv @ 58 NONAME
+	_ZN21CSyncMLHistoryPushMsgD0Ev @ 59 NONAME
+	_ZN21CSyncMLHistoryPushMsgD1Ev @ 60 NONAME
+	_ZN21CSyncMLHistoryPushMsgD2Ev @ 61 NONAME
+	_ZNK13CSmlAlertInfo10ConnectionEv @ 62 NONAME
+	_ZNK13CSmlAlertInfo10JobControlEv @ 63 NONAME
+	_ZNK13CSmlAlertInfo12ExternalizeLER12RWriteStream @ 64 NONAME
+	_ZNK13CSmlAlertInfo13CreateSessionEv @ 65 NONAME
+	_ZNK13CSmlAlertInfo13TaskSyncTypesEv @ 66 NONAME
+	_ZNK13CSmlAlertInfo18VendorSpecificInfoEv @ 67 NONAME
+	_ZNK13CSmlAlertInfo7ProfileEv @ 68 NONAME
+	_ZNK13CSmlAlertInfo7TaskIdsEv @ 69 NONAME
+	_ZNK13CSmlAlertInfo8ProtocolEv @ 70 NONAME
+	_ZNK13CSmlAlertInfo9ErrorCodeEv @ 71 NONAME
+	_ZNK13CSmlAlertInfo9SessionIdEv @ 72 NONAME
+	_ZNK13CSmlAlertInfo9TransportEv @ 73 NONAME
+	_ZNK17CNSmlHistoryArray12ExternalizeLER12RWriteStream @ 74 NONAME
+	_ZNK17CSyncMLHistoryJob10FinishTimeEv @ 75 NONAME
+	_ZNK17CSyncMLHistoryJob10ResultCodeEv @ 76 NONAME
+	_ZNK17CSyncMLHistoryJob12ExternalizeLER12RWriteStream @ 77 NONAME
+	_ZNK17CSyncMLHistoryJob19LastSuccessSyncTimeEv @ 78 NONAME
+	_ZNK17CSyncMLHistoryJob6TaskAtEi @ 79 NONAME
+	_ZNK17CSyncMLHistoryJob7ProfileEv @ 80 NONAME
+	_ZNK17CSyncMLHistoryJob9TTaskInfo12ExternalizeLER12RWriteStream @ 81 NONAME
+	_ZNK17CSyncMLHistoryJob9TaskCountEv @ 82 NONAME
+	_ZNK17CSyncMLHistoryJob9TimeStampEv @ 83 NONAME
+	_ZNK19CSyncMLHistoryEntry12ExternalizeLER12RWriteStream @ 84 NONAME
+	_ZNK19CSyncMLHistoryEntry7EntryIdEv @ 85 NONAME
+	_ZNK19CSyncMLHistoryEntry9EntryTypeEv @ 86 NONAME
+	_ZNK21CSyncMLHistoryPushMsg10AlertCountEv @ 87 NONAME
+	_ZNK21CSyncMLHistoryPushMsg10ResultCodeEv @ 88 NONAME
+	_ZNK21CSyncMLHistoryPushMsg12ExternalizeLER12RWriteStream @ 89 NONAME
+	_ZNK21CSyncMLHistoryPushMsg13ReceivedCountEv @ 90 NONAME
+	_ZNK21CSyncMLHistoryPushMsg5AlertEi @ 91 NONAME
+	_ZNK21CSyncMLHistoryPushMsg7ProfileEv @ 92 NONAME
+	_ZNK21CSyncMLHistoryPushMsg9MsgDigestEv @ 93 NONAME
+	_ZNK21CSyncMLHistoryPushMsg9TimeStampEv @ 94 NONAME
+	_ZTI13CSmlAlertInfo @ 95 NONAME ; #<TI>#
+	_ZTI17CNSmlHistoryArray @ 96 NONAME ; #<TI>#
+	_ZTI17CSyncMLHistoryJob @ 97 NONAME ; #<TI>#
+	_ZTI19CSyncMLHistoryEntry @ 98 NONAME ; #<TI>#
+	_ZTI21CSyncMLHistoryPushMsg @ 99 NONAME ; #<TI>#
+	_ZTV13CSmlAlertInfo @ 100 NONAME ; #<VT>#
+	_ZTV17CNSmlHistoryArray @ 101 NONAME ; #<VT>#
+	_ZTV17CSyncMLHistoryJob @ 102 NONAME ; #<VT>#
+	_ZTV19CSyncMLHistoryEntry @ 103 NONAME ; #<VT>#
+	_ZTV21CSyncMLHistoryPushMsg @ 104 NONAME ; #<VT>#
+	_ZN13CSmlAlertInfo9GetUimodeEv @ 105 NONAME
+	_ZN13CSmlAlertInfo9SetUimodeEi @ 106 NONAME
+

@@ -1,0 +1,10 @@
+EXPORTS
+	_ZN10RFMSClient16NotifyForResumeLERK21TOmaDLInterruptReasonRKiRK12TDriveNumberS4_ @ 1 NONAME
+	_ZN10RFMSClient18MonitorForBatteryLEj @ 2 NONAME
+	_ZN10RFMSClient21CancelNotifyForResumeEv @ 3 NONAME
+	_ZN10RFMSClient5CloseEv @ 4 NONAME
+	_ZN10RFMSClient5OpenLEv @ 5 NONAME
+	_ZN10RFMSClient6CancelEv @ 6 NONAME
+	_ZN10RFMSClient17IsPhoneCallActiveERi @ 7 NONAME
+	_ZN10RFMSClient25MonitorActivePhoneCallEndEii @ 8 NONAME
+

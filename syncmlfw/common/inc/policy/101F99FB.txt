@@ -1,0 +1,10 @@
+[database]
+read
+capability = ReadDeviceData WriteDeviceData ProtServ
+write
+capability = ReadDeviceData WriteDeviceData ProtServ
+schema
+capability = ReadDeviceData WriteDeviceData ProtServ
+
+[BACKUP]
+SID = 101F99FB

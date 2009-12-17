@@ -1,0 +1,6 @@
+EXPORTS
+	?IAPIdFromURIL@CNSmlDMIAPMatcher@@QAEHABVTDesC8@@@Z @ 1 NONAME ; int CNSmlDMIAPMatcher::IAPIdFromURIL(class TDesC8 const &)
+	?NewL@CNSmlDMIAPMatcher@@SAPAV1@PAVMSmlDmCallback@@@Z @ 2 NONAME ; class CNSmlDMIAPMatcher * CNSmlDMIAPMatcher::NewL(class MSmlDmCallback *)
+	?NewLC@CNSmlDMIAPMatcher@@SAPAV1@PAVMSmlDmCallback@@@Z @ 3 NONAME ; class CNSmlDMIAPMatcher * CNSmlDMIAPMatcher::NewLC(class MSmlDmCallback *)
+	?URIFromIAPIdL@CNSmlDMIAPMatcher@@QAEPAVHBufC8@@H@Z @ 4 NONAME ; class HBufC8 * CNSmlDMIAPMatcher::URIFromIAPIdL(int)
+

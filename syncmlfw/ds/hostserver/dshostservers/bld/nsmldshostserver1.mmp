@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for DS Host Server RW
+*
+*/
+
+
+#include "defaultcaps.hrh"
+#include <platform_paths.hrh>
+
+CAPABILITY		ReadUserData WriteUserData // This server has Read / Write capabilities for user data.
+EPOCHEAPSIZE	0x500 0x400000 	// minimum and maximum heap sizes 
+VENDORID		VID_DEFAULT
+UID				0 0x101F99FD
+TARGET			nsmldshostserver1.exe
+TARGETTYPE		exe
+
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/libc
+
+USERINCLUDE	../inc
+USERINCLUDE	../../../../common/inc
+USERINCLUDE	../../../../common/debug/inc
+USERINCLUDE	../../dshostclient/inc
+USERINCLUDE	../../dshostserverbase/inc
+
+SOURCEPATH	../src
+SOURCE		nsmldshostserver1.cpp
+
+LIBRARY		euser.lib eikcore.lib apparc.lib apgrfx.lib
+LIBRARY		nsmldebug.lib efsrv.lib edbms.lib estor.lib
+LIBRARY		nsmldshostserver.lib
+
+

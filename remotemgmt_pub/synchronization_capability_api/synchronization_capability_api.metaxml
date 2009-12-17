@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<api id="89aea24a5acdf0877759d55e6037275c" dataversion="1.0">
+<name>Synchronization Capability API</name>
+<description>A CenRep interface for last used sync solutions</description>
+<type>c++</type>
+<subsystem>syncmlfw</subsystem>
+<libs></libs>
+<release category="public" sinceversion="3.2.3"/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

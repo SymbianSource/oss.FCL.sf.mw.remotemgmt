@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Includes all the Domain API specific bld.inf files, which 
+*                export files.
+*
+*/
+
+
+
+#include "../common_agent_util_and_definitions_api/group/bld.inf"
+#include "../policy_management_certificate_api/group/bld.inf"
+#include "../oma_provisioning_adapter_api/group/bld.inf"
+#include "../device_management_parameter_api/group/bld.inf"
+#include "../data_synchronization_plugin_api/group/bld.inf"
+#include "../sync_alert_handler_api/group/bld.inf"
+#include "../syncml_notifier_api/group/bld.inf"
+#include "../syncml_client_api/group/bld.inf"
+#include "../device_management_plugin_api/group/bld.inf"
+#include "../dm_tree_apis/group/bld.inf"
+#include "../terminal_security_device_lock_api/group/bld.inf"
+#include "../policy_management_request_api/group/bld.inf"
+#include "../ds_constant_definitions_api/group/bld.inf"
+#include "../scp_server_api/group/bld.inf"
+#include "../data_synchronization_notification_api/group/bld.inf"
+#include "../oma_provisioning_engine_api/group/bld.inf"
+#include "../dm_utils_api/group/bld.inf"
+#include "../syncml_alert_api/group/bld.inf"
+#include "../obex_client_session_api/group/bld.inf"
+#include "../setting_enforcement_info_api/group/bld.inf"
+#include "../dm_constant_definitions_api/group/bld.inf"
+#include "../oma_ds_extensions_api/group/bld.inf"
+#include "../pnpms_utils_api/group/bld.inf"
+#include "../diagnostics_plugin_utility_api/group/bld.inf"
+#include "../diagnostics_plugin_api/group/bld.inf"
+#include "../diagnostics_framework_api/group/bld.inf"
+#include "../diagnostics_results_api/group/bld.inf"
+#include "../diagnostics_plugin_pool_api/group/bld.inf"
+#include "../adaptive_history_list_api/group/bld.inf"
+#include "../adaptive_history_list_session_api/group/bld.inf"
+#include "../fota_engine_api/group/bld.inf"
+#include "../update_package_storage_plugin_api/group/bld.inf"
+#include "../syncml_notifier_roaming_api/group/bld.inf"
+#include "../sync_service_api/group/bld.inf"
+#include "../dcmo_adapter_api/group/bld.inf"
+#include "../dcmo_control_api/group/bld.inf"
+#include "../ds_capability_mgmt_plugin_api/group/bld.inf"

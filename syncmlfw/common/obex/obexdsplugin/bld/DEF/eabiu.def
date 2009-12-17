@@ -1,0 +1,12 @@
+EXPORTS
+	_Z24ImplementationGroupProxyRi @ 1 NONAME
+	_ZN17CNSmlObexDSplugin4NewLEv @ 2 NONAME
+	_ZTI12CDisListener @ 3 NONAME ; #<TI>#
+	_ZTI17CNSmlObexDSplugin @ 4 NONAME ; #<TI>#
+	_ZTI19CPluginServiceTimer @ 5 NONAME ; #<TI>#
+	_ZTI26CNSmlObexPacketWaiterAsync @ 6 NONAME ; #<TI>#
+	_ZTV12CDisListener @ 7 NONAME ; #<VT>#
+	_ZTV17CNSmlObexDSplugin @ 8 NONAME ; #<VT>#
+	_ZTV19CPluginServiceTimer @ 9 NONAME ; #<VT>#
+	_ZTV26CNSmlObexPacketWaiterAsync @ 10 NONAME ; #<VT>#
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="221d6993e42d8e69ab86567b147abd36" dataversion="1.0">
+<name>pnpms_utils_api</name>
+<description>API for PNPMS and provisioning utilities</description>
+<type>c++</type>
+<subsystem>omaprovisioning</subsystem>
+<libs><lib name="pnp.lib"/>
+</libs>
+<release category="domain" sinceversion="3.2"/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

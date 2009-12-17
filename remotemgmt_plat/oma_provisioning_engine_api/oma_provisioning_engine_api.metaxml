@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="7edc7ac5857a4052e7e1e2b959a197a2" dataversion="1.0">
+  <name>OMA Provisioning Engine API</name>
+  <description>OMA Provisioning Engine API</description>
+  <type>c++</type>
+  <subsystem>omaprovisioning</subsystem>
+  <libs>
+    <lib name="PROVISIONINGENGINE.LIB" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

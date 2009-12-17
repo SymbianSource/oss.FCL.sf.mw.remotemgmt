@@ -1,0 +1,128 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Provisioning bld.inf
+*
+*/
+
+#include<bldvariant.hrh>
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// Exported to Domain->Middleware Folder 
+
+
+#include "../help/group/bld.inf"
+
+#ifdef SYMBIAN_SECURE_DBMS
+    // The compiled DBMS policy file for context database
+    ../ProvisioningEngine/Data/101F84D6.SPD             z:/private/100012a5/policy/101f84d6.spd
+    // Using ProvisioningCX private data area for backup file.
+    ../ProvisioningEngine/Data/backup_registration.xml  /epoc32/data/z/private/101f8597/backup_registration.xml
+    ../ProvisioningEngine/Data/backup_registration.xml  /epoc32/release/winscw/udeb/z/private/101f8597/backup_registration.xml
+    ../ProvisioningEngine/Data/backup_registration.xml  /epoc32/release/winscw/urel/z/private/101f8597/backup_registration.xml
+#endif
+
+// Generic configuration interface for component cenrep settings  
+../conf/s60provisioning.confml                    MW_LAYER_CONFML(provisioning.confml)
+../conf/s60provisioning_101F87AA.crml 	        MW_LAYER_CRML(provisioning_101F87AA.crml)
+
+../Rom/Provisioning.iby										CORE_MW_LAYER_IBY_EXPORT_PATH(provisioning.iby)
+//../rom/Provisioning_variant.iby						CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(provisioning_variant.iby)
+../Rom/ProvisioningResources.iby					LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(provisioningresources.iby)
+../loc/Provisioning.loc									MW_LAYER_LOC_EXPORT_PATH(provisioning.loc)
+../IMAdapter/loc/WPWVAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(wpwvadapter.loc)
+../MbxNbrAdapter/loc/MailboxAdapter.loc		MW_LAYER_LOC_EXPORT_PATH(mailboxadapter.loc)
+../ProvisioningBC/loc/ProvisioningBC.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningbc.loc)
+//../ProvisioningCx/loc/ProvisioningCx.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningcx.loc)
+../StreamingAdapter/loc/StreamingAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(streamingadapter.loc)
+../AuthTypePlugin/loc/Authtypeplugin.loc 					MW_LAYER_LOC_EXPORT_PATH(authtypeplugin.loc)
+
+
+PRJ_EXTENSIONS
+#ifdef SBSV2
+
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE provisioningcx.mif
+OPTION HEADERFILE provisioningcx.mbg
+OPTION SOURCES -c8,8 qgn_menu_set_cxt.bmp
+END
+
+#ifdef __SCALABLE_ICONS
+    START EXTENSION s60/mifconv
+		OPTION TARGETFILE provisioningcx_aif.mif
+		OPTION SOURCES -c8,8 qgn_menu_set.svg
+		END
+#else
+    START EXTENSION s60/mifconv
+		OPTION TARGETFILE provisioningcx_aif.mbm
+		OPTION SOURCES -c8,8 qgn_menu_set_lst.bmp -c8,8 qgn_menu_set_cxt.bmp 
+		END   
+#endif
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE Authtypeplugin.mif
+OPTION HEADERFILE Authtypeplugin.mbg
+OPTION SOURCES -c8,8 qgn_prop_set_conn_config
+END
+#endif
+
+
+PRJ_MMPFILES
+
+
+../ProvisioningEngine/Group/ProvisioningEngine.mmp
+../ProvisioningParser/Group/ProvisioningParser.mmp
+../ProvisioningHandler/Group/ProvisioningHandler.mmp
+//../AccesspointAdapter/group/WPAPAdapter.mmp
+../WAPAdapter/Group/WPWAPAdapter.mmp
+../IMAdapter/Group/IMAdapter.mmp
+../StreamingAdapter/Group/StreamingAdapter.mmp
+//../ProvisioningCx/group/ProvisioningCx.mmp
+../ProvisioningBC/Group/ProvisioningBC.mmp
+../MbxNbrAdapter/Group/MbxNbrAdapter.mmp
+
+
+
+../AuthTypePlugin/Group/Authtypeplugin.mmp
+../alwaysonadapter/Group/alwaysonadapter.mmp
+
+#ifdef __SMART_CARD_PROV
+    ../ProvisioningSC/Group/ProvisioningSC.mmp
+#endif
+
+
+#ifndef SBSV2
+
+gnumakefile ../ProvisioningCx/group/iconscxdc.mk
+
+#ifdef __SCALABLE_ICONS
+    gnumakefile ../ProvisioningCx/group/Iconscxaifscalabledc.mk
+#else
+    gnumakefile ../provisioningcx/group/Iconscxaifbitmaps.mk
+#endif
+
+gnumakefile ../AuthTypePlugin/Group/AuthtypePluginIcons.mk
+
+#endif
+
+
+
+
+PRJ_TESTMMPFILES
+
+//  End of File  

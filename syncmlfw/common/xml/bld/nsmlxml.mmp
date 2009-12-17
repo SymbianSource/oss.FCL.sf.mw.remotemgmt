@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for XML parser/generator
+*
+*/
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+CAPABILITY 	CAP_GENERAL_DLL
+VENDORID 	VID_DEFAULT
+TARGET          nsmlxml.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F6DF0
+
+#if defined(ARMCC)
+DEFFILE		./DEF/eabi
+#elif defined(WINSCW)
+DEFFILE		./DEF/bwinscw
+#elif defined(WINS)
+DEFFILE		./DEF/bwins
+#else
+DEFFILE		./DEF/bmarm
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE   /epoc32/include/libc
+USERINCLUDE ../../inc
+
+// generic
+USERINCLUDE	../inc
+USERINCLUDE	../../wbxml/inc
+USERINCLUDE	../../wbxml/inc/syncml
+SOURCEPATH      ../src
+SOURCE          XMLParser.cpp
+SOURCE          XMLGenerator.cpp
+SOURCE          Wbxml2xmlconverter.cpp
+
+// SyncML
+USERINCLUDE	../inc/syncml
+SOURCEPATH      ../src/syncml
+SOURCE		XMLSyncMLParser.cpp
+SOURCE		XMLSyncMLGenerator.cpp
+
+// DevInf
+USERINCLUDE	../inc/devinf
+USERINCLUDE	../../wbxml/inc/devinf
+SOURCEPATH      ../src/devinf
+SOURCE		XMLDevInfParser.cpp
+SOURCE		XMLDevInfGenerator.cpp
+
+LIBRARY         nsmlwbxml.lib euser.lib estor.lib
+
+#ifdef ARMCC
+LIBRARY ECOM.LIB
+#endif
+
+SMPSAFE

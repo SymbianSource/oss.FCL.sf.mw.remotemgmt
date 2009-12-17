@@ -1,0 +1,7 @@
+EXPORTS
+	_ZN16CSCPEventHandler14NotifyChangesLE17THandlerServiceId17THandlerOperation @ 1 NONAME
+	_ZN16CSCPEventHandler4NewLEv @ 2 NONAME
+	_ZN16CSCPEventHandler5NewLCEv @ 3 NONAME
+	_ZTI16CSCPEventHandler @ 4 NONAME
+	_ZTV16CSCPEventHandler @ 5 NONAME
+

@@ -1,0 +1,10 @@
+EXPORTS
+	??0CNSmlMessageQueue@@AAE@PAVMNSmlAlertObserver@@@Z @ 1 NONAME ; CNSmlMessageQueue::CNSmlMessageQueue(class MNSmlAlertObserver *)
+	??1CNSmlMessageQueue@@UAE@XZ @ 2 NONAME ; CNSmlMessageQueue::~CNSmlMessageQueue(void)
+	?AddMessageL@CNSmlMessageQueue@@QAEXABVTDesC8@@W4TSmlUsageType@@W4TSmlProtocolVersion@@H@Z @ 3 NONAME ; void CNSmlMessageQueue::AddMessageL(class TDesC8 const &, enum TSmlUsageType, enum TSmlProtocolVersion, int)
+	?IsEmpty@CNSmlMessageQueue@@QAEHXZ @ 4 NONAME ; int CNSmlMessageQueue::IsEmpty(void)
+	?Message@CNSmlMessageItem@@QAEAAVTDesC8@@XZ @ 5 NONAME ; class TDesC8 & CNSmlMessageItem::Message(void)
+	?NewL@CNSmlMessageItem@@SAPAV1@ABVTDesC8@@W4TSmlUsageType@@W4TSmlProtocolVersion@@H@Z @ 6 NONAME ; class CNSmlMessageItem * CNSmlMessageItem::NewL(class TDesC8 const &, enum TSmlUsageType, enum TSmlProtocolVersion, int)
+	?NewL@CNSmlMessageQueue@@SAPAV1@PAVMNSmlAlertObserver@@@Z @ 7 NONAME ; class CNSmlMessageQueue * CNSmlMessageQueue::NewL(class MNSmlAlertObserver *)
+	?ServerSuspended@CNSmlMessageQueue@@QAEXH@Z @ 8 NONAME ; void CNSmlMessageQueue::ServerSuspended(int)
+

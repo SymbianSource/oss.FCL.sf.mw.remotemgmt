@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+#include <data_caging_paths.hrh>
+#include <defaultcaps.hrh>
+#include <bldvariant.hrh>
+
+TARGET          scptimestampplugin.dll
+TARGETTYPE      PLUGIN
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID             0x10009D8D 0xA00003D6
+VENDORID        VID_DEFAULT
+CAPABILITY      CAP_ECOM_PLUGIN DiskAdmin
+
+SOURCEPATH      ../src
+SOURCE          SCPTimestampPlugin.cpp
+SOURCE          SCPTimestampPluginImpCollection.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../../inc   // domain private headers
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../data
+START RESOURCE  SCPTimestampPlugin.rss
+HEADER
+TARGETPATH      ECOM_RESOURCE_DIR
+LANGUAGE_IDS
+END
+
+START RESOURCE  SCPTimestampPluginLang.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+
+LIBRARY         euser.lib 
+LIBRARY         ecom.lib 
+LIBRARY         scpclient.lib
+LIBRARY         bafl.lib	 // for BaFutil
+LIBRARY         cone.lib	// CoeEnvironment
+LIBRARY         efsrv.lib	// FileServer
+LIBRARY         aknnotify.lib
+
+// For wipe
+LIBRARY         starterclient.lib
+LIBRARY         syslangutil.lib
+LIBRARY         hal.lib
+LIBRARY         rfs.lib
+LIBRARY         dmutil.lib
+LIBRARY					flogger.lib
+LIBRARY         featmgr.lib
+#ifdef RD_MULTIPLE_DRIVE
+LIBRARY         platformenv.lib 
+#endif
+
+// End of File

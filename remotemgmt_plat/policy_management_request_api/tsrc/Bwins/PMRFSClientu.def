@@ -1,0 +1,5 @@
+EXPORTS
+	?Close@RTempClient@@QAEXXZ @ 1 NONAME ; void RTempClient::Close(void)
+	?Connect@RTempClient@@QAEHXZ @ 2 NONAME ; int RTempClient::Connect(void)
+	?PerformRFSL@RTempClient@@QAEXXZ @ 3 NONAME ; void RTempClient::PerformRFSL(void)
+

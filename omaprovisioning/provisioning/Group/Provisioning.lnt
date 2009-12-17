@@ -1,0 +1,17 @@
+-w2
+
+APP_LAYER_SYSTEMINCLUDE
+
+-i..\ProvisioningEngine\Inc
+-i..\ProvisioningHandler\Inc
+-i..\ProvisioningParser\Inc
+-i..\AccesspointAdapter\Inc
+-i..\WAPAdapter\Inc
+-i\epoc32\include\push
+-i\epoc32\include\ecom
+-d_UNICODE
+
+..\ProvisioningEngine\Src\*.cpp 
+..\ProvisioningHandler\Src\*.cpp
+..\AccesspointAdapter\Src\*.cpp
+..\WAPAdapter\Src\*.cpp

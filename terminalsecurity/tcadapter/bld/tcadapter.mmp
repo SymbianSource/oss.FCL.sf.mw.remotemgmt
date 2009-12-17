@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of terminalsecurity components
+*
+*/
+  
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+#include        "defaultcaps.hrh"
+
+CAPABILITY      CAP_ECOM_PLUGIN
+TARGET          tcadapter.dll
+TARGETTYPE      PLUGIN
+UID             0x10009D8D 0x10207823
+SECUREID        0x10207823
+VENDORID        VID_DEFAULT
+
+
+
+SOURCEPATH      ../src
+SOURCE          tcadapter.cpp
+SOURCE          TARMDmAdapter.cpp
+SOURCE				 	nsmldmuri.cpp
+
+MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+
+#ifdef __TARM_SYMBIAN_CONVERGENCY
+SYSTEMINCLUDE 	/epoc32/include/devman
+#else
+// nothing
+#endif
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../inc    // domain private headers
+
+START RESOURCE  tcadapter.rss
+TARGET          tcadapter.rsc
+LANGUAGE_IDS
+END
+
+LIBRARY     		euser.lib
+LIBRARY     		ecom.lib 
+LIBRARY     		efsrv.lib
+LIBRARY     		policyengine.lib
+LIBRARY     		dmutil.lib
+LIBRARY         terminalcontrol.lib
+LIBRARY         flogger.lib
+LIBRARY                 featmgr.lib
+#ifdef __TARM_SYMBIAN_CONVERGENCY
+LIBRARY		      devmancmdmgr.lib
+#else
+// nothing
+#endif
+
+

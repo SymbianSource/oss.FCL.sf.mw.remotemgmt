@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   This is the project specification file for SCPDatabase.
+* Name		: SCPDatabase.mmp
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET			scpdatabase.dll
+TARGETTYPE		DLL
+
+UID			0x1000008d 0x2002677A 
+
+CAPABILITY		CAP_GENERAL_DLL
+VENDORID		VID_DEFAULT
+
+USERINCLUDE		../inc
+USERINCLUDE		../../SCPServer/inc
+USERINCLUDE 		../../DmEventNotifier/inc
+SYSTEMINCLUDE		/epoc32/include
+
+APP_LAYER_SYSTEMINCLUDE
+SOURCEPATH	  	../src
+SOURCE		  	SCPParamDB.cpp SCPParamDBController.cpp
+
+LIBRARY			euser.lib
+LIBRARY			efsrv.lib
+LIBRARY			estor.lib
+LIBRARY    		edbms.lib
+LIBRARY			flogger.lib
+LIBRARY		centralrepository.lib
+LIBRARY		apgrfx.lib
+LIBRARY		apparc.lib
+
+//End of file
