@@ -125,3 +125,4 @@ LIBRARY		aknnotify.lib
 LIBRARY    flogger.lib
 // #endif
 
+SMPSAFE

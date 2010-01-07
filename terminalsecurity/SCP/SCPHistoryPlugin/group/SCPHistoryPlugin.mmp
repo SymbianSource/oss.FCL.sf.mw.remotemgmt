@@ -68,4 +68,7 @@ LIBRARY			cone.lib			// CoeEnvironment
 LIBRARY			efsrv.lib			// FileServer
 LIBRARY					flogger.lib
 LIBRARY                 featmgr.lib
+
+SMPSAFE
+
 // End of File

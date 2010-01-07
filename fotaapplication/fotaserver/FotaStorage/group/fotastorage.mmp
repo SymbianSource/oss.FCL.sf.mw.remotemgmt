@@ -52,4 +52,5 @@ LIBRARY			bafl.lib
 LIBRARY			estor.lib
 LIBRARY			efsrv.lib
 
+SMPSAFE
 

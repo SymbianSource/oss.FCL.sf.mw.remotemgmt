@@ -52,4 +52,7 @@ data=DATAZ_\RESOURCE_FILES_DIR\messaging\bif\prov.rsc                   resource
   data=DATAZ_\RESOURCE_FILES_DIR\AuthtypepluginRsc.rsc            RESOURCE_FILES_DIR\AuthtypepluginRsc.rsc
 #endif
 
+data=DATAZ_\RESOURCE_FILES_DIR\WPAPAdapterResource.rsc      RESOURCE_FILES_DIR\WPAPAdapterResource.rsc
+data=DATAZ_\RESOURCE_FILES_DIR\wpdestinationnwadapter.rsc   RESOURCE_FILES_DIR\wpdestinationnwadapter.rsc
+
 #endif // __PROVISIONINGRESOURCES_IBY__

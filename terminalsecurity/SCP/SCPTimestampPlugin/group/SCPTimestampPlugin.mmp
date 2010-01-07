@@ -73,4 +73,6 @@ LIBRARY         featmgr.lib
 LIBRARY         platformenv.lib 
 #endif
 
+SMPSAFE
+
 // End of File

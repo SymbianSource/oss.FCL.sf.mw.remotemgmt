@@ -52,6 +52,7 @@ USERINCLUDE   ../../dmutilserver/inc
 USERINCLUDE   ../../../inc // domain private headers
 
 MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE /epoc32/include/xml
 SYSTEMINCLUDE /epoc32/include/comms-infras/commdb/protection
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS

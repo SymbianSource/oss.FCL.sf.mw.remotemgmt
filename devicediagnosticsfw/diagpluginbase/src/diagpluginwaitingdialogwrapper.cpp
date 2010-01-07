@@ -58,8 +58,8 @@ CDiagPluginWaitingDialogWrapper::CDiagPluginWaitingDialogWrapper(
     // Dialog must not be NULL
     __ASSERT_ALWAYS( iWaitingDialog, Panic( EDiagPluginBasePanicBadArgument ) );
 
-    // Dialog must have EEikDialogFlagWait flag set
-    __ASSERT_ALWAYS( !(iWaitingDialog->DialogFlags() & EEikDialogFlagWait),
+    // Coverity Change .....  Dialog must have EEikDialogFlagWait flag set
+    __ASSERT_ALWAYS( (iWaitingDialog->DialogFlags() & EEikDialogFlagWait),
                      Panic( EDiagPluginBasePanicBadArgument ) );
     }
 

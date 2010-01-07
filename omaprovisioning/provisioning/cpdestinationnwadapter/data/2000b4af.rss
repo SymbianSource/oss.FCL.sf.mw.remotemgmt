@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Resource definitions for project wpdestinationnwadapter
+*
+*/
+
+
+
+#include <registryinfov2.rh>
+#include "wpdestinationnwadapteruids.h"
+
+// ---------------------------------------------------------------------------
+// theInfo
+// Resource defining the Destination network adapter plugin.
+// ---------------------------------------------------------------------------
+//
+RESOURCE REGISTRY_INFO theInfo
+    {
+    resource_format_version = RESOURCE_FORMAT_VERSION_2;
+    dll_uid = KDestinationNetworkAdapterDllUid3;
+    interfaces = 
+        {
+        INTERFACE_INFO
+            {
+            interface_uid = KProvisioningAdapterInterface;
+            implementations = 
+                {
+                IMPLEMENTATION_INFO
+                    {
+                    implementation_uid = KDestinationNetworkAdapterUid;
+                    version_no = 1;
+                    display_name = "Destination Network Provisioning Adapter||Copyright © 2007 Nokia Corporation.";
+                    default_data = "";
+                    opaque_data = "10";
+                    rom_only = 1;
+                    }
+                };
+            }
+        };
+    }

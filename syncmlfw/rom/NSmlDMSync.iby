@@ -97,6 +97,24 @@ file=ABI_DIR\BUILD_DIR\nsmldmagent.dll			SHARED_LIB_DIR\nsmldmagent.dll
 REM wappushalert
 ECOM_PLUGIN(nsmldmwappushalert.dll,101F6DE3.rsc)
 
+#ifdef FF_DM_CONNMO_ADAPTER 
+// old internet adapter is not used in that case for access point provisioning.
+ECOM_PLUGIN(connmoadapter.dll,connmoadapter.rsc)
+#else
+ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
+#endif FF_DM_CONNMO_ADAPTER
+
+#ifdef __SYNCML_DM_WLAN 
+ECOM_PLUGIN(globalwlanadapter.dll,globalwlanadapter.rsc)
+#endif // __SYNCML_DM_WLAN
+
+#ifdef __ALWAYS_ONLINE_PDPCONTEXT2
+ECOM_PLUGIN( nsmldmalwaysonadapter.dll, nsmldmalwaysonadapter.rsc )
+#endif // __ALWAYS_ONLINE_PDPCONTEXT2
+
+ECOM_PLUGIN( nsmldmbmadapter.dll, nsmldmbmadapter.rsc )
+ECOM_PLUGIN(wlanctrldcmoadapter.dll,wlanctrldcmoadapter.rsc)
+
 #ifdef __SYNCML_DM_OTA
 REM DM OMA provisioning 
 ECOM_PLUGIN(wpdm.dll,wpdm.rsc)

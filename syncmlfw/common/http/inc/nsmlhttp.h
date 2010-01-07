@@ -27,7 +27,7 @@
 
 #include <http.h>
 #include <chttpformencoder.h>
-#include <mhttpauthenticationcallback.h>
+#include <http/mhttpauthenticationcallback.h>
 #include <e32test.h>
 #include <f32file.h>
 #include <uri8.h>

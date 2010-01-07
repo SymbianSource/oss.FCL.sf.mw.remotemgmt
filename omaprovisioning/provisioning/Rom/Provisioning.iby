@@ -37,6 +37,13 @@ ECOM_PLUGIN(WPWAPAdapter.dll,101F84DC.rsc)
 // Streaming Adapter
 ECOM_PLUGIN(WPStreamingAdapter.dll,101F85CB.rsc)
 
+//Accesspoint adapter
+ECOM_PLUGIN(WPAPAdapter.dll, WPAPAdapter.rsc)
+
+//Destination Adapter
+
+ECOM_PLUGIN( wpdestinationnwadapter.dll, 2000b4af.rsc )
+
 // Mailbox Number adapter
 ECOM_PLUGIN(WPMbxNbrAdapter.dll,10207281.rsc)	// this publishes the DLL and the
 													  						// resource file to the correct location

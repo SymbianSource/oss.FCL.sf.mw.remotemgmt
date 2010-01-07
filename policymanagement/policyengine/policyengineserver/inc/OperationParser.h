@@ -27,10 +27,10 @@
 #include "PolicyEngineClientServer.h"
 
 #include <e32base.h>
-#include <contenthandler.h>
-#include <documentparameters.h>
+#include <xml/contenthandler.h>
+#include <xml/documentparameters.h>
 #include <cstack.h>
-#include <parser.h>
+#include <xml/parser.h>
 
 // CONSTANTS
 // MACROS

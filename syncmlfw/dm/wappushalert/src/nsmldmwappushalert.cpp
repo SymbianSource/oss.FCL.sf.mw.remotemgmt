@@ -23,7 +23,7 @@
 #include <pushlog.h>
 #include <pushmessage.h>
 #include <pluginkiller.h>
-#include <pushdispatcher.h>
+//#include <pushdispatcher.h>
 #include <ccontenthandlerbase.h>
 #include <implementationproxy.h> // For TImplementationProxy definition
 #include <SyncMLDef.h>

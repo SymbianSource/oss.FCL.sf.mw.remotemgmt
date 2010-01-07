@@ -67,5 +67,7 @@ LIBRARY     centralrepository.lib  // CenRep
 LIBRARY					aknnotify.lib
 LIBRARY 		estor.lib
 
+SMPSAFE
+
 // End of file
 

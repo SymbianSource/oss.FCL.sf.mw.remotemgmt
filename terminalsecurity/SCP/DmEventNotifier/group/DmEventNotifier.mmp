@@ -63,3 +63,5 @@ LIBRARY 	centralrepository.lib
 //Added for SCPEventHandler dll 
 LIBRARY		scpeventhandler.lib
 LIBRARY		flogger.lib
+
+SMPSAFE

@@ -97,6 +97,9 @@ LIBRARY     featmgr.lib
 LIBRARY 	estor.lib
 LIBRARY 	charconv.lib
 LIBRARY		devenccommonutils.lib //Device encryption utility
+
+SMPSAFE
+
 // End of file
 
 

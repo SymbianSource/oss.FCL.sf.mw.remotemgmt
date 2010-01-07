@@ -31,7 +31,7 @@
 #include <centralrepository.h>
 #include <DevManInternalCRKeys.h>
 #include <e32property.h>
-#include <thttpevent.h>
+#include <http/thttpevent.h>
 #include "nsmlprivatepskeys.h"
 #include "nsmlcliagconstants.h"
 #include "NSmlAgentBase.h"
