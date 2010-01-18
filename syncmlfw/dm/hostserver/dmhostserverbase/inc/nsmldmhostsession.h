@@ -153,6 +153,16 @@ public:
 	* @return HBufC8*. If LUID is not found, the function allocates a null length string.
 	*/	
 	HBufC8* GetLuidAllocL ( const TDesC8& aURI );
+	
+	/**
+	* MSmlDmCallback - callback interface.
+ 	*  The function removes aURI of the corresponding adapter.  
+	*@param aAdapterId Adapter Id.
+	*@param aURI. URI of the object. 
+	*@param aChildAlso Indicates whether childs to be removed or not.
+	* @return TInt Error code.
+	*/	
+	TInt RemoveMappingL( TUint32 aAdapterId, const TDesC8& aURI, TBool aChildAlso );
 
 	/**
 	* C++ destructor.

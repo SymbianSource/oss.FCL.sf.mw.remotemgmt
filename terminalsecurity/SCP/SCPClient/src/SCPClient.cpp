@@ -1265,8 +1265,8 @@ TInt RSCPClient :: SetSecurityCodeL(RMobilePhone :: TMobilePassword& aPassword,
         CAknGlobalConfirmationQuery* query = CAknGlobalConfirmationQuery :: NewLC();
 
         if(aButtonsShown == SCP_OK || aButtonsShown == SCP_OK_ETEL) {
-            //msgConfirmSave = CEikonEnv :: Static()->AllocReadResourceLC(R_SET_SEC_CODE_STARTUP_QUERY);
-            msgConfirmSave = CEikonEnv :: Static()->AllocReadResourceLC(R_SET_SEC_CODE);
+            //msgConfirmSave = CEikonEnv :: Static()->AllocReadResourceLC(R_SET_SEC_CODE);
+             msgConfirmSave = CEikonEnv :: Static()->AllocReadResourceLC(R_SET_SEC_CODE_SETTING_QUERY_SERVER);
             query->ShowConfirmationQueryL(statusSave, *msgConfirmSave, R_AVKON_SOFTKEYS_OK_EMPTY__OK, R_QGN_NOTE_INFO_ANIM);
         }
         else {

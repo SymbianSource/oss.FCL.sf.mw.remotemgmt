@@ -216,6 +216,8 @@ class CPnpUtilImpl :public CBase, public MPnpToPaosInterface
         * 
         */
         HBufC8* PackLC( const TDesC8& aHex ) const;
+        
+        void CreateEncryptionKeyL(TDes8& aEncryptionKey);
 
         CRepository* iRepository;
 

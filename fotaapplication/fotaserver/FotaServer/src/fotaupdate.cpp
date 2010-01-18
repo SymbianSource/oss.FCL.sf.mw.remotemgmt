@@ -1560,12 +1560,15 @@ void CFotaUpdate::ShowReminderDialogL()
 
         return;
         }
-
-    naviPane->Pop();
-    if ( titlePane->Text() && originalTitle ) 
+		if(naviPane)
+    	naviPane->Pop();
+    if(	titlePane )
+    {	
+    	if ( titlePane->Text() && originalTitle ) 
         {
         TRAP_IGNORE( titlePane->SetTextL( *originalTitle ) );
         }
+    }
     CleanupStack::PopAndDestroy( originalTitle );
     task.SendToBackground();	
 

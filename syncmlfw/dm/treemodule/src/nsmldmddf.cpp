@@ -42,7 +42,6 @@
 const TInt KGranularity = 4;
 // FOTA
 _LIT8 ( KNSmlDMFotaNode, "FUMO" );
-_LIT8 ( KNSmlDMAcc, "DMAcc");
 _LIT8 ( KNSmlDMRoot, "." );
 // FOTA end
 
@@ -226,7 +225,7 @@ void CNSmlDmDDF::AddObjectL(const TDesC8& aURI,
 			     {
 			     TBool returnstatus = ETrue; 
 			     TPtrC8 Uri1 = NSmlDmURI::URISeg(aURI,1);
-			     if( iAddRootNodesList && Uri1.Match(KNSmlDMAcc) >= KErrNone )//dm case
+			     if( iAddRootNodesList )//dm case
 			     {
 			     TPtrC8 FindUri = NSmlDmURI::URISeg(aURI,2);
 			     HBufC8* puri = HBufC8::NewLC(Uri1.Length()+FindUri.Length()+2);
@@ -291,23 +290,27 @@ void CNSmlDmDDF::AddObjectL(const TDesC8& aURI,
 			          (err == KErrNone && (NodeAddingSuccess == EAdded ||
 			                  NodeAddingSuccess == ENotAdded) ) )
 			      {
-			      if(iAddRootNodesList) //already created
-			          {																						
-			          //Do check if there is any node already added					
-			          if( iAddRootNodesList->Match(aURI) <= KErrNotFound ) 
-			              {
-			              iAddRootNodesList = iAddRootNodesList->ReAllocL
-			              (iAddRootNodesList->Length() + aURI.Length()+ 10);
-			              iAddRootNodesList->Des().Append(aURI);
-			              }					
+			      UpdateAddNodeListL(aURI);
+			      }
+			  else if(err == KErrNone && NodeAddingSuccess != EFailed )
+			      {
+			      //Check luid, 
+			      HBufC8* newluid = iDbSession.GetLuidAllocL(iAdapterId,aURI);
+			               
+			      CleanupStack::PushL(newluid);
+			      if(newluid->Length() > 0 && newluid->Compare(*luid)==0 ) 
+			          {
+					  _DBG_FILE("Already existed dont buffer");
 			          }
-			      else //getting created
-			          {					
-			          iAddRootNodesList = HBufC8::NewL(aURI.Length()+ 10);					
-			          iAddRootNodesList->Des().Append(aURI);
-			          }			      
-			      iAddRootNodesList->Des().Append(',');				
-			      }			  			  
+			      else
+			          {
+			          UpdateAddNodeListL(aURI);
+			          }
+			      CleanupStack::PopAndDestroy(); //newluid
+			      }
+			  
+			 
+			  
 			  }
 			adapterCalled = ETrue;
 		
@@ -1818,4 +1821,27 @@ void CNSmlDmDDF::DeleteandAddStatusRefsL( TInt aStatusRef,
 			}
 		}
 	}
-
+	
+// ===========================================================================
+// CNSmlDmDDF::UpdateAddNodeListL
+// ===========================================================================
+void CNSmlDmDDF::UpdateAddNodeListL(const TDesC8& aURI)
+    {
+    if(iAddRootNodesList) //already created
+        {                                                                                     
+        //Do check if there is any node already added                 
+        if( iAddRootNodesList->Match(aURI) <= KErrNotFound ) 
+            {
+            iAddRootNodesList = iAddRootNodesList->ReAllocL
+            (iAddRootNodesList->Length() + aURI.Length()+ 10);
+            iAddRootNodesList->Des().Append(aURI);
+            }                 
+        }
+    else //getting created
+        {                 
+        iAddRootNodesList = HBufC8::NewL(aURI.Length()+ 10);                  
+        iAddRootNodesList->Des().Append(aURI);
+        }    
+    iAddRootNodesList->Des().Append(',');     
+    }
+	

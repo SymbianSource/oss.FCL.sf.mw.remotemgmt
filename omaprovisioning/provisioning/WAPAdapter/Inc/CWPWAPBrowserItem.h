@@ -22,7 +22,7 @@
 // INCLUDES
 #include <e32base.h>
 #include <MWPVisitor.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 #include "CWPWAPItemBAse.h"
 
 // FORWARD DECLARATIONS

@@ -65,4 +65,6 @@ USERINCLUDE		../../../../fotaapplication/FotaServer/inc
 // DEFFILE ?filename
 // AIF ?filename
 
+SMPSAFE
+
 // End of File

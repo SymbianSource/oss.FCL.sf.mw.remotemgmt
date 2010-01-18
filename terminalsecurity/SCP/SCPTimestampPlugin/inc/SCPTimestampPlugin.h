@@ -51,8 +51,6 @@ const TInt KSCPTypeMinutes = 0;
 const TInt KSCPTypeHours = 1;
 const TInt KSCPTypeDays = 2;
 
-const TInt KSCPNoteTimeout = 2000000;
-
 _LIT( KSCPTSConfigFile, "SCPTimestampPlugin.ini");
 _LIT( KDriveZ, "Z:" );
 _LIT(KSCPTimestampPluginResFilename, "\\Resource\\SCPTimestampPluginLang.rsc");

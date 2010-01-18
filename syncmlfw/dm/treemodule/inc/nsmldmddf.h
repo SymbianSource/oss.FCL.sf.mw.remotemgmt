@@ -409,6 +409,13 @@ class CNSmlDmDDF : public CBase
 	*/
 	void DeleteandAddStatusRefsL( TInt aStatusRef,
 			MSmlDmAdapter::TError aErrorCode );
+	
+	/**
+	* Buffers the internal nodes added in a session	
+	* @param	aURI		Target URI in command
+	* @return 	None
+	*/
+	void UpdateAddNodeListL(const TDesC8& aURI);	
 			
 	/**
 	* Pointer to tree dtd

@@ -26,7 +26,7 @@
 #include <CWPParameter.h>
 #include <CWPAdapter.h>
 #include <centralrepository.h>
-#include <BrowserUiSDKCRKeys.h>
+#include <browseruisdkcrkeys.h>
 #include "CWPWAPBrowserItem.h"
 #include "WPWAPItemFactory.h"
 #include "ProvisioningDebug.h"

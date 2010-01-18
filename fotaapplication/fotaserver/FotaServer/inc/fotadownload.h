@@ -20,7 +20,7 @@
 #ifndef ___DOWNLOADER_H_
 #define ___DOWNLOADER_H_
 
-#include <DownloadMgrClient.h>
+#include <downloadmgrclient.h>
 #include <etelpckt.h> //To read GSM Error codes from symbian
 #include <exterror.h> //To read GSM Error codes from symbian
 #include <wlanerrorcodes.h> //To read WLAN Error codes from s60

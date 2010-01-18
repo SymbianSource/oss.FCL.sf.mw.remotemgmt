@@ -2286,6 +2286,31 @@ inline TInt CNSmlDMHostSession::RoomForLargeData ( const TDesC8& aType ) const
 	}
 
 // ------------------------------------------------------------------------------------------------
+// void CNSmlDMHostSession::RemoveMappingL()
+//	This function is called to remove an URI from tree database.  
+//	@return TInt. The Error code.
+// ------------------------------------------------------------------------------------------------
+//
+TInt CNSmlDMHostSession::RemoveMappingL( TUint32 aAdapterId, const TDesC8& aURI, TBool aChildAlso )
+    {
+    TInt ret = KErrNotFound;
+    if ( !iCbSessConnected )
+        {
+        ret = iCbSession.Connect();
+        if ( ret != KErrNone )
+            {
+            _DBG_FILE("ERROR!!! RemoveMappingL Connect to Callback server FAILED!!!!");                            
+            }
+        else 
+            {
+            iCbSessConnected = ETrue;           
+            }
+        }
+    ret = iCbSession.RemoveMappingInfoL( aAdapterId, aURI, aChildAlso );
+    return ret;
+    }
+	
+// ------------------------------------------------------------------------------------------------
 // Client code to access other dm host servers
 // ------------------------------------------------------------------------------------------------
 

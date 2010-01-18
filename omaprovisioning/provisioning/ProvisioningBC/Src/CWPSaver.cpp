@@ -23,7 +23,7 @@
 #include <commdb.h>
 #include <CWPEngine.h>
 #include <CWPAdapter.h>
-#include <ActiveFavouritesDbNotifier.h>
+#include <activefavouritesdbnotifier.h>
 #include "CWPSaver.h"
 
 // CONSTANTS

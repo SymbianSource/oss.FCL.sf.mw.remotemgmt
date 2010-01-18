@@ -104,9 +104,10 @@ RESOURCE TBUF r_set_sec_code
     {
     buf = qtn_set_sec_code_setting_query;
     }
-/*RESOURCE TBUF r_set_sec_code_startup_query
+    
+RESOURCE TBUF r_set_sec_code_setting_query_server
     {
-    buf = qtn_set_sec_code_startup_query;
-    }*/
+    buf = qtn_set_sec_code_setting_query_server;
+    }
 // end of file
 

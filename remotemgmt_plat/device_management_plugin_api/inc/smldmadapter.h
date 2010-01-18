@@ -602,6 +602,16 @@ SetStatusL and SetResultsL, if it handles the LUID mapping itself.
 	@prototype
 	*/
 	virtual HBufC8* GetLuidAllocL( const TDesC8& aURI ) = 0;
+	
+	/**
+	The function is used to remove a mapped URI. Returns the error code about mapping removal.
+	@param aAdapterId	Settings Adapter id
+	@param aURI                 Mapped Uri
+	@param aChildAlso          Indicates the child nodes removal
+	@publishedPartner
+	@prototype
+	*/
+	virtual TInt RemoveMappingL( TUint32 aAdapterId, const TDesC8& aURI, TBool aChildAlso ) = 0;
 	};
 
 

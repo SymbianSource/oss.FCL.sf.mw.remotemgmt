@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include <e32base.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 #include <CWPAdapter.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>

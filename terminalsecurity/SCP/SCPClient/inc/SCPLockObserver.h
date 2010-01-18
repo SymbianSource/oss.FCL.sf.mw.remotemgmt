@@ -19,7 +19,7 @@
 
 #include <e32svr.h>
 #include <e32property.h>
-#include "SecUi.hrh"
+#include "secui.hrh"
 
  
 class CSCPQueryDialog;

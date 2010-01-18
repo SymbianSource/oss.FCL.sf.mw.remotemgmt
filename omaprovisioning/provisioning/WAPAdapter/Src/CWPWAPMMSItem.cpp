@@ -27,7 +27,7 @@
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <CWPAdapter.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 #include "CWPWAPMMSItem.h"
 #include "WPWAPItemFactory.h"
 #include "WPWAPUtil.h"

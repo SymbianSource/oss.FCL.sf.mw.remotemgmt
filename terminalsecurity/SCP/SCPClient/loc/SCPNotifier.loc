@@ -38,8 +38,9 @@
 //r: 5.2
 #define qtn_set_sec_code_setting_query "Lock Code has not been set. Set now?"
 //d: The text for asking the user to enter the lock code during phone startup.
-//l: popup_info_list_pane_t2
+//l:  popup_info_list_pane_t2/opt1
 //r: 5.2
-//#define qtn_set_sec_code_startup_query "Lock Code is not set. Please set it now."
+#define qtn_set_sec_code_setting_query_server "Lock Code has not been set. Please set the Lock Code."
+
 // End of File
 

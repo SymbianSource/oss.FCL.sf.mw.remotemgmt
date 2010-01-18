@@ -35,14 +35,14 @@
 const TInt KMaxModulusLength = 300;
 const TInt KMaxPublicExponentLength = 10;
 
-_LIT8(K3DesKey, "111111111111111111111111");
-
 // Default token validity time
 const TInt KTokenValidityTime = 600;
 const TInt KTokenLength = 4;
 // C3DESEncryptor and C3DESDecryptor require the buffer to be more than 4 characters
 // (8 characters seems to be enough)
 const TInt KTokenLengthDuringStorage = 8;
+
+const TInt KEncryptionKeyLength = 24;
 
 // -----------------------------------------------------------------------------
 // CPnpUtilImpl::ConstructL
@@ -64,9 +64,13 @@ void CPnpUtilImpl::ConstructL()
 
     iRepository = CRepository::NewL( KCRUidPnpUtil );
 
+    TBuf8<KEncryptionKeyLength> encryptkey;
+    CreateEncryptionKeyL(encryptkey);
+    
+
 #ifndef __WINS__ // calling C3DESEncryptor::NewL crashes emulator
-    iEncryptor = C3DESEncryptor::NewL( K3DesKey );
-    iDecryptor = C3DESDecryptor::NewL( K3DesKey );
+    iEncryptor = C3DESEncryptor::NewL( encryptkey );
+    iDecryptor = C3DESDecryptor::NewL( encryptkey );
 #endif 
 
     LOGSTRING( "Exit from CPnpUtilImpl::ConstructL()" );
@@ -1062,5 +1066,52 @@ void CPnpUtilImpl::RESERVED_FUNC()
     {
     LOGSTRING("RESERVED_FUNC")
     }
+
+// -----------------------------------------------------------------------------
+// CPnpUtilImpl::CreateEncryptionKeyL
+// -----------------------------------------------------------------------------
+//
+void CPnpUtilImpl::CreateEncryptionKeyL(TDes8& aEncryptionKey)
+   {
+   TBuf8<KEncryptionKeyLength> keystorage;
+   User::LeaveIfError( iRepository->Get( KPnPUtilsEncryptionKey, keystorage) );
+    
+   if(keystorage.Compare(KNullDesC8()))
+   {
+     LOGSTRING("CPnpUtilImpl::CreateEncryptionKey- Compare visited");
+     aEncryptionKey.Copy(keystorage);
+     LOGTEXT( aEncryptionKey);
+     return;
+   }
+
+
+   LOGSTRING("CPnpUtilImpl::CreateEncryptionKey");
+    if( aEncryptionKey.MaxLength() < KEncryptionKeyLength)
+        {
+        User::Leave( KErrArgument );
+        }
+
+    TBuf8<KEncryptionKeyLength> buffer;
+
+    TTime time;
+    time.HomeTime();
+    TInt64 seed = time.Int64();
+    for( TInt i(0); i < KEncryptionKeyLength ; i++ )
+        {
+        TChar character( RandomCharacter( seed ) );
+        buffer.Append( character );
+        }
+
+    LOGSTRING("New Encryption Key:");
+    LOGTEXT( buffer );
+    aEncryptionKey.Copy( buffer );
+
+ 
+    // Save the nonce
+    User::LeaveIfError( iRepository->Set( KPnPUtilsEncryptionKey, buffer ) );
+
+    LOGSTRING("CPnpUtilImpl::CreateEncryptionKey- done");
+
+   }
 
 //  End of File  

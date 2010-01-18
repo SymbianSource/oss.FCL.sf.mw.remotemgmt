@@ -34,7 +34,7 @@ const TUint32 KPnPUtilModulus = 0x00000009;
 const TUint32 KPnPUtilPublicExponent = 0x0000000A;
 const TUint32 KPnPProvUtilAppUID = 0x0000000B;
 const TUint32 KPnPProvUtilProvAdapID = 0x0000000C;
-
+const TUint32 KPnPUtilsEncryptionKey = 0x0000000D;
 
 
 #endif      // PNPUTILPRIVATECRKEYS_H

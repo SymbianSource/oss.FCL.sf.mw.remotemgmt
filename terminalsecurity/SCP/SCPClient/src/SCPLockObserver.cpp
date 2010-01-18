@@ -19,7 +19,7 @@
 #include	<coreapplicationuisdomainpskeys.h>
 #include <ctsydomainpskeys.h>
 //#include    <SecurityUIsPrivatePSKeys.h>
-#include "SecUi.hrh"
+#include "secui.hrh"
 #include "SCPLockObserver.h"
 #include "SCPQueryDialog.h"
 #include "SCPDebug.h"

@@ -21,7 +21,7 @@
 #include <e32base.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 #include <FavouritesItemList.h>         // CFavouritesItemList
 #include <wpwapadapterresource.rsg>
 #include <CWPAdapter.h>

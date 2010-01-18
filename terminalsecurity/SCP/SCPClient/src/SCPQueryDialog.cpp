@@ -74,7 +74,8 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
 			  iPreviousCharacterWasInvalid( EFalse ),
 			  iPrioritySet( EFalse ),
 			  iPriorityDropped( EFalse ),
-			  iKeyUsed ( NULL )
+			  iKeyUsed ( NULL ),
+			  isCallSoftkeyAdded(EFalse)
 	{		 
 	}
 	
@@ -537,15 +538,21 @@ if(aKeyEvent.iModifiers & EModifierNumLock &&
             if ( queryControl != NULL )
                 {
                 queryControl->RevealSecretText( ETrue );
+                if (isCallSoftkeyAdded == EFalse)
+                {
+                	isCallSoftkeyAdded = ETrue;
                 HBufC* cbaLabel = NULL;
 				Dprint( (_L("CSCPQueryDialog::OfferKeyEventL(): R_AVKON_SOFTKEY_CALL_TEXT") ));
                 TRAPD ( err, cbaLabel =
                         StringLoader::LoadL( R_AVKON_SOFTKEY_CALL_TEXT) );
                 if ( err == KErrNone )
                 {
+                	ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
                 TRAP ( err, ButtonGroupContainer().AddCommandToStackL( 0, EAknSoftkeyEmergencyCall,
                         *cbaLabel) );
+				ButtonGroupContainer().DrawDeferred();
                 delete cbaLabel;
+                }
               }
                 }            
             }
@@ -555,14 +562,26 @@ if(aKeyEvent.iModifiers & EModifierNumLock &&
             if ( queryControl != NULL )
                 {
                 queryControl->RevealSecretText( EFalse );
+			if(aType == EEventKey)
+			{
                 HBufC* cbaLabel = NULL;
 				Dprint( (_L("CSCPQueryDialog::OfferKeyEventL(): R_SCPDIALOG_OK_TEXT") ));
                 TRAPD ( err , cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
                 if ( err == KErrNone )
                 {
+					if (isCallSoftkeyAdded)
+					{
+						isCallSoftkeyAdded = EFalse;
+						ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyEmergencyCall);
+					}
+					else
+					{
+					ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
+					}
                 TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0,EAknSoftkeyOk,*cbaLabel) );
                 ButtonGroupContainer().DrawDeferred();
                 delete cbaLabel;
+				}
             	  }
                 }
             }
@@ -715,6 +734,15 @@ void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector,
                 TRAP ( err, cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
                 if ( err == KErrNone )
                 {
+                	if (isCallSoftkeyAdded)
+						{
+							isCallSoftkeyAdded = EFalse;
+							ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyEmergencyCall);
+						}
+						else
+						{
+							ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
+						}
                 	TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0, EAknSoftkeyOk, *cbaLabel) );
                 	ButtonGroupContainer().DrawDeferred();
                 	delete cbaLabel;

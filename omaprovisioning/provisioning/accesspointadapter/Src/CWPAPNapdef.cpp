@@ -840,14 +840,21 @@ void CWPAPNapdef::HandleWLanParametersL( CWPParameter& aParameter )
     else if( ( aParameter.Name().Compare( SSSID ) ) == 0 )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleWLanParametersL iPriHSSID" ) );
-			  scssid->iSSSID = &aParameter;
+        if(scssid!=NULL)
+        	{
+        	scssid->iSSSID = &aParameter;
+        	}
+			  
 
         }// else if
 
     else if( ( aParameter.Name().Compare( SUSSID ) ) == 0 )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleWLanParametersL iPriHSSID" ) );
-			  scssid->iSUSSID = &aParameter;
+			  if(scssid!=NULL)
+        	{
+        	scssid->iSUSSID = &aParameter;
+        	}
         }// else if
                         
     else if( ( aParameter.Name().Compare( NETMODE ) ) == 0 )
@@ -1010,6 +1017,10 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
    	    {
    	    eap = iEapTypeArray[iEapTypeArray.Count()-1];
    	    }
+   	if(!eap)
+   	    {
+   	    return;
+   	    }    
    	
 	TPtrC value( aParameter.Value() );
 	

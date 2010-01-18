@@ -119,6 +119,7 @@ class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
         TBuf<KSCPPasscodeMaxLength+1>   iTmpBuffer;
         TBool                           iPrioritySet;
         TBool                           iPriorityDropped;
+        TBool							isCallSoftkeyAdded;
         /** An integer variable to define the input mode of the lock code query */
         TInt def_mode;
         TInt iKeyUsed;

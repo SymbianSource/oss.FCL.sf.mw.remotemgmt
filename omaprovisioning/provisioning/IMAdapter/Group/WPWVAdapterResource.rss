@@ -18,8 +18,8 @@
 
 //  INCLUDES
 #include <badef.rh>
-#include <Provisioning.loc>
-#include <WPWVAdapter.loc>
+#include <provisioning.loc>
+#include <wpwvadapter.loc>
 
 // Default Name for WV Server
 

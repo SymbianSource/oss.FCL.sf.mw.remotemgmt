@@ -56,5 +56,6 @@ LIBRARY         cntmodel.lib
 LIBRARY         edbms.lib 
 LIBRARY         charconv.lib
 
+SMPSAFE
 
 // End of File

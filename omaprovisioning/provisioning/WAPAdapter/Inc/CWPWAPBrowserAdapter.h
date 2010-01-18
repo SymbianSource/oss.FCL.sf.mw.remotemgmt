@@ -22,7 +22,7 @@
 // INCLUDES
 #include "CWPWAPAdapterBase.h"
 
-#include <FavouritesSession.h>
+#include <favouritessession.h>
 #include <FavouritesDb.h>
 
 
