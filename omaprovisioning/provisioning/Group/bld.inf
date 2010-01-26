@@ -89,7 +89,7 @@ PRJ_MMPFILES
 ../ProvisioningEngine/Group/ProvisioningEngine.mmp
 ../ProvisioningParser/Group/ProvisioningParser.mmp
 ../ProvisioningHandler/Group/ProvisioningHandler.mmp
-../accesspointAdapter/group/WPAPAdapter.mmp
+../accesspointadapter/group/WPAPAdapter.mmp
 ../WAPAdapter/Group/WPWAPAdapter.mmp
 ../IMAdapter/Group/IMAdapter.mmp
 ../StreamingAdapter/Group/StreamingAdapter.mmp

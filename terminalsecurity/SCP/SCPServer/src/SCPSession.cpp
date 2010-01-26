@@ -842,21 +842,31 @@ void CSCPSession::HandleCheckConfigMessageL( const RMessage2 &aMessage )
 // Status : Approved
 // ---------------------------------------------------------
 //
-void CSCPSession::HandleAuthenticationMessageL( const RMessage2 &aMessage )
-    {
+void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
+
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 	{	
 		FeatureManager::UnInitializeLib();
 		User::Leave(KErrNotSupported);
 	}
-    if ((aMessage.SecureId() != KSCPServerSIDAutolock)&&(aMessage.SecureId() != KAknNfySrvUid)&&
-        (aMessage.SecureId() != KSCPServerSIDGeneralSettings)&&(aMessage.SecureId() != KSCPServerSIDSysAp)&&
-        (aMessage.SecureId() != KSCPServerSIDTerminalControl))
-        {
-        Dprint( (_L("CSCPSession::HandleAuthenticationMessageL():\
-            ERROR: Permission denied") ));
+    
+    TSecureId id = aMessage.SecureId();
+	
+    switch(id.iId) {
+        case KSCPServerSIDAutolock:
+        case KAknNfySrvUid:
+        case KSCPServerSIDGeneralSettings:
+        case KSCPServerSIDSysAp:
+        case KSCPServerSIDTerminalControl:
+        case KSCPServerSIDTelephone:
+        case KSCPServerSIDLog:
+            break;
+        default: {
+            Dprint( (_L("[CSCPSession]-> ERROR: Permission denied") ));
         User::Leave( KErrPermissionDenied );
         }
+    };
+	
     Dprint( (_L("--> CSCPSession::HandleAuthenticationMessage()") ));
     
     HBufC* servBuf = NULL;

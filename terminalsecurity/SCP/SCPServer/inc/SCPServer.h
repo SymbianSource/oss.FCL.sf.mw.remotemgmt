@@ -92,6 +92,8 @@ _LIT8( KCodePolicyActionValue, "lock" );
 _LIT8( KCodePolicyTypeId, "http://www.w3.org/2001/XMLSchema#string" );
 
 // Allowed SIDs for the functions
+const TUint32 KSCPServerSIDTelephone( 0x100058B3 ); // Terminal Control Server
+const TUint32 KSCPServerSIDLog( 0x101f4cd5 ); // Terminal Control Server
 const TUint32 KSCPServerSIDTerminalControl( 0x10207825 ); // Terminal Control Server
 const TUint32 KSCPServerSIDGeneralSettings( 0x100058EC ); // General Settings
 //const TUint32 KSCPServerSIDSecurityObserver( 0x10000938 ); // Security Observer
