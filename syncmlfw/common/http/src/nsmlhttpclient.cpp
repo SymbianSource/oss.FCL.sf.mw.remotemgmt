@@ -141,32 +141,31 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 				break;
 				}
 
-			if(this->iAgent->iSession == ESyncMLDSSession)
+			if(this->iAgent->iSession == ESyncMLDSSession && this->iAgent->iDeflateFlag )
 			    {
-    	         RStringF serverContentEncoding = strPool.OpenFStringL( KSmlContentEncodingType );
-    	         THTTPHdrVal serverContentEncodingValue;
-    	         if(hdr.GetField( serverContentEncoding, 0, serverContentEncodingValue ) != KErrNotFound)	         
-    	             {
-        	         RStringF fieldServerContentEncodingValStr = strPool.StringF( serverContentEncodingValue.StrF() ); 
-        	         const TDesC8& serverContentEncodingStr = fieldServerContentEncodingValStr.DesC();
-        	         if( serverContentEncodingStr == KSmlContentDeflate)
-        	             {
-        	             this->iAgent->iServerContentEncoding = CNSmlHTTP::ExptDeflate;
-        	             }
-    	             }
-    
-    			 RStringF serverAcceptEncoding = strPool.OpenFStringL( KSmlAcceptEncodingType );
-    	         THTTPHdrVal serverAcceptEncodingValue;
-    	         if(hdr.GetField( serverAcceptEncoding, 0, serverAcceptEncodingValue )  != KErrNotFound )	         
-    	             {
-        	         RStringF fieldServerAcceptEncodingValStr = strPool.StringF( serverAcceptEncodingValue.StrF() ); 
-        	         const TDesC8& serverAcceptEncodingStr = fieldServerAcceptEncodingValStr.DesC();
-        	         if( serverAcceptEncodingStr.Find(KSmlContentDeflate) != KErrNotFound)
-        	             {
-        	             this->iAgent->iServerAcceptEncoding = CNSmlHTTP::ExptDeflate;
-        	             }
-    	             }
-			    }
+			    RStringF serverContentEncoding = strPool.OpenFStringL( KSmlContentEncodingType );
+                THTTPHdrVal serverContentEncodingValue;
+                if(hdr.GetField( serverContentEncoding, 0, serverContentEncodingValue ) != KErrNotFound)	         
+                    {
+                    RStringF fieldServerContentEncodingValStr = strPool.StringF( serverContentEncodingValue.StrF() ); 
+                    const TDesC8& serverContentEncodingStr = fieldServerContentEncodingValStr.DesC();
+                    if( serverContentEncodingStr == KSmlContentDeflate)
+                        {
+                        this->iAgent->iServerContentEncoding = CNSmlHTTP::ExptDeflate;
+                        }
+                    }
+                RStringF serverAcceptEncoding = strPool.OpenFStringL( KSmlAcceptEncodingType );
+                THTTPHdrVal serverAcceptEncodingValue;
+                if(hdr.GetField( serverAcceptEncoding, 0, serverAcceptEncodingValue )  != KErrNotFound )	         
+                    {
+                    RStringF fieldServerAcceptEncodingValStr = strPool.StringF( serverAcceptEncodingValue.StrF() ); 
+                    const TDesC8& serverAcceptEncodingStr = fieldServerAcceptEncodingValStr.DesC();
+                    if( serverAcceptEncodingStr.Find(KSmlContentDeflate) != KErrNotFound)
+                        {
+                        this->iAgent->iServerAcceptEncoding = CNSmlHTTP::ExptDeflate;
+                        }
+                    }
+    		    }
 			
 			if ( status == 200 )
 				{

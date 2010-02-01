@@ -17,8 +17,13 @@ echo *************************
 echo * Policy file configure *
 echo *************************
 
+
+
 set policy_dir=policies
 if not "%1"=="" set policy_dir=%1
+
+if not exist \epoc32\data\Z\private\10207815\thirdpartypolicy.txt (
+
 
 call md \epoc32\data\Z\private\10207815
 call del /q \epoc32\data\Z\private\10207815\*.* 
@@ -27,6 +32,7 @@ call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\data\Z\private\1020781
 call md \epoc32\release\winscw\udeb\Z\private\10207815
 call del /q \epoc32\release\winscw\udeb\Z\private\10207815\*.*
 call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\release\winscw\udeb\Z\private\10207815
+
 call md \epoc32\release\winscw\urel\Z\private\10207815
 call del /q \epoc32\release\winscw\urel\Z\private\10207815\*.*
 call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\release\winscw\urel\Z\private\10207815
@@ -34,6 +40,9 @@ call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\release\winscw\urel\Z\
 call md \epoc32\release\armv5\udeb\Z\private\10207815
 call del /q \epoc32\release\armv5\udeb\Z\private\10207815\*.*
 call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\release\armv5\udeb\Z\private\10207815
+
 call md \epoc32\release\armv5\urel\Z\private\10207815
 call del /q \epoc32\release\armv5\urel\Z\private\10207815\*.*
 call copy ..\policyengine\data\%policy_dir%\*.txt \epoc32\release\armv5\urel\Z\private\10207815
+
+)

@@ -1,1 +1,1 @@
-<desc>Terminal control enforcement policy. This policy is used for enforcing Terminal Control.</desc>
+<desc>DCMO policy. This policy is used for DCMO settings.</desc>

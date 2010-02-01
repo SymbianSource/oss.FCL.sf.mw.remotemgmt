@@ -1252,8 +1252,8 @@ TInt RSCPClient :: SetSecurityCodeL(RMobilePhone :: TMobilePassword& aPassword,
             case ESecUiEmergencyCall:
                 lRet = ESecUiEmergencyCall;
                 break;
-            default:
-                break;
+            /*default:
+                break;*/
             }
         }
     }

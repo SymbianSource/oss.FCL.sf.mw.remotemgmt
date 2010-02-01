@@ -40,3 +40,5 @@ LIBRARY         centralrepository.lib
 LIBRARY		  	 	dcmoclient.lib
 LIBRARY					featmgr.lib
 DEBUGLIBRARY    flogger.lib
+
+SMPSAFE

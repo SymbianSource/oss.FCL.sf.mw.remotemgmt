@@ -87,11 +87,11 @@ CSCPEventHandler::~CSCPEventHandler()
 EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandlerOperation aOperation) 
     {
     
-    FLOG(_L("[CSCPEventHandler]-> started NotifyChangesL() aOperation=%d"), aOperation);
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> started NotifyChangesL() aOperation=%d"), aOperation);
 
     if( (EOpnUninstall == aOperation) || (EOpnRemoved == aOperation))
     {
-        FLOG(_L("[CSCPEventHandler]-> EUninstallation == aOperation || EOpnRemoved == aOperation"));
+        _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> EUninstallation == aOperation || EOpnRemoved == aOperation"));
         RArray <TUid> uids;
         CleanupClosePushL(uids);
 
@@ -99,11 +99,11 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
         CSCPParamDBController* dbObj = CSCPParamDBController::NewLC();
        
         //calling...ListApplicationsL
-	   	FLOG(_L("[CSCPEventHandler]-> ListApplicationsL started"));
+	   	_DMEVNT_DEBUG(_L("[CSCPEventHandler]-> ListApplicationsL started"));
         dbObj->ListApplicationsL(uids);
         CleanupStack :: PopAndDestroy(); // dbObj
-	    FLOG(_L("[CSCPEventHandler]-> ListApplicationsL ended"));
-        FLOG(_L("[CSCPEventHandler]-> uids = %d"), uids.Count());
+	    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> ListApplicationsL ended"));
+        _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> uids = %d"), uids.Count());
 
 /*        RArray <TUid> sisUids;
         CleanupClosePushL( sisUids );*/
@@ -119,18 +119,18 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
 
         RArray <TUid> resultUids;
         CleanupClosePushL(resultUids);        
-        FLOG(_L("[CSCPEventHandler]-> Entering loop for each application, to check with AI"));
+        _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> Entering loop for each application, to check with AI"));
         
         for (int i=0; i < uids.Count(); i++)
         {
-            FLOG(_L("[CSCPEventHandler]-> INFO: Checking case for UID %d"), uids[i].iUid);
+            _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> INFO: Checking case for UID %d"), uids[i].iUid);
             
             switch(uids[i].iUid) {
                 case KNSmlDMHostServer1ID:
                 case KNSmlDMHostServer2ID:
                 case KNSmlDMHostServer3ID:
                 case KNSmlDMHostServer4ID:
-                    FLOG(_L("[CSCPEventHandler]-> INFO: UID is marked as an exception, cleanup request bypassed..."));
+                    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> INFO: UID is marked as an exception, cleanup request bypassed..."));
                     break;
                 default: {
             Swi::RSisRegistryEntry sisEntry;
@@ -138,14 +138,14 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
             TInt lErr = sisEntry.Open(sisses, uids[i]);
             CleanupClosePushL(sisEntry);
             
-            FLOG(_L("[CSCPEventHandler]-> INFO: lErr = %d"), lErr);
+            _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> INFO: lErr = %d"), lErr);
 
             //if(EFalse == isInstalledSis(uids[i], sisUids))
             
             // If the application does not exist
             if( lErr != KErrNone || EFalse == sisEntry.IsPresentL())
             {
-                FLOG(_L("[CSCPEventHandler]-> INFO: UID %d was identified as uninstalled,\
+                _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> INFO: UID %d was identified as uninstalled,\
                         performing cleanup on the same"), uids[i].iUid);
                 // Does not exist in sis-registry, need to check in java registry
                 //if(EFalse == isInstalledJava(uids[i], javaUids))
@@ -160,8 +160,8 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
 
         //CleanupStack::PopAndDestroy( &sisUids ); // sisUids
         //CleanupStack::PopAndDestroy( &javaUids ); // javaUids
-        FLOG(_L("[CSCPEventHandler]->NotifyChangesL(): Loop ended"));        
-        FLOG(_L("[CSCPEventHandler]-> resultUids = %d"), resultUids.Count());
+        _DMEVNT_DEBUG(_L("[CSCPEventHandler]->NotifyChangesL(): Loop ended"));        
+        _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> resultUids = %d"), resultUids.Count());
 
         if(resultUids.Count())
         {
@@ -170,7 +170,7 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
         CleanupStack :: PopAndDestroy(3); // resultUids, sisses, uids
     }// if (EUninstallation == aOperation)
     
-    FLOG(_L("[CSCPEventHandler]-> end of NotifyChangesL()"));
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> end of NotifyChangesL()"));
 }
 
 /*
@@ -206,15 +206,15 @@ inline TBool CSCPEventHandler::isInstalledJava(const TUid& aUid, const  RArray<T
 
 inline void CSCPEventHandler::NotifyCleanupL(RArray<TUid>& aUids)
 {
-    FLOG(_L("[CSCPEventHandler:NotifyCleanupL]-> RSCPClient creation & connecting..."))
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler:NotifyCleanupL]-> RSCPClient creation & connecting..."));
     RSCPClient lClient;
     CleanupClosePushL (lClient);
     User :: LeaveIfError(lClient.Connect());
 
-    FLOG(_L("[CSCPEventHandler]-> Initializing cleanup..."));
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> Initializing cleanup..."));
     //TRAPD(lErr, lClient.PerformCleanupL(ESCPApplicationUninstalled, aUids));
     User :: LeaveIfError(lClient.PerformCleanupL(aUids));
     CleanupStack :: PopAndDestroy(); // lClient
-    FLOG(_L("[CSCPEventHandler]-> cleanup complete..."));
-    FLOG(_L("[CSCPEventHandler:NotifyCleanupL]-> RSCPClient operation Completed..."))
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> cleanup complete..."));
+    _DMEVNT_DEBUG(_L("[CSCPEventHandler:NotifyCleanupL]-> RSCPClient operation Completed..."));
 }

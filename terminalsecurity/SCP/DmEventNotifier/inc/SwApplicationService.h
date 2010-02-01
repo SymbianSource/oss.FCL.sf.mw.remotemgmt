@@ -45,9 +45,9 @@ NONSHARABLE_CLASS(CSwApplicationService) : public CDmEventServiceBase
 
     public:
         /** Two phase construction **/
-        static CSwApplicationService* CSwApplicationService::NewL();
+        static CSwApplicationService* NewL();
 
-        static CSwApplicationService* CSwApplicationService::NewLC();
+        static CSwApplicationService* NewLC();
 
         /** Virtual destructor **/
         virtual ~CSwApplicationService();

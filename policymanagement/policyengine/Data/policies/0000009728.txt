@@ -1,0 +1,1 @@
+<po poid="terminal_security_management_enforcement_policy" rcaid="rpor">|10007<ta><res><re><rm mid="seid"> <av dt= "str">TerminalSecurityManagement</av> <ra aid="urn:oasis:names:tc:xacml:1.0:resource:resource-id" dt="str"/> </rm></re></res></ta>|10260</po>~1281

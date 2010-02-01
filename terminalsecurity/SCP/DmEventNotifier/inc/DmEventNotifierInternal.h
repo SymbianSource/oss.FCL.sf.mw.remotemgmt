@@ -32,7 +32,7 @@
 #include "DmEventNotifierCRKeys.h"
 
 //Defines
-#define __LEAVE_IF_ERROR(x) if(KErrNone!=x) {FLOG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
+#define __LEAVE_IF_ERROR(x) if(KErrNone!=x) {_DMEVNT_DEBUG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
 
 //Size of the schedule condition array
 #define KConditionArraySize 1

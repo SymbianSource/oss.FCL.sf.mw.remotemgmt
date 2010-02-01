@@ -32,7 +32,7 @@
 // -----------------------------------------------------------------------------
 LOCAL_D void InvokeNotifiersL(RFile& aTaskFile)
     {
-    FLOG(_L("DmEventHandler InvokeNotifiersL >>"));
+    _DMEVNT_DEBUG(_L("DmEventHandler InvokeNotifiersL >>"));
 
     CFileStore*         store;
     RStoreReadStream    instream;
@@ -40,7 +40,7 @@ LOCAL_D void InvokeNotifiersL(RFile& aTaskFile)
     store = CDirectFileStore::FromLC(aTaskFile);
     instream.OpenLC(*store,store->Root());
     TInt count = instream.ReadInt32L();
-    FLOG(_L("SwInstallhandler  task count  %d"),count );
+    _DMEVNT_DEBUG(_L("SwInstallhandler  task count  %d"),count );
 
     CScheduledTask* task = CScheduledTask::NewLC(instream);
     HBufC* b = const_cast<HBufC*>(&(task->Data()));
@@ -52,12 +52,12 @@ LOCAL_D void InvokeNotifiersL(RFile& aTaskFile)
     CleanupStack::PopAndDestroy( store );
 
 
-    FLOG(_L("Waiting for completion..."));
+    _DMEVNT_DEBUG(_L("Waiting for completion..."));
     CDmEventScheduler* sch = CDmEventScheduler::NewLC();
     sch->WaitAndCreateConditionScheduleL(taskname);
     CleanupStack::PopAndDestroy(sch);
 
-    FLOG(_L("DmEventHandler InvokeNotifiersL <<"));
+    _DMEVNT_DEBUG(_L("DmEventHandler InvokeNotifiersL <<"));
     }
 
 
@@ -67,7 +67,7 @@ LOCAL_D void InvokeNotifiersL(RFile& aTaskFile)
 // -----------------------------------------------------------------------------
 LOCAL_D TInt ExecuteL()
     {
-    FLOG(_L("DmEventHandler ExecuteL...>>"));
+    _DMEVNT_DEBUG(_L("DmEventHandler ExecuteL...>>"));
     TInt err = KErrNoMemory;
 
     RFile file;
@@ -75,13 +75,13 @@ LOCAL_D TInt ExecuteL()
     // Adopt the task file from the Task Scheduler
     err = file.AdoptFromCreator(TScheduledTaskFile::FsHandleIndex(),
             TScheduledTaskFile::FileHandleIndex());
-    FLOG(_L("  err  %d"),err );
+    _DMEVNT_DEBUG(_L("  err  %d"),err );
 
 
     if (KErrNone == err)
         {
         TRAP(err, InvokeNotifiersL(file));
-        FLOG(_L("Error = %d"), err);
+        _DMEVNT_DEBUG(_L("Error = %d"), err);
         }
     else if (KErrNotFound == err)
         {
@@ -95,7 +95,7 @@ LOCAL_D TInt ExecuteL()
 
     file.Close();
 
-    FLOG(_L("DmEventHandler ExecuteL...<<"));
+    _DMEVNT_DEBUG(_L("DmEventHandler ExecuteL...<<"));
     return err;
     }
 
@@ -106,7 +106,7 @@ LOCAL_D TInt ExecuteL()
 LOCAL_D TInt Execute()
     {
     __UHEAP_MARK;
-    FLOG(_L("DmEventHandler Execute() >>"));
+    _DMEVNT_DEBUG(_L("DmEventHandler Execute() >>"));
 
     TInt err = KErrNoMemory;
 
@@ -126,7 +126,7 @@ LOCAL_D TInt Execute()
         }
     delete scheduler; scheduler = NULL;
     
-    FLOG(_L("DmEventHandler Execute() <<"));
+    _DMEVNT_DEBUG(_L("DmEventHandler Execute() <<"));
     __UHEAP_MARKEND;
     return err;
     }

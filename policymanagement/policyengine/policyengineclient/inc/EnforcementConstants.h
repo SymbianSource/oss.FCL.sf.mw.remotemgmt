@@ -29,6 +29,7 @@ _LIT8( KCustomizationURI, "Customization");
 _LIT8( KTerminalSecurityURI, "TerminalSecurity");
 _LIT8( KApplicationManagementURI, "SCM");
 _LIT8( KSCOMOURI, "SCOMO");
+_LIT8( KDCMOURI, "DCMO");
 
 
 #endif /*ENFORCEMENTCONSTANTS_H_*/

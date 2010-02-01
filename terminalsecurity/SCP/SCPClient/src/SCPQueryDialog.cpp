@@ -74,9 +74,11 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
 			  iPreviousCharacterWasInvalid( EFalse ),
 			  iPrioritySet( EFalse ),
 			  iPriorityDropped( EFalse ),
-			  iKeyUsed ( NULL ),
-			  isCallSoftkeyAdded(EFalse)
+			  iKeyUsed ( NULL )
 	{		 
+        def_mode = 0;
+        iAppKey = 0;
+        iMode = KSCPModeNormal;
 	}
 	
 //

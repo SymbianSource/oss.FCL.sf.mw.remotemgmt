@@ -23,6 +23,7 @@
 #include "EMailEnforcement.h"
 #include "CommsDatEnforcement.h"
 #include "IMEnforcement.h"
+#include "dcmoenforcement.h"
 #include "datasyncmlenforcement.h"
 #include "ElementBase.h"
 #include "PolicyStorage.h"
@@ -121,7 +122,8 @@ void CSettingEnforcementManager::AddModifiedElementL( const CElementBase* aEleme
 		if ( CEmailEnforcement::ValidEnforcementElement( *elementName) ||
 			 CCommsDatEnforcement::ValidEnforcementElement( *elementName) ||
 			 CDataSyncMLEnforcement::ValidEnforcementElement( *elementName) ||
-			 CImEnforcement::ValidEnforcementElement(*elementName))	
+			 CImEnforcement::ValidEnforcementElement(*elementName)	||
+			 CDcmoEnforcement::ValidEnforcementElement(*elementName))	
 		{
 			iEnforcementElements.AppendL( elementName->Alloc());
 		}
@@ -313,6 +315,11 @@ void CSettingEnforcementManager::SetActiveEnforcementBaseL(  const TDesC8& aEnfo
 	if ( !iActiveEnforcementBase)
 	{
 		iActiveEnforcementBase = CImEnforcement::NewL( aEnforcementId);
+	}
+	
+	if ( !iActiveEnforcementBase)
+	{
+		iActiveEnforcementBase = CDcmoEnforcement::NewL( aEnforcementId);
 	}
 	
 	if ( iActiveEnforcementBase )

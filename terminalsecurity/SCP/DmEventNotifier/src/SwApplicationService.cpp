@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------
 CSwApplicationService* CSwApplicationService::NewL()
     {
-    FLOG(_L("CSwApplicationService::NewL >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::NewL >>"));
 
     CSwApplicationService* self = new (ELeave) CSwApplicationService(KSwPSKeyCondition);
     CleanupStack::PushL(self);
@@ -33,7 +33,7 @@ CSwApplicationService* CSwApplicationService::NewL()
     self->ConstructL();
 
     CleanupStack::Pop(self);
-    FLOG(_L("CSwApplicationService::NewL <<"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::NewL <<"));
     return self;
     }
 
@@ -42,12 +42,12 @@ CSwApplicationService* CSwApplicationService::NewL()
 // ---------------------------------------------------------------------------
 CSwApplicationService* CSwApplicationService::NewLC()
     {
-    FLOG(_L("CSwApplicationService::NewLC >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::NewLC >>"));
 
     CSwApplicationService* self = CSwApplicationService::NewL();
     CleanupStack::PushL(self);
 
-    FLOG(_L("CSwApplicationService::NewLC <<"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::NewLC <<"));
     return self;
     }
 
@@ -56,9 +56,9 @@ CSwApplicationService* CSwApplicationService::NewLC()
 // ---------------------------------------------------------------------------
 void CSwApplicationService::ConstructL()
     {
-    FLOG(_L("CSwApplicationService::ConstructL >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::ConstructL >>"));
 
-    FLOG(_L("CSwApplicationService::ConstructL <<"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::ConstructL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -66,9 +66,9 @@ void CSwApplicationService::ConstructL()
 // ---------------------------------------------------------------------------
 CSwApplicationService::CSwApplicationService(const TPSKeyCondition& aPSKeyCondition):CDmEventServiceBase(aPSKeyCondition, ESoftwareService)
         {
-        FLOG(_L("CSwApplicationService::CSwApplicationService >>"));
+        _DMEVNT_DEBUG(_L("CSwApplicationService::CSwApplicationService >>"));
 
-        FLOG(_L("CSwApplicationService::CSwApplicationService <<"));
+        _DMEVNT_DEBUG(_L("CSwApplicationService::CSwApplicationService <<"));
         }
 
 // ---------------------------------------------------------------------------
@@ -84,7 +84,7 @@ CSwApplicationService::~CSwApplicationService()
 // ---------------------------------------------------------------------------
 TBool CSwApplicationService::IsKeyValid()
     {
-    FLOG(_L("CSwApplicationService::IsKeyValid >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::IsKeyValid >>"));
     TBool ret (EFalse);
     TInt value (KErrNone);
 
@@ -92,7 +92,7 @@ TBool CSwApplicationService::IsKeyValid()
     if (RProperty::Get(KSwPSKeyCondition.iPskey.iConditionCategory, KSwPSKeyCondition.iPskey.iConditionKey, value) == KErrNone)
         ret = ETrue;
 
-    FLOG(_L("CSwApplicationService::IsKeyValid, return = %d >>"), ret);
+    _DMEVNT_DEBUG(_L("CSwApplicationService::IsKeyValid, return = %d >>"), ret);
     return ret;
     }
 
@@ -101,7 +101,7 @@ TBool CSwApplicationService::IsKeyValid()
 // ---------------------------------------------------------------------------
 void CSwApplicationService::WaitForRequestCompleteL()
     {
-    FLOG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
 
     TRequestStatus status (KErrNone);
     RProperty prop;
@@ -110,7 +110,7 @@ void CSwApplicationService::WaitForRequestCompleteL()
     iOperation = ENoOpn;
     TPSKey pskey = GetPSKeyCondition().iPskey;
     do {
-        FLOG(_L("Waiting for IDLE state..."))
+        _DMEVNT_DEBUG(_L("Waiting for IDLE state..."))
         __LEAVE_IF_ERROR( prop.Attach(pskey.iConditionCategory, pskey.iConditionKey));
     
         prop.Subscribe(status);
@@ -119,7 +119,7 @@ void CSwApplicationService::WaitForRequestCompleteL()
         __LEAVE_IF_ERROR( prop.Get(pskey.iConditionCategory, pskey.iConditionKey, value));
     }while (IsSwInIdle(value));
 
-    FLOG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
     }
 
 // ---------------------------------------------------------------------------
@@ -127,13 +127,13 @@ void CSwApplicationService::WaitForRequestCompleteL()
 // ---------------------------------------------------------------------------
 TBool CSwApplicationService::IsSwInIdle(TInt aValue)
     {
-    FLOG(_L("CSwApplicationService::IsSwInIdle, value = %d >> "), aValue);
+    _DMEVNT_DEBUG(_L("CSwApplicationService::IsSwInIdle, value = %d >> "), aValue);
 
     TInt operation(aValue & Swi::KSwisOperationMask);
     TInt operationStatus(aValue & Swi::KSwisOperationStatusMask);
     TBool ret (EFalse);
 
-    FLOG(_L("operation %d, status %d"), operation, operationStatus);
+    _DMEVNT_DEBUG(_L("operation %d, status %d"), operation, operationStatus);
 
     if (Swi::ESwisStatusSuccess == operationStatus) 
         {
@@ -141,31 +141,31 @@ TBool CSwApplicationService::IsSwInIdle(TInt aValue)
             {
             case Swi::ESwisInstall: 
                 {
-                FLOG(_L("Installation in progress"));
+                _DMEVNT_DEBUG(_L("Installation in progress"));
                 iOperation = EOpnInstall;
                 }
                 break;
             case Swi::ESwisUninstall:
                 {
-                FLOG(_L("Uninstallation in progress"));
+                _DMEVNT_DEBUG(_L("Uninstallation in progress"));
                 iOperation = EOpnUninstall;
                 }
                 break;
             case Swi::ESwisRestore:
                 {
-                FLOG(_L("Restore in progress"));
+                _DMEVNT_DEBUG(_L("Restore in progress"));
                 iOperation = EOpnRestore;
                 }
                 break;
             default:
                 {
-                FLOG(_L("Unknown operation"));
+                _DMEVNT_DEBUG(_L("Unknown operation"));
                 iOperation = EOpnUnknown;
                 }
             }
         }
     ret = (operation != Swi::ESwisNone)? ETrue:EFalse;
-    FLOG(_L("CSwApplicationService::IsSwInIdle, ret = %d << "),ret);
+    _DMEVNT_DEBUG(_L("CSwApplicationService::IsSwInIdle, ret = %d << "),ret);
     return ret;
     }
 

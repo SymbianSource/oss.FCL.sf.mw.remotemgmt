@@ -26,7 +26,7 @@
 // ---------------------------------------------------------------------------
 CJavaApplicationService* CJavaApplicationService::NewL()
     {
-    FLOG(_L("CJavaApplicationService::NewL >>"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::NewL >>"));
 
     CJavaApplicationService* self = new (ELeave) CJavaApplicationService(KJavaPSKeyCondition);
     CleanupStack::PushL(self);
@@ -34,7 +34,7 @@ CJavaApplicationService* CJavaApplicationService::NewL()
     self->ConstructL();
 
     CleanupStack::Pop(self);
-    FLOG(_L("CJavaApplicationService::NewL <<"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::NewL <<"));
     return self;
     }
 
@@ -43,12 +43,12 @@ CJavaApplicationService* CJavaApplicationService::NewL()
 // ---------------------------------------------------------------------------
 CJavaApplicationService* CJavaApplicationService::NewLC()
     {
-    FLOG(_L("CJavaApplicationService::NewLC >>"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::NewLC >>"));
 
     CJavaApplicationService* self = CJavaApplicationService::NewL();
     CleanupStack::PushL(self);
 
-    FLOG(_L("CJavaApplicationService::NewLC <<"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::NewLC <<"));
     return self;
     }
 
@@ -57,9 +57,9 @@ CJavaApplicationService* CJavaApplicationService::NewLC()
 // ---------------------------------------------------------------------------
 void CJavaApplicationService::ConstructL()
     {
-    FLOG(_L("CJavaApplicationService::ConstructL >>"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::ConstructL >>"));
 
-    FLOG(_L("CJavaApplicationService::ConstructL <<"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::ConstructL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -67,9 +67,9 @@ void CJavaApplicationService::ConstructL()
 // ---------------------------------------------------------------------------
 CJavaApplicationService::CJavaApplicationService(const TPSKeyCondition& aPSKeyCondition):CDmEventServiceBase(aPSKeyCondition, EJavaService)
         {
-        FLOG(_L("CJavaApplicationService::CJavaApplicationService >>"));
+        _DMEVNT_DEBUG(_L("CJavaApplicationService::CJavaApplicationService >>"));
 
-        FLOG(_L("CJavaApplicationService::CJavaApplicationService <<"));
+        _DMEVNT_DEBUG(_L("CJavaApplicationService::CJavaApplicationService <<"));
         }
 
 // ---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ CJavaApplicationService::~CJavaApplicationService()
 // ---------------------------------------------------------------------------
 TBool CJavaApplicationService::IsKeyValid()
     {
-    FLOG(_L("CJavaApplicationService::IsKeyValid >>"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::IsKeyValid >>"));
     TBool ret (EFalse);
     TInt value (KErrNone);
 
@@ -93,7 +93,7 @@ TBool CJavaApplicationService::IsKeyValid()
     if (RProperty::Get(KJavaPSKeyCondition.iPskey.iConditionCategory, KJavaPSKeyCondition.iPskey.iConditionKey, value) == KErrNone)
         ret = ETrue;
 
-    FLOG(_L("CJavaApplicationService::IsKeyValid, return = %d >>"), ret);
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::IsKeyValid, return = %d >>"), ret);
     return ret;
     }
 
@@ -103,7 +103,7 @@ TBool CJavaApplicationService::IsKeyValid()
 // ---------------------------------------------------------------------------
 void CJavaApplicationService::WaitForRequestCompleteL()
     {
-    FLOG(_L("CJavaApplicationService::WaitForRequestCompleteL >>"));
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::WaitForRequestCompleteL >>"));
 
     TRequestStatus status (KErrNone);
     RProperty prop;
@@ -112,7 +112,7 @@ void CJavaApplicationService::WaitForRequestCompleteL()
     iOperation = ENoOpn;
     TPSKey pskey = GetPSKeyCondition().iPskey;
     do {
-        FLOG(_L("Waiting for IDLE state..."))
+        _DMEVNT_DEBUG(_L("Waiting for IDLE state..."))
         __LEAVE_IF_ERROR( prop.Attach(pskey.iConditionCategory, pskey.iConditionKey));
     
         prop.Subscribe(status);
@@ -121,7 +121,7 @@ void CJavaApplicationService::WaitForRequestCompleteL()
         __LEAVE_IF_ERROR( prop.Get(pskey.iConditionCategory, pskey.iConditionKey, value));
     }while (IsSwInIdle(value));
 
-    FLOG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
+    _DMEVNT_DEBUG(_L("CSwApplicationService::WaitForRequestCompleteL >>"));
     }
 
 // ---------------------------------------------------------------------------
@@ -129,14 +129,14 @@ void CJavaApplicationService::WaitForRequestCompleteL()
 // ---------------------------------------------------------------------------
 TBool CJavaApplicationService::IsSwInIdle(TInt aValue)
     {
-    FLOG(_L("CJavaApplicationService::IsSwInIdle, value = %d >> "), aValue);
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::IsSwInIdle, value = %d >> "), aValue);
     TBool ret (EFalse);
 
     TInt operation(aValue & KJavaOperationMask);
     TInt operationStatus(aValue & KJavaStatusMask);
 
 
-    FLOG(_L("operation %d, status %d"), operation, operationStatus);
+    _DMEVNT_DEBUG(_L("operation %d, status %d"), operation, operationStatus);
 
     if (EJavaStatusSuccess == operationStatus) 
         {
@@ -144,19 +144,19 @@ TBool CJavaApplicationService::IsSwInIdle(TInt aValue)
             {
             case EJavaInstall:
                 {
-                FLOG(_L("Uninstallation in progress"));
+                _DMEVNT_DEBUG(_L("Uninstallation in progress"));
                 iOperation = EOpnInstall;
                 }
                 break;
             case EJavaUninstall:
                 {
-                FLOG(_L("Restore in progress"));
+                _DMEVNT_DEBUG(_L("Restore in progress"));
                 iOperation = EOpnUninstall;
                 }
                 break;
             default:
                 {
-                FLOG(_L("Unknown operation"));
+                _DMEVNT_DEBUG(_L("Unknown operation"));
                 iOperation = EOpnUnknown;
                 }
             }
@@ -164,7 +164,7 @@ TBool CJavaApplicationService::IsSwInIdle(TInt aValue)
 
     ret = (operation != Swi::ESwisNone)? ETrue:EFalse;
 
-    FLOG(_L("CJavaApplicationService::IsSwInIdle, ret = %d << "),ret);
+    _DMEVNT_DEBUG(_L("CJavaApplicationService::IsSwInIdle, ret = %d << "),ret);
     return ret;
     }
 

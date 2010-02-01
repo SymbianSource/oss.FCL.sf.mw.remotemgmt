@@ -90,7 +90,7 @@ NONSHARABLE_CLASS(CDmEventScheduler) : public CBase
          * @param   aTaskName - Name of the task
          * @return None. Can leave with system wide error
          */
-        void WaitAndCreateConditionScheduleL(TName aTaskName);
+        void WaitAndCreateConditionScheduleL(TName& aTaskName);
 
     private:
 

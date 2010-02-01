@@ -51,9 +51,9 @@ NONSHARABLE_CLASS(CMmcService) : public CDmEventServiceBase
 
     public:
         /** Two phase construction **/
-        static CMmcService* CMmcService::NewL();
+        static CMmcService* NewL();
 
-        static CMmcService* CMmcService::NewLC();
+        static CMmcService* NewLC();
 
         /** Virtual destructor **/
         virtual ~CMmcService();
@@ -83,7 +83,7 @@ NONSHARABLE_CLASS(CMmcService) : public CDmEventServiceBase
          */
         const TDesC& TaskName();
         
-        void UpdateMmcStatus();
+        void UpdateMmcStatusL();
 
     private:
         /** Constructors **/

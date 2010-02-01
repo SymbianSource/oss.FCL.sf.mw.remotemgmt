@@ -49,9 +49,9 @@ NONSHARABLE_CLASS(CJavaApplicationService) : public CDmEventServiceBase
     public:
 
         /** Two phase construction **/
-        static CJavaApplicationService* CJavaApplicationService::NewL();
+        static CJavaApplicationService* NewL();
 
-        static CJavaApplicationService* CJavaApplicationService::NewLC();
+        static CJavaApplicationService* NewLC();
 
         /** Virtual destructor **/
         virtual ~CJavaApplicationService();

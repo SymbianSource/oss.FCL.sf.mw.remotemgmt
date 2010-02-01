@@ -59,6 +59,7 @@ namespace PolicyLanguage
 		_LIT8( EDataSyncEnforcementPolicy,			"datasync_enforcement_policy");		
 		_LIT8( ESyncMLEnforcementPolicy,			"syncml_enforcement_policy");		
 		_LIT8( EIMEnforcementPolicy,				"im_enforcement_policy");		
+		_LIT8( EDCMOEnforcementPolicy,				"dcmo_enforcement_policy");		
 
 		//values used in RuleTargetCheck functions
 		_LIT8( Any,									"any");			

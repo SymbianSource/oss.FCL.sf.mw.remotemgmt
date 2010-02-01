@@ -41,7 +41,7 @@ SOURCE 		  	EMailEnforcement.cpp
 SOURCE 		  	CommsDatEnforcement.cpp
 SOURCE		  	datasyncmlenforcement.cpp
 SOURCE		  	IMEnforcement.cpp
-
+SOURCE			dcmoenforcement.cpp
 
 USERINCLUDE   . ../policyengineserver/inc
 USERINCLUDE		../policyengineclient/inc

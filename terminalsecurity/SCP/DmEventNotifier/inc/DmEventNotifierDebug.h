@@ -36,16 +36,13 @@ inline void FWrite (TRefByValue<const TDesC> aFmt,...)
 #if defined (_DEBUG)
 
 #if defined(__WINS__)
-    #define FLOG            RDebug::Print
-    #define FLOG(arg...)    RDebug::Print(arg);
+    #define _DMEVNT_DEBUG(arg...)    RDebug::Print(arg);
 #else
-    #define FLOG            FWrite
-    #define FLOG(arg...)    FWrite(arg);
+    #define _DMEVNT_DEBUG(arg...)    FWrite(arg);
 #endif
 
 #else
-	#define FLOG
-	#define FLOG(arg...)
+    #define _DMEVNT_DEBUG(arg...)
 	
 #endif //_DEBUG
 #endif      // __DMEVENTNOTIFIERDEBUG_H__

@@ -159,12 +159,12 @@ class CSCPTimestampPlugin : public CSCPPlugin
 		/**
         * Fetches the resource data from the file.
         */        
-        TInt CSCPTimestampPlugin::GetResource();
+        TInt GetResource();
         
 		/**
         * Loads a specified resource buffer.
         */
-        HBufC16* CSCPTimestampPlugin::LoadResourceL( TInt aResId );
+        HBufC16* LoadResourceL( TInt aResId );
         
         void FormatResourceString(HBufC16 &aResStr);
     private: // Data

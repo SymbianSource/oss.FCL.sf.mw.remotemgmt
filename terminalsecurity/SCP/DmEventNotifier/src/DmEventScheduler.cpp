@@ -44,14 +44,14 @@ CDmEventScheduler::CDmEventScheduler()
 // ---------------------------------------------------------------------------
 CDmEventScheduler::~CDmEventScheduler()
     {
-    FLOG(_L("CDmEventScheduler::~CDmEventScheduler >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::~CDmEventScheduler >>"));
 
     iScheduler.Close();
 
     iServices.DeleteAll();
     iServices.Reset();
 
-    FLOG(_L("CDmEventScheduler::~CDmEventScheduler <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::~CDmEventScheduler <<"));
     }
 
 
@@ -60,25 +60,25 @@ CDmEventScheduler::~CDmEventScheduler()
 // ---------------------------------------------------------------------------
 CDmEventScheduler* CDmEventScheduler::NewL()
     { 
-    FLOG(_L("CDmEventScheduler::NewL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NewL >>"));
 
     CDmEventScheduler* self = new (ELeave) CDmEventScheduler();
     CleanupStack::PushL(self);
     self->ConstructL();
     CleanupStack::Pop();
 
-    FLOG(_L("CDmEventScheduler::NewL <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NewL <<"));
     return self;
     }
 
 CDmEventScheduler* CDmEventScheduler::NewLC()
     {
-    FLOG(_L("CDmEventScheduler::NewLC >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NewLC >>"));
 
     CDmEventScheduler* self = CDmEventScheduler::NewL();
     CleanupStack::PushL(self);
 
-    FLOG(_L("CDmEventScheduler::NewLC <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NewLC <<"));
     return self;
     }
 
@@ -87,7 +87,7 @@ CDmEventScheduler* CDmEventScheduler::NewLC()
 // ---------------------------------------------------------------------------
 void CDmEventScheduler::ConstructL()
     {
-    FLOG(_L("CDmEventScheduler::ConstructL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::ConstructL >>"));
 
     __LEAVE_IF_ERROR(iScheduler.Connect());
 
@@ -101,7 +101,7 @@ void CDmEventScheduler::ConstructL()
 
     iServices[EMmcService] = CMmcService::NewL();
 
-    FLOG(_L("CDmEventScheduler::ConstructL <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::ConstructL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ void CDmEventScheduler::ConstructL()
 // ---------------------------------------------------------------------------
 void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
     {
-    FLOG(_L("CDmEventScheduler::CreateConditionSchedule >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionSchedule >>"));
 
     //Create new schedule
     TInt err(KErrNone);
@@ -126,11 +126,11 @@ void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
         {
 
         TRAP(err, DeleteScheduleL());
-        FLOG(_L("Deleted existing schedule, err = %d"),err);
+        _DMEVNT_DEBUG(_L("Deleted existing schedule, err = %d"),err);
 
 
         //Performing for Software Installer
-        FLOG(_L("Registering for Software Installer..."));
+        _DMEVNT_DEBUG(_L("Registering for Software Installer..."));
         if (iServices[ESoftwareService]->IsKeyValid())
             {
             CSchConditionArray* aConditions;
@@ -145,10 +145,10 @@ void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
             }
         else
             {
-            FLOG(_L("Can't read PS key, hence not registering!"));
+            _DMEVNT_DEBUG(_L("Can't read PS key, hence not registering!"));
             }
         //Performing for Java Installer
-        FLOG(_L("Registering for Java Installer..."));
+        _DMEVNT_DEBUG(_L("Registering for Java Installer..."));
         if (iServices[EJavaService]->IsKeyValid())
             {
             CSchConditionArray* aConditions;
@@ -163,11 +163,11 @@ void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
             }
         else
             {
-            FLOG(_L("Can't read PS key, hence not registering!"));
+            _DMEVNT_DEBUG(_L("Can't read PS key, hence not registering!"));
             }
 
         //Performing for Mmc observer    
-        FLOG(_L("Registering for Mmc observer..."));
+        _DMEVNT_DEBUG(_L("Registering for Mmc observer..."));
         if (iServices[EMmcService]->IsKeyValid())
             {
             CSchConditionArray* aConditions;
@@ -185,17 +185,17 @@ void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
                 //Set cenrep value for mmc accordingly
                 
                 CMmcService *ptr = (CMmcService *) iServices[EMmcService];
-                ptr->UpdateMmcStatus();
+                ptr->UpdateMmcStatusL();
                 }
             }
         else
             {
-            FLOG(_L("Can't read PS key, hence not registering!"));
+            _DMEVNT_DEBUG(_L("Can't read PS key, hence not registering!"));
             }
         }
     else
         {
-        FLOG(_L("Scheduling for only the expired service"));
+        _DMEVNT_DEBUG(_L("Scheduling for only the expired service"));
         CSchConditionArray* aConditions;
 
         aConditions = CreateConditionLC(aService);
@@ -210,34 +210,33 @@ void CDmEventScheduler::CreateConditionScheduleL(CDmEventServiceBase* aService)
     
     SetScheduleEnabledL(schenabled);
     
-    FLOG(_L("CDmEventScheduler::CreateConditionSchedule, error = %d <<"), err);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionSchedule, error = %d <<"), err);
     }
 
 // ---------------------------------------------------------------------------
 // CDmEventScheduler::WaitAndCreateConditionScheduleL()
 // ---------------------------------------------------------------------------
-void CDmEventScheduler::WaitAndCreateConditionScheduleL(TName aTaskName)
+void CDmEventScheduler::WaitAndCreateConditionScheduleL(TName& aTaskName)
     {
-    FLOG(_L("CDmEventScheduler::WaitAndCreateConditionScheduleL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::WaitAndCreateConditionScheduleL >>"));
 
     SetScheduleEnabledL(EHandlerNotRegistered);
 
     CDmEventServiceBase* service = FindExpiredService(aTaskName);
  //   CleanupStack::PushL(service); // Not necessary, as service pointer is changed in the code
 
-    if ( service )
-        {
-        service->WaitForRequestCompleteL();
+    if(NULL == service) {
+        _DMEVNT_DEBUG(_L("[CDmEventScheduler]-> FindExpiredService() returned NULL..."));
+        return;
         }
 
+    service->WaitForRequestCompleteL();
     //Read the status from aService
     THandlerServiceId srvid;
     THandlerOperation opn;
 
-		if( service )
-		{
+
     	service->GetServiceIdAndOperation(srvid,opn);
-    }
 
     TBool mmcservice (EFalse);
     if (service == iServices[EMmcService])
@@ -259,17 +258,18 @@ void CDmEventScheduler::WaitAndCreateConditionScheduleL(TName aTaskName)
 
     if ( opn != ENoOpn )
         {
-        TRAPD(err, NotifyRegisteredServersL(srvid, opn));
-        FLOG(_L("Notification error = %d"), err);
+        TInt err = KErrNone;        
+        TRAP(err, NotifyRegisteredServersL(srvid, opn));
+        _DMEVNT_DEBUG(_L("Notification error = %d"), err);
         }
     else
         {
-        FLOG(_L("Operation got cancelled. Skipping notification"));
+        _DMEVNT_DEBUG(_L("Operation got cancelled. Skipping notification"));
         }
 
    // CleanupStack::Pop(service); //don't destroy as object is not owned
 
-    FLOG(_L("CDmEventScheduler::WaitAndCreateConditionScheduleL <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::WaitAndCreateConditionScheduleL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -283,7 +283,7 @@ TInt CDmEventScheduler::CreateConditionScheduleWithTaskL(
         CArrayFixFlat<TTaskSchedulerCondition>* &aConditions,
         CDmEventServiceBase* aService)
     {
-    FLOG(_L("CDmEventScheduler::CreateConditionScheduleWithTaskL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionScheduleWithTaskL >>"));
 
     TInt ret(KErrNone);
 
@@ -310,10 +310,10 @@ TInt CDmEventScheduler::CreateConditionScheduleWithTaskL(
     else
         {
         //Creating persistent schedule failed, do something...
-        FLOG(_L("Creation of persistent scheduled failed, error = %d"), ret);
+        _DMEVNT_DEBUG(_L("Creation of persistent scheduled failed, error = %d"), ret);
         }
 
-    FLOG(_L("CDmEventScheduler::CreateConditionScheduleWithTaskL, ret = %d <<"), ret);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionScheduleWithTaskL, ret = %d <<"), ret);
     return ret;
     }
 
@@ -322,7 +322,7 @@ TInt CDmEventScheduler::CreateConditionScheduleWithTaskL(
 // ---------------------------------------------------------------------------
 void CDmEventScheduler::DeleteScheduleL()
     {
-    FLOG(_L("CDmEventScheduler::DeleteScheduleL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::DeleteScheduleL >>"));
 
     RScheduler                              sc;
     CArrayFixFlat<TSchedulerItemRef>*       aSchRefArray = new CArrayFixFlat <TSchedulerItemRef>(KScheduleReferenceMax);
@@ -332,7 +332,7 @@ void CDmEventScheduler::DeleteScheduleL()
     CleanupStack::PushL(aSchRefArray);
 
     User::LeaveIfError( sc.GetScheduleRefsL( *aSchRefArray,aFilter) );
-    FLOG(_L("Schedule items: "));
+    _DMEVNT_DEBUG(_L("Schedule items: "));
     for ( TInt i=0; i<aSchRefArray->Count(); ++i  )
         {
         TSchedulerItemRef it = (*aSchRefArray)[i];
@@ -345,7 +345,7 @@ void CDmEventScheduler::DeleteScheduleL()
 
             CleanupStack::PushL( sc_entries );
             CleanupStack::PushL( sc_tasks );
-            FLOG (_L("%d. schedule handle: %d name:'%S'"),i,it.iHandle, &(it.iName) );
+            _DMEVNT_DEBUG (_L("%d. schedule handle: %d name:'%S'"),i,it.iHandle, &(it.iName) );
 
             TInt err = sc.GetScheduleL ( it.iHandle , sc_state, *sc_entries, sc_time, *sc_tasks);
 
@@ -354,19 +354,19 @@ void CDmEventScheduler::DeleteScheduleL()
                 for ( TInt j=0; j<sc_tasks->Count();++j)
                     {
                     TTaskInfo sc_task = (*sc_tasks)[j];
-                    FLOG(_L("         schedule task  %d  '%S'"),sc_task.iTaskId,&(sc_task.iName) );
+                    _DMEVNT_DEBUG(_L("         schedule task  %d  '%S'"),sc_task.iTaskId,&(sc_task.iName) );
 
                     err = sc.DeleteTask(sc_task.iTaskId);
-                    FLOG(_L("Deleted task state, error = %d"), err);
+                    _DMEVNT_DEBUG(_L("Deleted task state, error = %d"), err);
                     }
                 }
             else
                 {
-                FLOG(_L("Getting schedule error = %d"), err);
+                _DMEVNT_DEBUG(_L("Getting schedule error = %d"), err);
                 }
 
             err = sc.DeleteSchedule(it.iHandle );
-            FLOG(_L("Deleted schedule %d, error = %d"),i+1, err);
+            _DMEVNT_DEBUG(_L("Deleted schedule %d, error = %d"),i+1, err);
 
             CleanupStack::PopAndDestroy( sc_tasks );
             CleanupStack::PopAndDestroy( sc_entries );
@@ -374,7 +374,7 @@ void CDmEventScheduler::DeleteScheduleL()
         }
     CleanupStack::PopAndDestroy( aSchRefArray );
     CleanupStack::PopAndDestroy(&sc);
-    FLOG(_L("CDmEventScheduler::DeleteScheduleL <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::DeleteScheduleL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -382,7 +382,7 @@ void CDmEventScheduler::DeleteScheduleL()
 // ---------------------------------------------------------------------------
 CSchConditionArray* CDmEventScheduler::CreateConditionLC(CDmEventServiceBase* aService)
     {
-    FLOG(_L("CDmEventScheduler::CreateConditionLC >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionLC >>"));
 
     CSchConditionArray* conditions = new (ELeave) CSchConditionArray(KConditionArraySize);
     CleanupStack::PushL(conditions); //To be poped/destroyed by the caller
@@ -396,7 +396,7 @@ CSchConditionArray* CDmEventScheduler::CreateConditionLC(CDmEventServiceBase* aS
 
     conditions->AppendL(Condition);
 
-    FLOG(_L("CDmEventScheduler::CreateConditionLC <<"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::CreateConditionLC <<"));
     return conditions;
     }
 
@@ -405,30 +405,30 @@ CSchConditionArray* CDmEventScheduler::CreateConditionLC(CDmEventServiceBase* aS
 // ---------------------------------------------------------------------------
 CDmEventServiceBase* CDmEventScheduler::FindExpiredService(TName& aTaskName)
     {
-    FLOG(_L("CDmEventScheduler::FindExpiredService >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::FindExpiredService >>"));
     CDmEventServiceBase* ret (NULL);
     if (iServices[ESoftwareService]->TaskName().Compare(aTaskName) == KErrNone)
         {
-        FLOG(_L("SW Operation detected..."))
+        _DMEVNT_DEBUG(_L("SW Operation detected..."))
         ret = iServices[ESoftwareService];
         }
     else if (iServices[EJavaService]->TaskName().Compare(aTaskName) == KErrNone)
         {
-        FLOG(_L("Java Inst Operation detected..."))
+        _DMEVNT_DEBUG(_L("Java Inst Operation detected..."))
         ret = iServices[EJavaService];
         }
     else if (iServices[EMmcService]->TaskName().Compare(aTaskName) == KErrNone)
         {
-        FLOG(_L("MMC Operation detected..."))
+        _DMEVNT_DEBUG(_L("MMC Operation detected..."))
         ret = iServices[EMmcService];
         }
     else
         {
         //Should not land here...
-        FLOG(_L("Unknown trigger"));
+        _DMEVNT_DEBUG(_L("Unknown trigger"));
         }
 
-    FLOG(_L("CDmEventScheduler::FindExpiredService, ret = %X <<"), ret);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::FindExpiredService, ret = %X <<"), ret);
     return ret;
     }
 
@@ -437,7 +437,7 @@ CDmEventServiceBase* CDmEventScheduler::FindExpiredService(TName& aTaskName)
 // ---------------------------------------------------------------------------
 void CDmEventScheduler::NotifyRegisteredServersL(THandlerServiceId aServiceId, THandlerOperation aOpn)
     {
-    FLOG(_L("CDmEventScheduler::NotifyRegisteredServersL, serviceid = %d, operation = %d >>"), aServiceId, aOpn);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NotifyRegisteredServersL, serviceid = %d, operation = %d >>"), aServiceId, aOpn);
     //Read whome to notify...
     CRepository* cenrep (NULL);
     cenrep = CRepository::NewLC( KAppDmEventNotifierUid );
@@ -451,21 +451,22 @@ void CDmEventScheduler::NotifyRegisteredServersL(THandlerServiceId aServiceId, T
 
     if (notifyscp)
         {
-            FLOG(_L("CDmEventScheduler::NotifyRegisteredServersL: Invocation of SCPEventHandler"));
-            TRAPD ( err, {
+            TInt err = KErrNone;
+            _DMEVNT_DEBUG(_L("CDmEventScheduler::NotifyRegisteredServersL: Invocation of SCPEventHandler"));            
+            TRAP( err, {
             		CSCPEventHandler* handler = CSCPEventHandler::NewL();
             		handler->NotifyChangesL(aServiceId, aOpn);
             		delete handler; 
             		handler = NULL;
             	});
-	            FLOG(_L("CDmEventScheduler::NotifyRegisteredServersL: SCPEventHandler completed with err: %d"), err);
+	            _DMEVNT_DEBUG(_L("CDmEventScheduler::NotifyRegisteredServersL: SCPEventHandler completed with err: %d"), err);
 				}
     if (notifyam)
         {
         //Notify AM server on the happened operation
         }
 
-    FLOG(_L("CDmEventScheduler::NotifyRegisteredServersL notifyscp = %d, notifyam = %d<<"),notifyscp,notifyam);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::NotifyRegisteredServersL notifyscp = %d, notifyam = %d<<"),notifyscp,notifyam);
     }
 
 // ---------------------------------------------------------------------------
@@ -473,14 +474,14 @@ void CDmEventScheduler::NotifyRegisteredServersL(THandlerServiceId aServiceId, T
 // ---------------------------------------------------------------------------
 TBool CDmEventScheduler::IsScheduleEnabledL()
     {
-    FLOG(_L("CDmEventScheduler::IsScheduleEnabledL >>"));
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::IsScheduleEnabledL >>"));
     CRepository* cenrep (NULL);
     TInt error (KErrNone);
     TInt value (KErrNotFound);
 
     TRAP(error, cenrep = CRepository::NewL( KAppDmEventNotifierUid ));
 
-    FLOG(_L("Cenrep file read status = %d"), error);
+    _DMEVNT_DEBUG(_L("Cenrep file read status = %d"), error);
     User::LeaveIfError(error);
     CleanupStack::PushL(cenrep);
 
@@ -488,7 +489,7 @@ TBool CDmEventScheduler::IsScheduleEnabledL()
 
     CleanupStack::PopAndDestroy(cenrep);
 
-    FLOG(_L("CDmEventScheduler::IsScheduleEnabledL, value = %d, error = %d <<"),value, error);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::IsScheduleEnabledL, value = %d, error = %d <<"),value, error);
     return (value == EHandlerRegistered);
     }
 
@@ -497,18 +498,17 @@ TBool CDmEventScheduler::IsScheduleEnabledL()
 // ---------------------------------------------------------------------------
 void CDmEventScheduler::SetScheduleEnabledL(TBool aValue)
     {
-    FLOG(_L("CDmEventScheduler::SetScheduleEnabledL, aValue = %d >>"), aValue);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::SetScheduleEnabledL, aValue = %d >>"), aValue);
 
     CRepository* cenrep (NULL);
-    TInt error (KErrNone);
 
     cenrep = CRepository::NewL( KAppDmEventNotifierUid );
     CleanupStack::PushL(cenrep);
 
-    error = cenrep->Set(KDmEventNotifierEnabled, aValue);
+    TInt error = cenrep->Set(KDmEventNotifierEnabled, aValue);
 
     CleanupStack::PopAndDestroy(cenrep);
 
-    FLOG(_L("CDmEventScheduler::SetScheduleEnabledL, error = %d <<"),error);
+    _DMEVNT_DEBUG(_L("CDmEventScheduler::SetScheduleEnabledL, error = %d <<"),error);
     }
 //End of file

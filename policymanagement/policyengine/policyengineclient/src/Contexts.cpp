@@ -433,6 +433,11 @@ aEnforcementActive = EResponseNotApplicable;
             enforcementType = EApplicationManagement;
             resourceType.Set(PolicyEngineXACML::KApplicationManagement);
             }
+       else if(0 == segmentName.Compare(KDCMOURI))
+            {
+            enforcementType = EDCMOEnforcement;
+            resourceType.Set(PolicyEngineXACML::KDCMOEnforcement);
+            }
 		else
 		{
 		

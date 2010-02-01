@@ -55,6 +55,7 @@ namespace PolicyEngineXACML
 	_LIT8( KInstantMessagingEnforcemnt,			"InstantMessagingEnforcemnt");
 	_LIT8( KThirdPartySecureIds, 				"ThirdPartySecureIds");
 	_LIT8( KDeviceLockPasscodeVisibility,		"DeviceLockPasscodeVisibility");
+	_LIT8( KDCMOEnforcement,					"DCMOEnforcement");
 		
 }
 

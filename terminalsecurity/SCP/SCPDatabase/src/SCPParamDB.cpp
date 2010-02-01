@@ -177,7 +177,9 @@ TInt CSCPParamDB :: GetValueForParameterL(TInt aParamID, TInt32& aValue, TInt32&
 
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
-    lDBView.FirstL();
+    if(EFalse == lDBView.FirstL()) {
+        return KErrNotFound;
+    }
 
     TInt lRowCount = lDBView.CountL();
 
@@ -212,7 +214,9 @@ TInt CSCPParamDB :: GetValuesForParameterL(TInt aParamID, RPointerArray <HBufC>&
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
     
-    lDBView.FirstL();
+    if(EFalse == lDBView.FirstL()) {
+        return KErrNotFound;
+    }
 
     TInt size(0);
     TInt lRowCount = lDBView.CountL();

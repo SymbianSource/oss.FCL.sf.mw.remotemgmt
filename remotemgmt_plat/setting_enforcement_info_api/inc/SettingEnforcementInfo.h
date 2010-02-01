@@ -36,7 +36,8 @@ enum KSettingEnforcements
 	EIMEnforcement,
 	ECustomization,
 	ETerminalSecurity,
-	EApplicationManagement
+	EApplicationManagement,
+	EDCMOEnforcement
 	};
 
 

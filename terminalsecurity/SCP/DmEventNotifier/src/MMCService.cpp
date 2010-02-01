@@ -28,7 +28,7 @@
 // ---------------------------------------------------------------------------
 CMmcService* CMmcService::NewL()
     {
-    FLOG(_L("CMmcService::NewL >>"));
+    _DMEVNT_DEBUG(_L("CMmcService::NewL >>"));
 
     TInt value (KErrNotFound);
 
@@ -36,12 +36,12 @@ CMmcService* CMmcService::NewL()
     CMmcService* self (NULL);
     if(value == 0)
         {
-        FLOG(_L("MMC is removed, hence setting for insertion..."));
+        _DMEVNT_DEBUG(_L("MMC is removed, hence setting for insertion..."));
         self = new (ELeave) CMmcService(KMMCPSKeyConditionInsert);
         }
     else //(value == 1)
         {
-        FLOG(_L("MMC is inserted, hence setting for removal..."))
+        _DMEVNT_DEBUG(_L("MMC is inserted, hence setting for removal..."))
         self = new (ELeave) CMmcService(KMMCPSKeyConditionRemove);
         }
 
@@ -50,7 +50,7 @@ CMmcService* CMmcService::NewL()
     self->ConstructL();
     self->iLookingFor = value;
     CleanupStack::Pop(self);
-    FLOG(_L("CMmcService::NewL <<"));
+    _DMEVNT_DEBUG(_L("CMmcService::NewL <<"));
     return self;
     }
 
@@ -59,12 +59,12 @@ CMmcService* CMmcService::NewL()
 // ---------------------------------------------------------------------------
 CMmcService* CMmcService::NewLC()
     {
-    FLOG(_L("CMmcService::NewLC >>"));
+    _DMEVNT_DEBUG(_L("CMmcService::NewLC >>"));
 
     CMmcService* self = CMmcService::NewL();
     CleanupStack::PushL(self);
 
-    FLOG(_L("CMmcService::NewLC <<"));
+    _DMEVNT_DEBUG(_L("CMmcService::NewLC <<"));
     return self;
     }
 
@@ -73,9 +73,9 @@ CMmcService* CMmcService::NewLC()
 // ---------------------------------------------------------------------------
 void CMmcService::ConstructL()
     {
-    FLOG(_L("CMmcService::ConstructL >>"));
+    _DMEVNT_DEBUG(_L("CMmcService::ConstructL >>"));
 
-    FLOG(_L("CMmcService::ConstructL <<"));
+    _DMEVNT_DEBUG(_L("CMmcService::ConstructL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -83,9 +83,9 @@ void CMmcService::ConstructL()
 // ---------------------------------------------------------------------------
 CMmcService::CMmcService(const TPSKeyCondition& aPSKeyCondition):CDmEventServiceBase(aPSKeyCondition, EMmcService)
             {
-            FLOG(_L("CMmcService::CMmcService >>"));
+            _DMEVNT_DEBUG(_L("CMmcService::CMmcService >>"));
 
-            FLOG(_L("CMmcService::CMmcService <<"));
+            _DMEVNT_DEBUG(_L("CMmcService::CMmcService <<"));
             }
 
 // ---------------------------------------------------------------------------
@@ -101,7 +101,7 @@ CMmcService::~CMmcService()
 // ---------------------------------------------------------------------------
 TBool CMmcService::IsKeyValid()
     {
-    FLOG(_L("CMmcService::IsKeyValid >>"));
+    _DMEVNT_DEBUG(_L("CMmcService::IsKeyValid >>"));
     TBool ret (EFalse);
     TInt value (KErrNone);
 
@@ -109,7 +109,7 @@ TBool CMmcService::IsKeyValid()
     if (RProperty::Get(KMMCPSKey.iConditionCategory, KMMCPSKey.iConditionKey, value) == KErrNone)
         ret = ETrue;
 
-    FLOG(_L("CMmcService::IsKeyValid, return = %d >>"), ret);
+    _DMEVNT_DEBUG(_L("CMmcService::IsKeyValid, return = %d >>"), ret);
     return ret;
     }
 
@@ -119,12 +119,12 @@ TBool CMmcService::IsKeyValid()
 // ---------------------------------------------------------------------------
 void CMmcService::WaitForRequestCompleteL()
     {
-    FLOG(_L("CMmcService::WaitForRequestCompleteL >>"));
+    _DMEVNT_DEBUG(_L("CMmcService::WaitForRequestCompleteL >>"));
     TInt value (KErrNone);
 
     iOperation = ENoOpn;
     TInt err = RProperty::Get(KMMCPSKey.iConditionCategory, KMMCPSKey.iConditionKey, value);
-    FLOG(_L("err = %d"), err);
+    _DMEVNT_DEBUG(_L("err = %d"), err);
 
     switch (value)
         {
@@ -144,7 +144,7 @@ void CMmcService::WaitForRequestCompleteL()
             }
             break;
         }
-    FLOG(_L("CMmcService::WaitForRequestCompleteL <<"));
+    _DMEVNT_DEBUG(_L("CMmcService::WaitForRequestCompleteL <<"));
     }
 
 // ---------------------------------------------------------------------------
@@ -155,9 +155,9 @@ const TDesC& CMmcService::TaskName()
     return  KMmcTaskName();
     }
 
-void CMmcService::UpdateMmcStatus()
+void CMmcService::UpdateMmcStatusL()
     {
-    FLOG(_L("Looking for %d"), iLookingFor);
+    _DMEVNT_DEBUG(_L("Looking for %d"), iLookingFor);
 
     if (iLookingFor != KErrNotFound)
         {
@@ -167,6 +167,6 @@ void CMmcService::UpdateMmcStatus()
         }
     else 
         {
-        FLOG(_L("Can't set value %d to cenrep"), iLookingFor);
+        _DMEVNT_DEBUG(_L("Can't set value %d to cenrep"), iLookingFor);
         }
     }
