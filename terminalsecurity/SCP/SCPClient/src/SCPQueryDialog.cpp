@@ -24,7 +24,7 @@
 #include <avkon.rsg>
 #include <SecUi.rsg>
 // Include the SecUi definitions
-#include <SecUi.hrh>
+#include <secui.hrh>
 #include "SCPDebug.h"
 #include <SCPNotifier.rsg>
 // For Central Repository
@@ -262,8 +262,11 @@ void CSCPQueryDialog::PreLayoutDynInitL()
     // we are already on forgeround, need to update priority differently
 	if (var != EPSCTsyCallStateNone)
 	{
+		if (iECSSupport)
+		{
+		iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
+		}
 	
-	iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
 	}
     else if ((wgPrio == ECoeWinPriorityAlwaysAtFront)&&(iECSSupport))
         {

@@ -124,6 +124,14 @@ void CSyncMLFwUpdNotifier::GetParamsL( const TDesC8& aBuffer,
     iNoteInfo = pckg().iIntParam;
     iFotaMemoryNeeded = pckg().iMemoryNeeded;
     iFotaEncryptReq = pckg().iEncryptReq;
+	
+	iUserPostponeCount = pckg().iFotaUserPostponeCount;
+    iMaxPostponeCount = pckg().iFotaMaxPostponeCount;
+    iIntervalType = pckg().iIntervalType;
+    iInterval = pckg().iInterval;
+    
+    if(pckg().iSelectedReminder.Length() > 0)
+        iSelectedReminder.Copy(pckg().iSelectedReminder);
 
     // Call SetActive() so RunL() will be called by the active scheduler
     //
@@ -145,6 +153,8 @@ void CSyncMLFwUpdNotifier::RunL()
     FLOG(_L("[SmlNotif]\t CSyncMLFwUpdNotifier::RunL()"));
 
     TInt result( KErrNone );
+    const TInt KNormal = 1;
+		const TInt KForce = 0;
 
     // Turn lights on and deactivate apps -key
     //
@@ -169,6 +179,17 @@ void CSyncMLFwUpdNotifier::RunL()
                 {
                 result = ShowUpdateResultNoteL();
                 }
+            break;
+            }
+		case ESyncMLFwUpdPostponeLimitQuery:
+            {
+            result = ShowPostLimitUpdateStartQueryL(KNormal);
+       			break;
+     				}
+        
+        case ESyncMLFwUpdForceQuery:
+            {
+            result = ShowPostLimitUpdateStartQueryL(KForce);
             break;
             }
             
@@ -233,6 +254,11 @@ void CSyncMLFwUpdNotifier::RunL()
             {
             result = ShowUpdateStartQueryEncryptionL();
             break;
+            }
+		case ESyncMLFwUpdPostponeNote:
+            {
+            result = ShowPostponeLimitNoteL();
+            break; 
             }
         default: // Unhandled note type
             {
@@ -472,6 +498,135 @@ TInt CSyncMLFwUpdNotifier::ShowUpdateResultNoteL()
     
     return retval;
     }
+
+
+// -----------------------------------------------------------------------------
+// CSyncMLFwUpdNotifier::ShowPostLimitUpdateStartQueryL
+// -----------------------------------------------------------------------------
+//
+TInt CSyncMLFwUpdNotifier::ShowPostLimitUpdateStartQueryL(TInt aQueryType)
+{	    
+	    FTRACE( FPrint( _L(
+	        "[SmlNotif]\t CSyncMLFwUpdNotifier::ShowUpdateStartQueryL() profileId = %d" ),
+	        aQueryType ) );
+        
+      HBufC* headerText = StringLoader::LoadLC( R_FOTA_TITLE_PHONE_UPDATES );
+      TInt retval (ESyncMLDlgRespKeyNone);  
+      
+      TBool keypress(EFalse);
+//      CSyncMLQueryDialog* dlg = CSyncMLQueryDialog::NewL(keypress);
+      
+      CSyncMLMessageQueryDialog* msgDlg = CSyncMLMessageQueryDialog::NewL(keypress);
+      
+      // Implementation of notes for postpone limit requirement.
+        TBuf< KSyncMLMaxProfileNameLength > operatorName;
+        RetrieveProfileNameL( operatorName );
+        
+        HBufC* stringHolder = NULL;
+        retval = ESyncMLDlgRespKeyOk;       
+        TBool bShowInstallQuery = ETrue;
+        TInt fotaUpdateAppName (EFotaUpdateDM);
+        TInt errAppName = RProperty::Get( KPSUidNSmlDMSyncApp, KNSmlCurrentFotaUpdateAppName, fotaUpdateAppName );
+        TInt errShowInstall = RProperty::Get( KPSUidNSmlDMSyncApp, KDevManShowInstallNowQuery, bShowInstallQuery );
+
+        FTRACE( FPrint(
+                _L("CSyncMLFwUpdNotifier::ShowUpdateStartQueryL found key Show install query = %d"),
+                bShowInstallQuery ) );
+
+
+        if ( !errAppName && !errShowInstall && fotaUpdateAppName == EFotaUpdateNSC && !bShowInstallQuery )
+            {
+            FLOG(_L("[SmlNotif]\t CSyncMLFwUpdNotifier::ShowUpdateStartQueryL() do not show install now query "));  
+            bShowInstallQuery = EFalse;
+            }
+
+        if ( !bShowInstallQuery )
+            {
+            FLOG(_L("[SmlNotif]\t CSyncMLFwUpdNotifier::ShowUpdateStartQueryL() should not query "));   
+            }
+        else
+            {
+            FLOG(_L("[SmlNotif]\t CSyncMLFwUpdNotifier::ShowUpdateStartQueryL() will query for Install now? "));
+            if(aQueryType)
+                {
+                stringHolder = StringLoader::LoadLC( R_POST_LIMIT_FOTA_QUERY_INSTALL_NOW, operatorName );
+                msgDlg->SetMessageTextL( *stringHolder );
+                //dlg->SetPromptL( *stringHolder );
+                }
+            else
+                {
+                stringHolder = StringLoader::LoadLC( R_FOTA_QUERY_INSTALL_FORCE_NOW, operatorName );
+                msgDlg->SetMessageTextL( *stringHolder );
+                }
+            CleanupStack::PopAndDestroy( stringHolder );
+            stringHolder = NULL;
+            retval = ESyncMLDlgRespKeyNone;
+            if(aQueryType)
+                {
+                //retval = dlg->ExecuteLD( R_FOTA_INSTALL_CONFIRMATION_QUERY );
+                msgDlg->PrepareLC( R_FOTA_INSTALL_MESSAGE_QUERY );
+                msgDlg->SetHeaderTextL( headerText->Des() );
+                retval = msgDlg->RunLD();
+                }
+            else
+                {
+                //retval = dlg->ExecuteLD( R_FOTA_FORCE_INSTALL_CONFIRMATION_QUERY );
+                msgDlg->PrepareLC( R_FOTA_FORCE_INSTALL_CONFIRMATION_QUERY );
+                msgDlg->SetHeaderTextL( headerText->Des() );
+                msgDlg->RunLD();
+                }
+            //dlg = NULL;
+            msgDlg = NULL;
+            }   
+        // set KDevManShowInstallNowQuery key back to value that it should show query
+        TInt err = RProperty::Set(KPSUidNSmlDMSyncApp,KDevManShowInstallNowQuery,1 );
+        FTRACE( FPrint(
+                _L("Install query is set back to be shown, err = %d"),
+                err ) );
+        
+
+        if ( !keypress && retval )
+            {
+            stringHolder = StringLoader::LoadLC( R_FOTA_UPDATE_2_WARNING );
+
+            //keypress is EFalse here
+            msgDlg = CSyncMLMessageQueryDialog::NewL(keypress);
+            msgDlg->SetMessageTextL( *stringHolder );
+
+            CleanupStack::PopAndDestroy( stringHolder );
+            stringHolder = NULL;
+
+            msgDlg->PrepareLC( R_SML_MESSAGE_QUERY );  // Pushed dialog is popped inside RunLD
+            msgDlg->SetHeaderTextL( headerText->Des() );
+
+            if(aQueryType)
+                {
+                msgDlg->ButtonGroupContainer().SetCommandSetL( 
+                        R_SML_SOFTKEYS_ACCEPT_CANCEL__ACCEPT );
+                }
+            else
+                {
+                msgDlg->ButtonGroupContainer().SetCommandSetL( 
+                        R_SML_SOFTKEYS_FORCE_ACCEPT__ACCEPT );
+                }
+
+            retval = ESyncMLDlgRespKeyNone;
+            retval = msgDlg->RunLD();
+            msgDlg = NULL;
+            }
+        
+      CleanupStack::PopAndDestroy( headerText );
+    
+    FTRACE( FPrint( _L(
+        "[SmlNotif]\t CSyncMLFwUpdNotifier::ShowUpdateStartQueryL() completed: retval = %d, keypress = %d" ),
+        retval,keypress ) );
+
+	//call-termination key press is handled here.
+	if (keypress)
+    	retval = ESyncMLDlgRespKeyOthers;
+	
+    return retval;
+}
 
 // -----------------------------------------------------------------------------
 // CSyncMLFwUpdNotifier::ShowUpdateStartQueryL
@@ -937,6 +1092,76 @@ TInt CSyncMLFwUpdNotifier::ShowDownloadCancelledL()
      
     return retval;
 }
+
+
+// -----------------------------------------------------------------------------
+// CSyncMLFwUpdNotifier::ShowPostponeLimitNoteL
+// Shows the notification that the download is Postponed.
+// -----------------------------------------------------------------------------
+//
+TInt CSyncMLFwUpdNotifier::ShowPostponeLimitNoteL()
+{
+
+    FLOG( _L(
+        "[SmlNotif]\t CSyncMLFwUpdNotifier::ShowPostponeLimitNoteL() begin "));
+
+    TInt retval (KErrNone);
+    const TInt KTmpArraySize = 5;
+		//const TInt KStrArraySize = 20;
+    
+    CDesCArrayFlat* aStrArr = new CDesCArrayFlat(KTmpArraySize); 
+    CleanupStack::PushL(aStrArr);
+    aStrArr->AppendL(iSelectedReminder);
+    CArrayFixFlat<TInt>* aIntparam = new(ELeave) CArrayFixFlat<TInt>(KTmpArraySize);
+    CleanupStack::PushL(aIntparam);
+    TInt leftPostpone =  iMaxPostponeCount - iUserPostponeCount;
+    if(iInterval > 1)
+        aIntparam->AppendL(iInterval);
+    aIntparam->AppendL(leftPostpone);
+    aIntparam->AppendL(iMaxPostponeCount);
+    
+    HBufC* stringHolder( NULL );
+    //stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE, *aStrArr, *aIntparam);
+    if(iIntervalType == EMonthly)
+    {
+    	if(iInterval > 1)
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_MINUTES, *aIntparam);
+    	else
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_ONE_MINUTE, *aIntparam);
+  	}
+  	else if(iIntervalType == EHourly)
+    {
+    	if(iInterval > 1)
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_HOURS, *aIntparam);
+    	else
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_ONE_HOUR, *aIntparam);
+    		
+    }
+    else if(iIntervalType == EDaily)
+    {
+    	if(iInterval > 1)
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_DAYS, *aIntparam);
+    	else
+    	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_ONE_DAY, *aIntparam);
+    		
+  	}
+    CAknInformationNote* infoNote = new (ELeave) CAknInformationNote;
+
+    infoNote->ExecuteLD( *stringHolder );
+
+    
+    CleanupStack::PopAndDestroy();
+    CleanupStack::PopAndDestroy( aIntparam );
+    CleanupStack::PopAndDestroy(aStrArr);
+        
+    FLOG( _L(
+        "[SmlNotif]\t CSyncMLFwUpdNotifier::ShowPostponeLimitNoteL() Completed "));   
+     
+    return retval;
+}
+
+
+
 // -----------------------------------------------------------------------------
 // CSyncMLFwUpdNotifier::ShowDownloadResumeL
 // Shows the notification to the user for resuming the download.

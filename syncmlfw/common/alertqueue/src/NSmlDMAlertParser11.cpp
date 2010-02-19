@@ -18,6 +18,8 @@
 
 #include <centralrepository.h>
 #include <DevManInternalCRKeys.h>
+#include <e32property.h>
+#include <nsmldmconst.h>
 #include "NSmlAlertQueue.h"
 #include "nsmldebug.h" 
 // ---------------------------------------------------------
@@ -72,6 +74,14 @@ void CNSmlDMAlertParser11::ParseMessageL()
     delete centrep;
 	if( SanSupport == 1 )
    	{
+	if(uiMode == ESilent) //silent
+	    {
+        static _LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
+        static _LIT_SECURITY_POLICY_C1(KAllowWriteDeviceDataPolicy, ECapabilityWriteDeviceData);
+        RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KAllowWriteDeviceDataPolicy);
+        TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);
+        DBG_FILE_CODE( r2, _S8("CNSmlDMAlertParser11::ParseMessageL() KNSmlDMSilentJob set error code") );
+	    }
     iAlertInfo.SetUimode(uiMode);
    	}	
 	if (uiMode == 0)

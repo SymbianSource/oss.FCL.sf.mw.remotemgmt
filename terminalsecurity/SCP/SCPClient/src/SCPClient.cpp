@@ -39,7 +39,7 @@
 #include <TerminalControl3rdPartyAPI.h>
 #include <SCPServerInterface.h>
 #include <SecUi.rsg>
-#include <SecUi.hrh>
+#include <secui.hrh>
 #include <StringLoader.h>
 #include <bautils.h>
 //#endif // DEVICE_LOCK_ENHANCEMENTS

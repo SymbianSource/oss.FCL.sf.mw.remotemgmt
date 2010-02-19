@@ -20,8 +20,13 @@
 #include <featmgr.h>   // FeatureManager
 #include <cmdefconnvalues.h>
 #include <cmmanager.h>
-#include <ApUtils.h>
+#include <cmmanagerkeys.h>
+#include <rconnmon.h>
+#include <nsmldmconst.h>
+#include <nsmlconstants.h>
 #include <etelpckt.h>
+#include <etel.h> //for telephone mode
+#include <etelmm.h> //for telephone mode
 #include "nsmldialiap.h"
 #include <nsmlconstants.h>
 #include "nsmlerror.h"
@@ -53,12 +58,13 @@ CNSmlDialUpAgent::~CNSmlDialUpAgent()
 // CNSmlDialUpAgent::ConstructL()
 // 2-phase
 // --------------------------------------------------------------------
-void CNSmlDialUpAgent::ConstructL()
+void CNSmlDialUpAgent::ConstructL(TBool aDmJob)
     {
 	DBG_FILE( _S8("CNSmlDialUpAgent::ConstructL") );
 	CActiveScheduler::Add( this );
 	iCancelCalled = EFalse;    
-	iSocketConnection = EFalse;    
+	iSocketConnection = EFalse;  
+	iDmjob = aDmJob;
 	FeatureManager::InitializeLibL();  
 	}
 //------------------------------------------------------------
@@ -263,20 +269,7 @@ void CNSmlDialUpAgent::StartDatacallL()
     User::LeaveIfError( iSocketServer.Connect() );		
     User::LeaveIfError( iConnection.Open( iSocketServer ) );
     iSocketConnection = ETrue;
-    if ( static_cast<TInt32>(iIAPid) == -1 )
-        {
-        iConnection.Start( iPref, iStatus );
-        }
-    else if( static_cast<TInt32>(iIAPid) == -2 ) // default connection 
-        {
-
-        iConnection.Start( iStatus );	
-
-        }
-    else
-        {
-        iConnection.Start( iPref, iStatus );
-        }
+    iConnection.Start( iPrefList, iStatus );
     }
 	
 // ---------------------------------------------------------
@@ -377,33 +370,110 @@ TBool CNSmlDialUpAgent::IsConnectedL() const
 void CNSmlDialUpAgent::DoSettingsL()
     {
     DBG_FILE( _S8("CNSmlDialUpAgent::DoSettingsL") );
-    iOffline=IsInOfflineModeL();
-    if( static_cast<TInt32>(iIAPid) == -1 )
-        {		
-        if(iOffline)
-            {		
-            iPref.SetDialogPreference( ECommDbDialogPrefPrompt );
-            iPref.SetBearerSet(EApBearerTypeWLAN);	
-            }
-        else
-            {		
-            iPref.SetDialogPreference( ECommDbDialogPrefPrompt );		
-            iPref.SetBearerSet(EApBearerTypeAllBearers);
-            }				
-        }
-    else if( iOffline &&  ( static_cast<TInt32>(iIAPid) == -2 ) ) // default connection
+    iOffline=IsInOfflineModeL();            
+    iExtPrefs.SetForcedRoaming(EFalse);
+    if(  ( static_cast<TInt32>(iIAPid) == -2 ) || 
+            static_cast<TInt32>(iIAPid) == -1 ) // default connection
         {
-        iPref.SetDialogPreference( ECommDbDialogPrefPrompt );
-        iPref.SetBearerSet(EApBearerTypeWLAN);	
+        TBool Snap = EFalse;
+        RCmManager cmmgr;
+        cmmgr.OpenL();
+        TCmDefConnValue defConnValue;
+        cmmgr.ReadDefConnL(defConnValue);
+        cmmgr.Close();
+        if(defConnValue.iType == ECmDefConnDestination)
+            {
+            iExtPrefs.SetSnapId(defConnValue.iId);
+            Snap = ETrue;
+            }
+        else if(defConnValue.iType == ECmDefConnConnectionMethod)
+            {
+            iExtPrefs.SetIapId(defConnValue.iId);   
+            }
+            iExtPrefs.SetConnSelectionDialog(EFalse);
+        if(iDmjob)
+            {            
+            TInt val = KErrNotFound;
+            TInt r2=RProperty::Get(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,val);
+			DBG_FILE_CODE( r2, _S8("CNSmlDialUpAgent::DoSettingsL dc KNSmlDMSilentJob set error code") );
+            if(val == ESilent) //silent session
+                {
+                //Check the cenrep key
+                TInt currentmode = KErrNone;
+                CRepository* rep = CRepository::NewLC( KCRUidCmManager );
+                rep->Get(KCurrentCellularDataUsage, currentmode );
+                CleanupStack::PopAndDestroy(); //rep
+                //if "Always ask", check the roam or home
+                // if snap dont allow silent connections at all in"always ask"
+                if(Snap)//Check also for roaming n/w IAP as d.c case
+                    {
+                    //Check the general settings                
+                    if(ECmCellularDataUsageConfirm ==  currentmode)
+                        {
+                        //As silent session fails in roam or home with snap, then dont go for silent sessions .
+                        iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourDefault  );
+                        }
+                    else
+                        {
+                        iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourConnSilent );
+                        }
+                    }
+                else //IAP as d.c
+                    {
+
+                    //dont set any preference, as this leads to fail  
+                    //else //home n/w or roam n/w with automatic or WLAN only
+                    TBool roaming = EFalse;
+                    IsRoamingL(roaming);
+                    if(ECmCellularDataUsageConfirm ==  currentmode && roaming)
+                        {
+                        //No silent connection preference, as this leads to failure of connection
+                        iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourDefault  );
+                        }
+                    else
+                        iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourConnSilent );
+                    }
+                RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,KErrNone);
+                }
+            }
         }
     else
         {
-        iPref.SetIapId( iIAPid );
-        iPref.SetDialogPreference( ECommDbDialogPrefDoNotPrompt );
+        iExtPrefs.SetIapId(iIAPid);
+        iExtPrefs.SetConnSelectionDialog(EFalse);
+        if(iDmjob)
+            {
+            TInt val = KErrNotFound;
+            TInt r2=RProperty::Get(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,val);
+			DBG_FILE_CODE( r2, _S8("CNSmlDialUpAgent::DoSettingsL IAP KNSmlDMSilentJob set error code") );
+            if(val == ESilent) //silent session
+               {
+                //Check the cenrep key
+                TInt currentmode = KErrNone;
+                CRepository* rep = CRepository::NewLC( KCRUidCmManager );
+                rep->Get(KCurrentCellularDataUsage, currentmode );
+                CleanupStack::PopAndDestroy(); //rep          
+                TBool roaming = EFalse;
+                IsRoamingL(roaming);  
+                if(ECmCellularDataUsageConfirm ==  currentmode && roaming )
+                    {
+                    //As silent session fails in roam or home with snap, then dont go for silent sessions .
+                    iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourDefault  );
+                    }
+                else
+                    {
+                    iExtPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourConnSilent );
+                    }
+               }
+            }
+        RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,KErrNone);
         }
+    iPrefList.AppendL(&iExtPrefs);
+
     }
 //----------------------------------------------------------
 //CNsmlDialUpAgent::IsOfflineModeL()
+//------------------------------------------------------------	
 TBool CNSmlDialUpAgent::IsInOfflineModeL()
     {
     TInt operationsAllowed( ECoreAppUIsNetworkConnectionAllowed );
@@ -413,3 +483,67 @@ TBool CNSmlDialUpAgent::IsInOfflineModeL()
 	
     return ( operationsAllowed == ECoreAppUIsNetworkConnectionNotAllowed ) ? ETrue : EFalse;
     }
+
+//------------------------------------------------------------
+// CNSmlDialUpAgent::IsRoamingL()
+//  Returns roaming network or not
+//------------------------------------------------------------	
+void CNSmlDialUpAgent::IsRoamingL( TBool& aRoaming)
+    {
+     	RTelServer telServer;
+	User::LeaveIfError( telServer.Connect());
+	
+	RTelServer::TPhoneInfo teleinfo;
+	User::LeaveIfError( telServer.GetPhoneInfo( 0, teleinfo ) );
+	
+	RMobilePhone phone;
+	User::LeaveIfError( phone.Open( telServer, teleinfo.iName ) );
+	
+	User::LeaveIfError(phone.Initialise());	
+	
+	RMobilePhone::TMobilePhoneNetworkMode mode;        	        	
+	TInt err = phone.GetCurrentMode( mode );
+	phone.Close();
+	telServer.Close();
+	TInt Bearer = EBearerIdGSM ;
+	if( KErrNone == err )
+		{
+		switch(mode)
+		{
+		case RMobilePhone::ENetworkModeGsm:		
+			{
+			Bearer = EBearerIdGSM; 			
+			break;		
+			}
+		case RMobilePhone::ENetworkModeWcdma:
+			{                		     		
+			Bearer = EBearerIdWCDMA  ;			
+			}	
+		default: 
+			{       			
+			break;
+			}        				
+		}
+	}	
+    RConnectionMonitor monitor;
+    TRequestStatus status;
+    // open RConnectionMonitor object
+    monitor.ConnectL();
+    CleanupClosePushL( monitor );
+    TInt netwStatus(0);
+    monitor.GetIntAttribute( Bearer, 
+            0, 
+            KNetworkRegistration,
+            netwStatus, 
+            status );
+    User::WaitForRequest( status );
+    CleanupStack::PopAndDestroy(); // Destroying monitor
+    if ( status.Int() == KErrNone && netwStatus == ENetworkRegistrationRoaming )
+        {
+        aRoaming = ETrue;
+        }
+    else //home n/w or some other state in n/w
+        {
+        aRoaming = EFalse;
+        }
+}

@@ -19,8 +19,6 @@
 
 // INCLUDE FILES
 #include <StringLoader.h>
-#include <ApSelect.h>
-#include <ApUtils.h>
 #include <collate.h>
 #include <featmgr.h>
 #include <fotaserver.rsg>

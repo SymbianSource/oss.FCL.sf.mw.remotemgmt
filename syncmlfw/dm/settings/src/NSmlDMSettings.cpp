@@ -29,7 +29,7 @@
 #include "bautils.h"
 #include "NSmlDMResourceProfile.h"
 #include "DMprofileContentHandler.h"
-#include "RXMLReader.h"
+#include "rxmlreader.h"
 #include <centralrepository.h>
 #include "DevManInternalCRKeys.h"
 

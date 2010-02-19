@@ -77,17 +77,6 @@ RESOURCE TBUF r_sml_init_dm_server_prompt    { buf = qtn_dm_query_accept_configu
 // -----------------------------------------------------------------------------
 RESOURCE TBUF r_qtn_dm_query_accept_postsale    { buf = qtn_dm_query_accept_postsale ; }
 
-//
-// -----------------------------------------------------------------------------
-//   
-// r_fota_conf_query_connection_is_needed
-// Text for the server initiated management session acception
-// pop-up query.
-//
-// -----------------------------------------------------------------------------
-//
-RESOURCE TBUF r_fota_conf_query_connection_is_needed    { buf = qtn_fota_conf_query_connection_is_needed; }
-
 // -----------------------------------------------------------------------------
 //   
 // r_sml_server_msg_prompt
@@ -173,6 +162,25 @@ RESOURCE TBUF r_fota_not_permitted          { buf = qtn_fota_not_permitted; }
 //
 RESOURCE TBUF r_fota_query_install_now      { buf = qtn_fota_conf_query_install_now; }
 
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_query_install_force_now
+// Text indicating that firmware updating is not permitted.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_query_install_force_now      { buf = qtn_att_fota_conf_query_install_forced; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_post_limit_fota_query_install_now
+// Text indicating that firmware updating, is to be done now or later.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_post_limit_fota_query_install_now      { buf = qtn_att_fota_conf_query_install_now; }
+
 // -----------------------------------------------------------------------------
 //   
 // r_fota_update_1_warning
@@ -242,11 +250,22 @@ RESOURCE TBUF r_fota_download_general_resume   { buf = qtn_fota_query_download_e
 RESOURCE TBUF r_fota_download_no_resume   { buf = qtn_fota_query_download_error_restart; }
 RESOURCE TBUF r_fota_download_resume   		{ buf = qtn_fota_query_download_resume; }
 
+// Update Postpone Limit
+
+RESOURCE TBUF r_fota_postpone_update_one_minute   { buf = qtn_att_fota_info_installation_postponed_one_minute; }
+RESOURCE TBUF r_fota_postpone_update_minutes   { buf = qtn_att_fota_info_installation_postponed_minutes; }
+RESOURCE TBUF r_fota_postpone_update_one_hour   { buf = qtn_att_fota_info_installation_postponed_one_hour; }
+RESOURCE TBUF r_fota_postpone_update_hours   { buf = qtn_att_fota_info_installation_postponed_hours; }
+RESOURCE TBUF r_fota_postpone_update_one_day   { buf = qtn_att_fota_info_installation_postponed_one_day; }
+RESOURCE TBUF r_fota_postpone_update_days   { buf = qtn_att_fota_info_installation_postponed_days; }
+
+
 // Header text for encryption related queries
 RESOURCE TBUF r_fota_update_dec_warning        { buf = qtn_fota_msg_query_update_dec_warning; }
 RESOURCE TBUF r_fota_update_enc                { buf = qtn_fota_msg_query_update_encrypt; }
 RESOURCE TBUF r_fota_update_enc_battery_low    { buf = qtn_fota_battery_encryption_low; }
 RESOURCE TBUF r_fota_device_memory_busy        { buf = qtn_fota_device_busy; }
+
 // =============================================================================
 // SOFTKEYS
 //
@@ -267,6 +286,25 @@ RESOURCE CBA r_sml_softkeys_accept_cancel__accept
         };
     }
 
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_softkeys_force_accept
+// Query for the server initiated session acception.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE CBA r_sml_softkeys_force_accept__accept
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; },
+        CBA_BUTTON { txt=text_softkey_empty;},
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; }
+        };
+    }
+
+
 //------------------------------------------------------------------------------
 //softkeys for the query to install downloaded package
 //------------------------------------------------------------------------------
@@ -278,6 +316,21 @@ RESOURCE CBA r_fota_install_query_softkeys_now_later__now
         CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_now;   },
         CBA_BUTTON { id = EAknSoftkeyNo;  txt = text_softkey_later; },
         CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_now;   }
+        };
+    }
+    
+    
+//------------------------------------------------------------------------------
+//softkeys for the query to install downloaded package, customized for AT&T.
+//------------------------------------------------------------------------------
+
+RESOURCE CBA r_fota_install_query_softkeys_force__now
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_ok;   },
+        CBA_BUTTON { txt=text_softkey_empty;},
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_ok;   }
         };
     }
 
@@ -316,7 +369,6 @@ RESOURCE DIALOG r_sml_confirmation_query
 //
 // -----------------------------------------------------------------------------
 
- 
  RESOURCE DIALOG r_fota_install_confirmation_query
     {
     flags   = EGeneralQueryFlags;
@@ -336,6 +388,120 @@ RESOURCE DIALOG r_sml_confirmation_query
         };
     }
 
+/*
+
+RESOURCE DIALOG r_fota_install_confirmation_query
+     {
+     flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+     buttons = r_fota_install_query_softkeys_now_later__now;
+     items   =
+         {
+                 DLG_LINE
+                     {
+                     type    = EAknCtPopupHeadingPane;
+                     id      = EAknMessageQueryHeaderId;
+                     control = AVKON_HEADING
+                         {
+                         label   = qtn_sml_server_message_heading;
+                         headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                         };
+                     },
+                     DLG_LINE
+                         {
+                         type    = EAknCtMessageQuery;
+                         id      = EAknMessageQueryContentId;
+                         control = AVKON_MESSAGE_QUERY
+                             {
+                             //layout    = EConfirmationQueryLayout;
+                             //animation = R_QGN_NOTE_QUERY_ANIM;
+                             message = "%U";
+                             };
+                         }
+         };
+     }
+     
+     */
+
+ 
+ // -----------------------------------------------------------------------------
+ //   
+ // r_sml_confirmation_query
+ // Query for forcing the downloaded package installation.
+ //
+ // -----------------------------------------------------------------------------
+
+  
+  RESOURCE DIALOG r_fota_force_install_confirmation_query
+     {
+     flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+     buttons = r_fota_install_query_softkeys_force__now;
+     items   =
+         {
+                 DLG_LINE
+                     {
+                     type    = EAknCtPopupHeadingPane;
+                     id      = EAknMessageQueryHeaderId;
+                     control = AVKON_HEADING
+                         {
+                         label   = qtn_sml_server_message_heading;
+                         headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                         };
+                     },
+                     DLG_LINE
+                         {
+                         type    = EAknCtMessageQuery;
+                         id      = EAknMessageQueryContentId;
+                         control = AVKON_MESSAGE_QUERY
+                             {
+                             //layout    = EConfirmationQueryLayout;
+                             //animation = R_QGN_NOTE_QUERY_ANIM;
+                             message = "%U";
+                             };
+                         }
+         };
+     }
+
+  
+  // -----------------------------------------------------------------------------
+   //   
+   // r_sml_confirmation_query
+   // Query for forcing the downloaded package installation.
+   //
+   // -----------------------------------------------------------------------------
+
+    
+    RESOURCE DIALOG r_fota_install_message_query
+       {
+       flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+       buttons = r_fota_install_query_softkeys_now_later__now;
+       items   =
+           {
+                   DLG_LINE
+                       {
+                       type    = EAknCtPopupHeadingPane;
+                       id      = EAknMessageQueryHeaderId;
+                       control = AVKON_HEADING
+                           {
+                           label   = qtn_sml_server_message_heading;
+                           headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                           };
+                       },
+                       DLG_LINE
+                           {
+                           type    = EAknCtMessageQuery;
+                           id      = EAknMessageQueryContentId;
+                           control = AVKON_MESSAGE_QUERY
+                               {
+                               //layout    = EConfirmationQueryLayout;
+                               //animation = R_QGN_NOTE_QUERY_ANIM;
+                               message = "%U";
+                               };
+                           }
+           };
+       }
+
+  
+  
 // -----------------------------------------------------------------------------
 //   
 // r_sml_server_msg_infonote

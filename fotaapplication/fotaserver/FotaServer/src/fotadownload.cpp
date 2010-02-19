@@ -1387,7 +1387,8 @@ void CFotaDownload::SetIapToUseL(TPackageState aParams, const TInt aIapid)
 
 	// 2/3 GET IAP FROM ESOCK ----------------------------------------------
 	// resolve which accespoint is used for current DM session
-	if ( profIapid == KErrNotFound && aIapid==KErrNotFound)
+	if ( (profIapid == KErrNotFound || profIapid == KErrGeneral)  
+			&& aIapid==KErrNotFound)
 		{
 		RSocketServ serv;
 		CleanupClosePushL( serv );
@@ -1451,8 +1452,8 @@ void CFotaDownload::SetIapToUseL(TPackageState aParams, const TInt aIapid)
 		CleanupStack::PopAndDestroy( 2 ); // conn, serv		
 		}
 	TInt newIapid( KErrNotFound );
-	if ( sockIapid!=KErrNotFound ) newIapid = sockIapid;
-	if ( profIapid!=KErrNotFound ) newIapid = profIapid;
+	if ( sockIapid!=KErrNotFound  ) newIapid = sockIapid;
+	if ( profIapid!=KErrNotFound && profIapid != KErrGeneral ) newIapid = profIapid;
 	if ( aIapid   !=KErrNotFound ) newIapid = aIapid;
 
 	//Do some intelligent work during resume
@@ -1468,17 +1469,17 @@ void CFotaDownload::SetIapToUseL(TPackageState aParams, const TInt aIapid)
 	if (active==EFalse && iDLState.iState == RFotaEngineSession::EDownloadProgressingWithResume)
 		{
 		//Actual resume only
-		if (!iUserInitiatedResume && profIapid == KErrNotFound  )
+		if (!iUserInitiatedResume && (profIapid == KErrNotFound || profIapid == KErrGeneral  ) )
 			{
 			//FMS triggered resume, apply Rule 1
 			newIapid = iDLState.iIapId;
 			}
-		else if (profIapid == KErrNotFound)
+		else if (profIapid == KErrNotFound || profIapid == KErrGeneral )
 			{
 			//User triggered resume, apply Rule 2
 			newIapid = KErrNotFound;
 			}
-		else if (profIapid != iDLState.iIapId)
+		else if (profIapid != iDLState.iIapId && profIapid > KErrNone)
 			{
 			//IAP has changed in DM profile, apply Rule 3
 			newIapid = profIapid;

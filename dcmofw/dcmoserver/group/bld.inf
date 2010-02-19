@@ -24,9 +24,9 @@ PRJ_EXPORTS
 
 // Generic configuration interface for component cenrep settings  
 ../conf/dcmo.confml                   MW_LAYER_CONFML(dcmo.confml)
-../conf/dcmo_2001FE47.crml 	    	    MW_LAYER_CONFML(dcmo_2001FE47.crml)
+../conf/dcmo_2001FE47.crml 	    	    MW_LAYER_CRML(dcmo_2001FE47.crml)
 ../conf/cameracontrol.confml       		MW_LAYER_CONFML(cameracontrol.confml)
-../conf/cameracontrol_2000253D.crml 	MW_LAYER_CONFML(cameracontrol_2000253D.crml)
+../conf/cameracontrol_2000253D.crml 	MW_LAYER_CRML(cameracontrol_2000253D.crml)
 
 PRJ_MMPFILES
 dcmoserver.mmp

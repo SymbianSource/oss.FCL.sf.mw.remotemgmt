@@ -24,6 +24,7 @@
 #include <nsmldebug.h>
 #include <nsmlphoneinfo.h>
 #include <nsmlunicodeconverter.h>
+#include <centralrepository.h>
 // common includes with DM
 #include "nsmlcliagconstants.h"
 #include "NSmlCmdsBase.h"
@@ -50,7 +51,7 @@
 #include "nsmldssettings.h"
 #include "nsmldsbatchbuffer.h"
 #include "nsmldshostclient.h"
-
+#include "nsmloperatordefines.h"
 
 #ifndef __WINS__
 // This lowers the unnecessary compiler warning (armv5) to remark.
@@ -62,6 +63,7 @@
 
 // CONSTANTS
 _LIT8( KNSmlRoot, "/" );
+static const TInt KMaxLength = 255;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -1713,7 +1715,7 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 		}
 		
 	// status 406 is returned if <Filter> is present BUT the session continues
-	if ( aAlert->itemList->item )
+	if (  aAlert->itemList && aAlert->itemList->item )
 	    {
 	    if ( aAlert->itemList->item->target )
 	        {
@@ -2533,6 +2535,10 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	// DataStore elements
 	SmlDevInfDatastoreList_t** currDatastorePtr = &devInf->datastore;
 
+    // Operator DevInf ext fields enabler : START
+    InsertOperatorExtensionDevInfFieldsL( devInf );
+    // Operator DevInf ext fields enabler : END
+	
     iDSContent.SetToFirst();
 
 	do
@@ -4649,5 +4655,114 @@ TInt CNSmlDSCmds::ConvertUid( const TDesC8& aLiteralUid, TSmlDbItemUid& aNumeric
 
 	return lexer.Val( aNumericUid );
 	}
+
+// -----------------------------------------------------------------------------
+// CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL
+// Adds operator specific extension DevInf fields <XNam> and <XVal>
+// Currently only one <XNam> and one corresponding <XVal> field is supported
+// -----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL(SmlDevInfDevInfPtr_t& aDevInf)
+    {
+    TInt error = KErrNotFound;
+    CRepository *operatorSettingsCenrep = NULL;
+    
+    // TRAP the creation of operator cenrep handle, because we don't want to 
+    // leave if the cenrep is not present
+    TRAP( error, operatorSettingsCenrep = CRepository::NewL( KNsmlOperatorCenrepUID ));
+    if( error != KErrNone )
+        {
+        // operator cenrep not found
+        return;
+        }
+    else
+        {
+        CleanupStack::PushL( operatorSettingsCenrep );
+
+        // get the server id from the current profile
+        TInt profileId( iAgent->ProfileId() );
+        CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewLC();
+        CNSmlDSProfile* profile = NULL;
+        TRAP( error, profile = dsSettings->ProfileL( profileId ) );
+        
+        if( error != KErrNone || !profile )
+            {
+            // if there was an error in reading profile from the profile ID
+            // return do not proceed to change the DevInf
+            CleanupStack::PopAndDestroy( dsSettings );
+            CleanupStack::PopAndDestroy( operatorSettingsCenrep );
+            return; 
+            }
+        
+        HBufC* buffSerVerId = HBufC::NewLC( KMaxLength );
+        TPtr ptrCurrentServerId = buffSerVerId->Des();
+        ptrCurrentServerId.Copy( profile->StrValue( EDSProfileServerId ) );
+        
+        // get the server id from operator cenrep
+        HBufC* buffCenrepServerId = HBufC::NewLC( KMaxLength );
+        TPtr ptrCenrepServerId = buffCenrepServerId->Des();        
+        error = operatorSettingsCenrep->Get( KNsmlOperatorProfileServerId, ptrCenrepServerId);
+        
+        // if serverID read from operator cenrep and current profile match only then attempt to
+        // add devInf extension fields
+        if( error == KErrNone && ptrCenrepServerId.Compare( ptrCurrentServerId ) == 0 )
+            {
+            // create 16-bit buffers to read XNam and XVal field values from cenrep
+            HBufC* buffXNamField = HBufC::NewLC( KMaxLength );
+            HBufC* buffXValField = HBufC::NewLC( KMaxLength );
+            TPtr xNamField = buffXNamField->Des();
+            TPtr xValField = buffXValField->Des();            
+        
+            TInt keyErrorXNam = operatorSettingsCenrep->Get( KNsmlOperatorDevInfExtXNam, xNamField );
+            TInt keyErrorXVal = operatorSettingsCenrep->Get( KNsmlOperatorDevInfExtXVal, xValField );
+                
+            if( keyErrorXNam == KErrNone && keyErrorXVal == KErrNone &&
+                xNamField.Length() > 0 && xValField.Length() > 0 )
+                {
+                // create 8-bit buffers of exact necessary length
+                // to write extn. fields in dev-inf
+                HBufC8* buffXNam = HBufC8::NewLC( xNamField.Length() );
+                HBufC8* buffXVal = HBufC8::NewLC( xValField.Length() );
+
+                TPtr8 xnam = buffXNam->Des();
+                TPtr8 xval = buffXVal->Des();
+
+                // copy extn fields from 16-bit desc. to 8-bit desc.
+                xnam.Copy( xNamField );
+                xval.Copy( xValField );
+    
+                SmlPcdataPtr_t XNamData;
+                PcdataNewL( XNamData, xnam );
+    
+                SmlPcdataPtr_t XValData;
+                PcdataNewL( XValData, xval );
+    
+                SmlPcdataListPtr_t listPtr = new (ELeave) SmlPcdataList_t;
+                listPtr->data = XValData;
+                listPtr->next = NULL;
+    
+                SmlDevInfExtPtr_t extElementPtr = new (ELeave) SmlDevInfExt_t;
+                extElementPtr->xnam = XNamData;
+                extElementPtr->xval = listPtr; 
+    
+                SmlDevInfExtListPtr_t extListPtr = new (ELeave) SmlDevInfExtList_t;
+                extListPtr->data = extElementPtr;
+                extListPtr->next = NULL;
+    
+                aDevInf->ext = extListPtr;
+    
+                CleanupStack::PopAndDestroy( buffXVal );
+                CleanupStack::PopAndDestroy( buffXNam );
+                }
+            CleanupStack::PopAndDestroy( buffXValField );
+            CleanupStack::PopAndDestroy( buffXNamField );     
+            }
+
+        CleanupStack::PopAndDestroy( buffCenrepServerId );   
+        CleanupStack::PopAndDestroy( buffSerVerId );
+        CleanupStack::PopAndDestroy( dsSettings );
+        CleanupStack::PopAndDestroy( operatorSettingsCenrep );
+        }
+    }
 
 // End of File

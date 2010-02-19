@@ -23,7 +23,7 @@
 #include <e32std.h>
 #include <f32file.h>
 #include "mxmlattributes.h"
-#include "MXMLContentHandler.h"
+#include "mxmlcontenthandler.h"
 #include "NSmlDMResourceProfile.h"
 
 const TInt KNSmlDmFileNameLength=255;

@@ -99,6 +99,29 @@ const TUint32 KDriveToEncrypt  = 0x0000000B;
 //1   - Install update note will be displayed when a call is active
 const TUint32 KFotaUpdateNoteDisplayAlways= 0x0000000C;
 
+/*
+* This key is used to determine the maximum number of postpones allowed for a FOTA Update.
+* Default value : 3
+*/
+
+const TUint32 KFOTAMaxPostponeCount = 0x0000000D; 
+
+
+/*
+* This key is used to determine the number of postpones done by the user for a particular FOTA Update.
+* Default value : 0
+*/
+
+const TUint32 KFOTAUserPostponeCount = 0x0000000E; 
+
+
+/*
+* This flag defines if the feature to enable  the customized UI notes for interacttrive and note between firware install and update.
+* Default value : 0
+*/
+
+const TUint32 KFOTAUINotesCustomization = 0x0000000F; 
+
 #endif // FOTASERVER_PRIVATE_KEYS_H
             
 // End of File

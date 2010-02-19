@@ -17,7 +17,8 @@
 
 // USER INCLUDES
 #include "DMNetworkMon.h"
-
+#include <e32property.h>
+#include <nsmldmconst.h>
 #include <SyncMLClient.h>
 #include <SyncMLClientDM.h>
 #include <nsmldmauthinfo.h>
@@ -494,6 +495,11 @@ void CDMNetworkMon::CreateDeviceManagementSessionL()
             TLex gavalue(genalertap);
             gavalue.Val(IAPID);
             LOGSTRING("DM JOB CREATED");
+            static _LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
+            static _LIT_SECURITY_POLICY_C1(KAllowWriteDeviceDataPolicy, ECapabilityWriteDeviceData);
+            RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KAllowWriteDeviceDataPolicy);
+           TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);
+           DBG_FILE_CODE(aError, _S8("CDMNetworkMon::RunError() KNSmlDMSilentJob get error code "));
             TRAPD(err, dmJob.CreateL( iSyncSession, ProfileId, IAPID));
             LOGSTRING("DM JOB CREATED END");
             if(err!=KErrNone)

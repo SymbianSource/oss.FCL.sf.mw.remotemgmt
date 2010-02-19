@@ -43,13 +43,6 @@
 //
 #define qtn_dm_query_accept_configuration   "Recommended update available from server %U. Download?"
 
-//d:Confirms that the user wants to connect to the Internet.
-//l:popup_note_window_1
-//w:
-//r:3.1
-//
-#define qtn_fota_conf_query_connection_is_needed   "You are about to connect to the Internet. Normal data call costs may apply. Connect?"
-
 //d:Information note to be shown for server started user informative session
 //l:popup_note_window
 //r:3.2

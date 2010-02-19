@@ -1,0 +1,261 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of policymanagement components
+*
+*/
+
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+
+../rom/10207815.txt /epoc32/data/z/private/10202be9/10207815.txt
+../rom/10207816.txt /epoc32/data/z/private/10202be9/10207816.txt
+../rom/10207815.txt /epoc32/release/winscw/udeb/z/private/10202be9/10207815.txt
+../rom/10207816.txt /epoc32/release/winscw/udeb/z/private/10202be9/10207816.txt
+../rom/10207815.txt /epoc32/release/winscw/urel/z/private/10202be9/10207815.txt
+../rom/10207816.txt /epoc32/release/winscw/urel/z/private/10202be9/10207816.txt
+
+../rom/pe_data.iby	CORE_MW_LAYER_IBY_EXPORT_PATH(pe_data_s60.iby)
+
+../data/policies/0000000257.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000000257.txt
+../data/policies/0000000535.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000000535.txt
+../data/policies/0000000768.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000000768.txt
+../data/policies/0000001047.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000001047.txt
+../data/policies/0000001281.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000001281.txt
+../data/policies/0000001559.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000001559.txt
+../data/policies/0000001793.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000001793.txt
+../data/policies/0000002071.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000002071.txt
+../data/policies/0000002304.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000002304.txt
+../data/policies/0000002583.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000002583.txt
+../data/policies/0000002836.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000002836.txt
+../data/policies/0000003072.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000003072.txt
+../data/policies/0000003351.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000003351.txt
+../data/policies/0000003604.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000003604.txt
+../data/policies/0000003840.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000003840.txt
+../data/policies/0000004119.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000004119.txt
+../data/policies/0000004372.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000004372.txt
+../data/policies/0000004608.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000004608.txt
+../data/policies/0000004887.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000004887.txt
+../data/policies/0000005140.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000005140.txt
+../data/policies/0000005376.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000005376.txt
+../data/policies/0000005655.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000005655.txt
+../data/policies/0000005908.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000005908.txt
+../data/policies/0000006144.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000006144.txt
+../data/policies/0000006423.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000006423.txt
+../data/policies/0000006676.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000006676.txt
+../data/policies/0000006912.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000006912.txt
+../data/policies/0000007191.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000007191.txt
+../data/policies/0000007444.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000007444.txt 
+../data/policies/0000007700.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000007700.txt
+../data/policies/0000007936.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000007936.txt
+../data/policies/0000008215.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000008215.txt
+../data/policies/0000008468.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000008468.txt
+../data/policies/0000008724.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000008724.txt
+../data/policies/0000008960.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000008960.txt
+../data/policies/0000009239.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000009239.txt
+../data/policies/0000009492.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000009492.txt
+../data/policies/0000009728.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000009728.txt
+../data/policies/0000010007.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000010007.txt
+../data/policies/0000010260.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000010260.txt
+../data/policies/0000010497.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000010497.txt
+../data/policies/0000010752.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000010752.txt
+../data/policies/0000011028.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000011028.txt
+../data/policies/0000011264.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000011264.txt
+../data/policies/0000011540.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000011540.txt
+../data/policies/0000011777.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000011777.txt
+../data/policies/0000012055.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000012055.txt
+../data/policies/0000012288.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000012288.txt
+../data/policies/0000012567.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000012567.txt
+../data/policies/0000012820.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000012820.txt
+../data/policies/0000013057.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000013057.txt
+../data/policies/0000013335.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000013335.txt
+../data/policies/0000013568.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000013568.txt
+../data/policies/0000013847.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000013847.txt
+../data/policies/0000014080.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000014080.txt
+../data/policies/0000014359.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000014359.txt
+../data/policies/0000014612.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000014612.txt
+../data/policies/0000014868.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000014868.txt
+../data/policies/0000015104.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000015104.txt
+../data/policies/0000015383.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000015383.txt
+../data/policies/0000015636.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000015636.txt
+../data/policies/0000015892.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000015892.txt
+../data/policies/0000016148.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000016148.txt
+../data/policies/0000016404.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000016404.txt
+../data/policies/0000016660.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000016660.txt
+../data/policies/0000016916.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000016916.txt
+../data/policies/0000017172.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000017172.txt
+../data/policies/0000017428.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000017428.txt
+../data/policies/0000017684.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000017684.txt
+../data/policies/0000017940.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000017940.txt
+../data/policies/0000018196.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000018196.txt
+../data/policies/0000018432.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000018432.txt
+../data/policies/0000018711.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000018711.txt
+../data/policies/0000018964.txt 	 /epoc32/RELEASE/winscw/UDEB/Z/private/10207815/0000018964.txt
+
+../data/policies/0000000257.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000000257.txt
+../data/policies/0000000535.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000000535.txt
+../data/policies/0000000768.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000000768.txt
+../data/policies/0000001047.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000001047.txt
+../data/policies/0000001281.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000001281.txt
+../data/policies/0000001559.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000001559.txt
+../data/policies/0000001793.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000001793.txt
+../data/policies/0000002071.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000002071.txt
+../data/policies/0000002304.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000002304.txt
+../data/policies/0000002583.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000002583.txt
+../data/policies/0000002836.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000002836.txt
+../data/policies/0000003072.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000003072.txt
+../data/policies/0000003351.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000003351.txt
+../data/policies/0000003604.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000003604.txt
+../data/policies/0000003840.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000003840.txt
+../data/policies/0000004119.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000004119.txt
+../data/policies/0000004372.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000004372.txt
+../data/policies/0000004608.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000004608.txt
+../data/policies/0000004887.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000004887.txt
+../data/policies/0000005140.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000005140.txt
+../data/policies/0000005376.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000005376.txt
+../data/policies/0000005655.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000005655.txt
+../data/policies/0000005908.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000005908.txt
+../data/policies/0000006144.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000006144.txt
+../data/policies/0000006423.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000006423.txt
+../data/policies/0000006676.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000006676.txt
+../data/policies/0000006912.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000006912.txt
+../data/policies/0000007191.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000007191.txt
+../data/policies/0000007444.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000007444.txt 
+../data/policies/0000007700.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000007700.txt
+../data/policies/0000007936.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000007936.txt
+../data/policies/0000008215.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000008215.txt
+../data/policies/0000008468.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000008468.txt
+../data/policies/0000008724.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000008724.txt
+../data/policies/0000008960.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000008960.txt
+../data/policies/0000009239.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000009239.txt
+../data/policies/0000009492.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000009492.txt
+../data/policies/0000009728.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000009728.txt
+../data/policies/0000010007.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000010007.txt
+../data/policies/0000010260.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000010260.txt
+../data/policies/0000010497.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000010497.txt
+../data/policies/0000010752.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000010752.txt
+../data/policies/0000011028.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000011028.txt
+../data/policies/0000011264.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000011264.txt
+../data/policies/0000011540.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000011540.txt
+../data/policies/0000011777.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000011777.txt
+../data/policies/0000012055.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000012055.txt
+../data/policies/0000012288.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000012288.txt
+../data/policies/0000012567.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000012567.txt
+../data/policies/0000012820.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000012820.txt
+../data/policies/0000013057.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000013057.txt
+../data/policies/0000013335.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000013335.txt
+../data/policies/0000013568.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000013568.txt
+../data/policies/0000013847.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000013847.txt
+../data/policies/0000014080.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000014080.txt
+../data/policies/0000014359.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000014359.txt
+../data/policies/0000014612.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000014612.txt
+../data/policies/0000014868.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000014868.txt
+../data/policies/0000015104.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000015104.txt
+../data/policies/0000015383.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000015383.txt
+../data/policies/0000015636.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000015636.txt
+../data/policies/0000015892.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000015892.txt
+../data/policies/0000016148.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000016148.txt
+../data/policies/0000016404.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000016404.txt
+../data/policies/0000016660.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000016660.txt
+../data/policies/0000016916.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000016916.txt
+../data/policies/0000017172.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000017172.txt
+../data/policies/0000017428.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000017428.txt
+../data/policies/0000017684.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000017684.txt
+../data/policies/0000017940.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000017940.txt
+../data/policies/0000018196.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000018196.txt
+../data/policies/0000018432.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000018432.txt
+../data/policies/0000018711.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000018711.txt
+../data/policies/0000018964.txt 	 /epoc32/RELEASE/winscw/UREL/Z/private/10207815/0000018964.txt
+
+../data/policies/0000000257.txt 	 /epoc32/data/Z/private/10207815/0000000257.txt
+../data/policies/0000000535.txt 	 /epoc32/data/Z/private/10207815/0000000535.txt
+../data/policies/0000000768.txt 	 /epoc32/data/Z/private/10207815/0000000768.txt
+../data/policies/0000001047.txt 	 /epoc32/data/Z/private/10207815/0000001047.txt
+../data/policies/0000001281.txt 	 /epoc32/data/Z/private/10207815/0000001281.txt
+../data/policies/0000001559.txt 	 /epoc32/data/Z/private/10207815/0000001559.txt
+../data/policies/0000001793.txt 	 /epoc32/data/Z/private/10207815/0000001793.txt
+../data/policies/0000002071.txt 	 /epoc32/data/Z/private/10207815/0000002071.txt
+../data/policies/0000002304.txt 	 /epoc32/data/Z/private/10207815/0000002304.txt
+../data/policies/0000002583.txt 	 /epoc32/data/Z/private/10207815/0000002583.txt
+../data/policies/0000002836.txt 	 /epoc32/data/Z/private/10207815/0000002836.txt
+../data/policies/0000003072.txt 	 /epoc32/data/Z/private/10207815/0000003072.txt
+../data/policies/0000003351.txt 	 /epoc32/data/Z/private/10207815/0000003351.txt
+../data/policies/0000003604.txt 	 /epoc32/data/Z/private/10207815/0000003604.txt
+../data/policies/0000003840.txt 	 /epoc32/data/Z/private/10207815/0000003840.txt
+../data/policies/0000004119.txt 	 /epoc32/data/Z/private/10207815/0000004119.txt
+../data/policies/0000004372.txt 	 /epoc32/data/Z/private/10207815/0000004372.txt
+../data/policies/0000004608.txt 	 /epoc32/data/Z/private/10207815/0000004608.txt
+../data/policies/0000004887.txt 	 /epoc32/data/Z/private/10207815/0000004887.txt
+../data/policies/0000005140.txt 	 /epoc32/data/Z/private/10207815/0000005140.txt
+../data/policies/0000005376.txt 	 /epoc32/data/Z/private/10207815/0000005376.txt
+../data/policies/0000005655.txt 	 /epoc32/data/Z/private/10207815/0000005655.txt
+../data/policies/0000005908.txt 	 /epoc32/data/Z/private/10207815/0000005908.txt
+../data/policies/0000006144.txt 	 /epoc32/data/Z/private/10207815/0000006144.txt
+../data/policies/0000006423.txt 	 /epoc32/data/Z/private/10207815/0000006423.txt
+../data/policies/0000006676.txt 	 /epoc32/data/Z/private/10207815/0000006676.txt
+../data/policies/0000006912.txt 	 /epoc32/data/Z/private/10207815/0000006912.txt
+../data/policies/0000007191.txt 	 /epoc32/data/Z/private/10207815/0000007191.txt
+../data/policies/0000007444.txt 	 /epoc32/data/Z/private/10207815/0000007444.txt 
+../data/policies/0000007700.txt 	 /epoc32/data/Z/private/10207815/0000007700.txt
+../data/policies/0000007936.txt 	 /epoc32/data/Z/private/10207815/0000007936.txt
+../data/policies/0000008215.txt 	 /epoc32/data/Z/private/10207815/0000008215.txt
+../data/policies/0000008468.txt 	 /epoc32/data/Z/private/10207815/0000008468.txt
+../data/policies/0000008724.txt 	 /epoc32/data/Z/private/10207815/0000008724.txt
+../data/policies/0000008960.txt 	 /epoc32/data/Z/private/10207815/0000008960.txt
+../data/policies/0000009239.txt 	 /epoc32/data/Z/private/10207815/0000009239.txt
+../data/policies/0000009492.txt 	 /epoc32/data/Z/private/10207815/0000009492.txt
+../data/policies/0000009728.txt 	 /epoc32/data/Z/private/10207815/0000009728.txt
+../data/policies/0000010007.txt 	 /epoc32/data/Z/private/10207815/0000010007.txt
+../data/policies/0000010260.txt 	 /epoc32/data/Z/private/10207815/0000010260.txt
+../data/policies/0000010497.txt 	 /epoc32/data/Z/private/10207815/0000010497.txt
+../data/policies/0000010752.txt 	 /epoc32/data/Z/private/10207815/0000010752.txt
+../data/policies/0000011028.txt 	 /epoc32/data/Z/private/10207815/0000011028.txt
+../data/policies/0000011264.txt 	 /epoc32/data/Z/private/10207815/0000011264.txt
+../data/policies/0000011540.txt 	 /epoc32/data/Z/private/10207815/0000011540.txt
+../data/policies/0000011777.txt 	 /epoc32/data/Z/private/10207815/0000011777.txt
+../data/policies/0000012055.txt 	 /epoc32/data/Z/private/10207815/0000012055.txt
+../data/policies/0000012288.txt 	 /epoc32/data/Z/private/10207815/0000012288.txt
+../data/policies/0000012567.txt 	 /epoc32/data/Z/private/10207815/0000012567.txt
+../data/policies/0000012820.txt 	 /epoc32/data/Z/private/10207815/0000012820.txt
+../data/policies/0000013057.txt 	 /epoc32/data/Z/private/10207815/0000013057.txt
+../data/policies/0000013335.txt 	 /epoc32/data/Z/private/10207815/0000013335.txt
+../data/policies/0000013568.txt 	 /epoc32/data/Z/private/10207815/0000013568.txt
+../data/policies/0000013847.txt 	 /epoc32/data/Z/private/10207815/0000013847.txt
+../data/policies/0000014080.txt 	 /epoc32/data/Z/private/10207815/0000014080.txt
+../data/policies/0000014359.txt 	 /epoc32/data/Z/private/10207815/0000014359.txt
+../data/policies/0000014612.txt 	 /epoc32/data/Z/private/10207815/0000014612.txt
+../data/policies/0000014868.txt 	 /epoc32/data/Z/private/10207815/0000014868.txt
+../data/policies/0000015104.txt 	 /epoc32/data/Z/private/10207815/0000015104.txt
+../data/policies/0000015383.txt 	 /epoc32/data/Z/private/10207815/0000015383.txt
+../data/policies/0000015636.txt 	 /epoc32/data/Z/private/10207815/0000015636.txt
+../data/policies/0000015892.txt 	 /epoc32/data/Z/private/10207815/0000015892.txt
+../data/policies/0000016148.txt 	 /epoc32/data/Z/private/10207815/0000016148.txt
+../data/policies/0000016404.txt 	 /epoc32/data/Z/private/10207815/0000016404.txt
+../data/policies/0000016660.txt 	 /epoc32/data/Z/private/10207815/0000016660.txt
+../data/policies/0000016916.txt 	 /epoc32/data/Z/private/10207815/0000016916.txt
+../data/policies/0000017172.txt 	 /epoc32/data/Z/private/10207815/0000017172.txt
+../data/policies/0000017428.txt 	 /epoc32/data/Z/private/10207815/0000017428.txt
+../data/policies/0000017684.txt 	 /epoc32/data/Z/private/10207815/0000017684.txt
+../data/policies/0000017940.txt 	 /epoc32/data/Z/private/10207815/0000017940.txt
+../data/policies/0000018196.txt 	 /epoc32/data/Z/private/10207815/0000018196.txt
+../data/policies/0000018432.txt 	 /epoc32/data/Z/private/10207815/0000018432.txt
+../data/policies/0000018711.txt 	 /epoc32/data/Z/private/10207815/0000018711.txt
+../data/policies/0000018964.txt 	 /epoc32/data/Z/private/10207815/0000018964.txt
+
+
+//PRJ_MMPFILES
+
+//PRJ_TESTMMPFILES

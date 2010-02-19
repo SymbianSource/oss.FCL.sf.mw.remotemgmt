@@ -315,6 +315,14 @@ class CNSmlDSCmds : public CNSmlCmdsBase, public MWBXMLDevInfCallbacks
 		* @result KErrNone if the conversion succeeded.
 		*/
 		TInt ConvertUid( const TDesC8& aLiteralUid, TSmlDbItemUid& aNumericUid );
+		
+		/*
+		 * Adds operator specific extension devInf fields XNam and XVal
+		 * Currently only one XNam and one corresponding XVal value are supported
+		 * These two values are read from central repository 0x2002682E (defined in nsmloperatordefines.h)
+		 * from keys KNsmlOperatorDevInfExtXNam (0x04) and KNsmlOperatorDevInfExtXVal (0x05)
+		 */
+		void InsertOperatorExtensionDevInfFieldsL( SmlDevInfDevInfPtr_t& aDevInf );
 
 	private: // data	
 		// batched items buffer

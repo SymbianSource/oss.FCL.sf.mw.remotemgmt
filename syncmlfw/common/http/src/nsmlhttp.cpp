@@ -82,6 +82,7 @@ void CNSmlHTTP::ConstructL()
 	{
 	// construct shutdown timer
 	DBG_FILE(_S8("CNSmlHTTP::ConstructL BEGIN"));
+	TBool dmjob = EFalse;
 	FeatureManager::InitializeLibL();
 	iShutdown = new (ELeave) CNSmlXptShutdownTimer( this );
 	iShutdown->ConstructL();
@@ -92,6 +93,7 @@ void CNSmlHTTP::ConstructL()
     DBG_FILE_CODE(session, _S8("CNSmlHTTP::ConstructL Current Session is (DM = 2, DS = 1) "));
     if( session == ESyncMLDMSession )//for dm session
        {
+       dmjob = ETrue;
 		TInt dmsessionTimeout = -1;
 		CRepository *rep = NULL;
 		TRAPD( err1, rep = CRepository::NewL( KCRUidDeviceManagementInternalKeys ))
@@ -123,7 +125,7 @@ void CNSmlHTTP::ConstructL()
     RProperty::Get( KPSUidNSmlSOSServerKey, KNSmlSyncJobOngoing, iSession);                       
 	// construct dialup agent
 	iDialUpAgent = new (ELeave) CNSmlDialUpAgent();
-	iDialUpAgent->ConstructL();
+	iDialUpAgent->ConstructL(dmjob);
 
 	iEngineState = ExptIdle;
 	iTimeOut = EFalse;

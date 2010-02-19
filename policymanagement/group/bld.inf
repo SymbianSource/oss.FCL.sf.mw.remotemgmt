@@ -28,70 +28,11 @@ PRJ_EXPORTS
 ../conf/policy_management_10207815.crml 	        MW_LAYER_CRML(policy_management_10207815.crml)
 ../conf/policy_management_10207816.crml 	        MW_LAYER_CRML(policy_management_10207816.crml)
 ../conf/policy_management_10207843.crml 	        MW_LAYER_CRML(policy_management_10207843.crml)
-./genericcopy.flm                                   /epoc32/tools/makefile_templates/policy/genericcopy.flm
-./genericcopy.xml 			            /epoc32/tools/makefile_templates/policy/genericcopy.xml
-./genericcopy.meta 			            /epoc32/tools/makefile_templates/policy/genericcopy.meta
-
 
 
 PRJ_EXTENSIONS
 
-#ifdef SBSV2
-
-
-START EXTENSION policy/genericcopy
-OPTION TARGETDIR epoc32/data/Z/private/10207815
-OPTION SOURCEDIR sf/mw/remotemgmt/policymanagement/policyengine/Data/policies
-
-OPTION FILEPATTERN *.txt
-END
-
-START EXTENSION policy/genericcopy
-OPTION TARGETDIR epoc32/release/winscw/udeb/Z/private/10207815
-OPTION SOURCEDIR sf/mw/remotemgmt/policymanagement/policyengine/Data/policies
-
-OPTION FILEPATTERN *.txt
-END
-
-
-START EXTENSION policy/genericcopy
-OPTION TARGETDIR epoc32/release/winscw/urel/Z/private/10207815
-OPTION SOURCEDIR sf/mw/remotemgmt/policymanagement/policyengine/Data/policies
-
-OPTION FILEPATTERN *.txt
-END
-
-
-START EXTENSION policy/genericcopy
-OPTION TARGETDIR epoc32/release/armv5/udeb/Z/private/10207815
-OPTION SOURCEDIR sf/mw/remotemgmt/policymanagement/policyengine/Data/policies
-
-OPTION FILEPATTERN *.txt
-END
-
-
-START EXTENSION policy/genericcopy
-OPTION TARGETDIR epoc32/release/armv5/urel/Z/private/10207815
-OPTION SOURCEDIR sf/mw/remotemgmt/policymanagement/policyengine/Data/policies
-
-OPTION FILEPATTERN *.txt
-END
-#endif
-
 PRJ_MMPFILES
-
-#ifndef SBSV2 
-
-#if defined(__SERIES60_30__)
-gnumakefile initial_policies_apollo30.mk
-#else 
-gnumakefile INITIAL_POLICIES.mk
-#endif
-
-#endif
-
-
-//gnumakefile tarm_format_scripts.mk
 
 #include "../pmdmadapter/group/bld.inf"
 #include "../dmutilserver/group/bld.inf"

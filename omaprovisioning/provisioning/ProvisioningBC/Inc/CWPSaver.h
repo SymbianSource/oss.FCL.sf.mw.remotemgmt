@@ -22,8 +22,8 @@
 // INCLUDES
 #include <AknProgressDialog.h>
 #include <ActiveApDb.h>
-#include <FavouritesDbObserver.h>
-#include <FavouritesDb.h>
+#include <favouritesdbobserver.h>
+#include <favouritesdb.h>
 
 
 // FORWARD DECLARATIONS

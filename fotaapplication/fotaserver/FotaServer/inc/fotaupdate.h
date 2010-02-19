@@ -200,7 +200,9 @@ protected: // from base classes
     /**Show the No reminder             */  
 	ENoReminderOn,
 	/**Show the No reminder             */   
-    ENoReminderOff
+    ENoReminderOff,
+    /* Added for postpone limit, When All the postpones are used and user presses end key this command is sent */
+    EEndKeyReminder
 	};
 
 private:
@@ -251,6 +253,15 @@ private:
      * @return  None
      */
     void GetSchedulesInfoL();
+    
+    /**
+     * DisplayInstallationNoteType determines the proper installation note based on the Cenrep keys.
+     *
+     * @since   S60   v5.0
+     * @param   None
+     * @return  None
+     */
+    void DisplayInstallationNoteTypeL();
 
 
     /**
@@ -261,7 +272,21 @@ private:
      * @param   aIntparam
      * @return  none
      */
-    void LaunchNotifierL(  const TSyncMLFwUpdNoteTypes aNotetype , const TInt aIntParam, const TInt aEnc=EFalse );
+    void LaunchNotifierL(  const TSyncMLFwUpdNoteTypes aNotetype , const TInt aIntParam,const TInt aEnc=EFalse);
+    
+    
+    /**
+     * Launch the postpone information note, when the postpone limit feature is enabled.
+     *
+     * @since   S60   v5.0
+     * @param   aNotetype
+     * @param   aIntparam
+     * @param   aIntParam1
+     * @param   aIntervalType
+     * @param   aInterval
+     * @return  none
+     */
+    void LaunchNotifierL( const TSyncMLFwUpdNoteTypes aNotetype,const TInt aIntParam,const TInt aIntParam1,TIntervalType aIntervalType,const TInt aInterval);
 
 	/**
 	 * Prepare and display Reminder Dialog using RFotaReminderDlg
@@ -277,12 +302,12 @@ private:
 	 * @since 	S60	  v3.1
 	 *
 	 * @param package id 
-	 * @param interval type
+	 * @param intervaltype
 	 * @param interval
 	 * @return TInt 
 	 */
     TInt CreateScheduleL ( const TInt aPackageId
-            ,const TIntervalType aIntervalType,const TInt aInterval);
+            ,TIntervalType aIntervalType,const TInt aInterval);
             
             
   /**
@@ -381,7 +406,6 @@ private:
 	* fota update reminder task
 	*/
 	TFotaScheduledUpdate* iScheduledUpdate;
-
 	/*
 	 * flag to handle showing the reminder dialog twice.
 	 */
@@ -395,7 +419,29 @@ private:
 	/*
 	 * to finalize update later
 	 */
-	TBool iFinalizeLater;
+	 
+ 	TBool iFinalizeLater;
+	 
+		/*
+	 * flag to enable the FOTA Update Postpone  limit feature.
+	 */
+	TInt iFOTAUICustomization;
+	
+	/*
+	 * To Store the number of postpones done by the user.
+	 */
+	TInt iFOTAUserPostponeCount;
+	
+	/*
+	 * To Store the maximum number of postpones allowed for the user.
+	 */
+	TInt iFOTAMaxPostponeCount;
+	
+	/*
+	 * To Get the Configuration values related to FOTA
+	 */
+	CRepository* iCentrep;
+	
     };
 
 

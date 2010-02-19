@@ -111,6 +111,17 @@ NONSHARABLE_CLASS( CSyncMLFwUpdNotifier ) : public CSyncMLNotifierBase
         * @return Result to the query
         */
         TInt ShowUpdateResultWithEncryptionNoteL();
+		
+		
+		/**
+        * Informs the user about the firmware update and its consequences.
+        * Queries if the user wants to continue with the update.
+        * It also makes sure that the number of postpones the user does
+        * does not exceed the maximum allowed postpones.
+        * @param queryType - Which tells the type of query to be shown.
+        * @return Result to the query
+        */
+        TInt ShowPostLimitUpdateStartQueryL(TInt queryType);
 
         /**
         * Retrieves the profile name using the profile identifier stored
@@ -152,6 +163,13 @@ NONSHARABLE_CLASS( CSyncMLFwUpdNotifier ) : public CSyncMLNotifierBase
  	       */
 				TInt ShowDownloadCancelledL();
 		
+				/*Message note shown to the user when ever 
+				 * the user postpones the update 
+				 * @param None
+				 * @return Result to the query
+				 */
+				TInt ShowPostponeLimitNoteL();
+
 				/*Message note shown to the user when ever 
 				 * the user wants to resume the download.
 		     * @param None
@@ -218,6 +236,14 @@ NONSHARABLE_CLASS( CSyncMLFwUpdNotifier ) : public CSyncMLNotifierBase
 //        #ifdef RD_FOTA_FLEXIBLE_MEMORY_USAGE
         TInt        iFotaMemoryNeeded;
 //        #endif
+        // The Number of times user has postponed the update.
+        TInt iUserPostponeCount;
+        
+        // The Maximum number of times update can be postponed.
+        TInt iMaxPostponeCount;
+        
+        // The option Selected by the user to postpone the update.
+        TBuf<KSyncMLMaxServerMsgLength>    iSelectedReminder;
         //Checks whether dialog from RUNL popped and waiting for user input
         TBool iRunLhang;
         
@@ -226,6 +252,12 @@ NONSHARABLE_CLASS( CSyncMLFwUpdNotifier ) : public CSyncMLNotifierBase
         
 		//To decide on encryption note or default note.
         TBool iFotaEncryptReq;
+        
+      // The time interval chosen by the user to postpone the update.
+      TInt iInterval;
+      
+      // The time interval type(in hours or minutes)chosen by the user to postpone the update.
+      TIntervalType iIntervalType;
 
     };
 

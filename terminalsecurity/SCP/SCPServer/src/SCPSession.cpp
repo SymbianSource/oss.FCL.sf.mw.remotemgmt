@@ -1665,6 +1665,7 @@ void CSCPSession :: NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint3
 	TInt ret = lChangeArray.Append(lChange);
 	
 	if(KErrNone != ret) {
+		CleanupStack :: PopAndDestroy(); //lChangeArray
 		return;
 	}
 	

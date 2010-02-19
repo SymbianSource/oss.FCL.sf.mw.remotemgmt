@@ -135,7 +135,7 @@ void PackageFilePath( TInt aPkgid, TDes8& aPath )
 // ---------------------------------------------------------------------------
 //
 CFotaUpdate::CFotaUpdate() : CActive(EPriorityNormal) 
-,iScheduledUpdate(NULL),iHandleUpdateAcceptLater(EFalse)
+,iScheduledUpdate(NULL),iHandleUpdateAcceptLater(EFalse),iCentrep(NULL)
                 {
                 CActiveScheduler::Add( this ); 
                 iNotifParams.iNoteType  = ESyncMLFwUpdUnknown;  
@@ -158,6 +158,11 @@ CFotaUpdate::~CFotaUpdate()
         }
     iIntervalType.Close();  
     iInterval.Close();  
+   if(iCentrep)
+       {
+       delete iCentrep;
+       iCentrep = NULL;
+       }
     }
 
 
@@ -442,7 +447,7 @@ void CFotaUpdate::RunL()
 
         }
     // Handle update start query
-    if ( iNotifParams.iNoteType == ESyncMLFwUpdStartQuery )
+    if ( iNotifParams.iNoteType == ESyncMLFwUpdStartQuery || iNotifParams.iNoteType == ESyncMLFwUpdForceQuery || iNotifParams.iNoteType == ESyncMLFwUpdPostponeLimitQuery)
         {
         FLOG(_L("   update start query"));
         // User pressed accept
@@ -865,6 +870,65 @@ void CFotaUpdate::LaunchNotifierL( const TSyncMLFwUpdNoteTypes aNotetype
 
 
 // ---------------------------------------------------------------------------
+// CFotaUpdate::LaunchNotifierL
+// Shows the postpone information note when postpone limit feature is enabled.
+// ---------------------------------------------------------------------------
+void CFotaUpdate::LaunchNotifierL( const TSyncMLFwUpdNoteTypes aNotetype
+                                            ,const TInt aIntUserPostpone,const TInt aIntMaxPostpone,TIntervalType aIntervalType,const TInt aInterval)
+    {
+    FLOG(_L("CFotaUpdate::LaunchNotifierL() >>  prof.Id: %d aIntUserPostpone: %d aIntMaxPostpone %d")
+                                            ,iUpdateState.iProfileId,aIntUserPostpone,aIntMaxPostpone);
+    if (!IsActive())
+        {
+        TSyncMLFwUpdNotifParams         params;
+        
+        // Parameters to display the information note is displayed
+    params.iNoteType        = aNotetype;
+    params.iFotaUserPostponeCount = aIntUserPostpone;
+    params.iFotaMaxPostponeCount = aIntMaxPostpone;
+    params.iIntervalType = aIntervalType;
+    params.iInterval = aInterval;
+    
+    /*
+    if(iReminderString.Length() > 0)
+        params.iSelectedReminder.Copy(iReminderString);
+    
+    TBuf<5> aTime;
+    aTime.Zero();
+    
+    for(TInt i = 0; i<iReminderString.Length();i++)
+        {
+        TChar ch = iReminderString[i];
+        if ( ch.IsDigit())            //separates digits from the string
+            {  
+            aTime.Append(ch); 
+            }
+        else
+            {
+            break;
+            }
+        }
+    
+    TInt val =1 ; 
+    TLex  lex(aTime);
+    TInt err = lex.Val(val); */
+
+    TSyncMLFwUpdNotifParamsPckg     pckg(params);
+    iNotifParams.iNoteType  = params.iNoteType;
+    iNotifParams.iIntParam  = params.iIntParam;
+    iDummyResponsePckg = TSyncMLFwUpdNotifRetValPckg();
+    User::LeaveIfError( iNotifier.Connect() );
+    iNotifier.StartNotifierAndGetResponse( iStatus,KSyncMLFwUpdNotifierUid
+                                            , pckg, iDummyResponsePckg );
+    SetActive();
+        }
+    FLOG(_L("CFotaUpdate::LaunchNotifierL() <<"));
+    }
+
+
+
+
+// ---------------------------------------------------------------------------
 // CFotaUpdate::UpdateL
 // Updates the fw: Creates input files for update agent and boots device to 
 // update mode.
@@ -948,9 +1012,11 @@ void CFotaUpdate::UpdateL()
     if (err==KErrNone ) 
         {
         centrep2->Set(  KFotaUpdateState, EFotaPendingGenAlert );
-        }
-    delete centrep2;
-
+        if(iFOTAUICustomization)
+            centrep2->Set(  KFOTAUserPostponeCount, 0 );
+       }
+     delete centrep2;
+     
     // Boot to update mode 
     LaunchNotifierL( ESyncMLFwUpdRebootNote, KErrNone);
 
@@ -1141,7 +1207,8 @@ void CFotaUpdate::StartUpdateL( const TDownloadIPCParams &aParams )
         if (!ret)
             {
             //Drive is not encrypted
-            LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
+			DisplayInstallationNoteTypeL();
+            //LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
             }
         else
             {
@@ -1174,7 +1241,8 @@ void CFotaUpdate::StartUpdateL( const TDownloadIPCParams &aParams )
         if (!ret)
             {
             //Drive is not encrypted
-            LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
+			DisplayInstallationNoteTypeL();
+            //LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
             }
         else
             {
@@ -1194,6 +1262,70 @@ void CFotaUpdate::StartUpdateL( const TDownloadIPCParams &aParams )
 
     FLOG(_L("CFotaUpdate::StartUpdateL(TDownloadIPCParams aParams) << \
     pkig:%d"),aParams.iPkgId);
+    }
+	
+	
+void CFotaUpdate::DisplayInstallationNoteTypeL()
+    {
+    FLOG(_L("CFotaUpdate::DisplayInstallationNoteTypeL: >>"));
+    
+    //CRepository* centrep = NULL;
+    TInt err = KErrNone;
+    TInt CustomNotes = 0;
+	if(iCentrep == NULL)
+	{
+    TRAP(err, iCentrep = CRepository::NewL(TUid::Uid(KFotaServerUid)));
+    if(err)
+        {
+        FLOG(_L("DisplayInstallationNoteTypeL: reading from cenrep failed, returning ENormal"));
+        LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
+        return;
+        }
+	}
+    
+    err= iCentrep->Get( KFOTAUINotesCustomization, CustomNotes);    
+    if (err)
+        CustomNotes = 0;
+    iFOTAUICustomization = CustomNotes;
+    
+    if(iFOTAUICustomization)
+        {
+        //TRAP(err, centrep = CRepository::NewL( TUid::Uid(KFotaServerUid)));
+        //if(err)
+        //    {
+        //    FLOG(_L("DetermineNoteType: reading from cenrep failed, returning ETrue"));
+        //    return ETrue;
+        //    }
+        
+        TInt fotaUserPostpone = 0,fotaMaxPostpone = 3;
+        if(iCentrep)
+            {
+            iCentrep->Get( KFOTAUserPostponeCount , fotaUserPostpone );
+            iCentrep->Get( KFOTAMaxPostponeCount , fotaMaxPostpone );
+            }
+        iFOTAUserPostponeCount = fotaUserPostpone;
+        iFOTAMaxPostponeCount = fotaMaxPostpone;
+
+        if(iFOTAUserPostponeCount < iFOTAMaxPostponeCount)
+            {
+            FLOG(_L("DisplayInstallationNoteTypeL: returning EPostponeLimit"));
+            LaunchNotifierL( ESyncMLFwUpdPostponeLimitQuery, iUpdateState.iProfileId );
+            //return EPostponeLimit;
+            }
+        else
+            {
+            FLOG(_L("DisplayInstallationNoteTypeL: returning EForceStart"));
+            LaunchNotifierL( ESyncMLFwUpdForceQuery, iUpdateState.iProfileId );
+            //return EForceStart;
+            }
+        }
+    else
+        {
+        FLOG(_L("DisplayInstallationNoteTypeL: returning ENormal"));
+        LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
+        //return ENormal;
+        }
+    
     }
 
 
@@ -1480,6 +1612,31 @@ void CFotaUpdate::GetSchedulesInfoL()
 void CFotaUpdate::ShowReminderDialogL()
     {
     // Push default content to navigation pane and change title
+	if(iFOTAUICustomization)
+	    {
+	    //if(iFOTAUICustomization)
+	    //    {
+	        if(iCentrep)
+	            {
+	            // When User has pressed Later, Postpone limit has to be Incremented
+	            iFOTAUserPostponeCount = iFOTAUserPostponeCount + 1;
+	            iCentrep->Set( KFOTAUserPostponeCount , iFOTAUserPostponeCount );
+	            }
+	    //    }
+	    
+	    
+	    if(iFOTAUserPostponeCount > iFOTAMaxPostponeCount)
+	        {
+	        // When User presses the end key during a Force Update Query or a Update Warning note, Force Update Query should be shown again.
+	        TIntervalType   tIntervalType;    
+	        TInt tInterval;
+	        tIntervalType = (TIntervalType)EEndKeyReminder;
+	        tInterval = 1;
+	        CreateScheduleL ( iUpdateState.iPkgId, tIntervalType ,tInterval );
+	        iFotaServer->FinalizeUpdateL();
+	        return;
+	        }
+	    }
     CEikStatusPane* statusPane = iAvkonAppUi->StatusPane();
     CAknNavigationControlContainer* naviPane = NULL;
     HBufC* originalTitle;
@@ -1593,6 +1750,8 @@ void CFotaUpdate::CreateNewScheduleL(TInt aRet, TInt aRadioSelectionIndex)
         FLOG(_L("Creating reminder: for 1st option"));
         tIntervalType = (TIntervalType)iIntervalType[aRadioSelectionIndex];				
         tInterval     = iInterval[aRadioSelectionIndex];
+        if(iFOTAUICustomization)
+                    LaunchNotifierL( ESyncMLFwUpdPostponeNote , iFOTAUserPostponeCount, iFOTAMaxPostponeCount, tIntervalType,tInterval);
         en=FindScheduleL( ETrue );
         CreateScheduleL ( iUpdateState.iPkgId, tIntervalType ,tInterval );
         iFotaServer->FinalizeUpdateL();
@@ -1602,6 +1761,8 @@ void CFotaUpdate::CreateNewScheduleL(TInt aRet, TInt aRadioSelectionIndex)
         FLOG(_L("Creating reminder: 4 hours"));
         tIntervalType = (TIntervalType)iIntervalType[aRadioSelectionIndex];				
         tInterval     = iInterval[aRadioSelectionIndex];
+        if(iFOTAUICustomization)
+                    LaunchNotifierL( ESyncMLFwUpdPostponeNote , iFOTAUserPostponeCount, iFOTAMaxPostponeCount, tIntervalType,tInterval);
         en=FindScheduleL( ETrue );
         CreateScheduleL ( iUpdateState.iPkgId, tIntervalType ,tInterval );
         iFotaServer->FinalizeUpdateL();
@@ -1611,6 +1772,8 @@ void CFotaUpdate::CreateNewScheduleL(TInt aRet, TInt aRadioSelectionIndex)
         FLOG(_L("Creating reminder: for 2nd option"));
         tIntervalType = (TIntervalType)iIntervalType[aRadioSelectionIndex];				
         tInterval     = iInterval[aRadioSelectionIndex];
+        if(iFOTAUICustomization)
+                    LaunchNotifierL( ESyncMLFwUpdPostponeNote , iFOTAUserPostponeCount, iFOTAMaxPostponeCount, tIntervalType,tInterval);
         en=FindScheduleL( ETrue );
         CreateScheduleL ( iUpdateState.iPkgId, tIntervalType ,tInterval );
         iFotaServer->FinalizeUpdateL();
@@ -1619,7 +1782,9 @@ void CFotaUpdate::CreateNewScheduleL(TInt aRet, TInt aRadioSelectionIndex)
         {
         FLOG(_L("Creating reminder: for 3rd option"));
         tIntervalType = (TIntervalType)iIntervalType[aRadioSelectionIndex];				
-        tInterval     = iInterval[aRadioSelectionIndex];  
+        tInterval     = iInterval[aRadioSelectionIndex];
+        if(iFOTAUICustomization)
+                    LaunchNotifierL( ESyncMLFwUpdPostponeNote , iFOTAUserPostponeCount, iFOTAMaxPostponeCount, tIntervalType,tInterval);
         en=FindScheduleL( ETrue );
         CreateScheduleL ( iUpdateState.iPkgId, tIntervalType ,tInterval );  
         iFotaServer->FinalizeUpdateL();
@@ -1631,8 +1796,17 @@ void CFotaUpdate::CreateNewScheduleL(TInt aRet, TInt aRadioSelectionIndex)
 
         if ( !aRet ) // cancel pressed
             {
-            LaunchNotifierL( ESyncMLFwUpdStartQuery, iUpdateState.iProfileId );
-            }
+			if(iFOTAUICustomization)
+			    {
+			    if(iCentrep)
+			        {
+			        	// When User has pressed Later and then does a cancel for the warning query, Postpone limit has to be decremented
+			        iFOTAUserPostponeCount = iFOTAUserPostponeCount - 1;
+			        iCentrep->Set( KFOTAUserPostponeCount , iFOTAUserPostponeCount );
+			        }
+			    }
+			DisplayInstallationNoteTypeL();			
+			}
         else			  // ok pressed
             {
             LaunchNotifierL( ESyncMLFwUpdNoReminder , KErrNone );
@@ -1725,8 +1899,8 @@ TScheduleEntryInfo2 CFotaUpdate::FindScheduleL( const TBool aDelete )
 // ---------------------------------------------------------------------------
 //
 TInt CFotaUpdate::CreateScheduleL ( const TInt aPackageId 
-        ,const TIntervalType  aIntervalType
-        ,const TInt aInterval)
+                                   ,TIntervalType  aIntervalType
+                                   ,const TInt aInterval)
     {
     FLOG(_L("CFotaUpdate::CreateScheduleL ()") );
     const TInt KRepeatForever = 0;
@@ -1755,6 +1929,10 @@ TInt CFotaUpdate::CreateScheduleL ( const TInt aPackageId
         case EYearly  :
             t = t + ((TTimeIntervalYears ) aInterval);
             break;
+		case EEndKeyReminder:
+                        aIntervalType = (TIntervalType)EHourly;  
+                        t = t + ((TTimeIntervalMinutes)aInterval);
+                        break;
         default :
             User::Panic(KFotaPanic, KErrArgument);
 

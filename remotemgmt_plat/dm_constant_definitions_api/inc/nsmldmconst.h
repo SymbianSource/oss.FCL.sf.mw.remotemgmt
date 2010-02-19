@@ -29,6 +29,17 @@ _LIT( KNSmlDMNotificationMIMEType, "application/vnd.syncml.notification" );
 // FOTA
 const TInt KNSmlDMResetGenAlerts = -2;
 const TInt KNSmlMaxInt32Length = 10;
+// UID of the Sosserver
+const TUid KPSUidNSmlSOSServerKey = {0x101F99FB};
+
+// PubSub key used to share information about the ongoing Device Management Job
+const TUint32 KNSmlDMSilentJob = 0x0000002;
+
+enum TDmSessionType
+{
+ESilent = 1,
+ENonSilent
+};
 // FOTA end
 
 #endif //__NSMLDMCONST_H__

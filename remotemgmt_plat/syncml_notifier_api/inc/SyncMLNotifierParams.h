@@ -20,6 +20,9 @@
 #ifndef SYNCMLNOTIFIERPARAMS_H
 #define SYNCMLNOTIFIERPARAMS_H
 
+#include <centralrepository.h>
+#include <schinfo.h>
+
 //  INCLUDES
 
 // CONSTANTS
@@ -86,7 +89,10 @@ enum TSyncMLFwUpdNoteTypes
     ESyncMLFwUpdOmaDLPostponed,	//Enum for Oma Download postponed
     ESyncMLFwUpdOmaDLCancelled, //Enum for Oma Download cancelled
     ESyncMLFwUpdOmaDLResume,        //Enum for Oma Download Resume
-    ESyncMLFwUpdStartQueryEnc      //Enum for starting installation on encrypted memory
+    ESyncMLFwUpdStartQueryEnc,      //Enum for starting installation on encrypted memory
+	ESyncMLFwUpdForceQuery,         // Forcing the update when the retry count for postponing the update expires.
+    ESyncMLFwUpdPostponeNote,        // The note that is to be shown when user postpones the udpate
+    ESyncMLFwUpdPostponeLimitQuery
 
     };
 
@@ -240,6 +246,12 @@ class TSyncMLFwUpdNotifParams
 	    TInt iMemoryNeeded;// Parameter to hold how much memory is to be
 	                       // freed for downloading the package.
 	    TBool iEncryptReq; //To tell if encrypt query should be shown to user.
+		TInt iFotaUserPostponeCount; // To determine the number of times user has postponed the update.
+	    TInt iFotaMaxPostponeCount; // The maximum number of times the update can be postponed.
+	    TBuf<KSyncMLMaxServerMsgLength> iSelectedReminder; // The option selected by the user to postpone the update.
+	    TIntervalType iIntervalType;
+	    TInt iInterval;
+	    
 	};
 
 /**

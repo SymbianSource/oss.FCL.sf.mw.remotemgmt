@@ -21,19 +21,11 @@
 
 PRJ_EXPORTS
 
-../rom/10207815.txt /epoc32/data/z/private/10202be9/10207815.txt
-../rom/10207816.txt /epoc32/data/z/private/10202be9/10207816.txt
-../rom/10207815.txt /epoc32/release/winscw/udeb/z/private/10202be9/10207815.txt
-../rom/10207816.txt /epoc32/release/winscw/udeb/z/private/10202be9/10207816.txt
-../rom/10207815.txt /epoc32/release/winscw/urel/z/private/10202be9/10207815.txt
-../rom/10207816.txt /epoc32/release/winscw/urel/z/private/10202be9/10207816.txt
-
 ../PMRfsPlugin/scripts/format_e_.txt /epoc32/release/winscw/udeb/z/private/1020783f/format_e_.txt
 ../PMRfsPlugin/scripts/format_e_.txt /epoc32/release/winscw/urel/z/private/1020783f/format_e_.txt
 ../PMRfsPlugin/scripts/format_e_.txt /epoc32/release/armv5/udeb/z/private/1020783f/format_e_.txt
 ../PMRfsPlugin/scripts/format_e_.txt /epoc32/release/armv5/urel/z/private/1020783f/format_e_.txt
 
-../rom/pe_data.iby														CORE_MW_LAYER_IBY_EXPORT_PATH(pe_data_s60.iby)
 ../rom/policyengine.iby												CORE_MW_LAYER_IBY_EXPORT_PATH(policyengine.iby)
 ../rom/policyengineresources.iby							LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(policyengineresources.iby)
 ../policyengineui/loc/PolicyEngineUI.loc			MW_LAYER_LOC_EXPORT_PATH(policyengineui.loc)

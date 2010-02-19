@@ -25,7 +25,7 @@
 #include <f32file.h>
 #include <eikenv.h> //JIM is this needed ??
 #include "mxmlattributes.h"
-#include "MXMLContentHandler.h"
+#include "mxmlcontenthandler.h"
 
 #include "nsmldssettings.h"
 //#include "nsmldsresourceprofiledefs.h"

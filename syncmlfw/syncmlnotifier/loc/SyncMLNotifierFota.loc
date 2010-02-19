@@ -285,4 +285,99 @@
 
 #define qtn_fota_device_busy   "Device memory is busy. Try installation later."
 
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved. %U is the
+//d:Operator name.
+//l:popup_note_window_1
+//w:
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_conf_query_install_now "A new software update for your phone is available from %U.\nThe software update process will not delete any personal data on your phone.\nInstall now?"
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_one_minute "Installation postponed for 1 minute. %0N of %1N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in minutes.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_minutes "Installation postponed for %0N minutes. %1N of %2N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+
+#define qtn_att_fota_info_installation_postponed_one_hour "Installation postponed for 1 hour. %0N of %1N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in hours.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+
+#define qtn_att_fota_info_installation_postponed_hours "Installation postponed for %0N hours. %1N of %2N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_one_day "Installation postponed for 1 day. %0N of %1N allowed postpones left."
+
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in days.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_days "Installation postponed for %0N days. %1N of %2N allowed postpones left."
+
+
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved and the 
+//d:numer of postpone is used. %U is the
+//d:Operator name.
+//l:popup_note_window_1
+//w:
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_conf_query_install_forced "A new software update for your phone is available from %U.\nThe software update process will not delete any personal data on your phone.\nNo more postpones allowed. Installation will begin shortly."
+
 // End of File
