@@ -49,7 +49,7 @@ SOURCE			NSmlProfileContentHandler.cpp
 USERINCLUDE     ../inc 
 USERINCLUDE	../../inc 
 USERINCLUDE	../../../common/inc 
-
+USERINCLUDE	../../../ds/syncagent/inc
 
 SYSTEMINCLUDE	/epoc32/include/libc
 SYSTEMINCLUDE	/epoc32/include/ecom 

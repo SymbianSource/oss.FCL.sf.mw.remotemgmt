@@ -26,7 +26,7 @@
 #include <barsc.h>
 
 #include <TerminalControl3rdPartyAPI.h>
-
+#include "SCPUserInf.h"
 
 // LOCAL CONSTANTS
 const TInt KSCPMaxExpiration = 365;
@@ -194,6 +194,7 @@ class CSCPTimestampPlugin : public CSCPPlugin
 	    
 	    /* Resource-file indicator */
 	    TBool iResOpen;   
+	    CSCPUserInf *iUserInfo;
     };
 
 #endif // __CSCPPTIMESTAMPPLUGIN_H

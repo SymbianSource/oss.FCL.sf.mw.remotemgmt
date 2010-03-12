@@ -330,7 +330,7 @@ void CPolicyEngineServer::SetActiveSubSession( const CBase* iBase)
 	CPolicyEngineServer::iServer->iSubSessionObjects = 0;
 	
 	CPolicyEngineServer::iServer->iSessionIter.SetToFirst();
-	for ( ; CPolicyEngineServer::iServer->iSessionIter != 0 ; CPolicyEngineServer::iServer->iSessionIter++)
+	for ( ; CPolicyEngineServer::iServer->iSessionIter ; CPolicyEngineServer::iServer->iSessionIter++)
 	{
 		CSession2 * session = CPolicyEngineServer::iServer->iSessionIter;
 		CPolicyEngineSession* policyenginesession = (CPolicyEngineSession*) session;

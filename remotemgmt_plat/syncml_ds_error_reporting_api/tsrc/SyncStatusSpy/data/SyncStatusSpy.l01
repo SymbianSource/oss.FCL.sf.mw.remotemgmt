@@ -1,0 +1,7 @@
+
+// localized strings for language: UK English (01)
+#define STR_SyncStatusSpyApplication_1 ""
+#define STR_SyncStatusSpyApplication_2 ""
+#define STR_SyncStatusSpyApplication_3 ""
+#define STR_SyncStatusSpyApplication_4 "SyncStatusSpy"
+#define STR_SyncStatusSpyApplication_5 "SyncStatusSpy"

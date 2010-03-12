@@ -28,6 +28,8 @@
 #include <bautils.h>
 #include <ApUtils.h>
 #include <barsc.h>
+#include <centralrepository.h> //For central Repository
+#include <NSmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
 
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
@@ -41,6 +43,9 @@
 #include <WPAdapterUtil.h>
 
 _LIT( KInternetString, "INTERNET" );
+_LIT( KXVcardMimeType, "text/x-vcard");
+const TInt KMaxValueLength = 255;
+
 #include <data_caging_path_literals.hrh>
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -934,6 +939,28 @@ void CNSmlDsProvisioningAdapter::StoreAttributesL( const TDesC& aType )
     if( ( aType.Length() > 0 ) &&
         ( iProfiles[iProfiles.Count()-1]->iDataProvElement[iDataProvElementCount]->iRemoteDBUri ) )
         {
+        TBool dataProvIdFoundInZ = FALSE;
+        TSmlDataProviderId firstDataProvIdFound = 0;
+        TSmlDataProviderId uidFound = 0;
+
+        TBool doSearch = ETrue;
+        if ( aType.FindF( KXVcardMimeType ) != KErrNotFound )
+            {
+            if ( IsOperatorProfile( *iProfiles[iProfiles.Count()-1] ) )
+                {
+                const CNSmlDsProfileElement& profile = *iProfiles[iProfiles.Count()-1];
+                StoreOperatorUrlL( *profile.iHostAddress );
+                
+                // Do not make a search through adapter implementations
+                doSearch = EFalse;
+                uidFound = OperatorAdapterUid();
+                if ( !uidFound )
+                    {
+                    // If OperatorAdapterUid returns 0, do a search
+                    doSearch = ETrue;
+                    }
+                }
+            }
 		// look through every implementation adapter until one found
 		// which supports MIME type in question
 		
@@ -944,68 +971,67 @@ void CNSmlDsProvisioningAdapter::StoreAttributesL( const TDesC& aType )
 		TPtr8 typePtr = type->Des();
 		CnvUtfConverter::ConvertFromUnicodeToUtf8( typePtr, aType);
 
-		TBool dataProvIdFoundInZ = FALSE;
-		TSmlDataProviderId firstDataProvIdFound = 0;
-		TSmlDataProviderId uidFound = 0;
-
 		// get list of dataproviderIds
 		RImplInfoPtrArray implArray;
 		CleanupStack::PushL( PtrArrCleanupItemRArr( CImplementationInformation, &implArray ) );
 		TUid ifUid = { KNSmlDSInterfaceUid };
 		REComSession::ListImplementationsL( ifUid, implArray );
 		
-		TInt countProviders = implArray.Count();
-		for( TInt i = 0; i < countProviders; i++ )
-			{
-			CImplementationInformation* implInfo = implArray[i];
-			
-			RSyncMLDataProvider dataProvider;
-			dataProvider.OpenL( iSession, implInfo->ImplementationUid().iUid );
-			CleanupClosePushL( dataProvider );
+        if ( doSearch )
+            {
+            TInt countProviders = implArray.Count();
+            for( TInt i = 0; i < countProviders; i++ )
+                {
+                CImplementationInformation* implInfo = implArray[i];
 
-			TInt mimeTypeCount = dataProvider.MimeTypeCount();
-			for( TInt j = 0; j < mimeTypeCount; j++ )
-				{
-				HBufC* mimeType = dataProvider.MimeType( j ).AllocLC();
-				TPtrC8 convMimeType = ConvertTo8LC( *mimeType );
-				if( typePtr.Find( convMimeType ) == 0)
-					{
-					// MIME type in question was found
-					uidFound = implInfo->ImplementationUid().iUid;
+                RSyncMLDataProvider dataProvider;
+                dataProvider.OpenL( iSession, implInfo->ImplementationUid().iUid );
+                CleanupClosePushL( dataProvider );
+
+                TInt mimeTypeCount = dataProvider.MimeTypeCount();
+                for( TInt j = 0; j < mimeTypeCount; j++ )
+                    {
+                    HBufC* mimeType = dataProvider.MimeType( j ).AllocLC();
+                    TPtrC8 convMimeType = ConvertTo8LC( *mimeType );
+                    if( typePtr.Find( convMimeType ) == 0)
+                        {
+                        // MIME type in question was found
+                        uidFound = implInfo->ImplementationUid().iUid;
+
+                        if( firstDataProvIdFound == 0 )
+                            {
+                            // save the first in case of none found from ROM
+                            firstDataProvIdFound = uidFound;
+                            }
 					
-					if( firstDataProvIdFound == 0 )
-						{
-						// save the first in case of none found from ROM
-						firstDataProvIdFound = uidFound;
-						}
-					
-					// check whether the provider is located in ROM (drive Z)
-					if( implInfo->Drive() == EDriveZ )
-						{
-						dataProvIdFoundInZ = TRUE;
-						}
-					}
+                        // check whether the provider is located in ROM (drive Z)
+                        if( implInfo->Drive() == EDriveZ )
+                            {
+                            dataProvIdFoundInZ = TRUE;
+                            }
+                        }
 				
-				CleanupStack::PopAndDestroy(2); // mimetype, ConvertTo8LC
+                    CleanupStack::PopAndDestroy(2); // mimetype, ConvertTo8LC
+
+                    if( uidFound )
+                        {
+                        break;
+                        }
+                    }
 				
-				if( uidFound )
-					{
-					break;
-					}
-				}
-				
-			CleanupStack::PopAndDestroy(); // dataProvider
+                CleanupStack::PopAndDestroy(); // dataProvider
 			
-			if ( dataProvIdFoundInZ )
-				{
-				break;
-				}
-			else
-				{
-				uidFound = firstDataProvIdFound;
-				}
-			}
-			
+                if ( dataProvIdFoundInZ )
+                    {
+                    break;
+                    }
+                else
+                    {
+                    uidFound = firstDataProvIdFound;
+                    }
+                }
+            }
+        
 		REComSession::FinalClose();
 		CleanupStack::PopAndDestroy( 2 ); // type, implArray
 
@@ -1074,5 +1100,65 @@ TDesC8& CNSmlDsProvisioningAdapter::ConvertTo8L( const TDesC& aSource )
     return *buf;
 	}
 
+//-----------------------------------------------------------------------------
+// CNSmlDsProvisioningAdapter::IsOperatorProfile
+// 
+//-----------------------------------------------------------------------------
+//
+TBool CNSmlDsProvisioningAdapter::IsOperatorProfile( const CNSmlDsProfileElement& aProfile )
+    {
+    TBuf8<KMaxValueLength> value;
+    CRepository* rep = NULL;
+    TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncInternalKeys ) );
+    if ( err == KErrNone )
+        {
+        rep->Get( KNsmlOpDsOperatorSyncServerId, value );
+        delete rep;
+        }
+    
+    if ( aProfile.iServerId )
+    	{
+        if ( value.Compare( *aProfile.iServerId ) == 0 )
+            {
+            return ETrue;
+            }
+    	}
+    return EFalse;
+    }
+
+//-----------------------------------------------------------------------------
+// CNSmlDsProvisioningAdapter::OperatorAdapterUid
+// 
+//-----------------------------------------------------------------------------
+//
+TInt CNSmlDsProvisioningAdapter::OperatorAdapterUid()
+    {
+    TInt value = 0;
+    CRepository* rep = NULL;
+    TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncInternalKeys ) );
+    if ( err == KErrNone )
+        {
+        rep->Get( KNsmlOpDsOperatorAdapterUid, value );
+        delete rep;
+        }
+    return value;
+    }
+
+//-----------------------------------------------------------------------------
+// CNSmlDsProvisioningAdapter::StoreOperatorUrlL
+// 
+//-----------------------------------------------------------------------------
+//
+void CNSmlDsProvisioningAdapter::StoreOperatorUrlL( const TDesC& aUrl )
+	{
+	CRepository* rep = NULL;
+	TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncInternalKeys ) );
+	if ( err == KErrNone )
+		{
+		CleanupStack::PushL( rep );
+		User::LeaveIfError( rep->Set( KNsmlOpDsOperatorSyncServerURL, aUrl ));
+		CleanupStack::PopAndDestroy( rep );
+		}
+	}
 
 //  End of File  

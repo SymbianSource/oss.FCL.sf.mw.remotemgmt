@@ -1712,6 +1712,9 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 					}
 				}
 			}
+		CNSmlDSSettings* settings = CNSmlDSSettings::NewLC();
+		settings->StoreSyncType( alertCode );
+		CleanupStack::PopAndDestroy( settings );
 		}
 		
 	// status 406 is returned if <Filter> is present BUT the session continues
@@ -2498,15 +2501,59 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	PcdataNewL ( devInf->fwv, KNullDesC8() );
 	
 	// Mod element (model name)
+	TBool isOperator = EFalse;
+	TInt profileId( iAgent->ProfileId() );
+	CNSmlDSSettings* settings = CNSmlDSSettings::NewLC();
+	CNSmlDSProfile* profile = settings->ProfileL( profileId );
+	
+	if( profile )
+	    {
+	    CleanupStack::PushL( profile );
+	    isOperator = settings->IsOperatorProfileL( 
+	        profile->StrValue( EDSProfileServerId ) );
+	    CleanupStack::PopAndDestroy( profile );
+	    }
+
 	HBufC* model = HBufC::NewLC( 50 );
-	TPtr modelPtr = model->Des();  
-	iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	TPtr modelPtr = model->Des();
 	HBufC8* modelInUTF8 = NULL;
-	NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	if ( isOperator )
+	    {
+	    modelInUTF8 = settings->OperatorProfileModValueLC();
+	    if ( modelInUTF8->Length() == 0 )
+	        {
+	        CleanupStack::PopAndDestroy();// modelInUTF8
+	        iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	        NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	        }
+	    }
+	else
+	    {
+	    iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	    NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	    }
 	PcdataNewL ( devInf->mod, *modelInUTF8 );
 	CleanupStack::PopAndDestroy( 2 );   // modelInUTF8, model
 	// SwV element (software version)
-	PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	if ( isOperator )
+	    {
+	    HBufC8* swv = settings->OperatorProfileSWVValueLC();
+	    if ( swv->Length() > 0 )
+	        {
+	        PcdataNewL ( devInf->swv, *swv );
+	        }
+	    else
+	        {
+	        PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	        }
+	    CleanupStack::PopAndDestroy( swv );
+	    }
+	else
+	    {
+	    PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	    }
+
+	CleanupStack::PopAndDestroy( settings );
 
 	PcdataNewL ( devInf->hwv, KNullDesC8() );
 

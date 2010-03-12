@@ -1648,7 +1648,7 @@ EXPORT_C void CNSmlCmdsBase::SetMaximumWorkspaceSize( const TInt aMaxSize )
 // CNSmlCmdsBase::BufferAreaForDebugDumpL
 // 
 // ---------------------------------------------------------
-#ifdef __NOTRANSPORT
+#if defined (__NOTRANSPORT) || defined (_DEBUG)
 
 TPtr8 CNSmlCmdsBase::BufferAreaForDebugDumpL()
 	{

@@ -42,6 +42,7 @@
 #include "nsmldssettings.h"
 #include "nsmlagentlog.h"
 #include "nsmlroam.h"
+#include "NsmlOperatorErrorCRKeys.h"
 //RD_AUTO_RESTART
 #include <e32base.h>
 #include <centralrepository.h> 
@@ -59,6 +60,11 @@ _LIT( KAutoRestart,"netmon" );
 // DBG_ARGS8 macro in no-debug builds.
 #pragma diag_remark 174
 #endif
+
+// CONSTANTS
+const TInt KNSmlDsHTTPErrCodeBase = 1400;
+const TInt KNSmlDsHTTPErrCodeRangeFirst = 1800;
+const TInt KNSmlDsHTTPErrCodeRangeLast = 1905;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -1678,6 +1684,16 @@ void CNSmlDSAgent::ReadSettingsL()
                         EDataSyncRunning12 );	    
         }
     
+	CRepository* rep = NULL;
+	TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+	if ( err == KErrNone )
+	    {
+	    rep->Set( KNsmlOpDsErrorCode, KErrNone );
+	    rep->Set( KNsmlOpDsSyncProfUid, profile->IntValue( EDSProfileId ) );
+	    rep->Set( KNsmlOpDsSyncInitiation, iSyncInitiation );
+
+	    delete rep;
+	    }
 
 	TBool ifInternet = ETrue ; // CR: 403-1188
 	if ( iMediumType == KUidNSmlMediumTypeInternet )
@@ -2922,6 +2938,14 @@ void CNSmlDSAgent::FinalizeSyncLogL()
     
     // Set sync stopped to P&S
     RProperty::Set( KPSUidDataSynchronizationInternalKeys, KDataSyncStatus, EDataSyncNotRunning );
+  
+    CRepository* rep = NULL;
+    TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+    if ( err == KErrNone )
+        {
+        rep->Set( KNsmlOpDsSyncInitiation, EDataSyncNotRunning );
+        delete rep;
+        }
 	
 	ResetDSSessionInfoL();
 	}
@@ -3086,6 +3110,18 @@ void CNSmlDSAgent::CheckServerStatusCodeL( TInt aEntryID )
 			error = ETrue;
 		}
 		
+    // Store status code to cenrep in case of error
+    if ( error )
+        {
+        CRepository* rep = NULL;
+        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+        if ( err == KErrNone )
+            {
+            rep->Set( KNsmlOpDsErrorCode, status );
+            delete rep;
+            }       
+        }
+        
 	if ( cmd == KNSmlAgentSyncHdr )
 		{
 		SaveIfNonceL( *iSyncMLCmds->ResponseController(), aEntryID );
@@ -3422,6 +3458,23 @@ void CNSmlDSAgent::FinaliseWhenErrorL()
 	{
 	DBG_FILE(_S8("CNSmlDSAgent::FinaliseWhenErrorL begins"));
 	
+	// Store error code to cenrep
+	CRepository* rep = NULL;
+	TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+	if ( err == KErrNone )
+	    {
+	    TInt errCode = iError->SyncLogErrorCode();
+
+	    if ( errCode >= KNSmlDsHTTPErrCodeRangeFirst && 
+	       errCode <= KNSmlDsHTTPErrCodeRangeLast )
+	       {
+	       errCode -= KNSmlDsHTTPErrCodeBase;
+	       }
+
+	    rep->Set( KNsmlOpDsErrorCode, errCode );
+	    delete rep;
+	    }
+
 // <MAPINFO_RESEND_MOD_BEGIN>
 	if( iDSContent->ResendUsed() )
 		{

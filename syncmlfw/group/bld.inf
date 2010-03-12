@@ -43,6 +43,10 @@ PRJ_EXPORTS
 ../conf/nsmloperatorsettings.confml				MW_LAYER_CONFML(nsmloperatorsettings.confml)
 ../conf/nsmloperatorsettings_2002682E.crml		MW_LAYER_CRML(nsmloperatorsettings_2002682E.crml)
 
+../conf/operatordatasync.confml			MW_LAYER_CONFML(operatordatasync.confml)
+../conf/operatordatasync_2001E2E1.crml		MW_LAYER_CRML(operatordatasync_2001E2E1.crml)
+../conf/operatordatasyncerror.confml		MW_LAYER_CONFML(operatordatasyncerror.confml)
+../conf/operatordatasyncerror_2001FDF1.crml	MW_LAYER_CRML(operatordatasyncerror_2001FDF1.crml)
 
 
 //for IAD support

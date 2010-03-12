@@ -81,13 +81,15 @@ EXPORT_C TInt RDiagResultsDatabase::Connect( TUid aAppUid )
 void RDiagResultsDatabase::DoConnectL (TUid aAppUid)
     {
     LOGME("RDiagResultsDatabase::DoConnectL");
-    if (iBuffer==NULL)
-		{
+    if (iBuffer==NULL) {
 		iBuffer = CBufFlat::NewL(KResultsDatabaseGranuality);
-		iBuffer->ResizeL(KResultsDatabaseBufferLength);
-		if (iBuffer==NULL)
+		
+		if (iBuffer==NULL) {
 			User::Leave( KErrNoMemory );
 		}
+		
+		iBuffer->ResizeL(KResultsDatabaseBufferLength);
+	}
     
     TInt r = DiagResultsDbCommon::StartServer();
     LOGME1("RDiagResultsDatabase::StartServer %d",r);
@@ -555,9 +557,12 @@ void RDiagResultsDatabaseRecord::DoConnectL(
     if (iBuffer==NULL)
 		{
 		iBuffer = CBufFlat::NewL(KResultsDatabaseGranuality);
-		iBuffer->ResizeL(KResultsDatabaseSubsessionBufferLength);
-		if (iBuffer==NULL)
+		
+		if (iBuffer==NULL) {
 			User::Leave( KErrNoMemory );
+		}
+		
+		iBuffer->ResizeL(KResultsDatabaseSubsessionBufferLength);
 		}
     
     iOpen = ETrue;
@@ -651,13 +656,15 @@ void RDiagResultsDatabaseRecord::DoCreateNewRecordL (
             TUid& aRecordId,
             CDiagResultsDbRecordEngineParam& aEngineParam )
     {
-     if (iBuffer==NULL)
-		{
+     if (iBuffer==NULL) {
 		iBuffer = CBufFlat::NewL(KResultsDatabaseGranuality);
-		iBuffer->ResizeL(KResultsDatabaseSubsessionBufferLength);
-		if (iBuffer==NULL)
+		
+		if (iBuffer==NULL) {
 			User::Leave( KErrNoMemory );
 		}
+		
+		iBuffer->ResizeL(KResultsDatabaseSubsessionBufferLength);
+    }
         
     iBuffer->Delete( 0, iBuffer->Size() );
     iBuffer->ResizeL( KResultsDatabaseSubsessionBufferLength );

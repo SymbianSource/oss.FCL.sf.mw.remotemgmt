@@ -344,9 +344,12 @@ CSmlDataStoreFormat* TNSmlDbCapsSerializer::CNSmlDataStoreFormatFromDbCaps::NewL
 	const sml_devinf_datastore_s* dds = aDbCaps.Datastore();
 	
 	//display name
-	NSmlUnicodeConverter::HBufC16InUnicodeLC( 
-		TNSmlDbCapsSerializer::SafePtr( dds->displayname ), self->iDisplayName );
-	CleanupStack::Pop( self->iDisplayName ); // self->iDisplayName
+	if(dds)
+	    {
+        NSmlUnicodeConverter::HBufC16InUnicodeLC( 
+                TNSmlDbCapsSerializer::SafePtr( dds->displayname ), self->iDisplayName );
+        CleanupStack::Pop( self->iDisplayName ); // self->iDisplayName
+	    }
 	
 	//sync types
 	TSmlSyncTypeMask& synctype( self->iSyncTypeMask );

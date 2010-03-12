@@ -369,8 +369,35 @@ class CNSmlDSSettings : public CBase
 		* @param -
 		* @return -
 		*/
-        IMPORT_C void UpdateHiddenProfilesL();
+		IMPORT_C void UpdateHiddenProfilesL();
+		
+		/**
+		 * Is current profile Operator specific profile.
+		 * @param aServerId Server Id to compare in Repository value.
+		 * @return Boolean ETrue if profile is Operator specific profile.
+		 */
+		IMPORT_C TBool IsOperatorProfileL( const TDesC& aServerId  );
         
+		/**
+		 * SW version of Operator specific profile.
+		 * @return Software version.
+		 */
+		IMPORT_C HBufC8* OperatorProfileSWVValueLC();
+
+		/**
+		 * Mod value of Operator specific profile.
+		 * @return Mod value.
+		 */
+		IMPORT_C HBufC8* OperatorProfileModValueLC();
+        
+		/**
+		 * Checks if received Alert Code is a sync type and tries to convert
+		 * it to Sync Type (TSmlSyncType). If conversion is succesful, the
+		 * value is stored into Cenrep file (KCRUidOperatorDatasyncInternalKeys).
+		 * @param aAlertCode received alert code.
+		 */
+		IMPORT_C void StoreSyncType( const TDes8& aAlertCode );
+
         /**
 		* Parse xml 
 		* @param - whether data has to be restored from existing database

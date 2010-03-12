@@ -2476,7 +2476,13 @@ void CNSmlDSContent::PackupRequestL( const TTime& aAnchor )
 	DBG_FILE(_S8("CNSmlDSContent::PackupRequestL begins"));
 	RMutex mutex;
 	if(mutex.OpenGlobal( KNSmlDSContentAtomicOperationName ) != KErrNone )
-		mutex.CreateGlobal( KNSmlDSContentAtomicOperationName );
+	    {
+		TRAPD(err, mutex.CreateGlobal( KNSmlDSContentAtomicOperationName ));
+		if(err != KErrNone)
+		    {
+            return;
+		    }
+	    }
 	mutex.Wait();
 	SaveMapInfoL( aAnchor );
 	mutex.Signal();

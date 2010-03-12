@@ -28,19 +28,19 @@
 #include <AknGlobalNote.h>
 #include <AknGlobalConfirmationQuery.h>
 // For wipe
-#include <starterclient.h>
-#include <sysutil.h>
-#include <syslangutil.h>
-#include <rfsClient.h>
-#include "DMUtilClient.h"
+//#include <StarterClient.h>
+//#include <sysutil.h>
+//#include <SysLangUtil.h>
+//#include <rfsClient.h>
+//#include "DMUtilClient.h"
 
 #include "SCPTimestampPlugin.h"
 #include <featmgr.h>
-#ifdef RD_MULTIPLE_DRIVE
-#include <driveinfo.h>
-#include <pathinfo.h>
-#include <f32file.h>
-#endif //RD_MULTIPLE_DRIVEs
+//#ifdef RD_MULTIPLE_DRIVE
+//#include <DriveInfo.h>
+//#include <PathInfo.h>
+//#include <f32file.h>
+//#endif //RD_MULTIPLE_DRIVEs
 // CONSTANTS
 
 // ============================= LOCAL FUNCTIONS  =============================
@@ -100,6 +100,7 @@ void CSCPTimestampPlugin::ConstructL()
    		User::Leave( KErrNotSupported );
   	}
    	FeatureManager::UnInitializeLib();  
+	iUserInfo = CSCPUserInf::NewL();
     Dprint ( ( _L( "CSCPTimestampPlugin::ConstructL()" ) ) );    
     
     return;
@@ -125,6 +126,8 @@ CSCPTimestampPlugin::~CSCPTimestampPlugin()
         iConfiguration = NULL;
         }
 
+    if(iUserInfo)
+        delete iUserInfo;
     Dprint( ( _L( "<-- CSCPTimestampPlugin::~CSCPTimestampPlugin()" ) ) );
     return;
     }
@@ -485,6 +488,7 @@ void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful,
         {
         return;
         }
+    Dprint( (_L("CSCPTimestampPlugin::AuthenticationAttempt()") )); 
         
     // Check if immediate expiration is set
     TInt expireNow = 0;
@@ -504,6 +508,7 @@ void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful,
         // Failed authentication attempt
         if ( iMaxAttempts > 0 )
             {
+		    Dprint( (_L("CSCPTimestampPlugin::iMaxAttempts > 0") )); 
             TInt failedCount = 0;
             iConfiguration->Get( KSCPFailedAttempts, failedCount ); // ignore errors
             failedCount++;                        
@@ -512,27 +517,13 @@ void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful,
                 {
                 // Warn the user. Only one attempt left. There's no use handling the error
                 // so we'll just stay silent at this point on failure.
-                TRAP_IGNORE(                                        
-                    HBufC16* resText = NULL;
-                    resText = LoadResourceL( R_SET_SEC_CODE_WARNING_ATTEMPTS_LEFT );
-                    FormatResourceString(*resText);
-    		        CleanupStack::PushL( resText );
-    		        
-    			    TPtr16 bufDes = resText->Des();
-    			    
-    			    CAknGlobalConfirmationQuery* note = CAknGlobalConfirmationQuery::NewLC();
-    			        			    
-    			    TRequestStatus status;
-    			    note->ShowConfirmationQueryL(status,
-    			    							 bufDes,
-    			    							 R_AVKON_SOFTKEYS_OK_EMPTY,
-    			    							 R_QGN_NOTE_WARNING_ANIM );
-    			    User::WaitForRequest( status );
-                                  			    
-    			    CleanupStack::PopAndDestroy( note );
-    			     
-                    CleanupStack::PopAndDestroy( resText );
-                    );
+		        Dprint( (_L("CSCPTimestampPlugin::One Attempt Left") ));
+				HBufC16* resText = NULL;
+                resText = LoadResourceL( R_SET_SEC_CODE_WARNING_ATTEMPTS_LEFT );
+                FormatResourceString(*resText);               
+				// Call the dialog from an ActiveObj framework so that we could give control back to secui
+		        Dprint( (_L("CSCPTimestampPlugin::start actv obj for dialog") ));
+                iUserInfo->StartL(*resText);
                 }
             else if ( failedCount >= iMaxAttempts )
                 {
@@ -836,6 +827,9 @@ void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject*& aRetParams )
     {
     (void)aRetParams;
     
+	Dprint( (_L("CSCPTimestampPlugin::WipeDeviceL") ));
+	iUserInfo->DoRfsL();
+    /*
     // First try to format other local drives than C:
     RRfsClient rfsClient;
     
@@ -952,7 +946,8 @@ void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject*& aRetParams )
     if ( ret != KErrNone )
         {
         Dprint( ( _L( "CSCPPatternPlugin::WipeDeviceL(): Rfs FAILED: %d"), ret ) );
-        }                                                         
+        }     */                                                    
+	Dprint( (_L("CSCPTimestampPlugin::~WipeDeviceL") ));
     }
     
 // ----------------------------------------------------------------------------

@@ -53,4 +53,8 @@ EXPORTS
 	?Visibility@CNSmlDSProfile@@QBE?AW4TNSmlDSFieldVisibility@@W4TNSmlDSProfileData@@@Z @ 52 NONAME ; enum TNSmlDSFieldVisibility CNSmlDSProfile::Visibility(enum TNSmlDSProfileData) const
 	?WriteStreamCommitL@CNSmlDSContentType@@QAEXXZ @ 53 NONAME ; void CNSmlDSContentType::WriteStreamCommitL(void)
 	?WriteStreamCommitL@CNSmlDSProfile@@QAEXXZ @ 54 NONAME ; void CNSmlDSProfile::WriteStreamCommitL(void)
+	?IsOperatorProfileL@CNSmlDSSettings@@QAEHABVTDesC16@@@Z @ 55 NONAME ; int CNSmlDSSettings::IsOperatorProfileL(class TDesC16 const &)
+	?OperatorProfileModValueLC@CNSmlDSSettings@@QAEPAVHBufC8@@XZ @ 56 NONAME ; class HBufC8 * CNSmlDSSettings::OperatorProfileModValueLC(void)
+	?StoreSyncType@CNSmlDSSettings@@QAEXABVTDes8@@@Z @ 57 NONAME ; void CNSmlDSSettings::StoreSyncType(class TDes8 const &)
+	?OperatorProfileSWVValueLC@CNSmlDSSettings@@QAEPAVHBufC8@@XZ @ 58 NONAME ; class HBufC8 * CNSmlDSSettings::OperatorProfileSWVValueLC(void)
 

@@ -51,6 +51,6 @@ SYSTEMINCLUDE	/epoc32/include/ecom
 
 LIBRARY     euser.lib ECom.lib commdb.lib charconv.lib apengine.lib
 LIBRARY     nsmldbcaps.lib bafl.lib efsrv.lib nsmldebug.lib syncmlclientapi.lib
-LIBRARY     ProvisioningEngine.lib
+LIBRARY     ProvisioningEngine.lib  centralrepository.lib
 
 SMPSAFE

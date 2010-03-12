@@ -166,7 +166,7 @@ class CNSmlCmdsBase:public CBase
 
 	//
 	public:     // Data
-#ifdef __NOTRANSPORT
+#if defined (__NOTRANSPORT) || defined (_DEBUG)
 	TPtr8 BufferAreaForDebugDumpL();
 #endif
 	

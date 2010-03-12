@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2000-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -33,6 +33,8 @@
 #include <e32property.h>
 #include <ctsydomainpskeys.h>
 #include "SCPCodePrivateCRKeys.h"
+#include <featmgr.h>
+
 /*#ifdef _DEBUG
 #define __SCP_DEBUG
 #endif // _DEBUG
@@ -262,7 +264,8 @@ void CSCPQueryDialog::PreLayoutDynInitL()
     // we are already on forgeround, need to update priority differently
 	if (var != EPSCTsyCallStateNone)
 	{
-		if (iECSSupport)
+		// If the call is made during device startup have the priority as normal
+		if (iECSSupport && (iButtons == RSCPClient::SCP_OK))
 		{
 		iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
 		}
@@ -416,7 +419,8 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
             {
             if (iECSSupport)
                 {
-                if (iEcsDetector->State()== CAknEcsDetector::ECompleteMatch)
+                if ( iEcsDetector->State() == CAknEcsDetector::ECompleteMatch ||
+                     iEcsDetector->State() == CAknEcsDetector::EServiceNumMatch )
                     {
                     iEcsDetector->AddChar( (TText)(EKeyPhoneSend) );
                     
@@ -699,18 +703,29 @@ TBool CSCPQueryDialog::OkToExitL(TInt aButtonId)
 //
 void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector, 
                                      CAknEcsDetector::TState aUpdatedState)
-    {   
+    {
     (void)aDetector; // Not used
-    
     TInt err;
+
+    // Check if service calling feature is enabled
+    TBool serviceCallEnabled( EFalse );
+    TRAP( err, FeatureManager::InitializeLibL() );
+    if ( err == KErrNone )
+        {
+        serviceCallEnabled = FeatureManager::FeatureSupported( 
+            KFeatureIdFfServiceCallWhilePhoneLocked );
+        FeatureManager::UnInitializeLib();
+        }
+
     if ( ( aUpdatedState == CAknEcsDetector::ECompleteMatchThenSendKey ) || 
          ( aUpdatedState == CAknEcsDetector::ECallAttempted ) )
         {
         // Call attempted, cancel the query
         iEMCallActivated = ETrue; // OfferKeyEventL will close the dialog         
-        }        
-    else if ( aUpdatedState == CAknEcsDetector::ECompleteMatch )    
-        {                
+        }
+    else if ( aUpdatedState == CAknEcsDetector::ECompleteMatch ||
+              ( serviceCallEnabled && aUpdatedState == CAknEcsDetector::EServiceNumMatch ) )
+        {
         iShowingEMNumber = ETrue;
         }
     else if ( iShowingEMNumber )

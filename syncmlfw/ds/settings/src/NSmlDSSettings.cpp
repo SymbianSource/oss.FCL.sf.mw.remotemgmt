@@ -28,10 +28,13 @@
 //XML profiles
 #include "rxmlreader.h"
 #include "NSmlProfileContentHandler.h"
+#include "nsmldsagconstants.h"
 #include <centralrepository.h> //CRepository
+#include <NSmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
+#include <NSmlOperatorErrorCRKeys.h> // KCRUidOperatorDatasyncErrorKeys
 
 _LIT(Kinfile,"z:\\Private\\101F99FB\\VariantData.xml");
-
+const TInt KUrlLength = 256;
 
 //=============================================
 //
@@ -880,5 +883,151 @@ TUint CNSmlDSSettings::ViewColUint( const TDesC& aFieldName )
 	return iView.ColUint( iColSet->ColNo( aFieldName ) );
 	}
 
+//-----------------------------------------------------------------------------
+// CNSmlDSSettings::IsOperatorProfileL
+// Is current profile Operator specific profile.
+//-----------------------------------------------------------------------------
+//
+EXPORT_C TBool CNSmlDSSettings::IsOperatorProfileL( const TDesC& aServerId )
+    {
+    if( aServerId.Length() != 0 )
+        {
+        TBuf8<KUrlLength> value;
+        TBuf<KUrlLength> valueUtf16;
+        
+        CRepository* rep = NULL;
+        
+        // don't leave in case of missing or corrupted cenrep.
+        TRAPD( err, rep = CRepository::NewL( 
+                KCRUidOperatorDatasyncInternalKeys ) );
+
+        if ( err == KErrNone )
+        	{
+            rep->Get( KNsmlOpDsOperatorSyncServerId, value );
+            delete rep;
+            valueUtf16.Copy( value );
+            if ( aServerId.Compare( valueUtf16 ) == 0 )
+                {
+                return ETrue;
+                }
+        	}
+        }
+    return EFalse;
+    }
+
+//-----------------------------------------------------------------------------
+// CNSmlDSSettings::OperatorProfileSWVValueLC
+// SW version of Operator specific profile.
+//-----------------------------------------------------------------------------
+//
+EXPORT_C HBufC8* CNSmlDSSettings::OperatorProfileSWVValueLC()
+    {
+    const TInt KSwvLength = 30;
+    HBufC8* buf = HBufC8::NewLC( KSwvLength );
+    TPtr8 ptr = buf->Des();
+    CRepository* rep = NULL;
+    TRAPD( err, rep = CRepository::NewL( 
+            KCRUidOperatorDatasyncInternalKeys ) );
+    // in case of missing or corrupted cenrep don't leave, just
+    // return 0-length desc
+    if( err == KErrNone )
+        {
+        CleanupStack::PushL( rep );
+        TInt actualLength;
+        err = rep->Get( KNsmlOpDsDevInfoSwVValue, ptr, actualLength );
+        if( err == KErrOverflow )
+            {
+            CleanupStack::Pop( buf );
+            buf = buf->ReAllocL( actualLength );
+            CleanupStack::PushL( buf );
+            ptr.Set( buf->Des() );
+            // ignore return error
+            rep->Get( KNsmlOpDsDevInfoSwVValue, ptr );
+            }
+        CleanupStack::PopAndDestroy( rep );
+        }
+    return buf;
+    }
+
+//-----------------------------------------------------------------------------
+// CNSmlDSSettings:::OperatorProfileModValueLC
+// Mod value of Operator specific profile.
+//-----------------------------------------------------------------------------
+//
+EXPORT_C HBufC8* CNSmlDSSettings::OperatorProfileModValueLC()
+    {
+    const TInt KModelLength = 20;
+    HBufC8* buf = HBufC8::NewLC( KModelLength );
+    TPtr8 ptr = buf->Des();
+    CRepository* rep = NULL;
+    TRAPD( err, rep = CRepository::NewL( 
+            KCRUidOperatorDatasyncInternalKeys ) );
+    // in case of missing or corrupted cenrep don't leave, just
+    // return 0-length desc
+    if( err == KErrNone )
+        {
+        CleanupStack::PushL( rep );
+        TInt actualLength;
+        err = rep->Get( KNsmlOpDsDevInfoModValue, ptr, actualLength );
+        if( err == KErrOverflow )
+            {
+            CleanupStack::Pop( buf );
+            buf = buf->ReAllocL( actualLength );
+            CleanupStack::PushL( buf );
+            ptr.Set( buf->Des() );
+            // ignore return error
+            rep->Get( KNsmlOpDsDevInfoModValue, ptr );
+            }
+        CleanupStack::PopAndDestroy( rep );
+        }
+    return buf;
+    }
+    
+//-----------------------------------------------------------------------------
+// CNSmlDSSettings::StoreSyncType
+// Checks if received Alert Code is a sync type and tries to convert
+// it to Sync Type (TSmlSyncType).
+//-----------------------------------------------------------------------------
+//
+EXPORT_C void CNSmlDSSettings::StoreSyncType( const TDes8& aAlertCode )
+    {
+    TInt syncType = KErrNotFound;
+
+    if ( aAlertCode == KNSmlDSTwoWay )
+        {
+        syncType = ESmlTwoWay;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromServer )
+        {
+        syncType = ESmlOneWayFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromClient )
+        {
+        syncType = ESmlOneWayFromClient;
+        }
+    else if ( aAlertCode == KNSmlDSSlowSync )
+        {
+        syncType = ESmlSlowSync;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromServer )
+        {
+        syncType = ESmlRefreshFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromClient )
+        {
+        syncType = ESmlRefreshFromClient;
+        }
+
+    if ( syncType != KErrNotFound )
+        {
+        CRepository* rep = NULL;
+        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+        if ( err == KErrNone )
+            {
+            rep->Set( KNsmlOpDsSyncType, syncType );
+            delete rep;
+            }
+        }
+    }
 
 //  End of File

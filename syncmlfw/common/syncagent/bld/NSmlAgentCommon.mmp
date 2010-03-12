@@ -76,6 +76,7 @@ LIBRARY         nsmltransport.lib
 LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlxml.lib
 LIBRARY		centralrepository.lib
+LIBRARY         bafl.lib
 
 #ifdef ARMCC
 LIBRARY ECOM.LIB
