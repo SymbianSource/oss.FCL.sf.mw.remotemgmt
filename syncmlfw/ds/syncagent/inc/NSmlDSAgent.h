@@ -37,7 +37,7 @@ class CNSmlDSContent;
 //RD_AUTO_RESTART
 class CNsmlDSNetmon;
 class CNSmlDSProfile;
-
+class CRepository;
 // CLASS DECLARATION
 
 /**
@@ -501,6 +501,8 @@ class CNSmlDSAgent : public CNSmlAgentBase
 	TNSmlSyncSuspendedState CurrentStateInServerAlertNext();
 	
 	TBool SyncFailure();
+	void StoreServerStatusCode(TInt aServerStatusCode) const;
+	void InitializeServerStatusCodeList();
 	public:
 	/**
 	* Mapping of the Alert code is done
@@ -574,6 +576,10 @@ class CNSmlDSAgent : public CNSmlAgentBase
 	TBool iAutoRestartInitiatedSync;
 	//RD_SUSPEND_RESUME
 	TBool iUpdateLastAnchor;
+	//For storing Server Status Code
+	CRepository* iRepositorySSC;
+	RArray<TInt>* iServerStatusCodeArray;
+	TBool iIsExtendedServerErrorCodesSupported;
 	};
 	
 typedef CNSmlDSAgent* (*TNSmlCreateDSAgentFunc) ( MSyncMLProgressObserver* aObserver );

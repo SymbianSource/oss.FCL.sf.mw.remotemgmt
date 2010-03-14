@@ -22,8 +22,8 @@
 // INCLUDES
 #include <e32base.h>
 #include <MWPVisitor.h>
-#include <FavouritesDb.h>
-#include <FavouritesSession.h>
+#include <favouritesdb.h>
+#include <favouritessession.h>
 #include "CWPWAPItemBAse.h"
 
 

@@ -27,6 +27,7 @@
 #include <SyncMLClientDM.h>
 #include <SyncMLClient.h>
 #include <rconnmon.h>
+#include <ecom/ecom.h>
 #include <centralrepository.h>
 #include <SyncMLNotifierDomainCRKeys.h>
 #include <SyncMLNotifier.rsg>           // Own resources
@@ -48,6 +49,7 @@ _LIT( KSmlNPanicCategory, "SyncMLNotifier");
 const TUid KUidNSmlMediumTypeBluetooth = { 0x101F99F1 };
 const TUid KUidNSmlMediumTypeUSB       = { 0x101F99F2 };
 const TUid KUidNSmlMediumTypeIrDA      = { 0x101F99F3 };
+const TUid KUidSmlSyncApp              = { 0x101F6DE5 };
 
 
 enum TASpBearerType
@@ -98,6 +100,7 @@ CSyncMLAppLaunchNotifier* CSyncMLAppLaunchNotifier::NewL()
 //
 CSyncMLAppLaunchNotifier::~CSyncMLAppLaunchNotifier()
     {
+	delete iObserver;
     delete iDMSyncService;
     delete iDSSyncService;
     Cancel();   // Free own resources
@@ -226,24 +229,6 @@ void CSyncMLAppLaunchNotifier::RetrieveMgmtParamsL(
         aParam.iJobId = iJobId;
         aServerName = syncProfile.DisplayName();
         aUserInteraction = syncProfile.SanUserInteraction();
-        
-        // Check if always ask is selected as accesspoint
-        RSyncMLConnection connection;
-        TRAPD( iapError, connection.OpenL( syncProfile, KUidNSmlMediumTypeInternet.iUid ) );
-        CleanupClosePushL( connection );
-
-        if ( !iapError )
-            {
-            const TDesC8& iap = connection.GetPropertyL( KNSmlIAPId );
-            if ( iap.Compare( KNSmlAlwaysAsk() ) == 0 )
-                {
-                iAlwaysAsk = ETrue;
-                }            
-            }
-
-        connection.Close();
-        CleanupStack::Pop( &connection );
-        
         syncProfile.Close();
         CleanupStack::Pop( &syncProfile );
         }
@@ -428,13 +413,7 @@ void CSyncMLAppLaunchNotifier::RunL()
     {
     FLOG(_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::RunL()"));
 		stringholder =NULL;
-		centrep = NULL;
-    TRAPD( err, centrep = CRepository::NewL( KCRUidDeviceManagementInternalKeys) );    
-    if(err)
-    {
-    	centrep = NULL;
-    }
-
+		
     TLanguage language = User::Language();  
     // Load the parameters and set the query text according to the session type.
     switch( iSmlProtocol )
@@ -447,6 +426,8 @@ void CSyncMLAppLaunchNotifier::RunL()
             RetrieveSyncParamsL( param, serverName, uiAction );
             stringholder = StringLoader::LoadL( R_SML_INIT_DS_SERVER_PROMPT,
                                                 serverName );
+            if(!stringholder)
+                return;
             }
 			break;
         case ESyncMLMgmtSession:
@@ -465,6 +446,13 @@ void CSyncMLAppLaunchNotifier::RunL()
         }
 
     CleanupStack::PushL( stringholder );
+    	
+   	centrep = NULL;
+    TRAPD( err, centrep = CRepository::NewL( KCRUidDeviceManagementInternalKeys) );    
+    if(err)
+    {
+    	centrep = NULL;
+    }
 
     TInt keypress( 0 );
     TBool  silent = EFalse;
@@ -711,34 +699,13 @@ TBool CSyncMLAppLaunchNotifier::HandleDMSessionL()
 void CSyncMLAppLaunchNotifier::HandleCompleteMessageL(TInt &keypress, TBool &silent, TInt &SanSupport, TInt &Timeout, TInt &CustomNotes)
 {
 	TLanguage language = User::Language();
+	TInt err = KErrNone;
+	_LIT_SECURITY_POLICY_S0(KWritePolicy,KUidSmlSyncApp.iUid);
+	_LIT_SECURITY_POLICY_C1( KReadPolicy, ECapabilityReadDeviceData );
+	                  
 	if( keypress == EAknSoftkeyYes || keypress == EAknSoftkeyOk || silent ) // User has accepted the dialog
   {
 		TInt retval = 1; // Default for ESyncMLSyncSession or silent
-    if ( iSmlProtocol == ESyncMLMgmtSession && !silent )
-    {
-    	CRepository* cRepository=NULL;
-			TRAPD ( error, cRepository = CRepository::NewL ( KCRUidNSmlNotifierDomainKeys ) );
-		 	if ( error == KErrNone )
-			{
-				CleanupStack::PushL( cRepository );
-				TInt dmChargingNote(1);
-				cRepository->Get ( KNSmlDMChargingNote, dmChargingNote );
-				if(dmChargingNote==1)
-				{
-			    	stringholder = StringLoader::LoadLC( R_FOTA_CONF_QUERY_CONNECTION_IS_NEEDED );
-			    	CSyncMLTimedQueryDialog* dlg = CSyncMLTimedQueryDialog::NewL( *stringholder, Timeout );			    
-			    	dlg->PrepareLC( R_SML_CONFIRMATION_QUERY );
-        		dlg->ButtonGroupContainer().SetCommandSetL( R_AVKON_SOFTKEYS_YES_NO );
-       			keypress = dlg->RunLD();
-         		if( keypress == EAknSoftkeyYes ||	keypress == EAknSoftkeyOk ) 
-         			retval = 1;
-         		else retval = 0;   
-			    	dlg = NULL;
-			    	CleanupStack::PopAndDestroy( stringholder );
-        }
-        CleanupStack::PopAndDestroy( cRepository );//cRepository
-      }
-    }
 	if( iSmlProtocol == ESyncMLMgmtSession && SanSupport == EON && silent && iUimode == ESANUserInformative )
 	{
 		// Turn lights on and deactivate apps -key
@@ -770,12 +737,23 @@ void CSyncMLAppLaunchNotifier::HandleCompleteMessageL(TInt &keypress, TBool &sil
 	    					param.iServiceId = KDataSyncServiceStart;
 	             	break;
 	    case ESyncMLMgmtSession:
+                
+                  //Define a property for Native Disclaimer 
+                  
+	              err = RProperty::Define(KDisclaimerProperty, KDisclaimerInteger, RProperty::EInt, KReadPolicy, KWritePolicy);
+	              if (err != KErrAlreadyExists)
+	                  {
+                      User::LeaveIfError(err);
+	                  }
 	              param.iServiceId = KDevManServiceStart;
 								if( SanSupport == EON )
 								{													
 	              	param.iSilent = iUimode;	                    	                               
 								}
-			          pckg.iSecureId = SyncServiceL( param.iServiceId )->StartSyncL( param );
+				iObserver = new (ELeave) CDMDisclaimerObserver();
+				pckg.iSecureId = SyncServiceL( param.iServiceId )->StartSyncL( param );
+				FLOG(_L("[SmlNotif]\t WaitonDisclaimerL called"));
+				iObserver->WaitOnDisclaimerL(this);
 	              break;
 	    default:
 	              // This branch should never be reached, since the option
@@ -783,9 +761,12 @@ void CSyncMLAppLaunchNotifier::HandleCompleteMessageL(TInt &keypress, TBool &sil
 	              User::Panic( KSmlNPanicCategory, KErrCorrupt );
 	              break;
 	  }	
-	                
-	  iMessage.WriteL( iReplySlot, TPckgBuf<TSyncMLAppLaunchNotifRetVal>(pckg) );
-	  iMessage.Complete( KErrNone );
+	 iMessage.WriteL( iReplySlot, TPckgBuf<TSyncMLAppLaunchNotifRetVal>(pckg) );
+	 if(iSmlProtocol == ESyncMLSyncSession)
+	     {
+         iMessage.Complete(KErrNone);
+
+	     }
 	 }
 	 else
 	 {
@@ -818,4 +799,101 @@ TBool CSyncMLAppLaunchNotifier::IsLanguageSupportedL()
  	FLOG(_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::IsLanguageSupportedL ends"));
  	return retVal;
 }
+// -----------------------------------------------------------------------------
+// CSyncMLAppLaunchNotifier::CompleteMessageL
+// Completes the message according to whether Privacy Policy disclaimer is accepted
+// -----------------------------------------------------------------------------
+//
+void CSyncMLAppLaunchNotifier::CompleteMessageL(TInt aDisclaimerAccepted)
+    {
+    FLOG(_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::CompleteMessageL begins"));
+    if(aDisclaimerAccepted == 1)
+        {
+        iMessage.Complete(KErrNone);
+        }
+    else
+        {
+        iMessage.Complete(KErrCancel);
+        }
+    FLOG(_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::CompleteMessageL Ends"));
+    }
+
+//---------------------------------------------------------------------------------
+// CDMDisclaimerObserver::CDMDisclaimerObserver
+// Constructor
+//---------------------------------------------------------------------------------
+CDMDisclaimerObserver::CDMDisclaimerObserver()
+: CActive(0)
+    {
+    CActiveScheduler::Add(this);
+    }
+
+//---------------------------------------------------------------------------------
+// CDMDisclaimerObserver::~CDMDisclaimerObserver
+// Destructor
+//---------------------------------------------------------------------------------
+CDMDisclaimerObserver::~CDMDisclaimerObserver()
+    {
+    Cancel();
+    iDisclaimerProperty.Close();
+    }
+
+//---------------------------------------------------------------------------------
+// CDMDisclaimerObserver::WaitOnDisclaimerL
+// Subscribes to Property set when Privacy policy disclaimer is accepted
+//---------------------------------------------------------------------------------
+void CDMDisclaimerObserver::WaitOnDisclaimerL( CSyncMLAppLaunchNotifier* aPtr)
+    {    
+    FLOG(_L("[SmlNotif]\t CDMDisclaimerObserver::WaitOnDisclaimerL begins"));
+    iNot = aPtr;
+    // subscribe;
+	if(!IsActive())
+		{
+		TInt err= iDisclaimerProperty.Attach(KDisclaimerProperty, KDisclaimerInteger, EOwnerThread);		
+        //User::LeaveIfError(err);
+		iStatus=KRequestPending;
+		iDisclaimerProperty.Subscribe(iStatus);
+        SetActive();
+		}            
+	FLOG(_L("[SmlNotif]\t CDMDisclaimerObserver::WaitOnDisclaimerL ends"));
+    }
+
+// --------------------------------------------------------------------------
+// CDMDisclaimerObserver::DoCancel()
+// From base class
+// --------------------------------------------------------------------------
+//
+void CDMDisclaimerObserver::DoCancel()
+    {
+	 if( iStatus == KRequestPending )
+    	{	    	
+    	TRequestStatus* status = &iStatus;
+    	User::RequestComplete( status, KErrCancel );
+    	}
+    }    
+// --------------------------------------------------------------------------
+// CDMDisclaimerObserver::RunL()
+// Calls CompleteMessageL 
+// --------------------------------------------------------------------------
+//
+void CDMDisclaimerObserver::RunL()
+    {
+    FLOG(_L("[SmlNotif]\t CDMDisclaimerObserver::RunL begins"));
+    iDisclaimerProperty.Get(iPropertyVal);
+     
+    iNot->CompleteMessageL(iPropertyVal);
+        
+    FLOG(_L("[SmlNotif]\t CDMDisclaimerObserver::RunL End"));
+    }
+
+// --------------------------------------------------------------------------
+// CDMDisclaimerObserver::RunError()
+// --------------------------------------------------------------------------
+//
+TInt CDMDisclaimerObserver::RunError(TInt aError)
+    {
+    FTRACE( FPrint( _L("[SmlNotif]\t CDMDisclaimerObserver::RunError() Error = %d"), aError ) );
+    return aError;
+    }
+    
 //  End of File  

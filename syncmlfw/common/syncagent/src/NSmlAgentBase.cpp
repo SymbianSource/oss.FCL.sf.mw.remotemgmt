@@ -1900,7 +1900,10 @@ void CNSmlAgentBase::ErrorHandling( TInt aErrorCode )
 	if(iPacketDataUnAvailable)
 	{
 		DBG_FILE(_S8("CNSmlAgentBase::FinaliseWhenErrorL Prompting for a Dialog"));
-		iError->SetErrorCode( TNSmlError::ESmlCommunicationError);		
+		if (iError)
+			{
+			iError->SetErrorCode( TNSmlError::ESmlCommunicationError);		
+			}
 		User::RequestComplete( iCallerStatus, TNSmlError::ESmlCommunicationError );
 	}
 	//RD_AUTO_RESTART

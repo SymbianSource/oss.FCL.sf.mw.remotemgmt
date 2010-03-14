@@ -72,5 +72,8 @@ LIBRARY			cmmanager.lib
 LIBRARY			ezlib.lib
 LIBRARY			connmon.lib
 LIBRARY         	connmonext.lib
-
+LIBRARY  		extendedconnpref.lib 
+LIBRARY  		netmeta.lib 
+LIBRARY 		etel.lib
+LIBRARY 		etelmm.lib
 SMPSAFE

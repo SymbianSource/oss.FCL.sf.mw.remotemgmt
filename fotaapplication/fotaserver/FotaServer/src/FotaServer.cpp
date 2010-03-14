@@ -24,8 +24,9 @@
 #include <schtime.h>
 #include <csch_cli.h>
 #include <e32property.h>
-#include <ApUtils.h> 
-#include <commdb.h>
+#include <nsmldmconst.h>
+#include <cmmanager.h>
+#include <cmconnectionmethod.h>
 #include <DevManInternalCRKeys.h>
 #include <nsmlconstants.h>
 #include <centralrepository.h>
@@ -253,6 +254,10 @@ void CFotaServer::CreateDeviceManagementSessionL( TPackageState& aState )
 	        FLOG(_L("Using IAP: %d to send GA"),iapid);
 	        FLOG(_L("From Db Using IAP: %d to send GA"),aState.iIapId);
 	        RSyncMLDevManJob    dmJob;
+	        
+	        RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KWritePolicy);
+	        TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);
+			FLOG(_L("CFotaServer::CreateDeviceManagementSessionL KNSmlDMSilentJob set err %d"),r2);
 	        TBuf<10> genalertap,temp;
 	        genalertap.Zero();
 	        temp.Zero();	  
@@ -867,11 +872,14 @@ void CFotaServer::DoCloseSMLSessionL()
         FLOG(_L("   trycount %d => creating new job"),iSyncMLAttempts);
 	    RSyncMLDevManJob    dmJob;
     	if(iIapId > KErrNotFound)
-    		{
-    		FLOG(_L("DoCloseSMLSessionL new job uses iap from fotadb %d"),
-    				iIapId);
-    		dmJob.CreateL( iSyncMLSession, iSyncProfile,iIapId );
-    		}
+    	    {
+            FLOG(_L("DoCloseSMLSessionL new job uses iap from fotadb %d"),
+                    iIapId);
+   	        RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KWritePolicy);
+            TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);
+			FLOG(_L("CFotaServer::DoCloseSMLSessionL() KNSmlDMSilentJob set err %d"),r2);
+            dmJob.CreateL( iSyncMLSession, iSyncProfile,iIapId );
+    	    }
     	else
     		{
     		FLOG(_L("DoCloseSMLSessionL new job uses iap from profile"));
@@ -2275,12 +2283,15 @@ void CFotaServer::MonitorBattery(TInt aLevel)
 TBool CFotaServer::CheckIapExistsL(TUint32 aIapId)
     {
     FLOG(_L("CFotaServer::CheckIapExistsL >>"));
-    CCommsDatabase* commDb = CCommsDatabase::NewL( EDatabaseTypeIAP );
-    CleanupStack::PushL( commDb );
-    CApUtils* aputils = CApUtils::NewLC(*commDb);
-    TBool exists = aputils->IAPExistsL( aIapId);      
-    CleanupStack::PopAndDestroy( aputils );
-    CleanupStack::PopAndDestroy( commDb );
+    TBool exists = EFalse;  
+    RCmManager cmManager;    
+    cmManager.OpenLC();
+    RCmConnectionMethod conn;
+    TRAPD(err, conn = cmManager.ConnectionMethodL( aIapId ));
+    if(err == KErrNone)//connection method exists
+       exists = ETrue;
+    conn.Close();
+    CleanupStack::PopAndDestroy();//cmManager                    
     FLOG(_L("CFotaServer::CheckIapExistsL <<"));
     return exists;
     }

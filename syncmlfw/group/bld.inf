@@ -39,6 +39,12 @@ PRJ_EXPORTS
 ../conf/datasyncsessioninfo.confml				MW_LAYER_CONFML(datasyncsessioninfo.confml)
 ../conf/datasyncsessioninfo_20029F15.crml     MW_LAYER_CRML(datasyncsessioninfo_20029F15.crml)
 
+//For extended server status code 
+../conf/nsmloperatorsettings.confml				MW_LAYER_CONFML(nsmloperatorsettings.confml)
+../conf/nsmloperatorsettings_2002682E.crml		MW_LAYER_CRML(nsmloperatorsettings_2002682E.crml)
+
+
+
 //for IAD support
 syncmlfw_stub.sis  /epoc32/data/z/system/install/syncmlfw_stub.sis 
 ../rom/NSml_variant.iby			CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(NSml_variant.iby)

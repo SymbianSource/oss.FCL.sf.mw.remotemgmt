@@ -290,13 +290,15 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
 		// see if address contains also port
 		TBool portFound = EFalse;
 		TInt startPos(0);
+		TBool isHTTPS = EFalse;
 		if(iProfiles[aItem]->iHostAddress->Find(KNSmlDsProvisioningHTTP)==0)
 		    {
 		    startPos=KNSmlDsProvisioningHTTP().Length();		    		    
 		    }
 		else if(iProfiles[aItem]->iHostAddress->Find(KNSmlDsProvisioningHTTPS)==0)
 		    {
-		    startPos=KNSmlDsProvisioningHTTPS().Length();		    		    
+		    startPos=KNSmlDsProvisioningHTTPS().Length();	
+		    isHTTPS = ETrue;
 		    }
 		TPtrC uriPtr = iProfiles[aItem]->iHostAddress->Mid(startPos);
 		
@@ -327,9 +329,18 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
 				}
 			else
 				{
+				TBuf<16> portNum;
+				if (isHTTPS)
+				    {
+				    portNum.Copy(KNSmlDsHTTPSDefaultPort());
+				    }
+				else
+				    {
+				    portNum.Copy(KNSmlDsDefaultPort());
+				    }
 				// use default port
 				if( CombineURILC( iProfiles[aItem]->iHostAddress->Des(),
-							  KNSmlDsDefaultPort(), uri ) == KErrNone )
+				        portNum, uri ) == KErrNone )
 					{
 					if(iProfiles[aItem]->iHostAddress)
 					{

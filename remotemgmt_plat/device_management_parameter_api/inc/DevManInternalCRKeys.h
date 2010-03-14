@@ -149,5 +149,17 @@ const TUint32 KDevOverrideProfileLock = 0x0000000F;
 */
 const TUint32 KDevManMemCardCtrl = 0x00000010; 
 
+/*
+* This key is used to indicate whether the privacy policy disclaimer has been accepted
+* Default value : 0 
+* Allowed values.
+* 0,1 or 2 
+* If value is 0 when disclaimer not accepted
+* If value is 1 when disclaimer has been accepted
+* If value is 2 if the dialog has been displayed but not accepted yet
+* 
+*/
+const TUint32 KDMDisclaimerAccepted = 0x00000011;
+
 #endif // SYNCML_DEVMAN_INTERNAL_CR_KEYS_H
 

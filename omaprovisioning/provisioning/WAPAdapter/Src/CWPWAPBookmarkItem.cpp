@@ -22,7 +22,7 @@
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <favouritesdb.h>
-#include <FavouritesItemList.h>         // CFavouritesItemList
+#include <favouritesitemlist.h>         // CFavouritesItemList
 #include <wpwapadapterresource.rsg>
 #include <CWPAdapter.h>
 #include "CWPWAPBookmarkItem.h"

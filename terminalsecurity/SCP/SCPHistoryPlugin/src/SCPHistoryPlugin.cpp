@@ -84,360 +84,333 @@ void CSCPHistoryPlugin::ConstructL()
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aParam )
-	{				
-	Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent()" ) ) );
-	// Make the ParamObject for success ack, Delete later
-	CSCPParamObject* retParams = NULL;
-	
-	TBool errRaised;
-	errRaised = EFalse;
-	
-	TBool isInvalid = EFalse;
-	
-	if ( iFs == NULL )
-	    {
-	    return NULL; // Eventhandler not available
-	    }	
-	
-	// Insert the default security code into the history-buffer if not there yet
-    {	        
-    TInt errSCF = SetConfigFile ();
-	if (errSCF != KErrNone)
-	    {		
-		return NULL;
-		}
-		
-    TInt historyItemCounter = 0;
-    if ( GetHistoryItemCount( historyItemCounter ) != KErrNone )
-	    {
-	    Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
-	    // Hash the security code	
-		TBuf<KSCPPasscodeMaxLength> codeBuf;
-		TBuf<KSCPMaxHashLength> hashBuf;
-		
-		codeBuf.Copy( KSCPDefaultEnchSecCode );
-		hashBuf.Zero();
-		
-		iEventHandler->HashInput( codeBuf, hashBuf );		        
-        
-        CSCPParamObject* historyObject = NULL;
-	    TRAPD( err, historyObject = CSCPParamObject::NewL() );
-	    if ( err == KErrNone )
-	        {
- 		    historyObject->Set( KHistoryCounterParamID, 1 );
-		    historyObject->Set( KHistoryItemParamBase, hashBuf );
-        
-            TRAP_IGNORE( historyObject->WriteToFileL( iCfgFilenamepath, iFs ) );
-	        }
-	    
-	    delete historyObject;
-	    }
-    }
-	
-	
-	// check for Case
-    switch ( aID )
+CSCPParamObject* CSCPHistoryPlugin::HandleEvent(TInt aID,
+        CSCPParamObject& aParam)
+    {
+    Dprint((_L("CSCPHistoryPlugin::HandleEvent()")));
+    // Make the ParamObject for success ack, Delete later
+    CSCPParamObject* retParams = NULL;
+
+    TBool errRaised;
+    errRaised = EFalse;
+
+    TBool isInvalid = EFalse;
+
+    if (iFs == NULL)
         {
-
-        case ( KSCPEventValidate ) :
-            {            
-           	// Obtain the paramValue
-           	Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventValidate" ) ) );
-			TInt passhistoryParamValue;
-			passhistoryParamValue = GetHistoryCountParamValue();
-			Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent passhistoryParamValue = %d" ), passhistoryParamValue ) );
-			// if all required bounds are zero, there is nothing to do.
-			if ( passhistoryParamValue != 0)
-			    {
-				// Get the configFile's path.
-				// If this fails, there is something badly wrong(Private folder is not there)
-				TInt errSCF = SetConfigFile ();
-				if (errSCF != KErrNone)
-				{
-					errRaised = ETrue;
-					break; // Break out from Case
-				}
-
-				// Get the historyItemCount, If the err is raised, the file is not there
-				// This will lead to KSCPEventPasswordChanged event and new history file will
-				// be created
-				TInt historyItemCounter;
-				TInt errHC = GetHistoryItemCount( historyItemCounter );
-				Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
-				if (errHC != KErrNone)
-				{
-					errRaised = ETrue;
-					break; // Break out from Case
-				}
-
-				// continue with the KSCPEventValidate Check
-
-				// Get the password from the paramObject
-				TBuf<KSCPPasscodeMaxLength> seccode;
-				if ( aParam.Get( KSCPParamPassword, seccode ) != KErrNone )
-				{
-					// Nothing to do anymore
-					Dprint( (_L("CSCPHistoryPlugin::HandleEvent()\
-					ERROR: KSCPEventValidate/KSCPParamPassword is != KErrNone") ));
-					errRaised = ETrue;
-					break; // Break out from Case
-				}            
-				
-				// Hash  the securitycode	
-				TBuf<KSCPPasscodeMaxLength> securityhash;
-				iEventHandler->HashInput(seccode,securityhash);
-			
-				// get history
-				CDesCArrayFlat* array = NULL;
-				TInt errGH = KErrNone;
-				
-				array = new CDesCArrayFlat(1);			
-				if ( array != NULL )
-				    {
-				    TRAPD( err2, errGH = GetHistoryArrayL( *array ) );
-				    if ( err2 != KErrNone )
-				        {
-				        errGH = err2;
-				        }
-				    }
-				else
-				    {
-				    errGH = KErrNoMemory;
-				    }
-			
-				// If for some reason err is raised, break out
-				// If the Historyonfig file get deleted on the fly ex
-				if (errGH != KErrNone)
-				    {
-					errRaised = ETrue;
-					array->Reset();
-					delete array;
-					break; // Break out from Case
-				    }
-				TInt correction;
-				correction = 0;
-
-				if ( array->Count() >=  passhistoryParamValue )
-        {
-        correction =  array->Count() - passhistoryParamValue;
+        return NULL; // Eventhandler not available
         }
-				// check for match
-				TBuf<KSCPPasscodeMaxLength> arrayItem;
-				
-				// Set the historyobject
-				for (TInt i= 0 + correction; i < array->Count(); i++)
-				    {
-					arrayItem =  array->MdcaPoint(i);
-					if (arrayItem.Compare(securityhash) == KErrNone)
-					    {
-						// Get the filesystem for Resource
-						// If fail, bail out
-						TInt errgGR = GetResource();
-						if (errgGR != KErrNone)
-						    {
-							errRaised = ETrue;
-							break; // Break out from the For
-						    }	
 
-						// Prompt buf, iNote can show only 97 chars,
-						// without ... markings.
-						HBufC* hbuf = NULL;					
-						
-						if ( passhistoryParamValue == 1 )
-						    {
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_INFO_PREVIOUS );
-		                        );
-						    }
-						else
-						    {
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( 
-		                            R_SET_SEC_CODE_INFO_CHECK, 
-		                            &passhistoryParamValue );
-		                        );							    
-						    }														
+    // check for Case
+    switch (aID)
+        {
+
+        case (KSCPEventValidate):
+            {
+            // Obtain the paramValue
+            Dprint((_L("CSCPHistoryPlugin::KSCPEventValidate")));
+            TInt passhistoryParamValue;
+            passhistoryParamValue = GetHistoryCountParamValue();
+            Dprint(
+                    (_L(
+                            "CSCPHistoryPlugin::HandleEvent passhistoryParamValue = %d"), passhistoryParamValue));
+            // if all required bounds are zero, there is nothing to do.
+            if (passhistoryParamValue != 0)
+                {
+                // Get the configFile's path.
+                // If this fails, there is something badly wrong(Private folder is not there)
+                TInt errSCF = SetConfigFile();
+                if (errSCF != KErrNone)
+                    {
+                    errRaised = ETrue;
+                    break; // Break out from Case
+                    }
+
+                // Get the historyItemCount, If the err is raised, the file is not there
+                // This will lead to KSCPEventPasswordChanged event and new history file will
+                // be created
+                TInt historyItemCounter;
+                TInt errHC = GetHistoryItemCount(historyItemCounter);
+                Dprint(
+                        (_L(
+                                "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d"), historyItemCounter));
+                if (errHC != KErrNone)
+                    {
+                    errRaised = ETrue;
+                    break; // Break out from Case
+                    }
+
+                // continue with the KSCPEventValidate Check
+
+                // Get the password from the paramObject
+                TBuf<KSCPPasscodeMaxLength> seccode;
+                if (aParam.Get(KSCPParamPassword, seccode) != KErrNone)
+                    {
+                    // Nothing to do anymore
+                    Dprint(
+                            (_L(
+                                    "CSCPHistoryPlugin::HandleEvent()\
+					ERROR: KSCPEventValidate/KSCPParamPassword is != KErrNone")));
+                    errRaised = ETrue;
+                    break; // Break out from Case
+                    }
+
+                // Hash  the securitycode	
+                TBuf<KSCPPasscodeMaxLength> securityhash;
+                iEventHandler->HashInput(seccode, securityhash);
+
+                // get history
+                CDesCArrayFlat* array = NULL;
+                TInt errGH = KErrNone;
+
+                array = new CDesCArrayFlat(1);
+                if (array != NULL)
+                    {
+                    TRAPD(err2, errGH = GetHistoryArrayL(*array));
+                    if (err2 != KErrNone)
+                        {
+                        errGH = err2;
+                        }
+                    }
+                else
+                    {
+                    errGH = KErrNoMemory;
+                    }
+
+                // If for some reason err is raised, break out
+                // If the Historyonfig file get deleted on the fly ex
+                if (errGH != KErrNone)
+                    {
+                    errRaised = ETrue;
+                    array->Reset();
+                    delete array;
+                    break; // Break out from Case
+                    }
+                TInt correction;
+                correction = 0;
+
+                if (array->Count() >= passhistoryParamValue)
+                    {
+                    correction = array->Count() - passhistoryParamValue;
+                    }
+                // check for match
+                TBuf<KSCPPasscodeMaxLength> arrayItem;
+
+                // Set the historyobject
+                for (TInt i = 0 + correction; i < array->Count(); i++)
+                    {
+                    arrayItem = array->MdcaPoint(i);
+                    if (arrayItem.Compare(securityhash) == KErrNone)
+                        {
+                        // Get the filesystem for Resource
+                        // If fail, bail out
+                        TInt errgGR = GetResource();
+                        if (errgGR != KErrNone)
+                            {
+                            errRaised = ETrue;
+                            break; // Break out from the For
+                            }
+
+                        // Prompt buf, iNote can show only 97 chars,
+                        // without ... markings.
+                        HBufC* hbuf = NULL;
+
+                        if (passhistoryParamValue == 1)
+                            {
+                            isInvalid = ETrue;
+TRAP_IGNORE                            (
+                                    hbuf = LoadAndFormatResL( R_SET_SEC_CODE_INFO_PREVIOUS );
+                            );
+                            }
+                        else
+                            {
+                            isInvalid = ETrue;
+                            TRAP_IGNORE(
+                                    hbuf = LoadAndFormatResL(
+                                            R_SET_SEC_CODE_INFO_CHECK,
+                                            &passhistoryParamValue );
+                            );
+                            }
 
                         if ( isInvalid )
-    					    {	    							
-    				    	// Create the result-object to return
-    					    TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                            
-                            if ( err == KErrNone )
-    					        {
-        			            retParams->Set( KSCPParamStatus, KErrSCPInvalidCode );
-    	    		            retParams->Set( KSCPParamAction, KSCPActionShowUI );
-    		    	            retParams->Set( KSCPParamUIMode, KSCPUINote );
-    			                
-    			                if ( hbuf != NULL )
-    			                    {
-    			                    TPtr ptr = hbuf->Des();
-    			                    retParams->Set( KSCPParamPromptText, ptr );
-    			                    delete hbuf;
-    			                    }
-    					        }
-    					    
-    					    break;
-    					    }
-																															
-					    } // End of compare IF
-				    } // End of For
-				    
-				// kill the local
-				array->Reset();
-				delete array;
-															
-			    } // passhistoryParamValue
-			else
-			    {
-				retParams = NULL;
-			    }
+                            {
+                            // Create the result-object to return
+                            TRAPD( err, retParams = CSCPParamObject::NewL() );
 
-			break;
-			} // end of KSCPEventValidate
-                    
+                            if ( err == KErrNone )
+                                {
+                                retParams->Set( KSCPParamStatus, KErrSCPInvalidCode );
+                                retParams->Set( KSCPParamAction, KSCPActionShowUI );
+                                retParams->Set( KSCPParamUIMode, KSCPUINote );
+
+                                if ( hbuf != NULL )
+                                    {
+                                    TPtr ptr = hbuf->Des();
+                                    retParams->Set( KSCPParamPromptText, ptr );
+                                    delete hbuf;
+                                    }
+                                }
+
+                            break;
+                            }
+
+                        } // End of compare IF
+                    } // End of For
+
+                // kill the local
+                array->Reset();
+                delete array;
+
+                } // passhistoryParamValue
+
+            else
+                {
+                retParams = NULL;
+                }
+
+            break;
+            } // end of KSCPEventValidate
+
         // Someone has changed the Seccode and I need to include it to history
-         case ( KSCPEventPasswordChanged ) :
-			{																
-			// Get the configFile's path.
-			Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventPasswordChanged" ) ) );
-			TInt errSCF = SetConfigFile ();
-			if (errSCF != KErrNone)
-			    {
-				errRaised = ETrue;
-				break; // Break out from the case
-			    }
-			
-			// Get the password from the paramObject
-     		TBuf<KSCPPasscodeMaxLength> securitycode;
+        case ( KSCPEventPasswordChanged ) :
+            {
+            // Get the configFile's path.
+            Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventPasswordChanged" ) ) );
+            TInt errSCF = SetConfigFile ();
+            if (errSCF != KErrNone)
+                {
+                errRaised = ETrue;
+                break; // Break out from the case
+                }
+
+            // Get the password from the paramObject
+            TBuf<KSCPPasscodeMaxLength> securitycode;
             if ( aParam.Get( KSCPParamPassword, securitycode ) != KErrNone )
                 {
-            	// Nothing to do anymore
-               	Dprint( (_L("CSCPHistoryPlugin::HandleEvent()\
+                // Nothing to do anymore
+                Dprint( (_L("CSCPHistoryPlugin::HandleEvent()\
                	ERROR: KSCPEventPasswordChanged/KSCPParamPassword is  != KErrNone") ));
-            	errRaised = ETrue;
-				break; // Break out from the Case
-                }          
+                errRaised = ETrue;
+                break; // Break out from the Case
+                }
 
-			// Hash  the securitycode	
-			TBuf<KSCPPasscodeMaxLength> securityhash;
-			iEventHandler->HashInput(securitycode,securityhash);
+            // Hash  the securitycode	
+            TBuf<KSCPPasscodeMaxLength> securityhash;
+            iEventHandler->HashInput(securitycode,securityhash);
 
-			// Get the historyItemCount, If error occures, File is not there yet, Make one
-			TInt historyItemCounter;
-			TInt errHC = GetHistoryItemCount( historyItemCounter );
-			Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
-			if (errHC != KErrNone)
-			    {
-				// The file does not exist yet (should not happen)
-				// Make the ParamObject,  Set the New historyData with count of 1
-				CSCPParamObject* historyObject = NULL;
-				TRAPD( err, historyObject = CSCPParamObject::NewL() );
-		 		if ( err == KErrNone )
-		 		    {
-			 		historyObject->Set(KHistoryCounterParamID,1);
-    				historyObject->Set(KHistoryItemParamBase,securityhash );
-                    
+            // Get the historyItemCount, If error occures, File is not there yet, Make one
+            TInt historyItemCounter;
+            TInt errHC = GetHistoryItemCount( historyItemCounter );
+            Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
+            if (errHC != KErrNone)
+                {
+                // The file does not exist yet (should not happen)
+                // Make the ParamObject,  Set the New historyData with count of 1
+                CSCPParamObject* historyObject = NULL;
+                TRAPD( err, historyObject = CSCPParamObject::NewL() );
+                if ( err == KErrNone )
+                    {
+                    historyObject->Set(KHistoryCounterParamID,1);
+                    historyObject->Set(KHistoryItemParamBase,securityhash );
+
                     TRAPD( errWC, historyObject->WriteToFileL( iCfgFilenamepath, iFs ) );
-					if ( errWC != KErrNone )
-    					{
-						Dprint( (_L("CSCPHistoryPlugin::HandleEvent(): WARNING:\
+                    if ( errWC != KErrNone )
+                        {
+                        Dprint( (_L("CSCPHistoryPlugin::HandleEvent(): WARNING:\
 						failed to write plugin configuration: %d"), errWC ));
-						errRaised = ETrue;
-						break; // Break out from the Case
-	    				}
-					delete historyObject;
-		 		    }
-			    }
-			// There are passwords avail.
-			else
-			    {
-				// Append the new passwords
-				TInt err = KErrNone;
-				TRAPD( err2, err = AppendAndWriteSecurityCodeL( securityhash  ) );
-				if ( ( err != KErrNone ) || ( err2 != KErrNone ) )
-				    {
-					errRaised = ETrue;
-					break; // Break out from the Case						
-				    }										
-			    }    					
-			break;
-			} // end of KSCPEventPasswordChanged
-          
-    	case ( KSCPEventConfigurationQuery ):
-            {            
+                        errRaised = ETrue;
+                        break; // Break out from the Case
+                        }
+                    delete historyObject;
+                    }
+                }
+            // There are passwords avail.
+
+            else
+                {
+                // Append the new passwords
+                TInt err = KErrNone;
+                TRAPD( err2, err = AppendAndWriteSecurityCodeL( securityhash ) );
+                if ( ( err != KErrNone ) || ( err2 != KErrNone ) )
+                    {
+                    errRaised = ETrue;
+                    break; // Break out from the Case						
+                    }
+                }
+            break;
+            } // end of KSCPEventPasswordChanged
+
+        case ( KSCPEventConfigurationQuery ):
+            {
             Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventConfigurationQuery" ) ) );
-        	TInt paramID = -1; 
+            TInt paramID = -1;
             // Get the ID from the paramObject      
             if ( aParam.Get( KSCPParamID, paramID ) != KErrNone )
                 {
                 // Nothing to do anymore
                 break;
-                }            
-                    
+                }
+
             // 1011
             if ( paramID == (RTerminalControl3rdPartySession::EPasscodeHistoryBuffer))
                 {
-				// OK, we're interested, check that the value is valid
-				TRAPD( err, retParams  = CSCPParamObject::NewL() );
-				if ( err != KErrNone )
-				    {
-				    break; // Nothing we can do
-				    }
-
-				// All of our params are TInts
-				TInt paramValue;
-				if ( aParam.Get( KSCPParamValue, paramValue ) != KErrNone )
-				    {
-					retParams->Set( KSCPParamStatus, KErrGeneral );
-					break;
-				    }
-            	            
-					TInt retStatus = KErrNone;
-					switch ( paramID )
-					    {
-				
-						case ( RTerminalControl3rdPartySession::EPasscodeHistoryBuffer ):
-						    {
-							// Bounds are be be
-							if ( ( paramValue < KPasscodeHistoryBufferMinValue ) 
-							|| ( paramValue > KPasscodeHistoryBufferMaxValue ) )                                 
-							    {
-								// This is not a valid valuerange
-								retStatus = KErrArgument;
-						        }     
-							           
-						    break;				
-						    } // end of case EPasscodeHistoryBuffer
-					    } // end of switch ( paramID )
-								
-			        retParams->Set( KSCPParamStatus, retStatus );
+                // OK, we're interested, check that the value is valid
+                TRAPD( err, retParams = CSCPParamObject::NewL() );
+                if ( err != KErrNone )
+                    {
+                    break; // Nothing we can do
                     }
-			    else
-			        {
-				    retParams = NULL;
-			        }
-			 			 
-			 break;	            
-	         } //End of KSCPEventConfigurationQuery Case
-            
-            
-          case ( KSCPEventReset ):
-              {
-              Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventReset" ) ) );
-              // Reset the configuration for this plugin.
-              TRAP_IGNORE( FlushConfigFileL() );
-              
-              break;
-              }
-                          
-          } // End of  switch ( aID )
-                             
-       // Check if Any errors were raised and handle it
-    if (errRaised) 
+
+                // All of our params are TInts
+                TInt paramValue;
+                if ( aParam.Get( KSCPParamValue, paramValue ) != KErrNone )
+                    {
+                    retParams->Set( KSCPParamStatus, KErrGeneral );
+                    break;
+                    }
+
+                TInt retStatus = KErrNone;
+                switch ( paramID )
+                    {
+
+                    case ( RTerminalControl3rdPartySession::EPasscodeHistoryBuffer ):
+                        {
+                        // Bounds are be be
+                        if ( ( paramValue < KPasscodeHistoryBufferMinValue )
+                                || ( paramValue > KPasscodeHistoryBufferMaxValue ) )
+                            {
+                            // This is not a valid valuerange
+                            retStatus = KErrArgument;
+                            }
+
+                        break;
+                        } // end of case EPasscodeHistoryBuffer
+                    } // end of switch ( paramID )
+
+                retParams->Set( KSCPParamStatus, retStatus );
+                }
+            else
+                {
+                retParams = NULL;
+                }
+
+            break;
+            } //End of KSCPEventConfigurationQuery Case
+
+
+        case ( KSCPEventReset ):
+            {
+            Dprint ( ( _L( "CSCPHistoryPlugin::KSCPEventReset" ) ) );
+            // Reset the configuration for this plugin.
+            TRAP_IGNORE( FlushConfigFileL() );
+
+            break;
+            }
+
+        } // End of  switch ( aID )
+
+    // Check if Any errors were raised and handle it
+    if (errRaised)
         {
         if ( retParams != NULL )
             {
@@ -445,8 +418,8 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
             }
         retParams = NULL;
         }
-       
-    return retParams; 
+
+    return retParams;
     }
 
 // ----------------------------------------------------------------------------

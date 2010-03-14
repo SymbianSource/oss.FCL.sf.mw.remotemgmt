@@ -23,7 +23,7 @@
 #include "CWPWAPAdapterBase.h"
 
 #include <favouritessession.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 
 
 // FORWARD DECLARATIONS

@@ -93,6 +93,7 @@ enum {
 
 _LIT_SECURITY_POLICY_C1( KReadPolicy, ECapabilityReadDeviceData );
 _LIT_SECURITY_POLICY_C1( KWritePolicy, ECapabilityWriteDeviceData );
+_LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
 
 //Constants for Device Encryption operation
 enum TDEOperations

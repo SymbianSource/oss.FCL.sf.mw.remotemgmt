@@ -1374,7 +1374,10 @@ void CNSmlDMAgent::FinalizeSyncLogL()
 		TTime now;
 		//now.HomeTime();//previously using
 		now.UniversalTime();
+		if(iError)
 		iSyncLog->SetResult(now, iError->SyncLogErrorCode());
+		else
+		iSyncLog->SetResult(now, KErrGeneral);   
 
 			CNSmlDMSettings* settings = CNSmlDMSettings::NewLC();
 			CNSmlDMProfile* profile = settings->ProfileL( iProfileID );

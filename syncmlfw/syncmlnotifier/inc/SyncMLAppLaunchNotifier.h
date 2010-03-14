@@ -28,16 +28,20 @@
 #include "SyncMLNotifierBase.h"    // Base class
 #include <SyncService.h>
 #include <centralrepository.h>
-
+#include <e32property.h>
 // CONSTANTS
 // From S60\SyncMLFota
 const TUid KUidNSmlMediumTypeInternet = { 0x101F99F0 };
 _LIT8( KNSmlIAPId, "NSmlIapId" );
 _LIT8( KNSmlAlwaysAsk, "-1" );
 const TInt  KDefaultTimeoutforNotes ( 30 );
-
+const TUid KDisclaimerProperty = {0x101F8769};
+const TUint32 KDisclaimerInteger = 0x00000001;
+    
 const TUid KCRUidNSmlDSApp       = { 0x101F9A1D };
 // CLASS DECLARATION
+
+class CDMDisclaimerObserver;
 /**
 *  Notifier for launching SyncML applications
 *
@@ -68,6 +72,12 @@ NONSHARABLE_CLASS( CSyncMLAppLaunchNotifier ) : public CSyncMLNotifierBase
         * @return CSyncService* 
         */
         CSyncService* SyncServiceL( TUint aServiceId );
+        
+        /**
+        * Called to complete the message
+        * @param aDisclaimerAccepted 
+        */        
+        void CompleteMessageL(TInt aDisclaimerAccepted);
 
     private: // New functions
 
@@ -182,6 +192,7 @@ NONSHARABLE_CLASS( CSyncMLAppLaunchNotifier ) : public CSyncMLNotifierBase
     private: // Data
         // Type of session queried
         TSyncMLSessionTypes iSmlProtocol;
+        CDMDisclaimerObserver* iObserver;
         
         // Job identifier from the parameters
         TInt                iJobId;
@@ -211,6 +222,25 @@ NONSHARABLE_CLASS( CSyncMLAppLaunchNotifier ) : public CSyncMLNotifierBase
         TInt iBearerType;
     };
 
+/**
+* CDMDisclaimerObserver class
+* 
+*/
+class CDMDisclaimerObserver : public CActive
+    {
+    public:
+        CDMDisclaimerObserver();
+        ~CDMDisclaimerObserver();
+        void WaitOnDisclaimerL(CSyncMLAppLaunchNotifier* aPtr);
+    protected:
+        void DoCancel();
+        void RunL();
+        TInt RunError(TInt aError);
+    private:
+        TInt iPropertyVal;
+        RProperty iDisclaimerProperty;
+        CSyncMLAppLaunchNotifier* iNot;    
+    };
 
 #endif      // CSYNCMLAPPLAUNCHNOTIFIER_H   
             

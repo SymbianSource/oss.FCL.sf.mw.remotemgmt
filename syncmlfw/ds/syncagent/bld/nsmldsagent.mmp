@@ -82,6 +82,7 @@ LIBRARY         nsmldssettings.lib
 LIBRARY         nsmlfilter.lib
 LIBRARY			nsmldshostclient.lib
 LIBRARY			nsmlhistorylog.lib
+LIBRARY			featmgr.lib
 //RD_AUTO_RESTART
 LIBRARY 		ConnMon.lib
 LIBRARY        	connmonext.lib
