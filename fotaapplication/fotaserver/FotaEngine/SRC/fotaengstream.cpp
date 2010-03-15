@@ -99,6 +99,9 @@ void TDP2StreamBuf::ResetL()
     // Define write area
     TUint8* p1 = iMyWriteStream->iFotaEngineSession->iChunk.Base();
     TUint8* p2;
+    p2 = p1 + chunksize;
+    
+    /* // dead code
     if ( limitedwritearea == -1 ) 
         {
         p2 = p1 + chunksize;
@@ -107,6 +110,7 @@ void TDP2StreamBuf::ResetL()
         {
         p2 = p1 + limitedwritearea;
         }
+        */
     SetBuf  (a,p1 , p2 );
   	FLOG(_L("TDP2StreamBuf::ResetL() <<" ));
     }

@@ -181,7 +181,7 @@ TBool CSCPSession::AcknowledgeOperation( TSCPAdminCommand aCommand )
                 Dprint( (_L("CSCPSession::AcknowledgeOperation( %d ): \
                     Lock-op acknowledged"), aCommand ));
                 iLockCommandState = ESCPLockCmdStateInProgressAcknowledged;
-                iSettingHandler->AckReceived();
+                iNotificationHandler->AckReceived();
                                 
                 ret = ETrue;
                 break;
@@ -435,7 +435,7 @@ void CSCPSession::SetDOSLockSettingL( TBool aLocked,
     // (because DOS lock won't be disabled)
     if ( ( aLocked ) || ( ( !IsSMSLockActiveL() ) && ( !IsAutolockActive() ) ) )
         {
-        iNotificationHandler = CSCPLockNotificationEventHandler::NewL( &iServer );
+        iNotificationHandler = CSCPLockNotificationEventHandler::NewL( &iServer, this );
         }
         
 #endif // WINS

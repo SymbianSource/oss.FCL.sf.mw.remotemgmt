@@ -22,6 +22,8 @@
 #include <bldvariant.hrh>
 #include "SCPLockEventHandler.h"
 
+// FORWARD DECLARATIONS
+class CSCPSession;
 // CLASS DECLARATION
 
 /**
@@ -36,18 +38,20 @@ class CSCPLockNotificationEventHandler : public CSCPLockEventHandler
         /**
         * Static constructor.
         */
-   	    static CSCPLockNotificationEventHandler* NewL( CSCPServer* aServer );
+   	    static CSCPLockNotificationEventHandler* NewL( CSCPServer* aServer, CSCPSession* aSession );
         
         /**
         * Static constructor, that leaves the pointer to the cleanup stack.
         */
-        static CSCPLockNotificationEventHandler* NewLC( CSCPServer* aServer );
+        static CSCPLockNotificationEventHandler* NewLC( CSCPServer* aServer, CSCPSession* aSession );
 
         /**
         * Destructor.
         */
         virtual ~CSCPLockNotificationEventHandler();
        
+		// Ack from session after queryadmincmd
+		void AckReceived();
     protected:  // Methods   
         
         // Methods from base classes
@@ -67,13 +71,16 @@ class CSCPLockNotificationEventHandler : public CSCPLockEventHandler
         * From CActive The active object request cancellation method.
         */
         void DoCancel();
+		
+        // send passcode to ISA
+        void VerifyPass();
 
     private: //Methods
     
         /**
         * C++ default constructor.
         */
-        CSCPLockNotificationEventHandler( CSCPServer* aServer );    
+        CSCPLockNotificationEventHandler( CSCPServer* aServer, CSCPSession* aSession );
 
         /**
         * By default Symbian 2nd phase constructor is private.
@@ -86,13 +93,18 @@ class CSCPLockNotificationEventHandler : public CSCPLockEventHandler
         enum TSCPLNQueryState
             {
             ESCPLNQueryStateNotification,
-            ESCPLNQueryStateVerification
+            ESCPLNQueryStateVerification,
+            ESCPLNQueryStateQueryAdmin
             };
                         
         /** The current processing state. */
         TSCPLNQueryState                        iQueryState;                 
         /** A placeholder for the event received from the TSY */
         RMobilePhone::TMobilePhoneSecurityEvent iEvent;        
+        // Ack from queryadmin
+        TBool iAckReceived;
+        /** The parent session pointer */
+        CSCPSession* iSession;
     };
 
 #endif      // SCPLOCKNOTIFICATIONEVENTHANDLER_H   

@@ -55,23 +55,11 @@
 //r:3.2
 #define qtn_fota_reminder_1_hour   	"1 hour"
 
-//d:radio button item to display 4 hour
-//l:list_set_graphic_pane_t1
-//w:
-//r:3.2
-#define qtn_fota_reminder_4_hours 	"4 hours"
-
 //d:radio button item to display 1 day
 //l:list_set_graphic_pane_t1
 //w:
 //r:3.2
 #define qtn_fota_reminder_1_day  	"1 day"
-
-//d:radio button item to display 3 days
-//l:list_set_graphic_pane_t1
-//w:
-//r:3.2
-#define qtn_fota_reminder_3_days 	"3 days"
 
 //d:radio button item to display no remainder
 //l:list_set_graphic_pane_t1

@@ -19,6 +19,15 @@
 
 #ifndef SYNCML_DATASYNC_INTERNAL_PS_KEYS_H
 #define SYNCML_DATASYNC_INTERNAL_PS_KEYS_H
+/**
+*Device manager key UID
+*/
+const TUid KPSUidNSmlDSSyncApp = {0x101F6DE4};
+
+/**
+*PubSub key used for handling Sync Cancel operation.
+*/
+const TUint32  KDsJobCancel = 0x00000001; 
 
 /**
 * SyncML Data Synchronization Internal P&S Keys UID

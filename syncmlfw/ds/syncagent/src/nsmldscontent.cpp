@@ -120,7 +120,7 @@ TInt CNSmlDSContent::CurrentIndex() const
 //
 TBool CNSmlDSContent::ContentIndexIsSet() const
 	{
-	if ( iIndex == -1 )
+	if ( ( iIndex < 0 ) || ( iIndex >= iStores.Count() ) )
 		{
 		return EFalse;
 		}

@@ -59,8 +59,6 @@ CSCPLockSettingEventHandler::CSCPLockSettingEventHandler(
     iSession( aSession ),
     iState( aState ),
     iAutolock( aAutolock ),
-    iWaitingForAck( EFalse ),
-    iAckReceived( EFalse ),
     iUnlockSent( EFalse ),
     iMessageStatus( KErrNone )
 	{
@@ -258,19 +256,6 @@ CSCPLockSettingEventHandler::~CSCPLockSettingEventHandler()
 
 
 // ---------------------------------------------------------
-// void CSCPLockSettingEventHandler::AckReceived()
-// Sets the ackReceived member to indicate that the call has
-// already been acknowledged.
-// 
-// Status : Approved
-// ---------------------------------------------------------
-
-void CSCPLockSettingEventHandler::AckReceived()
-    {
-    iAckReceived = ETrue;    
-    }
-
-// ---------------------------------------------------------
 // void CSCPLockSettingEventHandler::SetAutolockStateL( TBool aActive )
 // Activates Autolock by signalling the SA/PubSub event, or
 // deactivates it by sending it the deactivation message.
@@ -387,7 +372,7 @@ void CSCPLockSettingEventHandler::RunL()
             iMessageStatus = ret;
             }
         }    
-    else if ( iWaitingForAck ) // Received an acknowledgement for the set lock setting call
+    else // Received an acknowledgement for the set lock setting call
         {
         if ( ret == KErrNone ) 
             {
@@ -402,42 +387,24 @@ void CSCPLockSettingEventHandler::RunL()
             iMessageStatus = ret;
             }            
         }
-    else // SetLockSetting completed
-        {        
-        // Save the status of the lock setting call
-        iMessageStatus = ret;
-
-        Dprint( (_L("CSCPLockSettingEventHandler::RunL():\
-            SetLockSetting returned: %d"), ret ));
-      
-        if ( iAckReceived )
-            {
-            Dprint( (_L("CSCPLockSettingEventHandler::RunL(): Ack already received") ));  
-            startFinalPhase = ETrue;
-            }
-        else
-            {
-            iSession->LockOperationPending( ESCPCommandLockPhone, &iStatus );
-            iWaitingForAck = ETrue;	                
-            finalCall = EFalse;
-	        SetActive(); // Wait for the session-class to complete this call
-            }                	    
-        }
 	   
     if ( ( startFinalPhase ) && ( iAutolock ) )
         {
+        	Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-startFinalPhase") ));
         // Autolock activation/deactivation was requested
         TRAPD( err, SetAutolockStateL( iState ) );
     
         if ( err != KErrNone )
             {
             // If the call failed, send the result as the message status
+            Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-err!=Kerrnone") ));
             iMessageStatus = err;
             }
         else if ( !iState )
             {
             // Inform the session-class that an unlock-message has been sent
             // (the server won't respond to Autolock until the handler finishes)                    
+            Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-!iState") ));                  
             iSession->LockOperationPending( ESCPCommandUnlockPhone, &iStatus );
             iUnlockSent = ETrue;	                
             finalCall = EFalse;
@@ -469,10 +436,7 @@ void CSCPLockSettingEventHandler::DoCancel()
     {
     Dprint( (_L("--> CSCPLockSettingEventHandler::DoCancel()") ));
 
-    if ( !iWaitingForAck )
-        {
-        iPhone->CancelAsyncRequest( EMobilePhoneSetLockSetting );
-        }        
+    iPhone->CancelAsyncRequest( EMobilePhoneSetLockSetting );
 
     iLockMessage.Complete( KErrCancel );    
     iSession->LockOperationCompleted();  

@@ -1843,6 +1843,7 @@ void CNSmlDMGenericAlert::ConstructL( const TDesC8& aFwMgmtUri, const TDesC8& aM
             iItem->iMetaMark = ((*aItemList)[i].iMetaMark)->AllocL();
             iItem->iData = ((*aItemList)[i].iData)->AllocL();
             iDataItem->AppendL(*iItem);
+            delete iItem;
             }
         }   
 

@@ -63,14 +63,6 @@ class CSCPLockSettingEventHandler : public CSCPLockEventHandler
         * Destructor.
         */
         virtual ~CSCPLockSettingEventHandler();
-
-       // New methods  
-       /**
-        * Informs the object that an acknowledgement was received
-        * This method will be used, if the acknowledgement comes in
-        * before the wait is started.
-        */
-        void AckReceived(); 
         
        /**
         * Starts the lock/unlock operation. Must be called for the object
@@ -125,10 +117,6 @@ class CSCPLockSettingEventHandler : public CSCPLockEventHandler
          TBool iState;
          /** Should Autolock be activated/deactivated on success */
          TBool iAutolock;    
-         /** Is the AO waiting for an acknowledgement to the lock setting call*/
-         TBool iWaitingForAck;
-         /** Has the AO received an acknowledgement already*/
-         TBool iAckReceived;
          /** Has an unlock-message to Autolock been sent*/
          TBool iUnlockSent;
          /** The return status for the message*/

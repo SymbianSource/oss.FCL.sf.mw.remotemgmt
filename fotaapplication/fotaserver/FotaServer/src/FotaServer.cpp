@@ -766,7 +766,9 @@ void CFotaServer::DoFinalizeDownloadL()
         StoragePluginL()->DeleteUpdatePackageL ( iDownloader->iDLState.iPkgId );
         
     // Download not to be restarted, delete
-    if ( iDownloader->iRestartCounter<=0 )
+    if ( iDownloader ) 
+    {
+    	if ( iDownloader->iRestartCounter<=0 )
         {
         // Set downloader's ending state to DB
         iDatabase->OpenDBL();
@@ -814,6 +816,7 @@ void CFotaServer::DoFinalizeDownloadL()
         	err = RProperty::Set(TUid::Uid(KOmaDMAppUid), KFotaDMRefresh, EFalse );
         FLOG(_L("RProperty KFotaDMRefresh EFalse, err = %d"), err);
         }
+      }
     // Download to be restarted
     else
         {

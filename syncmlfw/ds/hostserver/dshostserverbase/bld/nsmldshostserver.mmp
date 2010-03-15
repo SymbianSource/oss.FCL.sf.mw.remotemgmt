@@ -52,6 +52,7 @@ SOURCE		Nsmldsdatastoreelement.cpp
 SOURCE		Nsmldsasyncrequesthandler.cpp
 SOURCE		Nsmldsasynccallback.cpp
 SOURCE		NsmldschangedItemsFetcher.cpp
+SOURCE		nsmldshostsessioncancel.cpp
 
 LIBRARY     euser.lib ecom.lib efsrv.lib edbms.lib estor.lib bafl.lib smlstoreformat.lib
 LIBRARY		nsmldebug.lib smldataprovider.lib nsmldshostclient.lib NSmlAdapterLog.lib
