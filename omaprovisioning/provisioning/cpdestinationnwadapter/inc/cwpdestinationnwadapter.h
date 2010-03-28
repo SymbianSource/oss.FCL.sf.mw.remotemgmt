@@ -56,7 +56,7 @@ public:
      * @param aDes Descriptor to be converted.
      * @return Unsigned 32-bit integer.
      */
-    TUint32 CWPDestinationNwAdapter::Des8ToUint32L( const TDesC8& aDes );
+    TUint32 Des8ToUint32L( const TDesC8& aDes );
 
 // from base class CWPAdapter
 

@@ -58,7 +58,7 @@ class CCommsDatEnforcement : public CEnforcementBase
 		TInt CheckTableL( const TDesC& aTableName );
 		
 		
-		TUint32 CCommsDatEnforcement::GetRecordIdL( const TDesC& aTableName );
+		TUint32 GetRecordIdL( const TDesC& aTableName );
 		
 	private:
 		//active state 

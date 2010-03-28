@@ -442,7 +442,7 @@ class CNSmlDMProfile : public CBase
 		* @param TNSmlDMProfileData aProfileItem - Enumeration of the field
 		* @return HBufC* - value of nonce, that is left in cleanup stack
 		*/
-		IMPORT_C HBufC* CNSmlDMProfile::NonceLC( TNSmlDMProfileData aProfileItem);
+		IMPORT_C HBufC* NonceLC( TNSmlDMProfileData aProfileItem);
 
 		/**
 		* Sets new value for descriptor

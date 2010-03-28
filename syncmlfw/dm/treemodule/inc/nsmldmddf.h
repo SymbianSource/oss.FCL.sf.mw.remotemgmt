@@ -241,7 +241,7 @@ class CNSmlDmDDF : public CBase
 	* @return					KErrNotFound if not found, otherwise KErrNone
 	*/
 	
-    TInt CNSmlDmDDF::GetCaseSenseL(const TDesC8& aURI,CBufBase& aObject);
+    TInt GetCaseSenseL(const TDesC8& aURI,CBufBase& aObject);
    		
 
 	/**
