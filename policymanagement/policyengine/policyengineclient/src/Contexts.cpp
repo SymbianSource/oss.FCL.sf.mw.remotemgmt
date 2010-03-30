@@ -311,7 +311,7 @@ EXPORT_C void RElementIdArray::Close()
 		delete operator[](i);
 	}
 
-	RArray::Close();
+	RArray<HBufC8*>::Close();
 }
 
 void RElementIdArray::SetListL( const TDesC8& aChilds)
