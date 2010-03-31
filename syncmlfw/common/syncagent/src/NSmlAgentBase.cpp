@@ -1690,7 +1690,7 @@ void CNSmlAgentBase::SendDataIssueL()
     CWbxml2XmlConverter* c = CWbxml2XmlConverter::NewLC();
     c->ConvertL( document.Ptr(), document.Length() );
     RFs fs;
-    fs.Connect();  // create connect to fileserver
+    User::LeaveIfError( fs.Connect() );  // create connect to fileserver
     CleanupClosePushL( fs );
     if( !BaflUtils::FolderExists( fs, _L("C:\\logs\\Sync\\") ) )
         {
@@ -1770,7 +1770,7 @@ void CNSmlAgentBase::ReceiveDataIssueL()
         {
         c->ConvertL( document.Ptr(), document.Length() );
         RFs fs;
-        fs.Connect();  // create connect to fileserver
+        User::LeaveIfError( fs.Connect() );  // create connect to fileserver
         CleanupClosePushL( fs );
         if( !BaflUtils::FolderExists( fs, _L("C:\\logs\\Sync\\") ) )
             {

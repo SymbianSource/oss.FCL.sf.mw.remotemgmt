@@ -29,3 +29,6 @@ PRJ_EXPORTS
 ../inc/TerminalControl3rdPartyParamsPlugin.h     	MW_LAYER_PLATFORM_EXPORT_PATH(TerminalControl3rdPartyParamsPlugin.h)
 ../inc/TerminalControl3rdPartyParamsPluginDef.h		MW_LAYER_PLATFORM_EXPORT_PATH(TerminalControl3rdPartyParamsPluginDef.h)
 ../inc/TerminalControl3rdPartyParamsPlugin.inl     	MW_LAYER_PLATFORM_EXPORT_PATH(TerminalControl3rdPartyParamsPlugin.inl)
+../inc/dmencryptionutilinterface.h			MW_LAYER_PLATFORM_EXPORT_PATH(dmencryptionutilinterface.h)
+../inc/dmencryptionutil.h				MW_LAYER_PLATFORM_EXPORT_PATH(dmencryptionutil.h)
+../inc/dmencryptionutil.inl     			MW_LAYER_PLATFORM_EXPORT_PATH(dmencryptionutil.inl)

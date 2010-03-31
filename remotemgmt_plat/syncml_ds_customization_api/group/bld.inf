@@ -23,4 +23,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-..\inc\NsmlOperatorDataCRKeys.h		MW_LAYER_PLATFORM_EXPORT_PATH(NsmlOperatorDataCRKeys.h)
+../inc/NSmlOperatorDataCRKeys.h		MW_LAYER_PLATFORM_EXPORT_PATH(NsmlOperatorDataCRKeys.h)

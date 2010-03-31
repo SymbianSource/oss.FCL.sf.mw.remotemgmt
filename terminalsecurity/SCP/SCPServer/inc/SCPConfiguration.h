@@ -29,7 +29,8 @@
 enum TSCPParamType
     {
     EParTypeInt = 0,
-    EParTypeDesc
+    EParTypeDesc,
+    EParTypeBool
     };
 
 // LOCAL CONSTANTS
@@ -54,6 +55,13 @@ const TInt KParamIDFailedAttempts = 5;
 const TInt KParamIDBlockedAtTime = 6;
 
 const TInt KParamIDBlockedInOOS = 7;
+// ID number for the encrypted security code.
+const TInt KParamIDCryptoCode = 8;
+//ID number for the boolean for the configuartion check
+const TInt KParamIDConfigChecked = 9;
+
+// Total number of Param IDs
+const TInt KTotalParamIDs = 9;
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 #define SCP_PARAMETERS_WithFlag { &iConfigFlag, \
@@ -62,7 +70,9 @@ const TInt KParamIDBlockedInOOS = 7;
                          &iEnhSecCode, \
                          &iFailedAttempts, \
                          &iBlockedAtTime, \
-                         &iBlockedInOOS \
+                         &iBlockedInOOS, \
+                         &iCryptoCode, \
+						 &iConfigChecked \
                          };
 
 #define SCP_PARAMIDS_WithFlag    {  KParamIDConfigFlag, \
@@ -71,7 +81,9 @@ const TInt KParamIDBlockedInOOS = 7;
                            KParamIDEnhSecCode, \
                            KParamIDFailedAttempts, \
                            KParamIDBlockedAtTime, \
-                           KParamIDBlockedInOOS \
+                           KParamIDBlockedInOOS, \
+                           KParamIDCryptoCode, \
+						   KParamIDConfigChecked \
                         };
 
 #define SCP_PARAMTYPES_WithFlag { EParTypeInt, \
@@ -80,7 +92,9 @@ const TInt KParamIDBlockedInOOS = 7;
                          EParTypeDesc, \
                          EParTypeInt, \
                          EParTypeDesc, \
-                         EParTypeInt \
+                         EParTypeInt, \
+                         EParTypeDesc, \
+						 EParTypeBool \
                        };
 
 //#else // !__SAP_DEVICE_LOCK_ENHANCEMENTS                   
@@ -155,6 +169,15 @@ class TSCPConfiguration
         */
         void TransformStringL( TBool aEncrypt, TDes& aInput, TDes& aOutput );              
         
+        /**
+        * Function to check for any ECOM plugin implementing the MDMEncryptionUtilInterface exist in ROM only.
+        * If any plugin is implemented then Encrypts or decrypts the input string in aInput, saving the output in aOutput.
+        * If the input is not an exact multiple of a DES block, 0-padding is used. The
+        * output buffer must be large enough to store the output blocks.
+        * Returns   ETrue if plugin is implemented & exists in ROM only.
+        *           EFalse if plugin is not implemented.        
+        */
+        TBool NativeTransform(TBool aEncrypt, TDes& aInput, TDes& aOutput);        
 
 	public:  // Data
 	    /** Configuration valid -flag */        
@@ -167,6 +190,9 @@ class TSCPConfiguration
         TFileName iConfigFileName; 
         TInt iBlockedInOOS;
         
+        //Flag to check whether Configuration checked already
+        TBool iConfigChecked;
+        
         /** A ptr to a connected RFs, not owned */
         RFs* iFsSession;
         
@@ -178,6 +204,8 @@ class TSCPConfiguration
         /** The time since the code has been blocked */
         TBuf<KSCPMaxInt64Length> iBlockedAtTime;
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS       
+// Member to hold the encrypted/decrypted security code from Crpto HW encryption algorithm
+        TSCPCryptoCode iCryptoCode;
 
     };
 

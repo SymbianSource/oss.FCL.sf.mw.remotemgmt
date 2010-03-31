@@ -26,7 +26,7 @@
 
 //Forward declarations
 class CDevEncController;
-class CDevEncSession;
+class CDevEncSessionBase;
 class CDevEncProgressDlg;
 //Constants used in this class
 
@@ -60,7 +60,7 @@ NONSHARABLE_CLASS (CDevEncProgressObserver) : public MDEProgressDlgObserver
      	 * @return  None
      	 */
 
-		void StartMonitoringL(CDevEncSession* aSession);
+		void StartMonitoringL(CDevEncSessionBase* aSession);
 		
     public: // Functions from base classes
 
@@ -91,7 +91,7 @@ NONSHARABLE_CLASS (CDevEncProgressObserver) : public MDEProgressDlgObserver
         CPeriodic* iPeriodicTimer;
 		
 		//Not owned
-		CDevEncSession*     iEncMemorySession;
+		CDevEncSessionBase*     iEncMemorySession;
 	
 	};
 

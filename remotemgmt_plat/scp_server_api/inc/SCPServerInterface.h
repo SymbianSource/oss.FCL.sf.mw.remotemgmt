@@ -27,6 +27,8 @@
 typedef TBuf<8> TSCPSecCode;
 const TInt KSCPMaxEnhCodeLen = 256;
 
+// New DataType to store encrypted information of maximum size 128.
+typedef TBuf<128> TSCPCryptoCode;
 
 // LOCAL CONSTANTS
 _LIT( KSCPServerName, "!SCPServer" );

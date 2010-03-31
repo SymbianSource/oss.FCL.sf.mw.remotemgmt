@@ -30,7 +30,7 @@
 #include "NSmlAdapterLog.h"
 #include "nsmldshostconstants.h"
 #include "Nsmldshostserver.h"
-#include "nsmldshostsessioncanceleventhandler.h"
+#include "Nsmldshostsessioncanceleventhandler.h"
 #include "Nsmldshostsessioncancel.h"
 #include "Nsmldshostsession.h"
 #include "nsmldsdpinformation.h"

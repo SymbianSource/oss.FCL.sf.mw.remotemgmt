@@ -20,15 +20,14 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <DevEncSession.h>
+
 #include <DevEncConstants.h>
 #include "DevEncProgressDlg.h"
 #define KDevEncUIUid 0x2000259A
 
 //Forward declaration
 class CFotaServer;
-
-
+class CDevEncSessionBase;
 class CDevEncStarterStarter;
 class CDevEncProgressObserver;
 
@@ -62,6 +61,10 @@ class CDevEncController : public CBase
         
         TBool IsDeviceEncryptionSupportedL();
         
+        void LoadDevEncSessionL();
+        
+        void UnloadDevEncSession();
+        
         void StartDecryptionL();
         
         void StartEncryptionL();
@@ -71,7 +74,9 @@ class CDevEncController : public CBase
     // Data
         CFotaServer* iCallback; // parent
         
-        CDevEncSession*     iEncMemorySession; // Device Encryption engine session
+		RLibrary iLibrary;
+                
+        CDevEncSessionBase*     iEncMemorySession; // Device Encryption engine session
 
         CDevEncProgressObserver* iDevEncObserver; //Observer for the encryption/decryption operation
         

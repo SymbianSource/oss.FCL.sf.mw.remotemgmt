@@ -15,18 +15,22 @@
 *
 */
 
+//System Include
 #include <apgcli.h> // for RApaLsSession
 #include <apacmdln.h> // for CApaCommandLine
 #include <centralrepository.h>
 #include <featmgr.h> // for checking DE feature
+#include <DevEncEngineConstants.h>
+#include <DevEncSessionBase.h> //for device encryption
+#include <DevEncProtectedPSKey.h>  //for device encryption
+#include <fotaserver.rsg>
+
+//User Include
 #include "DevEncController.h"
 #include "FotaServer.h"
-#include "FotaSrvDebug.h"
-#include "DevEncSession.h"
-#include <DevEncEngineConstants.h>
 #include "DevEncProgressObserver.h"
-#include <fotaserver.rsg>
-#include <DevEncProtectedPSKey.h>
+#include "FotaSrvDebug.h"
+
 #define __LEAVE_IF_ERROR(x) if(KErrNone!=x) {FLOG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
 
 // ================= MEMBER FUNCTIONS =======================
@@ -74,11 +78,16 @@ void CDevEncController::ConstructL()
     {
     FLOG(_L("CDevEncController::ConstructL >>"));
 
-    if (!IsDeviceEncryptionSupportedL())
+    if (IsDeviceEncryptionSupportedL())
         {
-        FLOG(_L("Device doesn't support encryption!!"));
-        User::Leave(KErrNotSupported);
+				LoadDevEncSessionL();
         }
+    else
+    	{
+				FLOG(_L("Device doesn't support encryption!!"));
+        User::Leave(KErrNotSupported);
+    	}
+        	
     FLOG(_L("CDevEncController::ConstructL <<"));
     }
 
@@ -118,12 +127,7 @@ CDevEncController::~CDevEncController()
     {
     FLOG(_L("CDevEncController::~CDevEncController >>"));
 
-    if (iEncMemorySession)
-        {
-        iEncMemorySession->Close();
-        delete iEncMemorySession;
-        iEncMemorySession = NULL;
-        }
+		UnloadDevEncSession();
 
     if (iDevEncObserver)
         {
@@ -134,6 +138,60 @@ CDevEncController::~CDevEncController()
     FLOG(_L("CDevEncController::~CDevEncController <<"));
     }
 
+// ----------------------------------------------------------
+// CDevEncController::LoadDevEncSessionL()
+// Loads the devenc library
+// ----------------------------------------------------------
+//
+void CDevEncController::LoadDevEncSessionL()
+    {
+    FLOG(_L("CDevEncController::LoadDevEncSessionL >> "));
+    
+    if (!iEncMemorySession)
+        {
+	      TInt err = iLibrary.Load(KDevEncCommonUtils);	 
+        if (err != KErrNone)
+            {
+            FLOG(_L("Error in finding the library... %d"), err);
+            }
+        else
+        	{
+		       TLibraryFunction entry = iLibrary.Lookup(1);
+         
+	        if (!entry)
+	            {
+	            FLOG(_L("Error in loading the library..."));
+	            User::Leave(KErrBadLibraryEntryPoint);
+	            }
+	        iEncMemorySession = (CDevEncSessionBase*) entry();
+	        FLOG(_L("Library is found and loaded successfully..."));
+	        }
+	      }
+    FLOG(_L("CDevEncController::LoadDevEncSessionL << "));
+    }
+
+// ----------------------------------------------------------
+// CDevEncController::UnloadDevEncSessionL()
+// Unloads the devenc library
+// ----------------------------------------------------------
+//
+void CDevEncController::UnloadDevEncSession()
+    {
+    FLOG(_L("CDevEncController::UnloadDevEncSession >> "));
+    
+    if (iEncMemorySession)
+        {
+        delete iEncMemorySession;
+        iEncMemorySession = NULL;
+        }
+
+		if (iLibrary.Handle())
+      	{
+       	iLibrary.Close();    
+        }
+    FLOG(_L("CDevEncController::UnloadDevEncSession << "));
+    }
+    
 TBool CDevEncController::NeedToDecryptL(const TDriveNumber &aDrive)
     {
     FLOG(_L("CDevEncController::NeedToDecryptL, drive = %d >>"), (TInt) aDrive);
@@ -152,8 +210,7 @@ TBool CDevEncController::NeedToDecryptL(const TDriveNumber &aDrive)
         User::Leave(KErrNotReady);
         }
 
-    if (!iEncMemorySession)
-        iEncMemorySession = new (ELeave) CDevEncSession( aDrive );
+		iEncMemorySession->SetDrive( aDrive);
 
     err = iEncMemorySession->Connect();
     if (err != KErrNone)
@@ -181,8 +238,7 @@ TBool CDevEncController::NeedToDecryptL(const TDriveNumber &aDrive)
 #endif
 
     iEncMemorySession->Close();
-    delete iEncMemorySession; iEncMemorySession = NULL;
-
+    
     FLOG(_L("CDevEncController::NeedToDecrypt, ret = %d <<"), ret);
     return ret;
     }
@@ -217,9 +273,8 @@ void CDevEncController::StartDecryptionL()
 
     TInt status (KErrNone);
 
-    if (!iEncMemorySession)
-        iEncMemorySession = new (ELeave) CDevEncSession( iStorageDrive );
-
+  	iEncMemorySession->SetDrive ( iStorageDrive );
+			
     __LEAVE_IF_ERROR(iEncMemorySession->Connect());
 
     __LEAVE_IF_ERROR(iEncMemorySession->DiskStatus(status));
@@ -247,7 +302,6 @@ void CDevEncController::StartDecryptionL()
 
             iDevEncOperation = EIdle;
             iEncMemorySession->Close();
-            delete iEncMemorySession;  iEncMemorySession = NULL;
 
             iCallback->HandleDecryptionCompleteL(KErrBadPower, EBatteryLevelLevel4);
             }
@@ -258,7 +312,6 @@ void CDevEncController::StartDecryptionL()
 
         iDevEncOperation = EIdle;
         iEncMemorySession->Close();
-        delete iEncMemorySession;  iEncMemorySession = NULL;
 
         iCallback->HandleDecryptionCompleteL(KErrNone);
         }
@@ -269,7 +322,6 @@ void CDevEncController::StartDecryptionL()
 
         iDevEncOperation = EIdle;
         iEncMemorySession->Close();
-        delete iEncMemorySession;  iEncMemorySession = NULL;
 
         iCallback->HandleDecryptionCompleteL(KErrNotReady);
         }
@@ -286,7 +338,6 @@ void CDevEncController::ReportDevEncOpnCompleteL(TInt aResult)
     if (iEncMemorySession)
         {
         iEncMemorySession->Close();
-        delete iEncMemorySession;  iEncMemorySession = NULL;
         }
 
     CRepository *centrep = CRepository::NewL( KCRUidFotaServer );
@@ -366,8 +417,7 @@ void CDevEncController::StartEncryptionL()
 
     TInt status (KErrNone);
 
-    if (!iEncMemorySession)
-        iEncMemorySession = new (ELeave) CDevEncSession( iStorageDrive );
+    iEncMemorySession->SetDrive( iStorageDrive );
 
     __LEAVE_IF_ERROR(iEncMemorySession->Connect());
 
@@ -396,7 +446,6 @@ void CDevEncController::StartEncryptionL()
 
             iDevEncOperation = EIdle;
             iEncMemorySession->Close();
-            delete iEncMemorySession;  iEncMemorySession = NULL;
 
             iCallback->HandleEncryptionCompleteL(KErrBadPower);
             }
@@ -407,7 +456,6 @@ void CDevEncController::StartEncryptionL()
 
         iDevEncOperation = EIdle;
         iEncMemorySession->Close();
-        delete iEncMemorySession;  iEncMemorySession = NULL;
 
         iCallback->HandleEncryptionCompleteL(KErrNone);
         }
@@ -418,7 +466,6 @@ void CDevEncController::StartEncryptionL()
 
         iDevEncOperation = EIdle;
         iEncMemorySession->Close();
-        delete iEncMemorySession;  iEncMemorySession = NULL;
 
         iCallback->HandleEncryptionCompleteL(KErrNotReady);
         }

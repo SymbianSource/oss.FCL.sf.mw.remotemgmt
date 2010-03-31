@@ -51,7 +51,7 @@
 #include <featmgr.h>
 // For Device encryption
 #include <DevEncEngineConstants.h>
-#include <DevEncSession.h>
+#include <DevEncSessionBase.h>
 
 // ==================== LOCAL FUNCTIONS ====================
 
@@ -114,10 +114,15 @@ void CSCPServer::ConstructL()
     
     // Assign default config flag
     iConfiguration.iConfigFlag = KSCPConfigUnknown;
+    iConfiguration.iConfigChecked = EFalse;
     
     // Assign the default codes
     iConfiguration.iSecCode.Zero();
     iConfiguration.iSecCode.Append( KSCPDefaultSecCode );
+
+    // Assign the default codes
+    iConfiguration.iCryptoCode.Zero();
+    iConfiguration.iCryptoCode.Append( KSCPDefaultSecCode );
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS 
 if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
@@ -164,6 +169,25 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         {
         Dprint( (_L("CSCPServer::ConstructL(): Configration read OK") ));
         }
+    
+    
+    //If Configuration is not validated already, validate it
+    
+    if (!iConfiguration.iConfigChecked)
+        {
+        TInt valerr = KErrNone;
+        TRAP( valerr, ValidateConfigurationL( KSCPComplete ));
+        if (valerr != KErrNone)
+            {
+            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation failed: %d"), valerr ));
+            }
+        else
+            {
+            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation Passed")));
+            }
+        }
+    
+        
         
     Dprint( (_L("CSCPServer::ConstructL(): Connecting to CenRep") ));
     iALPeriodRep = CRepository::NewL( KCRUidSecuritySettings );        
@@ -631,7 +655,21 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
     Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
     
-    if ( iConfiguration.iConfigFlag == KSCPConfigOK )
+	RMobilePhone::TMobilePassword storedCode;
+    storedCode.Zero();
+    User::LeaveIfError(GetCode(storedCode));
+    
+    
+	Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
+	// Check that the ISA code is stored correctly
+	TRAPD( err, CheckISACodeL( storedCode ) );
+	 //Bool for the correction of Defaultlockcode cenrep
+    TBool lCorrectDefaultlockcode = EFalse;
+    
+     Dprint( (_L("CSCPServer::ValidateConfigurationL(): iConfigFlag = %d, iConfigChecked = %d"), iConfiguration.iConfigFlag, iConfiguration.iConfigChecked));
+     
+    if ((iConfiguration.iConfigFlag == KSCPConfigOK)
+            && (iConfiguration.iConfigChecked) && (err == KErrNone))
         {
         // The configuration has already been checked, exit
         Dprint( (_L("CSCPServer::ValidateConfigurationL(): Configuration is non-default.") ));
@@ -643,10 +681,7 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
         User::Leave( KErrAccessDenied );
         }
     
-    RMobilePhone::TMobilePassword storedCode;
-    storedCode.Zero();
-    
-    User::LeaveIfError( GetCode( storedCode ) );
+   
     TInt hashedISAcode;
     TSCPSecCode hashedCode;
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS    
@@ -659,10 +694,13 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 }
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS    
             
-    Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
     
-    // Check that the ISA code is stored correctly
-    TRAPD( err, CheckISACodeL( storedCode ) );
+    
+   
+    if (err != KErrNone)
+        {
+        lCorrectDefaultlockcode = ETrue;
+        }
     if ( err == KErrNone ) 
         {
         iConfiguration.iConfigFlag = KSCPConfigOK;
@@ -710,11 +748,42 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
             if ( StoreCode( hashedCode ) == KErrNone )
                 {
                 iConfiguration.iConfigFlag = KSCPConfigOK;
+                lCorrectDefaultlockcode = ETrue;
                 }
             }        
         }
-}
+    
+    //If Correction of Defaultlockcode cenrep is required for the mismatch between Config and ISA
+        if (lCorrectDefaultlockcode)
+            {
+            TInt lDefCode = -1;
+            CRepository* lRepository = CRepository::NewL(KCRUidSCPLockCode);
+            CleanupStack::PushL(lRepository);
+            TInt lRet = lRepository->Get(KSCPLockCodeDefaultLockCode,
+                    lDefCode);
+            if (lRet == KErrNone && lDefCode != -1)
+                {
+                if (lDefCode == 12345)
+                    {
+                    //Although lock code is already set, due to some unexpected condition
+                    //like C drive wipe, cenrep status is wrongly shown. Correcting it here.
+                    lRepository->Set(KSCPLockCodeDefaultLockCode, 0);
+                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 0") ));
+                    }
+                else if (lDefCode == 0)
+                    {
+                    //If only ISA side is formatted, then the lock code on ISA side is default; 
+                    //Cenrep status remains wrongly as the lock code is already set. Correcting it here.
+                    lRepository->Set(KSCPLockCodeDefaultLockCode, 12345);
+                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 12345") ));
+                    }
+                }
+            CleanupStack::PopAndDestroy(lRepository);
+            }
+        }
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
+    //Set the flag to True, after config is validated 
+    iConfiguration.iConfigChecked = ETrue;
     
     TRAPD( err2, iConfiguration.WriteSetupL() );
     if ( err2 != KErrNone )
@@ -2475,9 +2544,7 @@ TInt CSCPServer::IsPasswordChangeAllowedL( CSCPParamObject*& aRetParams )
 TBool CSCPServer::IsDeviceMemoryEncrypted()
     {
     Dprint(_L("CSCPServer::IsDeviceMemoryEncrypted >>"));
-    
     TBool ret(EFalse);
-    
     //First check if the feature is supported on device
     TRAPD(ferr, FeatureManager::InitializeLibL());
     if (ferr != KErrNone)
@@ -2489,42 +2556,74 @@ TBool CSCPServer::IsDeviceMemoryEncrypted()
     FeatureManager::UnInitializeLib();
  
     //If feature is supported, check if any drive is encrypted.
+
+    
+            
     if (ret)
         {
-        CDevEncSession* devEncSession = new CDevEncSession( EDriveC );
+        RLibrary library;   
+        CDevEncSessionBase* devEncSession = NULL;
+        TInt err = library.Load(KDevEncCommonUtils);	 
         
+        if (err != KErrNone)
+            {
+            Dprint(_L("Error in finding the library... %d"), err);
+            ret = EFalse;
+            }
+        else
+        	{
+		       TLibraryFunction entry = library.Lookup(1);
+					 
+	        if (!entry)
+	            {
+	            Dprint(_L("Error in loading the library..."));
+	            ret = EFalse;
+	            }
+	        else
+	        	{
+		        devEncSession = (CDevEncSessionBase*) entry();
+		        Dprint(_L("Library is found and loaded successfully..."));
+		      	}
+	        }
+
         if (!devEncSession)
             {
             Dprint(_L("Can't instantiate device encryption session.."));
-            return EFalse;
-            }
-
-        TInt err = devEncSession->Connect();
-        if (err == KErrNone)
-            {
-            //Session with device encryption is established. Check if any drive is encrypted
-            TInt encStatus (KErrNone);
-            TInt err = devEncSession->DiskStatus( encStatus );
-            Dprint(_L("err = %d, encstatus = %d"), err, encStatus);
-            if (  err == KErrNone && encStatus != EDecrypted )
-                {
-                Dprint(_L("Memory is encrypted"));
-                ret = ETrue;
-                }
-            else
-                {
-                Dprint(_L("Memory is not encrypted"));
-                ret = EFalse;
-                }
-            }
-        else
-            {
-            Dprint(_L("Error %d while establishing connection with device encryption engine"), err);
             ret = EFalse;
             }
-        
-        delete devEncSession; devEncSession = NULL;
-        }
+			  else
+				  	{
+						devEncSession->SetDrive( EDriveC );
+		        TInt err = devEncSession->Connect();
+		        if (err == KErrNone)
+		            {
+		            //Session with device encryption is established. Check if any drive is encrypted
+		            TInt encStatus (KErrNone);
+		            TInt err = devEncSession->DiskStatus( encStatus );
+		            devEncSession->Close();
+		            Dprint(_L("err = %d, encstatus = %d"), err, encStatus);
+		            if (  err == KErrNone && encStatus != EDecrypted )
+		                {
+		                Dprint(_L("Memory is encrypted"));
+		                ret = ETrue;
+		                }
+		            else
+		                {
+		                Dprint(_L("Memory is not encrypted"));
+		                ret = EFalse;
+		                }
+		            }
+		        else
+		            {
+		            Dprint(_L("Error %d while establishing connection with device encryption engine"), err);
+		            ret = EFalse;
+		            }
+						}
+				delete devEncSession; devEncSession = NULL;
+
+        if (library.Handle())
+    	     library.Close();
+		    }
     
     Dprint(_L("CSCPServer::IsDeviceMemoryEncrypted, ret = %d <<"), ret);
     return ret;

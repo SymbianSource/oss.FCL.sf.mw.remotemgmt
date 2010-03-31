@@ -72,7 +72,7 @@ void TDP2StreamBuf::ResetL()
   	FLOG(_L("TDP2StreamBuf::ResetL() >>" ));
     // Define write area (chunk)
     TArea   a (EWrite) ;
-    TInt    limitedwritearea(-1);
+    //TInt    limitedwritearea(-1);
     TInt    chunksize = iMyWriteStream->iFotaEngineSession->iChunk.Size();
    // TInt    writelimit = iMyWriteStream->iWriteLimit;
 /*	08-nov-06 flexible mem handling overrides this

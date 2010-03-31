@@ -580,22 +580,19 @@ void CSCPTimestampPlugin::SuccessfulAuthenticationL( CSCPParamObject& aParam,
             HBufC16* resText = NULL;
             TRAPD( err, resText = LoadResourceL( R_SET_SEC_CODE_AGING ) );         
             FormatResourceString(*resText);        
-            if (err == KErrNone) // If this fails, go on anyway to signal the psw change
+            if ( err == KErrNone ) // If this fails, go on anyway to signal the psw change
                 {
-                TPtr16 bufDes = resText->Des();
-                TRequestStatus userResponse;
-
-                CAknGlobalNote* note = CAknGlobalNote::NewLC();
+    	        TPtr16 bufDes = resText->Des();
+                
                 TRAP_IGNORE(
-                        note->SetSoftkeys(R_AVKON_SOFTKEYS_OK_EMPTY);
-                        note->ShowNoteL(userResponse, EAknGlobalWarningNote,
-                                bufDes);
-                );
-
-                // Wait for the User Response
-                User::WaitForRequest(userResponse);
-                CleanupStack::PopAndDestroy(note);
-
+                    CAknGlobalNote* note = CAknGlobalNote::NewLC();
+    		        note->ShowNoteL( EAknGlobalWarningNote, bufDes );
+    		        CleanupStack::PopAndDestroy( note );
+    		        );    	        
+    	        
+    	        // Wait here a while so the dialog won't appear on top of the note
+                User::After( KSCPNoteTimeout ); 
+                
                 delete resText;
                 }
             

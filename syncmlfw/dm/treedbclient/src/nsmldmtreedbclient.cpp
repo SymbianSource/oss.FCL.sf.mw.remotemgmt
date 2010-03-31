@@ -599,7 +599,10 @@ EXPORT_C TBool RNSmlDMCallbackSession::CheckDynamicAclL(
                     if( upperURI.Compare(aURI) != 0 )
                         {
                         iEnforceCheckdone++;
-                        CheckDynamicAclL( upperURI, aCmdType, aMgmtTree );
+                        if(CheckDynamicAclL( upperURI, aCmdType, aMgmtTree ))
+                        	{                        
+                        		_DBG_FILE("RNSmlDMCallbackSession::CheckDynamicAclL() : returns true");
+                        	}
                         }
                     }
                 else

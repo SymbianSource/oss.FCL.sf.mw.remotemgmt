@@ -117,7 +117,6 @@ LIBRARY		featmgr.lib
 LIBRARY		fmsclient.lib	//FMS Client
 LIBRARY     	cmmanager.lib 	//Connection Manager
 
-LIBRARY		devenccommonutils.lib
 LIBRARY		aknnotify.lib
 // #ifdef _FOTA_DEBUG
 LIBRARY    flogger.lib

@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-
+#include <DevEncSessionBase.h>
 //User Includes
 
 #include "DevEncProgressObserver.h"
@@ -131,7 +131,7 @@ static TInt StaticTimerExpiry(TAny *aPtr)
 // This method don't leave
 // -----------------------------------------------------------------------------
 
-void CDevEncProgressObserver::StartMonitoringL(CDevEncSession* aSession)
+void CDevEncProgressObserver::StartMonitoringL(CDevEncSessionBase* aSession)
     {
     FLOG(_L("CDevEncProgressObserver::StartMonitoringL >>"));
 

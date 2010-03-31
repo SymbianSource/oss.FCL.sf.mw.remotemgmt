@@ -1145,6 +1145,13 @@ TInt CSyncMLFwUpdNotifier::ShowPostponeLimitNoteL()
     	    stringHolder = StringLoader::LoadLC( R_FOTA_POSTPONE_UPDATE_ONE_DAY, *aIntparam);
     		
   	}
+  	else
+  	{
+  		CleanupStack::PopAndDestroy( aIntparam );
+    	CleanupStack::PopAndDestroy( aStrArr );
+    	return retval;
+  	}
+  		
     CAknInformationNote* infoNote = new (ELeave) CAknInformationNote;
 
     infoNote->ExecuteLD( *stringHolder );

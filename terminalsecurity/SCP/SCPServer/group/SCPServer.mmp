@@ -96,7 +96,6 @@ LIBRARY					flogger.lib
 LIBRARY     featmgr.lib
 LIBRARY 	estor.lib
 LIBRARY 	charconv.lib
-LIBRARY		devenccommonutils.lib //Device encryption utility
 
 SMPSAFE
 

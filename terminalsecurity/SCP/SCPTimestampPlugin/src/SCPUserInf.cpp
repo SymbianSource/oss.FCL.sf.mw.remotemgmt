@@ -17,15 +17,15 @@
 
 #include "SCPUserInf.h"
 #include <SCPTimestampPluginLang.rsg>
-#include <AknGlobalConfirmationQuery.h>
-//#include <AknNoteDialog.h>
-#include <aknglobalnote.h> 
+
+#include <AknGlobalNote.h>
+#include <aknnotewrappers.h>
 #include "SCPDebug.h"
 
 #include <hal.h>
 // For wipe
-#include <StarterClient.h>
-#include <SysLangUtil.h>
+#include <starterclient.h>
+#include <syslangutil.h>
 #include <rfsClient.h>
 #include "DMUtilClient.h"
 CSCPUserInf::CSCPUserInf() :
@@ -100,17 +100,15 @@ void CSCPUserInf::RunL()
 	{
 	Dprint( (_L("CSCPUserInf::EGlobalConf") ));
     TRAP_IGNORE(                                            
-		    CAknGlobalConfirmationQuery* note = CAknGlobalConfirmationQuery::NewLC();
+		TRequestStatus status;
 		    TPtr16 bufDes = idispText->Des();                    
-		    TRequestStatus status;
-		    note->ShowConfirmationQueryL(status,
-		                                 bufDes,
-		                                 R_AVKON_SOFTKEYS_OK_EMPTY,
-		                                 R_QGN_NOTE_WARNING_ANIM );
-			Dprint( (_L("CSCPUserInf::WaitforReq") ));
+		CAknGlobalNote* lInfoNote = CAknGlobalNote :: NewLC();
+		lInfoNote->SetSoftkeys(R_AVKON_SOFTKEYS_OK_EMPTY__OK);
+		lInfoNote->SetAnimation(R_QGN_NOTE_WARNING_ANIM);
+		lInfoNote->ShowNoteL(status, EAknGlobalInformationNote, bufDes);
+		lInfoNote->SetPriority(ECoeWinPriorityAlwaysAtFront + 1);
 		    User::WaitForRequest( status );
-			Dprint( (_L("CSCPUserInf::WaitforReq done") ));                            
-		    CleanupStack::PopAndDestroy( note );     
+		CleanupStack::PopAndDestroy(1); // note
 			);
 	}
 	else if (iState == ERfs)

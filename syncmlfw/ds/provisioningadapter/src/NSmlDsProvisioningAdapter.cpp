@@ -29,7 +29,7 @@
 #include <ApUtils.h>
 #include <barsc.h>
 #include <centralrepository.h> //For central Repository
-#include <NSmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
+#include <NsmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
 
 #include <nsmlconstants.h>
 #include <nsmldebug.h>

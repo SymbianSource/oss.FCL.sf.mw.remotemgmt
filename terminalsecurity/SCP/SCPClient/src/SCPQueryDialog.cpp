@@ -291,8 +291,8 @@ void CSCPQueryDialog::PreLayoutDynInitL()
 		}
 	else
 		{
-		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal); //
-		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal); 	  	
+		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1); //
+		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1); 	  	
 		}	
 
 	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));

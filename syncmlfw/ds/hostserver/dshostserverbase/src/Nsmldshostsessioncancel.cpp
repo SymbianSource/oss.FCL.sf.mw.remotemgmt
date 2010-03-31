@@ -20,8 +20,8 @@
 #include <d32dbms.h>
 #include <nsmldebug.h>
 #include <DataSyncInternalPSKeys.h>
-#include "nsmldshostsessioncanceleventhandler.h"
-#include "nsmldshostsessioncancel.h"
+#include "Nsmldshostsessioncanceleventhandler.h"
+#include "Nsmldshostsessioncancel.h"
 // --------------------------------------------------------------------------
 // CNSmlHostSessionCancel* CNSmlHostSessionCancel::NewL( MNSmlDsHostSessionCancelEventHandler* aHandler )
 // --------------------------------------------------------------------------

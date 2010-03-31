@@ -30,8 +30,8 @@
 #include "NSmlProfileContentHandler.h"
 #include "nsmldsagconstants.h"
 #include <centralrepository.h> //CRepository
-#include <NSmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
-#include <NSmlOperatorErrorCRKeys.h> // KCRUidOperatorDatasyncErrorKeys
+#include <NsmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
+#include <NsmlOperatorErrorCRKeys.h> // KCRUidOperatorDatasyncErrorKeys
 
 _LIT(Kinfile,"z:\\Private\\101F99FB\\VariantData.xml");
 const TInt KUrlLength = 256;

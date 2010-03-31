@@ -27,6 +27,7 @@
 #include "SCPServer.h"
 #include <featmgr.h>
 
+#include <dmencryptionutil.h>
 // ================= MEMBER FUNCTIONS =======================
 	    
         
@@ -82,10 +83,9 @@ TInt TSCPConfiguration::ReadSetupL()
 			User::Leave(errf);
 		}
 		TInt result = KErrNone;
-		
-		TAny* KParameters[7];
-		TInt KParamIDs[7];
-		TSCPParamType KSCPParamTypes[7];
+        TAny* KParameters[KTotalParamIDs];
+        TInt KParamIDs[KTotalParamIDs];
+        TSCPParamType KSCPParamTypes[KTotalParamIDs];
 		TInt KNumParams;
 		
 		
@@ -155,6 +155,12 @@ TInt TSCPConfiguration::ReadSetupL()
                break;
                } 
                
+        case ( EParTypeBool ):
+               { 
+               ret = params->Get( KParamIDs[i], *(reinterpret_cast<TBool*>( KParameters[i] )) );
+               break;
+               }        
+               
            default:               
                 // No implementation needed           
                 break;
@@ -172,7 +178,22 @@ TInt TSCPConfiguration::ReadSetupL()
     // Decrypt the ISA security code
     TSCPSecCode cryptBuf;
     cryptBuf.Copy( iSecCode );
-    TransformStringL( EFalse, cryptBuf, iSecCode );
+    Dprint( (_L("--> TSCPConfiguration::ReadSetupL NativeTransform iCryptoCode= %S "), &iCryptoCode ));
+    if(EFalse == NativeTransform(EFalse, iCryptoCode, iSecCode))
+    {
+        Dprint( (_L("--> TSCPConfiguration::ReadSetupL NativeTransform returned false") ));
+        // If ECOM decrypt fails after modifying iSecCode. 
+        iSecCode.Copy(cryptBuf);
+        TransformStringL( EFalse, cryptBuf, iSecCode );        
+    }
+    else
+    {
+        Dprint( (_L("--> TSCPConfiguration::ReadSetupL NativeTransform returned true") ));
+        Dprint( (_L("--> TSCPConfiguration::ReadSetupL NativeTransform iCryptoCode= %S "), &iCryptoCode ));
+        //Dummy code to be written of KSCPCodeMaxLen size, if plugin exist.
+       // Dprint((_L("iSecCode.Copy(iCryptoCode.Ptr(), KSCPCodeMaxLen);")));
+       // iSecCode.Copy(iCryptoCode.Ptr(), KSCPCodeMaxLen);        
+    }
     iSecCode.SetLength( KSCPCodeMaxLen ); // Remove the suffix
        
     FeatureManager::UnInitializeLib();
@@ -200,9 +221,9 @@ TInt TSCPConfiguration::WriteSetupL()
 		
 		
 		
-		TAny* KParameters[7];
-		TInt KParamIDs[7];
-		TSCPParamType KSCPParamTypes[7];
+        TAny* KParameters[KTotalParamIDs];
+        TInt KParamIDs[KTotalParamIDs];
+        TSCPParamType KSCPParamTypes[KTotalParamIDs];
 		TInt KNumParams;
 		
 		
@@ -245,8 +266,24 @@ TInt TSCPConfiguration::WriteSetupL()
     TSCPSecCode cryptBuf;
     cryptBuf.Copy( iSecCode );
     cryptBuf.Append( KSCPCryptSuffix ); // 5 chars for the code + suffix
-    TransformStringL( ETrue, cryptBuf, iSecCode );
-    
+    if(EFalse == NativeTransform(ETrue, cryptBuf, iCryptoCode)) 
+    {
+        cryptBuf.FillZ();
+        cryptBuf.Zero();
+        cryptBuf.Copy( iSecCode );
+        cryptBuf.Append( KSCPCryptSuffix ); // 5 chars for the code + suffix
+        Dprint( (_L("--> TSCPConfiguration::WriteSetupL NativeTransform returned false") ));
+        TransformStringL( ETrue, cryptBuf, iSecCode );
+        
+    }
+    else
+    {
+        iSecCode.FillZ();
+        iSecCode.Zero();
+        
+        Dprint( (_L("--> TSCPConfiguration::WriteSetupL NativeTransform returned true") ));
+        Dprint( (_L("--> TSCPConfiguration::WriteSetupL NativeTransform iCryptoCode= %S "), &iCryptoCode ));
+    }
     TInt ret = KErrNone;    
     for ( TInt i = 0; i < KNumParams; i++ )
         { 
@@ -262,6 +299,12 @@ TInt TSCPConfiguration::WriteSetupL()
 		   case ( EParTypeDesc ):
                { 
                ret = params->Set( KParamIDs[i], *(reinterpret_cast<TDes*>( KParameters[i] )) );
+               break;
+               } 
+               
+               case ( EParTypeBool ):
+               { 
+               ret = params->Set( KParamIDs[i], *(reinterpret_cast<TBool*>( KParameters[i] )) );
                break;
                } 
                
@@ -397,8 +440,60 @@ void TSCPConfiguration::TransformStringL( TBool aEncrypt, TDes& aInput, TDes& aO
     aOutput.SetLength( outputData.Length() / 2 );
 #endif // UNICODE       
     }
+// ---------------------------------------------------------
+// TSCPConfiguration::NativeTransform (TBool aEncrypt, TDes& aInput, TDes& aOutput)
+// Transforms the given aInput buffer using the plugin Encryption/Decryption,
+// and stores the result to aOutput
+// 
+// Status : New
+// ---------------------------------------------------------
+//
+TBool TSCPConfiguration::NativeTransform (TBool aEncrypt, TDes& aInput, TDes& aOutput)
+{
+    Dprint( (_L("--> TSCPConfiguration::NativeTransform()") ));
+    TInt err(KErrNone);
+    TBool result(ETrue);
 
 
+        CDMEncryptionUtil* eUtil;
+        Dprint( (_L("TSCPConfiguration::NativeTransform(), calling TRAP(err, eUtil = CDMEncryptionUtil::NewL());  ") ));
+
+        TRAP(err, eUtil = CDMEncryptionUtil::NewL());
+        Dprint( (_L("TSCPConfiguration::NativeTransform(), after TRAP(err, eUtil = CDMEncryptionUtil::NewL());  err= %d"), err ));
+        if(err)
+        {
+            result = EFalse;
+            return result;
+        }
+        CleanupStack::PushL(eUtil);
+        if(aEncrypt)
+        {
+            Dprint( (_L(" TSCPConfiguration::NativeTransform()Encrypting...") ));            
+            TRAP(err, eUtil->EncryptL( aInput, aOutput));
+            Dprint( (_L("TSCPConfiguration::NativeTransform(), after Encrypting err= %d"), err ));
+        }
+        else
+        {
+            Dprint( (_L(" TSCPConfiguration::NativeTransform()Decrypting...") ));            
+            TRAP(err, eUtil->DecryptL( aInput, aOutput));            
+            Dprint( (_L("TSCPConfiguration::NativeTransform(), after Decrypting err= %d"), err ));
+        }
+        CleanupStack::PopAndDestroy(); //eUtil
+        if(err)
+        {
+            Dprint( (_L(" TSCPConfiguration::NativeTransform() CDMEncryptionUtil::ListImplementationsL failed") ));
+            result = EFalse;  
+        }
+        else
+        {
+            Dprint( (_L(" TSCPConfiguration::NativeTransform() CDMEncryptionUtil::ListImplementationsL success") ));
+            result = ETrue;            
+        }
+
+    Dprint( (_L("TSCPConfiguration::NativeTransform(): result = %d"), result ));
+    Dprint( (_L("<-- TSCPConfiguration::NativeTransform()") ));
+    return result;
+}
 
 //  End of File  
 

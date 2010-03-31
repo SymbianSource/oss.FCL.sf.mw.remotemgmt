@@ -30,7 +30,7 @@
 #include "TcTrustedSession.h"
 //Device encryption utility
 #include <DevEncEngineConstants.h>
-#include <DevEncSession.h>
+#include <DevEncSessionBase.h>
 //Feature manager
 #include <featmgr.h>
 //For debugging purpose
@@ -1411,9 +1411,7 @@ HBufC8* CTerminalControlSession::CopyParameterL( const RMessage2 &aMsg, TInt aIn
 TBool CTerminalControlSession::IsDeviceMemoryEncrypted()
     {
     RDEBUG("CTerminalControlSession::IsDeviceMemoryEncrypted >>");
-    
     TBool ret(EFalse);
-    
     //First check if the feature is supported on device
     TRAPD(ferr, FeatureManager::InitializeLibL());
     if (ferr != KErrNone)
@@ -1425,43 +1423,73 @@ TBool CTerminalControlSession::IsDeviceMemoryEncrypted()
     FeatureManager::UnInitializeLib();
  
     //If feature is supported, check if any drive is encrypted.
+            
     if (ret)
         {
-        CDevEncSession* devEncSession = new CDevEncSession( EDriveC );
+        RLibrary library;
+        CDevEncSessionBase* devEncSession = NULL;
+        TInt err = library.Load(KDevEncCommonUtils);	 
         
+        if (err != KErrNone)
+            {
+            RDEBUG_2("Error in finding the library... %d", err);
+            ret = EFalse;
+            }
+        else
+        	{
+		       TLibraryFunction entry = library.Lookup(1);
+					 
+	        if (!entry)
+	            {
+	            RDEBUG("Error in loading the library...");
+	            ret = EFalse;
+	            }
+	        else
+	        	{
+		        devEncSession = (CDevEncSessionBase*) entry();
+		        RDEBUG("Library is found and loaded successfully...");
+		      	}
+	        }
+
         if (!devEncSession)
             {
             RDEBUG("Can't instantiate device encryption session..");
-            return EFalse;
-            }
-
-        TInt err = devEncSession->Connect();
-        if (KErrNone == err)
-            {
-            //Session with device encryption is established. Check if any drive is encrypted
-            TInt encStatus (KErrNone);
-            TInt err = devEncSession->DiskStatus( encStatus );
-            RDEBUG_3("err = %d, encstatus = %d", err, encStatus);
-            if (  KErrNone == err && encStatus != EDecrypted )
-                {
-                RDEBUG("Memory is encrypted");
-                ret = ETrue;
-                }
-            else
-                {
-                RDEBUG("Memory is not encrypted");
-                ret = EFalse;
-                }
-            }
-        else
-            {
-            RDEBUG_2("Error %d while establishing connection with device encryption engine", err);
             ret = EFalse;
             }
-        
-        delete devEncSession; devEncSession = NULL;
-        }
-    
+			  else
+				  	{
+						devEncSession->SetDrive( EDriveC );
+		        TInt err = devEncSession->Connect();
+		        if (err == KErrNone)
+		            {
+		            //Session with device encryption is established. Check if any drive is encrypted
+		            TInt encStatus (KErrNone);
+		            TInt err = devEncSession->DiskStatus( encStatus );
+		            devEncSession->Close();
+		            RDEBUG_2("encstatus = %d", encStatus);
+		            if (  err == KErrNone && encStatus != EDecrypted )
+		                {
+		                RDEBUG("Memory is encrypted");
+		                ret = ETrue;
+		                }
+		            else
+		                {
+		                RDEBUG("Memory is not encrypted");
+		                ret = EFalse;
+		                }
+		            }
+		        else
+		            {
+		            RDEBUG_2("Error %d while establishing connection with device encryption engine", err);
+		            ret = EFalse;
+		            }
+						}
+				 delete devEncSession; devEncSession = NULL;
+
+	       if (library.Handle())
+    	      library.Close();    
+
+		    }
     RDEBUG_2("CTerminalControlSession::IsDeviceMemoryEncrypted, ret = %d <<", ret);
     return ret;
     }
