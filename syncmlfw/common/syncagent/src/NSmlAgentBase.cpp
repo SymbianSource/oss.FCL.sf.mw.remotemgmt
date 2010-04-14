@@ -20,7 +20,7 @@
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <es_enum_partner.h>
 #endif
-#include <imcvcodc.h>
+#include <tconvbase64.h>
 #include <hash.h>
 #include <SyncMLHistory.h>
 #include <nsmlconstants.h>
@@ -121,7 +121,7 @@ TBool CNSmlAgentBase::AlreadyAuthenticated() const
 // ---------------------------------------------------------
 HBufC8* CNSmlAgentBase::BasicCredentialL() const
 	{
-	TImCodecB64 B64Coder;
+	TBase64 B64Coder;
 	HBufC8* userName;
 	NSmlUnicodeConverter::HBufC8InUTF8LC( *iSyncMLUserName, userName );
 	HBufC8* password;
@@ -149,7 +149,7 @@ HBufC8* CNSmlAgentBase::Md5CredentialL( TBool aServerAuth ) const
 
 	CMD5* md5 = CMD5::NewL();
 	CleanupStack::PushL( md5 );
-	TImCodecB64 B64Coder;
+	TBase64 B64Coder;
 	HBufC8* userName;
 	if ( aServerAuth )
 		{
@@ -1111,7 +1111,7 @@ EXPORT_C void CNSmlAgentBase::SaveIfNonceL( const CNSmlResponseController& aResp
 		if ( chalFormat == KNSmlAgentBase64Format )
 			{
 			//decode before saving
-			TImCodecB64 B64Coder;
+			TBase64 B64Coder;
 			B64Coder.Decode( chalNextNonce, nextNonceDecodedPtr );
 			}
 		else

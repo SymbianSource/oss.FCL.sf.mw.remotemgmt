@@ -17,6 +17,7 @@
 
 
 // INCLUDE FILES
+#include <nsmlconstants.h>
 #include "SyncMLPreSyncPluginInterface.h"
 #include "CPreSyncPlugin.h"
 
@@ -97,11 +98,14 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiateRoamingPluginLC( TSmlProfile
     CPreSyncPlugin* syncPlugin = NULL;
     CPreSyncPlugin* defaultSyncPlugin = NULL;
 
+	CleanupRImplInfoPtrArrayPushL( &infoArray );
+
     // Get list of all implementations
     TRAPD(error, ListAllImplementationsL( infoArray ));
     
     if (error != KErrNone)
         {
+		CleanupStack::PopAndDestroy( &infoArray );
         return NULL;
         }
 
@@ -137,18 +141,20 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiateRoamingPluginLC( TSmlProfile
 		}
     }
 
-    infoArray.ResetAndDestroy();
+    CleanupStack::PopAndDestroy( &infoArray );
 	if(bHandleSync == true)
 	{		
 		//delete defaultSyncPlugin;
 	    if(defaultSyncPlugin != NULL)
 	    {
-	    CleanupStack::PopAndDestroy(defaultSyncPlugin);
+	    delete defaultSyncPlugin;
 	    }
+	    CleanupStack::PushL(syncPlugin);
 		return syncPlugin;
 	}
 	else
-	{
+	{      
+        CleanupStack::PushL(defaultSyncPlugin);
 		return defaultSyncPlugin;
 	}    
  }
@@ -171,7 +177,6 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiatePlugInFromImpUidL( const TUi
    // REComSession
     CPreSyncPlugin *preSyncPlugin= NULL;
     preSyncPlugin = CPreSyncPlugin::NewL(aImpUid);
-    CleanupStack::PushL(preSyncPlugin);
     return preSyncPlugin;
 /*
    TAny* implementation = REComSession::CreateImplementationL ( aImpUid, 

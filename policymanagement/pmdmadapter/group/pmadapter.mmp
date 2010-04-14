@@ -53,8 +53,8 @@ LIBRARY         euser.lib
 LIBRARY         ecom.lib 
 LIBRARY			    efsrv.lib 
 LIBRARY			    policyengine.lib
-LIBRARY         imut.lib 
 LIBRARY			    centralrepository.lib 
+LIBRARY         inetprotutil.lib
 LIBRARY			    flogger.lib
 
 #ifdef __TARM_SYMBIAN_CONVERGENCY
