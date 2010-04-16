@@ -790,7 +790,7 @@ void CSyncMLDlgNotifier::InputTypeNumericL(TInt & result)
 void CSyncMLDlgNotifier::InputTypeDateL(TInt & result)
 {
 		FLOG( _L("[SmlNotif]\t CSyncMLDlgNotifier::InputTypeDateL() started") ); 
-		TBuf<KSyncMLMaxDefaultResponseMsgLength> InputText(iDR);
+		
 	  TTime date(_L("00010101:"));
     TInt BadData = 1;
     TChar ch = '0';
@@ -840,7 +840,7 @@ void CSyncMLDlgNotifier::InputTypeDateL(TInt & result)
 void CSyncMLDlgNotifier::InputTypeTimeL(TInt & result)
 {            	
 		FLOG( _L("[SmlNotif]\t CSyncMLDlgNotifier::InputTypeTimeL() started") );
-		TBuf<KSyncMLMaxDefaultResponseMsgLength> InputText(iDR);
+		
     //create TTime from TBuf iDR
     //hhmmss
     TTime IpTime(_L("120000."));

@@ -119,7 +119,7 @@ void CNSmlDSSettings::ConstructL()
 //		Destructor.
 //=============================================
 
-CNSmlDSSettings::~CNSmlDSSettings()
+EXPORT_C CNSmlDSSettings::~CNSmlDSSettings()
 	{
 	if(iResourceProfileArray)
 		{

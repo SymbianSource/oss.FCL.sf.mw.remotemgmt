@@ -36,7 +36,9 @@
 #include <es_sock_partner.h>
 #endif
 #include <es_enum.h>
-#include <NSmlDMSync.rsg>	//OMA DM UI for reading resource
+//Commented for resolving APP dependencyy
+//#include <nsmldmsync.rsg>	//OMA DM UI for reading resource
+//Comment ends here
 #include <bautils.h>
 #include <StringLoader.h>
 #include <DevManInternalCRKeys.h> //for reading san feature
@@ -1175,7 +1177,8 @@ void CFotaDownload::ResumeDownloadL()
 	    delete centrep;
 	    }
 	centrep = NULL;
-
+//Commented for resolving APP dependency
+/*
 	if (iUserInitiatedResume || 
 	        (behavior == EOmacdOffdlprgOn || behavior == EOmacdOndlprgOn))
 		{
@@ -1212,6 +1215,8 @@ void CFotaDownload::ResumeDownloadL()
 	
 		iDLProgressDlg->RunLD();
 		}
+*/
+//Comment ends here
 	FLOG(_L("CFotaDownload::ResumeDownloadL, Stage 1"));
 	
 	iDownload = RetrieveDownloadL();

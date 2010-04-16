@@ -775,10 +775,11 @@ TBool CSCPSpecificStringsPlugin::IsNotValidWord ( TDes& aForbiddenSecurityCodes 
 	Dprint( (_L("CSCPSpecificStringsPlugin::IsNotValidWord()") ));
 	// If so, there is a problem ETrue!!
 	TBool ret;
-	TChar now,previous;		// at hand & prevous char
+	TChar now;// at hand 
+	//TChar previous;		// prevous char
 	ret = EFalse;
 	now = 0;
-	previous = 0;
+	//previous = 0;
 	
 	// Go through the word
 	for (TInt i=0; i < aForbiddenSecurityCodes.Length(); i++)
@@ -789,7 +790,7 @@ TBool CSCPSpecificStringsPlugin::IsNotValidWord ( TDes& aForbiddenSecurityCodes 
 		// And the previous
 		if ( i >= 1 ) 
 		    {
-		    previous = static_cast<TChar>( aForbiddenSecurityCodes[i-1] );
+		   // previous = static_cast<TChar>( aForbiddenSecurityCodes[i-1] );
 		    }
 	
 		// Check for Sapce!

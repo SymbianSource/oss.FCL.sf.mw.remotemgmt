@@ -54,10 +54,13 @@
 #include "smldtd.h"
 #include "smldef.h"
 #include "nsmlagenttestdefines.h"
+#include <hbdevicedialogsymbian.h>
+#include <hbsymbianvariant.h>
 // DM specific includes
 #include "nsmldmagconstants.h"
 #include "NSmlDMCmds.h"
 #include "nsmldmerror.h"
+#include "OnlineSupportLogger.h"
 #ifdef __TEST_TREEMODULE
 #include "nsmldmtestmodule.h"
 #else
@@ -84,6 +87,22 @@ _LIT8 ( KNSmlDMMetaTypeUserRequest, "org.openmobilealliance.dm.firmwareupdate.us
 _LIT8 ( KNSmlDMMetaFormatUserRequest, "chr" );
 _LIT(KChunkName,"AlertItems");
 
+const TUid dmagentuid =
+            {
+            0x101F6DE5
+            };
+
+
+
+enum TSyncmlHbNotifierKeys 
+		{
+
+     EHbSOSNotifierKeyStatus = 11, // status set will complete the client subscribe
+     EHbSOSNotifierKeyStatusReturn = 12, // Return the content of actual status value accepted from UI
+     
+     EHbDMSyncNotifierKeyStatus = 13,
+     EHbDMSyncNotifierKeyStatusReturn = 14
+		};
 
 // ---------------------------------------------------------
 // CNSmlDMCmds::NewL()
@@ -1492,9 +1511,7 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
         return;
         }
     CleanupStack::PushL(dataBuf16);    
-    RNotifier notifier;
-    User::LeaveIfError( notifier.Connect() );
-    CleanupClosePushL(notifier);
+   
     TPckgBuf<TBool> resBuf;
     if( dataBuf16->Length() > KSyncMLMaxServerMsgLength )
         {
@@ -1509,17 +1526,48 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
     TRequestStatus status;      
     //Note type to Query note
     notifyParams.iNoteType = ESyncMLYesNoQuery;
-    TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
-    notifier.StartNotifierAndGetResponse(status,KNSmlSyncDialogUid,pkgBuf,resBuf);
+    TPckgBuf<TSyncMLDlgNotifParams> pkgBuf(notifyParams);
+    
+    
+    if(!IsHbSyncmlNotifierEnabledL())
+    {
+    RNotifier notifier;
+        User::LeaveIfError(notifier.Connect());
+        CleanupClosePushL(notifier);
+    
+    
+    notifier.StartNotifierAndGetResponse(status, KNSmlSyncDialogUid, pkgBuf,
+            resBuf);
     User::WaitForRequest(status);
-    TBool ret = resBuf();
-    if ( status == KErrCancel || status == KErrTimedOut )
+    
+    
+    
+    //TBool ret = resBuf();
+    
+    CleanupStack::PopAndDestroy();
+    }
+    else
+    {
+ 
+    TInt statusval;
+    ServerHbNotifierL(notifyParams.iNoteType, notifyParams.iServerMsg);
+    TInt err = RProperty::Get(dmagentuid, EHbDMSyncNotifierKeyStatusReturn, statusval);
+    	LOGSTRING2("get error status = %d", err);
+    	if(err == KErrNone)
+    		{
+    			status = statusval;
+    			LOGSTRING2("get statusval = %d", status.Int());
+    		}
+ 
+    }
+    
+    if (status == KErrCancel || status == KErrTimedOut)
         {
         TInt error = status == KErrCancel ? TNSmlError::ESmlStatusNotModified : TNSmlError::ESmlStatusRequestTimeout;
         iStatusToServer->SetStatusCodeL( aStatusId, error );
         HandleAlertErrorL();
         }
-    CleanupStack::PopAndDestroy(4); //alertData alertDataWithMDT,databuf16,notifier   
+    CleanupStack::PopAndDestroy(3); //alertData alertDataWithMDT,databuf16,notifier   
     }
 
 // ---------------------------------------------------------
@@ -1670,9 +1718,7 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
          return;
          }
      CleanupStack::PushL(dataBuf16);    
-     RNotifier notifier;
-     User::LeaveIfError( notifier.Connect() );
-     CleanupClosePushL(notifier);
+    
      TPckgBuf<TBool> resBuf;
      if( dataBuf16->Length() > KSyncMLMaxServerMsgLength )
          {
@@ -1687,11 +1733,139 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
      TRequestStatus status;              
      notifyParams.iNoteType = ESyncMLInfoNote;
      TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
-     notifier.StartNotifierAndGetResponse(status,KNSmlSyncDialogUid,pkgBuf,resBuf);
-     User::WaitForRequest(status);
-     CleanupStack::PopAndDestroy(4); //alertData alertDataWithMDT,databuf16,notifier     
-     }
-	
+    if(!IsHbSyncmlNotifierEnabledL())
+        {
+        RNotifier notifier;
+        User::LeaveIfError(notifier.Connect());
+        CleanupClosePushL(notifier);
+        notifier.StartNotifierAndGetResponse(status, KNSmlSyncDialogUid, pkgBuf,
+            resBuf);
+        User::WaitForRequest(status);
+        CleanupStack::PopAndDestroy(); //notifier
+        }
+    else
+        {
+        LOGSTRING("HandleDisplayAlertL Start test 1 start");  
+        ServerHbNotifierL(notifyParams.iNoteType, notifyParams.iServerMsg);
+        LOGSTRING("HandleDisplayAlertL Start test 2 end");
+        }
+    
+    CleanupStack::PopAndDestroy(3); //alertData alertDataWithMDT,databuf16   
+
+
+    }
+
+void CNSmlDMCmds::ServerHbNotifierL(TSyncMLDlgNoteTypes& aNotetype, TDesC& aServerMsg)
+    
+    {
+				LOGSTRING("HandleDisplayAlertL ServerHbNotifier start");  
+				
+        _LIT(KHbNotifier,"com.nokia.hb.devicemanagementdialog/1.0");
+        
+        _LIT(KNotifierId, "syncmlfw");
+        _LIT(KServerpushalertInfo, "serverpushinformative");
+        _LIT(KServerpushalertConfirm, "serverpushconfirmative");
+        
+        TBuf<25> serverpushalertval;
+        
+        if(aNotetype == ESyncMLInfoNote)
+            serverpushalertval.Copy(KServerpushalertInfo);
+        else 
+            serverpushalertval.Copy(KServerpushalertConfirm);
+        
+        CHbDeviceDialogSymbian *devDialog = NULL;
+
+        CHbSymbianVariantMap* varMap = CHbSymbianVariantMap::NewL();
+        CleanupStack::PushL(varMap);
+        
+
+        HBufC* keyBuf = HBufC::NewL(25);
+        CleanupStack::PushL(keyBuf);
+        
+        *keyBuf = KNotifierId;
+        
+        HBufC* servalertmsg = HBufC::NewL(25);
+        CleanupStack::PushL(servalertmsg);
+                
+         *servalertmsg = serverpushalertval;
+         
+         TInt id =0;
+
+         CHbSymbianVariant* notifierid = CHbSymbianVariant::NewL(&id,
+                         CHbSymbianVariant::EInt);
+         
+        
+        CHbSymbianVariant* serveralertmsg = CHbSymbianVariant::NewL(&aServerMsg,
+                CHbSymbianVariant::EDes);
+
+        varMap->Add(*keyBuf,notifierid);
+        varMap->Add(*servalertmsg, serveralertmsg); // takes ownership
+
+        LOGSTRING("HandleDisplayAlertL ServerHbNotifier step 2");
+        
+      
+        RProperty propertykey;
+        
+        TRequestStatus status;
+        
+        TInt err = RProperty::Define(dmagentuid , EHbDMSyncNotifierKeyStatus, RProperty::EInt);
+        	
+        err = RProperty::Define(dmagentuid , EHbDMSyncNotifierKeyStatusReturn, RProperty::EInt);
+
+         TInt err1 = propertykey.Attach(dmagentuid , EHbDMSyncNotifierKeyStatus);
+
+            propertykey.Subscribe(status);
+        
+        LOGSTRING2(" err = %d", err);
+        LOGSTRING2(" err1 = %d", err1);
+        
+        
+         LOGSTRING("HandleDisplayAlertL ServerHbNotifier step 3");
+
+
+        devDialog = CHbDeviceDialogSymbian::NewL();
+        devDialog->Show(KHbNotifier, *varMap);
+
+        User::WaitForRequest(status);
+        
+        propertykey.Close();
+
+
+
+
+        CleanupStack::PopAndDestroy(3);
+        
+
+        if(devDialog)
+            {
+            delete devDialog;
+            devDialog = NULL;
+            }
+        LOGSTRING("HandleDisplayAlertL ServerHbNotifier end");
+
+}
+TBool CNSmlDMCmds::IsHbSyncmlNotifierEnabledL()
+    {
+    CRepository * rep =
+            CRepository::NewLC(KCRUidDeviceManagementInternalKeys);
+
+    TInt notifierenabled = KErrNone;
+
+    TInt err = rep->Get(KDevManEnableHbNotifier, notifierenabled);
+
+    CleanupStack::PopAndDestroy(rep);
+
+    if (err == KErrNone && notifierenabled)
+        {
+        return ETrue;
+        }
+    else
+        {
+        return EFalse;
+        }
+
+    }
+
 // ---------------------------------------------------------
 // CNSmlDMCmds::ProcessSyncL()
 // Process received Add, Replace and Delete commands

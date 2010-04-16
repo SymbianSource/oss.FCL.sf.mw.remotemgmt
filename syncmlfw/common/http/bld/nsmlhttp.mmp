@@ -45,7 +45,7 @@ SOURCE		nsmlnetworkstatusengine.cpp
 
 
 MW_LAYER_SYSTEMINCLUDE
-SYSTEMINCLUDE			/epoc32/include/libc /epoc32/include/ecom	/epoc32/include/http
+SYSTEMINCLUDE			/epoc32/include/libc /epoc32/include/ecom
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE			/epoc32/include/mw/http
 #endif

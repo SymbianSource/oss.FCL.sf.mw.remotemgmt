@@ -275,7 +275,7 @@ TBool  CFotaCustCmdAllReasons::FindScheduleL()
 	FLOG( _L( "[CFotaCustCmdAllReasons]::FindScheduleL()BEGIN " ) );
 	TScheduleEntryInfo2                     ret;    
 	RScheduler                              sc;
-	TTime                                   t; 
+	
 	TTsTime                                 time;
 	TSchedulerItemRef                       scitem; 
 	CArrayFixFlat<TSchedulerItemRef>*     	aSchRefArray = new CArrayFixFlat <TSchedulerItemRef>(5);

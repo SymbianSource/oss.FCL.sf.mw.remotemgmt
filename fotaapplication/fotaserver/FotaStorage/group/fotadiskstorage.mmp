@@ -61,4 +61,4 @@ LIBRARY			centralrepository.lib
 LIBRARY			flogger.lib
 LIBRARY			sysutil.lib
 
-SMPSAFE
+

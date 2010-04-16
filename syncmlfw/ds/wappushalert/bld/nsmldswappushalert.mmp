@@ -26,7 +26,6 @@ UID             0x10009D8D 0x101F6E39
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE 	/epoc32/include/ecom
-SYSTEMINCLUDE 	/epoc32/include/push
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE	/epoc32/include/platform/mw/push
 #endif

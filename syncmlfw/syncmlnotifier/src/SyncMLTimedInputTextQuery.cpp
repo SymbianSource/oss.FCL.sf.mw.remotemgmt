@@ -155,17 +155,17 @@ void CSyncMLTimedInputTextQuery::DismissQueryL()
 //
 TBool CSyncMLTimedInputTextQuery::HandleQueryEditorStateEventL(CAknQueryControl* aQueryControl, TQueryControlEvent aEventType, TQueryValidationStatus aStatus)
 	{
- 
- 	if( EPhoneLayout == aQueryControl->QueryType() )
- 	 {
-		if (aEventType == EEmergencyCallAttempted)
+ 	if ( aQueryControl )
+  {
+ 		if( EPhoneLayout == aQueryControl->QueryType() )
+ 	 	{
+			if (aEventType == EEmergencyCallAttempted)
         	{
         	TryExitL(EEikBidCancel);
         	}
     	else
         	{
-        	if ( aQueryControl )
-         	{
+        	
          	TBuf<KSyncMLMaxDefaultResponseMsgLength> PhoneNo;
          	aQueryControl->GetText( PhoneNo );
          	TInt posplus = PhoneNo.LocateReverse('+');
@@ -177,10 +177,9 @@ TBool CSyncMLTimedInputTextQuery::HandleQueryEditorStateEventL(CAknQueryControl*
            	{      
           	MakeLeftSoftkeyVisible(EFalse);
            	}
-         	}
-        
-        	}   
+         	}  
   	 }
+  }
  	else //For all other layouts 
  	 {
  	CAknQueryDialog::HandleQueryEditorStateEventL(aQueryControl,aEventType,aStatus);	

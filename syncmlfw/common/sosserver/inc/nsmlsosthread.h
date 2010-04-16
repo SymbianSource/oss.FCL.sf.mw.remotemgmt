@@ -21,7 +21,10 @@
 
 #include <SyncMLNotifierParams.h>
 #include <SyncMLNotifier.h>
+#include <hbdevicedialogsymbian.h>
+#include <hbsymbianvariant.h>
 #include "nsmlsosserver.h"
+
 
 class CNSmlJob;
 class CNSmlNotifierObserver;
@@ -89,7 +92,7 @@ class CNSmlThreadEngine : public CActive
 		
 		void StartJobSessionL();
 		void CancelJob();
-		TInt VerifyJobFromNotifierL();
+		TInt VerifyJobFromNotifierL(TBool aServerInitiated);
 		
 		TInt FinishedStatus() 
 			{
@@ -182,6 +185,8 @@ class CNSmlNotifierObserver : public CActive
 		~CNSmlNotifierObserver();
 		void ConnectToNotifierL( const TSyncMLAppLaunchNotifParams& aParam );
 		void NotifierTimeOut();
+		TBool IsHbSyncmlNotifierEnabledL();
+		void HbNotifierObserverL(const TSyncMLAppLaunchNotifParams& aParam);
 	protected:
 		void DoCancel();
 		void RunL();
@@ -194,6 +199,12 @@ class CNSmlNotifierObserver : public CActive
 		CNSmlThreadParams& iThreadParams;
 		CNSmlNotifierTimeOut iNotifierTimeOut;
 		TBool iTimeOut;
+
+		CHbDeviceDialogSymbian* iDevDialog;
+            RProperty iProperty;
+            TBool iHbSyncmlNotifierEnabled;
+		
+
 	};
 	
 

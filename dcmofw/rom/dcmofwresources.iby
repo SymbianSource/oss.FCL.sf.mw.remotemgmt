@@ -11,16 +11,17 @@
 *
 * Contributors:
 *
-* Description:  This file provides building information for DCMO framework.
+* Description:   Image description file for project dcmofw
 *
 */
-#include <platform_paths.hrh>
 
-PRJ_EXPORTS
-../rom/dcmofw.iby				CORE_MW_LAYER_IBY_EXPORT_PATH(dcmofw.iby)
-../rom/dcmofwresources.iby			LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(dcmofwresources.iby)
 
-PRJ_MMPFILES
-#include "../dcmoclient/group/bld.inf"
-#include "../dcmoserver/group/bld.inf"
-#include "../dcmocustcmd/group/bld.inf"
+#ifndef _DCMOFWRESOURCES_IBY_
+#define _DCMOFWRESOURCES_IBY_
+
+
+#ifdef FF_RUNTIME_DEVICE_CAPABILITY_CONFIGURATION
+data=DATAZ_\RESOURCE_FILES_DIR\dcmo.rsc	RESOURCE_FILES_DIR\dcmo.rsc
+#endif
+#endif
+

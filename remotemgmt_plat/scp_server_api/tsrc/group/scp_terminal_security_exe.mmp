@@ -47,5 +47,4 @@ LIBRARY     stiftestinterface.lib
 
 LIBRARY		scpclient.lib
 
-SMPSAFE
 // end of file

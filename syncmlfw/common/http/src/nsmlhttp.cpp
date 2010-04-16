@@ -22,7 +22,6 @@
 #include <DevManInternalCRKeys.h>
 #include <centralrepository.h>
 #include "nsmlprivatepskeys.h"
-#include <nsmlconstants.h>
 
 
 #include "nsmlerror.h"
@@ -144,16 +143,6 @@ void CNSmlHTTP::ConstructL()
             iMaxMsgSize = value;
             }
         }
-    
-    CRepository* rep = CRepository::NewLC(KCRUidNSmlDSEngine);
-    TInt flag(0);
-    TRAPD(err, rep->Get(KNsmlDsDeflateSupport, flag));
-    DBG_FILE_CODE(flag, _S8("Flag value"));
-    if ( err == KErrNone )
-        {
-        iDeflateFlag = flag;
-        }
-    CleanupStack::PopAndDestroy(rep);
 	}
 
 // ---------------------------------------------------------
@@ -576,7 +565,7 @@ void CNSmlHTTP::SendDataL(
 	delete iReqBodySubmitBuffer;
     iReqBodySubmitBuffer = NULL;
 	
-	if( (iSession == ESyncMLDSSession) && (iServerAcceptEncoding == ExptDeflate) && iDeflateFlag )
+	if( (iSession == ESyncMLDSSession) && (iServerAcceptEncoding == ExptDeflate) )
 		{
 		TRAPD( err, CompressL(aStartPtr) );
 		User::LeaveIfError( err );
@@ -1081,13 +1070,13 @@ void CNSmlHTTP::InvokeHttpMethodL( const TDesC8& aUri, RStringF aMethod )
 	SetHeaderL( hdr, HTTP::EAcceptCharset, KSmlAcceptCharSet );
 	SetHeaderL( hdr, HTTP::EAcceptLanguage , KSmlAcceptLanguage );
 		
-	if( iSession == ESyncMLDSSession && iDeflateFlag )//for ds session
-	  {
+	if( iSession == ESyncMLDSSession )//for ds session
+	  { 
 	  if(iServerAcceptEncoding == ExptDeflate)
-          {
-          SetHeaderL( hdr, HTTP::EContentEncoding , KSmlContentDeflate );
-          }
-          SetHeaderL( hdr, HTTP::EAcceptEncoding , KSmlContentDeflate );
+	      {
+	      SetHeaderL( hdr, HTTP::EContentEncoding , KSmlContentDeflate );
+	      }
+	      SetHeaderL( hdr, HTTP::EAcceptEncoding , KSmlContentDeflate );
 	  }
 
 	// Add headers and body data for methods that use request bodies
@@ -1146,7 +1135,7 @@ void CNSmlHTTP::GetResponseBodyL( TDes8& aStartPtr )
 		}
 		else
 		{
-		    if ( (iSession == ESyncMLDSSession) && (iServerContentEncoding == ExptDeflate) && iDeflateFlag )
+		    if ( (iSession == ESyncMLDSSession) && (iServerContentEncoding == ExptDeflate) )
 		        {		    
 		        TRAPD( err, DecompressL( aStartPtr ) );		    
 				User::LeaveIfError( err );

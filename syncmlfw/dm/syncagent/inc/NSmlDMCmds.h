@@ -171,6 +171,10 @@ class CNSmlDMCmds : public CNSmlCmdsBase, public MNSmlDmModuleCallBack
 	*/
 	void UpdateErrorStatusCode(SmlItem_t* aItem,TNSmlError::TNSmlSyncMLStatusCode& aStatusCode);
 	
+	
+	TBool IsHbSyncmlNotifierEnabledL();
+	void ServerHbNotifierL(TSyncMLDlgNoteTypes& aNotetype, TDesC& aServerMsg);
+	
 	//
 	private:     // Data
 	struct TDMDevInfo

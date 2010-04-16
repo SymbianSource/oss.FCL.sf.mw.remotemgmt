@@ -164,7 +164,13 @@ void CSettingEnforcementManager::EndEnforcementSession( TBool aFlushSettings)
 	//finish active enforcement base
 	if ( iActiveEnforcementBase)
 	{
-		iActiveEnforcementBase->FinishEnforcementL( aFlushSettings);
+		TRAPD(err, iActiveEnforcementBase->FinishEnforcementL( aFlushSettings));
+		
+		if (err != KErrNone)
+			{
+			RDEBUG_2("	**** ERROR, iActiveEnforcementBase->FinishEnforcementL left with %d", err );
+			}
+			
 		delete iActiveEnforcementBase;
 		iActiveEnforcementBase = 0;
 	}

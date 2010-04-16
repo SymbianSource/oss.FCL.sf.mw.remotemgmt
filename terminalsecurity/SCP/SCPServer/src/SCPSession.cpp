@@ -181,7 +181,7 @@ TBool CSCPSession::AcknowledgeOperation( TSCPAdminCommand aCommand )
                 Dprint( (_L("CSCPSession::AcknowledgeOperation( %d ): \
                     Lock-op acknowledged"), aCommand ));
                 iLockCommandState = ESCPLockCmdStateInProgressAcknowledged;
-                iSettingHandler->AckReceived();
+                iNotificationHandler->AckReceived();
                                 
                 ret = ETrue;
                 break;
@@ -435,7 +435,7 @@ void CSCPSession::SetDOSLockSettingL( TBool aLocked,
     // (because DOS lock won't be disabled)
     if ( ( aLocked ) || ( ( !IsSMSLockActiveL() ) && ( !IsAutolockActive() ) ) )
         {
-        iNotificationHandler = CSCPLockNotificationEventHandler::NewL( &iServer );
+        iNotificationHandler = CSCPLockNotificationEventHandler::NewL( &iServer, this );
         }
         
 #endif // WINS
@@ -1542,6 +1542,11 @@ TInt CSCPSession :: NotifyAllStakeHoldersL(const RArray<const TParamChange>& aCh
             CTC3rdPartyParamsEcomIF* plugin = CTC3rdPartyParamsEcomIF :: NewL(implementation);
             CleanupStack :: PushL(plugin);
             TRAPD(leaveCode, plugin->DeviceLockParamChangedL(aChange));
+            if (!leaveCode)
+            	{
+            	Dprint(_L("[CSCPSession]-> leaveCode=%d"), leaveCode);		
+            	}
+            
             CleanupStack :: PopAndDestroy(); // plugin 
         }
 
@@ -1606,7 +1611,7 @@ TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
 TInt CSCPSession :: HandleSetALPeriodL( const RMessage2& aMessage ) {
     Dprint((_L("[CSCPSession]-> HandleSetParamMessageL() >>>")));
     TBool oldALState = EFalse;
-    TBool lNotifyChange = ETrue;
+    
     #ifndef __WINS__ // No need to check for lock setting changes in emulator
     if ( ( (TSCPParameterID)aMessage.Int0() == ESCPAutolockPeriod ) ||
          ( (TSCPParameterID)aMessage.Int0() == ESCPMaxAutolockPeriod ) )    
@@ -1665,11 +1670,16 @@ void CSCPSession :: NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint3
 	TInt ret = lChangeArray.Append(lChange);
 	
 	if(KErrNone != ret) {
+		CleanupStack :: PopAndDestroy(); //lChangeArray
 		return;
 	}
 	
 	Dprint(_L("[CSCPSession]->INFO: Initiating notification to all the StakeHolders..."));
 	TRAPD(lErr, NotifyAllStakeHoldersL(lChangeArray, aCallerID));
+	if (!lErr)
+		{
+		Dprint(_L("[CSCPSession]-> lErr=%d"), lErr);
+	}
 	Dprint(_L("[CSCPSession]->INFO: Notification to all the StakeHolders complete..."));
 	CleanupStack :: PopAndDestroy(); //lChangeArray
 }

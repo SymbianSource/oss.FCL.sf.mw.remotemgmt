@@ -37,7 +37,7 @@ SOURCE          SyncMLTimedMessageQuery.cpp
 SOURCE          SyncMLTimedQueryDialog.cpp
 SOURCE          SyncMLQueryTimer.cpp
 SOURCE          SyncMLQueryDialog.cpp
-SOURCE			SyncMLMessageQueryDialog.cpp SyncMLPreSyncPluginInterface.cpp
+SOURCE			SyncMLMessageQueryDialog.cpp
 SOURCE          SyncMLTimedDateQuery.cpp
 SOURCE          SyncMLTimedInputTextQuery.cpp
 SOURCE          SyncMLTimedNumberQueryDialog.cpp SyncMLAknPopUpList.cpp syncmlmmcwatcher.cpp
@@ -52,7 +52,6 @@ USERINCLUDE     ../inc
 
 // Default system include paths for app layer modules.
 APP_LAYER_SYSTEMINCLUDE
-SYSTEMINCLUDE   /epoc32/include/uikon
 
 LIBRARY euser.lib cone.lib                  // Symbian OS framework libraries
 LIBRARY avkon.lib                           // UI library

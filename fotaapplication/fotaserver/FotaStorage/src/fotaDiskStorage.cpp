@@ -159,9 +159,12 @@ CFotaStorage::TFreeSpace CFotaDiskStorage::IsPackageStoreSizeAvailableL(TInt& aS
 					isavailable = CFotaStorage::EFitsToFileSystem;
         	}
         }
+        TInt fitstodummy = isavailable==CFotaStorage::EFitsToReservation?1:0 ;
+        TInt fitstoFS = isavailable==CFotaStorage::EFitsToFileSystem?1:0 ;
+        TInt DoesntFitToFS = 	isavailable==CFotaStorage::EDoesntFitToFileSystem?1:0 ; 
+        	
     FLOG(_L("CFotaDiskStorage::IsPackageStoreSizeAvailableL %d<%d (sz vs dummy) => fitstodummy:%d fitstoFS:%d DoesntFitToFS:%d")
-        ,aSize,dummySize,isavailable==CFotaStorage::EFitsToReservation?1:0,isavailable==CFotaStorage::EFitsToFileSystem?1:0,isavailable==CFotaStorage::EDoesntFitToFileSystem?1:0
-       );
+        ,aSize,dummySize,fitstodummy,fitstoFS,DoesntFitToFS );
 
     return isavailable;
     }

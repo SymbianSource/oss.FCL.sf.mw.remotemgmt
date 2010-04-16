@@ -47,5 +47,3 @@ LIBRARY         centralrepository.lib
 LIBRARY         schsvr.lib  
 LIBRARY		apgrfx.lib
 LIBRARY		apparc.lib
-
-SMPSAFE

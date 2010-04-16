@@ -60,7 +60,7 @@ class RFMSClient : public RSessionBase
 		 * @param None
 		 * @return None
 		 */
-		void CancelNotifyForResume();
+		IMPORT_C void CancelNotifyForResume();
 		
 		/**
 		 * Sending the parameters to FMSServer

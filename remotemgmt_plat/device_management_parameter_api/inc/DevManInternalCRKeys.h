@@ -136,7 +136,7 @@ const TUint32 KDevManNetMonTimeoutKey = 0x0000000E;
 * If value is 1  then locked profile values can changed.
 * 
 */
-const TUint32 KDevOverrideProfileLock = 0x0000000F; 
+const TUint32 KDevManEnableHbNotifier = 0x0000000F; 
 
 /*
 * This key is used to store the External memory card status for DCMO

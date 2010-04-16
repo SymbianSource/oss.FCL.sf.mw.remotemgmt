@@ -33,7 +33,7 @@
 // This method can leave
 // -----------------------------------------------------------------------------
 
-CDevEncProgressObserver* CDevEncProgressObserver::NewL(CDevEncController* aObserver, TInt aResource)
+EXPORT_C CDevEncProgressObserver* CDevEncProgressObserver::NewL(CDevEncController* aObserver, TInt aResource)
     {
     CDevEncProgressObserver* self = CDevEncProgressObserver::NewLC(aObserver, aResource);
     CleanupStack::Pop(self);
@@ -46,7 +46,7 @@ CDevEncProgressObserver* CDevEncProgressObserver::NewL(CDevEncController* aObser
 // This method can leave
 // -----------------------------------------------------------------------------
 
-CDevEncProgressObserver* CDevEncProgressObserver::NewLC(CDevEncController* aObserver, TInt aResource)
+EXPORT_C CDevEncProgressObserver* CDevEncProgressObserver::NewLC(CDevEncController* aObserver, TInt aResource)
     {
     CDevEncProgressObserver* self = new (ELeave) CDevEncProgressObserver (aObserver);
     CleanupStack::PushL(self);

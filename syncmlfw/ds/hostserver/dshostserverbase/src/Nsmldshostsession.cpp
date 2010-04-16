@@ -855,7 +855,7 @@ void CNSmlDSHostSession::OpenL( const RMessage2& aMessage )
     	}
     
     CNSmlDSAsyncCallBackForOpen* p = new ( ELeave ) CNSmlDSAsyncCallBackForOpen( 
-    	this, aMessage, OpenFinishedL );
+    	this, aMessage, &CNSmlDSHostSession::OpenFinishedL );
     CleanupStack::PushL( p );
     
     p->iDpi = DataProviderItemL( aMessage.Int0() );
@@ -1024,7 +1024,7 @@ void CNSmlDSHostSession::CommitBatchL( const RMessage2& aMessage )
     RArray<TInt>* resultArray = new ( ELeave ) RArray<TInt>;
     CleanupStack::PushL( resultArray );
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, CommitBatchRequestFinishedL, resultArray );
+    	this, dsi, aMessage, &CNSmlDSHostSession::CommitBatchRequestFinishedL, resultArray );
     CleanupStack::Pop( resultArray ); //dsao takes ownership
     
     CleanupStack::PushL( dsao );
@@ -1162,7 +1162,7 @@ void CNSmlDSHostSession::OpenItemL( const RMessage2& aMessage )
     CNSmlServerDSHostItem* dshi = DataStoreItemParamsLC();
     
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, OpenItemRequestFinishedL, dshi );
+    	this, dsi, aMessage, &CNSmlDSHostSession::OpenItemRequestFinishedL, dshi );
     CleanupStack::Pop( dshi ); //dsao takes ownership
     CleanupStack::PushL( dsao );
     
@@ -1244,7 +1244,7 @@ void CNSmlDSHostSession::CreateItemL( const RMessage2& aMessage )
     TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
     CNSmlServerDSHostItem* dshi = DataStoreItemParamsLC();
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, CreateItemRequestFinishedL, dshi );
+    	this, dsi, aMessage, &CNSmlDSHostSession::CreateItemRequestFinishedL, dshi );
     CleanupStack::Pop( dshi ); //dsao takes ownership
     CleanupStack::PushL( dsao );
     
@@ -1381,7 +1381,7 @@ void CNSmlDSHostSession::CommitItemL( const RMessage2& aMessage )
     TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
 
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, CommitItemRequestFinishedL );
+    	this, dsi, aMessage, &CNSmlDSHostSession::CommitItemRequestFinishedL );
     CleanupStack::PushL( dsao );
     dsao->CallDSAsyncLC().CommitItemL( dsao->iStatus );
     CleanupStack::Pop(2); //CallDSAsyncLC, dsao
@@ -1622,7 +1622,7 @@ void CNSmlDSHostSession::AllItemsL( const RMessage2& aMessage )
 	TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
 	
     CNSmlDSChangedItemsFetcher* dsao = CNSmlDSChangedItemsFetcher::NewLC( 
-    	this, dsi, aMessage, AllItemsRequestFinishedL );
+    	this, dsi, aMessage, &CNSmlDSHostSession::AllItemsRequestFinishedL );
     dsao->FetchAllChangedItemsL();
     CleanupStack::Pop(); //dsao
 	}
@@ -1673,7 +1673,7 @@ void CNSmlDSHostSession::CommitChangesL( const RMessage2& aMessage )
     CleanupStack::PopAndDestroy(); //readStream
     
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, CommitChangesRequestFinishedL, dius );
+    	this, dsi, aMessage, &CNSmlDSHostSession::CommitChangesRequestFinishedL, dius );
     CleanupStack::Pop( dius ); //dsao takes the ownership.
     CleanupStack::PushL( dsao );
     dsao->CallDSAsyncLC().CommitChangeInfoL( dsao->iStatus, *dius );

@@ -33,6 +33,7 @@
 
 #include "SCPLockNotificationEventHandler.h"
 #include "SCPServer.h"
+#include "SCPSession.h"
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -40,10 +41,13 @@
 // might leave.
 //
 CSCPLockNotificationEventHandler::CSCPLockNotificationEventHandler(                        
-            CSCPServer* aServer
+            CSCPServer* aServer,
+            CSCPSession* aSession
             )
 	        : CSCPLockEventHandler( aServer ),
-	        iQueryState(ESCPLNQueryStateNotification) 	
+	        iQueryState(ESCPLNQueryStateNotification),
+	        iSession (aSession),
+	        iAckReceived (EFalse)
     {
     Dprint( (_L("--> CSCPLockNotificationEventHandler::\
 	      CSCPLockNotificationEventHandler()") ));
@@ -68,13 +72,14 @@ void CSCPLockNotificationEventHandler::ConstructL()
 
 // Static constructor.
 CSCPLockNotificationEventHandler* CSCPLockNotificationEventHandler::NewL(
-        CSCPServer* aServer
+        CSCPServer* aServer,
+        CSCPSession* aSession
         )
     {
 	  Dprint( (_L("--> CSCPLockNotificationEventHandler::NewL()") ));
 
 	  CSCPLockNotificationEventHandler* self = 
-	      CSCPLockNotificationEventHandler::NewLC( aServer );
+	      CSCPLockNotificationEventHandler::NewLC( aServer, aSession );
 	        
     CleanupStack::Pop( self );
 	
@@ -85,13 +90,14 @@ CSCPLockNotificationEventHandler* CSCPLockNotificationEventHandler::NewL(
 
 // Static constructor, leaves object pointer to the cleanup stack.
 CSCPLockNotificationEventHandler* CSCPLockNotificationEventHandler::NewLC(
-        CSCPServer* aServer 
+        CSCPServer* aServer,
+        CSCPSession* aSession
         )
     {
     Dprint( (_L("--> CSCPLockNotificationEventHandler::NewLC()") ));
 
     CSCPLockNotificationEventHandler* self = 
-        new (ELeave) CSCPLockNotificationEventHandler( aServer );
+        new (ELeave) CSCPLockNotificationEventHandler( aServer, aSession );
 
     CleanupStack::PushL( self );
     self->ConstructL();	
@@ -149,6 +155,48 @@ TInt CSCPLockNotificationEventHandler::RegisterListener()
     }
 
 // ---------------------------------------------------------
+// void CSCPLockNotificationEventHandler::AckReceived()
+// Sets the ackReceived member to indicate that the call has
+// already been acknowledged.
+// 
+// Status : Approved
+// ---------------------------------------------------------
+
+void CSCPLockNotificationEventHandler::AckReceived()
+    {
+    Dprint( (_L("--> CSCPLockNotificationEventHandler::AckReceived()") ));
+    iAckReceived = ETrue;    
+    }
+
+// ---------------------------------------------------------
+// void CSCPLockNotificationEventHandler::VerifyPass()
+// Verify password to the ISA
+// 
+// Status : Approved
+// ---------------------------------------------------------
+void CSCPLockNotificationEventHandler::VerifyPass()
+    {
+    Dprint( (_L("CSCPLockNotificationEventHandler::VerifyPass():\
+        EPhonePasswordRequired event received") ));
+
+    RMobilePhone::TMobilePhoneSecurityCode secCodeType = 
+        RMobilePhone::ESecurityCodePhonePassword;
+        
+    RMobilePhone::TMobilePassword password;
+    RMobilePhone::TMobilePassword required_fourth;
+    required_fourth.Zero();
+    iServer->GetCode( password );                
+
+    iPhone->VerifySecurityCode(iStatus, secCodeType, 
+        password, required_fourth);
+
+    // Start waiting for verification response
+    iQueryState = ESCPLNQueryStateVerification;
+    SetActive(); 
+    Dprint( (_L("<-- CSCPLockNotificationEventHandler::VerifyPass()") ));    
+    }
+
+// ---------------------------------------------------------
 // void CSCPLockNotificationEventHandler::RunL()
 // When the correct security event is received, the code query is
 // verified via VerifySecurityCode. This method also handles the
@@ -166,34 +214,31 @@ void CSCPLockNotificationEventHandler::RunL()
         case ( ESCPLNQueryStateNotification ):
             {                        
             // Event received
-            if ( iEvent == RMobilePhone::EPhonePasswordRequired )
-                {
-                Dprint( (_L("CSCPLockNotificationEventHandler::RunL():\
-                    EPhonePasswordRequired event received") ));
-      
-                RMobilePhone::TMobilePhoneSecurityCode secCodeType = 
-                    RMobilePhone::ESecurityCodePhonePassword;
-                    
-                RMobilePhone::TMobilePassword password;
-                RMobilePhone::TMobilePassword required_fourth;
-                required_fourth.Zero();
-                iServer->GetCode( password );                
-      
-                iPhone->VerifySecurityCode(iStatus, secCodeType, 
-                    password, required_fourth);
-      
-                // Start waiting for verification response
-                iQueryState = ESCPLNQueryStateVerification;
-                SetActive();                  
-                }
-            else
-                {
-                Dprint( (_L("CSCPLockNotificationEventHandler::RunL():\
-                    Invalid event received") ));
-                // Re-run registration, this event is not the one we're waiting for
-                RegisterListener();
-                }
-        
+             if (iAckReceived)
+                 {
+                 VerifyPass();
+                 }
+             else if ( iEvent == RMobilePhone::EPhonePasswordRequired )
+                 {
+                 Dprint( (_L("--> CSCPLockNotificationEventHandler::EPhonePasswordRequired") ));
+                 iQueryState = ESCPLNQueryStateQueryAdmin;
+                 iSession->LockOperationPending( ESCPCommandLockPhone, &iStatus );
+                 SetActive();
+                 }
+             else
+                 {
+                 Dprint( (_L("CSCPLockNotificationEventHandler::RunL():\
+                     Invalid event received") ));
+                 // Re-run registration, this event is not the one we're waiting for
+                 RegisterListener();
+                 }
+             break;
+            }
+        // Event received from Session for LockOpPending, queryAdminCmd
+        case (ESCPLNQueryStateQueryAdmin):
+            {             
+            Dprint( (_L("--> CSCPLockNotificationEventHandler::ESCPLNQueryStateQueryAdmin") ));
+            VerifyPass();
             break;
             }
 

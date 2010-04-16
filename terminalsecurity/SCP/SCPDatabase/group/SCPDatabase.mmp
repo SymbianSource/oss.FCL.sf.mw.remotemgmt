@@ -44,6 +44,4 @@ LIBRARY		centralrepository.lib
 LIBRARY		apgrfx.lib
 LIBRARY		apparc.lib
 
-SMPSAFE
-
 //End of file

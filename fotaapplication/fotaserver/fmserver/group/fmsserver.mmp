@@ -52,4 +52,3 @@ LIBRARY       cmmanager.lib
 LIBRARY       etelmm.lib 
 LIBRARY       etel.lib 
 
-SMPSAFE

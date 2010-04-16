@@ -24,7 +24,7 @@
 #include <avkon.rsg>
 #include <SecUi.rsg>
 // Include the SecUi definitions
-#include <SecUi.hrh>
+#include <secui.hrh>
 #include "SCPDebug.h"
 #include <SCPNotifier.rsg>
 // For Central Repository
@@ -262,8 +262,12 @@ void CSCPQueryDialog::PreLayoutDynInitL()
     // we are already on forgeround, need to update priority differently
 	if (var != EPSCTsyCallStateNone)
 	{
+		// If the call is made during device startup have the priority as normal
+		if (iECSSupport && (iButtons == RSCPClient::SCP_OK))
+		{
+		iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
+		}
 	
-	iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
 	}
     else if ((wgPrio == ECoeWinPriorityAlwaysAtFront)&&(iECSSupport))
         {
@@ -567,7 +571,6 @@ if(aKeyEvent.iModifiers & EModifierNumLock &&
 			if(aType == EEventKey)
 			{
                 HBufC* cbaLabel = NULL;
-				Dprint( (_L("CSCPQueryDialog::OfferKeyEventL(): R_SCPDIALOG_OK_TEXT") ));
                 TRAPD ( err , cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
                 if ( err == KErrNone )
                 {

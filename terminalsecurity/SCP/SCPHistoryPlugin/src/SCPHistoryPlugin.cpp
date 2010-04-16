@@ -100,42 +100,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 	    return NULL; // Eventhandler not available
 	    }	
 	
-	// Insert the default security code into the history-buffer if not there yet
-    {	        
-    TInt errSCF = SetConfigFile ();
-	if (errSCF != KErrNone)
-	    {		
-		return NULL;
-		}
-		
-    TInt historyItemCounter = 0;
-    if ( GetHistoryItemCount( historyItemCounter ) != KErrNone )
-	    {
-	    Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
-	    // Hash the security code	
-		TBuf<KSCPPasscodeMaxLength> codeBuf;
-		TBuf<KSCPMaxHashLength> hashBuf;
-		
-		codeBuf.Copy( KSCPDefaultEnchSecCode );
-		hashBuf.Zero();
-		
-		iEventHandler->HashInput( codeBuf, hashBuf );		        
-        
-        CSCPParamObject* historyObject = NULL;
-	    TRAPD( err, historyObject = CSCPParamObject::NewL() );
-	    if ( err == KErrNone )
-	        {
- 		    historyObject->Set( KHistoryCounterParamID, 1 );
-		    historyObject->Set( KHistoryItemParamBase, hashBuf );
-        
-            TRAP_IGNORE( historyObject->WriteToFileL( iCfgFilenamepath, iFs ) );
-	        }
-	    
-	    delete historyObject;
-	    }
-    }
-	
-	
 	// check for Case
     switch ( aID )
         {

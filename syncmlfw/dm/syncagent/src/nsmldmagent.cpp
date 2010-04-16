@@ -1374,7 +1374,10 @@ void CNSmlDMAgent::FinalizeSyncLogL()
 		TTime now;
 		//now.HomeTime();//previously using
 		now.UniversalTime();
+		if(iError)
 		iSyncLog->SetResult(now, iError->SyncLogErrorCode());
+		else
+		iSyncLog->SetResult(now, KErrGeneral);   
 
 			CNSmlDMSettings* settings = CNSmlDMSettings::NewLC();
 			CNSmlDMProfile* profile = settings->ProfileL( iProfileID );
@@ -1385,6 +1388,8 @@ void CNSmlDMAgent::FinalizeSyncLogL()
 			      return;
 			    }
 			CleanupStack::PushL( profile );
+		  if( iError )
+		  {
            if(iError->SyncLogErrorCode() == KErrNone)
            {
            RWriteStream& LastSyncStream = profile->LastSyncWriteStreamL();
@@ -1410,6 +1415,7 @@ void CNSmlDMAgent::FinalizeSyncLogL()
 	        CleanupStack::PopAndDestroy();	
 			}
           } 
+        }
 			CNSmlHistoryArray* array = CNSmlHistoryArray::NewL();
 			CleanupStack::PushL( array );
 			array->SetOwnerShip( ETrue );
@@ -1832,14 +1838,16 @@ void CNSmlDMGenericAlert::ConstructL( const TDesC8& aFwMgmtUri, const TDesC8& aM
 
         for(TInt i =0; i< count ; i++)
             {    
-            CNSmlDMAlertItem* iItem = new (ELeave) CNSmlDMAlertItem ;
-            iItem->iSource = ((*aItemList)[i].iSource)->AllocL();
-            iItem->iTarget = ((*aItemList)[i].iTarget)->AllocL();
-            iItem->iMetaType = ((*aItemList)[i].iMetaType)->AllocL();
-            iItem->iMetaFormat = ((*aItemList)[i].iMetaFormat)->AllocL();
-            iItem->iMetaMark = ((*aItemList)[i].iMetaMark)->AllocL();
-            iItem->iData = ((*aItemList)[i].iData)->AllocL();
-            iDataItem->AppendL(*iItem);
+            CNSmlDMAlertItem* tempItem = new (ELeave) CNSmlDMAlertItem ;
+            CleanupStack::PushL( tempItem );
+            tempItem->iSource = ((*aItemList)[i].iSource)->AllocL();
+            tempItem->iTarget = ((*aItemList)[i].iTarget)->AllocL();
+            tempItem->iMetaType = ((*aItemList)[i].iMetaType)->AllocL();
+            tempItem->iMetaFormat = ((*aItemList)[i].iMetaFormat)->AllocL();
+            tempItem->iMetaMark = ((*aItemList)[i].iMetaMark)->AllocL();
+            tempItem->iData = ((*aItemList)[i].iData)->AllocL();
+            iDataItem->AppendL(*tempItem);
+            CleanupStack::PopAndDestroy( tempItem );
             }
         }   
 

@@ -50,8 +50,7 @@ PRJ_EXPORTS
 //../ProvisioningCx/loc/ProvisioningCx.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningcx.loc)
 ../StreamingAdapter/loc/StreamingAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(streamingadapter.loc)
 ../AuthTypePlugin/loc/Authtypeplugin.loc 					MW_LAYER_LOC_EXPORT_PATH(authtypeplugin.loc)
-../accesspointadapter/loc/WPAPAdapter.loc                       MW_LAYER_LOC_EXPORT_PATH(wpapadapter.loc)
-../cpdestinationnwadapter/loc/wpdestinationnwadapter.loc	MW_LAYER_LOC_EXPORT_PATH(wpdestinationnwadapter.loc)
+
 
 PRJ_EXTENSIONS
 #ifdef SBSV2
@@ -89,22 +88,24 @@ PRJ_MMPFILES
 ../ProvisioningEngine/Group/ProvisioningEngine.mmp
 ../ProvisioningParser/Group/ProvisioningParser.mmp
 ../ProvisioningHandler/Group/ProvisioningHandler.mmp
-../accesspointadapter/group/WPAPAdapter.mmp
-../WAPAdapter/Group/WPWAPAdapter.mmp
-../IMAdapter/Group/IMAdapter.mmp
-../StreamingAdapter/Group/StreamingAdapter.mmp
+
+/* Commented to avoid APP layer dependency
+//../accesspointadapter/group/WPAPAdapter.mmp
+//../WAPAdapter/group/WPWAPAdapter.mmp
+//../IMAdapter/group/IMAdapter.mmp
+//../StreamingAdapter/group/StreamingAdapter.mmp
 //../ProvisioningCx/group/ProvisioningCx.mmp
-../ProvisioningBC/Group/ProvisioningBC.mmp
-../MbxNbrAdapter/Group/MbxNbrAdapter.mmp
-../cpdestinationnwadapter/group/wpdestinationnwadapter.mmp
+//../ProvisioningBC/group/ProvisioningBC.mmp 
+//../MbxNbrAdapter/group/MbxNbrAdapter.mmp
+ comment ends here */
 
 
-
-../AuthTypePlugin/Group/Authtypeplugin.mmp
-../alwaysonadapter/Group/alwaysonadapter.mmp
+//../AuthtypePlugin/group/Authtypeplugin.mmp
+//../AlwaysOnAdapter/group/AlwaysOnAdapter.mmp
+//../cpdestinationnwadapter/group/wpdestinationnwadapter.mmp
 
 #ifdef __SMART_CARD_PROV
-    ../ProvisioningSC/Group/ProvisioningSC.mmp
+//    ../ProvisioningSC/group/ProvisioningSC.mmp - commented
 #endif
 
 
@@ -113,12 +114,12 @@ PRJ_MMPFILES
 gnumakefile ../ProvisioningCx/group/iconscxdc.mk
 
 #ifdef __SCALABLE_ICONS
-    gnumakefile ../ProvisioningCx/group/Iconscxaifscalabledc.mk
+   // gnumakefile ../provisioningcx/group/Iconscxaifscalabledc.mk - commented
 #else
-    gnumakefile ../provisioningcx/group/Iconscxaifbitmaps.mk
+   // gnumakefile ../provisioningcx/group/Iconscxaifbitmaps.mk - commented
 #endif
 
-gnumakefile ../AuthTypePlugin/Group/AuthtypePluginIcons.mk
+//gnumakefile ../AuthtypePlugin/group/AuthtypepluginIcons.mk - commented
 
 #endif
 

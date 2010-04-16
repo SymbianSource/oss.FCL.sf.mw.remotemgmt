@@ -55,6 +55,4 @@ LIBRARY			ws32.lib			// wssession
 LIBRARY			centralrepository.lib
 LIBRARY	flogger.lib
 
-SMPSAFE
-
 //End of file

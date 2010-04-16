@@ -46,7 +46,7 @@ CNSmlDmPcdata::~CNSmlDmPcdata()
 // ---------------------------------------------------------------------------
 void CNSmlDmPcdata::FreeContent()
 	{
-    delete iContent;
+    User::Free(iContent);
     iContent = 0;
 	}
 

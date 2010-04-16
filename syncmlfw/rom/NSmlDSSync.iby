@@ -32,16 +32,16 @@ data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FE.SPD		private\100012a5\
 
 REM SyncML  Data Synchronisation plug-in adapters
 
-#ifdef  __SYNCML_DS_CAL // SyncML data synchronization calendar plug-in
-ECOM_PLUGIN(nsmlagendadataprovider.dll,nsmlagendadataprovider.rsc)
-data=DATAZ_\RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc		RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc
-#endif // __SYNCML_DS_CAL
+REM #ifdef  __SYNCML_DS_CAL // SyncML data synchronization calendar plug-in
+REM ECOM_PLUGIN(nsmlagendadataprovider.dll,nsmlagendadataprovider.rsc)
+REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc		RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc
+REM #endif // __SYNCML_DS_CAL
 
-#ifdef __SYNCML_DS_CON //  SyncML data synchronization contacts plug-in
-ECOM_PLUGIN(nsmlcontactsdataprovider.dll,nsmlcontactsdataprovider.rsc)
-data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc
-data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc
-#endif // __SYNCML_DS_CON
+REM #ifdef __SYNCML_DS_CON //  SyncML data synchronization contacts plug-in
+REM ECOM_PLUGIN(nsmlcontactsdataprovider.dll,nsmlcontactsdataprovider.rsc)
+REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc
+REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc
+REM #endif // __SYNCML_DS_CON
 
 data=DATAZ_\RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc             RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc
 REM \ds\adapters\dataproviderbase
@@ -51,7 +51,7 @@ REM \ds\Adapter Log
 file=ABI_DIR\BUILD_DIR\NSmlAdapterLog.dll		SHARED_LIB_DIR\NSmlAdapterLog.dll
 
 REM \ds\datamod
-file=ABI_DIR\BUILD_DIR\nsmldatamod.dll                  SHARED_LIB_DIR\nsmldatamod.dll
+REM file=ABI_DIR\BUILD_DIR\nsmldatamod.dll                  SHARED_LIB_DIR\nsmldatamod.dll
 
 REM \ds\dshostclient
 file=ABI_DIR\BUILD_DIR\NSmldshostclient.dll		SHARED_LIB_DIR\NSmldshostclient.dll
@@ -86,7 +86,7 @@ ECOM_PLUGIN(wpds.dll,wpds.rsc)
 REM \ds\dsutils
 file=ABI_DIR\BUILD_DIR\nsmlchangefinder.dll          	SHARED_LIB_DIR\nsmlchangefinder.dll
 file=ABI_DIR\BUILD_DIR\nsmldbcaps.dll                	SHARED_LIB_DIR\nsmldbcaps.dll
-file=ABI_DIR\BUILD_DIR\nsmlCGIScriptParser.dll       	SHARED_LIB_DIR\nsmlCGIScriptParser.dll
+REM file=ABI_DIR\BUILD_DIR\nsmlCGIScriptParser.dll       	SHARED_LIB_DIR\nsmlCGIScriptParser.dll
 file=ABI_DIR\BUILD_DIR\nsmlfilter.dll			SHARED_LIB_DIR\nsmlfilter.dll
 file=ABI_DIR\BUILD_DIR\syncmldatafilter.dll			SHARED_LIB_DIR\syncmldatafilter.dll
 file=ABI_DIR\BUILD_DIR\smlstoreformat.dll		SHARED_LIB_DIR\smlstoreformat.dll

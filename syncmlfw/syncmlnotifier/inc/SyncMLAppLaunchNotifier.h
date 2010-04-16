@@ -170,8 +170,7 @@ NONSHARABLE_CLASS( CSyncMLAppLaunchNotifier ) : public CSyncMLNotifierBase
         
         void ReadRepositoryL(TInt aKey, TInt& aValue);
         
-        void ShowRoamingMessageL(TInt keypress, TUint profileId);
-
+        
     private:
 
         /**

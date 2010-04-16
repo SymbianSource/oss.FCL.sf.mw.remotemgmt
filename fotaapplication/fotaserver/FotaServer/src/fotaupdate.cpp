@@ -1652,7 +1652,7 @@ TScheduleEntryInfo2 CFotaUpdate::FindScheduleL( const TBool aDelete )
     TScheduleEntryInfo2                     ret;
     TInt                                    err;    
     RScheduler                              sc;
-    TTime                                   t; 
+    
     TTsTime                                 time;
     TSchedulerItemRef                       scitem; 
     CArrayFixFlat<TSchedulerItemRef>*     	aSchRefArray = new CArrayFixFlat <TSchedulerItemRef>(5);

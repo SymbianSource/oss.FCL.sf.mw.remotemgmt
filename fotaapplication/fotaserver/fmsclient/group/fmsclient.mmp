@@ -43,5 +43,3 @@ LIBRARY 	  bafl.lib
 LIBRARY 	  efsrv.lib 
 LIBRARY		  centralrepository.lib
 LIBRARY       flogger.lib
-
-SMPSAFE

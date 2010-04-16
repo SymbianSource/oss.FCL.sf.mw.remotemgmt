@@ -186,10 +186,10 @@ EXPORT_C CDiagTestPluginBase::~CDiagTestPluginBase()
         TRAPD( err, StopAndCleanupL() );
         if ( err != KErrNone )
             {
-            LOGSTRING3( "CDiagTestPluginBase::~CDiagTestPluginBase(). "
+            /*LOGSTRING3( "CDiagTestPluginBase::~CDiagTestPluginBase(). "
                 L"StopAndCleaupL() failed Uid = 0x%08x , err = %d",
                 Uid(),
-                err );
+                err );*/
             }
 
         // Call DestroyedImplementation only if it was set.

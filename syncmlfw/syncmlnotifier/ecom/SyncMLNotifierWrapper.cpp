@@ -129,7 +129,7 @@ CArrayPtr<MEikSrvNotifierBase2>* DoCreateNotifierArrayL()
 // NotifierArray
 // Lib main entry point: Creates a notifiers array.
 // -----------------------------------------------------------------------------
-CArrayPtr<MEikSrvNotifierBase2>* NotifierArray()
+EXPORT_C CArrayPtr<MEikSrvNotifierBase2>* NotifierArray()
     {
     FLOG(_L("[SmlNotif]\t NotifierArray()"));
     CArrayPtr<MEikSrvNotifierBase2>* array = 0;

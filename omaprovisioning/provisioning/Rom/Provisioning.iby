@@ -37,6 +37,7 @@ ECOM_PLUGIN(WPWAPAdapter.dll,101F84DC.rsc)
 // Streaming Adapter
 ECOM_PLUGIN(WPStreamingAdapter.dll,101F85CB.rsc)
 
+
 //Accesspoint adapter
 ECOM_PLUGIN(WPAPAdapter.dll, WPAPAdapter.rsc)
 

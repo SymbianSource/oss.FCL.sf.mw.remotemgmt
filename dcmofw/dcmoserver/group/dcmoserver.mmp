@@ -48,5 +48,3 @@ LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib
 LIBRARY				aknnotify.lib eiksrv.lib
 LIBRARY    		flogger.lib
-
-SMPSAFE

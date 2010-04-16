@@ -27,6 +27,7 @@ TARGETPATH	SHARED_LIB_DIR
 
 TARGET          nsmldshostserver.dll
 TARGETTYPE      dll
+UID             0x1000008d 0x2002DCFF
 
 #if defined(ARMCC)
 DEFFILE		./def/eabidshostserver

@@ -1014,7 +1014,10 @@ void CPolicyParser::OnError(TInt /*aErrorCode*/)
 	{
    	// we need to leave here because Policy Engine traps parser errors, even though
    	// this function does not have L in it's name.
-   	HandleErrorL( ParserErrors::SyntaxError );
+   	//HandleErrorL( ParserErrors::SyntaxError );
+   	
+   	// Ignoreing the leave code due to RVCT4.0
+   	TRAP_IGNORE(HandleErrorL( ParserErrors::SyntaxError ));
 	}
 
 // -----------------------------------------------------------------------------

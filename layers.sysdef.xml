@@ -9,6 +9,9 @@
       <module name="remotemgmt">
         <unit unitID="spdo.remotemgmt" mrp="" bldFile="&layer_real_source_path;/group" name="remotemgmt" />
       </module>
+      <module name="policyenginepolicies"> 
+     	<unit unitID="spdo.remotemgmt.policyenginepolicies" mrp="" bldFile="&layer_real_source_path;/policymanagement/policyengine/policyenginepolicies/group" filter="!dfs_build"  name="spdo_remotemgmt_policyenginepolicies"  />
+     </module>
     </layer>
   </systemModel>
 </SystemDefinition>

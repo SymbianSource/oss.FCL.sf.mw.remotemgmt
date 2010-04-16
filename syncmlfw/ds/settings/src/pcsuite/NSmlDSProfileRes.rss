@@ -117,6 +117,48 @@ RESOURCE PROFILES nsml_ds_profiles
 			},
 		PROFILE
 			{
+			profiledisplayname="O3sis";
+			//username="";
+			//password="";
+			serverurl="http://wdev.o3sis.com:80/syncml.osp";
+			serverid="O3SIS SyncML Server";
+			profilehidden=0;
+			transportid=0x101F99F0;
+			deleteallowed=1;
+			visibility="nrhrnnrrhnrnnrnrnn";
+			protocolversion=ESmlVersion1_2;
+			serveralertedaction = ESmlEnableSync;		
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";		
+			contenttypes=
+				{
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDD; // Contacts
+					clientdatasource = "C:Contacts.cdb";
+					serverdatasource = "contacts";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDE; // Calendar
+					clientdatasource = "Calendar";
+					serverdatasource = "calendar";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					}
+				};
+			},
+		PROFILE
+			{
 			profiledisplayname="PC Suite Data Sync";
 			//username="xxx";
 			//password="xxx";

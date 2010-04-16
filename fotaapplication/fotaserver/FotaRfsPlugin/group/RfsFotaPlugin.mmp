@@ -47,5 +47,3 @@ MW_LAYER_SYSTEMINCLUDE
 LIBRARY euser.lib       // Base library
 LIBRARY ecom.lib	    // ECom library
 LIBRARY flogger.lib
-
-SMPSAFE

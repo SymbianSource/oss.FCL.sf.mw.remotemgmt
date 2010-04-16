@@ -175,7 +175,10 @@ CSession2* CNSmlDmCallbackServer::NewSessionL( const TVersion& aVersion,
             ) 
 		{
 		_LIT_SECURITY_POLICY_S0 ( mySidPolicy, KNSmlSOSServerSecureID );
-    	mySidPolicy().CheckPolicy ( aMessage );
+    	if(!mySidPolicy().CheckPolicy ( aMessage ))
+    	{
+				User::Leave(KErrAccessDenied);
+			}
 		}
 
 	return CNSmlDmCallbackSession::NewL( (CNSmlDmCallbackServer&)*this ); 

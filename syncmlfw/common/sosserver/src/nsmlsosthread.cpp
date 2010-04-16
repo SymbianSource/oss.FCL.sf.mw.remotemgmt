@@ -19,7 +19,7 @@
 #include <DevManInternalCRKeys.h>
 #include <centralrepository.h>
 #include <nsmldebug.h>
-
+#include "PnpLogger.h"
 #include "nsmlsosthread.h"
 #include <DataSyncInternalPSKeys.h>
 
@@ -27,6 +27,26 @@
 #include <centralrepository.h>
 #include "PMUtilInternalCRKeys.h"
 #include <featmgr.h>
+#include <e32property.h>
+#include <DevManInternalCRKeys.h>
+
+
+enum TSyncmlHbNotifierKeys 
+		{
+
+     EHbSOSNotifierKeyStatus = 11, // status set will complete the client subscribe
+     EHbSOSNotifierKeyStatusReturn = 12, // Return the content of actual status value accepted from UI
+     
+     EHbDMSyncNotifierKeyStatus = 13,
+     EHbDMSyncNotifierKeyStatusReturn = 14
+		};
+		
+ TUid sosserverpsuid =
+           {
+           0x101F99FB
+           };
+    	  
+  
 // --------------------------------------------------------------------------
 // EXPORT_C TInt ThreadFunction( TAny* )
 // --------------------------------------------------------------------------
@@ -70,7 +90,7 @@ TInt ThreadFunction( TAny* aStarted )
 			{
 			//if not a silent mode behave as in a normal DM session
 			threadEngine->ForcedCertificateCheckL( EFalse );
-			threadEngine->VerifyJobFromNotifierL();		
+			threadEngine->VerifyJobFromNotifierL(ETrue);		
 			}
 		}
 	else
@@ -446,19 +466,24 @@ void CNSmlThreadEngine::StartDSSessionL()
 // Launches notifier and waits for 
 // --------------------------------------------------------------------------
 //
-TInt CNSmlThreadEngine::VerifyJobFromNotifierL()
-	{
-	_DBG_FILE("CNSmlThreadEngine::VerifyJobFromNotifierL() : Begin");
-	iNotifierObserver = new (ELeave) CNSmlNotifierObserver(iStatus, iThreadParams);
-	SetActive();
-	
-	TSyncMLAppLaunchNotifParams params;
-	params.iSessionType = ( iThreadParams.iCurrentJob.UsageType() == ESmlDataSync ) ? ESyncMLSyncSession : ESyncMLMgmtSession;
-	params.iJobId = iThreadParams.iCurrentJob.JobId();
-	params.iProfileId = iThreadParams.iCurrentJob.ProfileId();
-    params.iUimode = iThreadParams.iCurrentJob.iUimode;	
-	iNotifierObserver->ConnectToNotifierL( params );
-	_DBG_FILE("CNSmlThreadEngine::VerifyJobFromNotifierL() : End");
+TInt CNSmlThreadEngine::VerifyJobFromNotifierL(TBool aServerInitiated)
+    {
+    LOGSTRING("CNSmlThreadEngine::VerifyJobFromNotifierL()");
+    LOGSTRING("CNSmlThreadEngine::VerifyJobFromNotifierL() : Begin");
+    LOGSTRING2("VerifyJobFromNotifierL before iCallerStatus == iStatus in Threadengine %d", iStatus.Int());
+    iNotifierObserver = new (ELeave) CNSmlNotifierObserver(iStatus,
+            iThreadParams);
+    SetActive();
+    LOGSTRING2("VerifyJobFromNotifierL before iCallerStatus == iStatus in Threadengine %d after setactive", iStatus.Int());
+    TSyncMLAppLaunchNotifParams params;
+    params.iSessionType = (iThreadParams.iCurrentJob.UsageType()
+            == ESmlDataSync) ? ESyncMLSyncSession : ESyncMLMgmtSession;
+    params.iJobId = iThreadParams.iCurrentJob.JobId();
+    params.iProfileId = iThreadParams.iCurrentJob.ProfileId();
+    params.iUimode = iThreadParams.iCurrentJob.iUimode;
+    iNotifierObserver->ConnectToNotifierL(params);
+    LOGSTRING2("iCallerStatus in iNotifierObserver->ConnectToNotifierL( params ); %d", iStatus.Int());
+    LOGSTRING("CNSmlThreadEngine::VerifyJobFromNotifierL() : End");
     return KErrNone;
 	}
 
@@ -757,11 +782,20 @@ void CNSmlThreadObserver::RunL()
 // Constructor
 // --------------------------------------------------------------------------
 //	
-CNSmlNotifierObserver::CNSmlNotifierObserver(TRequestStatus& aStatus, CNSmlThreadParams& aParams)
-: CActive(0), iCallerStatus(aStatus), iThreadParams(aParams)
-	{
-	CActiveScheduler::Add(this);
-	}
+CNSmlNotifierObserver::CNSmlNotifierObserver(TRequestStatus& aStatus,
+        CNSmlThreadParams& aParams) :
+    CActive(0), iCallerStatus(aStatus), iThreadParams(aParams)
+    {
+    LOGSTRING2("iCallerStatus in RunL %d", iCallerStatus.Int());
+    // If the current job is DM job then proceed to use Hb Notifiers
+    
+    if(aParams.iCurrentJob.UsageType() == ESmlDevMan)
+        {    
+        TRAP_IGNORE(iHbSyncmlNotifierEnabled = IsHbSyncmlNotifierEnabledL());
+        }
+    
+    CActiveScheduler::Add(this);
+    }
 
 // --------------------------------------------------------------------------
 // CNSmlNotifierObserver::~CNSmlNotifierObserver()
@@ -769,17 +803,26 @@ CNSmlNotifierObserver::CNSmlNotifierObserver(TRequestStatus& aStatus, CNSmlThrea
 // --------------------------------------------------------------------------
 //	
 CNSmlNotifierObserver::~CNSmlNotifierObserver()
-	{
-	
-	// StartNotifier called to avoid Notifier server panic, if 
-	// notifier does not exist anymore.
-	TBuf8<1> dummy;	
-	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
-	
-	iNotifier.CancelNotifier( KUidNotifier );
-	iNotifier.Close();
-	Cancel();
-	}
+    {
+    LOGSTRING("~CNSmlNotifierObserver");
+    // StartNotifier called to avoid Notifier server panic, if 
+    // notifier does not exist anymore.
+    TBuf8<1> dummy;
+
+    if (!iHbSyncmlNotifierEnabled)
+        {
+        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+
+        iNotifier.CancelNotifier(KUidNotifier);
+        iNotifier.Close();
+        }
+    else
+        {
+        iProperty.Close();
+        }
+
+    Cancel();
+    }
 
 // --------------------------------------------------------------------------
 // CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParams& aParam )
@@ -803,14 +846,28 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
         {
         iNotifierTimeOut.LaunchNotifierTimer( this );
         }
-        
-    TInt err = iNotifier.Connect();
-    if ( err == KErrNone )
+
+    TInt err = KErrNone;
+
+    if (!iHbSyncmlNotifierEnabled) //Syncml notifier
+        err = iNotifier.Connect();
+
+    if (err == KErrNone)
         {
-        iNotifier.StartNotifierAndGetResponse( iStatus, KUidNotifier, data, iResBuf );                
+        if (!iHbSyncmlNotifierEnabled)
+            {
+            iNotifier.StartNotifierAndGetResponse(iStatus, KUidNotifier,
+                    data, iResBuf);
+            LOGSTRING2( "CNSmlNotifierObserver::ConnectToNotifierL %d after connect, StartNotifierAndGetResponse and after setactive" , iStatus.Int());
+            }
+        else
+            {
+            HbNotifierObserverL(aParam);
+            }
         }
     else
         {
+        LOGSTRING("Stop job error connecting to notifier");
         // Stop job. Error connecting to notifier.
         TRequestStatus* sStatus = &iStatus;
 		User::RequestComplete( sStatus, err );            
@@ -819,20 +876,153 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
 	}
 
 // --------------------------------------------------------------------------
+// CNSmlNotifierObserver::IsHbNotifierEnabled()
+// Launch Hb Notifier Process
+// --------------------------------------------------------------------------
+//
+TBool CNSmlNotifierObserver::IsHbSyncmlNotifierEnabledL()
+    {
+    CRepository * rep =
+            CRepository::NewLC(KCRUidDeviceManagementInternalKeys);
+
+    TInt notifierenabled = KErrNone;
+
+    TInt err = rep->Get(KDevManEnableHbNotifier, notifierenabled);
+
+    CleanupStack::PopAndDestroy(rep);
+
+    if (err == KErrNone && notifierenabled)
+        {
+        return ETrue;
+        }
+    else
+        {
+        return EFalse;
+        }
+
+    }
+
+// --------------------------------------------------------------------------
+// CNSmlNotifierObserver::HbNotifierObserverL()
+// Launch Hb Notifier Process
+// --------------------------------------------------------------------------
+//
+void CNSmlNotifierObserver::HbNotifierObserverL(const TSyncMLAppLaunchNotifParams& aParam)
+    {
+
+    LOGSTRING2("iCallerStatus before HbNotifierObserverL creation %d", iCallerStatus.Int());
+    
+    _LIT(KHbNotifier,"com.nokia.hb.devicemanagementdialog/1.0");
+    
+    _LIT(KNotifierId, "aasyncmlfw");
+    _LIT(KProfileId, "profileid");
+    _LIT(KUImode, "uimode");
+    _LIT(KServerdisplayname, "serverdisplayname");
+  
+    CHbSymbianVariantMap* varMap = CHbSymbianVariantMap::NewL();
+    CleanupStack::PushL(varMap);
+    
+    HBufC* notifierid = HBufC::NewL(10);
+    CleanupStack::PushL(notifierid);
+    *notifierid =KNotifierId;
+    
+   
+    HBufC* profileid = HBufC::NewL(10);
+    CleanupStack::PushL(profileid);
+    *profileid = KProfileId;
+    
+    HBufC* uimode = HBufC::NewL(10);
+    CleanupStack::PushL(uimode);
+    *uimode = KUImode;
+    
+    HBufC* serverdisplay = HBufC::NewL(20);
+    CleanupStack::PushL(serverdisplay);
+    *serverdisplay = KServerdisplayname;
+        
+    TBuf<256> servername;
+    
+    CNSmlDMSettings* settings = CNSmlDMSettings::NewLC();
+    CNSmlDMProfile* prof = settings->ProfileL(
+            aParam.iProfileId);
+    CleanupStack::PushL(prof);
+    
+    servername = prof->StrValue(EDMProfileDisplayName);
+    
+    CleanupStack::PopAndDestroy(2);
+               
+    TInt id =1000000;
+
+    CHbSymbianVariant* notifieridvar = CHbSymbianVariant::NewL(&id,
+                          CHbSymbianVariant::EInt);
+    
+    
+    CHbSymbianVariant* infoprofileid = CHbSymbianVariant::NewL(&aParam.iProfileId,
+            CHbSymbianVariant::EInt);
+    
+    //CleanupStack::PushL(infoprofileid);
+    
+    CHbSymbianVariant* infouimode = CHbSymbianVariant::NewL(&aParam.iUimode,
+                CHbSymbianVariant::EInt);
+    
+    CHbSymbianVariant* serverdisplayname = CHbSymbianVariant::NewL(&servername,
+                CHbSymbianVariant::EDes);
+    //CleanupStack::PushL(infouimode);
+    
+    varMap->Add(*notifierid, notifieridvar);
+    varMap->Add(*profileid, infoprofileid); // takes ownership
+    varMap->Add(*uimode, infouimode);
+    varMap->Add(*serverdisplay, serverdisplayname);
+
+    /*subscribe key value*/
+    TInt err = RProperty::Define(sosserverpsuid, EHbSOSNotifierKeyStatus, RProperty::EInt);
+    	
+    err = RProperty::Define(sosserverpsuid, EHbSOSNotifierKeyStatusReturn, RProperty::EInt);
+
+    err = iProperty.Attach(sosserverpsuid, EHbSOSNotifierKeyStatus);
+
+    iProperty.Subscribe(iStatus);
+      
+    
+    
+    iDevDialog = CHbDeviceDialogSymbian::NewL();
+    iDevDialog->Show(KHbNotifier, *varMap);
+
+    CleanupStack::PopAndDestroy(5);
+
+   
+
+    LOGSTRING2("CNSmlNotifierObserver hb notifier %d before subscribe", iStatus.Int());
+
+  
+  
+    LOGSTRING2("CNSmlNotifierObserver hb notifier %d after subscribe", iStatus.Int());
+
+    LOGSTRING2("iCallerStatus before HbNotifierObserverL creation %d", iCallerStatus.Int());
+    }
+
+// --------------------------------------------------------------------------
 // CNSmlNotifierObserver::NotifierTimeOut()
 // Starts notifier time out timer
 // --------------------------------------------------------------------------
 //
 void CNSmlNotifierObserver::NotifierTimeOut()
-	{
-	iTimeOut = ETrue;
-	
-	// StartNotifier called to avoid Notifier server panic, if 
-	// notifier does not exist anymore.
-	TBuf8<1> dummy;
-	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
-	iNotifier.CancelNotifier( KUidNotifier );
-	}
+    {
+    LOGSTRING("CNSmlNotifierObserver NotifierTimeOut ");
+    iTimeOut = ETrue;
+
+    // StartNotifier called to avoid Notifier server panic, if 
+    // notifier does not exist anymore.
+    if(!iHbSyncmlNotifierEnabled)
+        {
+        TBuf8<1> dummy;
+        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+        iNotifier.CancelNotifier( KUidNotifier );
+        }
+    else
+        {
+        iProperty.Close();
+        }
+    }
 
 // --------------------------------------------------------------------------
 // CNSmlNotifierObserver::DoCancel()
@@ -849,8 +1039,29 @@ void CNSmlNotifierObserver::DoCancel()
 // --------------------------------------------------------------------------
 //	
 void CNSmlNotifierObserver::RunL()
-	{
-	    
+    {
+
+    if (iDevDialog && iHbSyncmlNotifierEnabled)
+        {
+
+        
+    TInt status = KErrNone;
+  
+          TInt err  =  RProperty::Get(sosserverpsuid,EHbSOSNotifierKeyStatusReturn , status);
+
+        LOGSTRING2("status is %d", status);
+
+         LOGSTRING2("err of ps key is %d", err);
+
+       if(status == KErrCancel)
+		iStatus = KErrCancel;
+
+        iDevDialog->Cancel();
+        delete iDevDialog;
+        }
+
+    LOGSTRING("CNSmlNotifierObserver RunL start");
+
     TInt ret = iStatus.Int();
     if ( ret == KErrCancel && iTimeOut )
     	{

@@ -31,6 +31,11 @@ SYSTEMINCLUDE   /epoc32/include/libc
 SYSTEMINCLUDE   /epoc32/include/ecom 
 SYSTEMINCLUDE   /epoc32/include/syncml
 SYSTEMINCLUDE   /epoc32/include/connect
+
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbtools
+   
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE		/epoc32/include/platform/mw/connect
 #endif
@@ -86,6 +91,6 @@ LIBRARY		nsmlagentlog.lib
 LIBRARY		policyengine.lib
 LIBRARY		abclient.lib
 LIBRARY     centralrepository.lib //tarm
-LIBRARY                 featmgr.lib
+LIBRARY                 featmgr.lib flogger.lib HbWidgets.lib HbCore.lib
 
 SMPSAFE

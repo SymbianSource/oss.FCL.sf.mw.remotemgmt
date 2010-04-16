@@ -177,9 +177,7 @@ TInt CSCPParamDB :: GetValueForParameterL(TInt aParamID, TInt32& aValue, TInt32&
 
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
-    if(EFalse == lDBView.FirstL()) {
-        return KErrNotFound;
-    }
+    lDBView.FirstL();
 
     TInt lRowCount = lDBView.CountL();
 
@@ -214,9 +212,8 @@ TInt CSCPParamDB :: GetValuesForParameterL(TInt aParamID, RPointerArray <HBufC>&
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
     
-    if(EFalse == lDBView.FirstL()) {
-        return KErrNotFound;
-    }
+    lDBView.FirstL();
+
 
     TInt size(0);
     TInt lRowCount = lDBView.CountL();
@@ -333,7 +330,6 @@ TInt CSCPParamDB :: DropValuesL(TInt aParamID, RPointerArray <HBufC>& aParamValu
         return KErrNone;  
     }
     
-    TInt lAffRows(0);
     HBufC* lDelQuery(NULL);
     
     if(iParameterDB.InTransaction()) {
@@ -353,7 +349,7 @@ TInt CSCPParamDB :: DropValuesL(TInt aParamID, RPointerArray <HBufC>& aParamValu
             lDelQuery->Des().Format(KDeleteWhereParamIDValueDesAppID, aParamID, &(aParamValues[i])->Des(), aApp);
         }
 
-        lAffRows = iParameterDB.Execute(*lDelQuery);
+        TInt lAffRows = iParameterDB.Execute(*lDelQuery);
         _SCPDB_LOG(_L("[CSCPParamDB]-> INFO: Total rows affected=%d"), lAffRows);
         CleanupStack :: PopAndDestroy();
     }
@@ -419,7 +415,6 @@ TInt CSCPParamDB :: ListParamsUsedByAppL(RArray <TInt>& aParamIds, const TInt32 
 TInt CSCPParamDB :: DropValuesL(TInt aParamID, const TInt32 aApp) {
     _SCPDB_LOG(_L("[CSCPParamDB]-> DropValuesL() >>>"));
     
-    TInt lAffRows(0);
     HBufC* lDelQuery(NULL);
     
     if(iParameterDB.InTransaction()) {
@@ -439,7 +434,7 @@ TInt CSCPParamDB :: DropValuesL(TInt aParamID, const TInt32 aApp) {
     }
     _SCPDB_LOG(_L("[CSCPParamDB]-> SQL Query: %S"), &lDelQuery->Des());
 
-    lAffRows = iParameterDB.Execute(*lDelQuery);
+    TInt lAffRows = iParameterDB.Execute(*lDelQuery);
     _SCPDB_LOG(_L("[CSCPParamDB]-> INFO: Total rows affected=%d"), lAffRows);
     CleanupStack :: PopAndDestroy();
     

@@ -37,8 +37,7 @@
 #include <aknnotewrappers.h>
 #include <DevManInternalCRKeys.h>
 #include "nsmlconstantdefs.h"
-#include "CPreSyncPlugin.h"
-#include "SyncMLPreSyncPluginInterface.h"
+
 
 // CONSTANTS
 _LIT( KSmlNPanicCategory, "SyncMLNotifier");
@@ -373,52 +372,6 @@ void CSyncMLAppLaunchNotifier::ReadRepositoryL(TInt aKey, TInt& aValue)
     CleanupStack::PopAndDestroy(rep);
     }
 
-void CSyncMLAppLaunchNotifier::ShowRoamingMessageL(TInt keypress, TUint profileId)
-    {
-    TBool roaming = EFalse;
-    
-    if( (keypress == EAknSoftkeyYes || keypress == EAknSoftkeyOk) &&  (iSmlProtocol == ESyncMLSyncSession) )
-       {
-       TBool bCanSync = ETrue;
-       
-       TInt aValue = 0;
-       ReadRepositoryL(KNSmlDSRoamingFeature, aValue);
-       IsRoamingL(roaming);
-       if(( roaming ) && (aValue == EAspRoamingSettingFeatureEnabled))
-           {                
-              if (iBearerType == EAspBearerInternet)           
-               {
-               CPreSyncPluginInterface* syncPluginInterface = CPreSyncPluginInterface::NewL();
-               CPreSyncPlugin* syncPlugin = 
-                   syncPluginInterface->InstantiateRoamingPluginLC(profileId);
-
-               // Turn lights on and deactivate apps -key
-               TurnLightsOn();  
-               SuppressAppSwitching( ETrue );
-
-               if(syncPlugin->IsSupported())
-                   {
-                   bCanSync = syncPlugin->CanSyncL();
-                   }
-
-               SuppressAppSwitching( EFalse );
-               
-               CleanupStack::PopAndDestroy(syncPlugin);
-               //syncPluginInterface->UnloadPlugIns();
-               delete  syncPluginInterface;   
-
-               if(!bCanSync)
-                   {
-                   iNeedToCompleteMessage=EFalse;
-                   iReplySlot = NULL;
-                   iMessage.Complete( KErrCancel );
-                   return;
-                   }
-                   
-               }                       
-           }            
-       }
-    }
 // -----------------------------------------------------------------------------
 // CSyncMLAppLaunchNotifier::RunL
 // Ask user response and return it to caller.
@@ -532,8 +485,6 @@ void CSyncMLAppLaunchNotifier::RunL()
 
     CleanupStack::PopAndDestroy( stringholder );
     
-    ShowRoamingMessageL(keypress, param.iProfileId);
-
     if ( iNeedToCompleteMessage ) // Notifier is not cancelled
         {
         	HandleCompleteMessageL(keypress, silent, SanSupport, Timeout, CustomNotes);

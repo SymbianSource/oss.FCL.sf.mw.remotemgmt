@@ -21,7 +21,7 @@
 #include    <CWPCharacteristic.h>
 #include    <CWPParameter.h>
 #include    <wpmbxnbradapterresource.rsg>
-#include    <vmnumber.h>
+//#include    <vmnumber.h>
 #include    <commonphoneparser.h>
 #include 	<voicemailboxdomaincrkeys.h>
 #include 	<centralrepository.h>
@@ -156,21 +156,21 @@ void CMbxNbrAdapter::SaveL( TInt aItem )
     __ASSERT_DEBUG( iSettings.Count() > aItem, User::Leave( KErrCorrupt ) ); 
     __ASSERT_DEBUG( aItem >= 0, User::Leave( KErrCorrupt ) ); 
    
-    RVmbxNumber model;
-    User::LeaveIfError( model.Open() );
-    CleanupClosePushL( model );  
+    //RVmbxNumber model;
+    //User::LeaveIfError( model.Open() );
+    //CleanupClosePushL( model );  
        
     TInt err( KErrNone );    
     switch( iSettings[aItem].iMailboxType )
         {
         case ECSVoiceMailbox:
-            err = model.SaveVmbxNumber( iSettings[aItem].iMailboxNumber, 
-                                        EAlsActiveLineEntry );
+            //err = model.SaveVmbxNumber( iSettings[aItem].iMailboxNumber, 
+            //                            EAlsActiveLineEntry );
             break;
         case ECSVideoMailbox:
         FLOG( _L( "[Provisioning] CMbxNbrAdapter::SaveL:case ECSVideoMailbox" ) );
-            err = model.SaveVideoMbxNumber( iSettings[aItem].iMailboxNumber, 
-                                            EAlsActiveLineEntry );        
+            //err = model.SaveVideoMbxNumber( iSettings[aItem].iMailboxNumber, 
+            //                                EAlsActiveLineEntry );        
             if ( iSettings[aItem].iIsVideosupport )
             {
             CRepository* cenrep = CRepository::NewL( KCRUidVideoMailbox );

@@ -316,21 +316,10 @@ void CWPSaver::HandleFavouritesDbEventL( RDbNotifier::TEvent /*aEvent*/ )
         }
     }
 
-// ----------------------------------------------------------------------------
-// CWPSaver::GetNumAccessDenied
-// ----------------------------------------------------------------------------
-//
-    
 TInt CWPSaver::GetNumAccessDenied()
     {
     return iNumAccessDenied;
     }	
-
-// ----------------------------------------------------------------------------
-// CWPSaver::SetNumAccessDenied
-// ----------------------------------------------------------------------------
-//
-        
 void CWPSaver::SetNumAccessDenied(TInt aNumAccessDenied )
     {
     iNumAccessDenied = aNumAccessDenied;

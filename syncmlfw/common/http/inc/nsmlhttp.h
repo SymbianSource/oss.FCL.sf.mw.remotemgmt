@@ -41,10 +41,6 @@
 #include "nsmldialiap.h"
 
 #include <rconnmon.h>
-#include <centralrepository.h>
-
-//Central repository key for varying deflate feature
-const TInt KNsmlDsDeflateSupport = 0xA ;
 
 // FORWARD DECLARATION
 class CNSmlXptShutdownTimer;
@@ -174,7 +170,6 @@ class CNSmlHTTP : public CActive, public MHTTPDataSupplier, public MHTTPAuthenti
 		TServerContentEncoding iServerContentEncoding;
 		TServerContentEncoding iServerAcceptEncoding;
 		TInt iMaxMsgSize;
-		TBool iDeflateFlag;
 
 	private:
 		// methods inherited from MHTTPDataSupplier

@@ -635,7 +635,7 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
         {
         // The configuration has already been checked, exit
         Dprint( (_L("CSCPServer::ValidateConfigurationL(): Configuration is non-default.") ));
-        User::Leave( KErrNone );
+        return;
         }
     else if ( aMode == KSCPInitial )
         {
