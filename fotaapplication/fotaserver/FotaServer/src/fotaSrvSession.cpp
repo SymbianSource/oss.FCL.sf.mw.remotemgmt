@@ -283,7 +283,7 @@ void CFotaSrvSession::ServiceL(const RMessage2& aMessage)
 
 	case EFotaTryResumeDownload:
 		{
-		if (client == EOMADMAppUi )
+		if ( (client == EOMADMAppUi) || (client == ESoftwareChecker) )
 			{
 			FotaServer()->TryResumeDownloadL(ETrue); // user initiated
 			aMessage.Complete( KErrNone );				
@@ -339,7 +339,7 @@ void CFotaSrvSession::ServiceL(const RMessage2& aMessage)
 		state = FotaServer()->GetStateL(pkgid);
 		//Protecting state 25. If any client other than DM UI queries for state, 25 should not be sent and 
 		//20 will be sent instead.
-		if (client != EOMADMAppUi && state.iState == RFotaEngineSession::EDownloadProgressingWithResume)
+		if ( (client != EOMADMAppUi && client != ESoftwareChecker) && state.iState == RFotaEngineSession::EDownloadProgressingWithResume)
 			state.iState = RFotaEngineSession::EDownloadProgressing;
 		FLOG(_L( "CFotaSrvSession::ServiceL GETSTATE << %d" )
 				,state.iState);

@@ -18,7 +18,7 @@
 
 #if defined(__S60_)
         // To get the OSEXT_LAYER_SYSTEMINCLUDE-definition
-        #include <domain/osextensions/platform_paths.hrh>
+        #include <platform_paths.hrh>
 #endif
 #include <data_caging_paths.hrh>
 

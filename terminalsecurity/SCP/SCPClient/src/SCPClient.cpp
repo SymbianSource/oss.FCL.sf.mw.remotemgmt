@@ -186,10 +186,13 @@ TInt RunDialogL( TDes& aReplyBuf,
                 TInt aMaxLen,
                 TUint aResId = 0,
                 TDesC* aPrompt = NULL,
-                TBool aECSSupport = EFalse         
+                TBool aECSSupport = EFalse,
+                CSCPQueryDialog :: TKeypadContext aContext = CSCPQueryDialog :: EContextSensitive
               )
     {
     Dprint(_L("[RSCPClient]-> RunDialogL() >>> "));
+    Dprint(_L("[RSCPClient]-> RunDialogL() aContext = %d "), aContext);
+    
     FeatureManager::InitializeLibL();
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 	{
@@ -207,7 +210,8 @@ TInt RunDialogL( TDes& aReplyBuf,
         aButtonsShown,
         aMinLen,
         aMaxLen,
-        aECSSupport
+        aECSSupport,
+        aContext
         ); 
         
     CleanupStack::PushL( dialog );            
@@ -820,6 +824,7 @@ TInt RSCPClient::GetNewCodeAndChange( TDes& aOldCode,
                                       HBufC** aNewCodePptr/* = NULL*/)
     {
     
+    Dprint(_L("[RSCPClient]-> GetNewCodeAndChange() >>>"));
     
     if(!isFlagEnabled)
 	{
@@ -893,19 +898,25 @@ TInt RSCPClient::GetNewCodeAndChange( TDes& aOldCode,
                                  maxLen,
                                  R_SECUI_TEXT_ENTER_NEW_SEC_CODE,
                                  NULL,
-                                 ecSupport ) );
+                                 ecSupport,
+                                 CSCPQueryDialog :: EAlphaNumeric) );
     
         if ( ( ret ) && ( ret != ESecUiEmergencyCall ) && ( err == KErrNone ) )
-            {        
+            {
             verifyCodeBuffer.Zero();
+            TChar ch = static_cast<TChar>(newCodeBuffer[0]);
             
+            CSCPQueryDialog :: TKeypadContext lKPContext = 
+                    (ch.IsDigit() ? CSCPQueryDialog :: ENumeric : CSCPQueryDialog :: EAlphaNumeric);
+                    
             TRAP( err, ret = RunDialogL( verifyCodeBuffer, 
                                  bConfig, 
                                  minLen,
                                  maxLen,
                                  R_SECUI_TEXT_VERIFY_NEW_SEC_CODE,
                                  NULL,
-                                 ecSupport ) );                             
+                                 ecSupport,
+                                 lKPContext));                             
             }
 
         if ( ( !ret ) || ( err != KErrNone ) || ( ret == ESecUiEmergencyCall ) )
@@ -995,6 +1006,7 @@ TInt RSCPClient::GetNewCodeAndChange( TDes& aOldCode,
     delete verifyCodeHBuf;
     delete newCodeHBuf;
         
+    Dprint(_L("[RSCPClient]-> GetNewCodeAndChange() <<<"));
     return err;        
     }
        

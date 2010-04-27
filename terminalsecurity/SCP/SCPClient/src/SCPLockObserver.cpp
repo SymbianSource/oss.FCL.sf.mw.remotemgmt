@@ -24,7 +24,6 @@
 #include "SCPQueryDialog.h"
 #include "SCPDebug.h"
 
-
 // ================= MEMBER FUNCTIONS =======================
 //
 // ----------------------------------------------------------
@@ -55,9 +54,9 @@ CSCPLockObserver* CSCPLockObserver::NewL(CSCPQueryDialog* aDialog, TInt aType)
 CSCPLockObserver::~CSCPLockObserver()
     {
     
-    Dprint(_L("CSCPLockObserver::~CSCPLockObserver"));
-    
+    Dprint(_L("CSCPLockObserver::~CSCPLockObserver >>>"));
     Cancel();
+    Dprint(_L("CSCPLockObserver::~CSCPLockObserver <<<"));
     }
 //
 // ----------------------------------------------------------
@@ -80,39 +79,27 @@ TInt CSCPLockObserver::Start()
         
     iStatus = KRequestPending;
     
-    switch(iType)
-        {
-            case ESecUiDeviceLockObserver:
-                
-                Dprint(_L("CSCPLockObserver::Start() Device Lock Observer"));
-                
-                iProperty.Attach(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus); 
-                break;
-#if 0          
-            case ESecUiRequestStateObserver:
-                    
-                    Dprint(_L("CSCPLockObserver::Start() Request State Observer"));
-                    
-                    iProperty.Attach(KPSUidSecurityUIs, KSecurityUIsQueryRequestCancel); 
-                break;
-#endif
-            case ESecUiCallStateObserver:
-                
-                Dprint(_L("CSCPLockObserver::Start() Call State Observer"));
-                
-                iProperty.Attach(KPSUidCtsyCallInformation, KCTsyCallState); 
-                break;
-
-            default:
-                break;
+    switch(iType) {
+        case ESecUiDeviceLockObserver:
+            
+            Dprint(_L("CSCPLockObserver::Start() Device Lock Observer"));
+            
+            iProperty.Attach(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus); 
+            break;
+        case ESecUiCallStateObserver: {
+            Dprint(_L("CSCPLockObserver::Start() Call State Observer"));                
+            iProperty.Attach(KPSUidCtsyCallInformation, KCTsyCallState);
         }
+        break;
+
+        default:
+            break;
+    }
     
     iProperty.Subscribe(iStatus);
-    SetActive();
     iSubscribedToEvent = ETrue;
-    
-    Dprint(_L("CSCPLockObserver::Start() END"));
-    
+    SetActive();
+    Dprint(_L("CSCPLockObserver::Start() END"));    
     return KErrNone;
     }
 //
@@ -121,9 +108,30 @@ TInt CSCPLockObserver::Start()
 // C++ constructor
 // ----------------------------------------------------------
 // 
-CSCPLockObserver::CSCPLockObserver(CSCPQueryDialog* aDialog, TInt aType) : CActive(0), iDialog(aDialog), iSubscribedToEvent(EFalse), iType(aType)
-	{                            
-    }
+CSCPLockObserver :: CSCPLockObserver(CSCPQueryDialog* aDialog, TInt aType) : CActive(0),
+        iDialog(aDialog), iType(aType), 
+        iInformCallEnding(EFalse), iSubscribedToEvent(EFalse) {
+    
+    TInt lStatus;
+    RProperty :: Get(KPSUidCtsyCallInformation, KCTsyCallState, lStatus);
+    
+    switch(lStatus) {
+        default:
+        case EPSCTsyCallStateUninitialized:
+        case EPSCTsyCallStateNone:
+            iInformCallEnding = EFalse;
+            break;
+        case EPSCTsyCallStateDisconnecting:
+        case EPSCTsyCallStateAlerting:
+        case EPSCTsyCallStateHold:
+        case EPSCTsyCallStateRinging:
+        case EPSCTsyCallStateDialling:
+        case EPSCTsyCallStateAnswering:
+        case EPSCTsyCallStateConnected:
+            iInformCallEnding = ETrue;
+            break;
+    };
+}
 //
 // ----------------------------------------------------------
 // CSCPLockObserver::ConstructL()
@@ -149,64 +157,57 @@ void CSCPLockObserver::ConstructL()
 // Called by Active Scheduler
 // ----------------------------------------------------------
 // 
-void CSCPLockObserver::RunL()
-	{
-	
-    Dprint(_L("CSCPLockObserver::RunL() BEGIN"));
+void CSCPLockObserver :: RunL() {
+    Dprint(_L("[CSCPLockObserver]-> RunL() >>>"));
     
-    
-    switch(iType)
-        {
-            case ESecUiDeviceLockObserver:
-                 TInt autolockState;
-                 iProperty.Get( autolockState );
-                 if (autolockState > EAutolockOff)
-                    {
-                    
-                    Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Device Lock"));
-                    
-                	iDialog->TryCancelQueryL(ESecUiDeviceLocked);
-                	iSubscribedToEvent = EFalse;
-                    }
-                break;
-#if 0         
-            case ESecUiRequestStateObserver:
-                 TInt requestState;
-                 iProperty.Get( requestState );
-                 if(requestState == ESecurityUIsQueryRequestCanceled)
-                    {
-                     
-                    Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Req Canceled"));
-                    
-                	iDialog->TryCancelQueryL(EEikBidCancel);
-                	iSubscribedToEvent = EFalse;   
-                    }
-                break;
-#endif
-            case ESecUiCallStateObserver:
-                TInt callState;
-                iProperty.Get( callState );
-				 
-				 Dprint( (_L("CSCPLockObserver::RunL() callState : %d"),callState ));
-                if(callState == EPSCTsyCallStateDisconnecting)
-                    {
-                     
-                    Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Active Call"));
-                    
-                	iDialog->TryCancelQueryL(EPSCTsyCallStateDisconnecting);
-                	iSubscribedToEvent = EFalse;   
-                    }
-                break;
-
-            default:
-                break;
+    switch(iType) {
+        case ESecUiDeviceLockObserver:
+        TInt autolockState;
+        iProperty.Get(autolockState);
+        
+        if(autolockState > EAutolockOff) {            
+            Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Device Lock"));
+            iDialog->TryCancelQueryL(ESecUiDeviceLocked);
+            iSubscribedToEvent = EFalse;
         }
-
-   
-	
-    Dprint(_L("CSCPLockObserver::RunL() END"));
+        break;
+        case ESecUiCallStateObserver: {
+            TInt callState;
+            iProperty.Get(callState);
+            Dprint( (_L("CSCPLockObserver::RunL() callState before Start() : %d"), callState ));
+            Start();
+            
+            switch(callState) {
+                default:
+                    break;
+                case EPSCTsyCallStateNone:
+                    if(iInformCallEnding) {
+                        Dprint( (_L("CSCPLockObserver::RunL() Branched to EPSCTsyCallStateNone")));
+                        iDialog->TryCancelQueryL(EEnded);                    
+                        iInformCallEnding = EFalse;
+                    }
+                    break;
+                case EPSCTsyCallStateAlerting:
+                case EPSCTsyCallStateHold:
+                case EPSCTsyCallStateRinging:
+                case EPSCTsyCallStateDialling:
+                case EPSCTsyCallStateAnswering:
+                case EPSCTsyCallStateConnected: {
+                        Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Active Call"));                
+                        TRAPD(lErr, iDialog->TryCancelQueryL(EInProgress));
+                        Dprint( (_L("CSCPLockObserver::RunL() lErr : %d"), lErr ));                        
+                        iInformCallEnding = ETrue;
+                }
+                break;
+            };
+        }
+        break;
+        default:
+            break;
+    }
     
-	}
+    Dprint(_L("[CSCPLockObserver]-> RunL() <<<"));    
+}
 //
 // ----------------------------------------------------------
 // CSCPLockObserver::DoCancel()
@@ -219,7 +220,8 @@ void CSCPLockObserver::DoCancel()
     Dprint(_L("CSCPLockObserver::DoCancel() BEGIN"));
     
     if(iSubscribedToEvent)
-    	iProperty.Cancel();
+        iProperty.Cancel();
+    
     iStatus = KErrNone;
     
     Dprint(_L("CSCPLockObserver::DoCancel() END"));

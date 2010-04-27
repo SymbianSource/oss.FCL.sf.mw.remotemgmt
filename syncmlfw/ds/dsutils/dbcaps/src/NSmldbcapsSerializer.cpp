@@ -407,31 +407,34 @@ CSmlDataStoreFormat* TNSmlDbCapsSerializer::CNSmlDataStoreFormatFromDbCaps::NewL
 		{
 		synctype.SetNotSupported( ESmlRefreshFromClient );
 		}
-	
-	if ( dds->dsmem )
-		{
-		//max size
-		if ( dds->dsmem->maxmem )
-			{
-			TLex8 lex( dds->dsmem->maxmem->Data() );
-			User::LeaveIfError( lex.Val( self->iMaxSize, EDecimal ) );
-			self->iFlags |= KSmlDataStore_HasMaxSize;
-			}
-		
-		//max items
-		if ( dds->dsmem->maxid )
-			{
-			TLex8 lex( dds->dsmem->maxid->Data() );
-			User::LeaveIfError( lex.Val( self->iMaxItems, EDecimal ) );
-			self->iFlags |= KSmlDataStore_HasMaxItems;
-			}
-		}
-	
-	//options
-	if ( dds->supportHierarchicalSync )
-		{
-		self->iFlags |= KSmlDataStore_Hierarchical;
-		}
+	if (dds)
+        {
+        if ( dds->dsmem )
+            {
+            //max size
+            if ( dds->dsmem->maxmem )
+                {
+                TLex8 lex( dds->dsmem->maxmem->Data() );
+                User::LeaveIfError( lex.Val( self->iMaxSize, EDecimal ) );
+                self->iFlags |= KSmlDataStore_HasMaxSize;
+                }
+            
+            //max items
+            if ( dds->dsmem->maxid )
+                {
+                TLex8 lex( dds->dsmem->maxid->Data() );
+                User::LeaveIfError( lex.Val( self->iMaxItems, EDecimal ) );
+                self->iFlags |= KSmlDataStore_HasMaxItems;
+                }
+            }
+        
+        
+        //options
+        if ( dds->supportHierarchicalSync )
+            {
+            self->iFlags |= KSmlDataStore_Hierarchical;
+            }
+        }
 	
 	//filter caps
 	const sml_devinf_filtercaplist_s* filterList = aDbCaps.FilterCapsList();
@@ -453,90 +456,93 @@ CSmlDataStoreFormat* TNSmlDbCapsSerializer::CNSmlDataStoreFormatFromDbCaps::NewL
 	// First search all mime types that server supports at receiving
 	// RX-pref
 	CSmlMimeFormat* tempFormatRX = CSmlMimeFormat::NewLC();
-	const TPtrC8& ctTypeRX = TNSmlDbCapsSerializer::SafePtr( dds->rxpref->cttype );
-	const TPtrC8& verCtRX = TNSmlDbCapsSerializer::SafePtr( dds->rxpref->verct );
-	if ( ctTypeRX.Compare( KNullDesC8 ) != 0 && verCtRX.Compare( KNullDesC8 ) != 0 )
-		{
-		RStringF mimeFormatRX = aStringPool.OpenFStringL( ctTypeRX );
-		RStringF mimeVersionRX = aStringPool.OpenFStringL( verCtRX );
-		tempFormatRX->SetMimeTypeL( mimeFormatRX );
-		tempFormatRX->SetMimeVersionL( mimeVersionRX );
-		mimeFormatArray.AppendL( tempFormatRX );
-		CleanupStack::Pop(); // tempFormatRX
-		}
-	else
-		{
-		CleanupStack::PopAndDestroy(); // tempFormatRX
-		}
-	// RXs
-	if ( dds )
-		{
-		SmlDevInfXmitListPtr_t rx = dds->rx;
-		for ( ; rx ; rx = rx->next )
-			{
-			CSmlMimeFormat* tempFormat = CSmlMimeFormat::NewLC();
-			const TPtrC8& ctType = TNSmlDbCapsSerializer::SafePtr( rx->data->cttype );
-			const TPtrC8& verCt = TNSmlDbCapsSerializer::SafePtr( rx->data->verct );
-			if ( ctType.Compare( KNullDesC8 ) != 0 && verCt.Compare( KNullDesC8 ) != 0 )
-				{
-				RStringF mimeFormat = aStringPool.OpenFStringL( ctType );
-				RStringF mimeVersion = aStringPool.OpenFStringL( verCt );
-				tempFormat->SetMimeTypeL( mimeFormat );
-				tempFormat->SetMimeVersionL( mimeVersion );
-				mimeFormatArray.AppendL( tempFormat );
-				CleanupStack::Pop(); // tempFormat
-				}
-			else
-				{
-				CleanupStack::PopAndDestroy(); // tempFormat
-				}
-			}
-		}
-	
-	const sml_devinf_ctcaplist_s*  ctCapList = dds->ctcap;
-	if ( ctCapList == 0 )
-		{
-		ctCapList = aDbCaps.CtCaps();
-		}
-	// Then add CTCaps to correct mime types
-	if ( ctCapList != 0 )
-	    {    
-        for (; ctCapList; ctCapList = ctCapList->next )
-    		{
-    		const SmlDevInfCtCapPtr_t ctCap = ctCapList->data;
-    		if ( ctCap->cttype->Data() == KNSmlFolderType )
-    			{
-    			SmlDevInfPropertyListPtr_t dipl = ctCap->property;
-    			for ( ; dipl; dipl = dipl->next )
-    				{
-    				const SmlDevInfPropertyPtr_t dip = dipl->data;
-    				if ( dip )
-    					{
-    					CSmlDataProperty *temppoint = CNSmlDataPropertyFromDbCaps::NewLC( aStringPool, dip );
-    					self->iFolderProperties.AppendL( temppoint );
-    					CleanupStack::Pop(); //  temppoint
-    					}
-    				}
-    			}
-    		else
-    			{
-    			for ( TInt j(0); j < mimeFormatArray.Count(); j++ )
-    			    {
-    			    if ( mimeFormatArray[j]->MimeType().DesC().Compare( ctCap->cttype->Data() ) == 0 )
-    			        {
-    			        // Mime version is only in rx-pref or in rx so it must be copied to new mime format
-    			        CSmlMimeFormat* temppoint = CNSmlMimeFormatFromDbCaps::NewLC( aStringPool, *ctCap );
-    			        RStringF newMimeVersion = aStringPool.OpenFStringL( mimeFormatArray[j]->MimeVersion().DesC() );
-    			        temppoint->SetMimeVersionL( newMimeVersion );
-    			        delete mimeFormatArray[j];
-    			        mimeFormatArray[j] = NULL;
-    			        mimeFormatArray[j] = temppoint;
-    			        CleanupStack::Pop(); //  temppoint
-    			        }
-    			    }
-    			}
-    		}
-	    }
+    if( dds )
+        {
+        const TPtrC8& ctTypeRX = TNSmlDbCapsSerializer::SafePtr( dds->rxpref->cttype );
+        const TPtrC8& verCtRX = TNSmlDbCapsSerializer::SafePtr( dds->rxpref->verct );
+                    
+        if ( ctTypeRX.Compare( KNullDesC8 ) != 0 && verCtRX.Compare( KNullDesC8 ) != 0 )
+            {
+            RStringF mimeFormatRX = aStringPool.OpenFStringL( ctTypeRX );
+            RStringF mimeVersionRX = aStringPool.OpenFStringL( verCtRX );
+            tempFormatRX->SetMimeTypeL( mimeFormatRX );
+            tempFormatRX->SetMimeVersionL( mimeVersionRX );
+            mimeFormatArray.AppendL( tempFormatRX );
+            CleanupStack::Pop(); // tempFormatRX
+            }
+        else
+            {
+            CleanupStack::PopAndDestroy(); // tempFormatRX
+            }
+        // RXs
+        
+            SmlDevInfXmitListPtr_t rx = dds->rx;
+            for ( ; rx ; rx = rx->next )
+                {
+                CSmlMimeFormat* tempFormat = CSmlMimeFormat::NewLC();
+                const TPtrC8& ctType = TNSmlDbCapsSerializer::SafePtr( rx->data->cttype );
+                const TPtrC8& verCt = TNSmlDbCapsSerializer::SafePtr( rx->data->verct );
+                if ( ctType.Compare( KNullDesC8 ) != 0 && verCt.Compare( KNullDesC8 ) != 0 )
+                    {
+                    RStringF mimeFormat = aStringPool.OpenFStringL( ctType );
+                    RStringF mimeVersion = aStringPool.OpenFStringL( verCt );
+                    tempFormat->SetMimeTypeL( mimeFormat );
+                    tempFormat->SetMimeVersionL( mimeVersion );
+                    mimeFormatArray.AppendL( tempFormat );
+                    CleanupStack::Pop(); // tempFormat
+                    }
+                else
+                    {
+                    CleanupStack::PopAndDestroy(); // tempFormat
+                    }
+                }
+            
+        
+        const sml_devinf_ctcaplist_s*  ctCapList = dds->ctcap;
+        if ( ctCapList == 0 )
+            {
+            ctCapList = aDbCaps.CtCaps();
+            }
+        // Then add CTCaps to correct mime types
+        if ( ctCapList != 0 )
+            {    
+            for (; ctCapList; ctCapList = ctCapList->next )
+                {
+                const SmlDevInfCtCapPtr_t ctCap = ctCapList->data;
+                if ( ctCap->cttype->Data() == KNSmlFolderType )
+                    {
+                    SmlDevInfPropertyListPtr_t dipl = ctCap->property;
+                    for ( ; dipl; dipl = dipl->next )
+                        {
+                        const SmlDevInfPropertyPtr_t dip = dipl->data;
+                        if ( dip )
+                            {
+                            CSmlDataProperty *temppoint = CNSmlDataPropertyFromDbCaps::NewLC( aStringPool, dip );
+                            self->iFolderProperties.AppendL( temppoint );
+                            CleanupStack::Pop(); //  temppoint
+                            }
+                        }
+                    }
+                else
+                    {
+                    for ( TInt j(0); j < mimeFormatArray.Count(); j++ )
+                        {
+                        if ( mimeFormatArray[j]->MimeType().DesC().Compare( ctCap->cttype->Data() ) == 0 )
+                            {
+                            // Mime version is only in rx-pref or in rx so it must be copied to new mime format
+                            CSmlMimeFormat* temppoint = CNSmlMimeFormatFromDbCaps::NewLC( aStringPool, *ctCap );
+                            RStringF newMimeVersion = aStringPool.OpenFStringL( mimeFormatArray[j]->MimeVersion().DesC() );
+                            temppoint->SetMimeVersionL( newMimeVersion );
+                            delete mimeFormatArray[j];
+                            mimeFormatArray[j] = NULL;
+                            mimeFormatArray[j] = temppoint;
+                            CleanupStack::Pop(); //  temppoint
+                            }
+                        }
+                    }
+                }
+            }
+        }
 	self->SetMimeFormatsL( mimeFormatArray );
 	mimeFormatArray.ResetAndDestroy();
 	CleanupStack::PopAndDestroy(); // mimeFormatArray
