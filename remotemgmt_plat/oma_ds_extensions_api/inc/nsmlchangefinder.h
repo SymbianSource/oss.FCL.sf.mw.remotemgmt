@@ -22,7 +22,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <nsmlsnapshotitem.h>
-#include <smldataprovider.h>
+#include <SmlDataProvider.h>
 
 // CONSTANTS
 const TInt KNSmlDefaultSnapshotStreamUID = 0x101F6DE4;

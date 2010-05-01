@@ -21,7 +21,7 @@
 
 #include <e32base.h>
 #include <e32cmn.h> 
-#include "NSmlConstantDefs.h"
+#include "nsmlconstantdefs.h"
 
 
 const TUid KNSmlSOSServerPolicyUID = { 0x101F99FB };

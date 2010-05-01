@@ -1877,9 +1877,9 @@ CNSmlAgentNotifierObserver::~CNSmlAgentNotifierObserver()
 	// StartNotifier called to avoid Notifier server panic, if 
 	// notifier does not exist anymore.
 	TBuf8<1> dummy;	
-	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
-	iNotifier.CancelNotifier( KUidNotifier );
-	iNotifier.Close();
+//	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+//	iNotifier.CancelNotifier( KUidNotifier );
+//	iNotifier.Close();
 	iNotifierTimeOut.Cancel();
 	Cancel();
 	}
@@ -1910,8 +1910,8 @@ void CNSmlAgentNotifierObserver::ConnectToNotifierL( CNSmlAgentBase * aNSmlAgent
 	CleanupStack::PopAndDestroy( rep);
 
     iNotifierTimeOut.LaunchNotifierTimer( this );
-    User::LeaveIfError( iNotifier.Connect() );
-    iNotifier.StartNotifierAndGetResponse( iStatus, KUidNotifier, data, iResBuf );
+//    User::LeaveIfError( iNotifier.Connect() );
+//   iNotifier.StartNotifierAndGetResponse( iStatus, KUidNotifier, data, iResBuf );
 	}
 
 // --------------------------------------------------------------------------
@@ -1925,9 +1925,9 @@ void CNSmlAgentNotifierObserver::NotifierTimeOut()
 	// StartNotifier called to avoid Notifier server panic, if 
 	// notifier does not exist anymore.
 	TBuf8<1> dummy;	
-	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+//	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
 	
-	iNotifier.CancelNotifier( KUidNotifier );
+//	iNotifier.CancelNotifier( KUidNotifier );
 	}
 
 // --------------------------------------------------------------------------

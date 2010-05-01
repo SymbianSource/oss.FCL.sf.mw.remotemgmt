@@ -1395,7 +1395,7 @@ void CNSmlDMCmds::HandleChoiceAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
     TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );                            
     TSyncMLDlgNotifReturnParams emptybuf;
     TSyncMLDlgNotifReturnParamsPckg resultBuf( emptybuf );
-    RNotifier notifier;
+/*    RNotifier notifier;
     User::LeaveIfError( notifier.Connect() );
     CleanupClosePushL(notifier); //cs  7
     _DBG_FILE("starting choice notifier");  
@@ -1403,6 +1403,8 @@ void CNSmlDMCmds::HandleChoiceAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
     _DBG_FILE("notifier returned"); 
     User::WaitForRequest( status );
     CleanupStack::PopAndDestroy(4);//notifier,lengthbuf,listitems,choiceitemslength
+*/  
+		CleanupStack::PopAndDestroy(3);//lengthbuf,listitems,choiceitemslength  
     iChunk.Close();
     TBuf8<KSyncMLMaxAlertResultLength> rettext;
     rettext.Copy( resultBuf().irettext.Left( KSyncMLMaxAlertResultLength ) );
@@ -1531,7 +1533,8 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
     
     if(!IsHbSyncmlNotifierEnabledL())
     {
-    RNotifier notifier;
+    	_DBG_FILE("starting notifier");  
+/*    RNotifier notifier;
         User::LeaveIfError(notifier.Connect());
         CleanupClosePushL(notifier);
     
@@ -1545,6 +1548,7 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
     //TBool ret = resBuf();
     
     CleanupStack::PopAndDestroy();
+ */   
     }
     else
     {
@@ -1637,9 +1641,10 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
          return;
          }
      CleanupStack::PushL(dataBuf16);    //cs
-     RNotifier notifier;
+/*     RNotifier notifier;
      User::LeaveIfError( notifier.Connect() );
      CleanupClosePushL(notifier); //cs
+*/     
      TPckgBuf<TBool> resBuf;     
      if( dataBuf16->Length() > KSyncMLMaxServerMsgLength )
          {
@@ -1659,16 +1664,18 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
      TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
      TSyncMLDlgNotifReturnParams emptybuf;
      TSyncMLDlgNotifReturnParamsPckg resultBuf( emptybuf );
-     notifier.StartNotifierAndGetResponse( status, KNSmlSyncDialogUid, pkgBuf, resultBuf );
+/*     notifier.StartNotifierAndGetResponse( status, KNSmlSyncDialogUid, pkgBuf, resultBuf );
      User::WaitForRequest( status );
+*/
      TBuf8<KSyncMLMaxDefaultResponseMsgLength> rettext;
      rettext.Copy( resultBuf().irettext.Left( KSyncMLMaxDefaultResponseMsgLength ) );
-     if ( status == KErrCancel || status == KErrTimedOut || status ==  KErrAbort )
+/*     if ( status == KErrCancel || status == KErrTimedOut || status ==  KErrAbort )
          {
          TInt error = TNSmlError::ESmlStatusOperationCancelled ;
          iStatusToServer->SetStatusCodeL( aStatusId, error );
          HandleAlertErrorL();
          }
+*/         
      //For sending data to server    
      SmlPcdata_t* data = NULL;
      PcdataNewL( data, rettext);
@@ -1676,10 +1683,12 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
      iStatusToServer->AddItemDataL( aStatusId, data );
      CleanupStack::PopAndDestroy(); //data
      if( DRPresent ) 
-         CleanupStack::PopAndDestroy(6); //notifier,alertData,alertDataWithMDT,dataBuf16,hptr,DrBuf16
+     			CleanupStack::PopAndDestroy(5); //alertData,alertDataWithMDT,dataBuf16,hptr,DrBuf16	
+//         CleanupStack::PopAndDestroy(6); //notifier,alertData,alertDataWithMDT,dataBuf16,hptr,DrBuf16
      else
          //#endif
-         CleanupStack::PopAndDestroy(4); //notifier,alertData,alertDataWithMDT,dataBuf16     
+//         CleanupStack::PopAndDestroy(4); //notifier,alertData,alertDataWithMDT,dataBuf16  
+					CleanupStack::PopAndDestroy(3); //alertData,alertDataWithMDT,dataBuf16     	   
      }
 
  // ---------------------------------------------------------
@@ -1735,13 +1744,14 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
      TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
     if(!IsHbSyncmlNotifierEnabledL())
         {
-        RNotifier notifier;
+ /*       RNotifier notifier;
         User::LeaveIfError(notifier.Connect());
         CleanupClosePushL(notifier);
         notifier.StartNotifierAndGetResponse(status, KNSmlSyncDialogUid, pkgBuf,
             resBuf);
         User::WaitForRequest(status);
         CleanupStack::PopAndDestroy(); //notifier
+*/        
         }
     else
         {

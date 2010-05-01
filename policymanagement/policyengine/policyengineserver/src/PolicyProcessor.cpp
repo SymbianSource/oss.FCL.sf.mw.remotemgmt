@@ -752,10 +752,10 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 	if ( name.Length() && fingerPrint.Length())
 	{
 		//create notifier
-		RNotifier notifier;
+/*		RNotifier notifier;
 		CleanupClosePushL( notifier);
 		User::LeaveIfError( notifier.Connect() );
-		
+*/		
 		//create parameter descriptor
 		TBuf8<100> responseBuf;
 		HBufC8 * data = HBufC8::NewLC( name.Length() + fingerPrint.Length() + 1);
@@ -766,7 +766,7 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 
 		//create CAsyncHandler to Auto start/stop CActiveScheduler
 		CASyncHandler * async = CASyncHandler::NewLC();
-		notifier.StartNotifierAndGetResponse( async->GetRequestStatus(), KUidPolicyEngineUi, ptr, responseBuf);
+//		notifier.StartNotifierAndGetResponse( async->GetRequestStatus(), KUidPolicyEngineUi, ptr, responseBuf);
 		
 		//Start CActiveScheduler and execute stop when request is completed
 		async->WaitForRequest();
@@ -775,7 +775,7 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 		
 		if ( async->GetRequestStatus() > 0) //request pending...
 		{
-			notifier.CancelNotifier( KUidPolicyEngineUi);	
+//			notifier.CancelNotifier( KUidPolicyEngineUi);	
 		}
 		else
 		{
@@ -787,7 +787,8 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 			}
 		}
 		
-		CleanupStack::PopAndDestroy( 3, &notifier);	//notifier, data, CASyncHandler
+	//	CleanupStack::PopAndDestroy( 3, &notifier);	//notifier, data, CASyncHandler
+	CleanupStack::PopAndDestroy( 2);
 		
 		
 	}

@@ -271,7 +271,7 @@ class CNSmlAgentNotifierObserver : public CActive
 	private:
 		TRequestStatus& iCallerStatus;
 		
-		RNotifier iNotifier;
+//		RNotifier iNotifier;
 		TSyncMLAppLaunchNotifRetValPckg iResBuf;
 	
 		TInt& iCreatorId;
