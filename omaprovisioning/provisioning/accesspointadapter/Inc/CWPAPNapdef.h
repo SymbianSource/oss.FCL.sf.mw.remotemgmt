@@ -35,7 +35,7 @@
 
 // FORWARD DECLARATIONS
 class CWPAPPhysicalProxy;
-class CApAccessPointItem;
+
 class CWPParameter;
 class CCommsDatabase;
 class EAPSettings;

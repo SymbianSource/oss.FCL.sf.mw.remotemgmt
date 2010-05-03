@@ -216,8 +216,10 @@ class CleanupRPtrArrayDelete
 	{
 public:
 	inline static void PushL(T* aPtr);
+	inline static void PushL(T& aRef);
 private:
 	static void RPtrArrayDelete(TAny *aPtr);
+	static void LocalRPtrArrayDelete(TAny *aPtr);
 	};
 
 template <class T>
@@ -225,6 +227,12 @@ inline void CleanupRPtrArrayDelete<T>::PushL(T* aPtr)
 	{
 	CleanupStack::PushL(TCleanupItem(&RPtrArrayDelete,aPtr));
 	}
+
+template <class T>
+inline void CleanupRPtrArrayDelete<T>::PushL(T& aRef)
+    {
+    CleanupStack::PushL(TCleanupItem(&LocalRPtrArrayDelete,&aRef));
+    }
 
 template <class T>
 void CleanupRPtrArrayDelete<T>::RPtrArrayDelete(TAny *aPtr)
@@ -235,10 +243,23 @@ void CleanupRPtrArrayDelete<T>::RPtrArrayDelete(TAny *aPtr)
 	}
 
 template <class T>
+void CleanupRPtrArrayDelete<T>::LocalRPtrArrayDelete(TAny *aPtr)
+    {
+    T* ptr = STATIC_CAST(T*,aPtr);
+    ptr->ResetAndDestroy();
+    }
+
+template <class T>
 inline void CleanupRPtrArrayPushL(T* aPtr)
 	{
 	CleanupRPtrArrayDelete<T>::PushL(aPtr);
 	}
+
+template <class T>
+inline void CleanupRPtrArrayPushL(T& aRef)
+    {
+    CleanupRPtrArrayDelete<T>::PushL(aRef);
+    }
 
 // Table names
 _LIT( KNSmlTableVersion, "Version" );

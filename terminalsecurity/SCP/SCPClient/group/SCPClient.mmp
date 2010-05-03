@@ -32,8 +32,7 @@ VENDORID        VID_DEFAULT
 
 SOURCEPATH      ../src
 SOURCE          SCPClient.cpp
-SOURCE          SCPQueryDialog.cpp
-SOURCE          SCPParamObject.cpp SCPLockObserver.cpp
+SOURCE          SCPParamObject.cpp
 
 USERINCLUDE     ../inc
 USERINCLUDE     ../../inc

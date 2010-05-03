@@ -24,7 +24,6 @@
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <wpwapadapterresource.rsg>
-#include <ApDataHandler.h>
 #include "CWPWAPBrowserAdapter.h"
 #include "MWPWAPItemBase.h"
 #include "WPWAPItemFactory.h"
@@ -97,7 +96,7 @@ void CWPWAPBrowserAdapter::ApplicationL( CWPCharacteristic& aCharacteristic )
         {
         MWPWAPItemBase* item = WPWAPItemFactory::CreateBrowserLC( !iProcessed, *iTitle, 
             *iBookmarkTitle, *iDefaultName, *iDefaultBookmarkName, 
-            aCharacteristic, iCommsDb, iAPHandler, iFavouritesDb );
+            aCharacteristic, iCommsDb, iCmManager, iFavouritesDb );
 
         if( item->ValidateL() )
             {

@@ -29,7 +29,7 @@
 
 // FORWARD DECLARATIONS
 
-class CApAccessPointItem;
+
 
 // CLASS DECLARATION
 

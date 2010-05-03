@@ -22,18 +22,17 @@
 #include <msvapi.h>
 #include <mmsclient.h> 
 #include <mtclreg.h>
-#include <ApDataHandler.h>
-#include <ApAccessPointItem.h>
-#include <ApUtils.h>
 #include <f32file.h>
 #include <barsc.h>
 #include <bautils.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <WPAdapterUtil.h>
+#include <commdb.h>
 #include <CWPAdapter.h>
 #include "CWPWAPItemBAse.h"
 #include "ProvisioningDebug.h"
+#include <cmconnectionmethoddef.h>
 
 // CONSTANTS
 const TInt KNamesGranularity = 1;
@@ -51,13 +50,14 @@ CWPWAPItemBase::CWPWAPItemBase(  const TDesC& aTitle,
                                  const TDesC& aDefaultName, 
                                  CWPCharacteristic& aCharacteristic, 
                                  CCommsDatabase*& aCommsDb, 
-                                 CApDataHandler*& aAPHandler )
+                                 RCmManagerExt*& aCmManager)
                                 : iCharacteristic( aCharacteristic ), 
                                   iTitle( aTitle ), 
                                   iDefaultName( aDefaultName ), 
                                   iCommsDb( aCommsDb ), 
-                                  iAPHandler( aAPHandler )
+                                  iCmManager( aCmManager )
     {
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -211,10 +211,10 @@ void CWPWAPItemBase::CreateDbL()
         iCommsDb = CCommsDatabase::NewL();
         }
 
-    if( !iAPHandler )
+    if( !iCmManager )
         {
-        iAPHandler = CApDataHandler::NewLC( *iCommsDb );
-        CleanupStack::Pop(); // iAPEngine
+        iCmManager = new RCmManagerExt;
+        iCmManager->OpenL();
         }
     }
 
@@ -222,33 +222,33 @@ void CWPWAPItemBase::CreateDbL()
 // CWPWAPItemBase::WriteHomePageL
 // -----------------------------------------------------------------------------
 //
-void CWPWAPItemBase::WriteHomePageL( CApAccessPointItem& aItem )
+void CWPWAPItemBase::WriteHomePageL( RCmConnectionMethodExt& aCmItem )
     {
     FLOG( _L( "[Provisioning] CWPWAPItemBase::WriteHomePageL:" ) );
 
     if( iAddr )
         {
-        if( aItem.ReadTextLengthL( EApWapStartPage ) > 0 )
+        if( aCmItem.GetStringAttributeL(CMManager::ECmStartPage) > 0 )
             {
             FLOG( _L( "[Provisioning] CWPWAPItemBase::WriteHomePageL: EApWapStartPage " ) );
             // Make a copy of the AP
-            CApAccessPointItem* newItem = CApAccessPointItem::NewLC();
-            newItem->CopyFromL( aItem );
+            RCmConnectionMethodExt cm = aCmItem.CreateCopyL();
+            CleanupClosePushL( cm );
             
             // Create a proper name for the copy
             TBuf<KNameMaxLength> name( iName.Left( KNameMaxLength ) );
-            MakeValidNameL( name, *iCommsDb );  
+           // MakeValidNameL( name, *iCommsDb );
+            
             
             // Write name 
-            User::LeaveIfError( newItem->WriteTextL( EApWapAccessPointName, name ) );
+            cm.SetStringAttributeL(CMManager::ECmName,name);
+            cm.SetStringAttributeL(CMManager::ENamingUnique,name);
             
-            //Write IAP name
-            User::LeaveIfError( newItem->WriteTextL( EApIapName, name ) );
             // Write MMSC address
-            User::LeaveIfError( newItem->WriteLongTextL( EApWapStartPage, *iAddr ) );
+            cm.SetStringAttributeL(CMManager::ECmStartPage,*iAddr);
             
             // Create the new access point
-            TRAPD( err, iUID = iAPHandler->CreateFromDataL( *newItem ) );
+            TRAPD( err, cm.UpdateL() );
             
             FTRACE(RDebug::Print(_L("[Provisioning] CWPWAPItemBase::WriteHomePageL: CreateFromDataL err (%d)"), err));
             FTRACE(RDebug::Print(_L("[Provisioning] CWPWAPItemBase::WriteHomePageL: CreateFromDataL iUID (%d)"), iUID));
@@ -267,18 +267,18 @@ void CWPWAPItemBase::WriteHomePageL( CApAccessPointItem& aItem )
         else
             {
             FLOG( _L( "[Provisioning] CWPWAPItemBase::WriteHomePageL: EApWapStartPage 0 " ) );
-            User::LeaveIfError( aItem.WriteLongTextL( EApWapStartPage, *iAddr ) );
+            aCmItem.SetStringAttributeL(CMManager::ECmStartPage,*iAddr);
             
             // Update the access point
             TBool nameChanged( EFalse );
-            TRAPD( err, iAPHandler->UpdateAccessPointDataL( aItem, nameChanged ) );
+            TRAPD( err, aCmItem.UpdateL() );
             FTRACE(RDebug::Print(_L("[Provisioning] CWPWAPItemBase::WriteHomePageL: CreateFromDataL err (%d)"), err));
             if( err == KErrLocked )
                 {
                 err = EWPCommsDBLocked;
                 }
             User::LeaveIfError( err );
-            iUID = aItem.WapUid();
+            iUID = aCmItem.GetIntAttributeL(CMManager::ECmIapId);
             FTRACE(RDebug::Print(_L("[Provisioning] CWPWAPItemBase::WriteHomePageL: CreateFromDataL iUID (%d)"), iUID));
             }
         }
@@ -290,9 +290,9 @@ void CWPWAPItemBase::WriteHomePageL( CApAccessPointItem& aItem )
 //
 void CWPWAPItemBase::MakeValidNameL( TDes& aName, CCommsDatabase& aDb ) const
     {
-    CApUtils* utils = CApUtils::NewLC( aDb );
+   /* CApUtils* utils = CApUtils::NewLC( aDb );
     utils->MakeValidNameL( aName );
-    CleanupStack::PopAndDestroy(); // utils
+    CleanupStack::PopAndDestroy(); // utils*/
     }
 
 //  End of File  

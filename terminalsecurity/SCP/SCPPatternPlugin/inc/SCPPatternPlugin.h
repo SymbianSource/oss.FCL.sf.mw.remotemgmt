@@ -70,7 +70,7 @@ class CSCPPatternPlugin : public CSCPPlugin
         /**
         * Event handler...
         */		
-		CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam );
+	    void CSCPPatternPlugin::HandleEventL( TInt aID, CSCPParamObject& aParam,CSCPParamObject& aOutParam );
 		
 		void SetEventHandler( MSCPPluginEventHandler* aHandler );
 

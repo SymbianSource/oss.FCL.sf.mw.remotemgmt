@@ -88,14 +88,6 @@ TInt CSCPLockObserver::Start()
                 
                 iProperty.Attach(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus); 
                 break;
-#if 0          
-            case ESecUiRequestStateObserver:
-                    
-                    Dprint(_L("CSCPLockObserver::Start() Request State Observer"));
-                    
-                    iProperty.Attach(KPSUidSecurityUIs, KSecurityUIsQueryRequestCancel); 
-                break;
-#endif
             case ESecUiCallStateObserver:
                 
                 Dprint(_L("CSCPLockObserver::Start() Call State Observer"));
@@ -169,20 +161,6 @@ void CSCPLockObserver::RunL()
                 	iSubscribedToEvent = EFalse;
                     }
                 break;
-#if 0         
-            case ESecUiRequestStateObserver:
-                 TInt requestState;
-                 iProperty.Get( requestState );
-                 if(requestState == ESecurityUIsQueryRequestCanceled)
-                    {
-                     
-                    Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Req Canceled"));
-                    
-                	iDialog->TryCancelQueryL(EEikBidCancel);
-                	iSubscribedToEvent = EFalse;   
-                    }
-                break;
-#endif
             case ESecUiCallStateObserver:
                 TInt callState;
                 iProperty.Get( callState );

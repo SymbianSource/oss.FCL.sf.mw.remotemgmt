@@ -56,4 +56,4 @@ LIBRARY       policyengine.lib
 LIBRARY		  	charconv.lib
 LIBRARY       flogger.lib
 LIBRARY                 featmgr.lib
-LIBRARY       devenccommonutils.lib // Device encryption utility
+

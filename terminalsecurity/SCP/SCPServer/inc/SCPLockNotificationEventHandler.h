@@ -22,6 +22,7 @@
 #include <bldvariant.hrh>
 #include "SCPLockEventHandler.h"
 
+// FORWARD DECLARATIONS
 class CSCPSession;
 // CLASS DECLARATION
 
@@ -73,6 +74,7 @@ class CSCPLockNotificationEventHandler : public CSCPLockEventHandler
 
         // send passcode to ISA
         void VerifyPass();
+
     private: //Methods
     
         /**

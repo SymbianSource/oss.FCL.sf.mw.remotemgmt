@@ -51,7 +51,7 @@
 #include <featmgr.h>
 // For Device encryption
 #include <DevEncEngineConstants.h>
-#include <DevEncSession.h>
+#include <DevEncSessionBase.h>
 
 // ==================== LOCAL FUNCTIONS ====================
 
@@ -114,10 +114,15 @@ void CSCPServer::ConstructL()
     
     // Assign default config flag
     iConfiguration.iConfigFlag = KSCPConfigUnknown;
+    iConfiguration.iConfigChecked = EFalse;
     
     // Assign the default codes
     iConfiguration.iSecCode.Zero();
     iConfiguration.iSecCode.Append( KSCPDefaultSecCode );
+
+    // Assign the default codes
+    iConfiguration.iCryptoCode.Zero();
+    iConfiguration.iCryptoCode.Append( KSCPDefaultSecCode );
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS 
 if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
@@ -164,6 +169,25 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         {
         Dprint( (_L("CSCPServer::ConstructL(): Configration read OK") ));
         }
+    
+    
+    //If Configuration is not validated already, validate it
+    
+    if (!iConfiguration.iConfigChecked)
+        {
+        TInt valerr = KErrNone;
+        TRAP( valerr, ValidateConfigurationL( KSCPComplete ));
+        if (valerr != KErrNone)
+            {
+            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation failed: %d"), valerr ));
+            }
+        else
+            {
+            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation Passed")));
+            }
+        }
+    
+        
         
     Dprint( (_L("CSCPServer::ConstructL(): Connecting to CenRep") ));
     iALPeriodRep = CRepository::NewL( KCRUidSecuritySettings );        
@@ -631,11 +655,25 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
     Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
     
-    if ( iConfiguration.iConfigFlag == KSCPConfigOK )
+	RMobilePhone::TMobilePassword storedCode;
+    storedCode.Zero();
+    User::LeaveIfError(GetCode(storedCode));
+    
+    
+	Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
+	// Check that the ISA code is stored correctly
+	TRAPD( err, CheckISACodeL( storedCode ) );
+	 //Bool for the correction of Defaultlockcode cenrep
+    TBool lCorrectDefaultlockcode = EFalse;
+    
+     Dprint( (_L("CSCPServer::ValidateConfigurationL(): iConfigFlag = %d, iConfigChecked = %d"), iConfiguration.iConfigFlag, iConfiguration.iConfigChecked));
+     
+    if ((iConfiguration.iConfigFlag == KSCPConfigOK)
+            && (iConfiguration.iConfigChecked) && (err == KErrNone))
         {
         // The configuration has already been checked, exit
         Dprint( (_L("CSCPServer::ValidateConfigurationL(): Configuration is non-default.") ));
-        return;
+        User::Leave( KErrNone );
         }
     else if ( aMode == KSCPInitial )
         {
@@ -643,10 +681,7 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
         User::Leave( KErrAccessDenied );
         }
     
-    RMobilePhone::TMobilePassword storedCode;
-    storedCode.Zero();
-    
-    User::LeaveIfError( GetCode( storedCode ) );
+   
     TInt hashedISAcode;
     TSCPSecCode hashedCode;
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS    
@@ -659,10 +694,13 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 }
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS    
             
-    Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
     
-    // Check that the ISA code is stored correctly
-    TRAPD( err, CheckISACodeL( storedCode ) );
+    
+   
+    if (err != KErrNone)
+        {
+        lCorrectDefaultlockcode = ETrue;
+        }
     if ( err == KErrNone ) 
         {
         iConfiguration.iConfigFlag = KSCPConfigOK;
@@ -710,11 +748,42 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
             if ( StoreCode( hashedCode ) == KErrNone )
                 {
                 iConfiguration.iConfigFlag = KSCPConfigOK;
+                lCorrectDefaultlockcode = ETrue;
                 }
             }        
         }
-}
+    
+    //If Correction of Defaultlockcode cenrep is required for the mismatch between Config and ISA
+        if (lCorrectDefaultlockcode)
+            {
+            TInt lDefCode = -1;
+            CRepository* lRepository = CRepository::NewL(KCRUidSCPLockCode);
+            CleanupStack::PushL(lRepository);
+            TInt lRet = lRepository->Get(KSCPLockCodeDefaultLockCode,
+                    lDefCode);
+            if (lRet == KErrNone && lDefCode != -1)
+                {
+                if (lDefCode == 12345)
+                    {
+                    //Although lock code is already set, due to some unexpected condition
+                    //like C drive wipe, cenrep status is wrongly shown. Correcting it here.
+                    lRepository->Set(KSCPLockCodeDefaultLockCode, 0);
+                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 0") ));
+                    }
+                else if (lDefCode == 0)
+                    {
+                    //If only ISA side is formatted, then the lock code on ISA side is default; 
+                    //Cenrep status remains wrongly as the lock code is already set. Correcting it here.
+                    lRepository->Set(KSCPLockCodeDefaultLockCode, 12345);
+                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 12345") ));
+                    }
+                }
+            CleanupStack::PopAndDestroy(lRepository);
+            }
+        }
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
+    //Set the flag to True, after config is validated 
+    iConfiguration.iConfigChecked = ETrue;
     
     TRAPD( err2, iConfiguration.WriteSetupL() );
     if ( err2 != KErrNone )
@@ -1681,6 +1750,7 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
             
             if ( getFromCommonStorage )
                 {
+                Dprint(_L("[CSCPServer]-> Fetching from Common storage..."));
                 // OK, no objection, so try to get the value from common storage
                 ret = iPluginEventHandler->GetParameters().Get( aID, aValue );
                 }            
@@ -1993,7 +2063,7 @@ void CSCPServer::SendInvalidDOSCode( RMobilePhone::TMobilePassword& aCodeToSend 
 //  
 TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
     {
-    
+    Dprint( (_L("CSCPServer::IsCorrectEnhCode") ));
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
     {
     	return KErrNotSupported;
@@ -2166,7 +2236,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
                 failed to write configuration: %d"), err ));                                        
             }                 
         }
-        
+    Dprint( (_L("CSCPServer::IsCorrectEnhCode %d"), ret )); 
     return ret;
     }
     
@@ -2287,7 +2357,7 @@ TInt CSCPServer::CheckAndChangeEnhCodeL( TDes& aOldPass,
                                         CSCPParamObject*& aRetParams,
                                         TSCPSecCode& aNewDOSCode )
     {        
-    
+    Dprint(_L("CSCPServer::CheckAndChangeEnhCodeL >>"));
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
     {
     	return KErrNotSupported;
@@ -2306,66 +2376,47 @@ TInt CSCPServer::CheckAndChangeEnhCodeL( TDes& aOldPass,
         CSCPParamObject* repParams = 
             iPluginManager->PostEvent( KSCPEventAuthenticationAttempted, *inParams );
         
-        if ( repParams != NULL )            
+        if ( repParams != NULL ) {
+            // Ignore the return params at this point
+            delete repParams;
+       	}  
+		
+        CleanupStack::PopAndDestroy(inParams);
+        
+        ret = ValidateLockcodeAgainstPoliciesL(aNewPass, aRetParams);
+        
+        if(ret != KErrNone) {
+            Dprint(_L("[CSCPServer]-> ValidateLockcodeAgainstPoliciesL() failed in CheckAndChangeEnhCodeL() ret=%d"), ret);
+            return ret;
+        }
+
+
+        if ( IsValidEnhCode( aNewPass ) )
+            {
+            ret = StoreEnhCode( aNewPass, &aNewDOSCode );
+            }                        
+        else
+            {
+            // Invalid code format! Should not happen at this point, but make sure.
+            ret = KErrArgument; 
+            }
+            
+        if ( ret == KErrNone )
+            {
+            CSCPParamObject* inParams = CSCPParamObject::NewL();
+            CleanupStack::PushL( inParams );
+            inParams->Set( KSCPParamPassword, aNewPass );
+    
+            CSCPParamObject* repParams = 
+                iPluginManager->PostEvent( KSCPEventPasswordChanged, *inParams );
+    
+            CleanupStack::PopAndDestroy( inParams );
+        
+            if ( repParams != NULL )            
                 {
                 // Ignore the return params at this point
                 delete repParams;
-                }  
-                
-        inParams->Reset();
-        
-        // Validate the code                
-        inParams->Set( KSCPParamPassword, aNewPass );
-        
-        repParams = iPluginManager->PostEvent( KSCPEventValidate, *inParams );
-        
-        CleanupStack::PopAndDestroy( inParams );
-        
-        if ( repParams != NULL )
-            {
-            // Check if the validation failed
-            TInt status;
-            if ( repParams->Get( KSCPParamStatus, status ) == KErrNone )
-                {
-                if ( status != KErrNone )
-                    {
-                    ret = status;
-                    }
                 }
-                
-            aRetParams = repParams; // pointer ownership changed                           
-            }
-        
-        // Set the new code, if it was OK
-        if ( ret == KErrNone )
-            {
-            if ( IsValidEnhCode( aNewPass ) )
-                {
-                ret = StoreEnhCode( aNewPass, &aNewDOSCode );
-                }                        
-            else
-                {
-                // Invalid code format! Should not happen at this point, but make sure.
-                ret = KErrArgument; 
-                }
-            
-            if ( ret == KErrNone )
-                {
-                CSCPParamObject* inParams = CSCPParamObject::NewL();
-                CleanupStack::PushL( inParams );
-                inParams->Set( KSCPParamPassword, aNewPass );
-        
-                CSCPParamObject* repParams = 
-                    iPluginManager->PostEvent( KSCPEventPasswordChanged, *inParams );
-        
-                CleanupStack::PopAndDestroy( inParams );
-            
-                if ( repParams != NULL )            
-                    {
-                    // Ignore the return params at this point
-                    delete repParams;
-                    }
-                }       
             }
         }    
     else
@@ -2395,7 +2446,7 @@ TInt CSCPServer::CheckAndChangeEnhCodeL( TDes& aOldPass,
                 }                            
             }
         }
-                
+    Dprint(_L("[CSCPServer]-> CheckAndChangeEnhCodeL ret=%d"), ret);           
     return ret;    
     }
 
@@ -2429,7 +2480,7 @@ MSCPPluginEventHandler* CSCPServer::GetEventHandlerL()
           
 TInt CSCPServer::IsPasswordChangeAllowedL( CSCPParamObject*& aRetParams )
     {
-    
+    Dprint(_L("CSCPServer::IsPasswordChangeAllowedL >>"));
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
     {
     	return KErrNotSupported;
@@ -2491,40 +2542,69 @@ TBool CSCPServer::IsDeviceMemoryEncrypted()
     //If feature is supported, check if any drive is encrypted.
     if (ret)
         {
-        CDevEncSession* devEncSession = new CDevEncSession( EDriveC );
+        RLibrary library;   
+        CDevEncSessionBase* devEncSession = NULL;
+        TInt err = library.Load(KDevEncCommonUtils);	 
         
+        if (err != KErrNone)
+            {
+            Dprint(_L("Error in finding the library... %d"), err);
+            ret = EFalse;
+            }
+        else
+        	{
+		       TLibraryFunction entry = library.Lookup(1);
+					 
+	        if (!entry)
+	            {
+	            Dprint(_L("Error in loading the library..."));
+	            ret = EFalse;
+	            }
+	        else
+	        	{
+		        devEncSession = (CDevEncSessionBase*) entry();
+		        Dprint(_L("Library is found and loaded successfully..."));
+		      	}
+	        }
+
         if (!devEncSession)
             {
             Dprint(_L("Can't instantiate device encryption session.."));
-            return EFalse;
-            }
-
-        TInt err = devEncSession->Connect();
-        if (err == KErrNone)
-            {
-            //Session with device encryption is established. Check if any drive is encrypted
-            TInt encStatus (KErrNone);
-            TInt err = devEncSession->DiskStatus( encStatus );
-            Dprint(_L("err = %d, encstatus = %d"), err, encStatus);
-            if (  err == KErrNone && encStatus != EDecrypted )
-                {
-                Dprint(_L("Memory is encrypted"));
-                ret = ETrue;
-                }
-            else
-                {
-                Dprint(_L("Memory is not encrypted"));
-                ret = EFalse;
-                }
-            }
-        else
-            {
-            Dprint(_L("Error %d while establishing connection with device encryption engine"), err);
             ret = EFalse;
             }
-        
-        delete devEncSession; devEncSession = NULL;
-        }
+			  else
+				  	{
+						devEncSession->SetDrive( EDriveC );
+		        TInt err = devEncSession->Connect();
+		        if (err == KErrNone)
+		            {
+		            //Session with device encryption is established. Check if any drive is encrypted
+		            TInt encStatus (KErrNone);
+		            TInt err = devEncSession->DiskStatus( encStatus );
+		            devEncSession->Close();
+		            Dprint(_L("err = %d, encstatus = %d"), err, encStatus);
+		            if (  err == KErrNone && encStatus != EDecrypted )
+		                {
+		                Dprint(_L("Memory is encrypted"));
+		                ret = ETrue;
+		                }
+		            else
+		                {
+		                Dprint(_L("Memory is not encrypted"));
+		                ret = EFalse;
+		                }
+		            }
+		        else
+		            {
+		            Dprint(_L("Error %d while establishing connection with device encryption engine"), err);
+		            ret = EFalse;
+		            }
+						}
+				delete devEncSession; devEncSession = NULL;
+
+        if (library.Handle())
+    	     library.Close();
+		    }
     
     Dprint(_L("CSCPServer::IsDeviceMemoryEncrypted, ret = %d <<"), ret);
     return ret;
@@ -2541,9 +2621,6 @@ TBool CSCPServer::IsDeviceMemoryEncrypted()
 */
 TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCallerIdentity, CSCPParamDBController* aParamDB ) {
     Dprint( (_L("[CSCPServer]-> SetBestPolicyL() >>>")));
-    Dprint( (_L("[CSCPServer]-> ParamID=%d "), aID, aValue));
-    Dprint( (_L("[CSCPServer]-> ParamValue=%d "), aValue));
-
     TBool lFirstTime(EFalse);
     TInt32 lNumValue (-1);
     TInt32 lNumValDB (-1);
@@ -2888,6 +2965,131 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
     Dprint( (_L("[CSCPServer]-> PerformCleanupL() <<<")));
     CleanupStack :: PopAndDestroy(4); // lParamIds lParamDB lBufReadStream lDefValueBuf
     return (lSubOpsFailed) ? KErrGeneral : KErrNone;
+}
+
+void CSCPServer :: GetPoliciesL(HBufC8* aAppIDBuffer, TUint32 aCallerIdentity) {
+    TInt lValue;
+    TInt lRet = KErrNone;
+    TBuf<25> lParamValBuf;
+    TPtr8 lBufPtr = aAppIDBuffer->Des();
+    RDesWriteStream lWriteStream(lBufPtr);
+    CleanupClosePushL(lWriteStream);
+    
+    lRet = GetAutolockPeriodL(lValue);
+    
+    if(lRet != KErrNone) {
+        User :: Leave(lRet);
+    }
+    
+    Dprint((_L("[CSCPServer]-> appending AutoLockPeriod value=%d"), lValue));
+    lWriteStream.WriteInt32L(lValue);    
+    
+    Dprint((_L("[CSCPServer]-> appending MaxAutoLockPeriod value=%d"), iConfiguration.iMaxTimeout));
+    lWriteStream.WriteInt32L(iConfiguration.iMaxTimeout);
+    
+    if(FeatureManager :: FeatureSupported(KFeatureIdSapDeviceLockEnhancements)) {
+        Dprint(_L("[CSCPServer]-> (FeatureManager :: FeatureSupported() complete. Fetching values now..."));
+        /* Fetch parameters starting from RTerminalControl3rdPartySession :: EPasscodeMinLength to 
+         * RTerminalControl3rdPartySession :: EPasscodeMinChangeInterval
+         */
+        TInt lPID = RTerminalControl3rdPartySession :: EPasscodeMinLength;
+        
+        for(; lPID <= RTerminalControl3rdPartySession :: EPasscodeDisallowSimple; lPID++) {
+            switch(lPID) {
+                default:
+                    break;
+                case RTerminalControl3rdPartySession :: EPasscodeCheckSpecificStrings:
+                case RTerminalControl3rdPartySession :: EPasscodeAllowSpecific:
+                case RTerminalControl3rdPartySession :: EPasscodeClearSpecificStrings:
+                    // No need to fetch these three parameters
+                    continue;
+                case RTerminalControl3rdPartySession :: EPasscodeDisallowSpecific:
+                    Dprint(_L("[CSCPServer]-> appending EPasscodeDisallowSpecific value..."));
+                    // Get on EPasscodeDisallowSpecific returning -1 instead
+                    lWriteStream.WriteInt32L(-1);
+                    continue;
+                case RTerminalControl3rdPartySession :: EPasscodeDisallowSimple:
+                    Dprint(_L("[CSCPServer]-> appending EPasscodeDisallowSimple value..."));
+                    lWriteStream.WriteInt32L(1);
+                    lWriteStream.WriteInt32L(1);
+                    continue;
+            }
+            
+            //lRet = GetParameterValueL(lPID, lParamValBuf, aCallerIdentity);
+            lRet = iPluginEventHandler->GetParameters().Get(lPID, lValue);
+            
+            switch(lRet) {
+                
+                
+                case KErrNotFound: {
+                    switch(lPID) {
+                        case RTerminalControl3rdPartySession :: EPasscodeMinLength:
+                            lValue = KSCPPasscodeMinLength;
+                            break;
+                        case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
+                            lValue = KSCPPasscodeMaxLength;
+                            break;
+                        default:
+                            lValue = 0;
+                            break;
+                    }
+                }
+                break;
+                case KErrNone: {
+//                    TLex lLex(lParamValBuf);
+//                    lRet = lLex.Val(lValue);                    
+//                    User :: LeaveIfError(lRet);
+                }
+                break;
+                default:
+                    User :: Leave(lRet);
+            }
+            
+            Dprint((_L("[CSCPServer]-> appending value for lPID=%d"), lPID));
+            Dprint((_L("[CSCPServer]-> lValue=%d"), lValue));            
+            
+            switch(lPID) {
+                default:
+                    lWriteStream.WriteInt32L(lValue);
+                    break;
+                case RTerminalControl3rdPartySession :: EPasscodeDisallowSimple:
+                    lWriteStream.WriteInt32L(1);
+                    lWriteStream.WriteInt32L(1);
+                    break;
+            }
+        }
+    }
+    else {
+        Dprint(_L("[CSCPServer]-> (FeatureManager :: FeatureSupported() failed!!..."));
+    }
+    
+    CleanupStack :: PopAndDestroy(1); // lWriteStream
+}
+
+TInt CSCPServer :: ValidateLockcodeAgainstPoliciesL(TDes& aLockcode, CSCPParamObject*& aRetParams) {
+    Dprint( (_L("[CSCPServer]-> ValidateLockcodeAgainstPoliciesL() >>>")));
+    
+    TInt ret = KErrNone;
+    CSCPParamObject* inParams = CSCPParamObject :: NewL();
+    inParams->Set(KSCPParamPassword, aLockcode);
+    CSCPParamObject* repParams = iPluginManager->PostEvent(KSCPEventValidate, *inParams);
+    delete inParams;
+    
+    if (repParams != NULL) {
+        // Check if the validation failed
+        TInt status;
+        
+        if (repParams->Get(KSCPParamStatus, status) == KErrNone) {
+            if (status != KErrNone) {
+                ret = status;
+            }
+        }
+        
+        aRetParams = repParams; // pointer ownership changed
+    }
+    
+    Dprint( (_L("[CSCPServer]-> ValidateLockcodeAgainstPoliciesL() <<<")));
+    return ret;
 }
 
 //#endif //  __SAP_DEVICE_LOCK_ENHANCEMENTS

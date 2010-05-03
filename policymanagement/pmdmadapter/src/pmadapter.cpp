@@ -61,7 +61,7 @@
   
 #include <badesca.h>
 #include <fbs.h>
-#include <imcvcodc.h>
+#include <tconvbase64.h>
 #include "nsmldmuri.h"
 #include "pmadapter.h"
 #include <implementationproxy.h> // For TImplementationProxy definition
@@ -768,7 +768,7 @@ void CPmAdapter::FetchLeafObjectL( const TDesC8& aURI, const TDesC8& aLUID, cons
 				
 				TPtr8 ptr( data->Des() );
 				User::LeaveIfError( file.Read( ptr ) );
-				TImCodecB64 B64Coder;
+				TBase64 B64Coder;
 				HBufC8 *target = HBufC8::NewLC( ( size * 6 ) / 3 );
 				TPtr8 targetPtr( target->Des() );
 				B64Coder.Encode( *data, targetPtr ); 

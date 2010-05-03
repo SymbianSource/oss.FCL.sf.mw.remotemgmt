@@ -20,7 +20,7 @@
 #include <featmgr.h>   // FeatureManager
 #include <cmdefconnvalues.h>
 #include <cmmanager.h>
-#include <ApUtils.h>
+#include <cmpluginwlandef.h>
 #include <etelpckt.h>
 #include "nsmldialiap.h"
 #include <nsmlconstants.h>
@@ -383,18 +383,18 @@ void CNSmlDialUpAgent::DoSettingsL()
         if(iOffline)
             {		
             iPref.SetDialogPreference( ECommDbDialogPrefPrompt );
-            iPref.SetBearerSet(EApBearerTypeWLAN);	
+            iPref.SetBearerSet(KUidWlanBearerType);	
             }
         else
             {		
             iPref.SetDialogPreference( ECommDbDialogPrefPrompt );		
-            iPref.SetBearerSet(EApBearerTypeAllBearers);
+            //iPref.SetBearerSet(EApBearerTypeAllBearers);
             }				
         }
     else if( iOffline &&  ( static_cast<TInt32>(iIAPid) == -2 ) ) // default connection
         {
         iPref.SetDialogPreference( ECommDbDialogPrefPrompt );
-        iPref.SetBearerSet(EApBearerTypeWLAN);	
+        iPref.SetBearerSet(KUidWlanBearerType);	
         }
     else
         {

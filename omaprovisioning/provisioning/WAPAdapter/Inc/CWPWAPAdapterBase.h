@@ -28,7 +28,8 @@
 class CWPCharacteristic;
 class MWPWAPItemBase;
 class CCommsDatabase;
-class CApDataHandler;
+class RCmConnectionMethodExt;
+class RCmManagerExt;
 
 // CLASS DECLARATION
 
@@ -103,7 +104,7 @@ class CWPWAPAdapterBase : public CWPAdapter, private MWPContextExtension
         CCommsDatabase* iCommsDb;
 
         // APEngine for saving. Owns.
-        CApDataHandler* iAPHandler;
+        RCmManagerExt* iCmManager;
     };
 
 #endif  // CWPWAPADAPTERBASE_H

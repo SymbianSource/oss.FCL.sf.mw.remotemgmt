@@ -46,8 +46,8 @@ CSCPLockNotificationEventHandler::CSCPLockNotificationEventHandler(
             )
 	        : CSCPLockEventHandler( aServer ),
 	        iQueryState(ESCPLNQueryStateNotification),
-	        iSession (aSession),
-	        iAckReceived (EFalse)
+	        iAckReceived (EFalse),
+			iSession (aSession)
     {
     Dprint( (_L("--> CSCPLockNotificationEventHandler::\
 	      CSCPLockNotificationEventHandler()") ));
@@ -213,7 +213,7 @@ void CSCPLockNotificationEventHandler::RunL()
         {
         case ( ESCPLNQueryStateNotification ):
             {                        
-            // Event received
+            // Event received from Session, queryAdminCmd
              if (iAckReceived)
                  {
                  VerifyPass();

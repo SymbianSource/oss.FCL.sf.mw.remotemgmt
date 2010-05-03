@@ -48,7 +48,6 @@ enum TMarkedField
 
 // FORWARD DECLARATIONS
 
-class CApAccessPointItem;
 class CWPAPAccesspointItem;
 class CCommsDatabase;
 

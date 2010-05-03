@@ -28,7 +28,7 @@
 // FORWARD DECLARATIONS
 class MWPWAPItemBase;
 class CBookmarkDb;
-
+class RCmManagerExt;
 // CLASS DECLARATION
 
 /**
@@ -63,8 +63,9 @@ class CWPWAPBrowserItem : public CWPWAPItemBase
             const TDesC& aDefaultBookmarkName,
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler,
-            RFavouritesDb aBookmarkDb );
+            RCmManagerExt*& aCmManager,
+            RFavouritesDb aBookmarkDb
+            );
 
         /**
         * Destructor.
@@ -93,8 +94,9 @@ class CWPWAPBrowserItem : public CWPWAPItemBase
             const TDesC& aDefaultBookmarkName,
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler,
-            RFavouritesDb aBookmarkDb );
+            RCmManagerExt*& aCmManager,
+            RFavouritesDb aBookmarkDb
+            );
 
         /**
         * By default Symbian 2nd phase constructor is private.

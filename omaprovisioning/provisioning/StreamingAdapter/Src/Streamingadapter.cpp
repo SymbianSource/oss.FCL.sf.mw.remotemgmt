@@ -21,11 +21,9 @@
 #include    <CWPCharacteristic.h>
 #include    <CWPParameter.h>
 #include    <wpstreamingadapterresource.rsg>
-#include    <commdb.h>
-#include    <ApAccessPointItem.h>
-#include    <ApDataHandler.h>
 #include    <mpsettingsmodel.h>
-
+#include    <cmconnectionmethoddef.h>
+#include    <cmmanagerext.h>
 #include    "WPAdapterUtil.h"
 #include    "StreamingAdapter.h"
 #include    "ProvisioningDebug.h"
@@ -194,12 +192,11 @@ void CStreamingAdapter::SaveL( TInt /*aItem*/ )
         }
 
     // Get the IAP id
-
-    CCommsDatabase* commDb = CCommsDatabase::NewL(EDatabaseTypeIAP);
-    CleanupStack::PushL(commDb);
-    CApDataHandler* apDataHandler = CApDataHandler::NewLC(*commDb);
-    CApAccessPointItem* apItem = CApAccessPointItem::NewLC();   
     
+    RCmManagerExt  cmmanagerExt;
+    cmmanagerExt.OpenL();
+    CleanupClosePushL(cmmanagerExt);
+
     TPckgBuf<TUint32> uid;
     TBool proxyDefined(EFalse);
     TBool apDefined(EFalse);
@@ -209,12 +206,12 @@ void CStreamingAdapter::SaveL( TInt /*aItem*/ )
         && !(proxyDefined && apWithoutProxyDefined); i++)
         {
         uid.Copy(iCurrentData->iNapDef->Data(i));
+        RCmConnectionMethodExt cm;
+        cm = cmmanagerExt.ConnectionMethodL( uid() );
+        CleanupClosePushL( cm );
 
-        apDataHandler->AccessPointDataL(uid(), *apItem);
-    
-        TBool useProxy(EFalse);
-        apItem->ReadBool(EApProxyUseProxy, useProxy);
-
+        TBool useProxy = cm.GetBoolAttributeL( CMManager::ECmProxyUsageEnabled );
+        
         if (!apDefined || (!useProxy && !apWithoutProxyDefined))
             {
             iModel->SetDefaultAp(uid());
@@ -231,12 +228,11 @@ void CStreamingAdapter::SaveL( TInt /*aItem*/ )
         if (!proxyDefined && useProxy)
             {
            // Get proxy port
-            TUint32 proxyPort(0);
-            apItem->ReadUint(EApProxyPortNumber, proxyPort);
+            TUint32 proxyPort = cm.GetIntAttributeL( CMManager::ECmProxyPortNumber );
+            
 
             // Get proxy host name
-            const HBufC* proxyHost = apItem->ReadConstLongTextL(
-												EApProxyServerAddress);
+            const HBufC* proxyHost = cm.GetStringAttributeL( CMManager::ECmProxyServerName );
 
             if(*proxyHost != KNullDesC && proxyPort <= 65535)
                 {
@@ -246,10 +242,12 @@ void CStreamingAdapter::SaveL( TInt /*aItem*/ )
                 
                 proxyDefined = ETrue;
                 }
+            delete proxyHost;
             }
+        CleanupStack::PopAndDestroy();//cm
         }
 
-    CleanupStack::PopAndDestroy(3); // apItem & apDataHandler & commDb
+    CleanupStack::PopAndDestroy(); // cmmanagerext
 
     iModel->StoreSettingsL();
     

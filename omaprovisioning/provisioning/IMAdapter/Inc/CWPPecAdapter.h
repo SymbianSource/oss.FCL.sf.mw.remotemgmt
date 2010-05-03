@@ -28,7 +28,7 @@
 // FORWARD DECLARATIONS
 class CWPCharacteristic;
 class CWPIMSAPItem;
-class CApAccessPointItem;
+
 
 // CLASS DECLARATION
 

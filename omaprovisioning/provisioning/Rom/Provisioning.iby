@@ -25,7 +25,7 @@ file=ABI_DIR\BUILD_DIR\ProvisioningEngine.dll   SHARED_LIB_DIR\ProvisioningEngin
 // Parser
 file=ABI_DIR\BUILD_DIR\ProvisioningParser.dll   SHARED_LIB_DIR\ProvisioningParser.dll
 // BIO control
-file=ABI_DIR\BUILD_DIR\ProvisioningBC.dll       SHARED_LIB_DIR\ProvisioningBC.dll
+//file=ABI_DIR\BUILD_DIR\ProvisioningBC.dll       SHARED_LIB_DIR\ProvisioningBC.dll
 // Handler
 ECOM_PLUGIN(ProvisioningHandler.dll,101F84D2.rsc)
 // Access point adapter

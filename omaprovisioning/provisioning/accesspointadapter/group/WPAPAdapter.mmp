@@ -62,7 +62,6 @@ SYSTEMINCLUDE 	/epoc32/include/ecom
 
 LIBRARY         euser.lib
 LIBRARY         ProvisioningEngine.lib
-LIBRARY         apengine.lib
 LIBRARY         commdb.lib
 LIBRARY         FeatMgr.lib
 LIBRARY         ecom.lib

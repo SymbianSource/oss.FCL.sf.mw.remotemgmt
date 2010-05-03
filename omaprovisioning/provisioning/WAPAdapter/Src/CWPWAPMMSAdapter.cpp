@@ -24,7 +24,6 @@
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <wpwapadapterresource.rsg>
-#include <ApDataHandler.h>
 #include "MWPWAPItemBase.h"
 #include "WPWAPUtil.h"
 #include "WPWAPItemFactory.h"
@@ -87,7 +86,7 @@ void CWPWAPMMSAdapter::ApplicationL( CWPCharacteristic& aCharacteristic )
     if( iItems.Count() == 0 && iAppID == KMMSAppID )
         {
         MWPWAPItemBase* item = WPWAPItemFactory::CreateMMSLC( *iTitle, *iDefaultName, 
-            aCharacteristic, iCommsDb, iAPHandler );
+            aCharacteristic, iCommsDb, iCmManager );
         if( item->ValidateL() )
             {
             item->AddL( iItems, iHiddenItems );

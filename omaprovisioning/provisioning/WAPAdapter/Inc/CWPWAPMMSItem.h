@@ -27,7 +27,7 @@
 
 // FORWARD DECLARATIONS
 class CBookmarkDb;
-class CApAccessPointItem;
+class RCmManagerExt;
 
 // CLASS DECLARATION
 
@@ -53,7 +53,7 @@ class CWPWAPMMSItem : public CWPWAPItemBase, private MMsvSessionObserver
             const TDesC& aDefaultName, 
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler );
+            RCmManagerExt*& aCmManager);
 
         /**
         * Destructor.
@@ -84,19 +84,14 @@ class CWPWAPMMSItem : public CWPWAPItemBase, private MMsvSessionObserver
             const TDesC& aDefaultName, 
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler );
+            RCmManagerExt*& aCmManager);
 
         /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL();
 
-        /**
-        * Check if a NAPDEF characteristic is GPRS.
-        * @param aCharacteristic The NAPDEF characteristic
-        * @return GPRS access point if found
-        */
-        CApAccessPointItem* FindGPRSLC() const;
+
 
     private:   // Data
         // The bookmarks database. Refs.

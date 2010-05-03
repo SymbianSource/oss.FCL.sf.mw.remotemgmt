@@ -64,7 +64,6 @@ LIBRARY         euser.lib
 LIBRARY         charconv.lib
 LIBRARY         efsrv.lib
 LIBRARY         estor.lib
-LIBRARY         imut.lib
 LIBRARY         hash.lib
 LIBRARY         etel.lib
 LIBRARY         etelmm.lib
@@ -75,6 +74,7 @@ LIBRARY         nsmltransport.lib
 LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlxml.lib
 LIBRARY		centralrepository.lib
+LIBRARY         inetprotutil.lib
 
 #ifdef ARMCC
 LIBRARY ECOM.LIB

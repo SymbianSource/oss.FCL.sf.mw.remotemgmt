@@ -45,6 +45,7 @@ void CSCPParamDBController :: ConstructL() {
         TInt lVal = KErrNone;
     	TInt err_val = centrep->Get(KDmEventNotifierEnabled, lVal);
     	
+#ifndef __WINS__
         _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): cenrep KDmEventNotifierEnabled value:  %d "), lVal);
         if(err_val == KErrNone && 0 == lVal) {
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): RApaLsSession connection >>> "));
@@ -56,7 +57,7 @@ void CSCPParamDBController :: ConstructL() {
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): run dmeventnotifier.exe "));
             //apaLsSession.GetAppInfo(appInfo, aUid); Required only if handle is registered through _reg file.
             #if defined (__WINS__) // ifdef (__WINSCW__)
-            _LIT(KExampleTaskHandlerExe, "C:\\sys\\bin\\dmeventnotifier.exe");
+            _LIT(KExampleTaskHandlerExe, "dmeventnotifier.exe");
             #else
             _LIT(KExampleTaskHandlerExe, "Z:\\Sys\\Bin\\dmeventnotifier.exe");            
             #endif
@@ -73,6 +74,7 @@ void CSCPParamDBController :: ConstructL() {
             apaLsSession.Close();
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): started dmeventnotifier.exe successfully"));
         }
+#endif
     }
     _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): Checking KAppUidDmEventNotifier cenrep completed "));
 

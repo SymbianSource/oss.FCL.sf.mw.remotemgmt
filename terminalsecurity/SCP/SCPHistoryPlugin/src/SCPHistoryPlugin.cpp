@@ -25,7 +25,7 @@
 #include "SCPHistoryPlugin.h"
 #include <SCPHistoryPluginLang.rsg>
 #include "SCP_IDs.h"
-
+#include <SCPServerInterface.h>
 
 // ============================= LOCAL FUNCTIONS  =============================
 
@@ -84,24 +84,17 @@ void CSCPHistoryPlugin::ConstructL()
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aParam )
+void CSCPHistoryPlugin :: HandleEventL( TInt aID, CSCPParamObject& aParam, CSCPParamObject& aOutParam)
 	{				
 	Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent()" ) ) );
-	// Make the ParamObject for success ack, Delete later
-	CSCPParamObject* retParams = NULL;
-	
-	TBool errRaised;
-	errRaised = EFalse;
-	
-	TBool isInvalid = EFalse;
 	
 	if ( iFs == NULL )
 	    {
-	    return NULL; // Eventhandler not available
+	    return ; // Eventhandler not available
 	    }	
-	
-	// check for Case
-    switch ( aID )
+		// check for Case
+		
+	switch ( aID )
         {
 
         case ( KSCPEventValidate ) :
@@ -119,7 +112,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				TInt errSCF = SetConfigFile ();
 				if (errSCF != KErrNone)
 				{
-					errRaised = ETrue;
 					break; // Break out from Case
 				}
 
@@ -131,7 +123,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				Dprint ( ( _L( "CSCPHistoryPlugin::HandleEvent historyItemCounter = %d" ), historyItemCounter ) );
 				if (errHC != KErrNone)
 				{
-					errRaised = ETrue;
 					break; // Break out from Case
 				}
 
@@ -144,7 +135,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 					// Nothing to do anymore
 					Dprint( (_L("CSCPHistoryPlugin::HandleEvent()\
 					ERROR: KSCPEventValidate/KSCPParamPassword is != KErrNone") ));
-					errRaised = ETrue;
 					break; // Break out from Case
 				}            
 				
@@ -174,7 +164,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				// If the Historyonfig file get deleted on the fly ex
 				if (errGH != KErrNone)
 				    {
-					errRaised = ETrue;
 					array->Reset();
 					delete array;
 					break; // Break out from Case
@@ -183,9 +172,9 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				correction = 0;
 
 				if ( array->Count() >=  passhistoryParamValue )
-        {
-        correction =  array->Count() - passhistoryParamValue;
-        }
+                {
+                    correction =  array->Count() - passhistoryParamValue;
+                }
 				// check for match
 				TBuf<KSCPPasscodeMaxLength> arrayItem;
 				
@@ -195,74 +184,20 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 					arrayItem =  array->MdcaPoint(i);
 					if (arrayItem.Compare(securityhash) == KErrNone)
 					    {
-						// Get the filesystem for Resource
-						// If fail, bail out
-						TInt errgGR = GetResource();
-						if (errgGR != KErrNone)
-						    {
-							errRaised = ETrue;
-							break; // Break out from the For
-						    }	
+                            aOutParam.Set( KSCPParamStatus, KErrSCPInvalidCode );
+                            Dprint ( ( _L( "EDeviceLockHistoryBuffer Failed" ) ) );
+                            aOutParam.AddtoFailedPolices(EDeviceLockHistoryBuffer);
+                            break;
+                        } // End of compare IF
+                    } // End of For
+					
+                // kill the local
+                array->Reset();
+                delete array;
 
-						// Prompt buf, iNote can show only 97 chars,
-						// without ... markings.
-						HBufC* hbuf = NULL;					
-						
-						if ( passhistoryParamValue == 1 )
-						    {
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_INFO_PREVIOUS );
-		                        );
-						    }
-						else
-						    {
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( 
-		                            R_SET_SEC_CODE_INFO_CHECK, 
-		                            &passhistoryParamValue );
-		                        );							    
-						    }														
-
-                        if ( isInvalid )
-    					    {	    							
-    				    	// Create the result-object to return
-    					    TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                            
-                            if ( err == KErrNone )
-    					        {
-        			            retParams->Set( KSCPParamStatus, KErrSCPInvalidCode );
-    	    		            retParams->Set( KSCPParamAction, KSCPActionShowUI );
-    		    	            retParams->Set( KSCPParamUIMode, KSCPUINote );
-    			                
-    			                if ( hbuf != NULL )
-    			                    {
-    			                    TPtr ptr = hbuf->Des();
-    			                    retParams->Set( KSCPParamPromptText, ptr );
-    			                    delete hbuf;
-    			                    }
-    					        }
-    					    
-    					    break;
-    					    }
-																															
-					    } // End of compare IF
-				    } // End of For
-				    
-				// kill the local
-				array->Reset();
-				delete array;
-															
-			    } // passhistoryParamValue
-			else
-			    {
-				retParams = NULL;
-			    }
-
-			break;
-			} // end of KSCPEventValidate
-                    
+                } // passhistoryParamValue
+            break;
+            } // end of KSCPEventValidate
         // Someone has changed the Seccode and I need to include it to history
          case ( KSCPEventPasswordChanged ) :
 			{																
@@ -271,7 +206,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 			TInt errSCF = SetConfigFile ();
 			if (errSCF != KErrNone)
 			    {
-				errRaised = ETrue;
 				break; // Break out from the case
 			    }
 			
@@ -282,7 +216,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
             	// Nothing to do anymore
                	Dprint( (_L("CSCPHistoryPlugin::HandleEvent()\
                	ERROR: KSCPEventPasswordChanged/KSCPParamPassword is  != KErrNone") ));
-            	errRaised = ETrue;
 				break; // Break out from the Case
                 }          
 
@@ -310,7 +243,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
     					{
 						Dprint( (_L("CSCPHistoryPlugin::HandleEvent(): WARNING:\
 						failed to write plugin configuration: %d"), errWC ));
-						errRaised = ETrue;
 						break; // Break out from the Case
 	    				}
 					delete historyObject;
@@ -324,7 +256,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				TRAPD( err2, err = AppendAndWriteSecurityCodeL( securityhash  ) );
 				if ( ( err != KErrNone ) || ( err2 != KErrNone ) )
 				    {
-					errRaised = ETrue;
 					break; // Break out from the Case						
 				    }										
 			    }    					
@@ -345,18 +276,11 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
             // 1011
             if ( paramID == (RTerminalControl3rdPartySession::EPasscodeHistoryBuffer))
                 {
-				// OK, we're interested, check that the value is valid
-				TRAPD( err, retParams  = CSCPParamObject::NewL() );
-				if ( err != KErrNone )
-				    {
-				    break; // Nothing we can do
-				    }
-
 				// All of our params are TInts
 				TInt paramValue;
 				if ( aParam.Get( KSCPParamValue, paramValue ) != KErrNone )
 				    {
-					retParams->Set( KSCPParamStatus, KErrGeneral );
+					aOutParam.Set( KSCPParamStatus, KErrGeneral );
 					break;
 				    }
             	            
@@ -378,13 +302,8 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 						    } // end of case EPasscodeHistoryBuffer
 					    } // end of switch ( paramID )
 								
-			        retParams->Set( KSCPParamStatus, retStatus );
+			        aOutParam.Set( KSCPParamStatus, retStatus );
                     }
-			    else
-			        {
-				    retParams = NULL;
-			        }
-			 			 
 			 break;	            
 	         } //End of KSCPEventConfigurationQuery Case
             
@@ -399,18 +318,6 @@ CSCPParamObject* CSCPHistoryPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
               }
                           
           } // End of  switch ( aID )
-                             
-       // Check if Any errors were raised and handle it
-    if (errRaised) 
-        {
-        if ( retParams != NULL )
-            {
-            delete retParams;
-            }
-        retParams = NULL;
-        }
-       
-    return retParams; 
     }
 
 // ----------------------------------------------------------------------------
@@ -654,57 +561,6 @@ TInt CSCPHistoryPlugin::GetHistoryCountParamValue()
     }
 
 // ----------------------------------------------------------------------------
-// CSCPHistoryPlugin::GetResource
-// GetResource
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-
-TInt CSCPHistoryPlugin::GetResource()
-    {
- 	Dprint( (_L("CSCPSpecificStringsPlugin::GetResource()") ));
-	// The resource has to be loaded manually since it is not an application.
-          	
-	TFileName resourceFile;
-	resourceFile.Append( KDriveZ );
-	resourceFile.Append( SCPHistoryPluginSrcFile );
-	BaflUtils::NearestLanguageFile( *iFs, resourceFile );
-	TRAPD( err, iRf.OpenL( *iFs, resourceFile ) );
-
-	if ( err == KErrNone )
-	    {
-		TRAP( err, iRf.ConfirmSignatureL() );
-    	}          
-    
-    return err;       
-    }
-
-
-// ----------------------------------------------------------------------------
-// CSCPHistoryPlugin::LoadResourceLC
-// GetResource
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC16* CSCPHistoryPlugin::LoadResourceLC ( TInt aResId )
-    {
-	Dprint( (_L("CSCPHistoryPlugin::LoadResourceLC()") ));
-
-	// load the actual resource
-    HBufC8* readBuffer = iRf.AllocReadLC( aResId );
-    // as we are expecting HBufC16...
-    const TPtrC16 ptrReadBuffer( (TText16*) readBuffer->Ptr(),
-                                 ( readBuffer->Length() + 1 ) >> 1 );
-                                 
-    HBufC16* textBuffer=HBufC16::NewL( ptrReadBuffer.Length() );    
-    *textBuffer=ptrReadBuffer;
-    CleanupStack::PopAndDestroy( readBuffer ); // readBuffer
-    CleanupStack::PushL( textBuffer );
-  	return textBuffer;
-    }
-
-
-// ----------------------------------------------------------------------------
 // CSCPHistoryPlugin::FlushConfigFile
 // Remove all the other passwords from the file, except the last one (current)
 // 
@@ -753,97 +609,5 @@ TInt CSCPHistoryPlugin::FlushConfigFileL()
 	CleanupStack::PopAndDestroy( historyObject );
 	
 	return err;			
-    }
-
-
-// ----------------------------------------------------------------------------
-// CSCPHistoryPlugin::LoadAndFormatResL
-// Load the given resouce, and format the string according to the TInt parameters
-// if given.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC* CSCPHistoryPlugin::LoadAndFormatResL( TInt aResId, TInt* aParam1, TInt* aParam2 )
-    {
-    Dprint ( ( _L( "CSCPHistoryPlugin::LoadAndFormatResL()" ) ) );
-    HBufC16* resource = NULL;
-    HBufC* hbuf = NULL;
-    
-    resource = LoadResourceLC( aResId );
-    FormatResourceString (*resource);
-    TInt allocLen = 0;
-    if ( aParam1 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-    if ( aParam2 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-                
-	hbuf = HBufC::NewL( resource->Length() + allocLen );
-	
-	if ( ( aParam1 == NULL ) && ( aParam2 == NULL ) )
-	    {
-	    hbuf->Des().Copy( resource->Des() );
-	    }
-	else
-	    {
-	    if ( aParam1 == NULL )
-	        {
-	        hbuf->Des().Format( resource->Des(), *aParam2 );
-	        }
-	    else if ( aParam2 == NULL )
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1 );
-	        }
-	    else
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1, *aParam2 );
-	        }	    
-	    }
-								    
-	CleanupStack::PopAndDestroy( resource );
-	return hbuf;
-    }
-
-// ----------------------------------------------------------------------------
-// CSCPHistoryPlugin::FormatResourceString
-// The buffer that is passed is formatted to have only %i as a format specifier instead of %N or %0N etc.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//  
-void CSCPHistoryPlugin::FormatResourceString(HBufC16 &aResStr)
-{
-		TInt pos = 0;
-		TInt flag = 0;
-        TPtr16 bufPtr = aResStr.Des();
-        _LIT (mess1, "%N");
-        _LIT (mess2, "%i");
-        _LIT (mess3, "%0N");
-        _LIT (mess4, "%1N");
-                              
-        while ((pos = bufPtr.Find(mess1)) !=KErrNotFound)
-        {
-              bufPtr.Replace(pos,2,mess2); 
-              flag = 1;
-              break;                    
-        }
-               
-        if(flag == 0)
-        {
-              while ((pos = bufPtr.Find(mess3)) != KErrNotFound)
-              {
-              		bufPtr.Replace(pos,3,mess2);
-              }
-               		
-              while ((pos = bufPtr.Find(mess4)) != KErrNotFound)
-              {
-                	bufPtr.Replace(pos,3,mess2);
-              }
-        }	
-}
-  
+    } 
 // End of File

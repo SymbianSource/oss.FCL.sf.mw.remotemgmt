@@ -24,11 +24,12 @@
 #include <e32base.h>
 #include <MWPVisitor.h>
 #include "MWPWAPItemBase.h"
+#include <cmmanagerext.h>
+#include <cmconnectionmethodext.h>
 
 // FORWARD DECLARATIONS
 class CCommsDatabase;
-class CApDataHandler;
-class CApAccessPointItem;
+
 
 // CLASS DECLARATION
 
@@ -73,7 +74,7 @@ class CWPWAPItemBase : public CBase, private MWPVisitor, public MWPWAPItemBase
             const TDesC& aDefaultName, 
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler );
+            RCmManagerExt*& aCmManager);
 
         /**
         * 2nd phase base constructor. Derived classes must call this.
@@ -96,7 +97,7 @@ class CWPWAPItemBase : public CBase, private MWPVisitor, public MWPWAPItemBase
         * has a home page, create a new one.
         * @param aItem Access point to access
         */
-        void WriteHomePageL( CApAccessPointItem& aItem );
+        void WriteHomePageL( RCmConnectionMethodExt& aCmItem );
 
         /**
         * Create a valid name for the access point.
@@ -133,8 +134,9 @@ class CWPWAPItemBase : public CBase, private MWPVisitor, public MWPWAPItemBase
         // Comms db. Refs.
         CCommsDatabase*& iCommsDb;
 
-        // APEngine. Refs.
-        CApDataHandler*& iAPHandler;
+                // @var Pointer to Connection Method Manager that is required to access
+        // Access Point data
+        RCmManagerExt*&   iCmManager;
     };
 
 #endif  // CWPWAPITEMBASE_H

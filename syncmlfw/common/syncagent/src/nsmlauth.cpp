@@ -17,7 +17,7 @@
 
 
 
-#include <imcvcodc.h>
+#include <tconvbase64.h>
 #include <e32math.h>
 #include "NSmlAuth.h"
 #include "nsmlcliagconstants.h"
@@ -172,7 +172,7 @@ TPtrC8 CNSmlAuth::NonceL()
 		{
 		CreateAndSaveNewNonceL();
 		}
-	TImCodecB64 B64Coder;
+	TBase64 B64Coder;
 	delete iB64Nonce;
 	iB64Nonce = NULL;
 	iB64Nonce = HBufC8::NewL( iNonce->Length() * 2 + 1 );
@@ -269,7 +269,7 @@ TNSmlError::TNSmlSyncMLStatusCode CNSmlAuth::CheckCredentialL()
 	HBufC8* B64Cred;
 	if ( iFormat->Des() != KNSmlAgentBase64Format )
 		{
-		TImCodecB64 B64Coder;
+		TBase64 B64Coder;
 		B64Cred = HBufC8::NewLC( iCredential->Length() * 2 + 1 );
 		TPtr8 B64CredPtr( B64Cred->Des() );
 		User::LeaveIfError( B64Coder.Encode( *iCredential, B64CredPtr ) );

@@ -86,7 +86,7 @@ class CSCPTimestampPlugin : public CSCPPlugin
         /**
         * Event handler
         */		
-		CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam );
+	    void HandleEventL( TInt aID, CSCPParamObject& aParam, CSCPParamObject& aOutParam );
 		
 		void SetEventHandler( MSCPPluginEventHandler* aHandler );
 
@@ -107,25 +107,25 @@ class CSCPTimestampPlugin : public CSCPPlugin
 		/**        
         * Checks if the minimum timeout has expired since the last change
         */
-		void IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject*& aRetParams );	 
+		void IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject& aRetParams );	 
 		
 		/**        
         * Updates the status when the password is changed
         */
-        void PasswordChanged( CSCPParamObject& aParam, CSCPParamObject*& aRetParams );
+        void PasswordChanged( CSCPParamObject& aParam, CSCPParamObject& aRetParams );
         
 		/**
         * Updates the status when after an authentication attempt
         */
         void AuthenticationAttempt( TBool aIsSuccessful, 
                                     CSCPParamObject& aParam,
-                                    CSCPParamObject*& aRetParams );
+                                    CSCPParamObject& aRetParams );
                                     
 		/**
         * Updates the status after successful authentication
         */
         void SuccessfulAuthenticationL( CSCPParamObject& aParam,
-                                       CSCPParamObject*& aRetParams );
+                                       CSCPParamObject& aRetParams );
         
         
 		/**
@@ -139,12 +139,12 @@ class CSCPTimestampPlugin : public CSCPPlugin
         */
         void ConfigurationQuery(    TInt aParamID, 
                                     CSCPParamObject& aParam, 
-                                    CSCPParamObject*& aRetParams );
+                                    CSCPParamObject& aRetParams );
                                     
         /**
         * Initiates RFS Deep (device wipe)
         */
-        void WipeDeviceL( CSCPParamObject*& aRetParams );
+        void WipeDeviceL( CSCPParamObject& aRetParams );
                                     
 		/**
         * Read the configuration from flash.

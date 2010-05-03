@@ -26,7 +26,7 @@
 #include <SCPHistoryPluginLang.rsg>
 #include "SCP_IDs.h"
 #include <featmgr.h>
-
+#include <SCPServerInterface.h>
 // ============================= LOCAL FUNCTIONS  =============================
 
 // ============================= MEMBER FUNCTIONS =============================
@@ -90,18 +90,12 @@ void CSCPSpecificStringsPlugin::ConstructL()
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObject& aParam )
+void CSCPSpecificStringsPlugin :: HandleEventL( TInt aID, CSCPParamObject& aParam,CSCPParamObject& aOutParam )
 	{	
-	
-	// Make the ParamObject for success ack, Delete later
-	CSCPParamObject* retParams = NULL;
-
-	TBool errRaised;
-	errRaised = EFalse;
 		
 	if ( iFs == NULL )
 	    {
-	    return NULL; // Eventhandler not available
+	    User::Leave(KErrGeneral);
 	    }
 
 	// check for Case
@@ -128,7 +122,6 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 				TInt errSCF = SetConfigFile ();
 				if (errSCF != KErrNone)
 				    {
-					errRaised = ETrue;
 					break; // Break out from Case!
 				    }
 			 	
@@ -139,7 +132,6 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
                 	// Nothing to do anymore
                    	Dprint( (_L("CSCPSpecificStringsPlugin::HandleEvent()\
                    	ERROR: KSCPEventPasswordChanged/KSCPParamPassword is  != KErrNone") ));
-                	errRaised = ETrue;
 					break; // Break out from the Case!;
                     }			 	
 			 	
@@ -148,47 +140,16 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 			 	TInt errCSS = CheckSpecificStrings ( securitycode, forbiddensecuritycode );
 			 	if (errCSS != KErrNone)
 				    {
-					errRaised = ETrue;
 					break; // Break out from Case!
     				}
 			 	
 			 	if ( forbiddensecuritycode )
 			    	{
-			 		// Word was blacklisted!
-					// Get the filesystem for Resource
-					// If fail, bail out!
-					TInt errgGR = GetResource();
-					if (errgGR != KErrNone)
-					    {
-						errRaised = ETrue;
-						break; // Break out from the For!
-					    }
-			 	
-			 		// Prompt buf, iNote can show only 97 chars,
-					// without ... markings.
-					HBufC* hbuf = NULL;
+			    	    aOutParam.Set( KSCPParamStatus, KErrSCPInvalidCode );
+			    	    Dprint ( ( _L( "EDeviceLockDisallowSpecificStrings Failed" ) ) );
+			    	    aOutParam.AddtoFailedPolices(EDeviceLockDisallowSpecificStrings);
+			 	    }			 	    		
 					
-					TRAP_IGNORE(
-					    hbuf = LoadAndFormatResL( R_SET_SEC_CODE_PERSONAL );
-		                );		                
-
-                    // Create the result-object to return
-				    TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                    
-                    if ( err == KErrNone )
-				        {
-			            retParams->Set( KSCPParamStatus, KErrSCPInvalidCode );
-    		            retParams->Set( KSCPParamAction, KSCPActionShowUI );
-	    	            retParams->Set( KSCPParamUIMode, KSCPUINote );
-		                
-		                if ( hbuf != NULL )
-		                    {
-		                    TPtr ptr = hbuf->Des();
-		                    retParams->Set( KSCPParamPromptText, ptr );
-		                    delete hbuf;
-		                    }
-				        }    					        
-			 	    }			 	    		 	
 			    } // end of specificstringscheck
 
 			break;
@@ -212,18 +173,9 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 				||  ( paramID ==  RTerminalControl3rdPartySession::EPasscodeAllowSpecific)
 				||  ( paramID ==  RTerminalControl3rdPartySession::EPasscodeClearSpecificStrings) )
 			    {
-	            TRAPD( err, retParams  = CSCPParamObject::NewL() );
-	            if ( err == KErrNone )
-	                {
 	                Dprint ( ( _L( "CSCPSpecificStringsPlugin::HandleEvent():\
 	                    Get not supported for %d" ), paramID ) );
-	                retParams->Set( KSCPParamStatus, KErrNotSupported );
-	                }
-	            else
-	                {
-	                Dprint ( ( _L( "CSCPSpecificStringsPlugin::HandleEvent():\
-	                    ERROR: Cannot create paramObject" ) ) );
-	                }
+	                aOutParam.Set( KSCPParamStatus, KErrNotSupported );
 	            }
 	        break;
 	        }
@@ -244,21 +196,14 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 				||  paramID ==  (RTerminalControl3rdPartySession::EPasscodeDisallowSpecific)
 				||  paramID ==  (RTerminalControl3rdPartySession::EPasscodeAllowSpecific)
 				||  paramID ==  (RTerminalControl3rdPartySession::EPasscodeClearSpecificStrings) )
-			    {						
-				// OK, we're interested
-                TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                if ( err != KErrNone )
-                    {
-                    break; // Nothing we can do now
-                    }
-                                
+			    {
 				TInt retStatus = KErrNone;
 				
 			    if ( paramID != RTerminalControl3rdPartySession::EPasscodeCheckSpecificStrings )
 			        {
         		    // Set the storage attribute, so the server won't save the value,
         		    // we'll do it ourselves.
-        			retParams->Set( KSCPParamStorage, KSCPStoragePrivate );			        
+        			aOutParam.Set( KSCPParamStorage, KSCPStoragePrivate );			        
 			        }
 
 				switch ( paramID )
@@ -322,9 +267,7 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 							    {
 								retStatus = KErrArgument;
 								break; // from case!
-							    }
-	
-							errRaised = ETrue;
+							    }	
 							break; // Break out.
 						    } 
 					    break;
@@ -382,7 +325,6 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 								break; // from case!
 							    }
 	
-							errRaised = ETrue;
 							break; // Break out.
 						    } 												
 						
@@ -392,29 +334,14 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
 					case ( RTerminalControl3rdPartySession::EPasscodeClearSpecificStrings ):
 					    {					
 						// 1018, Flush the config file
-						TInt paramValue;
-						if ( (aParam.Get( KSCPParamValue, paramValue ) != KErrNone) ||
-							 ( paramValue < 0 ) || 	( paramValue > 1 ) )
-						    {
-                            retStatus = KErrArgument;
-						    }						     
-						
-						if (paramValue == 1 && retStatus == KErrNone) 
-						    {
-						    TRAP_IGNORE( FlushConfigFileL() );
-						    }
-						    
+
+					    TRAP_IGNORE( FlushConfigFileL() );
 						break;
 					    }							
     				} // End of switch                          
 
-				retParams->Set( KSCPParamStatus, retStatus );
+				aOutParam.Set( KSCPParamStatus, retStatus );
 			    }
-			else
-			    {
-				retParams = NULL;
-			    }		
-		         
 			break;
 		    } //End of KSCPEventConfigurationQuery Case
 
@@ -427,18 +354,6 @@ CSCPParamObject* CSCPSpecificStringsPlugin::HandleEvent( TInt aID, CSCPParamObje
               }
 
 	} // End of  switch ( aID )
-
-	// Check if Any errors were raised and handle it
-	if (errRaised) 
-        {
-        if ( retParams != NULL )
-            {
-            delete retParams;
-            }
-        retParams = NULL;
-        }
-
-	return retParams; 
 	}
 
 // ----------------------------------------------------------------------------
@@ -469,60 +384,6 @@ CSCPSpecificStringsPlugin::~CSCPSpecificStringsPlugin()
         	
 	return;
     }
-
-
-
-// ----------------------------------------------------------------------------
-// CSCPSpecificStringsPlugin::GetResource
-// GetResource
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-
-TInt CSCPSpecificStringsPlugin::GetResource()
-    {   
- 	Dprint( (_L("CSCPSpecificStringsPlugin::GetResource()") ));
-	// The resource has to be loaded manually since it is not an application.
-    
-	TFileName resourceFile;
-	resourceFile.Append( KDriveZSpecific );
-	resourceFile.Append( SCPSpecificStringsPluginSrcFile );
-	BaflUtils::NearestLanguageFile( *iFs, resourceFile );
-	TRAPD( err, iRf.OpenL( *iFs, resourceFile ) );
-
-	if ( err == KErrNone )
-	    {
-		TRAP( err, iRf.ConfirmSignatureL() );
-	    }          
- 
-    return err;       
-    }
-
-
-// ----------------------------------------------------------------------------
-// CSCPSpecificStringsPlugin::LoadResourceLC
-// GetResource
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC16* CSCPSpecificStringsPlugin::LoadResourceLC ( TInt aResId )
-    {
-	Dprint( (_L("CSCPSpecificStringsPlugin::LoadResourceLC()") ));
-
-	// load the actual resource
-     HBufC8* readBuffer = iRf.AllocReadLC( aResId );
-    // as we are expecting HBufC16...
-     const TPtrC16 ptrReadBuffer( (TText16*) readBuffer->Ptr(),
-                                 ( readBuffer->Length() + 1 ) >> 1 );
-    HBufC16* textBuffer=HBufC16::NewL( ptrReadBuffer.Length() );    
-    *textBuffer=ptrReadBuffer;
-    CleanupStack::PopAndDestroy( readBuffer ); // readBuffer
-    CleanupStack::PushL( textBuffer );
-  	return textBuffer;
-    }
-
-
-
 
 // ----------------------------------------------------------------------------
 // CSCPSpecificStringsPlugin::SetConfigFile
@@ -775,11 +636,10 @@ TBool CSCPSpecificStringsPlugin::IsNotValidWord ( TDes& aForbiddenSecurityCodes 
 	Dprint( (_L("CSCPSpecificStringsPlugin::IsNotValidWord()") ));
 	// If so, there is a problem ETrue!!
 	TBool ret;
-	TChar now;// at hand 
-	//TChar previous;		// prevous char
+	TChar now,previous;		// at hand & prevous char
 	ret = EFalse;
 	now = 0;
-	//previous = 0;
+	previous = 0;
 	
 	// Go through the word
 	for (TInt i=0; i < aForbiddenSecurityCodes.Length(); i++)
@@ -790,7 +650,7 @@ TBool CSCPSpecificStringsPlugin::IsNotValidWord ( TDes& aForbiddenSecurityCodes 
 		// And the previous
 		if ( i >= 1 ) 
 		    {
-		   // previous = static_cast<TChar>( aForbiddenSecurityCodes[i-1] );
+		    previous = static_cast<TChar>( aForbiddenSecurityCodes[i-1] );
 		    }
 	
 		// Check for Sapce!
@@ -998,55 +858,4 @@ TInt CSCPSpecificStringsPlugin::ParseAndRemoveL( TDes& aForbiddenSecurityCodes )
 	return err;
     }
     
-    
-// ----------------------------------------------------------------------------
-// CSCPSpecificStringsPlugin::LoadAndFormatResL
-// Load the given resouce, and format the string according to the TInt parameters
-// if given.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC* CSCPSpecificStringsPlugin::LoadAndFormatResL( TInt aResId, TInt* aParam1, TInt* aParam2 )
-    {
-    HBufC16* resource = NULL;
-    HBufC* hbuf = NULL;
-    
-    resource = LoadResourceLC( aResId );
-    TInt allocLen = 0;
-    if ( aParam1 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-    if ( aParam2 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-                
-	hbuf = HBufC::NewL( resource->Length() + allocLen );
-	
-	if ( ( aParam1 == NULL ) && ( aParam2 == NULL ) )
-	    {
-	    hbuf->Des().Copy( resource->Des() );
-	    }
-	else
-	    {
-	    if ( aParam1 == NULL )
-	        {
-	        hbuf->Des().Format( resource->Des(), *aParam2 );
-	        }
-	    else if ( aParam2 == NULL )
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1 );
-	        }
-	    else
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1, *aParam2 );
-	        }	    
-	    }
-								    
-	CleanupStack::PopAndDestroy( resource );
-	return hbuf;
-    }    
-
 // End of File

@@ -62,7 +62,7 @@ SYSTEMINCLUDE 	/epoc32/include/ecom
 LIBRARY         euser.lib 
 LIBRARY         provisioningengine.lib
 LIBRARY         msgs.lib
-LIBRARY         apengine.lib
+LIBRARY         cmmanager.lib
 LIBRARY         commdb.lib
 LIBRARY         commonengine.lib
 LIBRARY         favouritesengine.lib

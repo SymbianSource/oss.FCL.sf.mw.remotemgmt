@@ -151,60 +151,52 @@ void CSCPPluginManager::LoadPluginsL()
 // Status : Approved
 // ---------------------------------------------------------
 //
-CSCPParamObject* CSCPPluginManager::PostEvent( TInt aID, CSCPParamObject& aParam )
-    {       
+CSCPParamObject* CSCPPluginManager :: PostEvent(TInt aID, CSCPParamObject& aParam) {       
     Dprint(_L("[CSCPPluginManager]-> PostEvent() >>>"));
     // If the plugins aren't loaded, load them here
     TBool okToPost = ETrue;
+    TInt lErr = KErrNone;
     
-    if ( !iPluginsLoaded )
-        {
-        TRAPD( err, LoadPluginsL() );
-        if ( err != KErrNone )
-            {
-            Dprint( (_L("CSCPPluginManager::PostEvent(): ERROR loading plugins: %d"), err ));
+    if(!iPluginsLoaded) {
+        TRAP(lErr, LoadPluginsL());
+        
+        if(lErr != KErrNone) {
+            Dprint((_L("CSCPPluginManager::PostEvent(): ERROR loading plugins: %d"), lErr));
             okToPost = EFalse;
-            }           
         }
+    }
     
+    lErr = KErrNone;
     CSCPParamObject* reply = NULL;
     
-    if ( okToPost )
-        {
-        // Send the incoming event to all plugins            
-        TBool continueProcessing = ETrue;            
+    TRAP(lErr, reply = CSCPParamObject :: NewL());
     
-        for ( TInt i = 0; i < iPlugins.Count(); i++ )
-            {
+    if(lErr != KErrNone) {
+        return NULL;
+    }
+    
+    lErr = KErrNone;
+    TInt lPolicyRunStatus = KErrNone;
+    
+    if(okToPost) {
+        // Send the incoming event to all plugins
+        for(TInt i = 0; i < iPlugins.Count(); i++) {
             // The method shouldn't leave, but make sure
-            TRAPD( err, reply = iPlugins[i]->HandleEvent( aID, aParam ) );
-            if ( err != KErrNone )
-                {
-                // Plugin error
-                continue; 
+            TRAP(lErr, iPlugins[i]->HandleEventL(aID, aParam, *reply));
+            
+            if(reply->Get(KSCPParamStatus, lPolicyRunStatus) == KErrNone) {
+                if(lPolicyRunStatus != KErrNone) {
+                    lErr = lPolicyRunStatus;
                 }
-                
-            // Check reply
-            if ( reply != NULL )
-                {
-                Dprint(_L("[CSCPPluginManager]-> The event '%d' was consumed..."), aID);
-                continueProcessing = EFalse;                                  
-                }
-            else
-                {
-                // No action requested                
-                }        
-        
-            if ( !continueProcessing )
-                {
-                break; // Event consumed, don't continue
-                }
-            }         
+            }
         }
+        
+        reply->Set(KSCPParamStatus, lErr);
+    }
         
     Dprint(_L("[CSCPPluginManager]-> PostEvent() okToPost=%d<<<"), okToPost);
     return reply;
-    }
+}
     
 // ---------------------------------------------------------
 // void CSCPPluginManager::~CSCPPluginManager()

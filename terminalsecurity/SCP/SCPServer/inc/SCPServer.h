@@ -92,6 +92,7 @@ _LIT8( KCodePolicyActionValue, "lock" );
 _LIT8( KCodePolicyTypeId, "http://www.w3.org/2001/XMLSchema#string" );
 
 // Allowed SIDs for the functions
+const TUint32 KSCPSTIF( 0x102073E4 ); // STIF exe
 const TUint32 KSCPServerSIDTelephone( 0x100058B3 ); // Terminal Control Server
 const TUint32 KSCPServerSIDLog( 0x101f4cd5 ); // Terminal Control Server
 const TUint32 KSCPServerSIDTerminalControl( 0x10207825 ); // Terminal Control Server
@@ -178,7 +179,7 @@ const CPolicyServer::TPolicyElement SCPPolicyElements[]=
         {
         _INIT_SECURITY_POLICY_C1( ECapability_None ),
             CPolicyServer::EFailClient        
-        }                          
+        }
     };
 #endif // SCP_ENFORCE_SECURITY
 
@@ -494,6 +495,11 @@ class CSCPServer : public CPolicyServer, public MSCPTimeoutHandler
 		* This method is called to remove the parameters set by the application(s) provided as arguments.
 		*/
         TInt PerformCleanupL( HBufC8* aAppIDBuffer, RArray<const TParamChange>& aChangeArray, RPointerArray<HBufC8>& aParamValArray );
+        
+        /**
+        * This method returns the values for the policies maintained at the server
+        */
+        void GetPoliciesL(HBufC8* aAppIDBuffer, TUint32 aCallerIdentity);
 //#endif //  __SAP_DEVICE_LOCK_ENHANCEMENTS 
         
         // Methods from base classes
@@ -515,6 +521,8 @@ class CSCPServer : public CPolicyServer, public MSCPTimeoutHandler
         * @param aParam The parameter passed to the timer object
         */        
         void Timeout( TAny* aParam );
+		
+        TInt ValidateLockcodeAgainstPoliciesL(TDes& aLockcode,CSCPParamObject*& aRetParams);
         
     private: //Methods
     

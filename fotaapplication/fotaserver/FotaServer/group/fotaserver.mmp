@@ -78,9 +78,7 @@ MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY     aknskins.lib
 LIBRARY     apgrfx.lib
-LIBRARY     apengine.lib
 LIBRARY     apparc.lib
-LIBRARY     apsettingshandlerui.lib 
 LIBRARY     avkon.lib
 LIBRARY     bafl.lib
 LIBRARY     cone.lib

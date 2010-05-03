@@ -28,7 +28,7 @@
 #include "ErrorCodes.h"
 
 #include <x509cert.h>
-#include <imcvcodc.h>
+#include <tconvbase64.h>
 
 
 
@@ -244,7 +244,7 @@ HBufC8* CTrustedSession::GetTargetTrustedSubjectL(
 			TCertInfo certInfo;
 			TPckg<TCertInfo> pck( certInfo );
 	
-			TImCodecB64 base64;
+			TBase64 base64;
 			User::LeaveIfError( base64.Decode( value, pck ) );	
 				
 			//create suject info for it
@@ -472,7 +472,7 @@ CElementBase* CTrustedSession::CreateCertificateMappingL( const TDesC8& aAlias )
 	
 	//serialize TCertInfo and decode it to base64 format
 	TPckg<TCertInfo> pck( iSessionCertInfo);
-	TImCodecB64 base64;
+	TBase64 base64;
 	HBufC8 * base64coded = HBufC8::NewLC( pck.Length() * 3);
 	TPtr8 base64Ptr = base64coded->Des();
 	User::LeaveIfError( base64.Encode( pck, base64Ptr));	
@@ -999,7 +999,7 @@ void CCertificateMaps::LoadCertificateMapsL()
 				TCertInfo certInfo;
 				TPckg<TCertInfo> pck( certInfo);
 	
-				TImCodecB64 base64;
+				TBase64 base64;
 				User::LeaveIfError( base64.Decode( binaryCert, pck));	
 				
 				//create suject info for it
@@ -1457,7 +1457,7 @@ CX509Certificate* CCertificateMaps::ParseCertificateL( const TDesC8& aCertificat
 			}
 #endif	//#ifdef __DEBUG
 			//convert base64 coding to binary format
-			TImCodecB64 base64;
+			TBase64 base64;
 			
 			HBufC8 * base64Cert = HBufC8::NewLC( certPtr.Length());
 			TPtr8 base64Ptr = base64Cert->Des();

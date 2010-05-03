@@ -20,7 +20,8 @@
 // INCLUDE FILES
 #include <e32base.h>
 #include <commdb.h>
-#include <ApDataHandler.h>
+#include <cmmanagerext.h>
+#include <cmconnectionmethodext.h>
 #include <CWPAdapter.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
@@ -57,7 +58,12 @@ CWPWAPAdapterBase::~CWPWAPAdapterBase()
     iItems.ResetAndDestroy();
     iHiddenItems.ResetAndDestroy();
     delete iCommsDb;
-    delete iAPHandler;
+    
+    if ( iCmManager !=  NULL )
+        {
+        iCmManager->Close();
+        delete iCmManager;
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -200,7 +206,7 @@ void CWPWAPAdapterBase::DeleteL( const TDesC8& aSaveData )
     if( pckg().iSaveItemType == KWPWAPItemTypeAccesspoint )
         {
         DVA( "DeleteL: Deleting access point %08x", pckg().iUID );
-        TRAPD( err, iAPHandler->RemoveAPL( pckg().iUID ) );
+        TRAPD( err, iCmManager->ConnectionMethodL( pckg().iUID).DeleteL());
         DVA( "DeleteL: Deleted, %d", err );
         
         switch( err )
@@ -246,12 +252,10 @@ void CWPWAPAdapterBase::CreateDbL()
         {
         iCommsDb = CCommsDatabase::NewL();
         }
+    iCmManager = new RCmManagerExt;
+    iCmManager->OpenL();
 
-    if( !iAPHandler )
-        {
-        iAPHandler = CApDataHandler::NewLC( *iCommsDb );
-        CleanupStack::Pop(); // iAPEngine
-        }
+    
     }
 
 //  End of File  

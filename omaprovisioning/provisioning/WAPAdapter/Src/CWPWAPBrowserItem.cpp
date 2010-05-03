@@ -20,8 +20,6 @@
 // INCLUDE FILES
 #include <e32base.h>
 #include <msvapi.h>
-#include <ApDataHandler.h>
-#include <ApAccessPointItem.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <CWPAdapter.h>
@@ -50,14 +48,14 @@ CWPWAPBrowserItem::CWPWAPBrowserItem( TBool aFirst,
                                       const TDesC& aDefaultBookmarkName,
                                       CWPCharacteristic& aCharacteristic, 
                                       CCommsDatabase*& aCommsDb, 
-                                      CApDataHandler*& aAPHandler,
+                                      RCmManagerExt*& aCmManager,
                                       RFavouritesDb aBookmarkDb 
                                     )
                                     : CWPWAPItemBase( aTitle,
                                                       aDefaultName, 
                                                       aCharacteristic, 
                                                       aCommsDb, 
-                                                      aAPHandler ), 
+                                                      aCmManager ), 
                                     iDefaultBookmarkName( aDefaultBookmarkName ),
                                     iBookmarkTitle( aBookmarkTitle ), 
                                     iDb( aBookmarkDb ),
@@ -87,7 +85,7 @@ CWPWAPBrowserItem* CWPWAPBrowserItem::NewL( TBool aFirst,
                                             const TDesC& aDefaultBookmarkName,
                                             CWPCharacteristic& aCharacteristic, 
                                             CCommsDatabase*& aCommsDb, 
-                                            CApDataHandler*& aAPHandler,
+                                            RCmManagerExt*& aCmManager,
                                             RFavouritesDb aBookmarkDb
                                             )
     {
@@ -98,7 +96,7 @@ CWPWAPBrowserItem* CWPWAPBrowserItem::NewL( TBool aFirst,
                                                              aDefaultBookmarkName,
                                                              aCharacteristic, 
                                                              aCommsDb, 
-                                                             aAPHandler, 
+                                                             aCmManager, 
                                                              aBookmarkDb ); 
     CleanupStack::PushL(self);
     self->ConstructL();
@@ -130,16 +128,15 @@ void CWPWAPBrowserItem::SaveL()
         {
         uid.Copy( iLink->Data() );
         }
-    
-    CApAccessPointItem* apItem = CApAccessPointItem::NewLC();
-    // will leave if AP does not exists
-    iAPHandler->AccessPointDataL( iUID, *apItem );
+    RCmConnectionMethodExt cm;
+    cm = iCmManager->ConnectionMethodL( iUID );
+    CleanupClosePushL( cm );
     if( iAddr )
         {
         // Update the access point startpage
-        WriteHomePageL( *apItem );
+        WriteHomePageL( cm );
         }
-    CleanupStack::PopAndDestroy(); // apItem
+    CleanupStack::PopAndDestroy(); // cm
     }
 
 // -----------------------------------------------------------------------------
@@ -159,7 +156,7 @@ void CWPWAPBrowserItem::SetAsDefaultL()
     {
     FLOG( _L( "[Provisioning] CWPWAPBrowserItem::SetAsDefaultL:" ) );
     
-    CreateDbL();
+  /*  CreateDbL();
     TRAPD( err, iAPHandler->SetAsDefaultL( (TInt)iUID, EIspTypeWAPOnly) );
     if( err == KErrLocked )
         {
@@ -196,7 +193,7 @@ void CWPWAPBrowserItem::SetAsDefaultL()
     CleanupStack::PopAndDestroy(); // repository
     FLOG( _L( "[Provisioning] CWPWAPBrowserItem::SetAsDefaultL: Set Done" ) );
 
-    User::LeaveIfError( err );
+    User::LeaveIfError( err );*/
     }
 
 // -----------------------------------------------------------------------------

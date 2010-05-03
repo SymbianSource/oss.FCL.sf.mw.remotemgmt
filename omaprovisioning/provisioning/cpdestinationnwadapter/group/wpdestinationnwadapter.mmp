@@ -56,6 +56,5 @@ SYSTEMINCLUDE   /epoc32/include/ecom
 LIBRARY         euser.lib
 LIBRARY         provisioningengine.lib
 LIBRARY         charconv.lib
-LIBRARY         apengine.lib
 LIBRARY         commdb.lib
 LIBRARY         cmmanager.lib

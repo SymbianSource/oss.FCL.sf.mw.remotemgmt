@@ -22,8 +22,9 @@
 #include <msvapi.h>
 #include <mmsclient.h> 
 #include <mtclreg.h>
-#include <ApDataHandler.h>
-#include <ApAccessPointItem.h>
+#include <cmmanagerext.h>
+#include <cmconnectionmethodext.h>
+#include <cmpluginpacketdatadef.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
 #include <CWPAdapter.h>
@@ -49,8 +50,8 @@ CWPWAPMMSItem::CWPWAPMMSItem(  const TDesC& aTitle,
     const TDesC& aDefaultName, 
     CWPCharacteristic& aCharacteristic, 
     CCommsDatabase*& aDb, 
-    CApDataHandler*& aAPHandler )
-: CWPWAPItemBase( aTitle, aDefaultName, aCharacteristic, aDb, aAPHandler )
+    RCmManagerExt*& aCmManager )
+: CWPWAPItemBase( aTitle, aDefaultName, aCharacteristic, aDb, aCmManager )
     {
     }
 
@@ -73,10 +74,10 @@ CWPWAPMMSItem* CWPWAPMMSItem::NewL( const TDesC& aTitle,
     const TDesC& aDefaultName, 
     CWPCharacteristic& aCharacteristic, 
     CCommsDatabase*& aDb, 
-    CApDataHandler*& aAPHandler )
+    RCmManagerExt*& aCmManager )
     {
     CWPWAPMMSItem* self = new(ELeave) CWPWAPMMSItem( aTitle, aDefaultName, 
-        aCharacteristic, aDb, aAPHandler ); 
+        aCharacteristic, aDb, aCmManager ); 
     CleanupStack::PushL(self);
     self->ConstructL();
     CleanupStack::Pop(self);
@@ -96,11 +97,35 @@ CWPWAPMMSItem::~CWPWAPMMSItem()
 void CWPWAPMMSItem::SaveL()
     {
     CreateDbL();
-
-    // Find a proper GPRS access point
-    CApAccessPointItem* item = FindGPRSLC();
-    WriteHomePageL( *item );    
-    CleanupStack::PopAndDestroy(); // item
+	TBool check = EFalse;
+    RCmConnectionMethodExt cm;
+    TUint32 bearer = 0;
+    for( TInt i( 0 ); i < iLinks.Count() && check == EFalse ; i++ )
+       {
+       CWPCharacteristic* curr = iLinks[i];
+       TPckgBuf<TUint32> uidPckg;
+       const TInt pkgLength( uidPckg.MaxLength() );
+       for( TInt dataNum( 0 ); check == EFalse && curr->Data( dataNum ).Length() == pkgLength;dataNum++ )
+          {
+          uidPckg.Copy( curr->Data( dataNum ) );
+          // Read the access point pointed to by TO-NAPID or TO-PROXY
+          cm = iCmManager->ConnectionMethodL( uidPckg() );
+          CleanupClosePushL( cm );
+          bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );
+          if( bearer == KUidPacketDataBearerType )
+            {
+            // Item left on cleanup stack
+            check = ETrue;
+            }
+          else
+            {
+            CleanupStack::PopAndDestroy(); // cm
+            }
+          }
+        }
+    
+    WriteHomePageL( cm );    
+    CleanupStack::PopAndDestroy(); // cm
     }
 
 // -----------------------------------------------------------------------------
@@ -223,48 +248,6 @@ void CWPWAPMMSItem::HandleSessionEventL(TMsvSessionEvent /*aEvent*/,
     {
     }
 
-// -----------------------------------------------------------------------------
-// CWPWAPMMSItem::FindGPRSL
-// -----------------------------------------------------------------------------
-//
-CApAccessPointItem* CWPWAPMMSItem::FindGPRSLC() const
-    {
-    CApAccessPointItem* result = NULL;
-    for( TInt i( 0 ); i < iLinks.Count() && result == NULL; i++ )
-        {
-        CWPCharacteristic* curr = iLinks[i];
 
-        TPckgBuf<TUint32> uidPckg;
-        const TInt pkgLength( uidPckg.MaxLength() );
-        for( TInt dataNum( 0 ); 
-            result == NULL && curr->Data( dataNum ).Length() == pkgLength; 
-            dataNum++ )
-            {
-            uidPckg.Copy( curr->Data( dataNum ) );
-
-            // Read the access point pointed to by TO-NAPID or TO-PROXY
-            CApAccessPointItem* item = CApAccessPointItem::NewLC();
-            iAPHandler->AccessPointDataL( uidPckg(), *item );
-
-            if( item->BearerTypeL() == EApBearerTypeGPRS )
-                {
-                // Item left on cleanup stack
-                result = item;
-                }
-            else
-                {
-                CleanupStack::PopAndDestroy(); // item
-                }
-            }
-        }
-
-    if( !result )
-        {
-        // Nothing left on cleanup stack. That doesn't matter as we leave.
-        User::Leave( KErrNotFound );
-        }
-
-    return result;
-    }
 
 //  End of File  

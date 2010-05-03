@@ -26,11 +26,11 @@
 #include <NSmlDMProvisioningAdapter.rsg>
 #include <f32file.h>
 #include <bautils.h>
-#include <ApUtils.h>
 #include <utf.h>
 #include <featmgr.h>
 #include <barsc.h> 
-
+#include <cmconnectionmethoddef.h>
+#include <cmmanagerext.h>
 #include <nsmldebug.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
@@ -268,13 +268,16 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	if( iProfiles[aItem]->iVisitParameter && iProfiles[aItem]->iVisitParameter->Data().Length() == uid.MaxLength() )
 		{
 		uid.Copy( iProfiles[aItem]->iVisitParameter->Data() );
-
-		CCommsDatabase* commDb = CCommsDatabase::NewL();
-		CleanupStack::PushL( commDb );
-		CApUtils* aputils = CApUtils::NewLC( *commDb );
+		
+		RCmManagerExt  cmmanagerExt;
+		cmmanagerExt.OpenL();
+		CleanupClosePushL(cmmanagerExt);
+		RCmConnectionMethodExt cm;
+		cm = cmmanagerExt.ConnectionMethodL( uid());
+		CleanupClosePushL( cm );
 
 		TUint apId = 0;
-		TRAPD( ERROR, apId = aputils->IapIdFromWapIdL( uid() ) );
+		TRAPD( ERROR, apId = cm.GetIntAttributeL(CMManager::ECmIapId) );
 		if( ERROR != KErrNone )
 			{
 			apId = GetDefaultIAPL();
@@ -286,7 +289,7 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 
 		connection.SetPropertyL( KNSmlIAPId, *iapBuf );
 		
-		CleanupStack::PopAndDestroy( 3 ); //commdb, aputils, iapBuf		
+		CleanupStack::PopAndDestroy( 2 ); //cmmanager,cm	
 		}
 		
 	if( iProfiles[aItem]->iHostAddress )

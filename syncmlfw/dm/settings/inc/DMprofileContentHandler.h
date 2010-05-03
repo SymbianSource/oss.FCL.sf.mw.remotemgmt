@@ -22,7 +22,7 @@
 //  INCLUDES
 #include <e32std.h>
 #include <f32file.h>
-#include "mxmlattributes.h"
+#include "MXMLAttributes.h"
 #include "MXMLContentHandler.h"
 #include "NSmlDMResourceProfile.h"
 

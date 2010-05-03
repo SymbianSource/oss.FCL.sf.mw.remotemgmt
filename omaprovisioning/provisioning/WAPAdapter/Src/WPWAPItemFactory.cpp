@@ -33,10 +33,10 @@ MWPWAPItemBase* WPWAPItemFactory::CreateMMSLC( const TDesC& aTitle,
             const TDesC& aDefaultName, 
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler )
+            RCmManagerExt*& aCmManager )
     {
     CWPWAPMMSItem* item = CWPWAPMMSItem::NewL( aTitle, aDefaultName, 
-        aCharacteristic, aCommsDb, aAPHandler );
+        aCharacteristic, aCommsDb, aCmManager );
     CleanupStack::PushL( item );
     return item;
     }
@@ -52,11 +52,11 @@ MWPWAPItemBase* WPWAPItemFactory::CreateBrowserLC( TBool aFirst,
             const TDesC& aDefaultBookmarkName,
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler,
+            RCmManagerExt*& aCmManager,
             RFavouritesDb aBookmarkDb )
     {
     CWPWAPBrowserItem* item = CWPWAPBrowserItem::NewL( aFirst, aTitle, aBookmarkTitle, 
-        aDefaultName, aDefaultBookmarkName, aCharacteristic, aCommsDb, aAPHandler, aBookmarkDb );
+        aDefaultName, aDefaultBookmarkName, aCharacteristic, aCommsDb, aCmManager, aBookmarkDb );
     CleanupStack::PushL( item );
     return item;
     }

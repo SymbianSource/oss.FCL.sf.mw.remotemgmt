@@ -69,12 +69,12 @@ LIBRARY		  centreptool.lib
 LIBRARY		  x509.lib 
 LIBRARY		  crypto.lib 
 LIBRARY 	  x500.lib
-LIBRARY		  imut.lib
 LIBRARY 	  dmutil.lib
 LIBRARY		  estor.lib
 LIBRARY		  commdb.lib
 LIBRARY		  commsdat.lib
 LIBRARY		  flogger.lib
 LIBRARY 	  featmgr.lib
+LIBRARY     inetprotutil.lib
 
 SMPSAFE

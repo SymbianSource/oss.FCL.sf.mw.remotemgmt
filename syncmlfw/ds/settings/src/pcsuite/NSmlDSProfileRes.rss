@@ -117,11 +117,11 @@ RESOURCE PROFILES nsml_ds_profiles
 			},
 		PROFILE
 			{
-			profiledisplayname="O3sis";
+			profiledisplayname="OVISERVER";
 			//username="";
 			//password="";
-			serverurl="http://wdev.o3sis.com:80/syncml.osp";
-			serverid="O3SIS SyncML Server";
+			serverurl="https://sync.ovi.com:443/services/syncml";
+			serverid="Ovi.com";
 			profilehidden=0;
 			transportid=0x101F99F0;
 			deleteallowed=1;
@@ -136,8 +136,8 @@ RESOURCE PROFILES nsml_ds_profiles
 				CONTENTTYPE
 					{
 					adapter_implementation_uid = 0x101F6DDD; // Contacts
-					clientdatasource = "C:Contacts.cdb";
-					serverdatasource = "contacts";
+					clientdatasource = "symbian";
+					serverdatasource = "./Contact/Unfiled";
 					synctype = ESmlTwoWay;
 					filtervisibility = "h";
 					synctypevisibility = "r";
@@ -148,7 +148,18 @@ RESOURCE PROFILES nsml_ds_profiles
 					{
 					adapter_implementation_uid = 0x101F6DDE; // Calendar
 					clientdatasource = "Calendar";
-					serverdatasource = "calendar";
+					serverdatasource = "./EventTask/Tasks";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F8612; // Notes
+					clientdatasource = "c:Calendar";
+					serverdatasource = "./Note/Unfiled";
 					synctype = ESmlTwoWay;
 					filtervisibility = "h";
 					synctypevisibility = "r";

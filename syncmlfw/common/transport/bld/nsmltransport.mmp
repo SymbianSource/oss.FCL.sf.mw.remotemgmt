@@ -52,7 +52,7 @@ LIBRARY			bluetooth.lib
 LIBRARY			nsmldebug.lib
 LIBRARY 	commonengine.lib // 1.2 CHANGES: Offline mode
 LIBRARY         commdb.lib
-LIBRARY         apengine.lib
+LIBRARY         cmmanager.lib
 LIBRARY	    CENTRALREPOSITORY.LIB
 LIBRARY			FeatMgr.lib
 

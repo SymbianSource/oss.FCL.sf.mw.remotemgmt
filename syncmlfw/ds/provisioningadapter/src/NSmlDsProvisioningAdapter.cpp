@@ -26,9 +26,9 @@
 #include <barsread.h>
 #include <NSmlDSProvisioningAdapter.rsg>
 #include <bautils.h>
-#include <ApUtils.h>
 #include <barsc.h>
-
+#include <cmconnectionmethoddef.h>
+#include <cmmanagerext.h>
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
 #include <nsmldsconstants.h>
@@ -262,12 +262,15 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
             {
             uid.Copy(iProfiles[aItem]->iVisitParameter->Data() );
 
-            CCommsDatabase* commDb = CCommsDatabase::NewL();
-            CleanupStack::PushL(commDb);
-            CApUtils* aputils = CApUtils::NewLC( *commDb);
+            RCmManagerExt  cmmanagerExt;
+		    cmmanagerExt.OpenL();
+		    CleanupClosePushL(cmmanagerExt);
+		    RCmConnectionMethodExt cm;
+		    cm = cmmanagerExt.ConnectionMethodL( uid());
+		    CleanupClosePushL( cm );
 
-            TRAP( ERROR, apId = aputils->IapIdFromWapIdL( uid() ) );
-            CleanupStack::PopAndDestroy(2); //commdb, aputils
+            TRAP( ERROR, apId = cm.GetIntAttributeL(CMManager::ECmIapId) );
+            CleanupStack::PopAndDestroy(2); //cmmanager,cm
             }
 
         //Get default access point in failure of getting AP

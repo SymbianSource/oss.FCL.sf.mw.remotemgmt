@@ -26,11 +26,12 @@
 class MWPWAPItemBase;
 class CWPCharacteristic;
 class CCommsDatabase;
-class CApDataHandler;
+class RCmConnectionMethodExt;
+class RCmDestinationExt;
 class CBookmarkDb;
 class RFavouritesDb;
 // CLASS DECLARATION
-
+class RCmManagerExt;
 /**
  * WPWAPItemFactory is a factory for all WAP items.
  *
@@ -53,7 +54,7 @@ class WPWAPItemFactory
             const TDesC& aDefaultName, 
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler );
+            RCmManagerExt*& aCmManager );
 
 
         /**
@@ -75,7 +76,7 @@ class WPWAPItemFactory
             const TDesC& aDefaultBookmarkName,
             CWPCharacteristic& aCharacteristic, 
             CCommsDatabase*& aCommsDb, 
-            CApDataHandler*& aAPHandler,
+            RCmManagerExt*& aCmManager,
             RFavouritesDb aBookmarkDb );
             
         /**
