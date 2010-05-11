@@ -797,7 +797,7 @@ CNSmlDmDDF::TAccess CNSmlDmDDF::CheckURIL(const TDesC8& aURI,
 	TAccess ret(ENotExist);
 	TUint8 access(0);
 	TUriCheck found = CheckAdapterL(aURI,access);
-	if(found!=EUriNotFound)
+	if(aURI.Length() > 0 && found!=EUriNotFound)
 		{
 		//uri OK, now check the access which is set in ddf
 		ret = ENotAccess;

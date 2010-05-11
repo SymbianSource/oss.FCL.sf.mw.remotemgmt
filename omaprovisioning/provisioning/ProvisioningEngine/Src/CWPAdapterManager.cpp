@@ -25,7 +25,7 @@
 #include "MWPContextManager.h"
 #include "MWPContextExtension.h"
 #include "ProvisioningDebug.h"
-#include <mmf\common\mmfcontrollerpluginresolver.h>
+#include <mmf/common/mmfcontrollerpluginresolver.h>
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------

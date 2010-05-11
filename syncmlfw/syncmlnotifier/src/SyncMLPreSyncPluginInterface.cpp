@@ -106,7 +106,7 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiateRoamingPluginLC( TSmlProfile
     if (error != KErrNone)
         {
 		CleanupStack::PopAndDestroy( &infoArray );
-        return NULL;
+		User::Leave( error );
         }
 
     // Instantiate plugins for all impUIds by calling 
@@ -123,7 +123,8 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiateRoamingPluginLC( TSmlProfile
         {			
 	        //instantiate plugin for impUid
 	        defaultSyncPlugin = InstantiatePlugInFromImpUidL( impUid );
-	        defaultSyncPlugin->SetProfile(aProfileId);
+			defaultSyncPlugin->SetProfile(aProfileId);
+			break;
         }
 		else
 		{
@@ -144,12 +145,9 @@ CPreSyncPlugin* CPreSyncPluginInterface::InstantiateRoamingPluginLC( TSmlProfile
     CleanupStack::PopAndDestroy( &infoArray );
 	if(bHandleSync == true)
 	{		
-		//delete defaultSyncPlugin;
-	    if(defaultSyncPlugin != NULL)
-	    {
-	    delete defaultSyncPlugin;
-	    }
-	    CleanupStack::PushL(syncPlugin);
+		
+	     delete defaultSyncPlugin;
+		CleanupStack::PushL(syncPlugin);
 		return syncPlugin;
 	}
 	else
