@@ -122,7 +122,7 @@ class CBTObexSearcher : public CObexSearcherBase , public MBTEngSettingsObserver
 
         TPckgBuf<TBool> iOffline;
 
-        RNotifier iNotifier;
+ //       RNotifier iNotifier;
 
         CBTEngSettings* iSettings;
     };

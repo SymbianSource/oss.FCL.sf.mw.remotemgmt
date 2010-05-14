@@ -811,10 +811,10 @@ CNSmlNotifierObserver::~CNSmlNotifierObserver()
 
     if (!iHbSyncmlNotifierEnabled)
         {
-        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+//        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
 
-        iNotifier.CancelNotifier(KUidNotifier);
-        iNotifier.Close();
+//        iNotifier.CancelNotifier(KUidNotifier);
+//        iNotifier.Close();
         }
     else
         {
@@ -849,15 +849,15 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
 
     TInt err = KErrNone;
 
-    if (!iHbSyncmlNotifierEnabled) //Syncml notifier
+ /*   if (!iHbSyncmlNotifierEnabled) //Syncml notifier
         err = iNotifier.Connect();
-
+*/
     if (err == KErrNone)
         {
         if (!iHbSyncmlNotifierEnabled)
             {
-            iNotifier.StartNotifierAndGetResponse(iStatus, KUidNotifier,
-                    data, iResBuf);
+//            iNotifier.StartNotifierAndGetResponse(iStatus, KUidNotifier,
+//                    data, iResBuf);
             LOGSTRING2( "CNSmlNotifierObserver::ConnectToNotifierL %d after connect, StartNotifierAndGetResponse and after setactive" , iStatus.Int());
             }
         else
@@ -1015,8 +1015,8 @@ void CNSmlNotifierObserver::NotifierTimeOut()
     if(!iHbSyncmlNotifierEnabled)
         {
         TBuf8<1> dummy;
-        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
-        iNotifier.CancelNotifier( KUidNotifier );
+//        iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+//        iNotifier.CancelNotifier( KUidNotifier );
         }
     else
         {

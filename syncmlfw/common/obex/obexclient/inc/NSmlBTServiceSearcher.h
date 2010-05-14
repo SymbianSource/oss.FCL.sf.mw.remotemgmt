@@ -82,7 +82,7 @@ private:
 private:
     TRequestStatus* iStatusObserver;    
     TBool iIsDeviceSelectorConnected;
-    RNotifier iDeviceSelector;
+//    RNotifier iDeviceSelector;
     TBTDeviceResponseParamsPckg iResponse;
     CSdpAgent* iAgent;
     CSdpSearchPattern* iSdpSearchPattern;

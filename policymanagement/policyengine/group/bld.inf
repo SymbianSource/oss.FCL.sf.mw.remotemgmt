@@ -34,7 +34,7 @@ PRJ_EXPORTS
 PRJ_MMPFILES
 PolicyEngineClient.mmp
 CentRepToolClient.mmp
-PolicyEngineUI.mmp
+//PolicyEngineUI.mmp
 PolicyEngineServer.mmp
 CentRepToolServer.mmp
 PMRfsPlugin.mmp

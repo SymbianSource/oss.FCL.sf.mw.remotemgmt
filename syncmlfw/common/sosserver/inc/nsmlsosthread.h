@@ -125,7 +125,7 @@ class CNSmlThreadEngine : public CActive
 		
 		//used for server alert initiated job
 		RTimer iTimeout;
-    	RNotifier iNotifier;
+//    	RNotifier iNotifier;
     	CNSmlNotifierObserver* iNotifierObserver;
     	RLibrary iSessionLib;
     	CNSmlDMAgent* iDMAgent;		
@@ -193,7 +193,7 @@ class CNSmlNotifierObserver : public CActive
 	private:
 		TRequestStatus& iCallerStatus;
 		
-		RNotifier iNotifier;
+//		RNotifier iNotifier;
 		TSyncMLAppLaunchNotifRetValPckg iResBuf;
 	
 		CNSmlThreadParams& iThreadParams;
