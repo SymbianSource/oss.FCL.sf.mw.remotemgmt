@@ -68,7 +68,8 @@ inline CDMEncryptionUtil* CDMEncryptionUtil::NewL()
        {
            User::Leave(terr);
        }
-       if(infoArray.Count() > 1)
+       // darios: should also take account of count returning 0
+       if(infoArray.Count() == 0 || infoArray.Count() > 1)
        {
            User::Leave(KErrBadName);
        }
