@@ -578,6 +578,7 @@ class CNSmlDSAgent : public CNSmlAgentBase
 	TBool iUpdateLastAnchor;
 	//For storing Server Status Code
 	CRepository* iRepositorySSC;
+	CRepository* iErrorReportingRep;
 	RArray<TInt>* iServerStatusCodeArray;
 	TBool iIsExtendedServerErrorCodesSupported;
 	};

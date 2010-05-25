@@ -31,7 +31,6 @@
 #include "nsmldsagconstants.h"
 #include <centralrepository.h> //CRepository
 #include <NsmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
-#include <NsmlOperatorErrorCRKeys.h> // KCRUidOperatorDatasyncErrorKeys
 
 _LIT(Kinfile,"z:\\Private\\101F99FB\\VariantData.xml");
 const TInt KUrlLength = 256;
@@ -983,51 +982,4 @@ EXPORT_C HBufC8* CNSmlDSSettings::OperatorProfileModValueLC()
     return buf;
     }
     
-//-----------------------------------------------------------------------------
-// CNSmlDSSettings::StoreSyncType
-// Checks if received Alert Code is a sync type and tries to convert
-// it to Sync Type (TSmlSyncType).
-//-----------------------------------------------------------------------------
-//
-EXPORT_C void CNSmlDSSettings::StoreSyncType( const TDes8& aAlertCode )
-    {
-    TInt syncType = KErrNotFound;
-
-    if ( aAlertCode == KNSmlDSTwoWay )
-        {
-        syncType = ESmlTwoWay;
-        }
-    else if ( aAlertCode == KNSmlDSOneWayFromServer )
-        {
-        syncType = ESmlOneWayFromServer;
-        }
-    else if ( aAlertCode == KNSmlDSOneWayFromClient )
-        {
-        syncType = ESmlOneWayFromClient;
-        }
-    else if ( aAlertCode == KNSmlDSSlowSync )
-        {
-        syncType = ESmlSlowSync;
-        }
-    else if ( aAlertCode == KNSmlDSRefreshFromServer )
-        {
-        syncType = ESmlRefreshFromServer;
-        }
-    else if ( aAlertCode == KNSmlDSRefreshFromClient )
-        {
-        syncType = ESmlRefreshFromClient;
-        }
-
-    if ( syncType != KErrNotFound )
-        {
-        CRepository* rep = NULL;
-        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
-        if ( err == KErrNone )
-            {
-            rep->Set( KNsmlOpDsSyncType, syncType );
-            delete rep;
-            }
-        }
-    }
-
 //  End of File

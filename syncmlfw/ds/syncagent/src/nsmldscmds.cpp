@@ -52,6 +52,7 @@
 #include "nsmldsbatchbuffer.h"
 #include "nsmldshostclient.h"
 #include "nsmloperatordefines.h"
+#include "NsmlOperatorErrorCRKeys.h"
 
 #ifndef __WINS__
 // This lowers the unnecessary compiler warning (armv5) to remark.
@@ -1712,9 +1713,7 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 					}
 				}
 			}
-		CNSmlDSSettings* settings = CNSmlDSSettings::NewLC();
-		settings->StoreSyncType( alertCode );
-		CleanupStack::PopAndDestroy( settings );
+		StoreSyncType( alertCode );
 		}
 		
 	// status 406 is returned if <Filter> is present BUT the session continues
@@ -4812,4 +4811,50 @@ void CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL(SmlDevInfDevInfPtr_t& aDe
         }
     }
 
+//-----------------------------------------------------------------------------
+// CNSmlDSCmds::StoreSyncType
+// Checks if received Alert Code is a sync type and tries to convert
+// it to Sync Type (TSmlSyncType).
+//-----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::StoreSyncType( const TDes8& aAlertCode )
+    {
+    TInt syncType = KErrNotFound;
+
+    if ( aAlertCode == KNSmlDSTwoWay )
+        {
+        syncType = ESmlTwoWay;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromServer )
+        {
+        syncType = ESmlOneWayFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromClient )
+        {
+        syncType = ESmlOneWayFromClient;
+        }
+    else if ( aAlertCode == KNSmlDSSlowSync )
+        {
+        syncType = ESmlSlowSync;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromServer )
+        {
+        syncType = ESmlRefreshFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromClient )
+        {
+        syncType = ESmlRefreshFromClient;
+        }
+
+    if ( syncType != KErrNotFound )
+        {
+        CRepository* rep = NULL;
+        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+        if ( err == KErrNone )
+            {
+            rep->Set( KNsmlOpDsSyncType, syncType );
+            delete rep;
+            }
+        }
+    }
 // End of File

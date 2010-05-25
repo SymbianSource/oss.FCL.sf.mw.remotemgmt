@@ -52,6 +52,21 @@
 // For Device encryption
 #include <DevEncEngineConstants.h>
 #include <DevEncSessionBase.h>
+#include <startupdomainpskeys.h>
+/*
+#ifdef _DEBUG
+#define __SCP_DEBUG
+#endif // _DEBUG
+
+// Define this so the precompiler in CW 3.1 won't complain about token pasting,
+// the warnings are not valid
+#pragma warn_illtokenpasting off
+
+#ifdef __SCP_DEBUG
+#define Dprint(a) RDebug::Print##a
+#else
+#define Dprint(a)
+#endif // _DEBUG*/
 
 // ==================== LOCAL FUNCTIONS ====================
 
@@ -654,6 +669,12 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
     Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
+    RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
+    TInt startupReason(ENormalStartup);
+    RProperty::Get(KPSUidStartup, KPSStartupReason, startupReason);
+    Dprint( (_L("CSCPServer::ValidateConfigurationL(): startupReason = %d"), startupReason));
+     if((startupReason == ENormalRFSReset)||(startupReason ==  EDeepRFSReset)||(startupReason == EFirmwareUpdate)||(iConfiguration.iConfigFlag == KSCPConfigUnknown))
+         {
     
 	RMobilePhone::TMobilePassword storedCode;
     storedCode.Zero();
@@ -793,7 +814,7 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         } 
     
     User::LeaveIfError( err );
-    
+         }
     Dprint( (_L("<-- CSCPServer::ValidateConfigurationL()") ));
     }
 

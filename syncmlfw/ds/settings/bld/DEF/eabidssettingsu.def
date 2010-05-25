@@ -83,8 +83,7 @@ EXPORTS
 	_ZTV26CNSmlDSResourceContentType @ 82 NONAME ; #<VT>#
 	_ZTI26CNSmlProfileContentHandler @ 83 NONAME ; #<TI>#
 	_ZTV26CNSmlProfileContentHandler @ 84 NONAME ; #<VT>#
-	_ZN15CNSmlDSSettings13StoreSyncTypeERK5TDes8 @ 85 NONAME
-	_ZN15CNSmlDSSettings18IsOperatorProfileLERK7TDesC16 @ 86 NONAME
-	_ZN15CNSmlDSSettings25OperatorProfileModValueLCEv @ 87 NONAME
-	_ZN15CNSmlDSSettings25OperatorProfileSWVValueLCEv @ 88 NONAME
+	_ZN15CNSmlDSSettings18IsOperatorProfileLERK7TDesC16 @ 85 NONAME
+	_ZN15CNSmlDSSettings25OperatorProfileModValueLCEv @ 86 NONAME
+	_ZN15CNSmlDSSettings25OperatorProfileSWVValueLCEv @ 87 NONAME
 

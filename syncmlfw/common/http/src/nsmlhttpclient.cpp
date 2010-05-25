@@ -19,6 +19,9 @@
 #include "nsmlhttpclient.h"
 #include "nsmlerror.h"
 #include <featmgr.h>
+#include "NsmlOperatorErrorCRKeys.h"
+#include <centralrepository.h> 
+
 
 //Fix to Remove the Bad Compiler Warnings
 #ifndef __WINS__
@@ -129,10 +132,21 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 				status = CNSmlHTTP::SetErrorStatus( status );
 				
 				if (status == resp.StatusCode() )
-				{
-					DBG_FILE( _S8("Error in Communication string is set"));
-					status = TNSmlError::ESmlCommunicationInterrupted;
-				}
+				    {
+                    if( this->iAgent->iSession == ESyncMLDSSession )
+                        {
+                        CRepository* rep = NULL;
+                        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+                        if ( err == KErrNone )
+                            {
+                            rep->Set( KNsmlOpDsErrorCode, status );
+                            delete rep;
+                            }
+                        }  
+
+                    DBG_FILE( _S8("Error in Communication string is set"));
+                    status = TNSmlError::ESmlCommunicationInterrupted;
+				    }
 					
 				// content mismatch
 				aTransaction.Close();

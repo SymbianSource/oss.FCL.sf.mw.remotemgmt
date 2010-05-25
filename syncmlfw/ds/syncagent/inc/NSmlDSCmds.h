@@ -216,6 +216,15 @@ class CNSmlDSCmds : public CNSmlCmdsBase, public MWBXMLDevInfCallbacks
 		* @param aFinal ETrue if this is the last message from the client.
 		*/
 		void DoEndMessageL( TBool aFinal );
+
+		/**
+	    * Checks if received Alert Code is a sync type and tries to convert
+	    * it to Sync Type (TSmlSyncType). If conversion is succesful, the
+	    * value is stored into Cenrep file (KCRUidOperatorDatasyncInternalKeys).
+	    * @param aAlertCode received alert code.
+	    */
+	    void StoreSyncType( const TDes8& aAlertCode );
+
 		        
     private: // constructors and operators
     	/**

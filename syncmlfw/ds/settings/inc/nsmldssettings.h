@@ -390,14 +390,6 @@ class CNSmlDSSettings : public CBase
 		 */
 		IMPORT_C HBufC8* OperatorProfileModValueLC();
         
-		/**
-		 * Checks if received Alert Code is a sync type and tries to convert
-		 * it to Sync Type (TSmlSyncType). If conversion is succesful, the
-		 * value is stored into Cenrep file (KCRUidOperatorDatasyncInternalKeys).
-		 * @param aAlertCode received alert code.
-		 */
-		IMPORT_C void StoreSyncType( const TDes8& aAlertCode );
-
         /**
 		* Parse xml 
 		* @param - whether data has to be restored from existing database
