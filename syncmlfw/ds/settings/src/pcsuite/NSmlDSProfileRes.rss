@@ -117,10 +117,10 @@ RESOURCE PROFILES nsml_ds_profiles
 			},
 		PROFILE
 			{
-			profiledisplayname="OVISERVER";
+			profiledisplayname="Intellisync";
 			//username="";
 			//password="";
-			serverurl="https://sync.ovi.com:443/services/syncml";
+			serverurl="http://82.77.123.83:80/services/syncml";
 			serverid="Ovi.com";
 			profilehidden=0;
 			transportid=0x101F99F0;
@@ -147,7 +147,7 @@ RESOURCE PROFILES nsml_ds_profiles
 				CONTENTTYPE
 					{
 					adapter_implementation_uid = 0x101F6DDE; // Calendar
-					clientdatasource = "Calendar";
+					clientdatasource = "C:Calendar";
 					serverdatasource = "./EventTask/Tasks";
 					synctype = ESmlTwoWay;
 					filtervisibility = "h";
@@ -158,7 +158,7 @@ RESOURCE PROFILES nsml_ds_profiles
 				CONTENTTYPE
 					{
 					adapter_implementation_uid = 0x101F8612; // Notes
-					clientdatasource = "c:Calendar";
+					clientdatasource = "C:Calendar";
 					serverdatasource = "./Note/Unfiled";
 					synctype = ESmlTwoWay;
 					filtervisibility = "h";

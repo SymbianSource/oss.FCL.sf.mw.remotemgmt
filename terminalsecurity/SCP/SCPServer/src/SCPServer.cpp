@@ -52,6 +52,7 @@
 // For Device encryption
 #include <DevEncEngineConstants.h>
 #include <DevEncSessionBase.h>
+#include <startupdomainpskeys.h>
 
 // ==================== LOCAL FUNCTIONS ====================
 
@@ -654,6 +655,12 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
     Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
+    RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
+    TInt startupReason(ENormalStartup);
+    RProperty::Get(KPSUidStartup, KPSStartupReason, startupReason);
+    Dprint( (_L("CSCPServer::ValidateConfigurationL(): startupReason = %d"), startupReason));
+     if((startupReason == ENormalRFSReset)||(startupReason ==  EDeepRFSReset)||(startupReason == EFirmwareUpdate)||(iConfiguration.iConfigFlag == KSCPConfigUnknown))
+         {
     
 	RMobilePhone::TMobilePassword storedCode;
     storedCode.Zero();
@@ -793,7 +800,7 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         } 
     
     User::LeaveIfError( err );
-    
+         }
     Dprint( (_L("<-- CSCPServer::ValidateConfigurationL()") ));
     }
 

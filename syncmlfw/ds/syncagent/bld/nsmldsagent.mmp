@@ -88,5 +88,6 @@ LIBRARY        	connmonext.lib
 LIBRARY         NsmlProfileUtil.lib
 LIBRARY         syncmlclientapi.lib
 LIBRARY			centralrepository.lib
+LIBRARY         cmmanager.lib
 //RD_AUTO_RESTART
 
