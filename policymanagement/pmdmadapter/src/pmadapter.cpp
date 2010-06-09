@@ -771,7 +771,7 @@ void CPmAdapter::FetchLeafObjectL( const TDesC8& aURI, const TDesC8& aLUID, cons
 				TBase64 B64Coder;
 				HBufC8 *target = HBufC8::NewLC( ( size * 6 ) / 3 );
 				TPtr8 targetPtr( target->Des() );
-				B64Coder.Encode( *data, targetPtr ); 
+				B64Coder.PortableEncode( *data, targetPtr ); 
 				object->InsertL( 0, ptr );
 				CleanupStack::PopAndDestroy( 3, &fs );
 				ret = EOk;

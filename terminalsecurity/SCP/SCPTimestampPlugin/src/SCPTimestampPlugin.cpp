@@ -298,7 +298,8 @@ void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamOb
         iConfiguration->Get( KSCPUsedTolerance, tolerance ); // ignore errors
         Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): tolerance get: %d"), tolerance ) );                
         Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): iMinTolerance : %d"), iMinTolerance ) );                
-        if ( tolerance >= iMinTolerance )
+
+        if ( iMinTolerance > 0 && tolerance >= iMinTolerance )
             {
             ret = KErrSCPCodeChangeNotAllowed;
             Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL() KErrSCPCodeChangeNotAllowed") )); 
@@ -426,11 +427,13 @@ void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObj
             {
             // Set the last time the password was changed, for expiration
             iConfiguration->Set( KSCPLastChangeTime, timeBuf );
-            }        
+            }
+
         Dprint( ( _L( "CSCPPatternPlugin::PasswordChanged(): iMinInterval: %d"), iMinInterval ) );
-        if ( iMinInterval > 0 )
-            {
+
+        if ( iMinInterval > 0 && iMinTolerance > 0) {
             TInt ret = IsAfter( KSCPIntervalStartTime, iMinInterval, KSCPTypeHours );
+
             if ( ret == KSCPIsAfter )
                 {                                                        
                 // Interval exceeded, start a new interval from here
@@ -462,7 +465,12 @@ void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObj
                 Dprint( ( _L( "CSCPPatternPlugin::PasswordChanged(): tolerance set: %d"), tolerance ) );  
                 }                       
             }        
-        
+		else {
+			iConfiguration->Set( KSCPIntervalStartTime, 0 );
+			iConfiguration->Set( KSCPUsedTolerance, 0 );
+		}
+
+
         WriteConfiguration();
         }
         else

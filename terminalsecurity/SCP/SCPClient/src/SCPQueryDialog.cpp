@@ -155,6 +155,11 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
     
     CAknTextQueryDialog::PreLayoutDynInitL();
     
+    CEikSecretEditor* queryControl = static_cast<CEikSecretEditor*>( 
+                QueryControl()->ControlByLayoutOrNull( QueryControl()->QueryType() ) );
+
+    queryControl->SetFeature(CEikSecretEditor::ELockQuerySCT, ETrue);
+
     //disable in call bubble.
     if ( AknLayoutUtils::PenEnabled() )
         {

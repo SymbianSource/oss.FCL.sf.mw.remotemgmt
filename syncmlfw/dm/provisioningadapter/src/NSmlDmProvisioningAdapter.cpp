@@ -59,6 +59,7 @@ CNSmlDmProvisioningAdapter::CNSmlDmProvisioningAdapter()
 // -----------------------------------------------------------------------------
 void CNSmlDmProvisioningAdapter::ConstructL()
 	{
+    iLock = EFalse;
 	iSession.OpenL();
 	FeatureManager::InitializeLibL();
 	}
@@ -217,9 +218,8 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 		TInt isprofilelocked=profile.ProfileLocked(EFalse, EFalse);
 		if (isprofilelocked == 1)
 		 {
-		  
-      profile.Close(); 
-      User::Leave(KErrAccessDenied); 	 	
+            profile.ProfileLocked(ETrue, EFalse);
+            iLock = ETrue;	 	
 		 }
 		
 		}
@@ -259,6 +259,14 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	    }
 		    
 	// creates profile -> must be done before opening the connection
+
+	
+	if(iLock)
+	    {
+      profile.ProfileLocked(ETrue, ETrue);
+      iLock = EFalse;
+	    }
+	    
 	profile.UpdateL();
 	
 	RSyncMLConnection connection;
@@ -426,7 +434,7 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	    
 	    CleanupStack::PopAndDestroy(alertMessage);	    
 	    }
-
+	    
 	CleanupStack::PopAndDestroy( &profile );
 
 	_DBG_FILE("CNSmlDmProvisioningAdapter::SaveL(): end");
