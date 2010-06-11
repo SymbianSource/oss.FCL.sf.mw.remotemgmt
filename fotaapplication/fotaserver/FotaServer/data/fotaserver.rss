@@ -31,8 +31,8 @@ NAME    FOTS // 4 letter ID
 #include <avkon.hrh>
 #include <AvkonIcons.hrh>
 #include <avkon.loc>
-#include <CommonDialogs.rh>
-#include <CommonDialogs.hrh>
+//#include <CommonDialogs.rh>
+//#include <CommonDialogs.hrh>
 #include <data_caging_paths_strings.hrh>
 #include <fotaserver.loc>
 

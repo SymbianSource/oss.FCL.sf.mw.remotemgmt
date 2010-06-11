@@ -25,17 +25,17 @@ REM SyncML Device Management
 
 
 REM  SyncML Device Management plug-in adapters
-ECOM_PLUGIN(nsmldmdevdetailadapter.dll,nsmldmdevdetailadapter.rsc)
-ECOM_PLUGIN(nsmldmdevinfoadapter.dll,nsmldmdevinfoadapter.rsc)
-//ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
+REM ECOM_PLUGIN(nsmldmdevdetailadapter.dll,nsmldmdevdetailadapter.rsc)
+REM ECOM_PLUGIN(nsmldmdevinfoadapter.dll,nsmldmdevinfoadapter.rsc)
+REM ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
 #ifdef __SYNCML_DM_1_1_2
-ECOM_PLUGIN(nsmldmsettingsadapter.dll,nsmldmsettingsadapter.rsc)
+REM ECOM_PLUGIN(nsmldmsettingsadapter.dll,nsmldmsettingsadapter.rsc)
 #else
-ECOM_PLUGIN(nsmldmsettingsadapter12.dll,nsmldmsettingsadapter12.rsc)
+REM ECOM_PLUGIN(nsmldmsettingsadapter12.dll,nsmldmsettingsadapter12.rsc)
 #endif
 
 #ifdef FF_DM_STREAMING_ADAPTER
-ECOM_PLUGIN(nsmldmstreamingadapter.dll,nsmldmstreamingadapter.rsc)
+REM ECOM_PLUGIN(nsmldmstreamingadapter.dll,nsmldmstreamingadapter.rsc)
 #endif
 
 REM #ifdef FF_DM_BROWSER_ADAPTER

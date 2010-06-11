@@ -39,8 +39,9 @@ class CWPAPPhysicalProxy;
 class CWPParameter;
 class CCommsDatabase;
 class EAPSettings;
-class CertificateEntry;
+class EapCertificateEntry;
 class RCmManagerExt;
+class TEapExpandedType;
 
 
 // CLASS DECLARATION
@@ -55,7 +56,7 @@ class CEapTypeElement: public CBase
         TBuf8<KExpandedEapIdLength> iEapTypeString;
         TBuf8<KExpandedEapIdLength> iEncapsulatingExpandedEapId;
         EAPSettings* iEAPSettings;
-        CertificateEntry* iCertificate;
+        EapCertificateEntry* iCertificate;
         };
 
 struct SECssID
@@ -227,7 +228,7 @@ class CWPAPNapdef : public CWPAPItemBase, private MWPVisitor
         /**
         * ConvertEAPStringToIds
         */  
-        void ConvertEAPStringToIds(const TDesC& aEAPString, TDes8& aExpandedId, TUint& aId);
+        void ConvertEAPStringToIds(const TDesC& aEAPString, TDes8& aExpandedId, TEapExpandedType& aID);
   public: // new function
   
         /**

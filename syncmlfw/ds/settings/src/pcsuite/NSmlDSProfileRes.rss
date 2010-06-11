@@ -120,7 +120,7 @@ RESOURCE PROFILES nsml_ds_profiles
 			profiledisplayname="Intellisync";
 			//username="";
 			//password="";
-			serverurl="http://82.77.123.83:80/services/syncml";
+			serverurl="http://82.77.123.71:8080/services/syncml";
 			serverid="Ovi.com";
 			profilehidden=0;
 			transportid=0x101F99F0;
@@ -158,7 +158,7 @@ RESOURCE PROFILES nsml_ds_profiles
 				CONTENTTYPE
 					{
 					adapter_implementation_uid = 0x101F8612; // Notes
-					clientdatasource = "C:Calendar";
+					clientdatasource = "C:Note";
 					serverdatasource = "./Note/Unfiled";
 					synctype = ESmlTwoWay;
 					filtervisibility = "h";

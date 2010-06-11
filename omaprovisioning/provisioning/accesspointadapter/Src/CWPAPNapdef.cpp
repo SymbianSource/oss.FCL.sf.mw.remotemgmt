@@ -39,9 +39,11 @@
 #include <cmconnectionmethodext.h>
 #include <commdb.h>
 #include <WlanCdbCols.h>
-
+#include <EapExpandedType.h>
 #include <centralrepository.h>
 #include <pdpcontextmanagerinternalcrkeys.h>
+#include <EapGeneralSettings.h>
+#include <EapTypeDefinitions.h>
 
 const TUint KIapColumn        = 0x00000100;
 const TUint KLingerColumn     = 0x00000200;
@@ -610,7 +612,7 @@ void CWPAPNapdef::VisitL( CWPCharacteristic& aCharacteristic )
 			        {
                     CEapTypeElement* newEap = new (ELeave) CEapTypeElement;
                     newEap->iEAPSettings = new (ELeave) EAPSettings;
-               	    newEap->iCertificate = new (ELeave) CertificateEntry;
+               	    newEap->iCertificate = new (ELeave) EapCertificateEntry;
                     iEapTypeArray.AppendL(newEap);
 			        }
 			    else if(aCharacteristic.Name().Compare( SECSSID ) == 0)
@@ -1028,7 +1030,7 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPTYPE" ) );
               
-        ConvertEAPStringToIds( value, eap->iEapTypeString, reinterpret_cast<TUint &> ( eap->iEAPSettings->iEAPType )  );
+        ConvertEAPStringToIds( value, eap->iEapTypeString, eap->iEAPSettings->iEAPExpandedType );
         
         }
     else if( ( aParameter.Name().Compare( EAPUSERNAME ) ) == 0 )
@@ -1038,6 +1040,8 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
             {
             eap->iEAPSettings->iUsername = value;
             eap->iEAPSettings->iUsernamePresent = ETrue;
+            eap->iEAPSettings->iUseAutomaticUsernamePresent = ETrue;
+            eap->iEAPSettings->iUseAutomaticUsername = EFalse;
             }
         }// else if 
     else if( ( aParameter.Name().Compare( EAPPASSWORD ) ) == 0 )
@@ -1047,6 +1051,8 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
             {
             eap->iEAPSettings->iPassword = value;
             eap->iEAPSettings->iPasswordPresent = ETrue;
+            eap->iEAPSettings-> iShowPassWordPromptPresent = ETrue;
+            eap->iEAPSettings-> iShowPassWordPrompt = EFalse;
             }
         }// else if 
     else if( ( aParameter.Name().Compare( EAPREALM ) ) == 0 )
@@ -1057,6 +1063,8 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
             {
             eap->iEAPSettings->iRealm = value;
             eap->iEAPSettings->iRealmPresent = ETrue;
+            eap->iEAPSettings->iUseAutomaticRealmPresent = ETrue;
+            eap->iEAPSettings->iUseAutomaticRealm = EFalse;
             }
         }// else if 
     else if( ( aParameter.Name().Compare( EAPUSEPSEUD ) ) == 0 )
@@ -1085,7 +1093,8 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
         {
         
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPENCAPS" ) );
-        TUint dummy;
+        
+        TEapExpandedType dummy; 
         ConvertEAPStringToIds( value, eap->iEncapsulatingExpandedEapId, dummy );
                      
         }// else if    
@@ -1204,17 +1213,16 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPISSNAME" ) );
         
-        eap->iCertificate->iSubjectName = value;
-        eap->iCertificate->iSubjectNamePresent = ETrue;
+        eap->iCertificate->SetSubjectName(value);
+        eap->iCertificate->SetSubjectNamePresent();
         }// else if        
         
     else if( ( aParameter.Name().Compare( EAPSUBNAME ) ) == 0 )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPSUBNAME" ) );
         
-        eap->iCertificate->iIssuerName = value;
-        eap->iCertificate->iIssuerNamePresent = ETrue;
-       
+        eap->iCertificate->SetIssuerName(value);
+        eap->iCertificate->SetIssuerNamePresent();       
         }// else if        
         
     else if( ( aParameter.Name().Compare( EAPCERTTYPE ) ) == 0 )
@@ -1224,22 +1232,26 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
 			{
 			FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EEapSim" ) );
             
-            eap->iCertificate->iCertType = CertificateEntry::ECA;
+            eap->iCertificate->SetCertType(EapCertificateEntry::ECA);
+            eap->iEAPSettings-> iUseAutomaticCACertificatePresent = ETrue;
+            eap->iEAPSettings-> iUseAutomaticCACertificate = EFalse;
 			}
 		else
 		    {
-		    eap->iCertificate->iCertType = CertificateEntry::EUser;
+		    eap->iCertificate->SetCertType(EapCertificateEntry::EUser);
 		    }
 		// Certificates must be present since this field was added
-		eap->iEAPSettings->iCertificatesPresent = ETrue; 
+		eap->iEAPSettings->iCertificatesPresent = ETrue;
+		eap->iCertificate->SetIsEnabledPresent();
+		eap->iCertificate->SetIsEnabled(ETrue) ;
         
         }// else if        
     else if( ( aParameter.Name().Compare( EAPSERNUM ) ) == 0 )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPSERNUM" ) );
         
-        eap->iCertificate->iSerialNumber = value;
-        eap->iCertificate->iSerialNumberPresent = ETrue;
+        eap->iCertificate->SetSerialNumber(value);
+        eap->iCertificate->SetSerialNumberPresent();
         }// else if
         
     else if( ( aParameter.Name().Compare( EAPSUBKEYID ) ) == 0 )
@@ -1331,11 +1343,13 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
        			break;
        			}
        		}
+       	TBuf8<KMaxSubKeyLenght> keyIdentifier;
+       	keyIdentifier.Copy(key);
        	// store key value only if no errors occurred
        	if (err == KErrNone) 
        		{
-       		eap->iCertificate->iSubjectKeyID.Copy(key);
-       		eap->iCertificate->iSubjectKeyIDPresent = ETrue;
+       		eap->iCertificate->SetSubjectKeyId(keyIdentifier);
+       		eap->iCertificate->SetSubjectKeyIdPresent();
        		eap->iEAPSettings->iCertificatesPresent = ETrue; 
        		}
        	}
@@ -1344,8 +1358,8 @@ void CWPAPNapdef::HandleEAPParametersCCL( CWPParameter& aParameter )
     else if( ( aParameter.Name().Compare( EAPTHUMBPRINT ) ) == 0 )
         {
         FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::HandleEAPParametersL EAPTHUMBPRINT" ) );
-        eap->iCertificate->iThumbprintPresent = ETrue;
-        eap->iCertificate->iThumbprint = value;
+        eap->iCertificate->SetThumbprintPresent();
+        eap->iCertificate->SetThumbprint(value);
         }// else if                  
     }
 
@@ -1589,7 +1603,7 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
             if ( eap->iEAPSettings->iCertificatesPresent )
             	{
             	FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::SaveWlanDataL Certificate was present." ) );
-            	eap->iEAPSettings->iCertificates.AppendL( *eap->iCertificate );	
+            	eap->iEAPSettings->iCertificates.Append( eap->iCertificate );	
             	}                  
 
             // Save EAP list
@@ -1613,23 +1627,23 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
                     }
                 
                 }
-            
-			// Set iEncapsulatingEapTypes
-			for ( TInt j = 0; j < iEapTypeArray.Count(); j++ )
-				{
-				// Check if any method has this method as the encapsulating method
-				if ( eap->iEapTypeString == iEapTypeArray[j]->iEncapsulatingExpandedEapId )
-					{
-					// Append this method to iEncapsulatedEAPType
-					eap->iEAPSettings->iEncapsulatedEAPTypes.Append( iEapTypeArray[j]->iEAPSettings->iEAPType );
-					eap->iEAPSettings->iEncapsulatedEAPTypesPresent = ETrue;
-					}
-				}			
-			
+            // Set iEncapsulatingEapTypes
+                 for ( TInt j = 0; j < iEapTypeArray.Count(); j++ )
+                     {
+                     // Check if any method has this method as the encapsulating method
+                     if ( eap->iEapTypeString == iEapTypeArray[j]->iEncapsulatingExpandedEapId )
+                         {
+                         // Append this method to iEncapsulatedEAPType
+                         eap->iEAPSettings->iEnabledEncapsulatedEAPExpandedTypes.Append( iEapTypeArray[j]->iEAPSettings->iEAPExpandedType );
+                         eap->iEAPSettings->iEnabledEncapsulatedEAPExpandedTypesPresent = ETrue;
+                         }
+                     }
+                 
             FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::SaveWlanDataL save EAP settings CEapType::NewL" ) );        
             CEapType* eapType = NULL;
 
-            TRAPD( error, ( eapType = CEapType::NewL( eap->iEapTypeString, ELan, serviceId ) ) );
+            
+            TRAPD( error, ( eapType = CEapType::NewL( ELan, serviceId, eap->iEAPSettings->iEAPExpandedType ) ) );
 
             if ( ( error == KErrNone ) && eapType )
                 {
@@ -1638,8 +1652,8 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
                 // Check if this type is tunneled
                 if ( eap->iEncapsulatingExpandedEapId.Length() > 0 )
                 	{
-                	// It is tunneled. Take the last byte of the expanded id.
-                	eapType->SetTunnelingType( eap->iEncapsulatingExpandedEapId[KExpandedEapIdLength - 1] );
+                	// It is tunneled. 
+                	eapType->SetTunnelingType( eap->iEncapsulatingExpandedEapId);
                 	
                 	}
                 
@@ -1678,14 +1692,19 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
     		    if ( ch == '+' ) ++numPlus;
     		    else if ( ch == '-' ) ++numMinus;
     		    }
-    		    
-    		// each entry consumes 8 bytes in binary format
-    		HBufC8* enabledEAPPlugin = HBufC8::NewL( 8 * numPlus );
-    		CleanupStack::PushL( enabledEAPPlugin );
+    		// load general EAP settings If
+    		CEapGeneralSettings* genSettings;
+    		genSettings = CEapGeneralSettings::NewL(ELan, serviceId);
+    		CleanupStack::PushL( genSettings );
+
+    		// get lists of enabled/disabled EAPs for the IAP
     		
-    		HBufC8* disabledEAPPlugin = HBufC8::NewL( 8 * numMinus );
-    		CleanupStack::PushL( disabledEAPPlugin );
-    		    
+    		RArray<TEapExpandedType> enabledEapMethods;
+    		RArray<TEapExpandedType> disabledEapMethods;
+
+    		enabledEapMethods.Reset();
+    		disabledEapMethods.Reset();
+   		    
     		lex.Assign( eapList );
     		
     		while ( !lex.Eos() )
@@ -1695,9 +1714,6 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
     		    
     		    if ( lex.Val( implUid ) != KErrNone || !implUid )
     		        {
-    		        // if the old string is corrupted, null out both lists
-    		        enabledEAPPlugin->Des().Zero();
-    		        disabledEAPPlugin->Des().Zero();
     		        break;
     		        }
     		
@@ -1708,36 +1724,28 @@ void CWPAPNapdef::SaveWlanDataL( TUint32 aIapId, CCommsDatabase& aCommsDb )
     		    
     		    if ( implUid > 0 )
     		        {
-    		        enabledEAPPlugin->Des().Append( 
-    		                            Abs( implUid ) == KPlainMsChapV2ImplUid? 
-    		                                        KMsChapV2Padding: KPadding );
-    		        enabledEAPPlugin->Des().Append( Abs( implUid ) );
+    		        TBuf8<KExpandedEapIdLength> tempbuf;
+    		        if(Abs( implUid ) == KPlainMsChapV2ImplUid)
+    		            {
+    		            tempbuf.Append(KMsChapV2Padding);
+    		            }
+    		        else
+    		            {
+    		            tempbuf.Append(KPadding);
+    		            }
+    		        tempbuf.Append(Abs( implUid ));
+    		        TEapExpandedType expandedTypebuf(tempbuf);
+    		        enabledEapMethods.Append(expandedTypebuf);   
     		        }
-    		    else if (implUid < 0 )
-    		        {
-    		        disabledEAPPlugin->Des().Append( 
-    		                            Abs( implUid ) == KPlainMsChapV2ImplUid? 
-    		                                        KMsChapV2Padding: KPadding );
-    		        disabledEAPPlugin->Des().Append( Abs( implUid ) );
-    		        }
-    		    
+    		        		    
     		    // swallow the delimiter (',')
     		    lex.Get();
     		    }
-                	
-	
-	
-	  		wLanServiceTable->WriteTextL( TPtrC( WLAN_ENABLED_EAPS ), 
-    		                              enabledEAPPlugin? 
-    		                                    (const TDesC8&)*enabledEAPPlugin: 
-    		                                    (const TDesC8&)KNullDesC8 );
+    
+    		genSettings->SetEapMethods(enabledEapMethods, disabledEapMethods);  
+    		            
+    		CleanupStack::PopAndDestroy( genSettings );
     		
-    		wLanServiceTable->WriteTextL( TPtrC( WLAN_DISABLED_EAPS ), 
-    		                              disabledEAPPlugin? 
-    		                                    (const TDesC8&)*disabledEAPPlugin: 
-    		                                    (const TDesC8&)KNullDesC8 );
-    		CleanupStack::PopAndDestroy( disabledEAPPlugin );
-    		CleanupStack::PopAndDestroy( enabledEAPPlugin );
     
      
             
@@ -1933,68 +1941,68 @@ void CWPAPNapdef::AddLingerL( const TInt aIapId, const TInt aLingerInterval )
     
     }
 
-void CWPAPNapdef::ConvertEAPStringToIds( const TDesC& aEAPString, TDes8& aExpandedId, TUint& aId)
+void CWPAPNapdef::ConvertEAPStringToIds( const TDesC& aEAPString, TDes8& aExpandedId, TEapExpandedType& aID)
 	{
     if ( aEAPString == KEAPSIM )
 		{	
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapSim" ) );
-		aExpandedId.Copy( KEapSimTypeId, KExpandedEapIdLength );		
-		aId = EAPSettings::EEapSim;
+		aExpandedId.Copy( KEapSimTypeId, KExpandedEapIdLength );
+		aID = *EapExpandedTypeSim.GetType();
 		}
     else if( aEAPString == KEAPAKA )
         {
   		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapAka" ) );
 		aExpandedId.Copy( KEapAkaTypeId, KExpandedEapIdLength );	
-		aId = EAPSettings::EEapAka;	
+		aID = *EapExpandedTypeAka.GetType();	
         }
     else if( aEAPString == KEAPTLS )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapTls" ) );
 		aExpandedId.Copy( KEapTlsTypeId, KExpandedEapIdLength );	
-		aId = EAPSettings::EEapTls;	
+		aID = *EapExpandedTypeTls.GetType();	
         }
     else if( aEAPString == KEAPPEAP )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapPeap" ) );
 		aExpandedId.Copy( KEapPeapTypeId, KExpandedEapIdLength );	
-		aId = EAPSettings::EEapPeap;	
+		aID = *EapExpandedTypePeap.GetType();	
         }
     else if( aEAPString == KEAPTTLS )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapTtls" ) );
 		aExpandedId.Copy( KEapTtlsTypeId, KExpandedEapIdLength );		
-		aId = EAPSettings::EEapTtls;
+		aID = *EapExpandedTypeTtls.GetType();
         }
    else if( aEAPString == KEAPLEAP )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapLeap" ) );
 		aExpandedId.Copy( KEapLeapTypeId, KExpandedEapIdLength );
-		aId = EAPSettings::EEapLeap;		
+		aID = *EapExpandedTypeLeap.GetType();		
         }                                    
    else if( aEAPString == KEAPMSCHAPV2 )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapMschapv2" ) );
 		aExpandedId.Copy( KEapMschapv2TypeId, KExpandedEapIdLength );		
-		aId = EAPSettings::EEapMschapv2;
+		aID = *EapExpandedTypeMsChapv2.GetType();
         }     
    else if( aEAPString == KEAPGTC )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapGtc" ) );
 		aExpandedId.Copy( KEapGtcTypeId, KExpandedEapIdLength );
-		aId = EAPSettings::EEapGtc;
+		aID = *EapExpandedTypeGtc.GetType();
         }
    else if( aEAPString == KEAPFAST )
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapFast" ) );
 		aExpandedId.Copy( KEapFastTypeId, KExpandedEapIdLength );
-		aId = EAPSettings::EEapFast;
+		aID = *EapExpandedTypeFast.GetType();
         }
 
     else
         {
 		FLOG( _L( "[AccesspointAdapter] CWPAPNapdef::ConvertEAPStringToIds EEapNone" ) );
 		aExpandedId.Copy( KEapNoneId, KExpandedEapIdLength );
-		aId = EAPSettings::EEapNone;
+		aID = *EapExpandedTypeNone.GetType();
         }
 
 	}

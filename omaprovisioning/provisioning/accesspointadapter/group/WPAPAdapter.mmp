@@ -67,6 +67,9 @@ LIBRARY         FeatMgr.lib
 LIBRARY         ecom.lib
 LIBRARY 		centralrepository.lib
 LIBRARY			cmmanager.lib
+LIBRARY			eapsymbiantools.lib
+LIBRARY			eaptools.lib
+LIBRARY			eaptrace.lib
 DEBUGLIBRARY    flogger.lib     // Only in debug builds
 
 // End of File
