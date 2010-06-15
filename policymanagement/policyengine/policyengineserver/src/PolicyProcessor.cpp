@@ -55,7 +55,7 @@ void RAttributeContainer::AppendL( AttributeContainerHelper::TAttributeTypes aAt
 	container->iAttributeType = aAttributeTypes; 
 
 	//append to list
-	RArray::AppendL( container);
+	RArray<AttributeContainerHelper::TContainer*>::AppendL( container);
 		
 	//remove from cleanup
 	CleanupStack::Pop( 2, aAttribute);
@@ -75,7 +75,7 @@ void RAttributeContainer::Close()
 		delete container;
 	}
 	
-	RArray::Close();
+	RArray<AttributeContainerHelper::TContainer*>::Close();
 }
 
 

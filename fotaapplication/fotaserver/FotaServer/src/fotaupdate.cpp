@@ -1681,7 +1681,10 @@ TScheduleEntryInfo2 CFotaUpdate::FindScheduleL( const TBool aDelete )
             TDateTime  dtm = sc_duetime.GetLocalTime().DateTime();
             FLOG(_L("   schedule duetime:%d:%d"), dtm.Hour(), dtm.Minute());
 
-            if ( err ) FLOG(_L("     schedule  sc get err %d"),err);
+            if ( err ) 
+                {
+                FLOG(_L("     schedule  sc get err %d"),err);
+                }
             else 
                 {
                 for ( TInt k=0; k<sc_entries->Count();++k)
