@@ -27,7 +27,7 @@ CAPABILITY 	CAP_GENERAL_DLL
 
 
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./DEF/eabiiapmatcher
 #elif defined(WINSCW)
 DEFFILE		./DEF/bwinscwiapmatcher

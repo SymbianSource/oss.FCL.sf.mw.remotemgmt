@@ -30,7 +30,7 @@ VENDORID 	VID_DEFAULT
 
 //MACRO __MDO_ENABLED
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./DEF/eabi
 #elif defined(WINSCW)
 DEFFILE		./DEF/bwinscw

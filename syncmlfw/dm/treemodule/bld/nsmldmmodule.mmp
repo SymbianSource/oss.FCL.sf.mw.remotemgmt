@@ -26,7 +26,7 @@ TARGET          nsmldmmodule.dll
 TARGETTYPE      dll
 UID             0x1000008d 268437795
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./DEF/eabi
 #elif defined(WINSCW)
 DEFFILE		./DEF/bwinscw

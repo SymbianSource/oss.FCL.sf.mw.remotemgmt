@@ -24,7 +24,7 @@ TARGET          nsmlfilter.dll
 TARGETTYPE      DLL
 UID		0x1000008d 0x101F6DE4
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./def/eabifilter
 #elif defined(WINSCW)
 DEFFILE		./def/bwinscwfilter

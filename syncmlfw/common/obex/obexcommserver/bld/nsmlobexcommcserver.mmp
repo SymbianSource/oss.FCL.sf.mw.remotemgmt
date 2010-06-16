@@ -26,7 +26,7 @@ TARGET          nsmlobexcommserver.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x101F6DF0
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./DEF/eabi
 #elif defined(WINSCW)
 DEFFILE		./DEF/bwinscw
