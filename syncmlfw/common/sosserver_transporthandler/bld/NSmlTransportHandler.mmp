@@ -26,7 +26,7 @@ UID             0x1000008d 0x101F6DF0
 CAPABILITY 	CAP_CLIENT_DLL
 VENDORID 	VID_DEFAULT
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./def/eabi
 #elif defined(WINSCW)
 DEFFILE		./def/bwinscw

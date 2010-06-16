@@ -27,7 +27,7 @@ VENDORID 	VID_DEFAULT
 CAPABILITY 	CAP_CLIENT_DLL
 
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./def/eabi
 #elif defined(WINSCW)
 DEFFILE		./def/bwinscw
