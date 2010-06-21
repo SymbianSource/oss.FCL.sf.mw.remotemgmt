@@ -443,7 +443,7 @@ void CFotaServer::ClientAwareConstructL( const RMessage2 &aMessage )
     		}
     	else
     		{
-    		TInt err = RProperty::Get(TUid::Uid(KOmaDMAppUid), KFotaDownloadActive, value );
+    		TInt err = RProperty::Get(TUid::Uid(KFotaServerUid), KFotaDownloadActive, value );
     		FLOG(_L("value of KFotaDownloadActive & err as %d,%d "), (TInt)value,err);
     		}
     	FLOG(_L("Download active value is:%d "), (TInt)value);

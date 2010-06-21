@@ -412,9 +412,13 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
 		
     if ( aKeyEvent.iCode == EKeyOK || aKeyEvent.iCode == EKeyEnter)
         {
-        // Try to exit with OK as well
-        TryExitL(EAknSoftkeyOk);
-        return EKeyWasConsumed;
+    
+            if(QueryControl()->GetTextLength() > 0) {
+                // Try to exit with OK as well
+                TryExitL(EAknSoftkeyOk);                
+            }
+            
+            return EKeyWasConsumed;
         }
 
 	// app key

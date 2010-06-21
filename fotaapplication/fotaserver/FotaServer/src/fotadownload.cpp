@@ -356,7 +356,7 @@ TBool CFotaDownload::HandleDLProgressDialogExitL( TInt aButtonId )
 			iDLState.iState = RFotaEngineSession::EDownloadProgressingWithResume;
 
 			TInt active (KErrNotFound);
-			RProperty::Get( TUid::Uid(KOmaDMAppUid), KFotaDownloadActive, active );
+			RProperty::Get( TUid::Uid(KFotaServerUid), KFotaDownloadActive, active );
 			FLOG(_L("active = %d"),active);
 			
 			if (active) //Resume operation has just begun and download request is submitted to dlmgr. Hence need to suspend.
@@ -951,7 +951,7 @@ void CFotaDownload::SetDLResultdlErrorId( THttpDownloadMgrError adlErrorId, TInt
 			else if ( adlErrorId == EObjectNotFound)
 				{
 				FLOG(_L("Reason:   error EObjectNotFound"));
-				iDLState.iResult = RFotaEngineSession::EResUndefinedError;
+				iDLState.iResult = RFotaEngineSession::EResAlternateDLServerUnavailable;
 				}
 			else if ( adlErrorId == EPartialContentModified)
 				{
@@ -1464,7 +1464,7 @@ void CFotaDownload::SetIapToUseL(TPackageState aParams, const TInt aIapid)
 	 * 4. 
 	 */
 	TInt active (KErrNotFound);
-	RProperty::Get( TUid::Uid(KOmaDMAppUid), KFotaDownloadActive, active );
+	RProperty::Get(TUid::Uid(KFotaServerUid), KFotaDownloadActive, active );
 	FLOG(_L("active = %d"),active);
 	if (active==EFalse && iDLState.iState == RFotaEngineSession::EDownloadProgressingWithResume)
 		{
@@ -1719,11 +1719,11 @@ void CFotaDownload::SetDownloadActive(TBool aValue)
 	FLOG(_L("CFotaDownload::SetDownloadActive, aValue = %d"),aValue);
 	iDownloadActive = aValue;
 	TBool val (EFalse);
-	TInt err = RProperty::Get(TUid::Uid(KOmaDMAppUid), KFotaDownloadActive, val );
+	TInt err = RProperty::Get(TUid::Uid(KFotaServerUid), KFotaDownloadActive, val );
 
 	if (err == KErrNone && val != aValue)
 		{
-		err = RProperty::Set(TUid::Uid(KOmaDMAppUid), KFotaDownloadActive, aValue );
+		err = RProperty::Set(TUid::Uid(KFotaServerUid), KFotaDownloadActive, aValue );
 		FLOG(_L("RProperty KFotaDownloadActive Set %d, err = %d"), aValue, err);
 		}
 	

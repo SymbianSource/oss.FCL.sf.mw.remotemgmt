@@ -25,7 +25,8 @@
 #include "FotaSrvDocument.h"
 #include "FotaSrvUI.h"
 #include "FotaSrvDebug.h"
-
+#include <e32property.h>
+#include "FotaServer.h"
 // ================= MEMBER FUNCTIONS =======================
 
 // ---------------------------------------------------------------------------
@@ -34,6 +35,7 @@
 //
 CFotaSrvDocument::~CFotaSrvDocument()
     {
+    TInt err = RProperty::Delete(TUid::Uid(KFotaServerUid), KFotaDownloadActive);
     }
 
 
@@ -44,9 +46,20 @@ CFotaSrvDocument::~CFotaSrvDocument()
 //
 void CFotaSrvDocument::ConstructL()
     {
+    TInt err1(KErrNone);
+    _LIT_SECURITY_POLICY_C1( KReadPolicy, ECapabilityReadDeviceData );
+    _LIT_SECURITY_POLICY_C1( KWritePolicy, ECapabilityDiskAdmin );
+    TInt err  = RProperty::Define( TUid::Uid(KFotaServerUid),
+                KFotaDownloadActive,
+                RProperty::EInt,KReadPolicy,KWritePolicy); 
+    if(err==0)
+        {
+        err1 =  RProperty::Set( TUid::Uid(KFotaServerUid),KFotaDownloadActive,KErrNotFound ); 
+        }
+        FLOG(_L(" [FotaServer] CFotaSrvDocument::ConstructL  : error in setting rproperty: %d %d"), err,err1);
 	//iEikEnv = CEikonEnv::Static();	
+    
     }
-
 
 // ---------------------------------------------------------------------------
 // CFotaSrvDocument::NewL

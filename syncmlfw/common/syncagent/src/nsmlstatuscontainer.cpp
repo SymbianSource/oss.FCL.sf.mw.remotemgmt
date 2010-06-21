@@ -16,7 +16,9 @@
 */
 
 
-
+#include <utf.h>
+#include <DevManInternalCRKeys.h>
+#include <centralrepository.h>
 //#include "nsmlcliagdefines.h"
 #include "NSmlStatusContainer.h"
 #include "nsmlcliagconstants.h"
@@ -202,8 +204,58 @@ EXPORT_C void CNSmlStatusContainer::SetStatusCodeL( TInt aEntryID, TInt aStatusC
 			{
 			(*iStatusArray)[aEntryID-1].statusIsFixed = ETrue;
 			}
+ // TargertUri Fix
+		
+	TPtrC8 cmd( (TUint8*) (*iStatusArray)[aEntryID-1].status->cmd->content, (*iStatusArray)[aEntryID-1].status->cmd->length );
+	if ( cmd == KNSmlAgentExec )
+	{ 
+		CRepository* cenrep = NULL;
+  	TInt err(KErrNone);
+	  TRAP(err, cenrep = CRepository::NewL( KCRUidDeviceManagementInternalKeys ));
+	  if(err == KErrNone)
+	  {
+	  	TBuf8<256> targetPath;	
+    	TInt result = cenrep->Get( KNSmlDMSCOMOTargetRef, targetPath );    	
+    	if((targetPath.Length()) && (result == KErrNone))
+			{					
+				TPtrC8 sourcePath( (TUint8*) (*iStatusArray)[aEntryID-1].status->targetRefList->targetRef->content, (*iStatusArray)[aEntryID-1].status->targetRefList->targetRef->length );
+			
+				SmlSource_t* source = new( ELeave ) SmlSource_t; 
+    		source->locURI = new( ELeave ) SmlPcdata_t;
+	   		source->locURI->SetDataL( sourcePath );
+    		source->locURI->contentType = SML_PCDATA_OPAQUE;   
+    		source->locURI->extension = SML_EXT_UNDEFINED;
+    		source->locName = NULL;
+    		
+    		SmlTarget_t* target = new( ELeave ) SmlTarget_t; 
+    		target->locURI = new( ELeave ) SmlPcdata_t;
+	   		target->locURI->SetDataL( targetPath );
+    		target->locURI->contentType = SML_PCDATA_OPAQUE;   
+    		target->locURI->extension = SML_EXT_UNDEFINED;
+    		target->locName = NULL;
+    		AddSourceRefL( aEntryID, source );
+    		
+    		SmlTargetRefList_t** targetRefList;
+				targetRefList = &(*iStatusArray)[aEntryID-1].status->targetRefList;
+				while( *targetRefList )
+				{
+					if ((*targetRefList)->next == NULL )
+						 break;
+					targetRefList = &(*targetRefList)->next;
+				} 
+				*targetRefList = new( ELeave ) SmlTargetRefList_t;
+				CreateTargetRefL( target, (*targetRefList)->targetRef );
+    		
+ 				_LIT8(KNullString, "");
+    		result = cenrep->Set( KNSmlDMSCOMOTargetRef, KNullString ); 
+    	}
+    	delete cenrep;
+    	cenrep = NULL;
 		}
+	}
+	
 	CleanupStack::PopAndDestroy(); //statusCode
+	}
 	}
 // ---------------------------------------------------------
 // CNSmlStatusContainer::SetChalL()

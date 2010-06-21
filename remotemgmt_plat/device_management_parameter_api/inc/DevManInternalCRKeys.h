@@ -161,5 +161,11 @@ const TUint32 KDevManMemCardCtrl = 0x00000010;
 */
 const TUint32 KDMDisclaimerAccepted = 0x00000011;
 
+/*
+* This key stores the TargetRef for SCOMO to send Alert. Default value is null.
+*/
+const TUint32 KNSmlDMSCOMOTargetRef = 0x00000012;
+
+
 #endif // SYNCML_DEVMAN_INTERNAL_CR_KEYS_H
 

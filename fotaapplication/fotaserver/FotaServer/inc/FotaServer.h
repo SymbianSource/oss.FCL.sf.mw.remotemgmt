@@ -74,7 +74,7 @@ const TUint32 KFotaDownloadState = 0x00000001;
 
 /** If download is active this P&S key is set to ETrue, otherwise EFalse. 
  * The key is owned by omadmappui**/
-const TUint32 KFotaDownloadActive = 0x0000008;
+const TUint32 KFotaDownloadActive = 0x00000008;
 
 /** The P&S key to say DM UI to perform refresh of UI elements */
 const TUint32 KFotaDMRefresh = 0x00000009;
