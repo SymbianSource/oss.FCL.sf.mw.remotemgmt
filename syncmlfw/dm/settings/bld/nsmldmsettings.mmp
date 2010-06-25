@@ -20,7 +20,7 @@
 #include "defaultcaps.hrh"
 #include  <platform_paths.hrh>
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./DEF/eabidmsettings
 #elif defined(WINSCW)
 DEFFILE		./DEF/bwinscwdmsettings

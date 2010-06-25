@@ -21,7 +21,7 @@
 #include "defaultcaps.hrh"
 
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./def/eabi
 #elif defined(WINSCW)
 DEFFILE		./def/bwinscw

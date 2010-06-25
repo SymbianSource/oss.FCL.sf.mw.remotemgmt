@@ -23,7 +23,7 @@ UID           0x1000008d 0x2001955A
 CAPABILITY    CAP_GENERAL_DLL
 VENDORID      VID_DEFAULT
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE		./def/eabiProfileUtil.def
 #elif defined(WINSCW)
 DEFFILE		./def/bwinscwProfileUtil.def

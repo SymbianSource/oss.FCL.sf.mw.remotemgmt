@@ -25,7 +25,7 @@ TARGET          nsmldmhostserver.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x101F9A07
 
-#if defined(ARMCC)
+#if defined(EABI)
 DEFFILE			./def/eabidmhostserver
 #elif defined(WINSCW)
 DEFFILE			./def/bwinscwdmhostserver
