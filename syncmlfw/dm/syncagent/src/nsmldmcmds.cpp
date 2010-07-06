@@ -60,6 +60,7 @@
 #include "nsmldmagconstants.h"
 #include "NSmlDMCmds.h"
 #include "nsmldmerror.h"
+#include <dmdevdialogclient.h>
 #include "OnlineSupportLogger.h"
 #ifdef __TEST_TREEMODULE
 #include "nsmldmtestmodule.h"
@@ -76,7 +77,7 @@
 #endif
 
 
-const TUid KNSmlSyncDialogUid = { 0x101F876A };
+//const TUid KNSmlSyncDialogUid = { 0x101F876A };
 // FOTA
 const TInt KNSmlDmNoRequest = -1;
 // FOTA end
@@ -1768,89 +1769,26 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
 void CNSmlDMCmds::ServerHbNotifierL(TSyncMLDlgNoteTypes& aNotetype, TDesC& aServerMsg)
     
     {
-				LOGSTRING("HandleDisplayAlertL ServerHbNotifier start");  
-				
-        _LIT(KHbNotifier,"com.nokia.hb.devicemanagementdialog/1.0");
-        
-        _LIT(KNotifierId, "syncmlfw");
-        _LIT(KServerpushalertInfo, "serverpushinformative");
-        _LIT(KServerpushalertConfirm, "serverpushconfirmative");
-        
-        TBuf<25> serverpushalertval;
-        
+				LOGSTRING("HandleDisplayAlertL ServerHbNotifier start");                
+        RDmDevDialog DmDevdialog;
+        TInt err = DmDevdialog.OpenL();
+        User::LeaveIfError(err);
+        TRequestStatus status = KRequestPending;
         if(aNotetype == ESyncMLInfoNote)
-            serverpushalertval.Copy(KServerpushalertInfo);
-        else 
-            serverpushalertval.Copy(KServerpushalertConfirm);
-        
-        CHbDeviceDialogSymbian *devDialog = NULL;
-
-        CHbSymbianVariantMap* varMap = CHbSymbianVariantMap::NewL();
-        CleanupStack::PushL(varMap);
-        
-
-        HBufC* keyBuf = HBufC::NewL(25);
-        CleanupStack::PushL(keyBuf);
-        
-        *keyBuf = KNotifierId;
-        
-        HBufC* servalertmsg = HBufC::NewL(25);
-        CleanupStack::PushL(servalertmsg);
-                
-         *servalertmsg = serverpushalertval;
-         
-         TInt id =0;
-
-         CHbSymbianVariant* notifierid = CHbSymbianVariant::NewL(&id,
-                         CHbSymbianVariant::EInt);
-         
-        
-        CHbSymbianVariant* serveralertmsg = CHbSymbianVariant::NewL(&aServerMsg,
-                CHbSymbianVariant::EDes);
-
-        varMap->Add(*keyBuf,notifierid);
-        varMap->Add(*servalertmsg, serveralertmsg); // takes ownership
-
-        LOGSTRING("HandleDisplayAlertL ServerHbNotifier step 2");
-        
-      
-        RProperty propertykey;
-        
-        TRequestStatus status;
-        
-        TInt err = RProperty::Define(dmagentuid , EHbDMSyncNotifierKeyStatus, RProperty::EInt);
-        	
-        err = RProperty::Define(dmagentuid , EHbDMSyncNotifierKeyStatusReturn, RProperty::EInt);
-
-         TInt err1 = propertykey.Attach(dmagentuid , EHbDMSyncNotifierKeyStatus);
-
-            propertykey.Subscribe(status);
-        
-        LOGSTRING2(" err = %d", err);
-        LOGSTRING2(" err1 = %d", err1);
-        
-        
-         LOGSTRING("HandleDisplayAlertL ServerHbNotifier step 3");
-
-
-        devDialog = CHbDeviceDialogSymbian::NewL();
-        devDialog->Show(KHbNotifier, *varMap);
-
-        User::WaitForRequest(status);
-        
-        propertykey.Close();
-
-
-
-
-        CleanupStack::PopAndDestroy(3);
-        
-
-        if(devDialog)
             {
-            delete devDialog;
-            devDialog = NULL;
+        DmDevdialog.ShowDisplayAlert(aServerMsg,status);
             }
+            
+        else 
+            {
+        TInt timeout = 30; // dummy
+        TBuf<30> header; // dummy
+        DmDevdialog.ShowConfirmationAlert(timeout,header,aServerMsg,status);
+            }
+       
+        User::WaitForRequest(status);
+
+DmDevdialog.Close();
         LOGSTRING("HandleDisplayAlertL ServerHbNotifier end");
 
 }

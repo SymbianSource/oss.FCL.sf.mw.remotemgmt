@@ -8,16 +8,17 @@
 #ifndef DEVICEDIALOGCONSTS_H_
 #define DEVICEDIALOGCONSTS_H_
 
+#include <e32def.h>
+#include <qstring.h>
 
 /// Number of retries for PIN
  const TInt KPinRetries = 3;
  
  // PIN Max Length
- const int KCPPinMaxLength = 20;
+ const TInt KCPPinMaxLength = 20;
  
 //Strings for CP PIN Query Dialog
 const QString pinquery = "omacppinquery";
-const QString returnkey = "returnkey";
 
 const char devicedialogtype[] = "com.nokia.hb.devicemanagementdialog/1.0";
 _LIT(KDeviceDialogType, "com.nokia.hb.devicemanagementdialog/1.0");
@@ -28,6 +29,15 @@ const QString keydialog = "Dialog";
 const QString keyparam1 = "Param1";
 const QString keyparam2 = "Param2";
 const QString keyparam3 = "Param3";
+const QString keyparam4 = "Param4";
+const QString returnkey = "returnkey";
+
+_LIT(KKeyDialog, "Dialog");
+_LIT(KKeyParam1, "Param1");
+_LIT(KKeyParam2, "Param2");
+_LIT(KKeyParam3, "Param3");
+_LIT(KKeyParam4, "Param4");
+_LIT(KResult,"returnkey");
 
 // Enumerations to show the type of dialog to be shown from FOTA. The Enumeration ranges from 1 to 100.
 
@@ -37,6 +47,7 @@ enum TFwUpdNoteTypes
     EFwDLNeedMoreMemory = 100,
     EFwDLConnectionFailure,
     EFwDLGeneralFailure,
+    EFwDLNonResumableFailure,
     
     //Updated related notes	
     EFwUpdNotEnoughBattery,

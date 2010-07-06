@@ -1,6 +1,0 @@
-EXPORTS
-	??0CSyncServiceSession@@QAE@XZ @ 1 NONAME ; CSyncServiceSession::CSyncServiceSession(void)
-	?NewL@CSyncService@@SAPAV1@PAVMAknServerAppExitObserver@@I@Z @ 2 NONAME ; class CSyncService * CSyncService::NewL(class MAknServerAppExitObserver *, unsigned int)
-	?StartSyncL@CSyncService@@QAE?AVTUid@@UTSyncServiceParam@@@Z @ 3 NONAME ; class TUid CSyncService::StartSyncL(struct TSyncServiceParam)
-	?EnableProgressNoteL@CSyncService@@QAEXH@Z @ 4 NONAME ; void CSyncService::EnableProgressNoteL(int)
-

@@ -25,6 +25,7 @@ PRJ_EXPORTS
 ../conf/datasync.confml				MW_LAYER_CONFML(datasync.confml)
 ../conf/datasync_2000CF7E.crml		MW_LAYER_CRML(datasync_2000CF7E.crml)
 ../conf/devman.confml				MW_LAYER_CONFML(devman.confml)
+../conf/CI_devman.confml				MW_LAYER_CONFML(CI_devman.confml)
 ../conf/devman_101F9A0A.crml		MW_LAYER_CRML(devman_101F9A0A.crml)
 ../conf/nsmlemailadapter.confml		MW_LAYER_CONFML(nsmlemailadapter.confml)
 ../conf/nsmlemailadapter_101F99DF.crml	MW_LAYER_CRML(nsmlemailadapter_101F99DF.crml)
@@ -148,7 +149,4 @@ PRJ_MMPFILES
 
 // Disabling OTA configuration
 //#include "../ds/ota/bld/bld.inf"
-
-#include "../syncmlnotifier/group/bld.inf"
-#include "../syncservice/group/bld.inf"
 

@@ -26,7 +26,7 @@
 #include "bautils.h"
 #include "nsmlroam.h"
 //XML profiles
-#include "RXMLReader.h"
+#include "xml/RXMLReader.h"
 #include "NSmlProfileContentHandler.h"
 #include <centralrepository.h> //CRepository
 

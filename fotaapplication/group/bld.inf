@@ -16,12 +16,50 @@
 *
 */
 
-
+PRJ_PLATFORMS
+DEFAULT
 
 #ifdef __SYNCML_DM_FOTA
-#include "../fotaserver/group/bld.inf"
+
+PRJ_EXPORTS
+../rom/fotaserver.iby																							CORE_MW_LAYER_IBY_EXPORT_PATH(fotaserver.iby)
+../rom/fotaserverresources.iby																		LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(fotaserverresources.iby)
+
+
+// Generic configuration interface for component cenrep settings  
+../conf/fotadiskstorage.confml                    MW_LAYER_CONFML(fotadiskstorage.confml)
+../conf/CI_fotadiskstorage.confml                    MW_LAYER_CONFML(CI_fotadiskstorage.confml)
+../conf/fotadiskstorage_102072C6.crml 	        MW_LAYER_CRML(fotadiskstorage_102072C6.crml)
+../conf/fotaserver.confml                    MW_LAYER_CONFML(fotaserver.confml)
+../conf/CI_fotaserver.confml                    MW_LAYER_CONFML(CI_fotaserver.confml)
+../conf/fotaserver_102072C4.crml 	        MW_LAYER_CRML(fotaserver_102072C4.crml)
+
+PRJ_EXTENSIONS
+START EXTENSION s60/mifconv
+  OPTION TARGETFILE fotaserver.mif
+  OPTION HEADERFILE fotaserver.mbg
+  OPTION SOURCES \
+	  -c8,8 qgn_prop_sml_http -c8,8 qgn_prop_sml_http_off -c8,8 qgn_prop_sml_bt \
+	  -c8,8 qgn_prop_sml_bt_off -c8,8 qgn_prop_sml_usb -c8,8 qgn_prop_sml_usb_off \
+	  -c8,8 qgn_menu_dm_cxt -c8,8 qgn_menu_dm_disabled_cxt -c8,8 qgn_note_sml \
+	  -c8,8 qgn_note_sml_server	  
+END
+
+START EXTENSION s60/mifconv
+  OPTION TARGETFILE fotaserver_aif.mif
+  OPTION SOURCES -c8,8 qgn_menu_dm
+END
+
+
+PRJ_MMPFILES
+
+../FotaEngine/group/fotaengine.mmp
+../fmsclient/group/fmsclient.mmp
+../fmserver/group/fmsserver.mmp
+../FotaScheduleHandler/group/fotaschedulehandler.mmp
+
 #endif
 
 #if ( defined (__SYNCML_DM ) || defined (__PLUG_AND_PLAY_MOBILE_SERVICES) )
-#include "../fotaserver/fotacustcmds/group/bld.inf"
+#include "../fotacustcmds/group/bld.inf"
 #endif

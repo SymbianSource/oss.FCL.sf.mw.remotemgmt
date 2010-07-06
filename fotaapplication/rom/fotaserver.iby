@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Image description file for project fotaserver
+*
+*/
+
+
+
+#ifndef ___FOTASERVER_IBY__
+#define ___FOTASERVER_IBY__
+
+
+#ifdef __SYNCML_DM_FOTA
+
+#include <data_caging_paths_for_iby.hrh>
+
+file=ABI_DIR\BUILD_DIR\fotaengine.dll    SHARED_LIB_DIR\fotaengine.dll
+file=ABI_DIR\BUILD_DIR\FMSClient.dll    SHARED_LIB_DIR\FMSClient.dll
+
+
+S60_APP_EXE(fotaserver)
+SCALABLE_IMAGE(APP_BITMAP_DIR,APP_BITMAP_DIR,fotaserver)
+S60_APP_AIF_ICONS(fotaserver)
+
+
+file=ABI_DIR\BUILD_DIR\fotaschedulehandler.exe    PROGRAMS_DIR\fotaschedulehandler.exe
+file=ABI_DIR\BUILD_DIR\FMSServer.exe    PROGRAMS_DIR\FMSServer.exe
+
+data=DATAZ_/private/10003a3f/import/apps/fotaserver_reg.rsc 	/private/10003a3f/import/apps/fotaserver_reg.rsc
+
+
+#if ( defined (__SYNCML_DM ) || defined (__PLUG_AND_PLAY_MOBILE_SERVICES) )
+
+file=ABI_DIR\BUILD_DIR\fotacustcmds.dll SHARED_LIB_DIR\fotacustcmds.dll
+
+#endif // __SYNCML_DM || __PLUG_AND_PLAY_MOBILE_SERVICES
+
+#endif // __SYNCML_DM_FOTA
+
+#endif

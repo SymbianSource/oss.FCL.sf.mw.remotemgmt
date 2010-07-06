@@ -25,3 +25,4 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/devicedialogconsts.h     MW_LAYER_PLATFORM_EXPORT_PATH(devicedialogconsts.h)
+../inc/dmindicatorconsts.h	MW_LAYER_PLATFORM_EXPORT_PATH(dmindicatorconsts.h)

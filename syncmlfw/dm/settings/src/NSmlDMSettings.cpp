@@ -19,18 +19,17 @@
 #include <NSmlDMProfileRes.rsg>
 #include <SyncMLDef.h>
 #include <utf.h>
-
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
 #include <nsmldmconstants.h>
 #include <nsmldmtreedbclient.h>
+#include <xml/RXMLReader.h>
+#include <centralrepository.h>
 #include "nsmldmsettings.h"
 #include "barsc.h"
 #include "bautils.h"
 #include "NSmlDMResourceProfile.h"
 #include "DMprofileContentHandler.h"
-#include "RXMLReader.h"
-#include <centralrepository.h>
 #include "DevManInternalCRKeys.h"
 
 //------------------------------------------------------------------------------

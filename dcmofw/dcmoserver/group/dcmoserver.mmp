@@ -29,11 +29,13 @@ TARGETPATH      /system/libs
 SOURCEPATH    	../src
 SOURCE       	 	dcmoserver.cpp
 SOURCE       	 	dcmosession.cpp
-SOURCE       	 	dcmonotifieraob.cpp
+SOURCE       	 	dcmomessagebox.cpp
 SOURCE					dcmogenericcontrol.cpp
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE 	/epoc32/include/ecom
+SYSTEMINCLUDE 	/epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE 	/epoc32/include/mw/hb/hbcore
 USERINCLUDE   	../inc
 USERINCLUDE   	../../inc
 
@@ -42,9 +44,8 @@ START RESOURCE 	../data/dcmo.rss
     TARGETPATH  resource
     LANGUAGE_IDS
 END 
-
-LIBRARY     	euser.lib commonengine.lib efsrv.lib
+LIBRARY     	euser.lib 
 LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib
-LIBRARY				aknnotify.lib eiksrv.lib
 LIBRARY    		flogger.lib
+LIBRARY       hbcore.lib hbwidgets.lib

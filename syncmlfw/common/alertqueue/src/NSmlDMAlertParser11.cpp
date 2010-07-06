@@ -20,6 +20,8 @@
 #include <DevManInternalCRKeys.h>
 #include "NSmlAlertQueue.h"
 #include "nsmldebug.h" 
+#include <nsmldmconst.h>
+#include <e32Property.h>
 // ---------------------------------------------------------
 // CNSmlDSAlertParser11(CSmlAlertInfo& aAlertInfo, CSyncMLHistoryPushMsg& aHistoryInfo )
 // Returns pointer to the buffer
@@ -72,6 +74,16 @@ void CNSmlDMAlertParser11::ParseMessageL()
     delete centrep;
 	if( SanSupport == 1 )
    	{
+	    static _LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
+	    static _LIT_SECURITY_POLICY_C1(KAllowWriteDeviceDataPolicy, ECapabilityWriteDeviceData);
+		RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KAllowWriteDeviceDataPolicy);
+		RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,KErrNone);  
+		
+	    if(uiMode == ESilent) //silent
+	        {
+	        TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);
+	        DBG_FILE_CODE( r2, _S8("CNSmlDMAlertParser11::ParseMessageL() KNSmlDMSilentJob set error code") );
+	        }
     iAlertInfo.SetUimode(uiMode);
    	}	
 	if (uiMode == 0)

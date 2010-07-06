@@ -45,3 +45,6 @@
 
 //remotemgmt_pub
 #include "../remotemgmt_pub/group/bld.inf"
+
+//devicemgmtnotifications
+#include "../devicemgmtnotifications/group/bld.inf"

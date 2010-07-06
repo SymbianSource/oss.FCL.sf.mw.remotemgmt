@@ -1,0 +1,8 @@
+EXPORTS
+	_ZN10RFMSClient16NotifyForResumeLERK15TFmsIpcCommandsRKiRK12TDriveNumberS4_ @ 1 NONAME
+	_ZN10RFMSClient16NotifyForUpdateLERK15TFmsIpcCommandsj @ 2 NONAME
+	_ZN10RFMSClient17IsPhoneCallActiveERi @ 3 NONAME
+	_ZN10RFMSClient5CloseEv @ 4 NONAME
+	_ZN10RFMSClient5OpenLEv @ 5 NONAME
+	_ZN10RFMSClient6CancelEv @ 6 NONAME
+

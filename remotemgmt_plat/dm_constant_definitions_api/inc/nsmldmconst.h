@@ -27,6 +27,13 @@ _LIT8( KNSmlDMDmV12, "1.2");
 // SyncML notification MIME type
 _LIT( KNSmlDMNotificationMIMEType, "application/vnd.syncml.notification" );
 // FOTA
+const TUid KPSUidNSmlSOSServerKey = {0x101F99FB};
+const TUint32 KNSmlDMSilentJob = 0x0000005;
+enum TDmSessionType
+{
+ESilent = 1,
+ENonSilent
+};
 const TInt KNSmlDMResetGenAlerts = -2;
 const TInt KNSmlMaxInt32Length = 10;
 // FOTA end
