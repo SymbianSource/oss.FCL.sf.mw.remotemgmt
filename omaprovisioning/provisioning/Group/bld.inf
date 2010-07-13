@@ -46,6 +46,7 @@ PRJ_EXPORTS
 ../loc/Provisioning.loc									MW_LAYER_LOC_EXPORT_PATH(provisioning.loc)
 ../IMAdapter/loc/WPWVAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(wpwvadapter.loc)
 ../MbxNbrAdapter/loc/MailboxAdapter.loc		MW_LAYER_LOC_EXPORT_PATH(mailboxadapter.loc)
+../accesspointadapter/loc/WPAPAdapter.loc		MW_LAYER_LOC_EXPORT_PATH(WPAPAdapter.loc)
 ../ProvisioningBC/loc/ProvisioningBC.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningbc.loc)
 //../ProvisioningCx/loc/ProvisioningCx.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningcx.loc)
 ../StreamingAdapter/loc/StreamingAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(streamingadapter.loc)
@@ -89,15 +90,13 @@ PRJ_MMPFILES
 ../ProvisioningParser/Group/ProvisioningParser.mmp
 ../ProvisioningHandler/Group/ProvisioningHandler.mmp
 
-/* Commented to avoid APP layer dependency
-//../accesspointadapter/group/WPAPAdapter.mmp
+
+../accesspointadapter/group/WPAPAdapter.mmp
 //../WAPAdapter/group/WPWAPAdapter.mmp
 //../IMAdapter/group/IMAdapter.mmp
-//../StreamingAdapter/group/StreamingAdapter.mmp
-//../ProvisioningCx/group/ProvisioningCx.mmp
-//../ProvisioningBC/group/ProvisioningBC.mmp 
-//../MbxNbrAdapter/group/MbxNbrAdapter.mmp
- comment ends here */
+../StreamingAdapter/group/StreamingAdapter.mmp
+../MbxNbrAdapter/group/MbxNbrAdapter.mmp
+
 
 
 //../AuthtypePlugin/group/Authtypeplugin.mmp

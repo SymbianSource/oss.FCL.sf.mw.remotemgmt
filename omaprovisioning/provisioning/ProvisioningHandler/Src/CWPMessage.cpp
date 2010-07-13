@@ -225,16 +225,16 @@ void CWPMessage::ProcessL()
             	rep->Get( KOMAProvAuthFailMsgHandling, auth_value );
             	delete rep;
             	
-            	if(auth_value == 1)
+            	/*if(auth_value == 1)
             	StoreMsgclass0L(R_TEXT_AUTHENTICATION_FAILED);
             	else
-            	StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            	StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);*/
             	
             	User::Leave( KErrAccessDenied ); 
             }
             else
             {
-            StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            //StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
             User::Leave( KErrAccessDenied );                         
             }
                 }
@@ -271,17 +271,17 @@ void CWPMessage::ProcessL()
             	rep->Get( KOMAProvAuthFailMsgHandling, auth_value );
             	delete rep;
             	
-            	if(auth_value == 1)
+            	/*if(auth_value == 1)
             	StoreMsgclass0L(R_TEXT_AUTHENTICATION_FAILED);
             	else
-            	StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            	StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);*/
             	
             	User::Leave( KErrAccessDenied );
             	
             }
             else
             {
-            StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            //StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
             User::Leave( KErrAccessDenied );
             }
             break;

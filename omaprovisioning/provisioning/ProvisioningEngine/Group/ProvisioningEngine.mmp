@@ -74,8 +74,7 @@ LIBRARY         commonengine.lib
 LIBRARY         edbms.lib
 LIBRARY         centralrepository.lib
 LIBRARY         cmmanager.lib 
-LIBRARY         commdb.lib    
-LIBRARY	        apengine.lib         
+LIBRARY         commdb.lib          
 
 DEBUGLIBRARY    flogger.lib
 

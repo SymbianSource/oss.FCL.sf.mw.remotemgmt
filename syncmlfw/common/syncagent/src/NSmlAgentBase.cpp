@@ -133,7 +133,7 @@ HBufC8* CNSmlAgentBase::BasicCredentialL() const
 	clearTextPtr += *password;
 	HBufC8* B64String = HBufC8::NewLC( clearText->Length() * 2 );
 	TPtr8 B64StringPtr( B64String->Des() );
-	User::LeaveIfError( B64Coder.Encode( *clearText, B64StringPtr ) );
+	User::LeaveIfError( B64Coder.PortableEncode( *clearText, B64StringPtr ) );
 	CleanupStack::Pop(); // B64String
 	CleanupStack::PopAndDestroy( 3 ); //clearText, password, userName
 	return B64String;
@@ -190,7 +190,7 @@ HBufC8* CNSmlAgentBase::Md5CredentialL( TBool aServerAuth ) const
 	userNamePasswordHash.Set( md5->Hash( *userNamePassword ) );
 	HBufC8* B64UserNamePasswordString = HBufC8::NewLC( userNamePasswordHash.Length() * 2 );
 	TPtr8 B64UserNamePasswordStringPtr( B64UserNamePasswordString->Des() );
-	User::LeaveIfError( B64Coder.Encode( userNamePasswordHash, B64UserNamePasswordStringPtr ) );
+	User::LeaveIfError( B64Coder.PortableEncode( userNamePasswordHash, B64UserNamePasswordStringPtr ) );
 	HBufC8* userNamePasswordNonce = HBufC8::NewLC( B64UserNamePasswordStringPtr.Length() + KColon.iTypeLength + nonce->Length() );
 	TPtr8 userNamePasswordNoncePtr = userNamePasswordNonce->Des();
 	userNamePasswordNoncePtr = B64UserNamePasswordStringPtr;
@@ -202,7 +202,7 @@ HBufC8* CNSmlAgentBase::Md5CredentialL( TBool aServerAuth ) const
 	finalHash.Set( md5->Hash( *userNamePasswordNonce ) );
 	HBufC8* B64String = HBufC8::NewLC( finalHash.Length() * 2 );
 	TPtr8 B64StringPtr( B64String->Des() );
-	User::LeaveIfError( B64Coder.Encode( finalHash, B64StringPtr ) );
+	User::LeaveIfError( B64Coder.PortableEncode( finalHash, B64StringPtr ) );
 	CleanupStack::Pop();   // B64String
 	CleanupStack::PopAndDestroy( 8 ); //userNamePasswordNonce, B64userNamePasswordNonce, userNamePassword, nonce, nonceInUnicode, password, userName, md5
 	return  B64String;

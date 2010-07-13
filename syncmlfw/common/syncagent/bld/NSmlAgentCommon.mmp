@@ -82,7 +82,6 @@ LIBRARY ECOM.LIB
 //RD_AUTO_RESTART
 LIBRARY         commdb.lib 
 LIBRARY         esock.lib 
-LIBRARY         apengine.lib
 LIBRARY         cmmanager.lib
 //RD_AUTO_RESTART
 
