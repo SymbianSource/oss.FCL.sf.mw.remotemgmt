@@ -20,6 +20,7 @@
 PRJ_EXPORTS
 
 
+../loc/dcmo.loc												MW_LAYER_LOC_EXPORT_PATH(dcmo.loc)
 // Generic configuration interface for component cenrep settings  
 ../conf/dcmo.confml                   MW_LAYER_CONFML(dcmo.confml)
 ../conf/dcmo_2001FE47.crml 	    	    MW_LAYER_CRML(dcmo_2001FE47.crml)

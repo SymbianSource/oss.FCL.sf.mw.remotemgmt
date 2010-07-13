@@ -1,0 +1,103 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file for DCMO component.
+*
+*/
+
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <dcmo.loc>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+
+//  CONSTANTS  
+
+//  MACROS  
+
+//  RESOURCE DEFINITIONS 
+
+ 
+// r_dm_run_time_var_disable
+// Text for showing Disabled
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_disable    { buf = qtn_dm_run_time_var_disable; }
+
+// r_dm_run_time_var_enable
+// Text for showing Enabled
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_enable    { buf = qtn_dm_run_time_var_enable; }
+
+// r_dm_run_time_var_camera
+// Text for showing Camera
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_camera    { buf = qtn_dm_run_time_var_camera; }
+
+// r_dm_run_time_var_firmware_update
+// Text for showing Firmware Update
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_firmware_update    { buf = qtn_dm_run_time_var_firmware_update; }
+
+// r_dm_run_time_var_external_memory_card
+// Text for showing External Memort Card
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_ext_memory    { buf = qtn_dm_run_time_var_ext_memory; }
+
+// r_dm_run_time_var_bluetooth
+// Text for showing Bluetooth
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_bluetooth    { buf = qtn_dm_run_time_var_bluetooth; }
+
+// r_dm_run_time_var_wlan
+// Text for showing WLAN
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_wlan    { buf = qtn_dm_run_time_var_wlan; }
+
+// r_dm_run_time_var_desktop_sync
+// Text for showing Desktop Sync
+// Info note for showing the information received.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_dm_run_time_var_desktop_sync    { buf = qtn_dm_run_time_var_desktop_sync; }
+
+
+// End of File
