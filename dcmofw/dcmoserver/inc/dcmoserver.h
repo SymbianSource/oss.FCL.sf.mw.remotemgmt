@@ -21,9 +21,11 @@
 // INCLUDES
 
 #include <e32base.h>
+#include <hbdevicemessageboxsymbian.h>
 #include "dcmoclientserver.h"
 #include "dcmoconst.h"
-#include "dcmonotifieraob.h"
+#include "dcmomessagebox.h"
+
 
 // CONSTANTS
 const TUid KCRUidDCMOServer={0x2001FE47};
@@ -40,7 +42,7 @@ const TInt KDCMOKeyMaxNumber = 16;
 class CDCMOServer : public CServer2
 	{
 	friend class CDCMOSession;
-	friend class CDCMONotifierAob;
+	friend class CDCMOMessageBox;
 
 public:
 	/**
@@ -166,7 +168,14 @@ protected:
 	 * @return 
 	 */
 	void SetStarter(TBool aValue);	
-
+	
+	/**
+	 * Deletes the idcmoArray value if any
+	 * @param none
+	 * @return none
+	 */
+	void CleanDcmoArray();	
+	
 private:
 	
 	/**
@@ -187,7 +196,7 @@ private:
 	RArray<dcmoInfoList> idcmoArray;
 	static TInt iSessionCount;
 	TBool iStarter;	
-	CDCMONotifierAob* iNotifier;
+	CDCMOMessageBox* iMessageBox;
 	};
 	
 #endif //__DCMO_SERVER_H__

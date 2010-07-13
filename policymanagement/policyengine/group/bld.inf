@@ -29,7 +29,7 @@ PRJ_EXPORTS
 
 ../rom/policyengine.iby												CORE_MW_LAYER_IBY_EXPORT_PATH(policyengine.iby)
 ../rom/policyengineresources.iby							LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(policyengineresources.iby)
-../policyengineui/loc/PolicyEngineUI.loc			MW_LAYER_LOC_EXPORT_PATH(policyengineui.loc)
+//../policyengineui/loc/PolicyEngineUI.loc			MW_LAYER_LOC_EXPORT_PATH(policyengineui.loc)
 
 PRJ_MMPFILES
 PolicyEngineClient.mmp

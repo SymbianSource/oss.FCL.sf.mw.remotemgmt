@@ -21,6 +21,7 @@
 
 #include <SyncMLNotifierParams.h>
 #include <SyncMLNotifier.h>
+#include <dmdevdialogclient.h>
 #include <hbdevicedialogsymbian.h>
 #include <hbsymbianvariant.h>
 #include "nsmlsosserver.h"
@@ -194,7 +195,7 @@ class CNSmlNotifierObserver : public CActive
 		TRequestStatus& iCallerStatus;
 		
 //		RNotifier iNotifier;
-		TSyncMLAppLaunchNotifRetValPckg iResBuf;
+		TPckgBuf<TInt> iResBuf;
 	
 		CNSmlThreadParams& iThreadParams;
 		CNSmlNotifierTimeOut iNotifierTimeOut;
@@ -203,7 +204,7 @@ class CNSmlNotifierObserver : public CActive
 		CHbDeviceDialogSymbian* iDevDialog;
             RProperty iProperty;
             TBool iHbSyncmlNotifierEnabled;
-		
+           RDmDevDialog iDmDevdialog;
 
 	};
 	

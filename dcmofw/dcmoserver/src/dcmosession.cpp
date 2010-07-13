@@ -19,6 +19,7 @@
 
 #include "dcmosession.h"
 #include "dcmoclientserver.h"
+#include "dcmomessagebox.h"
 #include "dcmodebug.h"
 
 
@@ -73,6 +74,10 @@ void CDCMOSession::DispatchMessageL(const RMessage2& aMessage)
   TPckg<TDCMONode> node(nodeValue);
   TPckg<TInt> intvalue(value);
   
+  if(CDCMOMessageBox::IsMsgBoxClosed())
+  	{
+  		Server().CleanDcmoArray();
+  	}
   HBufC*     category  = HBufC::NewLC(KDCMOMaxStringSize);
   TPtr       categoryptr  = category->Des(); 
   aMessage.Read (0, categoryptr);           

@@ -972,7 +972,7 @@ void CNSmlDSAgent::ClientModStartingSyncStateL()
 				if ( !iDSContent->ClientItemCountAsked() )
 					{
 					iDSContent->SetClientItemCountAsked();
-					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), 0 );
+					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), iDSContent->TaskId() );
 					}
 				break;
 			case CNSmlCmdsBase::EReturnBufferFull:

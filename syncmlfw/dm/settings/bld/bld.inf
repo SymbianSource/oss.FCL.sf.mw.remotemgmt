@@ -20,7 +20,7 @@
 PRJ_EXPORTS 
 
 ../conf/factorydmprofiles.gcfml				MW_LAYER_GCFML(factorydmprofiles.gcfml)
-../conf/factorydmprofiles.confml  		MW_LAYER_CONFML(factorydmprofiles.confml)
+../conf/CI_factorydmprofiles.confml  		MW_LAYER_CONFML(CI_factorydmprofiles.confml)
 
 PRJ_MMPFILES
 nsmldmsettings.mmp

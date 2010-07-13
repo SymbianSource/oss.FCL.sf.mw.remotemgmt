@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of fotaserver component
+* 	This is part of fotaapplication.
+*
+*/
+
+#include <platform_paths.hrh>
+#include "defaultcaps.hrh"
+
+//MACRO  _FOTA_DEBUG
+//MACRO  _FOTA_DEBUG_RDEBUG
+
+CAPABILITY    CAP_SERVER
+
+TARGET        fmsserver.exe
+TARGETTYPE    exe
+
+UID 0 0x200100C8
+VENDORID 			VID_DEFAULT
+
+SOURCEPATH    ../src
+SOURCE        fmsserver.cpp
+SOURCE		  fmsserversession.cpp
+SOURCE		  fmsinterruptaob.cpp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../inc
+USERINCLUDE   ../../cenrep
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY       connmon.lib // for connection monitoring
+LIBRARY       sysutil.lib 
+LIBRARY       efsrv.lib 
+LIBRARY       flogger.lib
+LIBRARY       centralrepository.lib 
+LIBRARY       fotaengine.lib 
+LIBRARY       cmmanager.lib 
+LIBRARY       etelmm.lib 
+LIBRARY       etel.lib 
+LIBRARY		  schsvr.lib
+
+SMPSAFE

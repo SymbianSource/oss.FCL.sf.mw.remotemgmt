@@ -22,7 +22,7 @@
 #include "CWPWbxmlParser.h"
 #include "OMAProvisioningDictionary.h"
 #include "ProvisioningDebug.h"
-#include <nw_cXML_Parser.h>
+#include <xml/cxml/nw_cXML_Parser.h>
 
 // EXTERNAL DATA STRUCTURES
 extern "C" NW_WBXML_Dictionary_t NW_omawapprovisioning_WBXMLDictionary;

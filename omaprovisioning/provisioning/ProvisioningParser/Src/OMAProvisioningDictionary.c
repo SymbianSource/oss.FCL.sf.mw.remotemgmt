@@ -35,7 +35,7 @@
  */
 
 #include "OMAProvisioningDictionary.h"
-#include "nw_wbxml_dictionary.h"
+#include <xml/cxml/nw_wbxml_dictionary.h>
 
 
 static const NW_Ucs2 NW_omawapprovisioning_ElementTag_wap_provisioningdoc[] = {'w','a','p','-','p','r','o','v','i','s','i','o','n','i','n','g','d','o','c','\0'};

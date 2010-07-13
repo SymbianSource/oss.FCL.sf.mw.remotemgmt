@@ -120,7 +120,8 @@ RESOURCE PROFILES nsml_ds_profiles
 			profiledisplayname="Intellisync";
 			//username="";
 			//password="";
-			serverurl="http://82.77.123.71:8080/services/syncml";
+		//	serverurl="http://82.77.123.71:8080/services/syncml";
+			serverurl="https://sync.ovi.com:443/services/syncml";
 			serverid="Ovi.com";
 			profilehidden=0;
 			transportid=0x101F99F0;

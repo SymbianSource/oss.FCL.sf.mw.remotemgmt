@@ -38,92 +38,20 @@ PRJ_EXPORTS
 
 // Generic configuration interface for component cenrep settings  
 ../conf/s60provisioning.confml                    MW_LAYER_CONFML(provisioning.confml)
+../conf/CI_s60provisioning.confml                    MW_LAYER_CONFML(CI_provisioning.confml)
 ../conf/s60provisioning_101F87AA.crml 	        MW_LAYER_CRML(provisioning_101F87AA.crml)
 
 ../Rom/Provisioning.iby										CORE_MW_LAYER_IBY_EXPORT_PATH(provisioning.iby)
-//../rom/Provisioning_variant.iby						CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(provisioning_variant.iby)
 ../Rom/ProvisioningResources.iby					LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(provisioningresources.iby)
 ../loc/Provisioning.loc									MW_LAYER_LOC_EXPORT_PATH(provisioning.loc)
-../IMAdapter/loc/WPWVAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(wpwvadapter.loc)
-../MbxNbrAdapter/loc/MailboxAdapter.loc		MW_LAYER_LOC_EXPORT_PATH(mailboxadapter.loc)
-../accesspointadapter/loc/WPAPAdapter.loc		MW_LAYER_LOC_EXPORT_PATH(WPAPAdapter.loc)
-../ProvisioningBC/loc/ProvisioningBC.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningbc.loc)
-//../ProvisioningCx/loc/ProvisioningCx.loc					MW_LAYER_LOC_EXPORT_PATH(provisioningcx.loc)
-../StreamingAdapter/loc/StreamingAdapter.loc				MW_LAYER_LOC_EXPORT_PATH(streamingadapter.loc)
-../AuthTypePlugin/loc/Authtypeplugin.loc 					MW_LAYER_LOC_EXPORT_PATH(authtypeplugin.loc)
-
 
 PRJ_EXTENSIONS
-#ifdef SBSV2
-
-
-START EXTENSION s60/mifconv
-OPTION TARGETFILE provisioningcx.mif
-OPTION HEADERFILE provisioningcx.mbg
-OPTION SOURCES -c8,8 qgn_menu_set_cxt.bmp
-END
-
-#ifdef __SCALABLE_ICONS
-    START EXTENSION s60/mifconv
-		OPTION TARGETFILE provisioningcx_aif.mif
-		OPTION SOURCES -c8,8 qgn_menu_set.svg
-		END
-#else
-    START EXTENSION s60/mifconv
-		OPTION TARGETFILE provisioningcx_aif.mbm
-		OPTION SOURCES -c8,8 qgn_menu_set_lst.bmp -c8,8 qgn_menu_set_cxt.bmp 
-		END   
-#endif
-
-START EXTENSION s60/mifconv
-OPTION TARGETFILE Authtypeplugin.mif
-OPTION HEADERFILE Authtypeplugin.mbg
-OPTION SOURCES -c8,8 qgn_prop_set_conn_config
-END
-#endif
-
 
 PRJ_MMPFILES
-
 
 ../ProvisioningEngine/Group/ProvisioningEngine.mmp
 ../ProvisioningParser/Group/ProvisioningParser.mmp
 ../ProvisioningHandler/Group/ProvisioningHandler.mmp
-
-
-../accesspointadapter/group/WPAPAdapter.mmp
-//../WAPAdapter/group/WPWAPAdapter.mmp
-//../IMAdapter/group/IMAdapter.mmp
-../StreamingAdapter/group/StreamingAdapter.mmp
-../MbxNbrAdapter/group/MbxNbrAdapter.mmp
-
-
-
-//../AuthtypePlugin/group/Authtypeplugin.mmp
-//../AlwaysOnAdapter/group/AlwaysOnAdapter.mmp
-//../cpdestinationnwadapter/group/wpdestinationnwadapter.mmp
-
-#ifdef __SMART_CARD_PROV
-//    ../ProvisioningSC/group/ProvisioningSC.mmp - commented
-#endif
-
-
-#ifndef SBSV2
-
-gnumakefile ../ProvisioningCx/group/iconscxdc.mk
-
-#ifdef __SCALABLE_ICONS
-   // gnumakefile ../provisioningcx/group/Iconscxaifscalabledc.mk - commented
-#else
-   // gnumakefile ../provisioningcx/group/Iconscxaifbitmaps.mk - commented
-#endif
-
-//gnumakefile ../AuthtypePlugin/group/AuthtypepluginIcons.mk - commented
-
-#endif
-
-
-
 
 PRJ_TESTMMPFILES
 

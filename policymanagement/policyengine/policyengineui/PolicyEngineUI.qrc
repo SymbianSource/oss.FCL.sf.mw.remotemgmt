@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/xml">
+        <file>dialog.docml</file>
+        <file>InputDialog.docml</file>
+    </qresource>
+</RCC>

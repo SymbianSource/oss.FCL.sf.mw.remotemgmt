@@ -21,10 +21,9 @@
 #include <e32base.h>
 #include <centralrepository.h>
 #include <stringresourcereader.h> 
-#include <dcmo.rsg> // Resource to be read header
-#include <AknGlobalMsgQuery.h>
 #include <data_caging_path_literals.hrh>
 #include <f32file.h> 
+#include <hbtextresolversymbian.h>
 #include "dcmoclientserver.h"
 #include "dcmoconst.h"
 #include "dcmointerface.h"
@@ -33,7 +32,9 @@
 #include "dcmogenericcontrol.h"
 #include "dcmodebug.h"
 
-_LIT( KdcmoResourceFileName, "z:dcmo.rsc" );	
+
+_LIT( KdcmoResourceFileName, "deviceupdates_" );	
+_LIT( KdcmoResourceFilePath, "z:/resource/qt/translations/" );	
 const TInt KBufferSize = 256;
 
 TInt CDCMOServer::iSessionCount = 0;
@@ -114,7 +115,7 @@ void CDCMOServer::ConstructL()
 CDCMOServer::CDCMOServer() : CServer2(EPriorityStandard, EUnsharableSessions) /*CServer2(0)*/
 	{	
 		iStarter = EFalse;
-		iNotifier = NULL;
+		iMessageBox = NULL;
 	}
 
 // ----------------------------------------------------------------------------------------
@@ -130,8 +131,8 @@ CDCMOServer::~CDCMOServer()
 		for(TInt i=0; i< count; i++)
 				delete idcmoArray[i].iCategoryName;
 		idcmoArray.Reset();
-		delete iNotifier;
-		iNotifier = NULL;	
+		delete iMessageBox;
+		iMessageBox = NULL;	
 	}
 	else
 	{
@@ -157,7 +158,11 @@ void CDCMOServer::DropSession()
   		RDEBUG("CDCMOServer::DropSession(): Starter");
   		SetStarter( EFalse );
   		return;                 
-  	}   
+  	} 
+  	if(CDCMOMessageBox::IsMsgBoxClosed())
+  	{
+  		CleanDcmoArray();
+  	}  
 		if( idcmoArray.Count() && ( iSessionCount == 0 ))
 		{
 			// A session is being destroyed		
@@ -369,25 +374,21 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
 			RDEBUG("CDCMOServer::SetIntAttributeL(): LocalCategory");
 			CDCMOGenericControl* iGenericControl = new(ELeave) CDCMOGenericControl;
 			err = iGenericControl->SetIntAttributeL(categotyNumber, id, value);	
-			TFileName myFileName;
-  		TParse parseObj;
-  		parseObj.Set( KdcmoResourceFileName(), &KDC_RESOURCE_FILES_DIR,NULL );
- 			myFileName = parseObj.FullName();
- 			CStringResourceReader* test = CStringResourceReader::NewL( myFileName );
+			
+			TBool result = HbTextResolverSymbian::Init(KdcmoResourceFileName, KdcmoResourceFilePath );					
+
 			TPtrC buf;
 			dcmoList.iUid = categotyNumber;
 			if(categotyNumber == 0)
-			    {			    
-			    buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_CAMERA));
-			    stringHolder = buf.AllocL() ; 
+			    {
+					_LIT(KTextCamera, "txt_device_update_info_camera");
+					stringHolder = HbTextResolverSymbian::LoadL(KTextCamera);
 			    } 
 			else
-			    {			   
-			    buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_FIRMWARE_UPDATE));
-			    stringHolder = buf.AllocL() ; 
-			    }			
-     delete test;
-     test = NULL;
+			    {	
+					_LIT(KTextFOTA, "txt_device_update_info_firmware_update");
+					stringHolder = HbTextResolverSymbian::LoadL(KTextFOTA);
+			    }		
   	 delete iGenericControl;
 		 iGenericControl = NULL;
 	}
@@ -416,7 +417,7 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
   		RDEBUG("CDCMOServer::SetIntAttributeL(): Starter");
   		SetStarter ( EFalse );
   		delete stringHolder;
-		stringHolder = NULL;
+			stringHolder = NULL;
   		return err;                
    }   
 	if((err == EDcmoSuccess) && (id == EEnable) ) 
@@ -477,7 +478,7 @@ void CDCMOServer::DoFinalizeL()
 	RDEBUG("CDCMOServer::DoFinalizeL(): begin");	   
 
 	HBufC* content  = HBufC::NewLC(KDCMOMaxStringSize);
-  	TPtr   contentptr  = content->Des(); 
+  TPtr   contentptr  = content->Des(); 
 	HBufC* enableContent  = HBufC::NewLC(KDCMOMaxStringSize);
 	TPtr   enableContentptr  = enableContent->Des(); 
 	HBufC* disableContent  = HBufC::NewLC(KDCMOMaxStringSize);
@@ -485,10 +486,6 @@ void CDCMOServer::DoFinalizeL()
 
 	TBool enable ( EFalse );
 	TBool disable ( EFalse );
-	TFileName myFileName;
-  TParse parseObj;
-  parseObj.Set( KdcmoResourceFileName(), &KDC_RESOURCE_FILES_DIR,NULL );
-  myFileName = parseObj.FullName();
 	TInt arrayCount = idcmoArray.Count(); 
 	_LIT(KNewLine, "\n");
 		
@@ -509,38 +506,34 @@ void CDCMOServer::DoFinalizeL()
       		disableContentptr.Append( idcmoArray[i].iCategoryName->Des() );
       		disable = ETrue;
       	}	
-		}
-	  
-  	CStringResourceReader* test = CStringResourceReader::NewL( myFileName );	  
+		}	  
+  
+		TBool result = HbTextResolverSymbian::Init(KdcmoResourceFileName, KdcmoResourceFilePath );
 		if ( enable )
 		{
-			TPtrC buf;
-			buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_ENABLE)); 	    	
-			contentptr.Append(buf);
+			_LIT(KTextEnabled, "txt_device_update_title_enabled_by_the_system_admi");
+			HBufC* buf = HbTextResolverSymbian::LoadL(KTextEnabled);
+			contentptr.Append(buf->Des());
 	 		contentptr.Append(enableContentptr);
+	 		delete buf;
 		}
 		if ( disable )
 		{
-	 		TPtrC buf;
-	 		buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_DISABLE));
+	 		_LIT(KTextDisabled, "txt_device_update_title_disabled_by_the_system_adm");
+			HBufC* buf = HbTextResolverSymbian::LoadL(KTextDisabled);
 	 		if( enable )
-	 			contentptr.Append(KNewLine());
-	 		contentptr.Append(buf);
+	 			contentptr.Append(KNewLine());	 		
+			contentptr.Append(buf->Des());
 	 		contentptr.Append(disableContentptr);
+	 		delete buf;
 		}
-		delete test;
-		test = NULL;
-		
-		if( iNotifier )
-		{
-			iNotifier->Cancel();
+	
+		if( !iMessageBox )
+		{		
+			iMessageBox = CDCMOMessageBox::NewL();					
 		}
-		else
-		{			
-			iNotifier = CDCMONotifierAob::NewL( );			
-		}
-		
-	  iNotifier->ShowNotifierL(contentptr);    
+		iMessageBox->ShowMessageL(contentptr);
+
 	  CleanupStack::PopAndDestroy(3); //disableContent, enableContent, content
 	}	
 	RDEBUG("CDCMOServer::DoFinalizeL(): end");
@@ -617,4 +610,23 @@ void CDCMOServer::SetStarter(TBool aValue)
 	RDEBUG("CDCMOServer::SetStarter(): begin");
 	iStarter = aValue;
 	RDEBUG("CDCMOServer::SetStarter(): end");
+}
+
+// ----------------------------------------------------------------------------------------
+// CDCMOServer::CleanDcmoArray
+// Sets the iStarter value
+// ----------------------------------------------------------------------------------------
+void CDCMOServer::CleanDcmoArray()
+{
+	RDEBUG("CDCMOServer::CleanDcmoArray(): begin");
+	TInt count = idcmoArray.Count();  
+  RDEBUG_2("CDCMOServer::CleanDcmoArray; %d", count );
+	if(count)
+	{	
+		for(TInt i=0; i< count; i++)
+				delete idcmoArray[i].iCategoryName;
+		idcmoArray.Reset();
+	}
+	CDCMOMessageBox::SetMsgBoxStatus(EFalse);
+	RDEBUG("CDCMOServer::CleanDcmoArray(): end");
 }

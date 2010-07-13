@@ -1,0 +1,25 @@
+EXPORTS
+	_ZN18RFotaEngineSession10LastUpdateER5TTime @ 1 NONAME
+	_ZN18RFotaEngineSession13PauseDownloadEv @ 2 NONAME
+	_ZN18RFotaEngineSession14CurrentVersionER6TDes16 @ 3 NONAME
+	_ZN18RFotaEngineSession16ScheduledUpdateLE20TFotaScheduledUpdate @ 4 NONAME
+	_ZN18RFotaEngineSession17DownloadAndUpdateEiRK6TDesC8iS2_S2_i @ 5 NONAME
+	_ZN18RFotaEngineSession17GenericAlertSentLEi @ 6 NONAME
+	_ZN18RFotaEngineSession17TryResumeDownloadEi @ 7 NONAME
+	_ZN18RFotaEngineSession19DeleteUpdatePackageEi @ 8 NONAME
+	_ZN18RFotaEngineSession19GetUpdatePackageIdsER6TDes16 @ 9 NONAME
+	_ZN18RFotaEngineSession26GetCurrentFirmwareDetailsLER5TDes8S1_Ri @ 10 NONAME
+	_ZN18RFotaEngineSession5CloseEv @ 11 NONAME
+	_ZN18RFotaEngineSession5OpenLEv @ 12 NONAME
+	_ZN18RFotaEngineSession6UpdateEiiRK6TDesC8S2_ @ 13 NONAME
+	_ZN18RFotaEngineSession8DownloadEiRK6TDesC8iS2_S2_i @ 14 NONAME
+	_ZN18RFotaEngineSession8GetStateEi @ 15 NONAME
+	_ZN18RFotaEngineSession9GetResultEi @ 16 NONAME
+	_ZN18RFotaEngineSessionC1Ev @ 17 NONAME
+	_ZN18RFotaEngineSessionC2Ev @ 18 NONAME
+	_ZNK18RFotaEngineSession7VersionEv @ 19 NONAME
+	_ZN18RFotaEngineSession22OpenUpdatePackageStoreEiRP12RWriteStream @ 20 NONAME
+	_ZN18RFotaEngineSession27IsPackageStoreSizeAvailableEi @ 21 NONAME
+	_ZN18RFotaEngineSession28GetDownloadUpdatePackageSizeEiRiS0_ @ 22 NONAME
+	_ZN18RFotaEngineSession29UpdatePackageDownloadCompleteEi @ 23 NONAME
+
