@@ -27,6 +27,6 @@
 // Hybrid
 #define KNSmlDSMaxVersionSize 10
 
-#endif __NSMLDSCONSTANTS_H__
+#endif //__NSMLDSCONSTANTS_H__
 
 //  End of File
