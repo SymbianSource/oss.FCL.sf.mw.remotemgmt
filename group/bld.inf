@@ -37,9 +37,6 @@
 //remotemgmt_plat
 #include "../remotemgmt_plat/group/bld.inf"
 
-//devicediagnosticsfw
-#include "../devicediagnosticsfw/group/bld.inf"
-
 //dcmofw
 #include "../dcmofw/group/bld.inf"
 
