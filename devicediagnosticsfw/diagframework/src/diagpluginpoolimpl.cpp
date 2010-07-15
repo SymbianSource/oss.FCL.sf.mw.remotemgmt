@@ -616,7 +616,10 @@ TInt CDiagPluginPoolImpl::RunError( TInt aError )
 
     LOGSTRING2( "CDiagPluginPoolImpl::RunError %d", aError )
 
-    return ResetAndNotify( aError );
+    TInt err = ResetAndNotify( aError );
+    LOGSTRING2( "CDiagPluginPoolImpl::RunError %d", err )
+    
+    return KErrNone;
     }
     
 // End of File

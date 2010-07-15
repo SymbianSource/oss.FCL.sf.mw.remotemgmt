@@ -64,6 +64,7 @@ class CSmlActiveContactSuiteProgressCallback : public CActive
         // from CActive
         virtual void DoCancel();
         virtual void RunL();
+				virtual TInt RunError(TInt aError);	
         
     private:
         void Request();

@@ -99,7 +99,7 @@ TInt CFotaDownload::RunError(TInt aError)
 		{
 		FLOG(_L(" CFotaDownload::RunError err %d"), aError );
 		}
-	return aError;
+	return KErrNone;
 	}
 
 

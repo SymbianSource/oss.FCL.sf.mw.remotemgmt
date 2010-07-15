@@ -77,6 +77,7 @@ NONSHARABLE_CLASS(CSCPLockObserver): public CActive
     private: // from CActive
          /** @see CActive::RunL() */
 		void RunL();
+		TInt RunError(TInt aError);
 		/** @see CActive::DoCancel() */
         void DoCancel();
     private: // data

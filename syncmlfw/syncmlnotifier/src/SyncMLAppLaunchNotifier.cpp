@@ -536,6 +536,16 @@ void CSyncMLAppLaunchNotifier::RunL()
     FLOG(_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::RunL() completed"));
     }
 
+// ----------------------------------------------------------------------------
+// CSyncMLAppLaunchNotifier::RunError
+// ----------------------------------------------------------------------------
+TInt CSyncMLAppLaunchNotifier::RunError ( TInt aError )
+    {
+    FTRACE( FPrint(
+								_L("[SmlNotif]\t CSyncMLAppLaunchNotifier::RunError() The Error occurred is   %d"), aError ) );
+    return KErrNone;
+    }	
+    
 // -----------------------------------------------------------------------------
 // CSyncMLNotifierBase::SyncServiceL
 // -----------------------------------------------------------------------------
@@ -893,7 +903,7 @@ void CDMDisclaimerObserver::RunL()
 TInt CDMDisclaimerObserver::RunError(TInt aError)
     {
     FTRACE( FPrint( _L("[SmlNotif]\t CDMDisclaimerObserver::RunError() Error = %d"), aError ) );
-    return aError;
+    return KErrNone;
     }
     
 //  End of File  

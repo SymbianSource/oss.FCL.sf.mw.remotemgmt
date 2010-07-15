@@ -182,6 +182,16 @@ void CNSmlDialUpAgent::RunL()
 	    User::RequestComplete( status, iStatus.Int() );			
         }
 	}
+
+// ----------------------------------------------------------------------------
+// CNSmlDialUpAgent::RunError
+// ----------------------------------------------------------------------------
+TInt CNSmlDialUpAgent::RunError ( TInt aError )
+    {
+    DBG_FILE_CODE(aError, _S8("CNSmlDialUpAgent::RunError() The Error occurred is "));
+    return KErrNone;
+    }	
+    
 // ---------------------------------------------------------
 // CNSmlDialUpAgent::ConnectL( TUint aIAPid, TRequestStatus &aStatus )
 // Opens data call handle 

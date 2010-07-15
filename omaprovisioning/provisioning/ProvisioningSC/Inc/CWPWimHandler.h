@@ -76,6 +76,7 @@ class CWPWimHandler : public CActive
 	protected:
 		// from CActive
 		void RunL();
+		TInt RunError(TInt aError);
 		void DoCancel();
 
 

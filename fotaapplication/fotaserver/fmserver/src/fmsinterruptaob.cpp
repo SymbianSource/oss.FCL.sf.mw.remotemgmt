@@ -582,7 +582,7 @@ CFMSInterruptAob::~CFMSInterruptAob()
 TInt CFMSInterruptAob::RunError( TInt aError )
 	{
 	FLOG( _L("CAOConnectionImpl::RunError: aError: %d"), aError );        
-	return aError;
+	return KErrNone;
 	}
 
 

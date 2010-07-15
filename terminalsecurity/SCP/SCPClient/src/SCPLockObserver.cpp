@@ -208,6 +208,16 @@ void CSCPLockObserver :: RunL() {
     
     Dprint(_L("[CSCPLockObserver]-> RunL() <<<"));    
 }
+
+// ----------------------------------------------------------------------------
+// CSCPLockObserver::RunError
+// ----------------------------------------------------------------------------
+TInt CSCPLockObserver::RunError ( TInt /*aError*/ )
+    {
+        return KErrNone;
+    }	
+    
+   
 //
 // ----------------------------------------------------------
 // CSCPLockObserver::DoCancel()

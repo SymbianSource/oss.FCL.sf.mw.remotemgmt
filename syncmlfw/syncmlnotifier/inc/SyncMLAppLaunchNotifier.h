@@ -150,8 +150,13 @@ NONSHARABLE_CLASS( CSyncMLAppLaunchNotifier ) : public CSyncMLNotifierBase
         * @param None.
         * @return None.
         */
-        void RunL();
-        
+        void RunL();        
+        /**
+        * From CSyncMLNotifierBase Gets called when RunL leaves.
+        * @param aError.
+        * @return TInt.
+        */
+        TInt RunError(TInt aError);
         /**
         * From RConnectionMonitor gets the staus of roaming .
         * If roaming returns true else returns false

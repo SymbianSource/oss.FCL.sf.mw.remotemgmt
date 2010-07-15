@@ -59,6 +59,7 @@ private:
     //From CActive class
     void RunL();
     void DoCancel();
+    TInt RunError ( TInt aError );
 
 private:
     MNSmlDsHostSessionCancelEventHandler* iHandler;

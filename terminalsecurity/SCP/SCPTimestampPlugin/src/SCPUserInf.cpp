@@ -159,7 +159,7 @@ void CSCPUserInf::RunL()
 	}	
     }
 	
-TInt CSCPUserInf::RunError(TInt aError)
+TInt CSCPUserInf::RunError(TInt /*aError */)
     {
-    return aError;
+    return KErrNone;
     }

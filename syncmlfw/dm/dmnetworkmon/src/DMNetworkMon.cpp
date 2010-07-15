@@ -165,7 +165,7 @@ void CDMNetworkMon::RunL()
 TInt CDMNetworkMon::RunError ( TInt aError )
     {
     DBG_FILE_CODE(aError, _S8("CDMNetworkMon::RunError() The Error occurred is "));
-    return aError;
+    return KErrNone;
     }
 
 // ----------------------------------------------------------------------------

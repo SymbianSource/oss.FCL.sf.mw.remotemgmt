@@ -105,6 +105,14 @@ void CNSmlHostSessionCancel::RunL()
     _DBG_FILE("CNSmlHostSessionCancel::RunL() : End");
     }
 
+// ----------------------------------------------------------------------------
+// CNSmlHostSessionCancel::RunError
+// ----------------------------------------------------------------------------
+TInt CNSmlHostSessionCancel::RunError ( TInt aError )
+{
+    return KErrNone;
+}
+
 // --------------------------------------------------------------------------
 // void CNSmlHostSessionCancel::DoCancel()
 // --------------------------------------------------------------------------

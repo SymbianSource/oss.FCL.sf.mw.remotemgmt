@@ -337,7 +337,13 @@ void CPolicyEngineUi::RunL()
 	User::RequestComplete( status, KErrNone);
 	}
 
-
+// ----------------------------------------------------------------------------
+// CPolicyEngineUi::RunError
+// ----------------------------------------------------------------------------
+TInt CPolicyEngineUi::RunError ( TInt /*aError*/ )
+    {
+       return KErrNone;
+    }	
 
 void CPolicyEngineUi::DoCancel()
 	{

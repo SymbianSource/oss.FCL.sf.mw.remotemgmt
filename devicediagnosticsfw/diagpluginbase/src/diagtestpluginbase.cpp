@@ -228,7 +228,7 @@ EXPORT_C TInt CDiagTestPluginBase::RunError( TInt aError )
         TRAP( aError, CompleteTestL( CDiagResultsDatabaseItem::EFailed ) );
         }
 
-    return aError;
+    return KErrNone;
     }
 
 // ---------------------------------------------------------------------------

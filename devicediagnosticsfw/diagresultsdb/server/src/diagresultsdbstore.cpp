@@ -146,7 +146,7 @@ TInt CDiagResultsDbStore::RunError(TInt aError)
         	}
     	}
 
-    return err;
+    return KErrNone;
     }
 
 

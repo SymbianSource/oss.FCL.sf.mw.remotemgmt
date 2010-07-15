@@ -96,6 +96,7 @@ public:
 protected:    // from CActive
     void DoCancel();
     void RunL();
+    TInt RunError(TInt aError);
 
 protected:		//from MObexSearcherObserver
     void HandleDeviceFoundL();

@@ -68,6 +68,8 @@ class CBTObexSearcher : public CObexSearcherBase , public MBTEngSettingsObserver
 		CObexClient* CreateObexClientL();
 
         void RunL();
+        
+        TInt RunError(TInt aError);
 
         void DoCancel();
 

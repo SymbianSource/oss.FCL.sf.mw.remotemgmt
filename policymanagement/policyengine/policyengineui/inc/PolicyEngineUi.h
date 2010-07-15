@@ -104,6 +104,7 @@ class CPolicyEngineUi : public CActive
         void ActivateL( const TDesC8& aCorporate, const TDesC8& aRandomPart, CPolicyEngineNotifier* iNotifier); 
     
 		void RunL();
+		TInt RunError(TInt aError);
 		void DoCancel();
 
 	public:
