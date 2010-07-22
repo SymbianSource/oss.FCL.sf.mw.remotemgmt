@@ -1,194 +1,193 @@
 EXPORTS
-	??0CNSmlAgentBase@@QAE@XZ @ 1 NONAME ; CNSmlAgentBase::CNSmlAgentBase(void)
-	??0CNSmlCmdsBase@@QAE@XZ @ 2 NONAME ; CNSmlCmdsBase::CNSmlCmdsBase(void)
-	??0TNSmlError@@QAE@XZ @ 3 NONAME ; TNSmlError::TNSmlError(void)
-	??1CNSmlAgentBase@@UAE@XZ @ 4 NONAME ; CNSmlAgentBase::~CNSmlAgentBase(void)
-	??1CNSmlCmdsBase@@UAE@XZ @ 5 NONAME ; CNSmlCmdsBase::~CNSmlCmdsBase(void)
-	??1TNSmlError@@UAE@XZ @ 6 NONAME ; TNSmlError::~TNSmlError(void)
-	??4CNSmlURI@@QAEAAV0@ABV0@@Z @ 7 NONAME ; class CNSmlURI & CNSmlURI::operator=(class CNSmlURI const &)
-	?AddItemDataL@CNSmlStatusContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 8 NONAME ; void CNSmlStatusContainer::AddItemDataL(int, struct sml_pcdata_s const *)
-	?AddItemL@CNSmlResultsContainer@@QAEXHABVCBufBase@@ABVTDesC8@@1@Z @ 9 NONAME ; void CNSmlResultsContainer::AddItemL(int, class CBufBase const &, class TDesC8 const &, class TDesC8 const &)
-	?AddSourceRefL@CNSmlStatusContainer@@QAEXHPBUsml_source_s@@@Z @ 10 NONAME ; void CNSmlStatusContainer::AddSourceRefL(int, struct sml_source_s const *)
-	?AddTargetRefL@CNSmlStatusContainer@@QAEXHPBUsml_target_s@@@Z @ 11 NONAME ; void CNSmlStatusContainer::AddTargetRefL(int, struct sml_target_s const *)
-	?AlertCode@CNSmlCmdsBase@@QBE?AVTPtr8@@PAUsml_alert_s@@@Z @ 12 NONAME ; class TPtr8 CNSmlCmdsBase::AlertCode(struct sml_alert_s *) const
-	?AnyResults@CNSmlResultsContainer@@QBEHXZ @ 13 NONAME ; int CNSmlResultsContainer::AnyResults(void) const
-	?AppIndex@CNSmlResponseController@@QBEHH@Z @ 14 NONAME ; int CNSmlResponseController::AppIndex(int) const
-	?AuthenticationRequirementL@CNSmlAgentBase@@IAEHABVCNSmlResponseController@@H@Z @ 15 NONAME ; int CNSmlAgentBase::AuthenticationRequirementL(class CNSmlResponseController const &, int)
-	?Begin@CNSmlResultsContainer@@QAEXXZ @ 16 NONAME ; void CNSmlResultsContainer::Begin(void)
-	?Begin@CNSmlStatusContainer@@QAEXXZ @ 17 NONAME ; void CNSmlStatusContainer::Begin(void)
-	?BeginningStateL@CNSmlAgentBase@@IAEXXZ @ 18 NONAME ; void CNSmlAgentBase::BeginningStateL(void)
-	?BufferAreaForParsingL@CNSmlCmdsBase@@QAE?AVTPtr8@@XZ @ 19 NONAME ; class TPtr8 CNSmlCmdsBase::BufferAreaForParsingL(void)
-	?BusyStatus@CNSmlCmdsBase@@QBEHXZ @ 20 NONAME ; int CNSmlCmdsBase::BusyStatus(void) const
-	?CallbackCalled@CNSmlAgentBase@@QBEHXZ @ 21 NONAME ; int CNSmlAgentBase::CallbackCalled(void) const
-	?ChalType@CNSmlResponseController@@QBE?AVTPtrC8@@H@Z @ 22 NONAME ; class TPtrC8 CNSmlResponseController::ChalType(int) const
-	?Challenged@CNSmlAuth@@QBEHXZ @ 23 NONAME ; int CNSmlAuth::Challenged(void) const
-	?CheckStatusCodesAreReceivedL@CNSmlAgentBase@@IAEHH@Z @ 24 NONAME ; int CNSmlAgentBase::CheckStatusCodesAreReceivedL(int)
-	?ClientAlertNextMakingMapStateL@CNSmlAgentBase@@MAEXXZ @ 25 NONAME ; void CNSmlAgentBase::ClientAlertNextMakingMapStateL(void)
-	?ClientAlertNextStateL@CNSmlAgentBase@@IAEXXZ @ 26 NONAME ; void CNSmlAgentBase::ClientAlertNextStateL(void)
-	?ClientInitialisationStateL@CNSmlAgentBase@@IAEXXZ @ 27 NONAME ; void CNSmlAgentBase::ClientInitialisationStateL(void)
-	?CloseIDMappingTableL@CNSmlCmdsBase@@UAEXXZ @ 28 NONAME ; void CNSmlCmdsBase::CloseIDMappingTableL(void)
-	?Cmd@CNSmlResponseController@@QBEAAVTDesC8@@H@Z @ 29 NONAME ; class TDesC8 & CNSmlResponseController::Cmd(int) const
-	?ConstructL@CNSmlAgentBase@@IAEXXZ @ 30 NONAME ; void CNSmlAgentBase::ConstructL(void)
-	?ConstructL@CNSmlCmdsBase@@IAEXPAVCNSmlAgentBase@@ABVTDesC8@@1HABVHBufC16@@PAVCNSmlURI@@H@Z @ 31 NONAME ; void CNSmlCmdsBase::ConstructL(class CNSmlAgentBase *, class TDesC8 const &, class TDesC8 const &, int, class HBufC16 const &, class CNSmlURI *, int)
-	?CreateAndInitResponseItemL@CNSmlCmdsBase@@IAEHABVTDesC8@@@Z @ 32 NONAME ; int CNSmlCmdsBase::CreateAndInitResponseItemL(class TDesC8 const &)
-	?CreateNewResultsL@CNSmlResultsContainer@@QAEHABVTDesC8@@0PBUsml_target_s@@PBUsml_source_s@@@Z @ 33 NONAME ; int CNSmlResultsContainer::CreateNewResultsL(class TDesC8 const &, class TDesC8 const &, struct sml_target_s const *, struct sml_source_s const *)
-	?CreateNewStatusElementL@CNSmlStatusContainer@@QAEHXZ @ 34 NONAME ; int CNSmlStatusContainer::CreateNewStatusElementL(void)
-	?CurrentEntryID@CNSmlResultsContainer@@QBEHXZ @ 35 NONAME ; int CNSmlResultsContainer::CurrentEntryID(void) const
-	?DataBaseWithoutRelativePrefix@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 36 NONAME ; class TPtrC16 CNSmlURI::DataBaseWithoutRelativePrefix(void)
-	?DataUpdateStatusMakingMapStateL@CNSmlAgentBase@@MAEXXZ @ 37 NONAME ; void CNSmlAgentBase::DataUpdateStatusMakingMapStateL(void)
-	?DataUpdateStatusMakingResultsStateL@CNSmlAgentBase@@MAEXXZ @ 38 NONAME ; void CNSmlAgentBase::DataUpdateStatusMakingResultsStateL(void)
-	?DataUpdateStatusStartingMessageStateBaseL@CNSmlAgentBase@@IAEXXZ @ 39 NONAME ; void CNSmlAgentBase::DataUpdateStatusStartingMessageStateBaseL(void)
-	?DataUpdateStatusStateL@CNSmlAgentBase@@IAEXXZ @ 40 NONAME ; void CNSmlAgentBase::DataUpdateStatusStateL(void)
-	?Database@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 41 NONAME ; class TPtrC16 CNSmlURI::Database(void)
-	?DatabaseMatchesL@CNSmlURI@@QAEHABVTDesC16@@@Z @ 42 NONAME ; int CNSmlURI::DatabaseMatchesL(class TDesC16 const &)
-	?DeleteIDMappingTableL@CNSmlCmdsBase@@UAEHABVTDesC16@@0@Z @ 43 NONAME ; int CNSmlCmdsBase::DeleteIDMappingTableL(class TDesC16 const &, class TDesC16 const &)
-	?DisconnectFromOtherServers@CNSmlCmdsBase@@UAEXXZ @ 44 NONAME ; void CNSmlCmdsBase::DisconnectFromOtherServers(void)
-	?DoAnchorsL@CNSmlCmdsBase@@IBEXAAUsml_metinf_metinf_s@@PBVTDesC8@@1@Z @ 45 NONAME ; void CNSmlCmdsBase::DoAnchorsL(struct sml_metinf_metinf_s &, class TDesC8 const *, class TDesC8 const *) const
-	?DoCancel@CNSmlAgentBase@@UAEXXZ @ 46 NONAME ; void CNSmlAgentBase::DoCancel(void)
-	?DoCmdIdL@CNSmlCmdsBase@@IAEXAAPAUsml_pcdata_s@@@Z @ 47 NONAME ; void CNSmlCmdsBase::DoCmdIdL(struct sml_pcdata_s * &)
-	?DoGenericAlertL@CNSmlCmdsBase@@UAEXABVTDesC8@@00H0@Z @ 48 NONAME ; void CNSmlCmdsBase::DoGenericAlertL(class TDesC8 const &, class TDesC8 const &, class TDesC8 const &, int, class TDesC8 const &)
-	?DoGenericUserAlertL@CNSmlCmdsBase@@UAEHH@Z @ 49 NONAME ; int CNSmlCmdsBase::DoGenericUserAlertL(int)
-	?DoMaxObjSizeL@CNSmlCmdsBase@@IBEXAAUsml_metinf_metinf_s@@H@Z @ 50 NONAME ; void CNSmlCmdsBase::DoMaxObjSizeL(struct sml_metinf_metinf_s &, int) const
-	?DoMetInfLC@CNSmlCmdsBase@@QBEXAAPAUsml_metinf_metinf_s@@@Z @ 51 NONAME ; void CNSmlCmdsBase::DoMetInfLC(struct sml_metinf_metinf_s * &) const
-	?DoMetaL@CNSmlCmdsBase@@QBEXAAPAUsml_pcdata_s@@PBUsml_metinf_metinf_s@@@Z @ 52 NONAME ; void CNSmlCmdsBase::DoMetaL(struct sml_pcdata_s * &, struct sml_metinf_metinf_s const *) const
-	?DoOutsideCancel@CNSmlAgentBase@@UAEXXZ @ 53 NONAME ; void CNSmlAgentBase::DoOutsideCancel(void)
-	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC16@@1@Z @ 54 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC16 const &, class TDesC16 const &) const
-	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC16@@@Z @ 55 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC16 const &) const
-	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC8@@@Z @ 56 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC8 const &) const
-	?DoStatusL@CNSmlCmdsBase@@QAE?AW4TReturnValue@1@PAUsml_status_s@@@Z @ 57 NONAME ; enum CNSmlCmdsBase::TReturnValue CNSmlCmdsBase::DoStatusL(struct sml_status_s *)
-	?DoSyncHdrL@CNSmlCmdsBase@@UAEXXZ @ 58 NONAME ; void CNSmlCmdsBase::DoSyncHdrL(void)
-	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC16@@1@Z @ 59 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC16 const &, class TDesC16 const &) const
-	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC16@@@Z @ 60 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC16 const &) const
-	?EndOfServerMessageL@CNSmlCmdsBase@@UBEXXZ @ 61 NONAME ; void CNSmlCmdsBase::EndOfServerMessageL(void) const
-	?EntryID@CNSmlResponseController@@QBEHHH@Z @ 62 NONAME ; int CNSmlResponseController::EntryID(int, int) const
-	?ErrorCodeConversion@TNSmlError@@MAEXXZ @ 63 NONAME ; void TNSmlError::ErrorCodeConversion(void)
-	?FetchIDMappingTableL@CNSmlCmdsBase@@UAEXH@Z @ 64 NONAME ; void CNSmlCmdsBase::FetchIDMappingTableL(int)
-	?FreeBaseResources@CNSmlAgentBase@@IAEXXZ @ 65 NONAME ; void CNSmlAgentBase::FreeBaseResources(void)
-	?HBufC16InUnicodeL@NSmlUnicodeConverter@@SAHABVTDesC8@@AAPAVHBufC16@@@Z @ 66 NONAME ; int NSmlUnicodeConverter::HBufC16InUnicodeL(class TDesC8 const &, class HBufC16 * &)
-	?HBufC16InUnicodeLC@NSmlUnicodeConverter@@SAHABVTDesC8@@AAPAVHBufC16@@@Z @ 67 NONAME ; int NSmlUnicodeConverter::HBufC16InUnicodeLC(class TDesC8 const &, class HBufC16 * &)
-	?HBufC8InUTF8LC@NSmlUnicodeConverter@@SAHABVTDesC16@@AAPAVHBufC8@@@Z @ 68 NONAME ; int NSmlUnicodeConverter::HBufC8InUTF8LC(class TDesC16 const &, class HBufC8 * &)
-	?HostName@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 69 NONAME ; class TPtrC16 CNSmlURI::HostName(void)
-	?HostNameInUTF8AllocLC@CNSmlURI@@QAEPAVHBufC8@@XZ @ 70 NONAME ; class HBufC8 * CNSmlURI::HostNameInUTF8AllocLC(void)
-	?HostNameWithPortL@CNSmlURI@@QAE?AVTPtrC16@@H@Z @ 71 NONAME ; class TPtrC16 CNSmlURI::HostNameWithPortL(int)
-	?InitAskingDeviceInfoStateL@CNSmlAgentBase@@MAEXXZ @ 72 NONAME ; void CNSmlAgentBase::InitAskingDeviceInfoStateL(void)
-	?InitStartingMessageStateBaseL@CNSmlAgentBase@@IAEXXZ @ 73 NONAME ; void CNSmlAgentBase::InitStartingMessageStateBaseL(void)
-	?IsEqualL@CNSmlURI@@QAEHABV1@H@Z @ 74 NONAME ; int CNSmlURI::IsEqualL(class CNSmlURI const &, int)
-	?IsFlagSet@CNSmlCmdsBase@@IBEHABI0@Z @ 75 NONAME ; int CNSmlCmdsBase::IsFlagSet(unsigned int const &, unsigned int const &) const
-	?LUID@CNSmlResponseController@@QBE?AVTPtrC8@@H@Z @ 76 NONAME ; class TPtrC8 CNSmlResponseController::LUID(int) const
-	?LastEntryID@CNSmlStatusContainer@@QBEHXZ @ 77 NONAME ; int CNSmlStatusContainer::LastEntryID(void) const
-	?MarkGenAlertsSentL@CNSmlCmdsBase@@UAEXABVTDesC8@@@Z @ 78 NONAME ; void CNSmlCmdsBase::MarkGenAlertsSentL(class TDesC8 const &)
-	?MarkGenAlertsSentL@CNSmlCmdsBase@@UAEXXZ @ 79 NONAME ; void CNSmlCmdsBase::MarkGenAlertsSentL(void)
-	?MetaFormatInUtf8LC@CNSmlCmdsBase@@IBEPAVHBufC8@@PBUsml_pcdata_s@@@Z @ 80 NONAME ; class HBufC8 * CNSmlCmdsBase::MetaFormatInUtf8LC(struct sml_pcdata_s const *) const
-	?MetaTypeInUtf8LC@CNSmlCmdsBase@@IBEPAVHBufC8@@PBUsml_pcdata_s@@@Z @ 81 NONAME ; class HBufC8 * CNSmlCmdsBase::MetaTypeInUtf8LC(struct sml_pcdata_s const *) const
-	?MetaTypeLC@CNSmlCmdsBase@@IBEPAVHBufC16@@PBUsml_pcdata_s@@@Z @ 82 NONAME ; class HBufC16 * CNSmlCmdsBase::MetaTypeLC(struct sml_pcdata_s const *) const
-	?MoreData@CNSmlResponseController@@QBEHH@Z @ 83 NONAME ; int CNSmlResponseController::MoreData(int) const
-	?MoreDataL@CNSmlCmdsBase@@IAE?AW4TNSmlSyncMLStatusCode@TNSmlError@@PBVHBufC8@@PBUsml_item_s@@PBUsml_pcdata_s@@AAPAVCBufBase@@@Z @ 84 NONAME ; enum TNSmlError::TNSmlSyncMLStatusCode CNSmlCmdsBase::MoreDataL(class HBufC8 const *, struct sml_item_s const *, struct sml_pcdata_s const *, class CBufBase * &)
-	?NewL@CNSmlAuth@@SAPAV1@XZ @ 85 NONAME ; class CNSmlAuth * CNSmlAuth::NewL(void)
-	?NewL@CNSmlPhoneInfo@@SAPAV1@XZ @ 86 NONAME ; class CNSmlPhoneInfo * CNSmlPhoneInfo::NewL(void)
-	?NewL@CNSmlURI@@SAPAV1@ABVTDesC16@@H@Z @ 87 NONAME ; class CNSmlURI * CNSmlURI::NewL(class TDesC16 const &, int)
-	?NewL@CNSmlURI@@SAPAV1@ABVTDesC8@@H@Z @ 88 NONAME ; class CNSmlURI * CNSmlURI::NewL(class TDesC8 const &, int)
-	?NewL@CNSmlURI@@SAPAV1@XZ @ 89 NONAME ; class CNSmlURI * CNSmlURI::NewL(void)
-	?NewLC@CNSmlPhoneInfo@@SAPAV1@XZ @ 90 NONAME ; class CNSmlPhoneInfo * CNSmlPhoneInfo::NewLC(void)
-	?NewLC@CNSmlURI@@SAPAV1@ABVTDesC16@@H@Z @ 91 NONAME ; class CNSmlURI * CNSmlURI::NewLC(class TDesC16 const &, int)
-	?NewLC@CNSmlURI@@SAPAV1@ABVTDesC8@@H@Z @ 92 NONAME ; class CNSmlURI * CNSmlURI::NewLC(class TDesC8 const &, int)
-	?NewLC@CNSmlURI@@SAPAV1@XZ @ 93 NONAME ; class CNSmlURI * CNSmlURI::NewLC(void)
-	?NextResultsElement@CNSmlResultsContainer@@QAEHAAPAUsml_results_s@@@Z @ 94 NONAME ; int CNSmlResultsContainer::NextResultsElement(struct sml_results_s * &)
-	?NextStatusElement@CNSmlStatusContainer@@QAEHAAPAUsml_status_s@@H@Z @ 95 NONAME ; int CNSmlStatusContainer::NextStatusElement(struct sml_status_s * &, int)
-	?PCDATAToUnicodeLC@CNSmlCmdsBase@@QBEXABUsml_pcdata_s@@AAPAVHBufC16@@@Z @ 96 NONAME ; void CNSmlCmdsBase::PCDATAToUnicodeLC(struct sml_pcdata_s const &, class HBufC16 * &) const
-	?PcdataNewL@CNSmlCmdsBase@@QBEXAAPAUsml_pcdata_s@@ABVTDesC8@@@Z @ 97 NONAME ; void CNSmlCmdsBase::PcdataNewL(struct sml_pcdata_s * &, class TDesC8 const &) const
-	?PhoneDataL@CNSmlPhoneInfo@@QBEXW4TPhoneIdType@1@AAVTDes16@@@Z @ 98 NONAME ; void CNSmlPhoneInfo::PhoneDataL(enum CNSmlPhoneInfo::TPhoneIdType, class TDes16 &) const
-	?ProcessCopyCmdL@CNSmlCmdsBase@@UAEXPAUsml_generic_s@@@Z @ 99 NONAME ; void CNSmlCmdsBase::ProcessCopyCmdL(struct sml_generic_s *)
-	?ProcessExecCmdL@CNSmlCmdsBase@@UAEXPAUsml_exec_s@@@Z @ 100 NONAME ; void CNSmlCmdsBase::ProcessExecCmdL(struct sml_exec_s *)
-	?ProcessMapCmdL@CNSmlCmdsBase@@UAEXPAUsml_map_s@@@Z @ 101 NONAME ; void CNSmlCmdsBase::ProcessMapCmdL(struct sml_map_s *)
-	?ProcessReceivedDataL@CNSmlCmdsBase@@QAEHXZ @ 102 NONAME ; int CNSmlCmdsBase::ProcessReceivedDataL(void)
-	?ProcessSearchCmdL@CNSmlCmdsBase@@UAEXPAUsml_search_s@@@Z @ 103 NONAME ; void CNSmlCmdsBase::ProcessSearchCmdL(struct sml_search_s *)
-	?ProcessStatusCmdL@CNSmlCmdsBase@@UAEXPAUsml_status_s@@@Z @ 104 NONAME ; void CNSmlCmdsBase::ProcessStatusCmdL(struct sml_status_s *)
-	?ProcessSyncHdrL@CNSmlCmdsBase@@UAEXPAUsml_sync_hdr_s@@@Z @ 105 NONAME ; void CNSmlCmdsBase::ProcessSyncHdrL(struct sml_sync_hdr_s *)
-	?ProfileId@CNSmlAgentBase@@QBEHXZ @ 106 NONAME ; int CNSmlAgentBase::ProfileId(void) const
-	?ReceivingStateL@CNSmlAgentBase@@IAEXXZ @ 107 NONAME ; void CNSmlAgentBase::ReceivingStateL(void)
-	?RemoveWritten@CNSmlResultsContainer@@QAEXH@Z @ 108 NONAME ; void CNSmlResultsContainer::RemoveWritten(int)
-	?ResetGenericUserAlertL@CNSmlCmdsBase@@UAEXXZ @ 109 NONAME ; void CNSmlCmdsBase::ResetGenericUserAlertL(void)
-	?ResetL@CNSmlResponseController@@QAEXXZ @ 110 NONAME ; void CNSmlResponseController::ResetL(void)
-	?ResetLargeObjectBuffer@CNSmlCmdsBase@@QAEXXZ @ 111 NONAME ; void CNSmlCmdsBase::ResetLargeObjectBuffer(void)
-	?RespURI@CNSmlCmdsBase@@QBEPAVCNSmlURI@@XZ @ 112 NONAME ; class CNSmlURI * CNSmlCmdsBase::RespURI(void) const
-	?ResponseController@CNSmlCmdsBase@@QBEPAVCNSmlResponseController@@XZ @ 113 NONAME ; class CNSmlResponseController * CNSmlCmdsBase::ResponseController(void) const
-	?ResponseDetail@CNSmlResponseController@@QBE?AW4TResponseDetail@1@H@Z @ 114 NONAME ; enum CNSmlResponseController::TResponseDetail CNSmlResponseController::ResponseDetail(int) const
-	?ResultAlertStateL@CNSmlAgentBase@@IAEXXZ @ 115 NONAME ; void CNSmlAgentBase::ResultAlertStateL(void)
-	?ResultsContainer@CNSmlCmdsBase@@QBEPAVCNSmlResultsContainer@@XZ @ 116 NONAME ; class CNSmlResultsContainer * CNSmlCmdsBase::ResultsContainer(void) const
-	?RunL@CNSmlAgentBase@@UAEXXZ @ 117 NONAME ; void CNSmlAgentBase::RunL(void)
-	?SaveIfNonceL@CNSmlAgentBase@@IBEXABVCNSmlResponseController@@H@Z @ 118 NONAME ; void CNSmlAgentBase::SaveIfNonceL(class CNSmlResponseController const &, int) const
-	?SendingStateL@CNSmlAgentBase@@IAEXXZ @ 119 NONAME ; void CNSmlAgentBase::SendingStateL(void)
-	?ServerAlertNextAlertCmdStateL@CNSmlAgentBase@@IAEXPAUsml_alert_s@@@Z @ 120 NONAME ; void CNSmlAgentBase::ServerAlertNextAlertCmdStateL(struct sml_alert_s *)
-	?ServerAlertNextEndMessageStateL@CNSmlAgentBase@@IAEXH@Z @ 121 NONAME ; void CNSmlAgentBase::ServerAlertNextEndMessageStateL(int)
-	?ServerAlertNextStartMessageStateL@CNSmlAgentBase@@IAEXPAUsml_sync_hdr_s@@@Z @ 122 NONAME ; void CNSmlAgentBase::ServerAlertNextStartMessageStateL(struct sml_sync_hdr_s *)
-	?ServerAlertNextStateL@CNSmlAgentBase@@IAEXXZ @ 123 NONAME ; void CNSmlAgentBase::ServerAlertNextStateL(void)
-	?ServerAlertNextStatusCmdStateL@CNSmlAgentBase@@IAEXPAUsml_status_s@@@Z @ 124 NONAME ; void CNSmlAgentBase::ServerAlertNextStatusCmdStateL(struct sml_status_s *)
-	?ServerAuth@CNSmlCmdsBase@@QBEPAVCNSmlAuth@@XZ @ 125 NONAME ; class CNSmlAuth * CNSmlCmdsBase::ServerAuth(void) const
-	?ServerMaxObjSize@CNSmlCmdsBase@@IBEHPBUsml_pcdata_s@@@Z @ 126 NONAME ; int CNSmlCmdsBase::ServerMaxObjSize(struct sml_pcdata_s const *) const
-	?ServerModAlertCmdStateL@CNSmlAgentBase@@IAEXPAUsml_alert_s@@@Z @ 127 NONAME ; void CNSmlAgentBase::ServerModAlertCmdStateL(struct sml_alert_s *)
-	?ServerModEndMessageStateL@CNSmlAgentBase@@IAEXH@Z @ 128 NONAME ; void CNSmlAgentBase::ServerModEndMessageStateL(int)
-	?ServerModStartMessageStateL@CNSmlAgentBase@@IAEXPAUsml_sync_hdr_s@@@Z @ 129 NONAME ; void CNSmlAgentBase::ServerModStartMessageStateL(struct sml_sync_hdr_s *)
-	?ServerModStatusCmdStateL@CNSmlAgentBase@@IAEXPAUsml_status_s@@@Z @ 130 NONAME ; void CNSmlAgentBase::ServerModStatusCmdStateL(struct sml_status_s *)
-	?ServerNonceAllocL@CNSmlAgentBase@@UBEPAVHBufC16@@XZ @ 131 NONAME ; class HBufC16 * CNSmlAgentBase::ServerNonceAllocL(void) const
-	?ServerObjectSize@CNSmlCmdsBase@@IBEHPBUsml_pcdata_s@@@Z @ 132 NONAME ; int CNSmlCmdsBase::ServerObjectSize(struct sml_pcdata_s const *) const
-	?ServerPassword@CNSmlAgentBase@@MBE?AVTPtrC16@@XZ @ 133 NONAME ; class TPtrC16 CNSmlAgentBase::ServerPassword(void) const
-	?ServerUserName@CNSmlAgentBase@@MBE?AVTPtrC16@@XZ @ 134 NONAME ; class TPtrC16 CNSmlAgentBase::ServerUserName(void) const
-	?SetAppIndex@CNSmlResponseController@@QAEXHH@Z @ 135 NONAME ; void CNSmlResponseController::SetAppIndex(int, int)
-	?SetAtomicOrSequenceId@CNSmlStatusContainer@@QAEXHH@Z @ 136 NONAME ; void CNSmlStatusContainer::SetAtomicOrSequenceId(int, int)
-	?SetAuthRequiredL@CNSmlAuth@@QAEXXZ @ 137 NONAME ; void CNSmlAuth::SetAuthRequiredL(void)
-	?SetCmdIDL@CNSmlResultsContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 138 NONAME ; void CNSmlResultsContainer::SetCmdIDL(int, struct sml_pcdata_s const *)
-	?SetCmdL@CNSmlStatusContainer@@QAEXHABVTDesC8@@@Z @ 139 NONAME ; void CNSmlStatusContainer::SetCmdL(int, class TDesC8 const &)
-	?SetCmdRefL@CNSmlStatusContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 140 NONAME ; void CNSmlStatusContainer::SetCmdRefL(int, struct sml_pcdata_s const *)
-	?SetCredentialL@CNSmlAuth@@QAEXABVTDesC8@@@Z @ 141 NONAME ; void CNSmlAuth::SetCredentialL(class TDesC8 const &)
-	?SetDatabaseL@CNSmlURI@@QAEXABVTDesC16@@H@Z @ 142 NONAME ; void CNSmlURI::SetDatabaseL(class TDesC16 const &, int)
-	?SetDatabaseL@CNSmlURI@@QAEXABVTDesC8@@H@Z @ 143 NONAME ; void CNSmlURI::SetDatabaseL(class TDesC8 const &, int)
-	?SetEndOfDataAlertRequest@CNSmlAgentBase@@QAEXXZ @ 144 NONAME ; void CNSmlAgentBase::SetEndOfDataAlertRequest(void)
-	?SetErrorCode@TNSmlError@@QAEXH@Z @ 145 NONAME ; void TNSmlError::SetErrorCode(int)
-	?SetHostNameL@CNSmlURI@@QAEXABVTDesC16@@H@Z @ 146 NONAME ; void CNSmlURI::SetHostNameL(class TDesC16 const &, int)
-	?SetHostNameL@CNSmlURI@@QAEXABVTDesC8@@H@Z @ 147 NONAME ; void CNSmlURI::SetHostNameL(class TDesC8 const &, int)
-	?SetLUIDL@CNSmlResponseController@@QAEXHABVTDesC8@@@Z @ 148 NONAME ; void CNSmlResponseController::SetLUIDL(int, class TDesC8 const &)
-	?SetMaximumWorkspaceSize@CNSmlCmdsBase@@QAEXH@Z @ 149 NONAME ; void CNSmlCmdsBase::SetMaximumWorkspaceSize(int)
-	?SetMoreData@CNSmlResponseController@@QAEXH@Z @ 150 NONAME ; void CNSmlResponseController::SetMoreData(int)
-	?SetNoResponse@CNSmlStatusContainer@@QAEXHH@Z @ 151 NONAME ; void CNSmlStatusContainer::SetNoResponse(int, int)
-	?SetOffCallbackCalled@CNSmlAgentBase@@QAEXXZ @ 152 NONAME ; void CNSmlAgentBase::SetOffCallbackCalled(void)
-	?SetPerformedInAtomic@CNSmlStatusContainer@@QAEXH@Z @ 153 NONAME ; void CNSmlStatusContainer::SetPerformedInAtomic(int)
-	?SetPort@CNSmlURI@@QAEXH@Z @ 154 NONAME ; void CNSmlURI::SetPort(int)
-	?SetResponseDetail@CNSmlResponseController@@QAEXHW4TResponseDetail@1@@Z @ 155 NONAME ; void CNSmlResponseController::SetResponseDetail(int, enum CNSmlResponseController::TResponseDetail)
-	?SetServerNonceL@CNSmlAgentBase@@UBEXABVTDesC16@@@Z @ 156 NONAME ; void CNSmlAgentBase::SetServerNonceL(class TDesC16 const &) const
-	?SetStatusCodeL@CNSmlStatusContainer@@QAEXHHH@Z @ 157 NONAME ; void CNSmlStatusContainer::SetStatusCodeL(int, int, int)
-	?SetStatusCodeToAtomicOrSequenceCmdL@CNSmlStatusContainer@@QAEXHHABVTDesC8@@@Z @ 158 NONAME ; void CNSmlStatusContainer::SetStatusCodeToAtomicOrSequenceCmdL(int, int, class TDesC8 const &)
-	?SetStatusCodesInAtomicL@CNSmlStatusContainer@@QAEXHHH@Z @ 159 NONAME ; void CNSmlStatusContainer::SetStatusCodesInAtomicL(int, int, int)
-	?SetStatusID@CNSmlResultsContainer@@QAEXHH@Z @ 160 NONAME ; void CNSmlResultsContainer::SetStatusID(int, int)
-	?SetSyncAgent@CNSmlAuth@@QAEXPAVCNSmlAgentBase@@@Z @ 161 NONAME ; void CNSmlAuth::SetSyncAgent(class CNSmlAgentBase *)
-	?SourceIsUnderItem@CNSmlCmdsBase@@IBEHPBUsml_item_list_s@@@Z @ 162 NONAME ; int CNSmlCmdsBase::SourceIsUnderItem(struct sml_item_list_s const *) const
-	?StatusCode@CNSmlResponseController@@QBEHH@Z @ 163 NONAME ; int CNSmlResponseController::StatusCode(int) const
-	?StatusContainer@CNSmlCmdsBase@@QBEPAVCNSmlStatusContainer@@XZ @ 164 NONAME ; class CNSmlStatusContainer * CNSmlCmdsBase::StatusContainer(void) const
-	?StatusDataToCommandL@CNSmlCmdsBase@@IAEHABVTDesC8@@PBUsml_pcdata_s@@IPBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBV2@@Z @ 165 NONAME ; int CNSmlCmdsBase::StatusDataToCommandL(class TDesC8 const &, struct sml_pcdata_s const *, unsigned int, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
-	?StatusDataToGenericCommandL@CNSmlCmdsBase@@IAEHABVTDesC8@@PBUsml_generic_s@@PBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBV2@@Z @ 166 NONAME ; int CNSmlCmdsBase::StatusDataToGenericCommandL(class TDesC8 const &, struct sml_generic_s const *, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
-	?StatusDataToGetCommandL@CNSmlCmdsBase@@IAEHPBUsml_get_put_s@@PBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBVTDesC8@@@Z @ 167 NONAME ; int CNSmlCmdsBase::StatusDataToGetCommandL(struct sml_get_put_s const *, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
-	?StatusID@CNSmlResultsContainer@@QBEHH@Z @ 168 NONAME ; int CNSmlResultsContainer::StatusID(int) const
-	?StatusReference@CNSmlAgentBase@@QAEAAVTRequestStatus@@XZ @ 169 NONAME ; class TRequestStatus & CNSmlAgentBase::StatusReference(void)
-	?StatusToUnsupportedCommandL@CNSmlCmdsBase@@QAEXHABVTDesC8@@PBUsml_pcdata_s@@I@Z @ 170 NONAME ; void CNSmlCmdsBase::StatusToUnsupportedCommandL(int, class TDesC8 const &, struct sml_pcdata_s const *, unsigned int)
-	?SubtractConsumedFromPcData@CNSmlCmdsBase@@IAEXAAPAUsml_item_s@@H@Z @ 171 NONAME ; void CNSmlCmdsBase::SubtractConsumedFromPcData(struct sml_item_s * &, int)
-	?SwVersionL@CNSmlPhoneInfo@@QAE?AVTPtrC8@@XZ @ 172 NONAME ; class TPtrC8 CNSmlPhoneInfo::SwVersionL(void)
-	?SyncLog@CNSmlAgentBase@@QAEPAVCSyncMLHistoryJob@@XZ @ 173 NONAME ; class CSyncMLHistoryJob * CNSmlAgentBase::SyncLog(void)
-	?SyncLogErrorCode@TNSmlError@@QAEHXZ @ 174 NONAME ; int TNSmlError::SyncLogErrorCode(void)
-	?SyncLogMessageCode@TNSmlError@@UAEHXZ @ 175 NONAME ; int TNSmlError::SyncLogMessageCode(void)
-	?SyncMLDatabaseAllocLC@CNSmlURI@@QAEPAVHBufC16@@XZ @ 176 NONAME ; class HBufC16 * CNSmlURI::SyncMLDatabaseAllocLC(void)
-	?TargetIsUnderItem@CNSmlCmdsBase@@IBEHPBUsml_item_list_s@@@Z @ 177 NONAME ; int CNSmlCmdsBase::TargetIsUnderItem(struct sml_item_list_s const *) const
-	?TrimRightSpaceAndNull@CNSmlCmdsBase@@IBEXAAVTDes8@@@Z @ 178 NONAME ; void CNSmlCmdsBase::TrimRightSpaceAndNull(class TDes8 &) const
-	?WaitingLargeObjectChunk@CNSmlCmdsBase@@QBEHXZ @ 179 NONAME ; int CNSmlCmdsBase::WaitingLargeObjectChunk(void) const
-	?WriteMappingInfoToDbL@CNSmlCmdsBase@@UBEHXZ @ 180 NONAME ; int CNSmlCmdsBase::WriteMappingInfoToDbL(void) const
-	?smlAddCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 181 NONAME ; int CNSmlAgentBase::smlAddCmdFuncL(struct sml_generic_s *)
-	?smlCopyCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 182 NONAME ; int CNSmlAgentBase::smlCopyCmdFuncL(struct sml_generic_s *)
-	?smlDeleteCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 183 NONAME ; int CNSmlAgentBase::smlDeleteCmdFuncL(struct sml_generic_s *)
-	?smlExecCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_exec_s@@@Z @ 184 NONAME ; int CNSmlAgentBase::smlExecCmdFuncL(struct sml_exec_s *)
-	?smlMapCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_map_s@@@Z @ 185 NONAME ; int CNSmlAgentBase::smlMapCmdFuncL(struct sml_map_s *)
-	?smlMoveCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 186 NONAME ; int CNSmlAgentBase::smlMoveCmdFuncL(struct sml_generic_s *)
-	?smlReplaceCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 187 NONAME ; int CNSmlAgentBase::smlReplaceCmdFuncL(struct sml_generic_s *)
-	?smlSearchCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_search_s@@@Z @ 188 NONAME ; int CNSmlAgentBase::smlSearchCmdFuncL(struct sml_search_s *)
-	?LaunchAutoRestartL@CNSmlAgentBase@@UAEXH@Z @ 189 NONAME ; void CNSmlAgentBase::LaunchAutoRestartL(int)
-	?CheckAPBearerTypeL@CNSmlAgentBase@@QAE?AW4TApBearerType@@K@Z @ 190 NONAME ; enum TApBearerType CNSmlAgentBase::CheckAPBearerTypeL(unsigned long)
-	?DoGenericAlertL@CNSmlCmdsBase@@UAEXABVTDesC8@@ABV?$RArray@UCNSmlDMAlertItem@@@@@Z @ 191 NONAME ; void CNSmlCmdsBase::DoGenericAlertL(class TDesC8 const &, class RArray<struct CNSmlDMAlertItem> const &)
-	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC8@@@Z @ 192 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC8 const &) const
+	?TrimRightSpaceAndNull@CNSmlCmdsBase@@IBEXAAVTDes8@@@Z @ 1 NONAME ; void CNSmlCmdsBase::TrimRightSpaceAndNull(class TDes8 &) const
+	?DoMetInfLC@CNSmlCmdsBase@@QBEXAAPAUsml_metinf_metinf_s@@@Z @ 2 NONAME ; void CNSmlCmdsBase::DoMetInfLC(struct sml_metinf_metinf_s * &) const
+	?NewL@CNSmlURI@@SAPAV1@ABVTDesC8@@H@Z @ 3 NONAME ; class CNSmlURI * CNSmlURI::NewL(class TDesC8 const &, int)
+	?BufferAreaForParsingL@CNSmlCmdsBase@@QAE?AVTPtr8@@XZ @ 4 NONAME ; class TPtr8 CNSmlCmdsBase::BufferAreaForParsingL(void)
+	?NewLC@CNSmlURI@@SAPAV1@ABVTDesC16@@H@Z @ 5 NONAME ; class CNSmlURI * CNSmlURI::NewLC(class TDesC16 const &, int)
+	?SetLUIDL@CNSmlResponseController@@QAEXHABVTDesC8@@@Z @ 6 NONAME ; void CNSmlResponseController::SetLUIDL(int, class TDesC8 const &)
+	?DoOutsideCancel@CNSmlAgentBase@@UAEXXZ @ 7 NONAME ; void CNSmlAgentBase::DoOutsideCancel(void)
+	?SetCmdL@CNSmlStatusContainer@@QAEXHABVTDesC8@@@Z @ 8 NONAME ; void CNSmlStatusContainer::SetCmdL(int, class TDesC8 const &)
+	?MetaTypeLC@CNSmlCmdsBase@@IBEPAVHBufC16@@PBUsml_pcdata_s@@@Z @ 9 NONAME ; class HBufC16 * CNSmlCmdsBase::MetaTypeLC(struct sml_pcdata_s const *) const
+	?smlReplaceCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 10 NONAME ; int CNSmlAgentBase::smlReplaceCmdFuncL(struct sml_generic_s *)
+	?BusyStatus@CNSmlCmdsBase@@QBEHXZ @ 11 NONAME ; int CNSmlCmdsBase::BusyStatus(void) const
+	?HostNameWithPortL@CNSmlURI@@QAE?AVTPtrC16@@H@Z @ 12 NONAME ; class TPtrC16 CNSmlURI::HostNameWithPortL(int)
+	?AlertCode@CNSmlCmdsBase@@QBE?AVTPtr8@@PAUsml_alert_s@@@Z @ 13 NONAME ; class TPtr8 CNSmlCmdsBase::AlertCode(struct sml_alert_s *) const
+	?CheckStatusCodesAreReceivedL@CNSmlAgentBase@@IAEHH@Z @ 14 NONAME ; int CNSmlAgentBase::CheckStatusCodesAreReceivedL(int)
+	?AddItemDataL@CNSmlStatusContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 15 NONAME ; void CNSmlStatusContainer::AddItemDataL(int, struct sml_pcdata_s const *)
+	?RunL@CNSmlAgentBase@@UAEXXZ @ 16 NONAME ; void CNSmlAgentBase::RunL(void)
+	?smlAddCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 17 NONAME ; int CNSmlAgentBase::smlAddCmdFuncL(struct sml_generic_s *)
+	?AddItemL@CNSmlResultsContainer@@QAEXHABVCBufBase@@ABVTDesC8@@1@Z @ 18 NONAME ; void CNSmlResultsContainer::AddItemL(int, class CBufBase const &, class TDesC8 const &, class TDesC8 const &)
+	?MarkGenAlertsSentL@CNSmlCmdsBase@@UAEXXZ @ 19 NONAME ; void CNSmlCmdsBase::MarkGenAlertsSentL(void)
+	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC16@@1@Z @ 20 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC16 const &, class TDesC16 const &) const
+	?ConstructL@CNSmlAgentBase@@IAEXXZ @ 21 NONAME ; void CNSmlAgentBase::ConstructL(void)
+	?AddTargetRefL@CNSmlStatusContainer@@QAEXHPBUsml_target_s@@@Z @ 22 NONAME ; void CNSmlStatusContainer::AddTargetRefL(int, struct sml_target_s const *)
+	?ClientInitialisationStateL@CNSmlAgentBase@@IAEXXZ @ 23 NONAME ; void CNSmlAgentBase::ClientInitialisationStateL(void)
+	?LaunchAutoRestartL@CNSmlAgentBase@@UAEXH@Z @ 24 NONAME ; void CNSmlAgentBase::LaunchAutoRestartL(int)
+	?SetCmdRefL@CNSmlStatusContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 25 NONAME ; void CNSmlStatusContainer::SetCmdRefL(int, struct sml_pcdata_s const *)
+	?ServerPassword@CNSmlAgentBase@@MBE?AVTPtrC16@@XZ @ 26 NONAME ; class TPtrC16 CNSmlAgentBase::ServerPassword(void) const
+	?SetStatusCodesInAtomicL@CNSmlStatusContainer@@QAEXHHH@Z @ 27 NONAME ; void CNSmlStatusContainer::SetStatusCodesInAtomicL(int, int, int)
+	?CreateAndInitResponseItemL@CNSmlCmdsBase@@IAEHABVTDesC8@@@Z @ 28 NONAME ; int CNSmlCmdsBase::CreateAndInitResponseItemL(class TDesC8 const &)
+	?MoreDataL@CNSmlCmdsBase@@IAE?AW4TNSmlSyncMLStatusCode@TNSmlError@@PBVHBufC8@@PBUsml_item_s@@PBUsml_pcdata_s@@AAPAVCBufBase@@@Z @ 29 NONAME ; enum TNSmlError::TNSmlSyncMLStatusCode CNSmlCmdsBase::MoreDataL(class HBufC8 const *, struct sml_item_s const *, struct sml_pcdata_s const *, class CBufBase * &)
+	?ServerModStatusCmdStateL@CNSmlAgentBase@@IAEXPAUsml_status_s@@@Z @ 30 NONAME ; void CNSmlAgentBase::ServerModStatusCmdStateL(struct sml_status_s *)
+	?StatusToUnsupportedCommandL@CNSmlCmdsBase@@QAEXHABVTDesC8@@PBUsml_pcdata_s@@I@Z @ 31 NONAME ; void CNSmlCmdsBase::StatusToUnsupportedCommandL(int, class TDesC8 const &, struct sml_pcdata_s const *, unsigned int)
+	?DoStatusL@CNSmlCmdsBase@@QAE?AW4TReturnValue@1@PAUsml_status_s@@@Z @ 32 NONAME ; enum CNSmlCmdsBase::TReturnValue CNSmlCmdsBase::DoStatusL(struct sml_status_s *)
+	?PCDATAToUnicodeLC@CNSmlCmdsBase@@QBEXABUsml_pcdata_s@@AAPAVHBufC16@@@Z @ 33 NONAME ; void CNSmlCmdsBase::PCDATAToUnicodeLC(struct sml_pcdata_s const &, class HBufC16 * &) const
+	??1CNSmlAgentBase@@UAE@XZ @ 34 NONAME ; CNSmlAgentBase::~CNSmlAgentBase(void)
+	??0TNSmlError@@QAE@XZ @ 35 NONAME ; TNSmlError::TNSmlError(void)
+	?SetNoResponse@CNSmlStatusContainer@@QAEXHH@Z @ 36 NONAME ; void CNSmlStatusContainer::SetNoResponse(int, int)
+	?AnyResults@CNSmlResultsContainer@@QBEHXZ @ 37 NONAME ; int CNSmlResultsContainer::AnyResults(void) const
+	?WriteMappingInfoToDbL@CNSmlCmdsBase@@UBEHXZ @ 38 NONAME ; int CNSmlCmdsBase::WriteMappingInfoToDbL(void) const
+	?StatusContainer@CNSmlCmdsBase@@QBEPAVCNSmlStatusContainer@@XZ @ 39 NONAME ; class CNSmlStatusContainer * CNSmlCmdsBase::StatusContainer(void) const
+	?smlMoveCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 40 NONAME ; int CNSmlAgentBase::smlMoveCmdFuncL(struct sml_generic_s *)
+	?ServerModAlertCmdStateL@CNSmlAgentBase@@IAEXPAUsml_alert_s@@@Z @ 41 NONAME ; void CNSmlAgentBase::ServerModAlertCmdStateL(struct sml_alert_s *)
+	?SetOffCallbackCalled@CNSmlAgentBase@@QAEXXZ @ 42 NONAME ; void CNSmlAgentBase::SetOffCallbackCalled(void)
+	?InitAskingDeviceInfoStateL@CNSmlAgentBase@@MAEXXZ @ 43 NONAME ; void CNSmlAgentBase::InitAskingDeviceInfoStateL(void)
+	?DoSyncHdrL@CNSmlCmdsBase@@UAEXXZ @ 44 NONAME ; void CNSmlCmdsBase::DoSyncHdrL(void)
+	??1TNSmlError@@UAE@XZ @ 45 NONAME ; TNSmlError::~TNSmlError(void)
+	?SetAuthRequiredL@CNSmlAuth@@QAEXXZ @ 46 NONAME ; void CNSmlAuth::SetAuthRequiredL(void)
+	?SubtractConsumedFromPcData@CNSmlCmdsBase@@IAEXAAPAUsml_item_s@@H@Z @ 47 NONAME ; void CNSmlCmdsBase::SubtractConsumedFromPcData(struct sml_item_s * &, int)
+	?ChalType@CNSmlResponseController@@QBE?AVTPtrC8@@H@Z @ 48 NONAME ; class TPtrC8 CNSmlResponseController::ChalType(int) const
+	?SwVersionL@CNSmlPhoneInfo@@QAE?AVTPtrC8@@XZ @ 49 NONAME ; class TPtrC8 CNSmlPhoneInfo::SwVersionL(void)
+	?RespURI@CNSmlCmdsBase@@QBEPAVCNSmlURI@@XZ @ 50 NONAME ; class CNSmlURI * CNSmlCmdsBase::RespURI(void) const
+	?HostNameInUTF8AllocLC@CNSmlURI@@QAEPAVHBufC8@@XZ @ 51 NONAME ; class HBufC8 * CNSmlURI::HostNameInUTF8AllocLC(void)
+	?SetAtomicOrSequenceId@CNSmlStatusContainer@@QAEXHH@Z @ 52 NONAME ; void CNSmlStatusContainer::SetAtomicOrSequenceId(int, int)
+	?Begin@CNSmlStatusContainer@@QAEXXZ @ 53 NONAME ; void CNSmlStatusContainer::Begin(void)
+	?ServerAlertNextEndMessageStateL@CNSmlAgentBase@@IAEXH@Z @ 54 NONAME ; void CNSmlAgentBase::ServerAlertNextEndMessageStateL(int)
+	?DoMetaL@CNSmlCmdsBase@@QBEXAAPAUsml_pcdata_s@@PBUsml_metinf_metinf_s@@@Z @ 55 NONAME ; void CNSmlCmdsBase::DoMetaL(struct sml_pcdata_s * &, struct sml_metinf_metinf_s const *) const
+	?SetHostNameL@CNSmlURI@@QAEXABVTDesC16@@H@Z @ 56 NONAME ; void CNSmlURI::SetHostNameL(class TDesC16 const &, int)
+	?PhoneDataL@CNSmlPhoneInfo@@QBEXW4TPhoneIdType@1@AAVTDes16@@@Z @ 57 NONAME ; void CNSmlPhoneInfo::PhoneDataL(enum CNSmlPhoneInfo::TPhoneIdType, class TDes16 &) const
+	?DataUpdateStatusStateL@CNSmlAgentBase@@IAEXXZ @ 58 NONAME ; void CNSmlAgentBase::DataUpdateStatusStateL(void)
+	?MarkGenAlertsSentL@CNSmlCmdsBase@@UAEXABVTDesC8@@@Z @ 59 NONAME ; void CNSmlCmdsBase::MarkGenAlertsSentL(class TDesC8 const &)
+	?Cmd@CNSmlResponseController@@QBEAAVTDesC8@@H@Z @ 60 NONAME ; class TDesC8 & CNSmlResponseController::Cmd(int) const
+	?AddSourceRefL@CNSmlStatusContainer@@QAEXHPBUsml_source_s@@@Z @ 61 NONAME ; void CNSmlStatusContainer::AddSourceRefL(int, struct sml_source_s const *)
+	?SetStatusCodeL@CNSmlStatusContainer@@QAEXHHH@Z @ 62 NONAME ; void CNSmlStatusContainer::SetStatusCodeL(int, int, int)
+	?SetPort@CNSmlURI@@QAEXH@Z @ 63 NONAME ; void CNSmlURI::SetPort(int)
+	?SetErrorCode@TNSmlError@@QAEXH@Z @ 64 NONAME ; void TNSmlError::SetErrorCode(int)
+	?SendingStateL@CNSmlAgentBase@@IAEXXZ @ 65 NONAME ; void CNSmlAgentBase::SendingStateL(void)
+	?NewL@CNSmlPhoneInfo@@SAPAV1@XZ @ 66 NONAME ; class CNSmlPhoneInfo * CNSmlPhoneInfo::NewL(void)
+	?SetDatabaseL@CNSmlURI@@QAEXABVTDesC16@@H@Z @ 67 NONAME ; void CNSmlURI::SetDatabaseL(class TDesC16 const &, int)
+	?ResetLargeObjectBuffer@CNSmlCmdsBase@@QAEXXZ @ 68 NONAME ; void CNSmlCmdsBase::ResetLargeObjectBuffer(void)
+	?CloseIDMappingTableL@CNSmlCmdsBase@@UAEXXZ @ 69 NONAME ; void CNSmlCmdsBase::CloseIDMappingTableL(void)
+	?EndOfServerMessageL@CNSmlCmdsBase@@UBEXXZ @ 70 NONAME ; void CNSmlCmdsBase::EndOfServerMessageL(void) const
+	?ResetGenericUserAlertL@CNSmlCmdsBase@@UAEXXZ @ 71 NONAME ; void CNSmlCmdsBase::ResetGenericUserAlertL(void)
+	?DoGenericAlertL@CNSmlCmdsBase@@UAEXABVTDesC8@@ABV?$RArray@UCNSmlDMAlertItem@@@@@Z @ 72 NONAME ; void CNSmlCmdsBase::DoGenericAlertL(class TDesC8 const &, class RArray<struct CNSmlDMAlertItem> const &)
+	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC16@@@Z @ 73 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC16 const &) const
+	?CurrentEntryID@CNSmlResultsContainer@@QBEHXZ @ 74 NONAME ; int CNSmlResultsContainer::CurrentEntryID(void) const
+	?SetStatusCodeToAtomicOrSequenceCmdL@CNSmlStatusContainer@@QAEXHHABVTDesC8@@@Z @ 75 NONAME ; void CNSmlStatusContainer::SetStatusCodeToAtomicOrSequenceCmdL(int, int, class TDesC8 const &)
+	?HBufC16InUnicodeLC@NSmlUnicodeConverter@@SAHABVTDesC8@@AAPAVHBufC16@@@Z @ 76 NONAME ; int NSmlUnicodeConverter::HBufC16InUnicodeLC(class TDesC8 const &, class HBufC16 * &)
+	?Challenged@CNSmlAuth@@QBEHXZ @ 77 NONAME ; int CNSmlAuth::Challenged(void) const
+	?IsEqualL@CNSmlURI@@QAEHABV1@H@Z @ 78 NONAME ; int CNSmlURI::IsEqualL(class CNSmlURI const &, int)
+	?SetHostNameL@CNSmlURI@@QAEXABVTDesC8@@H@Z @ 79 NONAME ; void CNSmlURI::SetHostNameL(class TDesC8 const &, int)
+	?ServerObjectSize@CNSmlCmdsBase@@IBEHPBUsml_pcdata_s@@@Z @ 80 NONAME ; int CNSmlCmdsBase::ServerObjectSize(struct sml_pcdata_s const *) const
+	??0CNSmlCmdsBase@@QAE@XZ @ 81 NONAME ; CNSmlCmdsBase::CNSmlCmdsBase(void)
+	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC16@@@Z @ 82 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC16 const &) const
+	?smlMapCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_map_s@@@Z @ 83 NONAME ; int CNSmlAgentBase::smlMapCmdFuncL(struct sml_map_s *)
+	?ResetL@CNSmlResponseController@@QAEXXZ @ 84 NONAME ; void CNSmlResponseController::ResetL(void)
+	?ProcessStatusCmdL@CNSmlCmdsBase@@UAEXPAUsml_status_s@@@Z @ 85 NONAME ; void CNSmlCmdsBase::ProcessStatusCmdL(struct sml_status_s *)
+	?SetCmdIDL@CNSmlResultsContainer@@QAEXHPBUsml_pcdata_s@@@Z @ 86 NONAME ; void CNSmlResultsContainer::SetCmdIDL(int, struct sml_pcdata_s const *)
+	?ServerAlertNextStatusCmdStateL@CNSmlAgentBase@@IAEXPAUsml_status_s@@@Z @ 87 NONAME ; void CNSmlAgentBase::ServerAlertNextStatusCmdStateL(struct sml_status_s *)
+	?ProcessExecCmdL@CNSmlCmdsBase@@UAEXPAUsml_exec_s@@@Z @ 88 NONAME ; void CNSmlCmdsBase::ProcessExecCmdL(struct sml_exec_s *)
+	?HostName@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 89 NONAME ; class TPtrC16 CNSmlURI::HostName(void)
+	?DoCancel@CNSmlAgentBase@@UAEXXZ @ 90 NONAME ; void CNSmlAgentBase::DoCancel(void)
+	?SyncLog@CNSmlAgentBase@@QAEPAVCSyncMLHistoryJob@@XZ @ 91 NONAME ; class CSyncMLHistoryJob * CNSmlAgentBase::SyncLog(void)
+	?StatusDataToGenericCommandL@CNSmlCmdsBase@@IAEHABVTDesC8@@PBUsml_generic_s@@PBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBV2@@Z @ 92 NONAME ; int CNSmlCmdsBase::StatusDataToGenericCommandL(class TDesC8 const &, struct sml_generic_s const *, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
+	?ServerAlertNextAlertCmdStateL@CNSmlAgentBase@@IAEXPAUsml_alert_s@@@Z @ 93 NONAME ; void CNSmlAgentBase::ServerAlertNextAlertCmdStateL(struct sml_alert_s *)
+	?SaveIfNonceL@CNSmlAgentBase@@IBEXABVCNSmlResponseController@@H@Z @ 94 NONAME ; void CNSmlAgentBase::SaveIfNonceL(class CNSmlResponseController const &, int) const
+	?FetchIDMappingTableL@CNSmlCmdsBase@@UAEXH@Z @ 95 NONAME ; void CNSmlCmdsBase::FetchIDMappingTableL(int)
+	?ServerAuth@CNSmlCmdsBase@@QBEPAVCNSmlAuth@@XZ @ 96 NONAME ; class CNSmlAuth * CNSmlCmdsBase::ServerAuth(void) const
+	?NewLC@CNSmlPhoneInfo@@SAPAV1@XZ @ 97 NONAME ; class CNSmlPhoneInfo * CNSmlPhoneInfo::NewLC(void)
+	?smlDeleteCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 98 NONAME ; int CNSmlAgentBase::smlDeleteCmdFuncL(struct sml_generic_s *)
+	?InitStartingMessageStateBaseL@CNSmlAgentBase@@IAEXXZ @ 99 NONAME ; void CNSmlAgentBase::InitStartingMessageStateBaseL(void)
+	?DeleteIDMappingTableL@CNSmlCmdsBase@@UAEHABVTDesC16@@0@Z @ 100 NONAME ; int CNSmlCmdsBase::DeleteIDMappingTableL(class TDesC16 const &, class TDesC16 const &)
+	?StatusReference@CNSmlAgentBase@@QAEAAVTRequestStatus@@XZ @ 101 NONAME ; class TRequestStatus & CNSmlAgentBase::StatusReference(void)
+	?SetCredentialL@CNSmlAuth@@QAEXABVTDesC8@@@Z @ 102 NONAME ; void CNSmlAuth::SetCredentialL(class TDesC8 const &)
+	?DoAnchorsL@CNSmlCmdsBase@@IBEXAAUsml_metinf_metinf_s@@PBVTDesC8@@1@Z @ 103 NONAME ; void CNSmlCmdsBase::DoAnchorsL(struct sml_metinf_metinf_s &, class TDesC8 const *, class TDesC8 const *) const
+	?DoSourceL@CNSmlCmdsBase@@QBEXAAPAUsml_source_s@@ABVTDesC8@@@Z @ 104 NONAME ; void CNSmlCmdsBase::DoSourceL(struct sml_source_s * &, class TDesC8 const &) const
+	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC16@@1@Z @ 105 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC16 const &, class TDesC16 const &) const
+	?DoGenericAlertL@CNSmlCmdsBase@@UAEXABVTDesC8@@00H0@Z @ 106 NONAME ; void CNSmlCmdsBase::DoGenericAlertL(class TDesC8 const &, class TDesC8 const &, class TDesC8 const &, int, class TDesC8 const &)
+	?ProcessMapCmdL@CNSmlCmdsBase@@UAEXPAUsml_map_s@@@Z @ 107 NONAME ; void CNSmlCmdsBase::ProcessMapCmdL(struct sml_map_s *)
+	?ReceivingStateL@CNSmlAgentBase@@IAEXXZ @ 108 NONAME ; void CNSmlAgentBase::ReceivingStateL(void)
+	??4CNSmlURI@@QAEAAV0@ABV0@@Z @ 109 NONAME ; class CNSmlURI & CNSmlURI::operator=(class CNSmlURI const &)
+	?ProcessReceivedDataL@CNSmlCmdsBase@@QAEHXZ @ 110 NONAME ; int CNSmlCmdsBase::ProcessReceivedDataL(void)
+	?SetPerformedInAtomic@CNSmlStatusContainer@@QAEXH@Z @ 111 NONAME ; void CNSmlStatusContainer::SetPerformedInAtomic(int)
+	?SetMoreData@CNSmlResponseController@@QAEXH@Z @ 112 NONAME ; void CNSmlResponseController::SetMoreData(int)
+	?DatabaseMatchesL@CNSmlURI@@QAEHABVTDesC16@@@Z @ 113 NONAME ; int CNSmlURI::DatabaseMatchesL(class TDesC16 const &)
+	?LastEntryID@CNSmlStatusContainer@@QBEHXZ @ 114 NONAME ; int CNSmlStatusContainer::LastEntryID(void) const
+	?ResponseController@CNSmlCmdsBase@@QBEPAVCNSmlResponseController@@XZ @ 115 NONAME ; class CNSmlResponseController * CNSmlCmdsBase::ResponseController(void) const
+	?SetResponseDetail@CNSmlResponseController@@QAEXHW4TResponseDetail@1@@Z @ 116 NONAME ; void CNSmlResponseController::SetResponseDetail(int, enum CNSmlResponseController::TResponseDetail)
+	?ResultAlertStateL@CNSmlAgentBase@@IAEXXZ @ 117 NONAME ; void CNSmlAgentBase::ResultAlertStateL(void)
+	?ConstructL@CNSmlCmdsBase@@IAEXPAVCNSmlAgentBase@@ABVTDesC8@@1HABVHBufC16@@PAVCNSmlURI@@H@Z @ 118 NONAME ; void CNSmlCmdsBase::ConstructL(class CNSmlAgentBase *, class TDesC8 const &, class TDesC8 const &, int, class HBufC16 const &, class CNSmlURI *, int)
+	?DoCmdIdL@CNSmlCmdsBase@@IAEXAAPAUsml_pcdata_s@@@Z @ 119 NONAME ; void CNSmlCmdsBase::DoCmdIdL(struct sml_pcdata_s * &)
+	?smlSearchCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_search_s@@@Z @ 120 NONAME ; int CNSmlAgentBase::smlSearchCmdFuncL(struct sml_search_s *)
+	?IsFlagSet@CNSmlCmdsBase@@IBEHABI0@Z @ 121 NONAME ; int CNSmlCmdsBase::IsFlagSet(unsigned int const &, unsigned int const &) const
+	?SetServerNonceL@CNSmlAgentBase@@UBEXABVTDesC16@@@Z @ 122 NONAME ; void CNSmlAgentBase::SetServerNonceL(class TDesC16 const &) const
+	?DoTargetL@CNSmlCmdsBase@@QBEXAAPAUsml_target_s@@ABVTDesC8@@@Z @ 123 NONAME ; void CNSmlCmdsBase::DoTargetL(struct sml_target_s * &, class TDesC8 const &) const
+	?SetEndOfDataAlertRequest@CNSmlAgentBase@@QAEXXZ @ 124 NONAME ; void CNSmlAgentBase::SetEndOfDataAlertRequest(void)
+	?ServerUserName@CNSmlAgentBase@@MBE?AVTPtrC16@@XZ @ 125 NONAME ; class TPtrC16 CNSmlAgentBase::ServerUserName(void) const
+	?ClientAlertNextStateL@CNSmlAgentBase@@IAEXXZ @ 126 NONAME ; void CNSmlAgentBase::ClientAlertNextStateL(void)
+	?NewLC@CNSmlURI@@SAPAV1@XZ @ 127 NONAME ; class CNSmlURI * CNSmlURI::NewLC(void)
+	?DisconnectFromOtherServers@CNSmlCmdsBase@@UAEXXZ @ 128 NONAME ; void CNSmlCmdsBase::DisconnectFromOtherServers(void)
+	?SyncLogMessageCode@TNSmlError@@UAEHXZ @ 129 NONAME ; int TNSmlError::SyncLogMessageCode(void)
+	?ServerModEndMessageStateL@CNSmlAgentBase@@IAEXH@Z @ 130 NONAME ; void CNSmlAgentBase::ServerModEndMessageStateL(int)
+	?HBufC8InUTF8LC@NSmlUnicodeConverter@@SAHABVTDesC16@@AAPAVHBufC8@@@Z @ 131 NONAME ; int NSmlUnicodeConverter::HBufC8InUTF8LC(class TDesC16 const &, class HBufC8 * &)
+	?ProcessSearchCmdL@CNSmlCmdsBase@@UAEXPAUsml_search_s@@@Z @ 132 NONAME ; void CNSmlCmdsBase::ProcessSearchCmdL(struct sml_search_s *)
+	?ProfileId@CNSmlAgentBase@@QBEHXZ @ 133 NONAME ; int CNSmlAgentBase::ProfileId(void) const
+	?smlCopyCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_generic_s@@@Z @ 134 NONAME ; int CNSmlAgentBase::smlCopyCmdFuncL(struct sml_generic_s *)
+	?NewL@CNSmlURI@@SAPAV1@XZ @ 135 NONAME ; class CNSmlURI * CNSmlURI::NewL(void)
+	?DoGenericUserAlertL@CNSmlCmdsBase@@UAEHH@Z @ 136 NONAME ; int CNSmlCmdsBase::DoGenericUserAlertL(int)
+	?HBufC16InUnicodeL@NSmlUnicodeConverter@@SAHABVTDesC8@@AAPAVHBufC16@@@Z @ 137 NONAME ; int NSmlUnicodeConverter::HBufC16InUnicodeL(class TDesC8 const &, class HBufC16 * &)
+	?MoreData@CNSmlResponseController@@QBEHH@Z @ 138 NONAME ; int CNSmlResponseController::MoreData(int) const
+	?RemoveWritten@CNSmlResultsContainer@@QAEXH@Z @ 139 NONAME ; void CNSmlResultsContainer::RemoveWritten(int)
+	?MetaTypeInUtf8LC@CNSmlCmdsBase@@IBEPAVHBufC8@@PBUsml_pcdata_s@@@Z @ 140 NONAME ; class HBufC8 * CNSmlCmdsBase::MetaTypeInUtf8LC(struct sml_pcdata_s const *) const
+	?StatusDataToGetCommandL@CNSmlCmdsBase@@IAEHPBUsml_get_put_s@@PBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBVTDesC8@@@Z @ 141 NONAME ; int CNSmlCmdsBase::StatusDataToGetCommandL(struct sml_get_put_s const *, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
+	?AppIndex@CNSmlResponseController@@QBEHH@Z @ 142 NONAME ; int CNSmlResponseController::AppIndex(int) const
+	?WaitingLargeObjectChunk@CNSmlCmdsBase@@QBEHXZ @ 143 NONAME ; int CNSmlCmdsBase::WaitingLargeObjectChunk(void) const
+	?SetMaximumWorkspaceSize@CNSmlCmdsBase@@QAEXH@Z @ 144 NONAME ; void CNSmlCmdsBase::SetMaximumWorkspaceSize(int)
+	?StatusCode@CNSmlResponseController@@QBEHH@Z @ 145 NONAME ; int CNSmlResponseController::StatusCode(int) const
+	?smlExecCmdFuncL@CNSmlAgentBase@@UAEHPAUsml_exec_s@@@Z @ 146 NONAME ; int CNSmlAgentBase::smlExecCmdFuncL(struct sml_exec_s *)
+	?EntryID@CNSmlResponseController@@QBEHHH@Z @ 147 NONAME ; int CNSmlResponseController::EntryID(int, int) const
+	?ProcessSyncHdrL@CNSmlCmdsBase@@UAEXPAUsml_sync_hdr_s@@@Z @ 148 NONAME ; void CNSmlCmdsBase::ProcessSyncHdrL(struct sml_sync_hdr_s *)
+	?ProcessCopyCmdL@CNSmlCmdsBase@@UAEXPAUsml_generic_s@@@Z @ 149 NONAME ; void CNSmlCmdsBase::ProcessCopyCmdL(struct sml_generic_s *)
+	?ServerNonceAllocL@CNSmlAgentBase@@UBEPAVHBufC16@@XZ @ 150 NONAME ; class HBufC16 * CNSmlAgentBase::ServerNonceAllocL(void) const
+	?ResultsContainer@CNSmlCmdsBase@@QBEPAVCNSmlResultsContainer@@XZ @ 151 NONAME ; class CNSmlResultsContainer * CNSmlCmdsBase::ResultsContainer(void) const
+	?DataUpdateStatusMakingMapStateL@CNSmlAgentBase@@MAEXXZ @ 152 NONAME ; void CNSmlAgentBase::DataUpdateStatusMakingMapStateL(void)
+	?SetSyncAgent@CNSmlAuth@@QAEXPAVCNSmlAgentBase@@@Z @ 153 NONAME ; void CNSmlAuth::SetSyncAgent(class CNSmlAgentBase *)
+	?MetaFormatInUtf8LC@CNSmlCmdsBase@@IBEPAVHBufC8@@PBUsml_pcdata_s@@@Z @ 154 NONAME ; class HBufC8 * CNSmlCmdsBase::MetaFormatInUtf8LC(struct sml_pcdata_s const *) const
+	?ResponseDetail@CNSmlResponseController@@QBE?AW4TResponseDetail@1@H@Z @ 155 NONAME ; enum CNSmlResponseController::TResponseDetail CNSmlResponseController::ResponseDetail(int) const
+	?StatusID@CNSmlResultsContainer@@QBEHH@Z @ 156 NONAME ; int CNSmlResultsContainer::StatusID(int) const
+	?ErrorCodeConversion@TNSmlError@@MAEXXZ @ 157 NONAME ; void TNSmlError::ErrorCodeConversion(void)
+	?ServerMaxObjSize@CNSmlCmdsBase@@IBEHPBUsml_pcdata_s@@@Z @ 158 NONAME ; int CNSmlCmdsBase::ServerMaxObjSize(struct sml_pcdata_s const *) const
+	?ServerModStartMessageStateL@CNSmlAgentBase@@IAEXPAUsml_sync_hdr_s@@@Z @ 159 NONAME ; void CNSmlAgentBase::ServerModStartMessageStateL(struct sml_sync_hdr_s *)
+	?CallbackCalled@CNSmlAgentBase@@QBEHXZ @ 160 NONAME ; int CNSmlAgentBase::CallbackCalled(void) const
+	?PcdataNewL@CNSmlCmdsBase@@QBEXAAPAUsml_pcdata_s@@ABVTDesC8@@@Z @ 161 NONAME ; void CNSmlCmdsBase::PcdataNewL(struct sml_pcdata_s * &, class TDesC8 const &) const
+	?NextResultsElement@CNSmlResultsContainer@@QAEHAAPAUsml_results_s@@@Z @ 162 NONAME ; int CNSmlResultsContainer::NextResultsElement(struct sml_results_s * &)
+	?SetAppIndex@CNSmlResponseController@@QAEXHH@Z @ 163 NONAME ; void CNSmlResponseController::SetAppIndex(int, int)
+	?Begin@CNSmlResultsContainer@@QAEXXZ @ 164 NONAME ; void CNSmlResultsContainer::Begin(void)
+	?SetDatabaseL@CNSmlURI@@QAEXABVTDesC8@@H@Z @ 165 NONAME ; void CNSmlURI::SetDatabaseL(class TDesC8 const &, int)
+	?CreateNewResultsL@CNSmlResultsContainer@@QAEHABVTDesC8@@0PBUsml_target_s@@PBUsml_source_s@@@Z @ 166 NONAME ; int CNSmlResultsContainer::CreateNewResultsL(class TDesC8 const &, class TDesC8 const &, struct sml_target_s const *, struct sml_source_s const *)
+	?SyncMLDatabaseAllocLC@CNSmlURI@@QAEPAVHBufC16@@XZ @ 167 NONAME ; class HBufC16 * CNSmlURI::SyncMLDatabaseAllocLC(void)
+	?DataUpdateStatusStartingMessageStateBaseL@CNSmlAgentBase@@IAEXXZ @ 168 NONAME ; void CNSmlAgentBase::DataUpdateStatusStartingMessageStateBaseL(void)
+	?DataUpdateStatusMakingResultsStateL@CNSmlAgentBase@@MAEXXZ @ 169 NONAME ; void CNSmlAgentBase::DataUpdateStatusMakingResultsStateL(void)
+	??0CNSmlAgentBase@@QAE@XZ @ 170 NONAME ; CNSmlAgentBase::CNSmlAgentBase(void)
+	?NewLC@CNSmlURI@@SAPAV1@ABVTDesC8@@H@Z @ 171 NONAME ; class CNSmlURI * CNSmlURI::NewLC(class TDesC8 const &, int)
+	?ServerAlertNextStateL@CNSmlAgentBase@@IAEXXZ @ 172 NONAME ; void CNSmlAgentBase::ServerAlertNextStateL(void)
+	?LUID@CNSmlResponseController@@QBE?AVTPtrC8@@H@Z @ 173 NONAME ; class TPtrC8 CNSmlResponseController::LUID(int) const
+	?NextStatusElement@CNSmlStatusContainer@@QAEHAAPAUsml_status_s@@H@Z @ 174 NONAME ; int CNSmlStatusContainer::NextStatusElement(struct sml_status_s * &, int)
+	?AuthenticationRequirementL@CNSmlAgentBase@@IAEHABVCNSmlResponseController@@H@Z @ 175 NONAME ; int CNSmlAgentBase::AuthenticationRequirementL(class CNSmlResponseController const &, int)
+	?StatusDataToCommandL@CNSmlCmdsBase@@IAEHABVTDesC8@@PBUsml_pcdata_s@@IPBUsml_item_s@@W4TNSmlSyncMLStatusCode@TNSmlError@@PBV2@@Z @ 176 NONAME ; int CNSmlCmdsBase::StatusDataToCommandL(class TDesC8 const &, struct sml_pcdata_s const *, unsigned int, struct sml_item_s const *, enum TNSmlError::TNSmlSyncMLStatusCode, class TDesC8 const *)
+	?SourceIsUnderItem@CNSmlCmdsBase@@IBEHPBUsml_item_list_s@@@Z @ 177 NONAME ; int CNSmlCmdsBase::SourceIsUnderItem(struct sml_item_list_s const *) const
+	?SetStatusID@CNSmlResultsContainer@@QAEXHH@Z @ 178 NONAME ; void CNSmlResultsContainer::SetStatusID(int, int)
+	?CreateNewStatusElementL@CNSmlStatusContainer@@QAEHXZ @ 179 NONAME ; int CNSmlStatusContainer::CreateNewStatusElementL(void)
+	?FreeBaseResources@CNSmlAgentBase@@IAEXXZ @ 180 NONAME ; void CNSmlAgentBase::FreeBaseResources(void)
+	??1CNSmlCmdsBase@@UAE@XZ @ 181 NONAME ; CNSmlCmdsBase::~CNSmlCmdsBase(void)
+	?NewL@CNSmlURI@@SAPAV1@ABVTDesC16@@H@Z @ 182 NONAME ; class CNSmlURI * CNSmlURI::NewL(class TDesC16 const &, int)
+	?NewL@CNSmlAuth@@SAPAV1@XZ @ 183 NONAME ; class CNSmlAuth * CNSmlAuth::NewL(void)
+	?DataBaseWithoutRelativePrefix@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 184 NONAME ; class TPtrC16 CNSmlURI::DataBaseWithoutRelativePrefix(void)
+	?Database@CNSmlURI@@QAE?AVTPtrC16@@XZ @ 185 NONAME ; class TPtrC16 CNSmlURI::Database(void)
+	?DoMaxObjSizeL@CNSmlCmdsBase@@IBEXAAUsml_metinf_metinf_s@@H@Z @ 186 NONAME ; void CNSmlCmdsBase::DoMaxObjSizeL(struct sml_metinf_metinf_s &, int) const
+	?SyncLogErrorCode@TNSmlError@@QAEHXZ @ 187 NONAME ; int TNSmlError::SyncLogErrorCode(void)
+	?ClientAlertNextMakingMapStateL@CNSmlAgentBase@@MAEXXZ @ 188 NONAME ; void CNSmlAgentBase::ClientAlertNextMakingMapStateL(void)
+	?TargetIsUnderItem@CNSmlCmdsBase@@IBEHPBUsml_item_list_s@@@Z @ 189 NONAME ; int CNSmlCmdsBase::TargetIsUnderItem(struct sml_item_list_s const *) const
+	?ServerAlertNextStartMessageStateL@CNSmlAgentBase@@IAEXPAUsml_sync_hdr_s@@@Z @ 190 NONAME ; void CNSmlAgentBase::ServerAlertNextStartMessageStateL(struct sml_sync_hdr_s *)
+	?BeginningStateL@CNSmlAgentBase@@IAEXXZ @ 191 NONAME ; void CNSmlAgentBase::BeginningStateL(void)
 

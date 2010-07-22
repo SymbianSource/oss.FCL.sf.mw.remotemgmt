@@ -475,7 +475,7 @@ CElementBase* CTrustedSession::CreateCertificateMappingL( const TDesC8& aAlias )
 	TBase64 base64;
 	HBufC8 * base64coded = HBufC8::NewLC( pck.Length() * 3);
 	TPtr8 base64Ptr = base64coded->Des();
-	User::LeaveIfError( base64.Encode( pck, base64Ptr));	
+	User::LeaveIfError( base64.PortableEncode( pck, base64Ptr));	
 
 	CAttributeValue * aliasValue = CAttributeValue::NewL( base64Ptr, PolicyLanguage::NativeLanguage::AttributeValues::StringDataType);
 	CleanupStack::PopAndDestroy( base64coded);

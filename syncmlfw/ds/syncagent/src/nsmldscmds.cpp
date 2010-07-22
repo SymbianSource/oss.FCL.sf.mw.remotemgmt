@@ -1954,7 +1954,7 @@ void CNSmlDSCmds::ProcessSyncL( SmlSync_t* aSync )
 	            }
 			iDSObserver.OnSyncMLSyncProgress(
             	MSyncMLProgressObserver::ESmlReceivingModificationsFromServer,
-	        	iDSContent.ServerItemCount(), 0 );
+	        	iDSContent.ServerItemCount(), iDSContent.TaskId() );
 			}
 
         // If number of changes is more than batch limit then batch is used if

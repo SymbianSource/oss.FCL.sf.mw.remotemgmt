@@ -30,12 +30,19 @@
 #include "PolicyEngineServer.h"
 #include "PolicyEngineClientServer.h"
 #include "debug.h"
-
-#include "PolicyEngineUi.h"
-
+#include <hbdevicedialogsymbian.h>
+#include <hbdevicenotificationdialogsymbian.h>
+#include <hbtextresolversymbian.h>
 // CONSTANTS
 const TUid KUidPolicyEngineUi = { 0x10207817 };
+const TUint KDelimeterChar = '|';
+_LIT8( KUserAcceptMark, "A");
 
+enum TUserResponse
+    {
+    EUserAccept,
+    EUserDeny,
+    };
 
 // -----------------------------------------------------------------------------
 // RAttributeContainer::AppendL()
@@ -746,52 +753,24 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 	//resolve name and fingerprint
 	const TDesC8& name = iTrustedSession->CommonNameForSubjectL( trustedSubject, iUseEditedElements);
 	const TDesC8& fingerPrint = iTrustedSession->FingerPrintForSubjectL( trustedSubject, iUseEditedElements);
-
+	TPtrC8 ptr = fingerPrint.Left(4); // send only first 4 digits.
+	
+	RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &fingerPrint);
+	RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &ptr);
+	
+	RDEBUG8_2("CPolicyProcessor::fingerPrint: %S", &fingerPrint);
+	RDEBUG8_2("CPolicyProcessor::fingerPrint: %S", &ptr);
+	    
 	TUserResponse response = EUserDeny;
 
-	if ( name.Length() && fingerPrint.Length())
-	{
-		//create notifier
-/*		RNotifier notifier;
-		CleanupClosePushL( notifier);
-		User::LeaveIfError( notifier.Connect() );
-*/		
-		//create parameter descriptor
-		TBuf8<100> responseBuf;
-		HBufC8 * data = HBufC8::NewLC( name.Length() + fingerPrint.Length() + 1);
-		TPtr8 ptr = data->Des();
-		ptr.Append(name);
-		ptr.Append(KDelimeterChar);
-		ptr.Append(fingerPrint.Left(4));
+    CProcessorClient *client = new CProcessorClient();
+    TInt res = client->LaunchDialog(ptr, name);
+    
+    if(res == 0)
+        response = EUserAccept;
+    else
+        response = EUserDeny;  
 
-		//create CAsyncHandler to Auto start/stop CActiveScheduler
-		CASyncHandler * async = CASyncHandler::NewLC();
-//		notifier.StartNotifierAndGetResponse( async->GetRequestStatus(), KUidPolicyEngineUi, ptr, responseBuf);
-		
-		//Start CActiveScheduler and execute stop when request is completed
-		async->WaitForRequest();
-		CPolicyEngineServer::SetActiveSubSession( this);	
-
-		
-		if ( async->GetRequestStatus() > 0) //request pending...
-		{
-//			notifier.CancelNotifier( KUidPolicyEngineUi);	
-		}
-		else
-		{
-			//Check response
-			if ( responseBuf == KUserAcceptMark)
-			{
-				RDEBUG("PolicyEngineServer: CPolicyProcessor user accept corporate policy!");
-				response = EUserAccept;
-			}
-		}
-		
-	//	CleanupStack::PopAndDestroy( 3, &notifier);	//notifier, data, CASyncHandler
-	CleanupStack::PopAndDestroy( 2);
-		
-		
-	}
 
 	MakeBooleanResponseL( response == EUserAccept, aResponseElement);
 }
@@ -980,6 +959,185 @@ void CPolicyProcessor::CertificateForSessionL( CAttributeValue* aResponseElement
 }
 
 
+// -----------------------------------------------------------------------------
+// CProcessorClient::CProcessorClient()
+// -----------------------------------------------------------------------------
+//
+
+CProcessorClient::CProcessorClient()
+    : CActive(EPriorityNormal)
+    {
+    CActiveScheduler::Add( this );
+    iWait = new( ELeave ) CActiveSchedulerWait;
+    iCompletionCode = KErrNone;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::~CProcessorClient()
+// -----------------------------------------------------------------------------
+CProcessorClient::~CProcessorClient()
+    {
+    delete iWait;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::DataReceived()
+// -----------------------------------------------------------------------------
+void CProcessorClient::DataReceived(CHbSymbianVariantMap& aData)
+{
+    _LIT(KResponse, "keyResponse");
+    const CHbSymbianVariant* key = aData.Get(KResponse);
+        
+    if(key)
+    {
+    TInt *res = key->Value<TInt>();
+    iCompletionCode = *res;        
+    iUserResponse = *res;
+    }
+}
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::DeviceDialogClosed()
+// -----------------------------------------------------------------------------
+void CProcessorClient::DeviceDialogClosed(TInt aCompletionCode)
+    {
+    iCompletionCode = aCompletionCode;
+    //iDevDialog->Cancel();
+    TRequestStatus* status(&iStatus);
+    User::RequestComplete(status, KErrNone);
+    }
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::DoCancel()
+// -----------------------------------------------------------------------------
+void CProcessorClient::DoCancel()
+{
+    if (iWait && iWait->IsStarted() && iWait->CanStopNow()) 
+    {
+        iCompletionCode = KErrCancel;
+        iWait->AsyncStop();
+    }  
+}
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::RunL()
+// -----------------------------------------------------------------------------
+void CProcessorClient::RunL()
+{
+    if (iWait) 
+    {
+        iWait->AsyncStop();
+    }    
+}
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::LaunchDialog()
+// -----------------------------------------------------------------------------
+TInt CProcessorClient::LaunchDialog(const TDesC8& aFringerPrint,
+        const TDesC8& aServerName)
+    {
+    _LIT(KHbNotifier,"com.nokia.hb.policymanagementdialog/1.0");
+    _LIT(KFingerPrint, "fingerprint");
+    _LIT(KServerdisplayname, "serverdisplayname");
+
+    RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &aFringerPrint);
+    RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &aServerName);
+
+    CHbSymbianVariantMap* varMap = CHbSymbianVariantMap::NewL();
+    CleanupStack::PushL(varMap);
+
+    TBuf<10> fingerBuf;
+    fingerBuf.Copy(aFringerPrint);
+
+    TInt serverNameLen = aServerName.Length();
+    TBuf<50> serverName;
+    serverName.Copy(aServerName);
+
+    RDEBUG_2("CPolicyProcessor::16 fingerPrint: %S", &fingerBuf);
+    RDEBUG_2("CPolicyProcessor::16 serverName : %S", &serverName);
+
+    CHbSymbianVariant* fingerprintid = CHbSymbianVariant::NewL(&fingerBuf,
+            CHbSymbianVariant::EDes);
+
+    CHbSymbianVariant* serverdisplayname = CHbSymbianVariant::NewL(
+            &serverName, CHbSymbianVariant::EDes);
+
+    RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &fingerprintid);
+    RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &serverdisplayname);
+
+    varMap->Add(KFingerPrint, fingerprintid);
+    varMap->Add(KServerdisplayname, serverdisplayname);
+
+    iDevDialog = CHbDeviceDialogSymbian::NewL();
+    TInt err1 = iDevDialog->Show(KHbNotifier, *varMap, this);
+    TInt err = WaitUntilDeviceDialogClosed();
+
+    CleanupStack::PopAndDestroy();
+
+    if (iDevDialog)
+        {
+        iDevDialog->Cancel();
+        delete iDevDialog;
+        iDevDialog = NULL;
+        }
+    
+    if (err == 0)
+        {
+            LaunchTrustNotificationDialog(aServerName);
+         }
+    
+    return iUserResponse;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CProcessorClient::WaitUntilDeviceDialogClosed()
+// -----------------------------------------------------------------------------
+TInt CProcessorClient::WaitUntilDeviceDialogClosed()
+    {
+    iCompletionCode = KErrInUse;
+    if (!IsActive() && iWait && !iWait->IsStarted())
+    {
+            iStatus = KRequestPending;
+            SetActive();
+            iWait->Start();
+            }
+    return iCompletionCode;
+    }
+
+void CProcessorClient::LaunchTrustNotificationDialog(const TDesC8& aServerName)
+{
+    _LIT(KFileName, "deviceupdates_");
+    _LIT(KPath, "z:/resource/qt/translations/");
+    _LIT(KDialogIcon, "note_info.svg");
+    
+    TBool result = HbTextResolverSymbian::Init(KFileName, KPath);
+    
+    if (result) {
+        _LIT(KTrustEstablished,"txt_device_update_dpophead_trust_established");
+        _LIT(KServerID,"txt_deviceupdate_dpopinfo_trust_establised_with_1");
+        
+        HBufC* trustEstablishedText = HbTextResolverSymbian::LoadL(KTrustEstablished);
+        CleanupStack::PushL(trustEstablishedText);
+ 
+        HBufC* serveridbuf = HBufC::NewLC(aServerName.Length());
+        TPtr serveridbufptr = serveridbuf->Des();
+        serveridbufptr.Copy(aServerName);
+   
+        HBufC* serverid = HbTextResolverSymbian::LoadL(KServerID,*serveridbuf);
+        CleanupStack::PushL(serverid);
+
+        CHbDeviceNotificationDialogSymbian::NotificationL(KDialogIcon, *trustEstablishedText, *serverid);
+        
+        CleanupStack::PopAndDestroy(3); //trustEstablishedText,serveridbuf,serverid
+    }
+}
 
 // -----------------------------------------------------------------------------
 // TCombiningAlgorith::TCombiningAlgorith()

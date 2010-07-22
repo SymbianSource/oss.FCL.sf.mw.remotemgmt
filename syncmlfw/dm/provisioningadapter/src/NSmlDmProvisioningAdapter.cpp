@@ -40,6 +40,8 @@
 #include "NSmlTransportHandler.h"
 
 #include <data_caging_path_literals.hrh>
+#define KMINPORT 0
+#define KMAXPORT 65536
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -184,7 +186,35 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 		iAuthSecretLimitIndicator = 0;
 		User::Leave(KErrOverflow);
 	}
-
+	
+	//check for incorrect port
+	//Only port address between 1 to 65536 is allowed. 
+	if( iProfiles[aItem]->iPort )
+		{
+			const TDesC& port = iProfiles[aItem]->iPort->Des();
+			TInt len = port.Length();
+			if(len > 0)
+			{
+        HBufC* bufPort = port.AllocL();
+        TLex aLex(*bufPort);
+        TInt portNum ;
+        TInt err = aLex.Val(portNum);
+        if(bufPort)
+        {
+          delete bufPort;
+          bufPort = NULL;
+        }
+	    if(err != KErrNone)
+	    {
+          User::Leave(KErrGeneral);
+	    }
+	    if(!((portNum > KMINPORT) && (portNum < KMAXPORT)))
+	    {
+	      User::Leave(KErrGeneral);       
+	    }
+		}
+	}
+	
 	TPckgBuf<TUint32> uid;
 	
 	RSyncMLDevManProfile profile,ProfileToSearch;
@@ -289,7 +319,7 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 
 		connection.SetPropertyL( KNSmlIAPId, *iapBuf );
 		
-		CleanupStack::PopAndDestroy( 2 ); //cmmanager,cm	
+		CleanupStack::PopAndDestroy( 3 ); //cmmanager,cm, iapBuf
 		}
 		
 	if( iProfiles[aItem]->iHostAddress )

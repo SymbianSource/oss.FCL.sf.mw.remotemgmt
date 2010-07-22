@@ -22,8 +22,8 @@
 //  INCLUDES
 #include <e32std.h>
 #include <f32file.h>
-#include "MXMLAttributes.h"
-#include "MXMLContentHandler.h"
+#include <xml/MXMLAttributes.h>
+#include <xml/MXMLContentHandler.h>
 #include "NSmlDMResourceProfile.h"
 
 const TInt KNSmlDmFileNameLength=255;

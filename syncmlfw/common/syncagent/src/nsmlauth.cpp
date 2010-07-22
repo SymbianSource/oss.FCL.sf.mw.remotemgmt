@@ -177,7 +177,7 @@ TPtrC8 CNSmlAuth::NonceL()
 	iB64Nonce = NULL;
 	iB64Nonce = HBufC8::NewL( iNonce->Length() * 2 + 1 );
 	TPtr8 B64NoncePtr( iB64Nonce->Des() );
-	User::LeaveIfError( B64Coder.Encode( *iNonce, B64NoncePtr ) );
+	User::LeaveIfError( B64Coder.PortableEncode( *iNonce, B64NoncePtr ) );
 	return *iB64Nonce;
 	}
 
@@ -272,7 +272,7 @@ TNSmlError::TNSmlSyncMLStatusCode CNSmlAuth::CheckCredentialL()
 		TBase64 B64Coder;
 		B64Cred = HBufC8::NewLC( iCredential->Length() * 2 + 1 );
 		TPtr8 B64CredPtr( B64Cred->Des() );
-		User::LeaveIfError( B64Coder.Encode( *iCredential, B64CredPtr ) );
+		User::LeaveIfError( B64Coder.PortableEncode( *iCredential, B64CredPtr ) );
 		}
 	else
 		{

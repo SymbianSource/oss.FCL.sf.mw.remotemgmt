@@ -1,0 +1,11 @@
+EXPORTS
+	?ShowConnectDialog@RDmDevDialog@@QAEHXZ @ 1 NONAME ; int RDmDevDialog::ShowConnectDialog(void)
+	?IsPkgZeroConnectNoteShown@RDmDevDialog@@QAEHAAH@Z @ 2 NONAME ; int RDmDevDialog::IsPkgZeroConnectNoteShown(int &)
+	?ShowConfirmationAlert@RDmDevDialog@@QAEXABHABVTDesC16@@1AAVTRequestStatus@@@Z @ 3 NONAME ; void RDmDevDialog::ShowConfirmationAlert(int const &, class TDesC16 const &, class TDesC16 const &, class TRequestStatus &)
+	?Close@RDmDevDialog@@QAEXXZ @ 4 NONAME ; void RDmDevDialog::Close(void)
+	?LaunchPkgZero@RDmDevDialog@@QAEXABH00AAVTDes8@@AAVTRequestStatus@@@Z @ 5 NONAME ; void RDmDevDialog::LaunchPkgZero(int const &, int const &, int const &, class TDes8 &, class TRequestStatus &)
+	?OpenL@RDmDevDialog@@QAEHXZ @ 6 NONAME ; int RDmDevDialog::OpenL(void)
+	?DismissConnectDialog@RDmDevDialog@@QAEHXZ @ 7 NONAME ; int RDmDevDialog::DismissConnectDialog(void)
+	?ShowDisplayAlert@RDmDevDialog@@QAEXABVTDesC16@@AAVTRequestStatus@@@Z @ 8 NONAME ; void RDmDevDialog::ShowDisplayAlert(class TDesC16 const &, class TRequestStatus &)
+	?CancelPkgZeroNote@RDmDevDialog@@QAEHXZ @ 9 NONAME ; int RDmDevDialog::CancelPkgZeroNote(void)
+

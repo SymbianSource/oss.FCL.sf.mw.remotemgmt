@@ -52,8 +52,6 @@ MW_LAYER_SYSTEMINCLUDE
 #if defined(__S60_)
 SYSTEMINCLUDE 	/epoc32/include/push
 SYSTEMINCLUDE   /epoc32/include/ecom
-#else
-SYSTEMINCLUDE   /epoc32/include 
 #endif
 
 LIBRARY         euser.lib EFSRV.LIB

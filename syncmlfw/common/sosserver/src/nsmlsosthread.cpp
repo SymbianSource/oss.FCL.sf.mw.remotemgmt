@@ -29,6 +29,7 @@
 #include <featmgr.h>
 #include <e32property.h>
 #include <DevManInternalCRKeys.h>
+#include <nsmldmconst.h>
 
 
 enum TSyncmlHbNotifierKeys 
@@ -120,7 +121,8 @@ TInt ThreadFunction( TAny* aStarted )
 	        CActiveScheduler::Start();                
 	        }	    
 	    }	
-	
+	LOGSTRING("P&S is deleted");  
+	RProperty::Delete(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob);
 	delete scheduler;
 	
 	if ( endStatus == KErrNone )
@@ -818,7 +820,8 @@ CNSmlNotifierObserver::~CNSmlNotifierObserver()
         }
     else
         {
-        iProperty.Close();
+        if(iDmDevdialog.Handle() )
+             iDmDevdialog.Close();
         }
 
     Cancel();
@@ -834,10 +837,10 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
 	_DBG_FILE( "CNSmlNotifierObserver::ConnectToNotifierL:Begin" );
 	iTimeOut = EFalse;
 	
-	if ( !IsActive() )
+	/*if ( !IsActive() )
 		{
 		SetActive();
-		}
+		}*/
 		
 	   
     TSyncMLAppLaunchNotifParamsPckg data( aParam );
@@ -862,8 +865,13 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
             }
         else
             {
+       iStatus = KRequestPending;
             HbNotifierObserverL(aParam);
             }
+        if ( !IsActive() )
+                {
+                SetActive();
+                }
         }
     else
         {
@@ -911,90 +919,10 @@ void CNSmlNotifierObserver::HbNotifierObserverL(const TSyncMLAppLaunchNotifParam
     {
 
     LOGSTRING2("iCallerStatus before HbNotifierObserverL creation %d", iCallerStatus.Int());
-    
-    _LIT(KHbNotifier,"com.nokia.hb.devicemanagementdialog/1.0");
-    
-    _LIT(KNotifierId, "aasyncmlfw");
-    _LIT(KProfileId, "profileid");
-    _LIT(KUImode, "uimode");
-    _LIT(KServerdisplayname, "serverdisplayname");
-  
-    CHbSymbianVariantMap* varMap = CHbSymbianVariantMap::NewL();
-    CleanupStack::PushL(varMap);
-    
-    HBufC* notifierid = HBufC::NewL(10);
-    CleanupStack::PushL(notifierid);
-    *notifierid =KNotifierId;
-    
-   
-    HBufC* profileid = HBufC::NewL(10);
-    CleanupStack::PushL(profileid);
-    *profileid = KProfileId;
-    
-    HBufC* uimode = HBufC::NewL(10);
-    CleanupStack::PushL(uimode);
-    *uimode = KUImode;
-    
-    HBufC* serverdisplay = HBufC::NewL(20);
-    CleanupStack::PushL(serverdisplay);
-    *serverdisplay = KServerdisplayname;
-        
-    TBuf<256> servername;
-    
-    CNSmlDMSettings* settings = CNSmlDMSettings::NewLC();
-    CNSmlDMProfile* prof = settings->ProfileL(
-            aParam.iProfileId);
-    CleanupStack::PushL(prof);
-    
-    servername = prof->StrValue(EDMProfileDisplayName);
-    
-    CleanupStack::PopAndDestroy(2);
-               
-    TInt id =1000000;
-
-    CHbSymbianVariant* notifieridvar = CHbSymbianVariant::NewL(&id,
-                          CHbSymbianVariant::EInt);
-    
-    
-    CHbSymbianVariant* infoprofileid = CHbSymbianVariant::NewL(&aParam.iProfileId,
-            CHbSymbianVariant::EInt);
-    
-    //CleanupStack::PushL(infoprofileid);
-    
-    CHbSymbianVariant* infouimode = CHbSymbianVariant::NewL(&aParam.iUimode,
-                CHbSymbianVariant::EInt);
-    
-    CHbSymbianVariant* serverdisplayname = CHbSymbianVariant::NewL(&servername,
-                CHbSymbianVariant::EDes);
-    //CleanupStack::PushL(infouimode);
-    
-    varMap->Add(*notifierid, notifieridvar);
-    varMap->Add(*profileid, infoprofileid); // takes ownership
-    varMap->Add(*uimode, infouimode);
-    varMap->Add(*serverdisplay, serverdisplayname);
-
-    /*subscribe key value*/
-    TInt err = RProperty::Define(sosserverpsuid, EHbSOSNotifierKeyStatus, RProperty::EInt);
-    	
-    err = RProperty::Define(sosserverpsuid, EHbSOSNotifierKeyStatusReturn, RProperty::EInt);
-
-    err = iProperty.Attach(sosserverpsuid, EHbSOSNotifierKeyStatus);
-
-    iProperty.Subscribe(iStatus);
-      
-    
-    
-    iDevDialog = CHbDeviceDialogSymbian::NewL();
-    iDevDialog->Show(KHbNotifier, *varMap);
-
-    CleanupStack::PopAndDestroy(5);
-
-   
-
-    LOGSTRING2("CNSmlNotifierObserver hb notifier %d before subscribe", iStatus.Int());
-
-  
-  
+   TInt err = iDmDevdialog.OpenL();
+   User::LeaveIfError(err);
+  iDmDevdialog.LaunchPkgZero(aParam.iProfileId,aParam.iJobId,aParam.iUimode,iResBuf,iStatus);
+     
     LOGSTRING2("CNSmlNotifierObserver hb notifier %d after subscribe", iStatus.Int());
 
     LOGSTRING2("iCallerStatus before HbNotifierObserverL creation %d", iCallerStatus.Int());
@@ -1041,24 +969,7 @@ void CNSmlNotifierObserver::DoCancel()
 void CNSmlNotifierObserver::RunL()
     {
 
-    if (iDevDialog && iHbSyncmlNotifierEnabled)
-        {
 
-        
-    TInt status = KErrNone;
-  
-          TInt err  =  RProperty::Get(sosserverpsuid,EHbSOSNotifierKeyStatusReturn , status);
-
-        LOGSTRING2("status is %d", status);
-
-         LOGSTRING2("err of ps key is %d", err);
-
-       if(status == KErrCancel)
-		iStatus = KErrCancel;
-
-        iDevDialog->Cancel();
-        delete iDevDialog;
-        }
 
     LOGSTRING("CNSmlNotifierObserver RunL start");
 
@@ -1071,7 +982,7 @@ void CNSmlNotifierObserver::RunL()
     if ( ret == KErrNone )
     	{	   
         
-	  	TInt sid = iResBuf().iSecureId.iUid; // read secure id from notifier.
+	  	TInt sid = iResBuf(); // read secure id from notifier.
 	   	
 	    // Check the response and error code. If there is a fail, dump the job.        
 	    // Also compare sid to creator id saved for current job to secure that listener owns the job.

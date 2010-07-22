@@ -89,8 +89,8 @@ LIBRARY		nsmlhistorylog.lib
 LIBRARY		syncmldatafilter.lib
 LIBRARY		nsmlagentlog.lib
 LIBRARY		policyengine.lib
-LIBRARY		abclient.lib
+LIBRARY		abclient.lib dmdevdialogclient.lib
 LIBRARY     centralrepository.lib //tarm
-LIBRARY                 featmgr.lib flogger.lib HbWidgets.lib HbCore.lib
+LIBRARY                 featmgr.lib flogger.lib 
 
 SMPSAFE

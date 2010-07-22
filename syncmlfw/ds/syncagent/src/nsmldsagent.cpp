@@ -22,6 +22,9 @@
 #include <DataSyncInternalPSKeys.h>
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
+#include <cmpluginwlandef.h>
+#include <cmmanager.h>
+#include <cmconnectionmethod.h>
 
 // common includes with DM
 #include "nsmlagenttestdefines.h"
@@ -969,7 +972,7 @@ void CNSmlDSAgent::ClientModStartingSyncStateL()
 				if ( !iDSContent->ClientItemCountAsked() )
 					{
 					iDSContent->SetClientItemCountAsked();
-					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), 0 );
+					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), iDSContent->TaskId() );
 					}
 				break;
 			case CNSmlCmdsBase::EReturnBufferFull:
@@ -1888,23 +1891,39 @@ void CNSmlDSAgent::ReplaceIAPIdL()
 			profileUtil->AccessPointIdL(LastUsedIAPId);
 			if(LastUsedIAPId > 0)
 			{
-				//Check Whether the IAPID still exists
-		    	TApBearerType bearertype = CheckAPBearerTypeL(LastUsedIAPId);
-		    	if(bearertype != TApBearerType(-1))
-		    	{
-		    		iIAPId = LastUsedIAPId;    	
-		    		DBG_FILE_CODE(iIAPId , _S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID Replaced from the CenRep:"));                
-		    	}
-		    	else
-		    	{
-		    		//Stop the DS Sync Session
-		    		DBG_FILE(_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid so stopping the session"));
-		    		iPacketDataUnAvailable = ETrue;
-		    		StopDSSession();
-		    	}	
+                //Check Whether the IAPID still exists
+                RCmManager  cmmanager;
+                cmmanager.OpenL();
+                CleanupClosePushL(cmmanager);
+                RCmConnectionMethod cm;
+                TRAPD(err, cm = cmmanager.ConnectionMethodL( LastUsedIAPId ));
+                CleanupClosePushL( cm );
+                TUint32 bearer = 0;
+                if( err == KErrNone )
+                {
+                    bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );        
+                    DBG_FILE_CODE( bearer ,_S8("CNSmlDSAgent::ReadSettingsL, BearerType"));
+                    if ( bearer == KUidWlanBearerType )
+                    {
+                        DBG_FILE(_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid WLAN"));
+                        iPacketDataUnAvailable = ETrue;
+                        StopDSSession();
+                    }
+                    else
+                    {
+                        iIAPId = LastUsedIAPId;      
+                        DBG_FILE_CODE(iIAPId , _S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID Replaced from the CenRep:"));
+                    }
+                }
+                else
+                {
+                    DBG_FILE_CODE( err ,_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid"));
+                    iPacketDataUnAvailable = ETrue;
+                    StopDSSession();
+                }              
+                CleanupStack::PopAndDestroy( 2 ); //cmmanagerext,cm			
 			}
-		}
-		
+		}		
 		CleanupStack::PopAndDestroy(profileUtil);
 	}
 }

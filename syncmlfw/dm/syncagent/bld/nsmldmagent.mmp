@@ -71,7 +71,7 @@ LIBRARY         nsmldmsettings.lib
 LIBRARY         nsmldmmodule.lib 
 // FOTA
 LIBRARY			featmgr.lib
-LIBRARY			centralrepository.lib
+LIBRARY			centralrepository.lib dmdevdialogclient.lib
 // FOTA end
 
 //LIBRARY       nsmldmtestmodule.lib

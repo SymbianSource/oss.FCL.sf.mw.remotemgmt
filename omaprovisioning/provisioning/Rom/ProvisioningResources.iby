@@ -21,29 +21,8 @@
 
 
 data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningHandlerResource.rsc                  RESOURCE_FILES_DIR\ProvisioningHandler.rsc
-//data=DATAZ_\RESOURCE_FILES_DIR\WPAPAdapterResource.rsc                          RESOURCE_FILES_DIR\WPAPAdapter.rsc
-#ifdef __MMS
- data=DATAZ_\RESOURCE_FILES_DIR\WPWAPAdapterResource.rsc                        RESOURCE_FILES_DIR\WPWAPAdapter.rsc
-#endif
-#ifdef __IM
- data=DATAZ_\RESOURCE_FILES_DIR\WPWVAdapterResource.rsc                         RESOURCE_FILES_DIR\WPWVAdapter.rsc
-#endif
-data=DATAZ_\RESOURCE_FILES_DIR\WpstreamingadapterResource.rsc                   RESOURCE_FILES_DIR\Wpstreamingadapter.rsc
-
-data=DATAZ_\RESOURCE_FILES_DIR\WPMbxNbrAdapterResource.rsc                      RESOURCE_FILES_DIR\WPMbxNbrAdapter.rsc
-
-//data=DATAZ_\RESOURCE_FILES_DIR\WPSIPAdapterResource.rsc                         RESOURCE_FILES_DIR\WPSIPAdapter.rsc
-
-data=DATAZ_\RESOURCE_FILES_DIR\WPAPAdapterResource.rsc                          RESOURCE_FILES_DIR\WPAPAdapterResource.rsc
-data=DATAZ_\RESOURCE_FILES_DIR\wpdestinationnwadapter.rsc                       RESOURCE_FILES_DIR\wpdestinationnwadapter.rsc
-
-// Resource files for OMA Provisioning
-
 data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningBC.rsc                       RESOURCE_FILES_DIR\ProvisioningBC.rsc
-
 data=DATAZ_\RESOURCE_FILES_DIR\messaging\bif\prov.rsc                   resource\messaging\bif\prov.rsc
-
-//data=DATAZ_\APP_RESOURCE_DIR\ProvisioningCx.rsc                         APP_RESOURCE_DIR\ProvisioningCx.rsc
 
 #ifdef __SMART_CARD_PROV
    data=DATAZ_\RESOURCE_FILES_DIR\ProvisioningSC.rsc                    RESOURCE_FILES_DIR\ProvisioningSC.rsc

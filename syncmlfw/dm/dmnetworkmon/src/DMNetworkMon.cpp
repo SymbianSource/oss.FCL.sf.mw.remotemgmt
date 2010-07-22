@@ -480,14 +480,14 @@ void CDMNetworkMon::CreateDeviceManagementSessionL()
 
         RSyncMLDevManJob dmJob;
 
-        TInt IAPID = -1;
+        TInt IAPID = -2;
         TBuf<10> genalertap,temp;
         genalertap.Zero();
         temp.Zero();	  
         genalertap.Append(KNSmlDMJobIapPrefix);
         temp.Num(iapid);//Decimal Iap
         if( temp.Length() <= KNSmlHalfTransportIdLength && 
-                iapid > KErrNotFound)
+                iapid >= -2)
             {
             genalertap.AppendFill('0',KNSmlHalfTransportIdLength-temp.Length());
             genalertap.Append(temp);
