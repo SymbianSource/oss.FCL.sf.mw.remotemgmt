@@ -177,5 +177,12 @@ void CNSmlDSChangedItemsFetcher::RunL()
     	User::RequestComplete( rstatus, KErrNone );
 		}
 	}
-	
+
+// ----------------------------------------------------------------------------
+// CNSmlDSChangedItemsFetcher::RunError
+// ----------------------------------------------------------------------------
+TInt CNSmlDSChangedItemsFetcher::RunError ( TInt aError )
+{
+    return KErrNone;
+}
 // End of File

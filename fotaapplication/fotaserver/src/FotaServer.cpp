@@ -20,8 +20,8 @@
 #include <schtime.h>
 #include <csch_cli.h>
 #include <e32property.h>
-#include <ApUtils.h> 
-#include <commdb.h>
+#include <cmmanager.h>
+#include <cmconnectionmethod.h> 
 #include <DevManInternalCRKeys.h>
 #include <nsmlconstants.h>
 #include <centralrepository.h>
@@ -2354,12 +2354,15 @@ void CFotaServer::ReportNetworkStatus(TBool status)
 TBool CFotaServer::CheckIapExistsL(TUint32 aIapId)
     {
     FLOG(_L("CFotaServer::CheckIapExistsL >>"));
-    CCommsDatabase* commDb = CCommsDatabase::NewL(EDatabaseTypeIAP);
-    CleanupStack::PushL(commDb);
-    CApUtils* aputils = CApUtils::NewLC(*commDb);
-    TBool exists = aputils->IAPExistsL(aIapId);
-    CleanupStack::PopAndDestroy(aputils);
-    CleanupStack::PopAndDestroy(commDb);
+    TBool exists = EFalse;  
+    RCmManager cmManager;    
+    cmManager.OpenLC();
+    RCmConnectionMethod conn;
+    TRAPD(err, conn = cmManager.ConnectionMethodL( aIapId ));
+    if(err == KErrNone)//connection method exists
+       exists = ETrue;
+    conn.Close();
+    CleanupStack::PopAndDestroy();//cmManager                    
     FLOG(_L("CFotaServer::CheckIapExistsL <<"));
     return exists;
     }

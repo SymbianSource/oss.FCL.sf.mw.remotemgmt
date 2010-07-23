@@ -43,6 +43,7 @@ class CActiveObserver : public CActive
 		virtual ~CActiveObserver();
 	protected:
 		void RunL();
+		TInt RunError(TInt aError);
 	private:	
 		CActiveObserver( TPolicyManagementEventTypes aType);	
 		TUint32 SubscribeKey( TPolicyManagementEventTypes aType);		

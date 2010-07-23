@@ -230,6 +230,10 @@ void CWPWimHandler::RunL()
 		}
     }
 
+TInt CWPWimHandler::RunError ( TInt /*aError*/ )
+    {
+        return KErrNone;
+    }	
 // -----------------------------------------------------------------------------
 // CWPWimHandler::DoCancel
 // Cancel active request

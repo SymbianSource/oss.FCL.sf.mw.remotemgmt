@@ -138,7 +138,7 @@ void CNsmlDSNetmon::RunL()
 // ----------------------------------------------------------------------------
 TInt CNsmlDSNetmon::RunError ( TInt aError )
 {
-    return aError;
+    return KErrNone;
 }
 
 // ----------------------------------------------------------------------------

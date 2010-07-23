@@ -108,7 +108,6 @@ symbian {
 	
     LIBS += -laknskins \
         -lapgrfx \
-        -lapengine \
         -lapparc \
         -lapsettingshandlerui \
         -lavkon \

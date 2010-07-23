@@ -180,6 +180,11 @@ _DBG_FILE("CNsmlObexClient::RunL: CWbxml2XmlConverter::ConvertL() end");
         }
     }
 
+TInt CNsmlObexClient::RunError ( TInt aError )
+    {
+    DBG_FILE_CODE(aError, _S8("CNsmlObexClient::RunError() The Error occurred is "));
+    return KErrNone;
+    }	
 //------------------------------------------------------------
 // CNsmlObexClient::ConnectL( TNSmlObexTransport aTransport, TBool /*aServerAlerted*/, TDesC8& aMimeType, TRequestStatus &aStatus )
 //------------------------------------------------------------

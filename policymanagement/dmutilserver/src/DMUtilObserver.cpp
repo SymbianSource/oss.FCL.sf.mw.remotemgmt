@@ -291,6 +291,10 @@ void CActiveObserver::RunL()
 	iProperty.Subscribe( iStatus);	
 }
 
+TInt CActiveObserver::RunError ( TInt /*aError*/ )
+    {    
+    return KErrNone;
+    }	
 // -----------------------------------------------------------------------------
 // CActiveObserver::DoCancel
 // -----------------------------------------------------------------------------

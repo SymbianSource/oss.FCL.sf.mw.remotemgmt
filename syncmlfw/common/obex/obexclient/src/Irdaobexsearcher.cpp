@@ -189,6 +189,10 @@ void CIrDAObexSearcher::RunL()
 		}
 	}
 
+TInt CIrDAObexSearcher::RunError ( TInt /*aError*/ )
+    {
+        return KErrNone;
+    }	
 //----------------------------------------------------------------------------
 // CIrDAObexSearcher::DoCancel()
 //----------------------------------------------------------------------------

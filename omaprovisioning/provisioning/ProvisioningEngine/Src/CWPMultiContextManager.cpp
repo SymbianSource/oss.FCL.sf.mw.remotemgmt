@@ -788,6 +788,10 @@ void CWPMultiContextManager::RunL()
     IssueRequest();
     }
 
+TInt CWPMultiContextManager::RunError ( TInt /*aError*/ )
+    {
+        return KErrNone;
+    }	
 // -----------------------------------------------------------------------------
 // CWPMultiContextManager::DoCancel
 // -----------------------------------------------------------------------------

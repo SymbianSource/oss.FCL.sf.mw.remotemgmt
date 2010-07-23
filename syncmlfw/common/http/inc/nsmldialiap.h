@@ -47,6 +47,7 @@ class CNSmlDialUpAgent : public CActive
 	private:
 		void DoCancel();
 		void RunL();
+		TInt RunError(TInt aError);
 
 	private:
 		TBool IsConnectedL() const;

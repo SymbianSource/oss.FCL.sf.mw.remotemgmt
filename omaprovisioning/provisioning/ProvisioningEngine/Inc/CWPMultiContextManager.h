@@ -66,6 +66,7 @@ class CWPMultiContextManager : public CActive, public MWPContextManager
     protected: // From CActive
         void DoCancel();
         void RunL();
+        TInt RunError(TInt aError);
 
 	public: // From MWPContextManager
 

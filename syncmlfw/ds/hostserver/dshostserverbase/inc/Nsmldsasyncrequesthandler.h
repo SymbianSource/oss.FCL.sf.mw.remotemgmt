@@ -249,7 +249,8 @@ class CNSmlDSChangedItemsFetcher : public CNSmlDSAsyncRequestHandler
 	private: // Functions from base classes
 
 		virtual void DoCancel();
-		virtual void RunL();
+		virtual void RunL();		
+        TInt RunError ( TInt aError );
     
 	public:
 	protected:

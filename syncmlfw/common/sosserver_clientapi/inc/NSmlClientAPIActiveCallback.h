@@ -67,6 +67,7 @@ class CSmlActiveEventCallback : public CActive
 		// from CActive
 		virtual void DoCancel();
 		virtual void RunL();
+		virtual TInt RunError(TInt aError);
 		
 	private:
 		void Request();
@@ -98,6 +99,7 @@ class CSmlActiveProgressCallback : public CActive
 		// from CActive
 		virtual void DoCancel();
 		virtual void RunL();
+		virtual TInt RunError(TInt aError);		
 		
 	private:
 		void Request();

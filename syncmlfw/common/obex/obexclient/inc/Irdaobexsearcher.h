@@ -62,6 +62,7 @@ class CIrDAObexSearcher : public CObexSearcherBase
     protected: // Functions from base classes
 
         void RunL();
+        TInt RunError(TInt aError);
 
         void DoCancel();
 

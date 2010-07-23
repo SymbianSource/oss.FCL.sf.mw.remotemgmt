@@ -495,6 +495,7 @@ private:
     void ConstructL();
     
     void RunL();
+    TInt RunError(TInt aError);
     void DoCancel();
 
 	void BackUpModeL();

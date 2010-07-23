@@ -164,7 +164,7 @@ void CNetMon::RunL()
 TInt CNetMon::RunError ( TInt aError )
 {
     DBG_FILE_CODE(aError, _S8("CNetMon::RunError() The Error occurred is "));
-    return aError;
+    return KErrNone;
 }
 
 // ----------------------------------------------------------------------------
