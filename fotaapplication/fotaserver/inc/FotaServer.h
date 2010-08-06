@@ -28,7 +28,7 @@
 #include <hwrmpowerstatesdkpskeys.h>
 #include <SyncMLObservers.h>
 #include <devicedialogconsts.h>
-#include <HbSymbianVariant.h>
+#include <hbsymbianvariant.h>
 #include <hbmainwindow.h>
 #include "fotaserverPrivateCRKeys.h"
 #include "FotaIPCTypes.h"

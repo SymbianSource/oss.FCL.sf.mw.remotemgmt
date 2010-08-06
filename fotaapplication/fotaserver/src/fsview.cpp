@@ -16,7 +16,7 @@
  */
 
 #include "fsview.h"
-#include "fotaserver.h"
+#include "FotaServer.h"
 
 // ------------------------------------------------------------------------------------------------
 // FSView::FSView()

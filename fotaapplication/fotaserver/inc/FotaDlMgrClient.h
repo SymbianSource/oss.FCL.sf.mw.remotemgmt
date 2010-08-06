@@ -34,7 +34,7 @@
 #include <hbdialog.h>
 #include <hbdevicedialog.h>
 #include <hbdevicedialogsymbian.h>
-#include <HbSymbianVariant.h>
+#include <hbsymbianvariant.h>
 
 //All user includes
 #include "FotaDlMgrClient.h"

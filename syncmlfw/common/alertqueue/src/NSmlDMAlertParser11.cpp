@@ -21,7 +21,7 @@
 #include "NSmlAlertQueue.h"
 #include "nsmldebug.h" 
 #include <nsmldmconst.h>
-#include <e32Property.h>
+#include <e32property.h>
 // ---------------------------------------------------------
 // CNSmlDSAlertParser11(CSmlAlertInfo& aAlertInfo, CSyncMLHistoryPushMsg& aHistoryInfo )
 // Returns pointer to the buffer

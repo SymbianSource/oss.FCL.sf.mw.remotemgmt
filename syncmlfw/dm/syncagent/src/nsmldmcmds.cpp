@@ -25,7 +25,7 @@
 #include <DevManInternalCRKeys.h>
 #include <featmgr.h>
 // FOTA end
-#include <SyncMLNotifierParams.h>
+#include <devicedialogsymbian.h>
 
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
@@ -81,12 +81,9 @@
 // FOTA
 const TInt KNSmlDmNoRequest = -1;
 // FOTA end
-const TInt KNSmlDmChoiceChunkMinSize = 32;
-const TInt KNSmlDmChoiceChunkMaxSize = 10000;
 
 _LIT8 ( KNSmlDMMetaTypeUserRequest, "org.openmobilealliance.dm.firmwareupdate.userrequest" );
 _LIT8 ( KNSmlDMMetaFormatUserRequest, "chr" );
-_LIT(KChunkName,"AlertItems");
 
 const TUid dmagentuid =
             {
@@ -325,169 +322,6 @@ TInt CNSmlDMCmds::AlertParameter( const SmlPcdata_t* aData, const TDesC8& aParam
 		}
 	return valueNum; 
 	}
-
-//#ifdef RD_DM_TEXT_INPUT_ALERT
-// ---------------------------------------------------------
-// CNSmlDMCmds::AlertInputTypeParameter()
-// For 1102-User Input server alert
-// For Input Type optional parameter
-// ---------------------------------------------------------
-TInt CNSmlDMCmds::AlertInputTypeParameter( const SmlPcdata_t* aData, const TDesC8& aParamID ) const
-	{
-	_DBG_FILE("CNSmlDMCmds::AlertInputTypeParameter: begin");
-	TInt valueNum = 0;//alphanumeric by default
-	if ( aData )
-		{
-		if ( aData->content )
-			{
-			TPtr8 parameters( (TUint8*) aData->content, aData->length, aData->length );
-			TrimRightSpaceAndNull( parameters );
-			TInt startPos = parameters.Find( aParamID );
-			if ( startPos >= 0 )
-				{
-				if ( parameters.Length() > startPos + aParamID.Length() )
-					{
-					TPtrC8 strPart = parameters.Right( parameters.Length() - ( startPos + aParamID.Length() ) );
-					TInt length = 0;
-					TChar character = strPart[length];
-						
-						switch( character )
-						{
-							case 'A': //Alphanumeric
-							 valueNum = ESyncMLInputTypeAlphaNumeric;
-							 break;
-							case 'N': //Numeric
-							 valueNum = ESyncMLInputTypeNumeric;
-							 break;
-							case 'D': //Date
-							 valueNum = ESyncMLInputTypeDate;
-							 break;
-							case 'T': //Time
-							 valueNum = ESyncMLInputTypeTime;
-							 break;
-							case 'P': //Phone number
-							 valueNum = ESyncMLInputTypePhoneNumber;
-							 break;
-							case 'I': //Ip address
-							 valueNum = ESyncMLInputTypeIPAddress;
-							 break;
-						}
-					}
-				}
-			}
-		}
-		_DBG_FILE("CNSmlDMCmds::AlertInputTypeParameter: end");
-	return valueNum; 
-	}	
-	
-// ---------------------------------------------------------
-// CNSmlDMCmds::AlertEchoTypeParameter()
-// For 1102-User Input server alert
-// For Echo Type optional parameter
-// ---------------------------------------------------------	
-TInt CNSmlDMCmds::AlertEchoTypeParameter( const SmlPcdata_t* aData, const TDesC8& aParamID ) const
-	{
-	_DBG_FILE("CNSmlDMCmds::AlertEchoTypeParameter: begin");
-	TInt valueNum = 0;//Text by default
-	if ( aData )
-		{
-		if ( aData->content )
-			{
-			TPtr8 parameters( (TUint8*) aData->content, aData->length, aData->length );
-			TrimRightSpaceAndNull( parameters );
-			TInt startPos = parameters.Find( aParamID );
-			if ( startPos >= 0 )
-				{
-				if ( parameters.Length() > startPos + aParamID.Length() )
-					{
-					TPtrC8 strPart = parameters.Right( parameters.Length() - ( startPos + aParamID.Length() ) );
-					TInt length = 0;
-					TChar character = strPart[length];
-						switch( character )
-						{
-							 
-							case 'T': valueNum = ESyncMLEchoTypeText;
-							 break;
-							case 'P': valueNum = ESyncMLEchoTypePassword;
-							 break;
-							 default: 
-							 break;
-						}
-					}
-				}
-			}
-		}
-		_DBG_FILE("CNSmlDMCmds::AlertEchoTypeParameter: end");
-	return valueNum; 
-	}
-// ---------------------------------------------------------
-// CNSmlDMCmds::CheckDRPresence()
-// For 1102-User Input server alert
-// For Default Response item existence verification
-// ---------------------------------------------------------		
-TBool CNSmlDMCmds::CheckDRPresence( const SmlPcdata_t* aData, const TDesC8& aParamID ) const
-   {
-   	if ( aData )
-		{
-		if ( aData->content )
-			{
-			TPtr8 parameters( (TUint8*) aData->content, aData->length, aData->length );
-			TrimRightSpaceAndNull( parameters );
-			TInt startPos = parameters.Find( aParamID );
-			if ( startPos >= 0 )
-				{
-				 return ETrue;
-				}
-			}
-		}
-		return EFalse;
-   }
-	
-// ---------------------------------------------------------
-// CNSmlDMCmds::AlertDefaultResponseParam()
-// For 1102-User Input server alert
-// For Default Response optional parameter
-// ---------------------------------------------------------
-TPtrC8 CNSmlDMCmds::AlertDefaultResponseParam( const SmlPcdata_t* aData, const TDesC8& aParamID ) const
-	{
-	_DBG_FILE("CNSmlDMCmds::AlertDefaultResponseParam: begin");
-	TLex8 value;
-	if ( aData )
-		{
-		if ( aData->content )
-			{
-			TPtr8 parameters( (TUint8*) aData->content, aData->length, aData->length );
-			TrimRightSpaceAndNull( parameters );
-			TInt startPos = parameters.Find( aParamID );
-			if ( startPos >= 0 )
-				{
-				if ( parameters.Length() > startPos + aParamID.Length() )
-					{
-					 TPtrC8 strPart = parameters.Right( parameters.Length() - ( startPos + aParamID.Length() ) );
-					TInt length = 0;
-					while ( length < strPart.Length() )
-						{
-						TChar character = strPart[length];
-						if ( character != '&' )
-							{
-							++length;
-							}
-						else
-							{
-							break;
-							}
-						}
-					TPtrC8 valueStr = strPart.Left(	length );
-					value.Assign( valueStr );
-										
-					}
-				}
-			}
-		}
-		_DBG_FILE("CNSmlDMCmds::AlertDefaultResponseParam: end");
-	 return value.Remainder();
-	}	
-//#endif
 
 // ---------------------------------------------------------
 // CNSmlDMCmds::AlertDataLC()
@@ -1135,10 +969,7 @@ void CNSmlDMCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool /*aNextAlert*/, TB
 		 alertCode == KNSmlDMAgentNextMessage ||
 		 alertCode == KNSmlDMAgentSessionAbortAlert ||
 		 alertCode == KNSmlDMAgentServerInitAlert ||
-		 alertCode == KNSmlDMAgentClientInitAlert 
-		 || alertCode == KNSmlDMAgentUserInputAlert 
-		 || alertCode == KNSmlDMAgentSingleChoiceAlert 
-		 || alertCode == KNSmlDMAgentMultipleChoiceAlert)
+		 alertCode == KNSmlDMAgentClientInitAlert )
 		{
 		HandleAlertsL(aAlert,statusID);
 		}
@@ -1179,10 +1010,7 @@ void CNSmlDMCmds::HandleAlertErrorL()
 void CNSmlDMCmds::HandleAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
 	    {
 	    TPtr8 alertCode = AlertCode( aAlert );
-	    if ( alertCode == KNSmlDMAgentDisplayAlert ||  alertCode == KNSmlDMAgentContinueOrAbortAlert 
-	            || alertCode == KNSmlDMAgentUserInputAlert
-	            || alertCode == KNSmlDMAgentSingleChoiceAlert
-	            || alertCode == KNSmlDMAgentMultipleChoiceAlert )
+	    if ( alertCode == KNSmlDMAgentDisplayAlert ||  alertCode == KNSmlDMAgentContinueOrAbortAlert )
 	        {
 	        if ( !aAlert->itemList )
 	            {
@@ -1205,15 +1033,7 @@ void CNSmlDMCmds::HandleAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
 	            {
 	            HandleConfirmationAlertL(aAlert,aStatusId);
 	            }
-	        else if(alertCode == KNSmlDMAgentUserInputAlert)
-	            {
-	            HandleUserInputalertL(aAlert,aStatusId);
-	            }
-	        else if(alertCode == KNSmlDMAgentSingleChoiceAlert
-	                || alertCode == KNSmlDMAgentMultipleChoiceAlert)
-	            {	            	            
-	            HandleChoiceAlertsL(aAlert,aStatusId);
-	            }
+
 	        else //
 	            {
 
@@ -1221,262 +1041,6 @@ void CNSmlDMCmds::HandleAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
 	        }
 	    }
 
-// ---------------------------------------------------------
-// CNSmlDMCmds::HandleChoiceAlertsL
-// Handles Choice Alert commands from a server.  
-// ---------------------------------------------------------
-void CNSmlDMCmds::HandleChoiceAlertsL( SmlAlert_t* aAlert, TInt& aStatusId)
-    {    
-    const TChar KDRSeparator('-');
-    const TChar KChoiceItemSeparator(',');
-    TPtr8 alertCode = AlertCode( aAlert );
-    // MINDT 
-    TInt mindt = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMINDT );
-    // MAXDT 
-    TInt maxdt = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMAXDT );
-    if ( mindt > maxdt )
-        {
-        maxdt = mindt;
-        }   
-    TSyncMLDlgNotifParams notifyParams;
-    TInt maxlen = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMAXLEN );
-
-    //check if iDR, Default response parameter is there or not
-    //DRPresent is used for destroying how many items in the pop up stack 
-    TBool DRPresent = CheckDRPresence( aAlert->itemList->item->data, KNSmlDMAgentDR );
-    if( DRPresent )
-        {
-        TPtrC8 DrPtr = AlertDefaultResponseParam( aAlert->itemList->item->data, KNSmlDMAgentDR );       
-        HBufC8* hptr = HBufC8::NewLC( DrPtr.Length()+ 4 ); //cs 1dr
-        TPtr8 DrBuf(hptr->Des());                           
-        if(alertCode == KNSmlDMAgentMultipleChoiceAlert)
-            {       
-            _DBG_FILE("drbuf multichoice");                     
-            DrBuf.Append(KDRSeparator);         
-            DrBuf.Append(DrPtr);
-            DrBuf.Append(KDRSeparator);         
-            }
-        else
-            {           
-            DrBuf.Append(DrPtr);
-            }
-        HBufC* DrBuf16 = CnvUtfConverter::ConvertToUnicodeFromUtf8L( DrBuf  );
-        CleanupStack::PushL( DrBuf16 ); //cs 2dr
-        notifyParams.iDR = *DrBuf16;
-        }
-    HBufC8* alertData = AlertDataLC( aAlert->itemList ); //cs 1
-    if ( alertData->Length() == 0)
-        {
-        if( DRPresent )
-            {
-            CleanupStack::PopAndDestroy(2);//alertData,hptr,DrBuf16
-            }	        
-        CleanupStack::PopAndDestroy();//alertData	        
-        iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusIncompleteCommand );
-        HandleAlertErrorL();
-        return;   
-        }
-		
-    HBufC8* alertDataWithMDT = HBufC8::NewLC(alertData->Length()+KNSmlDMAgentMINDT().Length()+KNSmlDMAgentMAXDT().Length()+6); //cs 2
-    TPtr8 dataBuf = alertDataWithMDT->Des();
-    dataBuf.Append(*alertData);
-    HBufC* dataBuf16 = NULL;
-    TRAPD(errC,  dataBuf16 = CnvUtfConverter::ConvertToUnicodeFromUtf8L(dataBuf));
-    if( errC == KErrCorrupt )
-        {
-        if( DRPresent )
-            {
-            CleanupStack::PopAndDestroy(2); //alertData hptr,DrBuf16,alertDataWithMDT
-            }	        
-        CleanupStack::PopAndDestroy(2); //alertData alertDataWithMDT	        
-        iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusCommandFailed );
-        return;
-        }
-    CleanupStack::PushL(dataBuf16);   //cs    3
-    //RNotifier notifier;
-    //User::LeaveIfError( notifier.Connect() );
-    //CleanupClosePushL(notifier); //cs
-    TPckgBuf<TBool> resBuf;    
-    /* 
-	//TO reduce cyclomatic complexity
-	if( dataBuf16->Length() > KSyncMLMaxServerMsgLength )
-        {
-        notifyParams.iServerMsg = (*dataBuf16).Left(KSyncMLMaxServerMsgLength) ;    
-        }
-    else
-        {
-        notifyParams.iServerMsg = *dataBuf16;   
-        }     */
-	TInt datalength = FindMaxLength(dataBuf16->Length(),KSyncMLMaxServerMsgLength);	
-	notifyParams.iServerMsg = (*dataBuf16).Left(datalength);  
-    notifyParams.iMaxTime = maxdt;
-    notifyParams.iMaxLength = maxlen;	                   
-    TRequestStatus status;      
-    _DBG_FILE("starting of choice alerts"); 
-    //Retrieve items list 
-    HBufC8* lengthbuf = HBufC8::NewLC(100); //cs 4
-    TInt NumItems = 0 ;
-    HBufC8* listitems = AlertChoiceItemsLC(aAlert->itemList,lengthbuf,NumItems);      //cs 5                  
-	if(!NumItems)
-	{
-	if( DRPresent )
-            {
-            CleanupStack::PopAndDestroy(2); 
-            }	        
-        CleanupStack::PopAndDestroy(5); 	       
-        iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusIncompleteCommand );
-        return;
-	}
-    notifyParams.iNumberOfItems = NumItems;         
-    HBufC* choiceitemslength = NULL;    
-    TRAPD(errL,  choiceitemslength = CnvUtfConverter::ConvertToUnicodeFromUtf8L(lengthbuf->Des()));
-    if( errL/* == KErrCorrupt*/ )//useful for low memory and other cases
-        {
-        if( DRPresent )
-            {
-            CleanupStack::PopAndDestroy(2); 
-            }	        
-        CleanupStack::PopAndDestroy(5); 	       
-        iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusCommandFailed );
-        return;
-        }
-    CleanupStack::PushL(choiceitemslength); //cs 6
-
-   /* if( choiceitemslength->Length() > KSyncMLChoiceItemsLengthBuffer )
-        {
-        notifyParams.iItemLength = (*choiceitemslength).Left(KSyncMLChoiceItemsLengthBuffer) ;    
-        }
-    else
-        {
-        notifyParams.iItemLength = *choiceitemslength;
-        }   */
-   datalength = FindMaxLength(choiceitemslength->Length(),KSyncMLChoiceItemsLengthBuffer);			
-   notifyParams.iItemLength = (*choiceitemslength).Left(datalength);  
-    if( alertCode == KNSmlDMAgentMultipleChoiceAlert)
-        {
-        _DBG_FILE("multiple choice alerts");    
-        notifyParams.iNoteType = ESyncMLMultiChoiceQuery;
-        }
-    else
-        {
-        _DBG_FILE("single choice alerts");  
-        notifyParams.iNoteType = ESyncMLSingleChoiceQuery;
-        }             
-    if(iChunk.Handle())
-        iChunk.Close();
-    else
-        {
-        TTime now;
-        now.HomeTime();
-        TInt64 rand = now.Int64();
-        // Use timestamp to get a unique seed
-        TInt randnum = Math::Rand( rand );
-        TBuf<KSyncMLMaxProfileNameLength> chunkname;
-        chunkname.AppendNum(randnum);
-        chunkname.Append(KChunkName);
-        notifyParams.iChunkName = chunkname;
-        TInt err1 = iChunk.CreateGlobal( chunkname,
-                KNSmlDmChoiceChunkMinSize, KNSmlDmChoiceChunkMaxSize );
-        DBG_FILE_CODE(err1,_S8("chunk creating error is "));
-        if( err1 < 0 && err1 != KErrAlreadyExists )
-            User::LeaveIfError(err1);
-        if( err1 == KErrAlreadyExists )
-            {    err1 = iChunk.OpenGlobal(chunkname,EFalse);
-            DBG_FILE_CODE(err1,_S8("chunk opening error is "));
-            User::LeaveIfError(err1);
-            }
-        }
-    TInt size1 = iChunk.Size();
-    DBG_FILE_CODE(size1,_S8("chunk size is "));
-
-    RMemWriteStream chunkStream ( iChunk.Base(), iChunk.Size() );
-    CleanupClosePushL ( chunkStream ); //cs
-    chunkStream.WriteL ( listitems->Des() );
-    CleanupStack::PopAndDestroy(1);//chunkstream 
-    TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );                            
-    TSyncMLDlgNotifReturnParams emptybuf;
-    TSyncMLDlgNotifReturnParamsPckg resultBuf( emptybuf );
-/*    RNotifier notifier;
-    User::LeaveIfError( notifier.Connect() );
-    CleanupClosePushL(notifier); //cs  7
-    _DBG_FILE("starting choice notifier");  
-    notifier.StartNotifierAndGetResponse( status, KNSmlSyncDialogUid, pkgBuf, resultBuf );
-    _DBG_FILE("notifier returned"); 
-    User::WaitForRequest( status );
-    CleanupStack::PopAndDestroy(4);//notifier,lengthbuf,listitems,choiceitemslength
-*/  
-		CleanupStack::PopAndDestroy(3);//lengthbuf,listitems,choiceitemslength  
-    iChunk.Close();
-    TBuf8<KSyncMLMaxAlertResultLength> rettext;
-    rettext.Copy( resultBuf().irettext.Left( KSyncMLMaxAlertResultLength ) );
-    if ( status != KErrNone )
-        {
-        TInt error = TNSmlError::ESmlStatusOperationCancelled ;
-        iStatusToServer->SetStatusCodeL( aStatusId, error );
-        HandleAlertErrorL();
-        }
-    else
-        {
-        //For sending data to server
-        if( alertCode == KNSmlDMAgentMultipleChoiceAlert)
-            {
-            SendMultiChoiceDataToServerL(rettext,aStatusId);                   
-            }
-        else
-            {
-            SmlPcdata_t* data = NULL;
-            PcdataNewL( data, rettext);
-            CleanupStack::PushL( data );
-            iStatusToServer->AddItemDataL( aStatusId, data );
-            CleanupStack::PopAndDestroy(); //data           
-            }           
-        }    
-    if( DRPresent ) 
-        CleanupStack::PopAndDestroy(2); //hptr,DrBuf16
-
-    CleanupStack::PopAndDestroy(3); //notifier,alertData,alertDataWithMDT,dataBuf16     
-    }
-
-// ---------------------------------------------------------
-// CNSmlDMCmds::SendMultiChoiceDataToServerL
-// Sends Multiple Choice Alert status to server.  
-// ---------------------------------------------------------
-void CNSmlDMCmds::SendMultiChoiceDataToServerL(TDes8& aData,TInt& aStatusId)
-    {
-    const TChar KDRSeparator('-');
-    TPtrC8 temp1,temp2;
-    TInt prevcommapos = 0;
-    SmlPcdata_t* data = NULL;      
-    for(TInt i=0;i<aData.Length();i++)
-        {
-        //find a slash  
-
-        if(aData[i]== KDRSeparator)
-            {
-            if(prevcommapos)
-                {
-
-                temp1.Set(aData.Left(i));
-                temp2.Set(temp1.Right(i-(prevcommapos+1)));
-                prevcommapos=  i;
-                }
-            else //firsttime finding comma
-                {
-                prevcommapos=  i;
-                temp1.Set(aData.Left(i));
-                temp2.Set(temp1.Right(i));
-                }
-            //convert temp2 to number
-            PcdataNewL( data, temp2);
-            CleanupStack::PushL( data );
-            iStatusToServer->AddItemDataL( aStatusId, data );
-            CleanupStack::PopAndDestroy(); //data
-            data = NULL;
-
-            }
-        }                           
-
-    }
 
 // ---------------------------------------------------------
 // CNSmlDMCmds::HandleConfirmationAlertL
@@ -1535,21 +1099,7 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
     if(!IsHbSyncmlNotifierEnabledL())
     {
     	_DBG_FILE("starting notifier");  
-/*    RNotifier notifier;
-        User::LeaveIfError(notifier.Connect());
-        CleanupClosePushL(notifier);
-    
-    
-    notifier.StartNotifierAndGetResponse(status, KNSmlSyncDialogUid, pkgBuf,
-            resBuf);
-    User::WaitForRequest(status);
-    
-    
-    
-    //TBool ret = resBuf();
-    
-    CleanupStack::PopAndDestroy();
- */   
+
     }
     else
     {
@@ -1572,125 +1122,8 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
         iStatusToServer->SetStatusCodeL( aStatusId, error );
         HandleAlertErrorL();
         }
-    CleanupStack::PopAndDestroy(3); //alertData alertDataWithMDT,databuf16,notifier   
+    CleanupStack::PopAndDestroy(3); //alertData alertDataWithMDT,databuf16 
     }
-
-// ---------------------------------------------------------
-// CNSmlDMCmds::HandleUserInputalertL
-// Handles user Text Input Alert command from a server.  
-// ---------------------------------------------------------    
- void CNSmlDMCmds::HandleUserInputalertL( SmlAlert_t* aAlert, TInt& aStatusId)
-     {     
-     // MINDT 
-     TInt mindt = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMINDT );
-     // MAXDT 
-     TInt maxdt = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMAXDT );
-     if ( mindt > maxdt )
-         {
-         maxdt = mindt;
-         }   
-     TSyncMLDlgNotifParams notifyParams;
-     TInt maxlen = AlertParameter( aAlert->itemList->item->data, KNSmlDMAgentMAXLEN );
-     TInt InputType = AlertInputTypeParameter( aAlert->itemList->item->data, KNSmlDMAgentIT );
-     TInt EchoType = AlertEchoTypeParameter( aAlert->itemList->item->data, KNSmlDMAgentET );
-     //check if iDR, Default response parameter is there or not
-     //DRPresent is used for destroying how many items in the pop up stack 
-     TBool DRPresent = CheckDRPresence( aAlert->itemList->item->data, KNSmlDMAgentDR );
-     if( DRPresent )
-         {
-         TPtrC8 DrPtr = AlertDefaultResponseParam( aAlert->itemList->item->data, KNSmlDMAgentDR );       
-         HBufC8* hptr = HBufC8::NewLC( DrPtr.Length()+ 4 ); //cs
-         TPtr8 DrBuf(hptr->Des());                           
-
-         DrBuf.Append(DrPtr);
-
-         HBufC* DrBuf16 = CnvUtfConverter::ConvertToUnicodeFromUtf8L( DrBuf  );
-         CleanupStack::PushL( DrBuf16 );//cs
-         notifyParams.iDR = *DrBuf16;
-         }
-     HBufC8* alertData = AlertDataLC( aAlert->itemList );//cs
-     if ( alertData->Length() == 0)
-         {
-         if( DRPresent )
-             {
-             CleanupStack::PopAndDestroy(3);//alertData,hptr,DrBuf16
-             }
-         else
-             {
-             CleanupStack::PopAndDestroy();//alertData
-             }
-         iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusIncompleteCommand );
-         HandleAlertErrorL();
-         return;   
-         }
-     HBufC8* alertDataWithMDT = HBufC8::NewLC(alertData->Length()+KNSmlDMAgentMINDT().Length()+KNSmlDMAgentMAXDT().Length()+6);//cs
-     TPtr8 dataBuf = alertDataWithMDT->Des();
-     dataBuf.Append(*alertData);
-     HBufC* dataBuf16 = NULL;
-     TRAPD(errC,  dataBuf16 = CnvUtfConverter::ConvertToUnicodeFromUtf8L(dataBuf));
-     if( errC == KErrCorrupt )
-         {
-         if( DRPresent )
-             {
-             CleanupStack::PopAndDestroy(4); //alertData hptr,DrBuf16,alertDataWithMDT
-             }
-         else
-             {
-             CleanupStack::PopAndDestroy(2); //alertData alertDataWithMDT
-             }
-         iStatusToServer->SetStatusCodeL( aStatusId, TNSmlError::ESmlStatusCommandFailed );
-         return;
-         }
-     CleanupStack::PushL(dataBuf16);    //cs
-/*     RNotifier notifier;
-     User::LeaveIfError( notifier.Connect() );
-     CleanupClosePushL(notifier); //cs
-*/     
-     TPckgBuf<TBool> resBuf;     
-     if( dataBuf16->Length() > KSyncMLMaxServerMsgLength )
-         {
-         notifyParams.iServerMsg = (*dataBuf16).Left(KSyncMLMaxServerMsgLength) ;    
-         }
-     else
-         {
-         notifyParams.iServerMsg = *dataBuf16;   
-         }     
-     notifyParams.iMaxTime = maxdt;
-     notifyParams.iMaxLength = maxlen;
-     notifyParams.iET = EchoType;
-     notifyParams.iIT = InputType;       
-     TRequestStatus status;      
-     //Note type to Text input note
-     notifyParams.iNoteType = ESyncMLInputQuery;
-     TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
-     TSyncMLDlgNotifReturnParams emptybuf;
-     TSyncMLDlgNotifReturnParamsPckg resultBuf( emptybuf );
-/*     notifier.StartNotifierAndGetResponse( status, KNSmlSyncDialogUid, pkgBuf, resultBuf );
-     User::WaitForRequest( status );
-*/
-     TBuf8<KSyncMLMaxDefaultResponseMsgLength> rettext;
-     rettext.Copy( resultBuf().irettext.Left( KSyncMLMaxDefaultResponseMsgLength ) );
-/*     if ( status == KErrCancel || status == KErrTimedOut || status ==  KErrAbort )
-         {
-         TInt error = TNSmlError::ESmlStatusOperationCancelled ;
-         iStatusToServer->SetStatusCodeL( aStatusId, error );
-         HandleAlertErrorL();
-         }
-*/         
-     //For sending data to server    
-     SmlPcdata_t* data = NULL;
-     PcdataNewL( data, rettext);
-     CleanupStack::PushL( data );
-     iStatusToServer->AddItemDataL( aStatusId, data );
-     CleanupStack::PopAndDestroy(); //data
-     if( DRPresent ) 
-     			CleanupStack::PopAndDestroy(5); //alertData,alertDataWithMDT,dataBuf16,hptr,DrBuf16	
-//         CleanupStack::PopAndDestroy(6); //notifier,alertData,alertDataWithMDT,dataBuf16,hptr,DrBuf16
-     else
-         //#endif
-//         CleanupStack::PopAndDestroy(4); //notifier,alertData,alertDataWithMDT,dataBuf16  
-					CleanupStack::PopAndDestroy(3); //alertData,alertDataWithMDT,dataBuf16     	   
-     }
 
  // ---------------------------------------------------------
  // CNSmlDMCmds::HandleDisplayAlertL
@@ -1745,14 +1178,7 @@ void CNSmlDMCmds::HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId)
      TPckgBuf<TSyncMLDlgNotifParams> pkgBuf( notifyParams );
     if(!IsHbSyncmlNotifierEnabledL())
         {
- /*       RNotifier notifier;
-        User::LeaveIfError(notifier.Connect());
-        CleanupClosePushL(notifier);
-        notifier.StartNotifierAndGetResponse(status, KNSmlSyncDialogUid, pkgBuf,
-            resBuf);
-        User::WaitForRequest(status);
-        CleanupStack::PopAndDestroy(); //notifier
-*/        
+     
         }
     else
         {
@@ -2409,132 +1835,4 @@ void CNSmlDMCmds::UpdateErrorStatusCode(SmlItem_t* aItem,
 		{
 		aStatusCode = TNSmlError::ESmlStatusIncompleteCommand;
 		}
-	}
-
-// ---------------------------------------------------------------------------------------------------------------
-// CNSmlDMCmds::AlertChoiceItemsLC()
-//  Retrieves the choice alerts information 
-// ---------------------------------------------------------------------------------------------------------------
-HBufC8* CNSmlDMCmds::AlertChoiceItemsLC(SmlItemList_t* aItemList,HBufC8*& aLengthBuf ,TInt& aNumItems ) const
-    {
-    /*cleanupstack contains
-     * top : tempdata
-     *      : unicodeData
-     * bottom: aLengthBuf
-     */
-	 const TChar KDRSeparator('-');
-const TChar KChoiceItemSeparator(',');
-    HBufC8* unicodeData = HBufC8::NewLC(200);
-    HBufC8* tempdata = NULL;
-    HBufC8* lengthbuf = aLengthBuf;
-    TBuf<20> lennum; 
-    SmlItemList_t* temp;
-    if (  aItemList )//Not null
-        {
-        if(aItemList->next)//removing header of dialog
-            {
-            temp = aItemList->next;
-            while(temp->next)
-                {
-                if (  temp->next->item )
-                    {
-                    if (  temp->next->item->data )
-                        {
-                        if (  temp->next->item->data->content )
-                            {
-                            TPtr8 data( (TUint8*)  temp->next->item->data->content,  temp->next->item->data->length, temp->next->item->data->length );
-                            TrimRightSpaceAndNull( data );
-                            tempdata = data.AllocLC();
-                            TInt length = data.Length();//item length
-                            //add length to buffer and add comma 
-                            if(lengthbuf->Des().MaxLength() > (lengthbuf->Des().Length() + 5/*bytes*/) )
-                                {
-                                if(length > KSyncMLMaxChoiceItemLength ) // choice item length restricting to 200
-                                    {
-                                    lennum.Num(KSyncMLMaxChoiceItemLength);
-                                    lengthbuf->Des().Append(lennum);
-                                    lengthbuf->Des().Append(KChoiceItemSeparator);                                    
-                                    }
-                                else
-                                    {
-                                    lennum.Num(length);                            
-                                    lengthbuf->Des().Append(lennum);
-                                    lengthbuf->Des().Append(KChoiceItemSeparator);
-                                    }
-                                }
-                            else
-                                {
-                                //Pop the aLengthBuf from cleanupstack and realloc
-                                CleanupStack::Pop(3); //tempdata,unicodeData,aLengthBuf
-                                lengthbuf = lengthbuf->ReAllocL(lengthbuf->Des().Length() + 100);
-                                CleanupStack::PushL(lengthbuf);
-                                CleanupStack::PushL(unicodeData);
-                                CleanupStack::PushL(tempdata);
-                                if(length > KSyncMLMaxChoiceItemLength ) // choice item length restricting to 200
-                                    {
-                                    lengthbuf->Des().AppendNum(KSyncMLMaxChoiceItemLength);
-                                    lengthbuf->Des().Append(KChoiceItemSeparator);  
-                                    }
-                                else
-                                    {
-                                    lengthbuf->Des().AppendNum(length); //Append(length);
-                                    lengthbuf->Des().Append(KChoiceItemSeparator);
-                                    }
-                                }
-                            if(unicodeData->Des().MaxLength()> (unicodeData->Des().Length() + length))
-                                {
-                                if(length > KSyncMLMaxChoiceItemLength ) // choice item length restricting to 200
-                                    {
-                                    unicodeData->Des().Append(tempdata->Des().Left(KSyncMLMaxChoiceItemLength)); 
-                                    }
-                                else
-                                    {
-                                    unicodeData->Des().Append(tempdata->Des());
-                                    }
-                                }
-                            else
-                                {
-                                CleanupStack::Pop(2);//tempdata,unicodeData
-                                unicodeData = unicodeData->ReAllocL(unicodeData->Des().Length() + length + 200);
-                                CleanupStack::PushL(unicodeData);
-                                CleanupStack::PushL(tempdata);
-                                if(length > KSyncMLMaxChoiceItemLength ) // choice item length restricting to 200
-                                    {
-                                    unicodeData->Des().Append(tempdata->Des().Left(KSyncMLMaxChoiceItemLength)); 
-                                    }
-                                else
-                                    {
-                                    unicodeData->Des().Append(tempdata->Des());
-                                    }
-                                }
-                            CleanupStack::PopAndDestroy(tempdata);
-                            aNumItems++;
-                            data.Zero();
-                            }
-                        }
-                    }
-                temp = temp->next;
-                }
-            }
-        }  
-        _DBG_FILE("CNSmlDMCmds::AlertDataLC: end"); 
-        aLengthBuf = lengthbuf;
-        return unicodeData;          
-    }
-	
-// ---------------------------------------------------------------------------------------------------------------
-// CNSmlDMCmds::FindMaxLength()
-// ---------------------------------------------------------------------------------------------------------------	
-TInt CNSmlDMCmds::FindMaxLength(TInt aSourceLength, TInt aDestLength)
-	{
-	TInt length = 0;
-	if(aSourceLength > aDestLength )
-	 {
-	  length = aDestLength;
-	 }
-	else
-	 {
-	  length = aSourceLength;	  
-	 }
-	return length;
 	}

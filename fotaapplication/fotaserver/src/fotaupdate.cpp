@@ -124,7 +124,9 @@ void CFotaUpdate::ExecuteUpdateResultFileL()
             | EFileStream);
     FLOG(_L("opened  rstr 2/2  "));
     if (err)
+    	{
         FLOG(_L("   update result file open err %d"), err);
+      }
     User::LeaveIfError(err);
     FLOG(_L("       0.1"));
     CleanupClosePushL(rstr);
@@ -534,7 +536,9 @@ TBool CFotaUpdate::IsUSBConnected()
         usbman.Close();
         }
     if (state != EUsbDeviceStateUndefined)
+    	{
         ret = ETrue;
+      }
     
     FLOG(_L("CFotaUpdate::IsUSBConnected, value = %d, ret = %d <<"), state, ret);
     return ret;

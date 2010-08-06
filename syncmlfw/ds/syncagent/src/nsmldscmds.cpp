@@ -18,8 +18,6 @@
 #define SYNCML_V3
 // INCLUDE FILES
 #include <SyncMLObservers.h>
-#include <SyncMLNotifierParams.h>
-#include <SyncMLNotifier.h>
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
 #include <nsmlphoneinfo.h>
@@ -1539,38 +1537,8 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 			iAgent->Interrupt( TNSmlError::ESmlAlertInvalid, EFalse, EFalse );
 			return;
 			}
-		
-		//Read min and max times
-		// MINDT 
-		TInt mindt = AlertParameter( aAlert->itemList->item->data, KNSmlDSAgentMINDT );
-		// MAXDT 
-		TInt maxdt = AlertParameter( aAlert->itemList->item->data, KNSmlDSAgentMAXDT );
-		
-		HBufC* alertData = AlertDataLC( aAlert->itemList );
-		
-		//Fill notifier params
-		TSyncMLDlgNotifParams params;
-		params.iNoteType = ESyncMLInfoNote;
-		params.iServerMsg = TBufC<KSyncMLMaxServerMsgLength>(alertData->Des());
-		
-		CleanupStack::PopAndDestroy(); //alertData
-	
-		//Pack data and start notifier	
-		RNotifier notifier;
-		User::LeaveIfError( notifier.Connect() );
-		CleanupClosePushL(notifier);
-		
-		TPckgBuf<TBool> resBuf;
 
-		TRequestStatus status;
-			
-		TSyncMLDlgNotifParamsPckg data(params);
-   					
-		notifier.StartNotifierAndGetResponse( status, KSyncMLDlgNotifierUid, data, resBuf );
-		User::WaitForRequest(status);
-		
-		CleanupStack::PopAndDestroy(); //notifier, 
-		
+		// SyncmlNotifier Dependency is removed
 		return;
 		}
 

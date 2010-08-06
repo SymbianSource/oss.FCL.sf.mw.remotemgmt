@@ -17,7 +17,7 @@
 
 #include "fotafullscreendialog.h"
 
-#include <HbAction.h>
+#include <hbaction.h>
 #include <hbprogressbar.h>
 #include <hbicon.h>
 #include <hbextendedlocale.h>

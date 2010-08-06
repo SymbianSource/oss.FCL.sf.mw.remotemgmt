@@ -1,3 +1,11 @@
 EXPORTS
 	?NewL@RDCMOClient@@SAPAV1@XZ @ 1 NONAME ; class RDCMOClient * RDCMOClient::NewL(void)
+	?SearchByGroupValue@RDCMOClient@@UAEXAAVTDes16@@0@Z @ 2 NONAME ; void RDCMOClient::SearchByGroupValue(class TDes16 &, class TDes16 &)
+	?GetDCMOStrAttributeValue@RDCMOClient@@UAE?AW4TDCMOStatus@@AAVTDes16@@W4TDCMONode@@0@Z @ 3 NONAME ; enum TDCMOStatus RDCMOClient::GetDCMOStrAttributeValue(class TDes16 &, enum TDCMONode, class TDes16 &)
+	?SetDCMOIntAttributeValue@RDCMOClient@@UAE?AW4TDCMOStatus@@AAVTDes16@@W4TDCMONode@@H@Z @ 4 NONAME ; enum TDCMOStatus RDCMOClient::SetDCMOIntAttributeValue(class TDes16 &, enum TDCMONode, int)
+	?OpenL@RDCMOClient@@UAEHXZ @ 5 NONAME ; int RDCMOClient::OpenL(void)
+	?GetDCMOIntAttributeValue@RDCMOClient@@UAE?AW4TDCMOStatus@@AAVTDes16@@W4TDCMONode@@AAH@Z @ 6 NONAME ; enum TDCMOStatus RDCMOClient::GetDCMOIntAttributeValue(class TDes16 &, enum TDCMONode, int &)
+	??1RDCMOClient@@UAE@XZ @ 7 NONAME ; RDCMOClient::~RDCMOClient(void)
+	?Close@RDCMOClient@@UAEXXZ @ 8 NONAME ; void RDCMOClient::Close(void)
+	?SetDCMOStrAttributeValue@RDCMOClient@@UAE?AW4TDCMOStatus@@AAVTDes16@@W4TDCMONode@@0@Z @ 9 NONAME ; enum TDCMOStatus RDCMOClient::SetDCMOStrAttributeValue(class TDes16 &, enum TDCMONode, class TDes16 &)
 

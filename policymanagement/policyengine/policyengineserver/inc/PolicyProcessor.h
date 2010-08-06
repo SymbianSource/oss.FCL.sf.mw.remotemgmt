@@ -28,7 +28,7 @@
 #include "RequestContext.h"
 #include "PolicyStorage.h"
 #include <e32base.h>
-#include <MSVAPI.H>
+#include <msvapi.h>
 #include <hbsymbianvariant.h>
 #include <hbdevicedialogsymbian.h>
 

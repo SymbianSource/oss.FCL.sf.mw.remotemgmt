@@ -843,7 +843,7 @@ void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParam
 		}*/
 		
 	   
-    TSyncMLAppLaunchNotifParamsPckg data( aParam );
+
     
     if ( !KNSmlWaitNotifierForEver )
         {

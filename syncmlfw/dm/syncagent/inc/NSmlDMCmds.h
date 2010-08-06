@@ -70,21 +70,12 @@ class CNSmlDMCmds : public CNSmlCmdsBase, public MNSmlDmModuleCallBack
 	void FreeDMDevinfo();
 	TInt AlertParameter ( const SmlPcdata_t* aData, const TDesC8& aParamID ) const;
 //#ifdef RD_DM_TEXT_INPUT_ALERT //For User Input Server alert
-	TInt AlertInputTypeParameter ( const SmlPcdata_t* aData, const TDesC8& aParamID ) const;
-	TInt AlertEchoTypeParameter ( const SmlPcdata_t* aData, const TDesC8& aParamID ) const;
-	TBool CheckDRPresence( const SmlPcdata_t* aData, const TDesC8& aParamID ) const;
-	TPtrC8 AlertDefaultResponseParam ( const SmlPcdata_t* aData, const TDesC8& aParamID ) const;
 //#endif
 	//singlechoice
-	HBufC8* AlertChoiceItemsLC( SmlItemList_t* aItemList, HBufC8*& aLengthBuf,TInt& aNumItems  ) const;
 	void HandleAlertsL( SmlAlert_t* aAlert, TInt& aStatusId);
 	void HandleAlertErrorL();
-	void HandleChoiceAlertsL( SmlAlert_t* aAlert, TInt& aStatusId);
-	void SendMultiChoiceDataToServerL(TDes8& aData,TInt& aStatusId);
 	void HandleConfirmationAlertL( SmlAlert_t* aAlert, TInt& aStatusId);
 	void HandleDisplayAlertL( SmlAlert_t* aAlert, TInt& aStatusId);
-	void HandleUserInputalertL( SmlAlert_t* aAlert, TInt& aStatusId);
-	TInt FindMaxLength(TInt aSourceLength, TInt aDestLength);
 	//singlechoice
 	HBufC8* AlertDataLC( const SmlItemList_t* aItemList ) const;
 	TInt InitStatusToAtomicOrSequenceL( const TDesC8& aCmd, const SmlAtomic_t* aAtomic ) const;

@@ -24,7 +24,7 @@
 #include "fotaUpdateAgentComms.h"
 #include "fotaengine.h"
 #include <devicedialogconsts.h>
-#include <HbSymbianVariant.h>
+#include <hbsymbianvariant.h>
 #include "fotadevicedialogobserver.h"
 // CONSTANTS
 _LIT (KUpdateResultFile, "update.resp");

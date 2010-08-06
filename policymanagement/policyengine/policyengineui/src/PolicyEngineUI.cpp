@@ -23,7 +23,7 @@
 #include <hblabel.h>
 #include <hbaction.h>
 #include <hbnotificationdialog.h>
-#include <HbMessageBox.h>
+#include <hbmessagebox.h>
 #include <hbdevicenotificationdialog.h>
 #include "Logger.h"
 

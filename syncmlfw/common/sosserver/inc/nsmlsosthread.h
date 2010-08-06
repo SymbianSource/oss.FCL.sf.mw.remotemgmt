@@ -19,8 +19,7 @@
 #ifndef __NSMLTHREADSTART_H__
 #define __NSMLTHREADSTART_H__
 
-#include <SyncMLNotifierParams.h>
-#include <SyncMLNotifier.h>
+#include <devicedialogsymbian.h>
 #include <dmdevdialogclient.h>
 #include <hbdevicedialogsymbian.h>
 #include <hbsymbianvariant.h>
