@@ -170,6 +170,12 @@ void CSCPLockObserver :: RunL() {
             iDialog->TryCancelQueryL(ESecUiDeviceLocked);
             iSubscribedToEvent = EFalse;
         }
+        else if((autolockState == EAutolockOff)||(autolockState == EAutolockStatusUninitialized))
+            {
+            Dprint(_L("CSCPLockObserver::RunL() TryCancelQueryL Device UnLocked"));
+            iDialog->TryCancelQueryL(ESecUiNone);
+            iSubscribedToEvent = EFalse;
+            }
         break;
         case ESecUiCallStateObserver: {
             TInt callState;

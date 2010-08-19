@@ -116,6 +116,7 @@ LIBRARY		connmon.lib
 LIBRARY		featmgr.lib
 LIBRARY		fmsclient.lib	//FMS Client
 LIBRARY     	cmmanager.lib 	//Connection Manager
+LIBRARY		inetprotutil.lib
 
 LIBRARY		aknnotify.lib
 // #ifdef _FOTA_DEBUG

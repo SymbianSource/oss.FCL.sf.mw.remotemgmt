@@ -58,3 +58,4 @@
 #include "../dm_native_notifier_api/group/bld.inf"
 #include "../syncml_ds_customization_api/group/bld.inf"
 #include "../syncml_ds_error_reporting_api/group/bld.inf"
+#include "../lawmo_plugin_api/group/bld.inf"

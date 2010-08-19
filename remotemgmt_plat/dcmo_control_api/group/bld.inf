@@ -25,4 +25,5 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/dcmoClientBase.h	     	MW_LAYER_PLATFORM_EXPORT_PATH(dcmoclientbase.h)
-../inc/dcmoClient.h	     			MW_LAYER_PLATFORM_EXPORT_PATH(dcmoclient.h)
+../inc/dcmoClient.h	     	MW_LAYER_PLATFORM_EXPORT_PATH(dcmoclient.h)
+../inc/lawmoclient.h		MW_LAYER_PLATFORM_EXPORT_PATH(lawmoclient.h)

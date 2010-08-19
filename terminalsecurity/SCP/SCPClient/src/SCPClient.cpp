@@ -19,8 +19,10 @@
 
 // INCLUDE FILES
 #include <e32svr.h>
+#include <bautils.h>
 #include <e32math.h>
 #include <e32uid.h>
+#include <barsc.h>
 #include <AknGlobalNote.h>
 #include <aknnotewrappers.h> 
 #include <AknQueryDialog.h>
@@ -39,14 +41,22 @@
 #include <TerminalControl3rdPartyAPI.h>
 #include <SCPServerInterface.h>
 #include <SecUi.rsg>
+#include <scptimestamppluginlang.rsg>
 #include <secui.hrh>
 #include <StringLoader.h>
 #include <bautils.h>
 //#endif // DEVICE_LOCK_ENHANCEMENTS
+#include <DevManInternalCRKeys.h>
 
 #include <featmgr.h>
 #include "SCPDebug.h"
 #include <e32property.h>
+#include <SCPPServerPluginDefs.hrh>
+#include <apgtask.h>
+#include    <e32property.h>
+#include    <PSVariables.h>
+#include    <coreapplicationuisdomainpskeys.h>
+
 /*#ifdef _DEBUG
 #define __SCP_DEBUG
 #endif // _DEBUG
@@ -63,12 +73,13 @@
 
 static const TUint KDefaultMessageSlots = 3;
 static const TInt KSCPConnectRetries( 2 );
-
+const TInt KLockedbyLawmo (30);
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 _LIT( KDriveZ, "Z:" );
 _LIT( KSCPResourceFilename, "\\Resource\\SCPNotifier.RSC" );
 _LIT( KSCPSecUIResourceFilename, "\\Resource\\SecUi.RSC" );
+_LIT( KSCPTimestampPluginResFilename, "\\Resource\\SCPTimestampPluginLang.rsc");
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
 
 // Uid for the application; this should match the mmp file
@@ -187,7 +198,7 @@ TInt RunDialogL( TDes& aReplyBuf,
                 TUint aResId = 0,
                 TDesC* aPrompt = NULL,
                 TBool aECSSupport = EFalse,
-                CSCPQueryDialog :: TKeypadContext aContext = CSCPQueryDialog :: EContextSensitive
+                CSCPQueryDialog :: TKeypadContext aContext = CSCPQueryDialog :: ENumeric
               )
     {
     Dprint(_L("[RSCPClient]-> RunDialogL() >>> "));
@@ -465,11 +476,74 @@ EXPORT_C TInt RSCPClient::ChangeCode( TDes& aNewCode )
 EXPORT_C TInt RSCPClient::SetPhoneLock( TBool aLocked )
     {
     Dprint( (_L("--> RSCPClient::SetPhoneLock( %d)"), aLocked ));
-            
+    TInt autolockState = -1;
+    RProperty aProperty;
+    aProperty.Get(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus, autolockState);
+    Dprint( (_L("RSCPClient::SetPhoneLock()Autolock state before %d"), autolockState ));
+
+    if((aLocked==0)&&(autolockState != EAutolockStatusUninitialized))
+    InformAutolockTask();            
+    Dprint( (_L("RSCPClient sendreceive") ));
     TInt ret = SendReceive(ESCPServSetPhoneLock, TIpcArgs( aLocked ) );
-  
+    Dprint( (_L("RSCPClient sendreceive done") ));
+    aProperty.Get(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus, autolockState);
+    Dprint( (_L("RSCPClient::SetPhoneLock()Autolock state after %d"), autolockState ));
+    // Put it here because, we cant change autolock status before sendreceive 
+    // Uninitialised state is Only at Bootup.
+    if((autolockState == EAutolockStatusUninitialized)&&(aLocked==0)&&(ret==KErrNone))
+        {
+        Dprint( (_L("RSCPClient::SetPhoneLock()setting autolock status") ));
+        aProperty.Set(KPSUidCoreApplicationUIs, KCoreAppUIsAutolockStatus, EAutolockOff);
+        // This is startup and we are done with ISA unlock
+        // So set the Startup cenrep key so tht it is used in SeccodeQuery
+        CRepository* lRepository = NULL; 
+        TInt returnv;
+        TRAP(returnv, lRepository = CRepository :: NewL(KCRUidSCPLockCode));
+        returnv = lRepository->Set(KSCPStartupQuery, 1);
+        if(returnv==KErrNone)
+        Dprint( (_L("RSCPClient::SetPhoneLock()setting KSCPStartupQuery") ));
+        delete lRepository;
+        }
     Dprint( (_L("<-- RSCPClient::SetPhoneLock(): %d"), ret ));
     return ret;
+    }   
+
+void RSCPClient::InformAutolockTask()
+    {
+    Dprint( (_L("RSCPClient::InformAutolockTask") ));
+    // Deactivation call, send the deactivation message to Autolock
+        RWsSession wsSession;
+        if ( wsSession.Connect() != KErrNone )
+           {
+           Dprint( (_L("RSCPClient::InformAutolockTask():\
+               WsSession connection failed") ));        
+           User::Leave( KErrGeneral );
+           }
+        CleanupClosePushL( wsSession );
+
+        TApaTaskList taskList( wsSession );
+        TApaTask task = taskList.FindApp( TUid::Uid( 0x100059B5 ) ); // Autolock
+
+        if ( task.Exists() )
+            {
+            Dprint( (_L("RSCPClient::InformAutolockTask():\
+               Autolock task found, sending msg") ));        
+            // No parameters, just a dummy buffer
+            TBuf8<8> buf;
+            buf.Zero();            
+            const TPtrC8& message = buf;                      
+            User::LeaveIfError( 
+               task.SendMessage( TUid::Uid( SCP_CMDUID_UNLOCK+1 ), message ) 
+               );           
+            }
+        else
+            {
+            Dprint( (_L("RSCPClient::InformAutolockTask():\
+               Autolock task not found") ));
+            User::Leave( KErrNotFound );
+            }
+                  
+        CleanupStack::PopAndDestroy(); // wsSession
     }   
 
 // ---------------------------------------------------------
@@ -586,6 +660,23 @@ EXPORT_C TInt RSCPClient::SecCodeQuery( RMobilePhone::TMobilePassword& aPassword
     }
     
     Dprint((_L("<-- RSCPClient::SecCodeQuery(): lStatus= %d, lErr= %d"), lStatus, lErr));
+    CRepository* lRepository = NULL;  
+    TInt startup = 0;
+    TInt returnv;
+    TRAP(returnv, lRepository = CRepository :: NewL(KCRUidSCPLockCode));
+    returnv = lRepository->Get(KSCPStartupQuery, startup);
+    if(returnv == KErrNone)
+    Dprint( (_L("RSCPClient::SecCodeQuery()KSCPStartupQuery get done")));
+    lRepository->Set(KSCPStartupQuery, 0);
+    delete lRepository;
+    Dprint((_L("RSCPClient::SecCodeQuery(): startup ? %d"), startup ));
+    //Check if this is Startup Query and tht device is remote unlocked now ?
+    if(startup)
+        {
+        Dprint((_L("[RSCPClient] SecCodeQuery() startup remote Unlocked")));
+        return KErrNone;
+        }
+    else
     return (lErr != KErrNone) ? lErr : lStatus;
 }
 
@@ -761,6 +852,7 @@ EXPORT_C TInt RSCPClient::CheckConfiguration( TInt aMode )
     return ret;
     }
 EXPORT_C TInt RSCPClient :: PerformCleanupL(RArray<TUid>& aAppIDs) {
+    Dprint((_L("RSCPClient::PerformCleanupL() >>>")));
     TInt lCount = aAppIDs.Count();
     
     if(lCount < 1) {
@@ -779,6 +871,7 @@ EXPORT_C TInt RSCPClient :: PerformCleanupL(RArray<TUid>& aAppIDs) {
     lWriteStream.CommitL();
     TInt lStatus = SendReceive(ESCPApplicationUninstalled, TIpcArgs(ESCPApplicationUninstalled, &lBuff->Des()));
     CleanupStack :: PopAndDestroy(2); // lBuff, lWriteStream
+    Dprint((_L("RSCPClient::PerformCleanupL() <<<")));
     return lStatus;
 }
 // ---------------------------------------------------------
@@ -898,16 +991,15 @@ TInt RSCPClient::GetNewCodeAndChange( TDes& aOldCode,
                                  maxLen,
                                  R_SECUI_TEXT_ENTER_NEW_SEC_CODE,
                                  NULL,
-                                 ecSupport,
-                                 CSCPQueryDialog :: EAlphaNumeric) );
+                                 ecSupport) );
     
         if ( ( ret ) && ( ret != ESecUiEmergencyCall ) && ( err == KErrNone ) )
             {
             verifyCodeBuffer.Zero();
-            TChar ch = static_cast<TChar>(newCodeBuffer[0]);
-            
-            CSCPQueryDialog :: TKeypadContext lKPContext = 
-                    (ch.IsDigit() ? CSCPQueryDialog :: ENumeric : CSCPQueryDialog :: EAlphaNumeric);
+            /*TChar ch = static_cast<TChar>(newCodeBuffer[0]);
+
+            CSCPQueryDialog :: TKeypadContext lKPContext =
+                    (ch.IsDigit() ? CSCPQueryDialog :: ENumeric : CSCPQueryDialog :: EAlphaNumeric);*/
                     
             TRAP( err, ret = RunDialogL( verifyCodeBuffer, 
                                  bConfig, 
@@ -915,8 +1007,7 @@ TInt RSCPClient::GetNewCodeAndChange( TDes& aOldCode,
                                  maxLen,
                                  R_SECUI_TEXT_VERIFY_NEW_SEC_CODE,
                                  NULL,
-                                 ecSupport,
-                                 lKPContext));                             
+                                 ecSupport));
             }
 
         if ( ( !ret ) || ( err != KErrNone ) || ( ret == ESecUiEmergencyCall ) )
@@ -1070,8 +1161,28 @@ void RSCPClient::ProcessServerCommandsL( TDes8& aInParams,
                 codeBuf.Zero(); 
                 
                 ret = theParams->Get( KSCPParamPassword, codeBuf );
+				
                 if ( ret == KErrNone )
                     {
+                    TInt lResFile = 0;
+                    TFileName resFile;
+                    resFile.Copy( KDriveZ );
+                    resFile.Append( KSCPTimestampPluginResFilename );
+                    BaflUtils :: NearestLanguageFile( CCoeEnv :: Static()->FsSession(), resFile );
+                    lResFile = CCoeEnv :: Static()->AddResourceFileL(resFile);
+					
+                    CAknNoteDialog* lNoteDlg = new (ELeave) CAknNoteDialog(CAknNoteDialog :: ENoTone, CAknNoteDialog :: ELongTimeout);
+                    CleanupStack :: PushL(lNoteDlg);
+					
+                    HBufC* lExpNoteMsg = CEikonEnv :: Static()->AllocReadResourceLC(R_SET_SEC_CODE_AGING);
+                    lNoteDlg->SetTextL(lExpNoteMsg->Des());
+					
+                    lNoteDlg->ExecuteLD(R_DIALOG_WARNING);
+                    CleanupStack :: PopAndDestroy(1); //lExpNoteMsg
+                    CleanupStack :: Pop(1); //lNoteDlg
+					
+                    CCoeEnv :: Static()->DeleteResourceFile( lResFile );
+					
                     TSCPSecCode newDOSCode;
                     ret = GetNewCodeAndChange( codeBuf, KSCPForcedChange, &newDOSCode );
                     
@@ -1233,13 +1344,55 @@ TInt RSCPClient :: SetSecurityCodeL(RMobilePhone :: TMobilePassword& aPassword,
         CleanupStack :: PopAndDestroy(lRepository);
         return lRet;
     }
-
+    TInt currentLawmoState(0); 
+    Dprint( (_L("CSCPClient::lawmo cenrep") ));
+    CRepository* crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
+    TInt reterr = crep->Get( KLAWMOPhoneLock, currentLawmoState ); 
+    Dprint( (_L("CSCPClient::lawmo cenrep done") ));
+    if(reterr != KErrNone) 
+        {
+        Dprint(_L("[RSCPClient]-> ERROR: Unable to perform get on CenRep lawmo, lErr=%d"), lRet);
+        CleanupStack :: PopAndDestroy(crep);
+        return reterr;
+        }
     HBufC* codeHBuf = HBufC :: NewLC(KSCPPasscodeMaxLength + 1);
     HBufC8* addParamsHBuf = HBufC8 :: NewLC(KSCPMaxTARMNotifParamLen);
     TPtr codeBuffer = codeHBuf->Des();
     TPtr8 addParams = addParamsHBuf->Des();
+    if(currentLawmoState!=KLockedbyLawmo)
+        {
+        // rundialog with a new resource file
+        Dprint((_L("[RSCPClient]-> lawmo current state !=30")));
+        TBuf<255> serverId;
+        serverId.Zero();
+        reterr = crep->Get( KLAWMOfactoryDmServerName, serverId );
+        Dprint( (_L("RSCPClient::SetSecurityCode serverid: %s"), serverId.PtrZ() ));
+        HBufC* prompt = StringLoader::LoadLC(R_SCP_LAWMO_LOCKED, serverId);
+        Dprint( (_L("RSCPClient::SetSecurityCode stringval: %s"), (prompt->Des()).PtrZ() ));
 
-    if(lDefCode == 0) {
+        lRet = RunDialogL(codeBuffer, aButtonsShown, KSCPPasscodeMinLength, KSCPPasscodeMaxLength,
+                        0, prompt, aECSSupport);
+		if((lRet) && (lRet != ESecUiEmergencyCall) && (lRet != EAknSoftkeyEmergencyCall)) 
+			{
+			Dprint(_L("[RSCPClient]-> INFO: LL User has updated the lock code..."));
+			
+			lRet = SendReceive( ESCPServAuthenticateS60, TIpcArgs( &codeBuffer, &aPassword, &addParams, aFlags));
+			
+			Dprint((_L("[RSCPClient]-> INFO: LL addParams.Length()=%d")), addParams.Length());
+			Dprint((_L("[RSCPClient]-> INFO: LL lRet=%d")), lRet);
+			}
+		else
+			{
+	        switch(lRet) 
+	            {
+	            case 0:
+	                lRet = KErrCancel;
+	                break;
+	            }
+            }
+        CleanupStack::PopAndDestroy(1);
+        }
+    else if(lDefCode == 0) {
         Dprint(_L("[RSCPClient]-> INFO: Default lock code has been set already by the user..."));
 
         lRet = RunDialogL(codeBuffer, aButtonsShown, KSCPPasscodeMinLength, KSCPPasscodeMaxLength,
@@ -1353,7 +1506,13 @@ TInt RSCPClient :: SetSecurityCodeL(RMobilePhone :: TMobilePassword& aPassword,
 
         if(lTempRet == KErrNone) {
             CSCPParamObject* outParams = NULL;
-            ProcessServerCommandsL(addParams, &outParams);
+            /*
+             * aECSSupport when passed to ProcessServerCommandsL decides if the expiry note and subsequently change device lock
+             * code has to be shown or not. Normally if the lock code has expired, the same has to be prompted from the user and 
+             * has to be done only during device unlock. aECSSupport value is being passed to ensure that new lock code is prompted
+             * only during device unlock.
+             */
+            ProcessServerCommandsL(addParams, &outParams, !aECSSupport);
 
             if(outParams != NULL) {
                 TSCPSecCode newSecCode;
@@ -1369,7 +1528,7 @@ TInt RSCPClient :: SetSecurityCodeL(RMobilePhone :: TMobilePassword& aPassword,
         CleanupStack :: PopAndDestroy(tmp);
     }
 
-    CleanupStack :: PopAndDestroy(3); // repository, addParamsHBuf, codeHBuf
+    CleanupStack :: PopAndDestroy(4); // repository * 2, addParamsHBuf, codeHBuf 
     Dprint(_L("[RSCPClient]-> SetSecurityCodeL() <<< lRet=%d"), lRet);
     return lRet;
 }

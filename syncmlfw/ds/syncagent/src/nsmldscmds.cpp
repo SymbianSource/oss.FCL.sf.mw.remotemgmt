@@ -65,6 +65,8 @@
 // CONSTANTS
 _LIT8( KNSmlRoot, "/" );
 static const TInt KMaxLength = 255;
+const TUid KRepositoryId =  { 0x2000CF7E };   
+const TInt KNsmlDsOrphanEvent = 0xB ;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -3618,7 +3620,9 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						}
 						
 					iItemOpened = EFalse;
-					
+					SmlStatus_t* status = NULL;
+					SmlItemList_t** itemList;
+					CRepository* rep = NULL;
 					switch ( returnCode )
 						{
 						case KErrNone:
@@ -3653,6 +3657,57 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						case KErrNotSupported:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusUnsupportedMediaTypeOrFormat );
 							break;
+							
+						case KErrPathNotFound:			
+						    // Read the Orphan Event ID from the cenrep
+						    rep = CRepository::NewLC(KRepositoryId);
+                            TRAPD( err, rep->Get(KNsmlDsOrphanEvent, iNewUid) );
+                            DBG_ARGS(_S("read the cenrep %d %d"), err, iNewUid);
+                            User::LeaveIfError(err);
+                            CleanupStack::PopAndDestroy(rep);
+							
+						    _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : Invalid Parent"));
+						    statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusMovedPermanently );
+						    DBG_ARGS(_S("Invalid parent: statusid %d"), statusId);
+						    status = iStatusToServer->StatusItem( statusId );
+						    DBG_ARGS(_S("Invalid parent: status %d"), status);
+						    if( status )
+                                {
+                                SmlItemList_t* newItemList = new( ELeave ) SmlItemList_t;
+                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : creating a new item"));
+                                newItemList->item = new( ELeave ) SmlItem_t;
+                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : creating a new data"));
+                                iStatusToServer->FillItemDataL( newItemList->item );
+                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : updating"));
+                                
+                                itemList = &(status->itemList);
+                                while ( *itemList )
+                                    {
+                                    itemList = &(*itemList)->next;
+                                    }
+                                *itemList = newItemList;
+                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : updated"));
+                                }
+						    if ( !iBatchModeOn )
+                                {
+                                iDSContent.IncreaseServerItemsAdded();
+                                clientModifications.iNumAdded = 1;
+                                
+                                if ( !iAtomicModeOn )
+                                    {
+                                    iDSContent.CreateNewMapItemL( iNewUid, aUID, 0 );
+                                    }
+                                else
+                                    {
+                                    iDSContent.CreateNewMapItemL( iNewUid, aUID, iAtomicId );
+                                    }
+                                }
+                            else
+                                {
+                                clientModifications.iNumAdded = 1;
+                                iBatchBuffer->SetStatusEntryId( statusId );
+                                }
+						    break;
 							
 						default:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusCommandFailed );
@@ -3810,6 +3865,11 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						case KErrNotSupported:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusUnsupportedMediaTypeOrFormat );
 							break;
+							
+						case KErrPathNotFound:
+						    _DBG_FILE(_S8("CNSmlDSCmds:: REPLACE UpdateL : Invalid Parent"));
+						    statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusMovedPermanently );
+						    break;
 							
 						default:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusCommandFailed );

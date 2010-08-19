@@ -656,6 +656,7 @@ void CNSmlDMCmds::DoGenericAlertL ( const TDesC8& aCorrelator, const RArray<CNSm
 
 	TPtr8 targeturi = HBufC8::NewLC ( (*aItemList[i].iTarget).Length())->Des();
 	targeturi.Append ( *aItemList[i].iTarget);	
+	if(targeturi.Compare(KNullDesC8)!=0)
 	DoTargetL ( itemPtr->item->target, targeturi  );
 	CleanupStack::PopAndDestroy();  // targeturi   
 	

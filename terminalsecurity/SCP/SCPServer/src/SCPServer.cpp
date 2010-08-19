@@ -129,7 +129,7 @@ void CSCPServer::ConstructL()
     
     // Assign default config flag
     iConfiguration.iConfigFlag = KSCPConfigUnknown;
-    iConfiguration.iConfigChecked = EFalse;
+    
     
     // Assign the default codes
     iConfiguration.iSecCode.Zero();
@@ -169,7 +169,7 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 //#endif
    
     // Assign the default max timeout
-    iConfiguration.iMaxTimeout = KSCPDefaultMaxTO;
+    iConfiguration.iMaxTimeout = 0;
    	iConfiguration.iBlockedInOOS = 0;
    
     // Read the configuration, overwriting the default values
@@ -186,24 +186,8 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         }
     
     
-    //If Configuration is not validated already, validate it
-    
-    if (!iConfiguration.iConfigChecked)
-        {
-        TInt valerr = KErrNone;
-        TRAP( valerr, ValidateConfigurationL( KSCPComplete ));
-        if (valerr != KErrNone)
-            {
-            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation failed: %d"), valerr ));
-            }
-        else
-            {
-            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation Passed")));
-            }
-        }
-    
-        
-        
+   
+
     Dprint( (_L("CSCPServer::ConstructL(): Connecting to CenRep") ));
     iALPeriodRep = CRepository::NewL( KCRUidSecuritySettings );        
     
@@ -668,155 +652,91 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 //	
 void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
-    Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
-    RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
-    TInt startupReason(ENormalStartup);
-    RProperty::Get(KPSUidStartup, KPSStartupReason, startupReason);
-    Dprint( (_L("CSCPServer::ValidateConfigurationL(): startupReason = %d"), startupReason));
-     if((startupReason == ENormalRFSReset)||(startupReason ==  EDeepRFSReset)||(startupReason == EFirmwareUpdate)||(iConfiguration.iConfigFlag == KSCPConfigUnknown))
-         {
+    if (aMode == KSCPInitial) {
+        // Return here, must be checked by complete mode
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@@aMode == KSCPInitial "));
+        User::Leave(KErrAccessDenied);
+    }
     
-	RMobilePhone::TMobilePassword storedCode;
+    RMobilePhone::TMobilePassword storedCode;
     storedCode.Zero();
     User::LeaveIfError(GetCode(storedCode));
+    TBool isDefaultLockcode = ETrue;
+    TInt err = KErrNone;
     
-    
-	Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
-	// Check that the ISA code is stored correctly
-	TRAPD( err, CheckISACodeL( storedCode ) );
-	 //Bool for the correction of Defaultlockcode cenrep
-    TBool lCorrectDefaultlockcode = EFalse;
-    
-     Dprint( (_L("CSCPServer::ValidateConfigurationL(): iConfigFlag = %d, iConfigChecked = %d"), iConfiguration.iConfigFlag, iConfiguration.iConfigChecked));
-     
-    if ((iConfiguration.iConfigFlag == KSCPConfigOK)
-            && (iConfiguration.iConfigChecked) && (err == KErrNone))
-        {
-        // The configuration has already been checked, exit
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): Configuration is non-default.") ));
-        User::Leave( KErrNone );
+    RMobilePhone::TMobilePassword defaultLockcode;
+    defaultLockcode.Zero();
+    defaultLockcode.Copy(KSCPDefaultSecCode);
+    if (storedCode.Compare(KSCPDefaultSecCode) == 0) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@config has KSCPDefaultSecCode "));
+        TRAP( err, CheckISACodeL( defaultLockcode ) );
+        if (err == KErrNone) {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA also has KSCPDefaultSecCode "));
+            iConfiguration.iConfigFlag = KSCPConfigOK;
+            isDefaultLockcode = ETrue;
         }
-    else if ( aMode == KSCPInitial )
-        {
-        // Return here, must be checked by complete mode
-        User::Leave( KErrAccessDenied );
+        else {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA doesn't has KSCPDefaultSecCode "));
+            iConfiguration.iConfigFlag = KSCPConfigInvalid;
+            iConfiguration.iFailedAttempts++;
+            isDefaultLockcode = EFalse;
         }
-    
-   
-    TInt hashedISAcode;
-    TSCPSecCode hashedCode;
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS    
-if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-{
-	/*TInt*/ hashedISAcode = HashISACode( iConfiguration.iEnhSecCode );
-   // TSCPSecCode hashedCode;
-    hashedCode.Zero();
-    hashedCode.AppendNum( hashedISAcode );
-}
-//#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS    
-            
-    
-    
-   
-    if (err != KErrNone)
-        {
-        lCorrectDefaultlockcode = ETrue;
-        }
-    if ( err == KErrNone ) 
-        {
-        iConfiguration.iConfigFlag = KSCPConfigOK;
-        }
-    else if ( err == KErrAccessDenied )
-        {        
-        iConfiguration.iConfigFlag = KSCPConfigInvalid;
-        }
-    else if ( err == KErrLocked )
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): ISA code locked.") ));
-        }
-    else
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): ERROR in validation.") ));
-        }
-
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS         
-if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-{
-    if ( err == KErrNone )
-        {
-        // Check that the codes are in-sync with each other. Especially the default ISA code must
-        // be changed according to the default enhanced code.        
-        if ( storedCode.Compare( hashedCode ) != 0 )
-            {
-            Dprint( (_L("CSCPServer::ValidateConfigurationL(): Correct ISA code stored.\
-               Changing ISA code to match enhanced code => %d"), hashedISAcode ));
-               
-            storedCode.Copy( hashedCode );
-            // Change the ISA code to match the hashed code
-            ChangeISACodeL( storedCode );
-            }
-        }
-    else if ( ( err == KErrAccessDenied ) && ( storedCode.Compare( hashedCode ) != 0 ) )
-        {
-        // Try again with the hashed code
-        TRAP( err, CheckISACodeL( hashedCode ) );
-        
-        if ( err == KErrNone )
-            {            
-            Dprint( (_L("CSCPServer::ValidateConfigurationL(): Hashed code is correct.\
-               Storing hashed code(%d)"), hashedISAcode ));
-               
-            if ( StoreCode( hashedCode ) == KErrNone )
-                {
-                iConfiguration.iConfigFlag = KSCPConfigOK;
-                lCorrectDefaultlockcode = ETrue;
-                }
-            }        
-        }
-    
-    //If Correction of Defaultlockcode cenrep is required for the mismatch between Config and ISA
-        if (lCorrectDefaultlockcode)
-            {
-            TInt lDefCode = -1;
-            CRepository* lRepository = CRepository::NewL(KCRUidSCPLockCode);
-            CleanupStack::PushL(lRepository);
-            TInt lRet = lRepository->Get(KSCPLockCodeDefaultLockCode,
-                    lDefCode);
-            if (lRet == KErrNone && lDefCode != -1)
-                {
-                if (lDefCode == 12345)
-                    {
-                    //Although lock code is already set, due to some unexpected condition
-                    //like C drive wipe, cenrep status is wrongly shown. Correcting it here.
-                    lRepository->Set(KSCPLockCodeDefaultLockCode, 0);
-                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 0") ));
-                    }
-                else if (lDefCode == 0)
-                    {
-                    //If only ISA side is formatted, then the lock code on ISA side is default; 
-                    //Cenrep status remains wrongly as the lock code is already set. Correcting it here.
-                    lRepository->Set(KSCPLockCodeDefaultLockCode, 12345);
-                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 12345") ));
-                    }
-                }
-            CleanupStack::PopAndDestroy(lRepository);
-            }
-        }
-//#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
-    //Set the flag to True, after config is validated 
-    iConfiguration.iConfigChecked = ETrue;
-    
-    TRAPD( err2, iConfiguration.WriteSetupL() );
-    if ( err2 != KErrNone )
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): WARNING: failed to write configuration\
-            : %d"), err2 ));        
-        } 
-    
-    User::LeaveIfError( err );
-         }
-    Dprint( (_L("<-- CSCPServer::ValidateConfigurationL()") ));
     }
+    else {
+        RDebug::Print(_L("CSCPServer::CheckISACodeL(): config lock code %s"), storedCode.PtrZ());
+        TRAP( err, CheckISACodeL( storedCode ) );
+        if (err == KErrNone) {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA and config are in SYNC !! "));
+            iConfiguration.iConfigFlag = KSCPConfigOK;
+            isDefaultLockcode = EFalse;
+        }
+        else {
+            iConfiguration.iSecCode.Zero();
+            iConfiguration.iSecCode.Append(KSCPDefaultSecCode);
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@May be ISA has KSCPDefaultSecCode "));
+            TRAP(err,ChangeISACodeL(storedCode));
+            if (err == KErrNone) {
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()chnaged ISA code with config value "));
+                iConfiguration.iConfigFlag = KSCPConfigOK;
+                isDefaultLockcode = EFalse;
+            }
+            else
+            {
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()it shouldn't reach this :( "));
+            }
+        }
+    }
+
+    CRepository* repository = CRepository::NewL(KCRUidSCPLockCode);
+    CleanupStack::PushL(repository);
+    if (isDefaultLockcode ) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()setting def. lockcode to 12345 "));
+        repository->Set(KSCPLockCodeDefaultLockCode, 12345);
+    }
+    else {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()setting def. lockcode to 0 "));
+        repository->Set(KSCPLockCodeDefaultLockCode, 0);
+    }
+    CleanupStack::PopAndDestroy(repository);
+    
+    TRAP( err, iConfiguration.WriteSetupL() );
+    if (err != KErrNone) {
+        Dprint( (_L("CSCPServer::ValidateConfigurationL(): WARNING: failed to write configuration\
+                : %d"), err ));
+    }
+
+    if (iConfiguration.iConfigFlag == KSCPConfigOK) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@iConfigFlag == KSCPConfigOK "));
+        err = KErrNone;
+    }
+    else {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@iConfigFlag == KErrAccessDenied "));
+        err = KErrAccessDenied;
+    }
+
+    User::LeaveIfError(err);
+}
+
 
         
     
@@ -837,7 +757,10 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
     (void)aCode;    
 
 #endif // __WINS__
-   
+
+
+Dprint( (_L("CSCPServer::CheckISACodeL(): current lock code %s"), aCode.PtrZ() ));
+RDebug::Print(_L("CSCPServer::CheckISACodeL(): current lock code %s"), aCode.PtrZ());
     RMobilePhone::TMobilePhoneSecurityCode secCodeType;
     secCodeType = RMobilePhone::ESecurityCodePhonePassword;
     
@@ -873,6 +796,7 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
 	         {
 	            	iConfiguration.iBlockedInOOS = 0;
    	            	Dprint( (_L("CSCPServer::CheckISACodeL():iBlockedInOOS = 0, KErrAccessDenied") ));
+   	            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@iBlockedInOOS = 0, KErrAccessDenie"));
 	         }            
             ret = KErrAccessDenied;             
             }
@@ -881,17 +805,20 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
             Dprint( (_L("CSCPServer::CheckISACodeL(): ISA code BLOCKED") ));            
             if (ret==KErrGsmSSPasswordAttemptsViolation)
             {
-            	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrGsmSSPasswordAttemptsViolation") ));            	
+            	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrGsmSSPasswordAttemptsViolation") ));  
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@KErrGsmSSPasswordAttemptsViolation"));
             }
             else
             {
             	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrLocked") ));
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@KErrLocked"));
             }	            
             ret = KErrLocked;
             if (iConfiguration.iBlockedInOOS == 0)
         	 {
             	iConfiguration.iBlockedInOOS = 1;
             	Dprint( (_L("CSCPServer::CheckISACodeL():iBlockedInOOS = 1, KSCPErrCodeBlockStarted") ));
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@@@@"));
             	ret = KSCPErrCodeBlockStarted;	
         	 }
             }            
@@ -899,6 +826,7 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
             {
             Dprint( (_L("CSCPServer::CheckISACodeL(): ERROR reply checking ISA code: %d"),
                 status.Int() ));
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
             }            
         }
         TRAPD( err, iConfiguration.WriteSetupL() );
@@ -1016,6 +944,7 @@ TInt CSCPServer::StoreEnhCode( TDes& aCode, TSCPSecCode* aNewDOSCode /*=NULL*/)
     		TRAP(err, repository = CRepository :: NewL(KCRUidSCPLockCode));
     		
     		if(err == KErrNone) {
+    			RDebug::Print(_L("<-- CSCPServer::StoreEnhCode()  setting KSCPLockCodeDefaultLockCode to 0"));
                 err = repository->Set(KSCPLockCodeDefaultLockCode, 0);
                 delete repository;
     		}
@@ -1351,84 +1280,74 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
     TInt lRetStatus(KErrNone);
     Dprint(_L("[CSCPServer]-> Initiating branching on parameter..."));
     
-    switch ( aID )
-        {
-        case ( ESCPAutolockPeriod ):
-        // Flow through            
-        case ( ESCPMaxAutolockPeriod ):
-            {
+    switch(aID) {
+        case ESCPAutolockPeriod:
+        case ESCPMaxAutolockPeriod: {
             // Convert the value, and set it
             TInt value;
             TLex lex(aValue);
             lRetStatus = lex.Val(value);
-             
 
             if((lRetStatus != KErrNone ) || ( value < 0) || ( value > KSCPAutolockPeriodMaximum )) {
                 lRetStatus = KErrArgument;
                 break;
-                }
+            }
                   
             //Check if the device memory is encrypted or not.
             TBool encryptionEnabled = IsDeviceMemoryEncrypted();
+            CSCPParamDBController* lParamDB = CSCPParamDBController :: NewLC();
             
             // Value OK
-            if(aID == ESCPMaxAutolockPeriod) 
-						{
-						   if (  encryptionEnabled )
-                  {
-                  Dprint(_L("Memory is encrypted"));
-                  if (( 0 == value) || value > KMaxAutolockPeriod)
-                      {
-                      Dprint((_L("Denying setting of max auto lock as value is %d"), value));
-                      User::Leave( KErrPermissionDenied );
-                      }
-                      
-                  }
-                else
-                    {
-                    Dprint(_L("Memory is decrypted, hence no restrictions to max autolock"));
-                    }
+            if(aID == ESCPMaxAutolockPeriod) {
+                if( encryptionEnabled ) {
+                    Dprint(_L("[CSCPServer]-> Memory is encrypted"));
                     
-                Dprint(_L("[CSCPServer]-> Branched to ESCPMaxAutolockPeriod..."));
-                CSCPParamDBController* lParamDB = CSCPParamDBController :: NewLC();
+                    if(( 0 == value) || value > KMaxAutolockPeriod) {
+                        Dprint((_L("[CSCPServer]-> Denying setting of max auto lock as value is %d"), value));
+                        User :: Leave( KErrPermissionDenied );
+                    }
+                }
+                else {
+                    Dprint(_L("Memory is decrypted, hence no restrictions to max autolock"));
+                }
+                    
+                Dprint(_L("[CSCPServer]-> Branched to ESCPMaxAutolockPeriod..."));                
                 lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: EMaxTimeout, aValue, aCallerIdentity, lParamDB);
 
-                if(lRetStatus == KErrNone) 
-								{
+                if(lRetStatus == KErrNone) {
                     // Do we have to change the Autolock period as well?
                     TInt currentALperiod;
                     lRetStatus = GetAutolockPeriodL(currentALperiod);
 
-                    if(lRetStatus == KErrNone) 
-										{
-                        if((iConfiguration.iMaxTimeout > 0) && ((iConfiguration.iMaxTimeout < currentALperiod) || (currentALperiod == 0))) 
-												{
+                    if(lRetStatus == KErrNone) {
+                        if( (iConfiguration.iMaxTimeout > 0) && 
+                            ((iConfiguration.iMaxTimeout < currentALperiod) ||
+                            (currentALperiod == 0))) {
+                        
                            Dprint((_L("[CSCPServer]-> Changing AL period to Max. AL period (Current ALP: %d, Max. ALP: %d)"), currentALperiod, value));
-                           lRetStatus = SetAutolockPeriodL(value);
+                           //lRetStatus = SetAutolockPeriodL(value);                           
+                           /*
+                            * Call to SetBestPolicyL will not check for Stronger/Weaker. The value of ETimeout just gets stored in 
+                            * both the internal DB and the CenRep
+                           */
+                           lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: ETimeout, aValue, aCallerIdentity, lParamDB);
                         }
                     }
-                    else 
-										{
+                    else {
                         Dprint((_L("[CSCPServer]-> ERROR: Couldn't get the Autolock period: %d"), lRetStatus));
                     }
                 }
-
-                CleanupStack :: PopAndDestroy(); //lParamDB
             }
-            
-            else 
-            { // Autolock Period
-            	
-            			//Code is commented as it is already taken care by the below condition #1343 irrespective of the drive encryption state.
-            	     /*  if ( 0 == value )
-                    {
-                    if ( encryptionEnabled )
-                        {
+            // Autolock Period
+            else {
+                //Code is commented as it is already taken care by the below condition #1343 irrespective of the drive encryption state.
+                /*  if ( 0 == value ) {
+                    if(encryptionEnabled) {
                         Dprint(_L("Permission denied!"));
-                        User::Leave( KErrPermissionDenied );
-                        }
-                    }*/
-                    
+                        User :: Leave(KErrPermissionDenied);
+                    }
+                }*/
+
                 Dprint(_L("[CSCPServer]-> Branched to ESCPAutolockPeriod..."));
                 //  Check if this value is not allowed by the Max. Autolock period
                 if ((iConfiguration.iMaxTimeout > 0) && ((iConfiguration.iMaxTimeout < value) || (value == 0))) {
@@ -1437,13 +1356,20 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
                     lRetStatus = KErrArgument;
                 }
                 else {
-                    lRetStatus = SetAutolockPeriodL(value);
+                    //lRetStatus = SetAutolockPeriodL(value);
+                    /*
+                     * Call to SetBestPolicyL will not check for Stronger/Weaker. The value of ETimeout just gets stored in 
+                     * both the internal DB and the CenRep
+                    */
+                    lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: ETimeout, aValue, aCallerIdentity, lParamDB);
 
                     if(lRetStatus != KErrNone) {
                         Dprint((_L("[CSCPServer]-> ERROR: Couldn't set the Autolock period: %d"), lRetStatus));
                     }
                 }
             }
+            
+            CleanupStack :: PopAndDestroy(); //lParamDB
         }
         break;
         case ESCPCodeChangePolicy:
@@ -2083,13 +2009,13 @@ void CSCPServer::SendInvalidDOSCode( RMobilePhone::TMobilePassword& aCodeToSend 
 //  
 TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
     {
-    
+    Dprint( (_L("CSCPServer::IsCorrectEnhCode(): ") ));
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
     {
     	return KErrNotSupported;
     }
     TInt ret = KErrAccessDenied;
-    
+   
     // Hash the code
     TBuf<KSCPMaxHashLength> hashBuf;
     hashBuf.Zero();
@@ -2104,14 +2030,17 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
     TBool enhancedCodeMatches = EFalse;
     if ( hashBuf.Compare( iConfiguration.iEnhSecCode ) == 0 )
         {
+        	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): enh code matches.") ));
         enhancedCodeMatches = ETrue;
         }
         
     // Check if the code is blocked (don't check if we're out-of-sync)
     if ( ( iConfiguration.iConfigFlag == KSCPConfigOK ) && ( IsCodeBlocked() ) )
         {
+        	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 1") ));
         if ( aFlags & KSCPEtelRequest )
             {
+            	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 2") ));
             // Check if the code is correct
             if ( enhancedCodeMatches )
                 {
@@ -2125,6 +2054,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
             else 
                 {
                 // OK, the code is already invalid
+                Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 3") ));
                 SendInvalidDOSCode( pswCandidate );
                 }
             }
@@ -2137,6 +2067,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
         {
         // Normal situation: we have the correct code stored.
         // Compare the hashes (hashing error will result in EFalse )
+        Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 4") ));
         if ( enhancedCodeMatches )
             {
             ret = KErrNone;
@@ -2144,6 +2075,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
             if ( aFlags & KSCPEtelRequest )
                 {
                 // Send the correct code to DOS side
+                Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 5") ));
                 TRAP( ret, CheckISACodeL( pswCandidate ) );
                 }  
                 
@@ -2152,7 +2084,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
                 if ( iConfiguration.iFailedAttempts > 0 )
                     {
                     iConfiguration.iFailedAttempts = 0;  
-                    Dprint( (_L("CSCPServer::IsCorrectEnhCode():KErrAccessDenied: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
+                    Dprint( (_L("CSCPServer::IsCorrectEnhCode():: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
                     writeSetup = ETrue;
                     }                
                 }
@@ -2167,11 +2099,12 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
             ret = KErrAccessDenied;
             
             iConfiguration.iFailedAttempts++;
-            Dprint( (_L("CSCPServer::IsCorrectEnhCode():KErrAccessDenied: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
+            Dprint( (_L("CSCPServer::IsCorrectEnhCode():@@@: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
             writeSetup = ETrue;
             
             if ( iConfiguration.iFailedAttempts == KSCPCodeBlockLimit )
                 {
+                	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): KSCPCodeBlockLimit  ") ));
                 // Block the code
                 TTime curTime;
                 curTime.UniversalTime();
@@ -2192,63 +2125,60 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
     else 
         {
         // iConfiguration.iConfigFlag == KSCPConfigInvalid or KSCPConfigUnknown
-        
+
         // We might be out-of-sync, no idea about the real code.
         // Check if the DOS code hashed from the given code is correct.
         Dprint( (_L("CSCPServer::IsCorrectEnhCode(): Attempting to correct OoS situation.") ));
-                
+        if (IsCodeBlocked()) {
+            Dprint( (_L("CSCPServer::IsCorrectEnhCode(): OOS ->KErrLocked  ") ));
+            return KErrLocked;
+        }
         TRAP( ret, CheckISACodeL( pswCandidate ) );
 
-        if ( ret == KErrNone )
-            {
+        if (ret == KErrNone) {
             // OK, we must assume that this is the correct code, since
             // the hashed DOS code is correct. Save the codes, and return OK.
 
             Dprint( (_L("CSCPServer::IsCorrectEnhCode(): Given code has the correct hash (%d)\
                 , saving codes."), ISACode ));
-                
+
             iConfiguration.iEnhSecCode.Zero();
-            iConfiguration.iEnhSecCode.Copy( hashBuf );
+            iConfiguration.iEnhSecCode.Copy(hashBuf);
 
             iConfiguration.iSecCode.Zero();
-            iConfiguration.iSecCode.AppendNum( ISACode );
-            
+            iConfiguration.iSecCode.AppendNum(ISACode);
+
             // Unset the invalid configuration flag
             iConfiguration.iConfigFlag = KSCPConfigOK;
             writeSetup = ETrue;
-            }
-        else
-            {
-				
-            Dprint( (_L("CSCPServer::IsCorrectEnhCode(): Given code does not have the \
-                correct hash: ret; %d user enter password: %d"), ret ));
-			TRAP( ret, CheckISACodeL( aCode ) );
-			if (ret == KErrNone)
-			{
-				//store this code in our interal storage as it is used as oldpassword while changing at ISA side in next command
-				//ChangeISACodeL. 
-				iConfiguration.iSecCode.Zero();
-				iConfiguration.iSecCode.Append( aCode );
-				TRAP(ret,ChangeISACodeL(pswCandidate));
-			}
-			if (ret == KErrNone)
-			{
-			iConfiguration.iEnhSecCode.Zero();
-            iConfiguration.iEnhSecCode.Copy( hashBuf );
+        }
+        else {
+            ret = KErrAccessDenied;
 
-            iConfiguration.iSecCode.Zero();
-            iConfiguration.iSecCode.AppendNum( ISACode );
-            
-            // Unset the invalid configuration flag
-            iConfiguration.iConfigFlag = KSCPConfigOK;
+            iConfiguration.iFailedAttempts++;
+            Dprint( (_L("CSCPServer::IsCorrectEnhCode():@@@: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
             writeSetup = ETrue;
-			}
+
+            if (iConfiguration.iFailedAttempts == KSCPCodeBlockLimit) {
+                Dprint( (_L("CSCPServer::IsCorrectEnhCode(): KSCPCodeBlockLimit  ") ));
+                // Block the code
+                TTime curTime;
+                curTime.UniversalTime();
+
+                iConfiguration.iBlockedAtTime.Zero();
+                iConfiguration.iBlockedAtTime.AppendNum(curTime.Int64());
+
+                // The code will be blocked for now on
+                ret = KSCPErrCodeBlockStarted;
             }
         }
+
+    }
     
     // Write setup if needed
     if ( writeSetup )
         {
+        	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 7  ") ));
         TRAPD( err, iConfiguration.WriteSetupL() );
         if ( err != KErrNone )
             {
@@ -2667,9 +2597,10 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     TBool lFirstTime(EFalse);
     TInt32 lNumValue (-1);
     TInt32 lNumValDB (-1);
-    TInt32 lRetStatus = KErrNone;
+    TInt lRetStatus = KErrNone;
 
     switch(aID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -2711,6 +2642,9 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     else {
         // Fetch the previous value of the parameter from the private database
         switch(aID) {
+            case RTerminalControl3rdPartySession :: ETimeout:
+                // No need to fetch previous value for ETimeout since Stronger/Weaker check is not required for it.
+                break;
             case RTerminalControl3rdPartySession :: EMaxTimeout:
             case RTerminalControl3rdPartySession :: EPasscodeMinLength:
             case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -2779,6 +2713,12 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
 
         // Decision code that verifies if policy is strongest
         switch(aID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
+            /* 
+             * No need to check stronger/weaker for ETimeout. The value just has to be maintained in both
+             * DB and the CenRep
+            */
+            break;
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMaxRepeatedCharacters:
         case RTerminalControl3rdPartySession :: EPasscodeExpiration:
@@ -2832,11 +2772,17 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     */
     if (lRetStatus == KErrNone) {
         switch (aID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
+            lRetStatus = SetAutolockPeriodL(TInt(lNumValue));
+            Dprint(_L("[CSCPServer]-> After setting ETimeout lRetStatus = %d "), lRetStatus);
+            break;
+			
         case RTerminalControl3rdPartySession :: EMaxTimeout:
             iConfiguration.iMaxTimeout = lNumValue;
             lRetStatus = iConfiguration.WriteSetupL();
             Dprint(_L("[CSCPServer]-> After setting EMaxTimeout lRetStatus = %d "), lRetStatus);
             break;
+			
         default:
             TUint16* ptr = const_cast<TUint16*>(aValue.Ptr());
             TPtr valBuf(ptr, aValue.Length(), aValue.Length());
@@ -2931,14 +2877,31 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                 Dprint(_L("[CSCPServer]-> Old Index of EPasscodeHistoryBuffer=%d"), lHistBuffIndex);
                 Dprint(_L("[CSCPServer]-> Old Index of EPasscodeMinChangeTolerance=%d"), lMinTolIndex);
             }
+			
+            /*
+             * If both ETimeout and EMaxTimeout are marked for cleanup then interchange the cleanup order of 
+             * ETimeout and EMaxTimeout since AutoLock (ETimeout) cannot be disabled
+             * if MaxAutolock (EMaxTimeout) is still enabled
+             */
+            if( lParamIds[0] == RTerminalControl3rdPartySession :: ETimeout &&
+                lParamIds[1] == RTerminalControl3rdPartySession :: EMaxTimeout) {
+            
+                lParamIds[0] = RTerminalControl3rdPartySession :: EMaxTimeout;
+                lParamIds[1] = RTerminalControl3rdPartySession :: ETimeout;
+            }
        	}
 
         for(TInt j=0; j < lCount; j++) {
             TInt lCurrParamID = lParamIds[j];            
             lDefValueBuf->Des().Zero();
             lDefValueBuf->Des().Format(_L("%d "), 0);
+			
             // Initialize the default values here...
             switch(lCurrParamID) {
+                case RTerminalControl3rdPartySession :: ETimeout:
+                    // lDefValueBuf already has the default value, 0 initialized...
+                    lCurrParamID = ESCPAutolockPeriod;
+                    break;
                 case RTerminalControl3rdPartySession :: EMaxTimeout:
                     // lDefValueBuf already has the default value, 0 initialized...
                     lCurrParamID = ESCPMaxAutolockPeriod;
@@ -2967,6 +2930,7 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                         
                         for(TInt k=0; k < lDesCount; k++) {
                             TRAP(lStatus, lStatus = SetParameterValueL(lCurrParamID, lDesArr[k]->Des(), lAppID));
+							
                             if(KErrNone != lStatus) {
                                 Dprint(_L("[CSCPServer]-> ERROR: Unable to cleanup parameter %d error %d"), lParamIds[j], lStatus);
                                 lSubOpsFailed = ETrue;
@@ -2980,6 +2944,40 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                     CleanupStack :: PopAndDestroy(1); // lDesArray
                 }
                 break;
+				
+                case ESCPAutolockPeriod: {
+                    TInt32 lParamValueDB(0);
+                    TInt lParamValueCenRep(0);
+                    TInt32 lCurrParamOwner(0);
+					
+                    lStatus = lParamDB->GetValueL(RTerminalControl3rdPartySession :: ETimeout, lParamValueDB, lCurrParamOwner);
+					
+                    if(lStatus != KErrNone) {
+                        Dprint(_L("[CSCPServer]-> ERROR: Unable to get current value of ETimeout from DB..."));
+                        lSubOpsFailed = ETrue;
+                        break;
+                    }
+					
+                    lStatus = GetAutolockPeriodL(lParamValueCenRep);
+					
+                    if(lStatus != KErrNone) {
+                        Dprint(_L("[CSCPServer]-> ERROR: Unable to get current value of ETimeout from CenRep..."));
+                        lSubOpsFailed = ETrue;
+                        break;
+                    }
+                    
+                    /*
+                     *  It is possible that AutoLock set from UI is different. In that case internal DB and CenRep 
+                     *  are not in sync. Compare the two values and if they are same assume that the values are in sync.
+                     *  Limitation is that if the user sets the AutoLock with the same value as set by the current app then
+                     *  AutoLock will get disabled.
+                     *  
+                    */
+                    if(lParamValueCenRep != lParamValueDB) {
+                        break;
+                    }
+                }
+				
                 default: {
                     iOverrideForCleanup = ETrue;
                     TRAP(lStatus, lStatus = SetParameterValueL(lCurrParamID, lDefValueBuf->Des(), lAppID));
@@ -2996,7 +2994,8 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                         aParamValArray.AppendL(lTmpBuffer);
                     }
                 }
-            }
+                break;
+            };
             
             if(KErrNone != lStatus) {
                 Dprint(_L("[CSCPServer]-> ERROR: Unable to cleanup parameter %d error %d"), lParamIds[j], lStatus);

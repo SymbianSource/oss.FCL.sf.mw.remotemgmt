@@ -269,6 +269,7 @@ class RSCPClient : public RSessionBase
         * Fetch the limit-values for code length
         */          
         void FetchLimits( TInt& aMin, TInt& aMax );
+		void InformAutolockTask();
         TBool isFlagEnabled;        
     };
 

@@ -153,38 +153,43 @@ void CSyncMLTimedInputTextQuery::DismissQueryL()
 // CSyncMLTimedInputTextQuery::HandleQueryEditorStateEventL
 // -----------------------------------------------------------------------------
 //
-TBool CSyncMLTimedInputTextQuery::HandleQueryEditorStateEventL(CAknQueryControl* aQueryControl, TQueryControlEvent aEventType, TQueryValidationStatus aStatus)
+TBool CSyncMLTimedInputTextQuery::HandleQueryEditorStateEventL( 
+        CAknQueryControl* aQueryControl, TQueryControlEvent aEventType, 
+        TQueryValidationStatus aStatus )
 	{
- 	if ( aQueryControl )
-  {
- 		if( EPhoneLayout == aQueryControl->QueryType() )
- 	 	{
-			if (aEventType == EEmergencyCallAttempted)
-        	{
-        	TryExitL(EEikBidCancel);
-        	}
-    	else
-        	{
-        	
-         	TBuf<KSyncMLMaxDefaultResponseMsgLength> PhoneNo;
-         	aQueryControl->GetText( PhoneNo );
-         	TInt posplus = PhoneNo.LocateReverse('+');
-          	if(posplus==0 || posplus==KErrNotFound )
-           	{
-           	CAknQueryDialog::HandleQueryEditorStateEventL(aQueryControl,aEventType,aStatus);	
-           	}
-          	else
-           	{      
-          	MakeLeftSoftkeyVisible(EFalse);
-           	}
-         	}  
-  	 }
-  }
- 	else //For all other layouts 
- 	 {
- 	CAknQueryDialog::HandleQueryEditorStateEventL(aQueryControl,aEventType,aStatus);	
- 	 }
-	return EFalse;
-	}
+    if (aQueryControl)
+        {
+        if (EPhoneLayout == aQueryControl->QueryType())
+            {
+            if (aEventType == EEmergencyCallAttempted)
+                {
+                TryExitL(EEikBidCancel);
+                }
+            else
+                {
+
+                TBuf<KSyncMLMaxDefaultResponseMsgLength> PhoneNo;
+                aQueryControl->GetText(PhoneNo);
+                TInt posplus = PhoneNo.LocateReverse('+');
+                if (posplus == 0 || posplus == KErrNotFound)
+                    {
+                    CAknQueryDialog::HandleQueryEditorStateEventL(
+                            aQueryControl, aEventType, aStatus);
+                    }
+                else
+                    {
+                    MakeLeftSoftkeyVisible(EFalse);
+                    }
+                }
+            }
+
+        else //For all other layouts 
+            {
+            CAknQueryDialog::HandleQueryEditorStateEventL(aQueryControl,
+                    aEventType, aStatus);
+            }
+        }
+    return EFalse;
+    }
 
 //  End of File  

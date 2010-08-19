@@ -1553,20 +1553,26 @@ TInt CSCPSession :: NotifyAllStakeHoldersL(const RArray<const TParamChange>& aCh
     Dprint(_L("[CSCPSession]-> NotifyAllStakeHoldersL() <<<"));
     return KErrNone;
 }
+
 TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
+    Dprint((_L("[CSCPSession]-> HandleCleanupL() >>>")));
+	
+    if( (aMessage.SecureId().iId != KSCPServerSIDTerminalControl) && 
+        (aMessage.SecureId().iId != KSCPEvntHndlrUid)) {
+		
+        Dprint((_L("[CSCPSession]-> ERROR: caller app id=%ld. Permission denied..."), aMessage.SecureId().iId));
+        User :: Leave(KErrPermissionDenied);
+    }
+	
     // Copy the client data into a local buffer
     TInt32 lCount = aMessage.GetDesLength(1);
-    
-/*    // If the caller is not SCPEventHandler the deny access
-    if(aMessage.SecureId() != KSCPEvntHndlrUid) {
-        return KErrPermissionDenied;
-    }*/
     
     // Atleast one application id has to be present in the received message (atleast 8 bytes)
     if(lCount < sizeof(TInt32)) {
         return KErrArgument;
     }
     
+    TInt lStatus = KErrNone;
     RArray<const TParamChange> lChangeArray;
     CleanupClosePushL(lChangeArray);
     
@@ -1575,9 +1581,7 @@ TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
     
     HBufC8* lBuffer = HBufC8 :: NewLC(lCount);
     TPtr8 bufPtr = lBuffer->Des();
-    aMessage.ReadL(1, bufPtr);
-    
-    TInt lStatus = KErrNone;
+    aMessage.ReadL(1, bufPtr);    
     
     TRAPD(lErr, lStatus = iServer.PerformCleanupL(lBuffer, lChangeArray, lParamValArray));
     
@@ -1601,8 +1605,10 @@ TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
     
     lParamValArray.ResetAndDestroy();
     CleanupStack :: PopAndDestroy(3); // lParamIDArray lParamValArray lBuffer    
+    Dprint((_L("[CSCPSession]-> HandleCleanupL() <<<")));
     return lStatus;
 }
+
 TInt CSCPSession :: HandleSetALPeriodL( const RMessage2& aMessage ) {
     Dprint((_L("[CSCPSession]-> HandleSetParamMessageL() >>>")));
     TBool oldALState = EFalse;

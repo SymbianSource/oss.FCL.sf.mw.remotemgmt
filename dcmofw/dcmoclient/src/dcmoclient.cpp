@@ -87,7 +87,7 @@ EXPORT_C RDCMOClient* RDCMOClient::NewL()
 // Destructor.
 // -----------------------------------------------------------------------------
 //
-RDCMOClient::~RDCMOClient()
+EXPORT_C RDCMOClient::~RDCMOClient()
 {
     Close();
 }	
@@ -95,7 +95,7 @@ RDCMOClient::~RDCMOClient()
 // ---------------------------------------------------------------------------
 // RDCMOClient::OpenL()
 // ---------------------------------------------------------------------------
-TInt RDCMOClient::OpenL()
+EXPORT_C TInt RDCMOClient::OpenL()
 	{	
 	RDEBUG("RDCMOClient::OpenL()- Begin");
 	TInt res = KErrNone;	
@@ -115,7 +115,7 @@ TInt RDCMOClient::OpenL()
 // ---------------------------------------------------------------------------
 // RDCMOClient::Close()
 // ---------------------------------------------------------------------------
-void RDCMOClient::Close()
+EXPORT_C void RDCMOClient::Close()
 	{
 	RDEBUG(" RDCMOClient::Close");
 	RSessionBase::Close();  //basecall
@@ -125,7 +125,7 @@ void RDCMOClient::Close()
 // ----------------------------------------------------------------------------
 // RDCMOClient::GetDCMOIntAttributeValue()
 // ----------------------------------------------------------------------------	
-TDCMOStatus RDCMOClient::GetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt& aValue)
+EXPORT_C TDCMOStatus RDCMOClient::GetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt& aValue)
 	{		
     RDEBUG(" RDCMOClient::GetDCMOIntAttributeValue--Begin");
 	TPckg<TDCMONode> p(aId);
@@ -142,7 +142,7 @@ TDCMOStatus RDCMOClient::GetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId
 // ----------------------------------------------------------------------------
 // RDCMOClient::GetDCMOStrAttributeValue()
 // ----------------------------------------------------------------------------	
-TDCMOStatus RDCMOClient::GetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue)
+EXPORT_C TDCMOStatus RDCMOClient::GetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue)
 	{		
 	RDEBUG(" RDCMOClient::GetDCMOStrAttributeValue--Begin");
 	TPckg<TDCMONode> p(aId);
@@ -158,7 +158,7 @@ TDCMOStatus RDCMOClient::GetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId
 // ----------------------------------------------------------------------------
 // RDCMOClient::SetDCMOIntAttributeValue()
 // ----------------------------------------------------------------------------	
-TDCMOStatus RDCMOClient::SetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt aValue)
+EXPORT_C TDCMOStatus RDCMOClient::SetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt aValue)
 	{		
 	RDEBUG(" RDCMOClient::SetDCMOIntAttributeValue--Begin");
 	TPckg<TDCMONode> p(aId);
@@ -175,7 +175,7 @@ TDCMOStatus RDCMOClient::SetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId
 // ----------------------------------------------------------------------------
 // RDCMOClient::SetDCMOStrAttributeValue()
 // ----------------------------------------------------------------------------	
-TDCMOStatus RDCMOClient::SetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue)
+EXPORT_C TDCMOStatus RDCMOClient::SetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue)
 	{		
 	RDEBUG(" RDCMOClient::SetDCMOStrAttributeValue--Begin");
 	TPckg<TDCMONode> p(aId);
@@ -191,7 +191,7 @@ TDCMOStatus RDCMOClient::SetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId
 // ----------------------------------------------------------------------------
 // RDCMOClient::SearchByGroupValue()
 // ----------------------------------------------------------------------------	
-void RDCMOClient::SearchByGroupValue(TDes& aGroup, TDes& aAdapterList)
+EXPORT_C void RDCMOClient::SearchByGroupValue(TDes& aGroup, TDes& aAdapterList)
 	{		
 	RDEBUG(" RDCMOClient::SearchByGroupValue--Begin");
 	TInt err = SendReceive( EDcmoSearchAdapter, TIpcArgs(&aGroup, &aAdapterList));

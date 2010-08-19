@@ -166,6 +166,15 @@ const TUint32 KDMDisclaimerAccepted = 0x00000011;
 */
 const TUint32 KNSmlDMSCOMOTargetRef = 0x00000012;
 
+const TUint32 KLAWMOPhoneLock = 0x00000013;
+
+const TUint32 KLAWMOfactoryDmProfileID = 0x00000014;
+
+const TUint32 KMaxFactoryDMProfileId = 0x00000015;
+
+const TUint32 KLAWMOfactoryDmServerName = 0x00000016;
+
+const TUint32 KLAWMOfactoryDmServerID = 0x00000017;
 
 #endif // SYNCML_DEVMAN_INTERNAL_CR_KEYS_H
 

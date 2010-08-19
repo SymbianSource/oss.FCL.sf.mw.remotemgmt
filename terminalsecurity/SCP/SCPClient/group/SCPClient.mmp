@@ -66,6 +66,7 @@ LIBRARY         featmgr.lib
 LIBRARY     centralrepository.lib  // CenRep
 LIBRARY					aknnotify.lib
 LIBRARY 		estor.lib
+LIBRARY     apgrfx.lib 
 
 SMPSAFE
 

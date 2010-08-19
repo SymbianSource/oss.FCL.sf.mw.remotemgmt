@@ -24,3 +24,4 @@ PRJ_MMPFILES
 #include "../dcmoclient/group/bld.inf"
 #include "../dcmoserver/group/bld.inf"
 #include "../dcmocustcmd/group/bld.inf"
+#include "../lawmoclient/group/bld.inf"

@@ -136,7 +136,7 @@ const CPolicyServer::TPolicyElement SCPPolicyElements[]=
         // Only Autolock allowed for the Check configuration call
         },
         {
-        _INIT_SECURITY_POLICY_S0( KSCPEvntHndlrUid ),
+        _INIT_SECURITY_POLICY_C1( ECapability_None ),
             CPolicyServer::EFailClient
         },
         {

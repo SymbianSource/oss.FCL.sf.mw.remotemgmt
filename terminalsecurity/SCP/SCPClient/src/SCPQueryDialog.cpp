@@ -33,6 +33,7 @@
 #include <e32property.h>
 #include <ctsydomainpskeys.h>
 #include "SCPCodePrivateCRKeys.h"
+#include <DevManInternalCRKeys.h>
 #include <featmgr.h>
 
 /*#ifdef _DEBUG
@@ -50,7 +51,7 @@
 #endif // _DEBUG*/
 
 const TInt KSCPSpecialDeleteEvent( 63529 );
-
+const TInt KLockedbyLawmo (30);
 // ================= MEMBER FUNCTIONS =======================
 //
 // ----------------------------------------------------------
@@ -77,6 +78,7 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
 			  iPreviousCharacterWasInvalid( EFalse ),
 			  iPrioritySet( EFalse ),
 			  iPriorityDropped( EFalse ),
+			  iLockedByLawMo( EFalse ),
 			  iKeyUsed ( NULL ),
 			  iContextSensitive(aContextSensitive)
 	{
@@ -336,6 +338,28 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
 	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
 
 	iFront = ETrue;
+    TInt currentLawmoState(0); 
+    Dprint( (_L("CSCPQueryDialog::lawmo cenrep") ));
+    CRepository* crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
+    TInt reterr = crep->Get( KLAWMOPhoneLock, currentLawmoState ); 
+    Dprint( (_L("CSCPQueryDialog::lawmo cenrep done") ));
+
+    if(reterr != KErrNone) 
+        {
+        Dprint(_L("[RSCPClient]-> ERROR: Unable to perform get on CenRep lawmo, lErr=%d"), reterr);
+        CleanupStack :: PopAndDestroy(crep);
+        return;
+        }
+    
+    if(currentLawmoState!=KLockedbyLawmo)
+        {
+        // Hide the OK key
+        Dprint( (_L("CSCPQueryDialog::lawmo state !=30, dim key") ));
+        iLockedByLawMo = ETrue;
+        ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
+        ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
+        }	
+	CleanupStack::PopAndDestroy();
 }
 //
 // ---------------------------------------------------------
@@ -630,6 +654,11 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
                         ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
                         }
                     TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0,EAknSoftkeyOk,*cbaLabel) );
+	                if(iLockedByLawMo)
+	                {
+	                ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
+	                ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
+	                }
                     ButtonGroupContainer().DrawDeferred();
                     delete cbaLabel;
                     }
@@ -647,6 +676,13 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
     else
         {
         return CAknTextQueryDialog::OfferKeyEventL(aKeyEvent,aType);
+        }  
+    
+    if(iLockedByLawMo)
+	    {
+	    Dprint( (_L("dim key hit 2") ));
+	    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
+	    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
         }    
 	}
 //
@@ -765,6 +801,11 @@ void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector,
 							ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
 						}
                 	TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0, EAknSoftkeyOk, *cbaLabel) );
+                    if(iLockedByLawMo)
+                    {
+                    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
+                    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
+                    }
                 	ButtonGroupContainer().DrawDeferred();
                 	delete cbaLabel;
                 }
@@ -799,7 +840,7 @@ void CSCPQueryDialog :: SetIncallBubbleAllowedInUsualL(TBool aAllowed) {
 }
 	
 void CSCPQueryDialog::TryCancelQueryL(TInt aReason) {
-    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL()")) );
+    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL() >>>")) );
     
     switch(aReason) {
         case CSCPLockObserver :: EEnded:
@@ -828,8 +869,14 @@ void CSCPQueryDialog::TryCancelQueryL(TInt aReason) {
             Dprint(_L("[CSCPQueryDialog]-> TryExitL 4"));
             TryExitL(EAknSoftkeyCancel);
             break;
+        case ESecUiNone:
+            Dprint(_L("[CSCPQueryDialog]-> TryExitL 5"));
+            TryExitL(EAknSoftkeyOk);
+            break;
         default:
             break;
     }
+	
+    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL() <<<")) );
 }
 // End of file

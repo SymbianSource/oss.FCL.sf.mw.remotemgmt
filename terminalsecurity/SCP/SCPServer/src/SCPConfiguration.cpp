@@ -155,12 +155,6 @@ TInt TSCPConfiguration::ReadSetupL()
                break;
                } 
                
-        case ( EParTypeBool ):
-               { 
-               ret = params->Get( KParamIDs[i], *(reinterpret_cast<TBool*>( KParameters[i] )) );
-               break;
-               }        
-               
            default:               
                 // No implementation needed           
                 break;
@@ -301,13 +295,7 @@ TInt TSCPConfiguration::WriteSetupL()
                ret = params->Set( KParamIDs[i], *(reinterpret_cast<TDes*>( KParameters[i] )) );
                break;
                } 
-               
-               case ( EParTypeBool ):
-               { 
-               ret = params->Set( KParamIDs[i], *(reinterpret_cast<TBool*>( KParameters[i] )) );
-               break;
-               } 
-               
+      
            default:               
                 // No implementation needed           
                 break;

@@ -121,6 +121,11 @@ namespace SyncMLError
 
     const TInt KErrGeneral                              = KErrSyncEngineErrorBase - 94;
 
+    /* Implementation of CMCC PIM v3 begins*/
+    /** Server is full - CMCC PIM v3 specific*/
+    const TInt KErrServerFull                           = KErrSyncEngineErrorBase - 95;
+    /* Implementation of CMCC PIM v3 ends*/
+    
 	/** Base value for push message parser-related errors. */
 	const TInt KErrPushMessageParserErrorBase					= -8451;		// 8451 - 8480
 	/** Push message is too short. */

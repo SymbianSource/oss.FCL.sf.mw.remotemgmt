@@ -137,6 +137,7 @@ class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
         TInt iKeyUsed;
         CSCPLockObserver* iDeviceLockStatusObserver;
 		CSCPLockObserver* iCallStatusObserver;
+		TBool iLockedByLawMo;
 	};
 #endif
 

@@ -168,16 +168,6 @@ void CSyncMLDlgNotifier::GetParamsL( const TDesC8& aBuffer,
         {
         User::Leave( KErrInUse );
         }
-    
-    if ( AutoLockOnL() )
-        {
-        // The phone is locked, access denied.
-        // Write results back to caller and complete message.
-        aMessage.Complete( KErrLocked );
-        iNeedToCompleteMessage = EFalse;
-        return;
-        }
-
     iMessage = aMessage;
     iNeedToCompleteMessage = ETrue;
     iReplySlot = aReplySlot;

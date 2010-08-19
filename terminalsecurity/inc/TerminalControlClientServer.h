@@ -97,6 +97,7 @@ enum TTerminalControlMessages
 	E3rdPartySetterGet,
 	E3rdPartySetterGetSize,
 	E3rdPartySetterSet,
+	E3rdPartySetterReset
 	};
 
 #endif// __TERMINALCONTROLCLIENTSERVER_H__

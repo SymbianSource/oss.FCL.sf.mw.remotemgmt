@@ -147,7 +147,9 @@ void CNSmlThreadEngine::ConstructL()
 		FeatureManager::InitializeLibL();
 	iThreadParams.iThreadEngine = this;
 	iContentArray = new(ELeave) CArrayFixFlat<TNSmlContentSpecificSyncType>(1);
-	
+	// Fix for cancel not happening when cancel key is
+	// pressed .
+	iSyncCancelled = EFalse;
 	if ( iThreadParams.iCSArray )
 		{
 		for (TInt i = 0; i < iThreadParams.iCSArray->Count(); i++)
@@ -337,11 +339,63 @@ void CNSmlThreadEngine::StartJobSessionL()
 	TInt status( KErrNone );			
 	if ( iThreadParams.iCurrentJob.UsageType() == ESmlDevMan )
 		{
+		CRepository* centrep = NULL;
+		TRAPD( err, centrep = CRepository::NewL(KCRUidDeviceManagementInternalKeys));  
+		TInt phoneLock(0);
+		TInt factoryProfileID(0);
+		if (err==KErrNone ) 
+		{
+			TInt err = centrep->Get( KLAWMOPhoneLock , phoneLock );
+			err = centrep->Get( KLAWMOfactoryDmProfileID , factoryProfileID );
+			delete centrep;
+			centrep = NULL;
+		}
+		if(phoneLock != 30)
+		{
+			_DBG_FILE("CNSmlThreadEngine phonelock != 30");
+			if(factoryProfileID>0)   
+			{   
+
+				TInt profileId = iThreadParams.iCurrentJob.ProfileId();    
+	
+				if(profileId!= factoryProfileID) 
+					{
+					   _DBG_FILE("CNSmlThreadEngine profid doesnt match with factory");
+					   TRequestStatus* stat = &iStatus;
+					   User::RequestComplete( stat, KErrNone );
+					   return;
+					}   
+			
+			}
+			else
+				{
+				    _DBG_FILE("CNSmlThreadEngine factoryprofileid<0");
+				    TRequestStatus* stat = &iStatus;
+					User::RequestComplete( stat, KErrNone );
+					return;	
+				}
+		}
+		_DBG_FILE("CNSmlThreadEngine startDMSessionL");
 		TRAP( status, StartDMSessionL() );
 		}
 	else
 		{
-		TRAP( status, StartDSSessionL() );	
+		// Scenario 1:
+		// Fix for cancel not happening when cancel key is
+		// pressed .
+        if(!iSyncCancelled)
+            {
+            TRAP( status, StartDSSessionL() );	
+            }
+        else
+            {
+			// Sync is cancelled from the UI before the
+			// the job session has started.
+			// Fix for cancel not happening when cancel key is
+			// pressed .
+            status = KErrCancel;
+            iSyncCancelled = EFalse;
+            }
 		}
 	
 	if ( status != KErrNone )
@@ -359,6 +413,11 @@ void CNSmlThreadEngine::StartJobSessionL()
 //
 void CNSmlThreadEngine::CancelJob()
 	{
+	// Fix for cancel not happening when cancel key is
+	// pressed .
+    // job has been created but it is not running and from ui
+    // Cancel has been called
+    iSyncCancelled = ETrue;
 	if ( iCancelTimeout )
 	    {
 		iCancelTimeout->SetJobCancelled( iThreadParams.iCurrentJob.UsageType() );
@@ -409,7 +468,15 @@ void CNSmlThreadEngine::StartDSSessionL()
 	
 	// Select correct sync method and start sync
 	TNSmlSyncInitiation syncInit = (TNSmlSyncInitiation)iThreadParams.iSyncInit;
-	
+	// Scenario 2:
+	// Fix for cancel not happening when cancel key is
+	// pressed .
+	if(iSyncCancelled)
+	    {
+	    iSyncCancelled = EFalse;
+        User::Leave( KErrCancel );
+	    }
+
     switch ( iThreadParams.iCurrentJob.JobType() )
         {
         case EDSJobProfile:

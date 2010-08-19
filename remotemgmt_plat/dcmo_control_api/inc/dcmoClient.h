@@ -37,20 +37,20 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param None
 		 * @return KErrNone Symbian error code
 		 */
-		TInt OpenL();
+		IMPORT_C TInt OpenL();
 		
 		/**
 		 * Close server connection
 		 * @param None
 		 * @return None
 		 */
-		void Close();
+		IMPORT_C void Close();
 		
 		/**
      * ~RDCMOClient.
      * Virtual Destructor.
      */
-    virtual ~RDCMOClient();
+    IMPORT_C virtual ~RDCMOClient();
     
 		/**
 		 * Get the interger type value
@@ -60,7 +60,7 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param aValue
 		 * @return TDCMOStatus 
 		 */
-		 TDCMOStatus GetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt& aValue);
+		 IMPORT_C TDCMOStatus GetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt& aValue);
 		 
 		 /**
 		 * Get the string type value
@@ -70,7 +70,7 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param aStrValue
 		 * @return TDCMOStatus
 		 */
-		 TDCMOStatus GetDCMOStrAttributeValue (TDes& aCategory, TDCMONode aId, TDes& aStrValue);
+		 IMPORT_C TDCMOStatus GetDCMOStrAttributeValue (TDes& aCategory, TDCMONode aId, TDes& aStrValue);
 		 
 		 /**
 		 * Set the interger type value
@@ -80,7 +80,7 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param aValue
 		 * @return TDCMOStatus
 		 */
-		 TDCMOStatus SetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt aValue);
+		 IMPORT_C TDCMOStatus SetDCMOIntAttributeValue(TDes& aCategory, TDCMONode aId, TInt aValue);
 		 		 
 		 /**
 		 * Set the string type value
@@ -90,7 +90,7 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param aStrValue
 		 * @return TDCMOStatus
 		 */
-		 TDCMOStatus SetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue);
+		 IMPORT_C TDCMOStatus SetDCMOStrAttributeValue(TDes& aCategory, TDCMONode aId, TDes& aStrValue);
 		 
 		 /**
 		 * Get All type value
@@ -100,7 +100,7 @@ class RDCMOClient :  public RDCMOClientBase
 		 * @param aStrValue
 		 * @return TDCMOStatus
 		 */
-		 void SearchByGroupValue(TDes& aGroup, TDes& aAdapterList);
+		 IMPORT_C void SearchByGroupValue(TDes& aGroup, TDes& aAdapterList);
 			
 		
 	private:

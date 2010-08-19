@@ -41,6 +41,8 @@
 //l:  popup_info_list_pane_t2/opt1
 //r: 5.2
 #define qtn_set_sec_code_setting_query_server "Lock Code has not been set. Please set the Lock Code."
-
+//d: The text informing user that phone is locked by an Operator server
+//l: popup_query_data_window
+#define qtn_device_locked_remotely "Locked by %U"
 // End of File
 

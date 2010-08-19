@@ -26,7 +26,6 @@
 #include <bautils.h>
 #include <hal.h>
 #include <AknGlobalNote.h>
-#include <AknGlobalConfirmationQuery.h>
 // For wipe
 //#include <StarterClient.h>
 //#include <sysutil.h>
@@ -583,27 +582,6 @@ void CSCPTimestampPlugin::SuccessfulAuthenticationL( CSCPParamObject& aParam,
         if ( ( IsAfter( KSCPLastChangeTime, iExpiration, KSCPTypeDays ) == KSCPIsAfter ) ||
              ( expireNow ) )
             {
-            // Force password change                        
-            
-            HBufC16* resText = NULL;
-            TRAPD( err, resText = LoadResourceL( R_SET_SEC_CODE_AGING ) );         
-            FormatResourceString(*resText);        
-            if ( err == KErrNone ) // If this fails, go on anyway to signal the psw change
-                {
-    	        TPtr16 bufDes = resText->Des();
-                
-                TRAP_IGNORE(
-                    CAknGlobalNote* note = CAknGlobalNote::NewLC();
-    		        note->ShowNoteL( EAknGlobalWarningNote, bufDes );
-    		        CleanupStack::PopAndDestroy( note );
-    		        );    	        
-    	        
-    	        // Wait here a while so the dialog won't appear on top of the note
-                User::After( KSCPNoteTimeout ); 
-                
-                delete resText;
-                }
-            
             // Refill the parameters to inform the client that the password
             // should be changed.
             aRetParams = CSCPParamObject::NewL(); 

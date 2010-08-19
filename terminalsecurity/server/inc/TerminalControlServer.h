@@ -158,6 +158,7 @@ protected:
 	void                StopProcessByFullNameL  ( const TDesC8& aName );
     TBool               GetPasscodePolicyL      ( );
     void                SetPasscodePolicyL      ( TBool aIsSet );
+    void                ResetParametersL(TInt32 aAppID);
 
 private:
 	void 				SetIntValueL( TInt avalue, TInt aSCPCommandEnum );

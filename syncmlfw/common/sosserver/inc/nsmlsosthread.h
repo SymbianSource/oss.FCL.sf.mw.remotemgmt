@@ -128,6 +128,8 @@ class CNSmlThreadEngine : public CActive
     	CNSmlDMAgent* iDMAgent;		
 		CNSmlDSAgent* iDSAgent;	
 		CNSmlCancelTimeOut* iCancelTimeout;
+		// Fix for cancel not happening when cancel key is pressed 
+		TBool iSyncCancelled;
 	};
 
 

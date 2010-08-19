@@ -3104,6 +3104,17 @@ void CNSmlDSAgent::CheckServerStatusCodeL( TInt aEntryID )
 			}	
 			//RD_SUSPEND_RESUME	
 			break;
+
+		/* Implementation of CMCC PIM v3 begins*/
+		case TNSmlError::ESmlStatusDeviceFull: // 420
+		    if ( FeatureManager::FeatureSupported(KFeatureIdFfTdCmccpimpromptserverfullwhenreceive420statuscodefromserver) )
+		        {
+                // CMCC server full error enabled
+                iDSObserver->OnSyncMLSyncError( MSyncMLProgressObserver::ESmlFatalError, SyncMLError::KErrServerFull, 0, 0, 0);
+                error = ETrue;
+		        }
+			break;
+		/* Implementation of CMCC PIM v3 ends*/
 			
 		default:
 			error = ETrue;

@@ -25,6 +25,9 @@
 #include "nsmlerror.h"
 #include "smlmetinfdtd.h"
 
+// CONSTANTS
+_LIT8(KDbPersonal, "100000" );
+
 // ---------------------------------------------------------
 // CNSmlStatusContainer::CNSmlStatusContainer
 // Constructor, nothing special in here.
@@ -220,32 +223,28 @@ EXPORT_C void CNSmlStatusContainer::SetStatusCodeL( TInt aEntryID, TInt aStatusC
 			{					
 				TPtrC8 sourcePath( (TUint8*) (*iStatusArray)[aEntryID-1].status->targetRefList->targetRef->content, (*iStatusArray)[aEntryID-1].status->targetRefList->targetRef->length );
 			
-				SmlSource_t* source = new( ELeave ) SmlSource_t; 
-    		source->locURI = new( ELeave ) SmlPcdata_t;
-	   		source->locURI->SetDataL( sourcePath );
-    		source->locURI->contentType = SML_PCDATA_OPAQUE;   
-    		source->locURI->extension = SML_EXT_UNDEFINED;
-    		source->locName = NULL;
+				(*iStatusArray)[aEntryID-1].status->itemList = new ( ELeave ) SmlItemList_t;
+				(*iStatusArray)[aEntryID-1].status->itemList->item = new( ELeave ) SmlItem_t;
+			
+				(*iStatusArray)[aEntryID-1].status->itemList->item->source = new( ELeave ) SmlSource_t; 
+    		(*iStatusArray)[aEntryID-1].status->itemList->item->source->locURI = new( ELeave ) SmlPcdata_t;
+	   		(*iStatusArray)[aEntryID-1].status->itemList->item->source->locURI->SetDataL( sourcePath );
+    		(*iStatusArray)[aEntryID-1].status->itemList->item->source->locURI->contentType = SML_PCDATA_OPAQUE;   
+    		(*iStatusArray)[aEntryID-1].status->itemList->item->source->locURI->extension = SML_EXT_UNDEFINED;
+    		(*iStatusArray)[aEntryID-1].status->itemList->item->source->locName = NULL;
     		
-    		SmlTarget_t* target = new( ELeave ) SmlTarget_t; 
-    		target->locURI = new( ELeave ) SmlPcdata_t;
-	   		target->locURI->SetDataL( targetPath );
-    		target->locURI->contentType = SML_PCDATA_OPAQUE;   
-    		target->locURI->extension = SML_EXT_UNDEFINED;
-    		target->locName = NULL;
-    		AddSourceRefL( aEntryID, source );
-    		
-    		SmlTargetRefList_t** targetRefList;
-				targetRefList = &(*iStatusArray)[aEntryID-1].status->targetRefList;
-				while( *targetRefList )
-				{
-					if ((*targetRefList)->next == NULL )
-						 break;
-					targetRefList = &(*targetRefList)->next;
-				} 
-				*targetRefList = new( ELeave ) SmlTargetRefList_t;
-				CreateTargetRefL( target, (*targetRefList)->targetRef );
-    		
+    		_LIT8( KNSmlNull,	"null" );
+    		if(targetPath.Compare( KNSmlNull )!= 0)
+    		{
+    			(*iStatusArray)[aEntryID-1].status->itemList->item->target = new( ELeave ) SmlTarget_t; 
+    			(*iStatusArray)[aEntryID-1].status->itemList->item->target->locURI = new( ELeave ) SmlPcdata_t;
+	   			(*iStatusArray)[aEntryID-1].status->itemList->item->target->locURI->SetDataL( targetPath );
+    			(*iStatusArray)[aEntryID-1].status->itemList->item->target->locURI->contentType = SML_PCDATA_OPAQUE;   
+    			(*iStatusArray)[aEntryID-1].status->itemList->item->target->locURI->extension = SML_EXT_UNDEFINED;
+    			(*iStatusArray)[aEntryID-1].status->itemList->item->target->locName = NULL;
+    		}
+ 				(*iStatusArray)[aEntryID-1].status->targetRefList = NULL;
+
  				_LIT8(KNullString, "");
     		result = cenrep->Set( KNSmlDMSCOMOTargetRef, KNullString ); 
     	}
@@ -254,6 +253,8 @@ EXPORT_C void CNSmlStatusContainer::SetStatusCodeL( TInt aEntryID, TInt aStatusC
 		}
 	}
 	
+	 // TargertUri Fix Ends
+	 
 	CleanupStack::PopAndDestroy(); //statusCode
 	}
 	}
@@ -535,6 +536,44 @@ TBool CNSmlStatusContainer::AnyOtherThanOkSyncHdrStatus() const
 		}	
 	return statusPresents;
 	}
+// ---------------------------------------------------------
+// CNSmlStatusContainer::FillItemDataL()
+// Populates the Item structure
+// ---------------------------------------------------------
+EXPORT_C void CNSmlStatusContainer::FillItemDataL( SmlItem_t*& aItem )
+    {
+    //Source
+    aItem->source = new( ELeave ) SmlSource_t;
+    SmlPcdata_t* srcdata = new( ELeave ) SmlPcdata_t;
+    srcdata->SetDataL( KDbPersonal );
+    srcdata->contentType = SML_PCDATA_OPAQUE;   
+    srcdata->extension = SML_EXT_UNDEFINED; 
+    CopyPcdataL( srcdata, aItem->source->locURI );
+    
+    // Source Parent
+    aItem->sourceParent = new( ELeave ) SmlSourceParent_t;
+    SmlPcdata_t* srcprntdata = new( ELeave ) SmlPcdata_t;
+    srcprntdata->SetDataL( _L8("/") );
+    srcprntdata->contentType = SML_PCDATA_OPAQUE;   
+    srcprntdata->extension = SML_EXT_UNDEFINED; 
+    CopyPcdataL( srcprntdata, aItem->sourceParent->locURI );   
+    }
+// ---------------------------------------------------------
+// CNSmlStatusContainer::StatusItem()
+// Retrieve the Status element bearing the ID provided
+// ---------------------------------------------------------
+EXPORT_C SmlStatus_t* CNSmlStatusContainer::StatusItem( TInt aStatusID )
+    {
+    
+    if( ( iStatusArray ) && 
+        ( iStatusArray->Count() <= aStatusID ) )
+        {
+        
+        return (*iStatusArray)[aStatusID-1].status;
+        }
+    
+    return NULL;
+    }
 // ---------------------------------------------------------
 // CNSmlStatusContainer::CreatePcdataL()
 // Creates Pcdata 

@@ -20,13 +20,17 @@
 #define _DCMOFW_IBY_
 
 file=ABI_DIR\BUILD_DIR\dcmoclient.dll		SHARED_LIB_DIR\dcmoclient.dll
+#ifdef FF_OMA_LAWMO
+file=ABI_DIR\BUILD_DIR\lawmoclient.dll		SHARED_LIB_DIR\lawmoclient.dll
+#endif
 
-#ifdef FF_RUNTIME_DEVICE_CAPABILITY_CONFIGURATION
+#if defined(FF_RUNTIME_DEVICE_CAPABILITY_CONFIGURATION) || defined(FF_OMA_LAWMO)
 data=DATAZ_\RESOURCE_FILES_DIR\dcmo.rsc	RESOURCE_FILES_DIR\dcmo.rsc
 file=ABI_DIR\BUILD_DIR\dcmoserver.exe		PROGRAMS_DIR\dcmoserver.exe
 
 data=\epoc32\data\Z\private\10202BE9\2001FE47.txt       private\10202BE9\2001FE47.txt
 data=\epoc32\data\Z\private\10202BE9\2000253D.txt       private\10202BE9\2000253D.txt
 #endif
+
 #endif
 

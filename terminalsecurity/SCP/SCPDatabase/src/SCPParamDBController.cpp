@@ -106,6 +106,7 @@ EXPORT_C CSCPParamDBController* CSCPParamDBController :: NewLC() {
 
 EXPORT_C TInt CSCPParamDBController :: SetValueL(TInt aParamID, const TInt32 aValue, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -146,6 +147,7 @@ EXPORT_C TInt CSCPParamDBController :: SetValuesL(TInt aParamID, const RPointerA
 
 EXPORT_C TInt CSCPParamDBController :: GetValueL(TInt aParamID, TInt32& aValue, TInt32& aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -190,6 +192,7 @@ EXPORT_C TBool CSCPParamDBController :: IsParamValueSharedL(HBufC* aParamValue, 
 
 EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
     case RTerminalControl3rdPartySession :: EMaxTimeout:
     case RTerminalControl3rdPartySession :: EPasscodeMinLength:
     case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -216,6 +219,7 @@ EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, const TInt32 a
 
 EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, RPointerArray <HBufC>& aParamValues, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
     case RTerminalControl3rdPartySession :: EMaxTimeout:
     case RTerminalControl3rdPartySession :: EPasscodeMinLength:
     case RTerminalControl3rdPartySession :: EPasscodeMaxLength:

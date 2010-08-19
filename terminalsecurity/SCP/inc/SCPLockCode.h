@@ -36,7 +36,13 @@ const TUid KCRUidSCPLockCode = { 0x2002677B };
  * Default value: 12345
 */
 const TUint32 KSCPLockCodeDefaultLockCode = 0x00000001;
-
+/**
+ *
+ * The value assigned to this key is used to get and set ifits startup
+ * Possible values: 0 or 1
+ * Default value: 0
+*/
+const TUint32 KSCPStartupQuery = 0x00000002;
 
 #endif// End of File
 

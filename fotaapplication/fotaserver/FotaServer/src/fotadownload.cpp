@@ -47,6 +47,7 @@
 #include "fotaserverPrivatePSKeys.h"
 #include "FotaNetworkRegStatus.h"
 #include <startupdomainpskeys.h>	//globalrfsstates
+#include <uri8.h>
 #define __LEAVE_IF_ERROR(x) if(KErrNone!=x) {FLOG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
 #define __LEAVE(x) {FLOG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
 
@@ -294,7 +295,7 @@ void CFotaDownload::DownloadL(TDownloadIPCParams aParams,const TDesC8& aPkgURL
 
 	if ( iUrl ) {delete iUrl; iUrl=NULL;}
 	iUrl = aPkgURL.Alloc();
-	iUpdateAfterDownload = aUpdateAfterDownload;
+	
 	iRestartCounter = aRestartDownload;
 
 	iDLState        = aParams;
@@ -313,6 +314,44 @@ void CFotaDownload::DownloadL(TDownloadIPCParams aParams,const TDesC8& aPkgURL
 
 	// 2. Get Iap Id to use for download. This would be set in iDLState.iIapId.
 	SetIapToUseL(aParams, aIapid);
+
+
+	if ( iDLState.iIapId > KErrNotFound )
+		{
+		iFotaServer->iDatabase->OpenDBL();
+		iFotaServer->iDatabase->SetStateL(iDLState,KNullDesC8, EFDBIapId );
+		iFotaServer->iDatabase->CloseAndCommitDB();
+		}
+		
+	/*
+	TBuf8<100> test;
+	//_LIT8( KNSmlDMFotaNode,"http://2IND02230.noe.nokia.com8080/myspace/ddv1.dd" );
+	_LIT8( KNSmlDMFotaNode,"http://fdsqa.nokia.com/fdp/interface?fid=A0A19HMCUHWRU" );
+	test.Copy(KNSmlDMFotaNode);
+	
+	
+    TUriParser8 parser;
+
+    if (!parser.Parse(test) && !parser.IsSchemeValid()) */ 
+		
+	TUriParser8 parser;
+	
+	
+
+    if((parser.Parse(aPkgURL) == KErrNone) && !parser.IsSchemeValid() )
+	
+	{
+        FLOG(_L("URL is malformed.. finalizing download"));
+        iDLState.iResult = RFotaEngineSession::EResMalformedOrBadURL;
+        iDLState.iState  = RFotaEngineSession::EDownloadFailed;
+        iFotaServer->iDatabase->OpenDBL();
+        iFotaServer->iDatabase->SetStateL(iDLState, KNullDesC8, EFDBState | EFDBResult);
+        iFotaServer->iDatabase->CloseAndCommitDB();
+        iFotaServer->FinalizeDownloadL(iDLState);
+        LaunchNotifierL(ESyncMLFwUpdErrorNote, KErrGeneralNoResume, EFalse );
+        return;
+	}
+	iUpdateAfterDownload = aUpdateAfterDownload;
 
 	// 3. Determine whether download should be visible or not
 	// Autoaccepted profile?

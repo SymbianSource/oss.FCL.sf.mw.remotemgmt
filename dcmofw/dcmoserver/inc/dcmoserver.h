@@ -24,20 +24,21 @@
 #include "dcmoclientserver.h"
 #include "dcmoconst.h"
 #include "dcmonotifieraob.h"
-
+#include <lawmocallbackinterface.h>
 // CONSTANTS
 const TUid KCRUidDCMOServer={0x2001FE47};
 const TInt KDCMOKeyMaxNumber = 16;
 // FORWARD DECLARATIONS
 // CLASS DECLARATION
-
+class CLAWMOPluginInterface;
 /**
 *  CDCMOServer
 *  Description.
 */
 
 
-class CDCMOServer : public CServer2
+class CDCMOServer : public CServer2,
+                    public MLawmoPluginWipeObserver
 	{
 	friend class CDCMOSession;
 	friend class CDCMONotifierAob;
@@ -85,6 +86,11 @@ public:
 	 * @return None
 	 */
 	void DropSession();
+public:
+	
+	// Callback from MLawmoPluginWipeObserver
+	void HandleWipeCompleted(TInt status);
+	//void SendGenericAlert();
 	
 private:
 	/**
@@ -166,7 +172,17 @@ protected:
 	 * @return 
 	 */
 	void SetStarter(TBool aValue);	
+	
+    TLawMoStatus WipeItem(TInt aValue=0);
+	
+    TLawMoStatus WipeAllItem();
 
+	TLawMoStatus GetListItemL(TDesC& item, TDes& strValue);
+
+	TLawMoStatus GetToBeWipedL(TDesC& item, TDes& wipeValue);
+
+	TLawMoStatus SetToBeWipedL(TDesC& item, TInt wipeValue);
+	
 private:
 	
 	/**
@@ -174,7 +190,7 @@ private:
 	 * @param aCategory
 	 * @return the uid
 	 */
-	TUid GetAdapterUidL(const TDesC& aCategory);
+	TUid GetAdapterUidL(const TDesC& aCategory, TBool aIsLawmo = EFalse);
 	
 	/**
 	 * Finds whether the plug-in adapter is a generic category
@@ -183,11 +199,19 @@ private:
 	 */
 		TInt GetLocalCategoryL(const TDesC& aCategory);	
 	
+	void GetLawmoPluginUidsL();
+	
+	void StartDMNetworkMonitorL(TDesC& aServerId, TInt iapid=0);
 private:
 	RArray<dcmoInfoList> idcmoArray;
 	static TInt iSessionCount;
 	TBool iStarter;	
 	CDCMONotifierAob* iNotifier;
+	RArray<TUid> ilawmoPluginUidToBeWiped;
+	RArray<CLAWMOPluginInterface*> ilawmoPlugins;
+	TInt iwipeStatus;
+    TInt iCount;
+    TInt iSessionIap;
 	};
 	
 #endif //__DCMO_SERVER_H__
