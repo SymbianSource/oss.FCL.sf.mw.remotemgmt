@@ -60,8 +60,7 @@ LIBRARY cntmodel.lib
 LIBRARY apparc.lib
 LIBRARY cone.lib 
 LIBRARY eikcore.lib  
-LIBRARY avkon.lib 
-LIBRARY aknnotify.lib
+
 
 LANG            SC
 SMPSAFE

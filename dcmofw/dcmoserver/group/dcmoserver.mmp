@@ -48,4 +48,4 @@ LIBRARY     	euser.lib
 LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib
 LIBRARY    		flogger.lib
-LIBRARY       hbcore.lib hbwidgets.lib
+LIBRARY       HbCore.lib HbWidgets.lib

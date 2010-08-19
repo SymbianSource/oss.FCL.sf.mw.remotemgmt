@@ -46,9 +46,11 @@
 #include "nsmldserror.h"
 #include "nsmlfilter.h"
 #include "nsmldssettings.h"
+#include "nsmldsoperatorsettings.h"
 #include "nsmldsbatchbuffer.h"
 #include "nsmldshostclient.h"
-
+#include <nsmloperatorerrorcrkeys.h> // KCRUidOperatorDatasyncErrorKeys
+#include <nsmldevinfextdatacontainerplugin.h>
 
 #ifndef __WINS__
 // This lowers the unnecessary compiler warning (armv5) to remark.
@@ -1678,6 +1680,7 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 					}
 				}
 			}
+		StoreSyncType( alertCode );
 		}
 		
 	// status 406 is returned if <Filter> is present BUT the session continues
@@ -2452,12 +2455,40 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	// VerDTD element
 	PcdataNewL ( devInf->verdtd, KNSmlAgentVerDTD12 );
 
+    TBool isOperator = EFalse;
+    TInt profileId( iAgent->ProfileId() );
+    CNSmlDSOperatorSettings* settings = CNSmlDSOperatorSettings::NewLC();
+
+    CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewLC();
+    CNSmlDSProfile* profile = dsSettings->ProfileL( profileId );
+
+    if( profile )
+        {
+        CleanupStack::PushL( profile );
+        isOperator = settings->IsOperatorProfileL( 
+            profile->StrValue( EDSProfileServerId ) );
+        CleanupStack::PopAndDestroy( profile );
+        }
+    
 	// Man element (manufacturer)
 	HBufC* manufacturer = HBufC::NewLC( 50 );
 	TPtr manufacturerPtr( manufacturer->Des() );
-	iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
 	HBufC8* manufacturerInUTF8( NULL );
-	NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+    if ( isOperator )
+        {
+        manufacturerInUTF8 = settings->CustomManValueLC();
+        if ( manufacturerInUTF8->Length() == 0 )
+            {
+            CleanupStack::PopAndDestroy();// manufacturerInUTF8
+            iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
+            NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+            }
+        }
+    else
+        {
+        iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
+        NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+        }
 	PcdataNewL ( devInf->man, *manufacturerInUTF8 );
 	CleanupStack::PopAndDestroy( 2 ); // manufacturerInUTF8, manufacturer
 	
@@ -2465,14 +2496,45 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	
 	// Mod element (model name)
 	HBufC* model = HBufC::NewLC( 50 );
-	TPtr modelPtr = model->Des();  
-	iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	TPtr modelPtr = model->Des();
 	HBufC8* modelInUTF8 = NULL;
-	NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	if ( isOperator )
+	    {
+	    modelInUTF8 = settings->CustomModValueLC();
+	    if ( modelInUTF8->Length() == 0 )
+	        {
+	        CleanupStack::PopAndDestroy();// modelInUTF8
+	        iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	        NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	        }
+	    }
+	else
+	    {
+	    iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneModelId, modelPtr );
+	    NSmlUnicodeConverter::HBufC8InUTF8LC( *model, modelInUTF8 );
+	    }
 	PcdataNewL ( devInf->mod, *modelInUTF8 );
 	CleanupStack::PopAndDestroy( 2 );   // modelInUTF8, model
 	// SwV element (software version)
-	PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	if ( isOperator )
+	    {
+	    HBufC8* swv = settings->CustomSwvValueLC();
+	    if ( swv->Length() > 0 )
+	        {
+	        PcdataNewL ( devInf->swv, *swv );
+	        }
+	    else
+	        {
+	        PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	        }
+	    CleanupStack::PopAndDestroy( swv );
+	    }
+	else
+	    {
+	    PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
+	    }
+
+	CleanupStack::PopAndDestroy( 2, settings );
 
 	PcdataNewL ( devInf->hwv, KNullDesC8() );
 
@@ -2500,6 +2562,17 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 
 	// DataStore elements
 	SmlDevInfDatastoreList_t** currDatastorePtr = &devInf->datastore;
+
+	// Operator specific Device info extensions (XNam, XVal)
+	if( isOperator )
+		{
+		TRAPD( err, InsertOperatorExtensionDevInfFieldsL( devInf ) );
+		if( err != KErrNone )
+			{
+			DBG_FILE( _S8( "CNSmlDSCmds::DoDeviceInfoL(): Leave in InsertOperatorExtensionDevInfFieldsL()" ) );
+			DBG_FILE_CODE( err, _S8("Error code") );
+			}
+		}
 
     iDSContent.SetToFirst();
 
@@ -4617,5 +4690,181 @@ TInt CNSmlDSCmds::ConvertUid( const TDesC8& aLiteralUid, TSmlDbItemUid& aNumeric
 
 	return lexer.Val( aNumericUid );
 	}
+
+//-----------------------------------------------------------------------------
+// CNSmlDSCmds::StoreSyncType
+// Checks if received Alert Code is a sync type and tries to convert
+// it to Sync Type (TSmlSyncType).
+//-----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::StoreSyncType( const TDes8& aAlertCode )
+    {
+    TInt syncType = KErrNotFound;
+
+    if ( aAlertCode == KNSmlDSTwoWay )
+        {
+        syncType = ESmlTwoWay;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromServer )
+        {
+        syncType = ESmlOneWayFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSOneWayFromClient )
+        {
+        syncType = ESmlOneWayFromClient;
+        }
+    else if ( aAlertCode == KNSmlDSSlowSync )
+        {
+        syncType = ESmlSlowSync;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromServer )
+        {
+        syncType = ESmlRefreshFromServer;
+        }
+    else if ( aAlertCode == KNSmlDSRefreshFromClient )
+        {
+        syncType = ESmlRefreshFromClient;
+        }
+
+    if ( syncType != KErrNotFound )
+        {
+        CRepository* rep = NULL;
+        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+        if ( err == KErrNone )
+            {
+            rep->Set( KNsmlOpDsSyncType, syncType );
+            delete rep;
+            }
+        }
+    }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL
+// Adds operator specific extension fields <XNam> and <XVal> to Device info
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL( 
+    SmlDevInfDevInfPtr_t& aDevInf )
+    {
+    // Instantiate Extension Data container ECom plugin 
+    CNSmlDevInfExtDataContainerPlugin* extensionPlugin = NULL;
+    TRAPD( err, extensionPlugin = CNSmlDevInfExtDataContainerPlugin::NewL() );
+    if( err == KErrNone )
+        {
+        CleanupStack::PushL( extensionPlugin );
+
+        if( extensionPlugin->GetExtensionCountL() > 0 )
+            {
+            // Create a list for extensions
+            SmlDevInfExtListPtr_t extList = new ( ELeave ) SmlDevInfExtList_t;
+            CleanupStack::PushL( extList );
+            extList->data = NULL;
+            extList->next = NULL;
+
+            for( TInt i = 0; i < extensionPlugin->GetExtensionCountL(); i++ )
+                {
+                // Create new <Ext> element and insert it to extension list
+                SmlDevInfExtPtr_t extElement = new ( ELeave ) SmlDevInfExt_t;
+                CleanupStack::PushL( extElement );
+
+                // Handle <XNam>
+                PcdataNewL( extElement->xnam, extensionPlugin->GetExtNameL( i ) );
+
+                // Handle <XVal>
+                if( extensionPlugin->GetExtValueCountL( i ) > 0 )
+                    {
+                    SmlPcdataListPtr_t xValList = new ( ELeave ) SmlPcdataList_t;
+                    CleanupStack::PushL( xValList );
+                    xValList->data = NULL;
+                    xValList->next = NULL;
+
+                    for( TInt j = 0; j < extensionPlugin->GetExtValueCountL( i ); j++ )
+                        {
+                        AppendToXValListL( xValList, 
+                            extensionPlugin->GetExtValueL( i, j ) );
+                        }
+                    extElement->xval = xValList;
+                    CleanupStack::Pop( xValList );
+                    }
+                else
+                    {
+                    extElement->xval = NULL;
+                    }
+                AppendToExtensionListL( extList, extElement );
+                CleanupStack::Pop( extElement );
+                }
+
+            // Add extensions as a part of DevInfo structure
+            aDevInf->ext = extList;
+            CleanupStack::Pop( extList );
+            }
+
+        // Do the cleanup
+        CleanupStack::PopAndDestroy( extensionPlugin );
+        REComSession::FinalClose();
+        }
+    }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::AppendToExtensionListL
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::AppendToExtensionListL( SmlDevInfExtListPtr_t aExtList, 
+    SmlDevInfExtPtr_t aExtItem )
+    {
+    if( !aExtList->data )
+        {
+        // This is the first item to be added to the list
+        aExtList->data = aExtItem;
+        aExtList->next = NULL;
+        }
+    else
+        {
+        // List is not empty
+        SmlDevInfExtListPtr_t newExtListItem = new ( ELeave ) SmlDevInfExtList_t;
+        newExtListItem->data = aExtItem;
+        newExtListItem->next = NULL;
+    
+        // Search the end of the extension list & add new item
+        SmlDevInfExtListPtr_t tmp = aExtList;
+        while( tmp->next )
+            {
+            tmp = tmp->next;
+            }
+        tmp->next = newExtListItem;
+        }
+    }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::AppendToXValListL
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::AppendToXValListL( SmlPcdataListPtr_t aXValList,
+    const TDesC8& aXVal )
+    {
+    if( !aXValList->data )
+        {
+        // This is the first item to be added to the list
+        PcdataNewL( aXValList->data, aXVal );
+        aXValList->next = NULL;
+        }
+    else
+        {
+        // List is not empty
+        SmlPcdataListPtr_t newXValItem = new ( ELeave ) SmlPcdataList_t;
+        CleanupStack::PushL( newXValItem );
+        PcdataNewL( newXValItem->data, aXVal );
+        CleanupStack::Pop( newXValItem );
+        newXValItem->next = NULL;
+    
+        // Search the end of the extension list & add new item
+        SmlPcdataListPtr_t tmp = aXValList;
+        while( tmp->next )
+            {
+            tmp = tmp->next;
+            }
+        tmp->next = newXValItem;
+        }
+    }
 
 // End of File

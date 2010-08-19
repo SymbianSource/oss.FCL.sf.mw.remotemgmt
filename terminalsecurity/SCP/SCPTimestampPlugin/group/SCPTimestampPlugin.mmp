@@ -70,7 +70,7 @@ LIBRARY         dmutil.lib
 LIBRARY					flogger.lib
 LIBRARY         featmgr.lib
 #ifdef RD_MULTIPLE_DRIVE
-LIBRARY         platformenv.lib 
+LIBRARY         PlatformEnv.lib 
 #endif
 
 // End of File

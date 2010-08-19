@@ -62,7 +62,7 @@ CNSmlAlertHandler::~CNSmlAlertHandler()
 	{
 
 	Cancel();
-	if( !iHistoryArray )
+	if( iHistoryArray )
 	{
 	iHistoryArray->SetOwnerShip( ETrue );
 	delete iHistoryArray;

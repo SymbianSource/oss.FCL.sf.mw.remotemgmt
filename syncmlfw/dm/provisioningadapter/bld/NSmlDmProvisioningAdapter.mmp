@@ -50,7 +50,7 @@ USERINCLUDE		../../../common/sosserver_transporthandler/inc
 
 
 LIBRARY         euser.lib commdb.lib charconv.lib bafl.lib efsrv.lib cmmanager.lib
-LIBRARY         nsmldebug.lib syncmlclientapi.lib nsmlprivateapi.lib
+LIBRARY         nsmldebug.lib syncmlclientapi.lib NSmlPrivateAPI.lib
 LIBRARY         provisioningengine.lib featmgr.lib centralrepository.lib
 
 #ifdef ARMCC

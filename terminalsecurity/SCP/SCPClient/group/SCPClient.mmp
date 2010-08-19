@@ -58,7 +58,7 @@ LIBRARY         avkon.lib
 LIBRARY         aknnotify.lib
 LIBRARY         eikdlg.lib
 LIBRARY         ws32.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         bafl.lib
 LIBRARY					flogger.lib
 LIBRARY         featmgr.lib

@@ -49,5 +49,5 @@ LIBRARY         euser.lib
 LIBRARY         ecom.lib 
 LIBRARY         wappushutils.lib 
 LIBRARY         nsmldebug.lib
-LIBRARy		nsmlprivateapi.lib
+LIBRARy					NSmlPrivateAPI.lib
 SMPSAFE

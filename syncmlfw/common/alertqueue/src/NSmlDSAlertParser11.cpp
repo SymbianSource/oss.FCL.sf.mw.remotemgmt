@@ -24,7 +24,7 @@
 #include <barsc.h>
 #include <s32mem.h>
 #include <data_caging_path_literals.hrh>
-#include <NSmlDSTypesRes.rsg>
+#include <nsmldstypesres.rsg>
 
 #include <nsmlconstants.h>
 #include <nsmlunicodeconverter.h>
@@ -217,27 +217,26 @@ Ret_t CNSmlDSAlertParser11::smlAlertCmdFuncL( SmlAlertPtr_t aAlert )
 
 	SmlMetInfMetInf_t* metInf = NULL;
 	TPtr8 mediaType( NULL, 0, 0 );
-	
-	if ( aAlert->itemList->item->meta )
-		{
-		if ( aAlert->itemList->item->meta->content && 
-			aAlert->itemList->item->meta->contentType == SML_PCDATA_EXTENSION && 
-			aAlert->itemList->item->meta->extension == SML_EXT_METINF )
-			{
-			metInf = (SmlMetInfMetInf_t*) aAlert->itemList->item->meta->content;
-			
-			if ( metInf->type )
-				{
-				mediaType.Set( static_cast<TUint8*>( metInf->type->content ), metInf->type->length, metInf->type->length );
-				TrimRightSpaceAndNull( mediaType );
-				}
-			}
-		}
-		
+
 	if ( aAlert->itemList )
 		{
 		if (aAlert->itemList->item)
-			{
+			{	
+			if ( aAlert->itemList->item->meta )
+				{
+				if ( aAlert->itemList->item->meta->content && 
+				aAlert->itemList->item->meta->contentType == SML_PCDATA_EXTENSION && 
+				aAlert->itemList->item->meta->extension == SML_EXT_METINF )
+				{
+				metInf = (SmlMetInfMetInf_t*) aAlert->itemList->item->meta->content;
+			
+				if ( metInf->type )
+					{
+					mediaType.Set( static_cast<TUint8*>( metInf->type->content ), metInf->type->length, metInf->type->length );
+					TrimRightSpaceAndNull( mediaType );
+					}
+				}
+				}
 			if ( aAlert->itemList->item->source )
 				{
 				HBufC8* remotePath = NULL;
@@ -253,7 +252,7 @@ Ret_t CNSmlDSAlertParser11::smlAlertCmdFuncL( SmlAlertPtr_t aAlert )
 					}
 							
 				CleanupStack::PopAndDestroy(); // remotePath	
-    			}
+    		}
 			}
 		}
 	

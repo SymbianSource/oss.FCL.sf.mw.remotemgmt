@@ -133,8 +133,10 @@ data=ZSYSTEM\install\syncmlfw_stub.sis    System\Install\syncmlfw_stub.sis
 
 REM Debug modules for debugging purposes
 
+#ifdef _DEBUG
 REM \common\xml
-REM file=ABI_DIR\BUILD_DIR\nsmlxml.dll			SHARED_LIB_DIR\nsmlxml.dll
+file=ABI_DIR\BUILD_DIR\nsmlxml.dll			SHARED_LIB_DIR\nsmlxml.dll
+#endif
 
 REM \common\debug
 REM file=ABI_DIR\BUILD_DIR\nsmldebug.dll		SHARED_LIB_DIR\nsmldebug.dll

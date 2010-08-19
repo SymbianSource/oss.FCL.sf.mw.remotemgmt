@@ -30,6 +30,7 @@
 #include "NSmlProfileContentHandler.h"
 #include <centralrepository.h> //CRepository
 
+//CONSTANTS
 _LIT(Kinfile,"z:\\Private\\101F99FB\\VariantData.xml");
 
 

@@ -44,7 +44,8 @@ SOURCE          NSmlDSContentType.cpp
 SOURCE          NSmlDSCrypt.cpp
 SOURCE		nsmlroam.cpp
 SOURCE          NSmlRoamTable.cpp
-SOURCE			NSmlProfileContentHandler.cpp
+SOURCE		NSmlProfileContentHandler.cpp
+SOURCE		nsmldsoperatorsettings.cpp
 
 USERINCLUDE     ../inc 
 USERINCLUDE	../../inc 

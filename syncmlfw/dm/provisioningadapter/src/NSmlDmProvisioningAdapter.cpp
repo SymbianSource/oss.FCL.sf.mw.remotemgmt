@@ -23,7 +23,7 @@
 #include <cdbcols.h>			 // CommsDB columname defs
 #include <stringresourcereader.h>
 #include <barsread.h>
-#include <NSmlDMProvisioningAdapter.rsg>
+#include <nsmldmprovisioningadapter.rsg>
 #include <f32file.h>
 #include <bautils.h>
 #include <utf.h>

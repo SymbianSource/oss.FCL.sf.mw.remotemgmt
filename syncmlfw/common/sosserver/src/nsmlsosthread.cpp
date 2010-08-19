@@ -834,52 +834,27 @@ CNSmlNotifierObserver::~CNSmlNotifierObserver()
 //		
 void CNSmlNotifierObserver::ConnectToNotifierL( const TSyncMLAppLaunchNotifParams& aParam )
 	{
-	_DBG_FILE( "CNSmlNotifierObserver::ConnectToNotifierL:Begin" );
-	iTimeOut = EFalse;
-	
-	/*if ( !IsActive() )
-		{
-		SetActive();
-		}*/
-		
-	   
-
+		_DBG_FILE( "CNSmlNotifierObserver::ConnectToNotifierL:Begin" );
+		iTimeOut = EFalse;
     
     if ( !KNSmlWaitNotifierForEver )
         {
         iNotifierTimeOut.LaunchNotifierTimer( this );
         }
 
-    TInt err = KErrNone;
-
- /*   if (!iHbSyncmlNotifierEnabled) //Syncml notifier
-        err = iNotifier.Connect();
-*/
-    if (err == KErrNone)
-        {
-        if (!iHbSyncmlNotifierEnabled)
-            {
-//            iNotifier.StartNotifierAndGetResponse(iStatus, KUidNotifier,
-//                    data, iResBuf);
-            LOGSTRING2( "CNSmlNotifierObserver::ConnectToNotifierL %d after connect, StartNotifierAndGetResponse and after setactive" , iStatus.Int());
-            }
-        else
-            {
-       iStatus = KRequestPending;
-            HbNotifierObserverL(aParam);
-            }
-        if ( !IsActive() )
-                {
-                SetActive();
-                }
-        }
+    if (!iHbSyncmlNotifierEnabled)
+    {
+    	LOGSTRING2( "CNSmlNotifierObserver::ConnectToNotifierL %d after connect, StartNotifierAndGetResponse and after setactive" , iStatus.Int());
+    }
     else
-        {
-        LOGSTRING("Stop job error connecting to notifier");
-        // Stop job. Error connecting to notifier.
-        TRequestStatus* sStatus = &iStatus;
-		User::RequestComplete( sStatus, err );            
-        }
+    {
+       iStatus = KRequestPending;
+       HbNotifierObserverL(aParam);
+    }
+    if ( !IsActive() )
+    {
+    	SetActive();
+    }      
      _DBG_FILE("CNSmlNotifierObserver::ConnectToNotifierL:End");   
 	}
 

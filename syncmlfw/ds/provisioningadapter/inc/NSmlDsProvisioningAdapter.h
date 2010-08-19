@@ -130,6 +130,9 @@ class CNSmlDsProvisioningAdapter : public CWPAdapter, public MWPContextExtension
 		void GetTitleL();
 		TDesC8& ConvertTo8LC( const TDesC& aSource );
 		TDesC8& ConvertTo8L( const TDesC& aSource );
+		TBool IsOperatorProfile( const CNSmlDsProfileElement& aProfile );
+		TInt OperatorAdapterUid();
+		void StoreOperatorUrlL( const TDesC& aUrl );
 
 	private:
 		

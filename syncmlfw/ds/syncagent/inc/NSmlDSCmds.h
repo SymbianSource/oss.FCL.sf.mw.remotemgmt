@@ -35,6 +35,7 @@ class CWBXMLDevInfDocHandler;
 class CNSmlDbCaps;
 class CNSmlDbMetaHandler;
 class CNSmlDSBatchBuffer;
+class CNSmlDSOperatorSettings;
 
 inline void DeleteRPointerArray( TAny* aPtr )
 	{
@@ -216,6 +217,15 @@ class CNSmlDSCmds : public CNSmlCmdsBase, public MWBXMLDevInfCallbacks
 		* @param aFinal ETrue if this is the last message from the client.
 		*/
 		void DoEndMessageL( TBool aFinal );
+		
+        /**
+         * Checks if received Alert Code is a sync type and tries to convert
+         * it to Sync Type (TSmlSyncType). If conversion is succesful, the
+         * value is stored into Cenrep file (KCRUidOperatorDatasyncErrorKeys).
+         * @param aAlertCode received alert code.
+         */
+        void StoreSyncType( const TDes8& aAlertCode );
+
 		        
     private: // constructors and operators
     	/**
@@ -315,6 +325,38 @@ class CNSmlDSCmds : public CNSmlCmdsBase, public MWBXMLDevInfCallbacks
 		* @result KErrNone if the conversion succeeded.
 		*/
 		TInt ConvertUid( const TDesC8& aLiteralUid, TSmlDbItemUid& aNumericUid );
+
+		/**
+		 * Adds operator specific extensions (XNam, XVal) to device info.
+		 * The XNam and XVal to be included in the device info are read from
+		 * an ECom plugin, which implements Device Info Extension Data Container 
+		 * plugin interface (UID: 0x2002DC7C).
+		 * 
+		 * @param aDevInf Device info object, to which the operator extensions
+		 *  are added.
+		 */
+		void InsertOperatorExtensionDevInfFieldsL( SmlDevInfDevInfPtr_t& aDevInf );
+
+		/**
+		 * Appends the given dev info extension item to the extension list.
+		 * 
+		 * @param aExtList Extension list, to which the new item is to be added.
+		 *  On return, the list includes the given new item.
+		 * @param aExtItem Extension item to be added to the extension list.
+		 */
+		void AppendToExtensionListL( SmlDevInfExtListPtr_t aExtList, 
+			SmlDevInfExtPtr_t aExtItem );
+
+		/**
+		 * Appends a new XVal (i.e. extension value) item with the given XVal 
+		 * string to the XVal list.
+		 * 
+		 * @param aXValList XVal list, to which the the new XVal item is to be added.
+		 *  On return, the list includes the given new item.
+		 * @param aXVal A string, which is added to the XVal list as a new item.
+		 */
+		void AppendToXValListL( SmlPcdataListPtr_t aXValList,
+			const TDesC8& aXVal );
 
 	private: // data	
 		// batched items buffer

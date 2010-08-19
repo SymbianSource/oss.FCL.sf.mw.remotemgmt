@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Device Info Extension Data Container Plugin header file.
+*
+*/
+
+#include <platform_paths.hrh>
+#include <defaultcaps.hrh>
+#include <data_caging_paths.hrh>
+
+CAPABILITY CAP_ECOM_PLUGIN
+
+TARGET          exampledevinfextdatacontainerplugin.dll
+TARGETPATH      PLUGINS_1_DIR
+TARGETTYPE      PLUGIN
+UID             0x10009D8D 0x2002DC7D
+VENDORID        VID_DEFAULT
+
+#if defined(ARMCC)
+DEFFILE            ./def/eabiexampledevinfextdatacontainerplugin
+#elif defined(WINSCW)
+DEFFILE            ./def/bwinscwexampledevinfextdatacontainerplugin
+#endif
+
+SOURCEPATH      ../src
+SOURCE          exampledevinfextdatacontainerplugin.cpp
+SOURCE          exampledevinfextdatacontainerplugindllmain.cpp
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+
+USERINCLUDE     ../inc
+
+SOURCEPATH      ../data
+START RESOURCE exampledevinfextdatacontainerplugin.rss
+    HEADER
+    TARGET exampledevinfextdatacontainerplugin.rsc
+    TARGETPATH ECOM_RESOURCE_DIR
+    LANG    sc
+END
+
+LIBRARY        ecom.lib
+LIBRARY        euser.lib

@@ -53,4 +53,14 @@ EXPORTS
 	?Visibility@CNSmlDSProfile@@QBE?AW4TNSmlDSFieldVisibility@@W4TNSmlDSProfileData@@@Z @ 52 NONAME ; enum TNSmlDSFieldVisibility CNSmlDSProfile::Visibility(enum TNSmlDSProfileData) const
 	?WriteStreamCommitL@CNSmlDSContentType@@QAEXXZ @ 53 NONAME ; void CNSmlDSContentType::WriteStreamCommitL(void)
 	?WriteStreamCommitL@CNSmlDSProfile@@QAEXXZ @ 54 NONAME ; void CNSmlDSProfile::WriteStreamCommitL(void)
+	?IsOperatorProfileL@CNSmlDSOperatorSettings@@QAEHABVTDesC16@@@Z @ 55 NONAME ; int CNSmlDSOperatorSettings::IsOperatorProfileL(class TDesC16 const &)
+	?CustomSwvValueLC@CNSmlDSOperatorSettings@@QAEPAVHBufC8@@XZ @ 56 NONAME ; class HBufC8 * CNSmlDSOperatorSettings::CustomSwvValueLC(void)
+	??1CNSmlDSOperatorSettings@@UAE@XZ @ 57 NONAME ; CNSmlDSOperatorSettings::~CNSmlDSOperatorSettings(void)
+	?CustomManValueLC@CNSmlDSOperatorSettings@@QAEPAVHBufC8@@XZ @ 58 NONAME ; class HBufC8 * CNSmlDSOperatorSettings::CustomManValueLC(void)
+	?PopulateStatusCodeListL@CNSmlDSOperatorSettings@@QAEXAAV?$RArray@H@@@Z @ 59 NONAME ; void CNSmlDSOperatorSettings::PopulateStatusCodeListL(class RArray<int> &)
+	?CustomModValueLC@CNSmlDSOperatorSettings@@QAEPAVHBufC8@@XZ @ 60 NONAME ; class HBufC8 * CNSmlDSOperatorSettings::CustomModValueLC(void)
+	?NewL@CNSmlDSOperatorSettings@@SAPAV1@XZ @ 61 NONAME ; class CNSmlDSOperatorSettings * CNSmlDSOperatorSettings::NewL(void)
+	?NewLC@CNSmlDSOperatorSettings@@SAPAV1@XZ @ 62 NONAME ; class CNSmlDSOperatorSettings * CNSmlDSOperatorSettings::NewLC(void)
+	?HttpErrorReportingEnabled@CNSmlDSOperatorSettings@@QAEHXZ @ 63 NONAME ; int CNSmlDSOperatorSettings::HttpErrorReportingEnabled(void)
+	?SyncErrorReportingEnabled@CNSmlDSOperatorSettings@@QAEHXZ @ 64 NONAME ; int CNSmlDSOperatorSettings::SyncErrorReportingEnabled(void)
 

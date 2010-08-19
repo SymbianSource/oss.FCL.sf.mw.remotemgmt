@@ -22,7 +22,7 @@
 #include <ecom/implementationproxy.h>
 #include <SCPParamObject.h>
 #include <SCPServerInterface.h>
-#include <SCPTimestampPluginLang.rsg>
+#include <scptimestamppluginlang.rsg>
 #include "SCP_IDs.h"
 #include <bautils.h>
 #include <hal.h>

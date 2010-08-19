@@ -461,6 +461,8 @@ void CNSmlSOSSession::GetDMAuthInfoL( const RMessage2& aMessage )
     if ( !iDMAuthInfo )
         {
         aMessage.Complete( KErrNotFound );
+         _DBG_FILE("CNSmlSOSSession::GetDMAuthInfoL(): iDMAuthInfo is NULL");
+        return;
         }
     aMessage.WriteL( 0, iDMAuthInfo->Ptr(0), 0 );
     aMessage.Complete( KErrNone );
@@ -1545,6 +1547,7 @@ void CNSmlSOSSession::ResetHistoryLogL( const RMessage2& aMessage )
     if ( !log )
         {
         aMessage.Complete( KErrBadHandle );
+        return;
         }
     log->ResetL();
     aMessage.Complete(KErrNone);

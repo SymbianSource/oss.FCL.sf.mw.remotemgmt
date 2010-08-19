@@ -29,7 +29,7 @@
 #include "SCPClient.h"
 #include "SCPParamObject.h"
 
-#include <SCPNotifier.rsg>
+#include <scpnotifier.rsg>
 #include "SCP_IDs.h"
 
 #include <centralrepository.h>

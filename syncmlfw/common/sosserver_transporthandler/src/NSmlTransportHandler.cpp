@@ -24,7 +24,7 @@
 #include <f32file.h>
 #include <SyncMLTransportProperties.h>
 #include <data_caging_path_literals.hrh> 
-#include <NSmlTransport.rsg>
+#include <nsmltransport.rsg>
 
 #include <nsmlconstants.h>
 #include "NSmlTransportHandler.h"

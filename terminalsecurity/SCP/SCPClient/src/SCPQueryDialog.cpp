@@ -26,7 +26,7 @@
 // Include the SecUi definitions
 #include <secui.hrh>
 #include "SCPDebug.h"
-#include <SCPNotifier.rsg>
+#include <scpnotifier.rsg>
 // For Central Repository
 #include <centralrepository.h>
 #include <AknIncallBubbleNotify.h>

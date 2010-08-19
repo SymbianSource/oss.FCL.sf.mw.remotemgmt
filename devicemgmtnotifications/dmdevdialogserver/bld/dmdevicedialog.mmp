@@ -40,9 +40,9 @@ SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
 
 LIBRARY       euser.lib
 LIBRARY       efsrv.lib 
-LIBRARY       hbcore.lib
-LIBRARY 	  syncmlclientapi.lib
-LIBRARY 	  centralrepository.lib
+LIBRARY       HbCore.lib
+LIBRARY 	  	syncmlclientapi.lib
+LIBRARY 	  	centralrepository.lib
 DEBUGLIBRARY  flogger.lib 
 
 

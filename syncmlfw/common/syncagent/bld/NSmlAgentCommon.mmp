@@ -75,9 +75,10 @@ LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlxml.lib
 LIBRARY		centralrepository.lib
 LIBRARY         inetprotutil.lib
+LIBRARY         bafl.lib
 
 #ifdef ARMCC
-LIBRARY ECOM.LIB
+LIBRARY ecom.lib
 #endif
 //RD_AUTO_RESTART
 LIBRARY         commdb.lib 

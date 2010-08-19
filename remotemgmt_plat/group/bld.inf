@@ -47,5 +47,7 @@
 #include "../dcmo_adapter_api/group/bld.inf"
 #include "../dcmo_control_api/group/bld.inf"
 #include "../ds_capability_mgmt_plugin_api/group/bld.inf"
+#include "../syncml_ds_customization_api/group/bld.inf"
+#include "../syncml_ds_error_reporting_api/group/bld.inf"
 #include "../devicemgmt_dialogs_api/group/bld.inf"
 #include "../dm_device_dialog_api/group/bld.inf"

@@ -1,0 +1,11 @@
+#include <bldvariant.hrh>
+#ifndef __SYNCHCONFIGVALIDATOR_IBY__
+#define __SYNCHCONFIGVALIDATOR_IBY__
+
+#ifdef _DEBUG //add param USE_UDEB=1 with imaker if you want to enable this tool
+file=ABI_DIR/BUILD_DIR/synchconfigvalidator.exe    PROGRAMS_DIR\synchconfigvalidator.exe
+data=/epoc32/data/z/resource/apps/synchconfigvalidator.rsc    RESOURCE_FILES_DIR\synchconfigvalidator.rsc
+data=/epoc32/data/z/private/10003a3f/import/apps/synchconfigvalidator_reg.rsc    \private\10003a3f\apps\synchconfigvalidator_reg.rsc
+#endif // _DEBUG
+
+#endif __SYNCHCONFIGVALIDATOR_IBY__

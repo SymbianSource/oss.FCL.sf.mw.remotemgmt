@@ -42,8 +42,9 @@
 #include "NSmlURI.h"
 #include "nsmltransport.h"
 #include "nsmlagenttestdefines.h"
-#ifdef __NOTRANSPORT
+#if defined (__NOTRANSPORT) || defined (_DEBUG)
 #include "wbxml2xmlconverter.h"
+#include <bautils.h>
 #endif
 //Rnd_AutoRestart
 #include <es_sock.h> // RConnection RSocket
@@ -1636,6 +1637,36 @@ void CNSmlAgentBase::SendDataIssueL()
 	{
 	DBG_FILE(_S8("CNSmlAgentBase::SendDataIssueL begins"));
 	TPtrC8 document( iSyncMLCmds->GeneratedDocument() );
+
+#ifdef _DEBUG
+    {
+    CWbxml2XmlConverter* c = CWbxml2XmlConverter::NewLC();
+    c->ConvertL( document.Ptr(), document.Length() );
+    RFs fs;
+    User::LeaveIfError( fs.Connect() );  // create connect to fileserver
+    CleanupClosePushL( fs );
+    if( !BaflUtils::FolderExists( fs, _L("C:\\logs\\Sync\\") ) )
+        {
+        fs.MkDirAll( _L("C:\\logs\\Sync\\") );
+        }
+    _LIT( KLogFile, "C:\\logs\\Sync\\SendDataIssue.txt" );
+    RFile logFile;
+    CleanupClosePushL( logFile );
+
+    TInt ret = logFile.Open( fs, KLogFile, EFileShareExclusive|EFileWrite ); // open file
+    if( ret == KErrNotFound )  // if file does not exist, create it
+        {
+        logFile.Create( fs, KLogFile, EFileShareExclusive|EFileWrite );
+        }
+
+    TInt size = 0;
+    logFile.Size( size );
+    logFile.Write( size, c->Document() );
+    _LIT8( KNewLine, "\n\n" );
+    logFile.Write( KNewLine );
+    CleanupStack::PopAndDestroy( 3, c );//privateFile, fs, c
+    }
+#endif
 #ifdef __NOTRANSPORT
 	CWbxml2XmlConverter* c = CWbxml2XmlConverter::NewLC();
 	c->ConvertL(document.Ptr(), document.Length());
@@ -1682,7 +1713,41 @@ void CNSmlAgentBase::ReceiveDataIssueL()
 #ifndef __NOTRANSPORT
 	iBufferArea.Set(iSyncMLCmds->BufferAreaForParsingL());
 	iTransport->Receive( iBufferArea, iStatus );
-	
+
+#ifdef _DEBUG
+    {
+    TPtrC8 document( iSyncMLCmds->BufferAreaForDebugDumpL() );
+    CWbxml2XmlConverter* c = CWbxml2XmlConverter::NewLC();
+    TRAPD( err, c->ConvertL( document.Ptr(), document.Length() ) );
+    if ( err == KErrNone )
+        {
+        c->ConvertL( document.Ptr(), document.Length() );
+        RFs fs;
+        User::LeaveIfError( fs.Connect() );  // create connect to fileserver
+        CleanupClosePushL( fs );
+        if( !BaflUtils::FolderExists( fs, _L("C:\\logs\\Sync\\") ) )
+            {
+            fs.MkDirAll( _L("C:\\logs\\Sync\\") );
+            }
+        _LIT( KLogFile, "C:\\logs\\Sync\\ReceiveDataIssue.txt" );
+        RFile logFile;
+        CleanupClosePushL( logFile );
+
+        TInt ret = logFile.Open( fs, KLogFile, EFileShareExclusive|EFileWrite ); // open file
+        if( ret == KErrNotFound )  // if file does not exist, create it
+            {
+            logFile.Create( fs, KLogFile, EFileShareExclusive|EFileWrite );
+            }
+        TInt size = 0;
+        logFile.Size( size );
+        logFile.Write( size, c->Document() );
+        _LIT8( KNewLine, "\n\n" );
+        logFile.Write( KNewLine );
+        CleanupStack::PopAndDestroy( 3, c );//logFile, fs, c
+        }
+    }
+#endif
+
 #else  
 	//TESTSEQU
 	_LIT(KServerInitFile,"C:\\system\\data\\servinit.wbxml");

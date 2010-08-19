@@ -19,6 +19,13 @@
 #include "nsmlhttpclient.h"
 #include "nsmlerror.h"
 #include <featmgr.h>
+#include <nsmloperatorerrorcrkeys.h>
+#include <nsmloperatordatacrkeys.h> // KCRUidOperatorDatasyncInternalKeys
+#include <centralrepository.h> 
+
+//CONSTANTS
+const TInt KErrorCodeRangeFirst = 400;
+const TInt KErrorCodeRangeLast = 516;
 
 //Fix to Remove the Bad Compiler Warnings
 #ifndef __WINS__
@@ -48,6 +55,14 @@ void CHttpEventHandler::ConstructL( CNSmlHTTP* aAgent )
 	{
 	FeatureManager::InitializeLibL();
 	iAgent = aAgent;
+ 
+    CRepository* rep = NULL;
+    rep = CRepository::NewL( KCRUidOperatorDatasyncInternalKeys );
+    CleanupStack::PushL( rep );
+    rep->Get( KNsmlOpDsHttpErrorReporting, iErrorReportingEnabled );
+    CleanupStack::PopAndDestroy( rep );
+ 
+    iRepositorySSC = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys );
 	}
 //------------------------------------------------------------
 // CHttpEventHandler::~CHttpEventHandler()
@@ -55,7 +70,8 @@ void CHttpEventHandler::ConstructL( CNSmlHTTP* aAgent )
 //------------------------------------------------------------
 CHttpEventHandler::~CHttpEventHandler()
 	{
-		FeatureManager::UnInitializeLib();
+    FeatureManager::UnInitializeLib();		
+    delete iRepositorySSC;
 	}
 //------------------------------------------------------------
 // CHttpEventHandler::NewLC()
@@ -123,6 +139,15 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 			if ( contentTypeStr != KSmlContentTypeDS 
 				&& contentTypeStr != KSmlContentTypeDM )
 				{
+                if( this->iAgent->iSession == ESyncMLDSSession )
+                    {
+                    if( iErrorReportingEnabled && ( ( status >= KErrorCodeRangeFirst ) 
+                            && ( status <= KErrorCodeRangeLast ) ) )
+                        {
+                        iRepositorySSC->Set( KNsmlOpDsSyncErrorCode, status );
+                        }
+                    }  
+
 				//Error fix for BPSS-7H7H5S				
 				DBG_FILE( _S8("CHttpEventHandler::MHFRunL() There is a mismatch in the Content Type") );
 				

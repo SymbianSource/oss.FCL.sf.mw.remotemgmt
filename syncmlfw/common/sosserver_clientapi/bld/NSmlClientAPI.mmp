@@ -67,7 +67,7 @@ MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE	/epoc32/include/ecom
 SYSTEMINCLUDE	/epoc32/include/libc
 
-LIBRARY         euser.lib estor.lib FeatMgr.lib bafl.lib
+LIBRARY         euser.lib estor.lib featmgr.lib bafl.lib
 LIBRARY		eikcore.lib efsrv.lib ecom.lib
 LIBRARY		nsmltransporthandler.lib
 LIBRARY		nsmldebug.lib
