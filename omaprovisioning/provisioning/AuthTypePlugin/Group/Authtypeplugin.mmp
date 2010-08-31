@@ -65,7 +65,7 @@ LIBRARY             apparc.lib
 LIBRARY             avkon.lib
 LIBRARY             bafl.lib
 LIBRARY             commdb.lib
-LIBRARY             commonengine.lib // RConeResourceLoader
+LIBRARY             CommonEngine.lib // RConeResourceLoader
 LIBRARY             cone.lib
 LIBRARY             ecom.lib
 LIBRARY             efsrv.lib

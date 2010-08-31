@@ -1195,14 +1195,5 @@ void CTerminalControlServer::SetPasscodePolicyL( TBool aIsSet )
             ,policySet, this->Message().SecureId().iId));
     }
 
-void CTerminalControlServer :: ResetParametersL(TInt32 aAppID) {
-    RDEBUG("CTerminalControlServer::ResetParametersL >>>");
-    RArray <TUid> lAppIdArray;
-    CleanupClosePushL(lAppIdArray);
-    lAppIdArray.AppendL(TUid :: Uid(aAppID));
-    User :: LeaveIfError(iSCPClient.PerformCleanupL(lAppIdArray));
-    CleanupStack :: PopAndDestroy(1); //lAppIdArray
-    RDEBUG("CTerminalControlServer::ResetParametersL <<<");
-}
 // ----------------------------------------------------------------------------------------
 // End of file

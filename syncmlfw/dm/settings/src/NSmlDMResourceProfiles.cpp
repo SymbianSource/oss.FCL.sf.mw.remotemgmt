@@ -18,11 +18,9 @@
 
 
 // INCLUDE FILES
-#include <featmgr.h>
-#include <centralrepository.h>
 #include "nsmldmsettings.h"
 #include "NSmlDMResourceProfile.h"
-#include "DevManInternalCRKeys.h"
+#include <featmgr.h>
 const TInt KNSmlDmBluetoothType = 0x101F99F1;
 // ----------------------------------------------------------
 // CNSmlDMResourceProfiles implementation 
@@ -79,22 +77,13 @@ void CNSmlDMResourceProfiles::SaveProfilesL()
 	{
 	RemoveDuplicateEntry();
 	RemoveObexEntryL();
-	TInt count = iProfileArray->Count();
-	for ( TInt i = 0; i < count ; i++ )
+	for ( TInt i = 0; i < iProfileArray->Count(); i++ )
 		{
 		CNSmlDMProfile* profile = iSettings->CreateProfileL();
 		CleanupStack::PushL( profile );
 		iProfileArray->At(i)->SaveProfileL( profile );
 		profile->SaveL();
 		CleanupStack::PopAndDestroy(); // profile
-		}
-    CRepository* centrep = NULL;
-    TRAPD( err, centrep = CRepository::NewL(KCRUidDeviceManagementInternalKeys));  
-    if (err==KErrNone ) 
-    {
-        TInt err = centrep->Set( KMaxFactoryDMProfileId , count-1 );
-        delete centrep;
-        centrep = NULL;
 		}
 	}
 

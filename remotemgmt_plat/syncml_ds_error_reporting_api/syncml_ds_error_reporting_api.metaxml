@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="5d568c0272bed4d13d40e9eace6350db" dataversion="1.0">
+  <name>SyncML DS Error reporting API</name>
+  <description>Definitions of Error reporting keys related to SyncML framework</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

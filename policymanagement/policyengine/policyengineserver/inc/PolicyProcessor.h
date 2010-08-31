@@ -28,6 +28,9 @@
 #include "RequestContext.h"
 #include "PolicyStorage.h"
 #include <e32base.h>
+#include <msvapi.h>
+#include <hbsymbianvariant.h>
+#include <hbdevicedialogsymbian.h>
 
 // CONSTANTS
 // MACROS
@@ -141,6 +144,34 @@ class CPolicyProcessor : public CActive
 		HBufC8 * iRequestBuffer;		
 		TInt iProcessorState;
 };	
+
+
+//Class to launch PolicyEngine Dialog
+class CProcessorClient: public CActive,public MHbDeviceDialogObserver
+{
+public:
+    CProcessorClient();
+    ~CProcessorClient();
+    TInt LaunchDialog(const TDesC8& aFringerPrint, const TDesC8& aServerName);
+    // from MHbDeviceDialogObserver
+    void DataReceived(CHbSymbianVariantMap& aData);
+    void DeviceDialogClosed(TInt aCompletionCode);
+
+protected:
+    // from CActive
+    void DoCancel();
+    void RunL();
+    TInt WaitUntilDeviceDialogClosed();
+    void LaunchTrustNotificationDialog(const TDesC8& aServerName);
+private:
+    CHbDeviceDialogSymbian* iDevDialog;
+    CActiveSchedulerWait* iWait;
+    TInt iCompletionCode;
+    TInt iUserResponse;
+};
+
+
+
 
 class TCombiningAlgorith
 {

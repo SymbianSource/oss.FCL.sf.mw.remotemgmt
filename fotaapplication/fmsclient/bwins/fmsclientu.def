@@ -1,0 +1,8 @@
+EXPORTS
+	?Close@RFMSClient@@QAEXXZ @ 1 NONAME ; void RFMSClient::Close(void)
+	?Cancel@RFMSClient@@QAEXXZ @ 2 NONAME ; void RFMSClient::Cancel(void)
+	?OpenL@RFMSClient@@QAEHXZ @ 3 NONAME ; int RFMSClient::OpenL(void)
+	?IsPhoneCallActive@RFMSClient@@QAEHAAH@Z @ 4 NONAME ; int RFMSClient::IsPhoneCallActive(int &)
+	?NotifyForUpdateL@RFMSClient@@QAEXABW4TFmsIpcCommands@@I@Z @ 5 NONAME ; void RFMSClient::NotifyForUpdateL(enum TFmsIpcCommands const &, unsigned int)
+	?NotifyForResumeL@RFMSClient@@QAEXABW4TFmsIpcCommands@@ABHABW4TDriveNumber@@1@Z @ 6 NONAME ; void RFMSClient::NotifyForResumeL(enum TFmsIpcCommands const &, int const &, enum TDriveNumber const &, int const &)
+

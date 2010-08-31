@@ -34,13 +34,6 @@ const TInt KSCPModeRestricted = 1;
 */
 class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
 	{
-    public:
-        enum TKeypadContext {
-            ENumeric = 0,
-            EAlphaNumeric,
-            EContextSensitive
-        };
-    
 	public: // Construction and destruction
 	
 		/**
@@ -54,14 +47,12 @@ class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
                          RSCPClient::TSCPButtonConfig aButtonsShown, 
                          TInt aMinLength,
                          TInt aMaxLength,
-                         TBool aECSSupport,
-                         TKeypadContext aContext = EContextSensitive
+                         TBool aECSSupport
                          );
 		/**
         * Destructor.
         */
 		~CSCPQueryDialog();
-		
 	public:
 		/**
 		* Allows dismissing of code queries. Only mandatory requirement is that PIN
@@ -100,8 +91,6 @@ class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
 		
 		void HandleEcsEvent(CAknEcsDetector* aDetector, CAknEcsDetector::TState aUpdatedState);
 		void ShowWarningNoteL();
-		
-		void PostLayoutDynInitL();
 
 	private:
 		
@@ -131,13 +120,11 @@ class CSCPQueryDialog : public CAknTextQueryDialog, public MAknEcsObserver
         TBool                           iPrioritySet;
         TBool                           iPriorityDropped;
         TBool							isCallSoftkeyAdded;
-        TKeypadContext                  iContextSensitive;
         /** An integer variable to define the input mode of the lock code query */
         TInt def_mode;
         TInt iKeyUsed;
         CSCPLockObserver* iDeviceLockStatusObserver;
 		CSCPLockObserver* iCallStatusObserver;
-		TBool iLockedByLawMo;
 	};
 #endif
 

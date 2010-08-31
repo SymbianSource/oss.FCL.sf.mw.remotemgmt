@@ -25,9 +25,6 @@
 #include <CWPParameter.h>
 #include <wpwvadapterresource.rsg>
 
-#include <ApDataHandler.h>
-#include <ApAccessPointItem.h>
-#include <ApUtils.h>
 #include <commdb.h>
 #include "WPAdapterUtil.h"
 #include "CWPIMSAPItem.h"
@@ -174,19 +171,8 @@ void CWPIMAdapter::SaveL( TInt aIndex )
         TUint32 iapId(KMaxTUint32);
         if(data->iLinks.Count())
     	    {
-            CApAccessPointItem* item = WPIMUtil::FindGPRSL( data->iLinks );
-          	CleanupStack::PushL( item );
-
-            // get the WAP id
-        	CCommsDatabase* commDb = CCommsDatabase::NewL();
-        	CleanupStack::PushL(commDb);
-        	TUint32 uid( item->WapUid() );
-
-        	// Convert WAP uid to IAP uid
-            CApUtils* apUtils = CApUtils::NewLC( *commDb );
-        	iapId = apUtils->IapIdFromWapIdL( uid );
-        	CleanupStack::PopAndDestroy( 3 ); // apUtils, commDb, item    
-    	    }
+            iapId = WPIMUtil::FindGPRSL( data->iLinks );
+            }
     	// set the IAP id as part of save item.
     	sapItem->SetIAPIdL( iapId );
            

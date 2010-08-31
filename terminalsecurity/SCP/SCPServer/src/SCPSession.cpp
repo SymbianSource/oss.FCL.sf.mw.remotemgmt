@@ -110,6 +110,7 @@ CSCPSession::~CSCPSession()
     iPendingCallStatus = NULL;
     
     iServer.SessionClosed();
+    
     if(iALParamValue) {
 		delete iALParamValue;		
     }
@@ -423,6 +424,7 @@ void CSCPSession::SetDOSLockSettingL( TBool aLocked,
         User::Leave( KErrGeneral );
         }
      
+    
     // Create a timer object for this call
     iLockOperationTimer = CSCPTimer::NewL( KSCPLockOperationTimeout, NULL, this );
      
@@ -572,8 +574,29 @@ void CSCPSession::HandleGetLockStateMessageL( const RMessage2 &aMessage )
     Dprint( (_L("<-- CSCPSession::HandleGetLockStateMessageL()") ));
     }	
 		
-		
-		
+void CSCPSession :: HandleGetPoliciesL(const RMessage2 &aMessage) {
+    #ifdef SCP_ENFORCE_SECURITY
+    // Check the access for this parameter
+    if((aMessage.SecureId() != KSCPServerSIDTerminalControl) &&
+       (aMessage.SecureId() != KSCPServerSIDGeneralSettings) &&
+       (aMessage.SecureId() != KDevEncUiUid)) {
+       
+        Dprint((_L("CSCPSession::HandleSetParamMessageL(): ERROR: Permission denied")));
+        User :: Leave( KErrPermissionDenied);
+    }
+    #endif // SCP_ENFORCE_SECURITY
+    
+    // Init a local buffer to store the return value
+    HBufC8* lBuffer = HBufC8 :: NewLC(aMessage.GetDesMaxLength(1));
+
+    iServer.GetPoliciesL(lBuffer, aMessage.SecureId().iId);
+    Dprint((_L("[CSCPSession]-> iServer.GetPoliciesL complete...")));
+    
+    TPtr8 bufPtr = lBuffer->Des();
+    // OK, send the data to the client side
+    aMessage.WriteL(1, bufPtr);
+    CleanupStack :: PopAndDestroy(1); // lBuffer
+}
 		
 // ---------------------------------------------------------
 // void CSCPSession::HandleSetParamMessageL( const RMessage2 &aMessage )
@@ -853,6 +876,7 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
     TSecureId id = aMessage.SecureId();
 	
     switch(id.iId) {
+        case KSCPSTIF:
         case KSCPServerSIDAutolock:
         case KAknNfySrvUid:
         case KSCPServerSIDGeneralSettings:
@@ -863,7 +887,7 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
             break;
         default: {
             Dprint( (_L("[CSCPSession]-> ERROR: Permission denied") ));
-        User::Leave( KErrPermissionDenied );
+            User::Leave( KErrPermissionDenied );
         }
     };
 	
@@ -912,37 +936,12 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
             returning %d"), ret ));
         User::Leave( ret );            
         }
-        
-    // If additional parameters are passed to client side, add them to slot 2
-    if ( addParams != NULL )
+    // read failed polices to msg buffer
+    if (addParams != NULL)
         {
-        HBufC8* paramBuf;
-        TInt pRet = addParams->GetBuffer( paramBuf );
-        
-        if ( pRet != KErrNone )
-            {
-            Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                failed to get additional parameter buffer: %d"), pRet ));
-            }
-        else
-            {
-            TPtr8 paramPtr = paramBuf->Des();
-            if ( aMessage.GetDesMaxLength( 2 ) >= paramPtr.Length() )
-                {
-                aMessage.Write( 2, paramPtr );    
-                }
-            else
-                {
-                Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                    WARNING: not enough space for additional parameters") ));                
-                }                
-            
-            delete paramBuf;            
-            }
-        
-        delete addParams;               
+        ReadFailedPoliciestoMsgBufferL(addParams,aMessage,2);
         }
-                
+        delete addParams;
     // OK, we either have the correct ISA code or don't, return it to the client in slot 1
     User::LeaveIfError( aMessage.Write( 1, isaCodeToReturn ) );    
             
@@ -959,133 +958,72 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
 // Status : Approved
 // ---------------------------------------------------------
 //
-void CSCPSession::HandleChangeEnhCodeMessageL( const RMessage2 &aMessage )
-    {
+void CSCPSession :: HandleChangeEnhCodeMessageL(const RMessage2 &aMessage) {
     
-    if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-	{	
-		FeatureManager::UnInitializeLib();
-		User::Leave(KErrNotSupported);
+    Dprint(_L("[CSCPSession]-> HandleChangeEnhCodeMessage() >>>"));
+    
+    if(!FeatureManager :: FeatureSupported(KFeatureIdSapDeviceLockEnhancements)) {	
+		FeatureManager :: UnInitializeLib();
+		User :: Leave(KErrNotSupported);
 	}
-    Dprint( (_L("--> CSCPSession::HandleChangeEnhCodeMessage()") ));
-    
-    HBufC* oldPassBuf = NULL;
-    HBufC* newPassBuf = NULL;
     
     TInt oldPasswordLen = aMessage.GetDesLength(0);
     TInt newPasswordLen = aMessage.GetDesLength(1);
     
-    if ( ( newPasswordLen == 0 ) || ( oldPasswordLen == 0 ) )
-        {
+    if ((newPasswordLen == 0) || (oldPasswordLen == 0)) {
         // We cannot accept an empty code
-        Dprint( (_L("<-- ERROR: CSCPSession::HandleChangeEnhCodeMessage():\
-            returning KErrArgument, buffer empty") ));
-        User::Leave( KErrArgument );      
-        }
-    else
-        {
-        oldPassBuf = HBufC::NewLC( oldPasswordLen );
-        newPassBuf = HBufC::NewLC( newPasswordLen );
-        }
+        Dprint(_L("[CSCPSession]-> ERROR: Input buffers are empty!!"));
+        User :: Leave(KErrArgument);
+    }
+
+    TInt lErr = KErrNone;
+    HBufC* oldPassBuf = HBufC :: NewLC(oldPasswordLen);
+    HBufC* newPassBuf = HBufC :: NewLC(newPasswordLen);
     
     TPtr oldPassPtr = oldPassBuf->Des();
     TPtr newPassPtr = newPassBuf->Des();
     
     // Read the strings, slot 0 = old password, slot 1 = new password  
-    TRAPD( err, aMessage.ReadL( 0, oldPassPtr ) );
-    TRAP( err, aMessage.ReadL( 1, newPassPtr ) );
+    aMessage.ReadL(0, oldPassPtr);
+    aMessage.ReadL(1, newPassPtr);
         
     // A buffer for the updated DOS password
     TSCPSecCode newDosCode;
-    newDosCode.Zero();    
+    newDosCode.Zero();
     
-    CSCPParamObject* addParams = NULL;
-    if ( err != KErrNone )
-        {
-        Dprint( (_L("<-- ERROR: CSCPSession::HandleChangeEnhCodeMessage():\
-            failed to read the strings to server side: %d"), err ));        
-        }
-    else
-        {
-        err = iServer.CheckAndChangeEnhCodeL( oldPassPtr, newPassPtr, addParams, newDosCode );
-        }        
+    CSCPParamObject* addParams = NULL;    
+    lErr = iServer.CheckAndChangeEnhCodeL(oldPassPtr, newPassPtr, addParams, newDosCode);    
+    CleanupStack :: PushL(addParams);
     
-    // If additional parameters are passed to client side, add them to slot 2
-    if ( addParams != NULL )
-        {
-        HBufC8* paramBuf;
-        TInt pRet = addParams->GetBuffer( paramBuf );
-        
-        if ( pRet != KErrNone )
-            {
-            Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                failed to get additional parameter buffer: %d"), pRet ));
-            }
-        else
-            {
-            TPtr8 paramPtr = paramBuf->Des();
-            if ( aMessage.GetDesMaxLength( 2 ) >= paramPtr.Length() )
-                {
-                aMessage.Write( 2, paramPtr );    
-                }
-            else
-                {
-                Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                    WARNING: not enough space for additional parameters") ));                
-                }                
-            
-            delete paramBuf;            
-            }
-        
-        delete addParams;               
-        }
-        
-    if ( err == KErrNone )
-        {
-        // Copy the new DOS code to slot 3
-        TInt ret = aMessage.Write( 3, newDosCode );
-        if ( ret != KErrNone )
-            {
-            Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                    WARNING: failed to write the new DOS code to client-side") ));
-            }
-         else
-         	{
-         	/* Get the very first character of the new lock code and set the default input mode of the
-         	lock code query on the basis of the first character. */
-         	ch = newPassPtr[0];
-			def_mode = ch.IsDigit() ? 0 : 1;
-		
-			CRepository* repository = CRepository :: NewL(KCRUidSCPParameters);			
-    		CleanupStack::PushL( repository );
-    	
-    		User::LeaveIfError(repository->Set( KSCPLockCodeDefaultInputMode , def_mode) );
-    		CleanupStack :: PopAndDestroy(repository);
-    		
-   			/* Set the value in the cenrep that the default lock code has been changed if it is not 
-             * already set
-             * */
-			repository = CRepository :: NewL(KCRUidSCPLockCode);
-            CleanupStack :: PushL(repository);
-            User :: LeaveIfError(repository->Set(KSCPLockCodeDefaultLockCode, 0));
-    		CleanupStack::PopAndDestroy( repository );
-    		repository = NULL;    	   	
-         	}
-        }
-        
-    oldPassPtr.Zero();
-    newPassPtr.Zero();
-    CleanupStack::PopAndDestroy( newPassBuf );
-    CleanupStack::PopAndDestroy( oldPassBuf );
-    
-    Dprint( (_L("<-- CSCPSession::HandleChangeEnhCodeMessage(): %d"), err ));
-    
-    if ( err != KErrNone )
-        {
-        User::Leave( err );
-        }
+    if (addParams != NULL) {
+        ReadFailedPoliciestoMsgBufferL(addParams, aMessage, 2);
     }
     
+    CleanupStack :: PopAndDestroy(1); //addParams
+
+    if(lErr == KErrNone) {
+        /* Get the very first character of the new lock code and set the default input mode of the
+        lock code query on the basis of the first character. */
+        ch = newPassPtr[0];
+        def_mode = ch.IsDigit() ? 0 : 1;
+    
+        CRepository* repository = CRepository :: NewLC(KCRUidSCPParameters);
+        User :: LeaveIfError(repository->Set(KSCPLockCodeDefaultInputMode, def_mode));
+        CleanupStack :: PopAndDestroy(repository);
+        
+        /* Set the value in the cenrep that the default lock code has been changed if it is not 
+         * already set
+         * */
+        repository = CRepository :: NewLC(KCRUidSCPLockCode);
+        User :: LeaveIfError(repository->Set(KSCPLockCodeDefaultLockCode, 0));
+        CleanupStack :: PopAndDestroy(repository);
+    }
+    
+    CleanupStack :: PopAndDestroy(2); //newPassBuf, oldPassBuf
+    
+    Dprint(_L("[CSCPSession]-> HandleChangeEnhCodeMessage() lErr=%d <<<"), lErr);
+    User :: LeaveIfError(lErr);
+}   
     
 // ---------------------------------------------------------
 // void CSCPSession::HandleQueryChangeMessageL()
@@ -1097,52 +1035,24 @@ void CSCPSession::HandleChangeEnhCodeMessageL( const RMessage2 &aMessage )
     
 void CSCPSession::HandleQueryChangeMessageL( const RMessage2 &aMessage )
     {
+    Dprint( (_L("--> CSCPSession::HandleQueryChangeMessage()") ));
     if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 	{	
+        Dprint( (_L("--> CSCPSession::HandleQueryChangeMessage() .. Feature not Supported !!") ));
 		FeatureManager::UnInitializeLib();
 		User::Leave(KErrNotSupported);
 	}
-    Dprint( (_L("--> CSCPSession::HandleQueryChangeMessage()") ));
     
     CSCPParamObject* addParams = NULL;
     
     TInt ret = iServer.IsPasswordChangeAllowedL( addParams );        
-    
-    // Return the reply in slot 0
-    
-    TPckg<TInt> retPackage(ret);
-    aMessage.WriteL(0, retPackage );
-    
-    // If additional parameters are passed to client side, add them to slot 1
-    if ( addParams != NULL )
+    if (ret != KErrNone)
         {
-        HBufC8* paramBuf;
-        TInt pRet = addParams->GetBuffer( paramBuf );
-        
-        if ( pRet != KErrNone )
-            {
-            Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                failed to get additional parameter buffer: %d"), pRet ));
-            }
-        else
-            {
-            TPtr8 paramPtr = paramBuf->Des();
-            if ( aMessage.GetDesMaxLength( 1 ) >= paramPtr.Length() )
-                {
-                aMessage.Write( 1, paramPtr );    
-                }
-            else
-                {
-                Dprint( (_L("WARNING: CSCPSession::HandleAuthenticationMessage():\
-                    WARNING: not enough space for additional parameters") ));                
-                }                
-            
-            delete paramBuf;            
-            }
-        
-        delete addParams;               
-        }    
-   
+        ReadFailedPoliciestoMsgBufferL(addParams,aMessage,0);
+        }
+    if (addParams != NULL)
+        delete addParams;
+    
     Dprint( (_L("<-- CSCPSession::HandleQueryChangeMessage()") ));    
     }
 
@@ -1446,7 +1356,13 @@ void CSCPSession::DispatchSynchronousMessageL( const RMessage2 &aMessage )
                     
         case ( ESCPServGetParam ):
             {
-            HandleGetParamMessageL( aMessage );
+                if(aMessage.Int0() == -1) {
+                    HandleGetPoliciesL(aMessage);
+                }
+                else {
+                    HandleGetParamMessageL(aMessage);
+                }
+                
             break; 
             }
             
@@ -1497,6 +1413,11 @@ void CSCPSession::DispatchSynchronousMessageL( const RMessage2 &aMessage )
 		    }
             break;
             }
+        case ESCPServValidateLockcode:
+            {
+            ValidateLockcodeAgainstPoliciesL(aMessage);
+            break;
+            }
             
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS         
                            		
@@ -1541,7 +1462,7 @@ TInt CSCPSession :: NotifyAllStakeHoldersL(const RArray<const TParamChange>& aCh
         if(TUint32(id.iUid) != aCallerID) {
             CTC3rdPartyParamsEcomIF* plugin = CTC3rdPartyParamsEcomIF :: NewL(implementation);
             CleanupStack :: PushL(plugin);
-            TRAPD(leaveCode, plugin->DeviceLockParamChangedL(aChange));
+            TRAP_IGNORE( plugin->DeviceLockParamChangedL(aChange));
             CleanupStack :: PopAndDestroy(); // plugin 
         }
 
@@ -1555,24 +1476,19 @@ TInt CSCPSession :: NotifyAllStakeHoldersL(const RArray<const TParamChange>& aCh
 }
 
 TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
-    Dprint((_L("[CSCPSession]-> HandleCleanupL() >>>")));
-	
-    if( (aMessage.SecureId().iId != KSCPServerSIDTerminalControl) && 
-        (aMessage.SecureId().iId != KSCPEvntHndlrUid)) {
-		
-        Dprint((_L("[CSCPSession]-> ERROR: caller app id=%ld. Permission denied..."), aMessage.SecureId().iId));
-        User :: Leave(KErrPermissionDenied);
-    }
-	
     // Copy the client data into a local buffer
     TInt32 lCount = aMessage.GetDesLength(1);
+    
+/*    // If the caller is not SCPEventHandler the deny access
+    if(aMessage.SecureId() != KSCPEvntHndlrUid) {
+        return KErrPermissionDenied;
+    }*/
     
     // Atleast one application id has to be present in the received message (atleast 8 bytes)
     if(lCount < sizeof(TInt32)) {
         return KErrArgument;
     }
     
-    TInt lStatus = KErrNone;
     RArray<const TParamChange> lChangeArray;
     CleanupClosePushL(lChangeArray);
     
@@ -1581,7 +1497,9 @@ TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
     
     HBufC8* lBuffer = HBufC8 :: NewLC(lCount);
     TPtr8 bufPtr = lBuffer->Des();
-    aMessage.ReadL(1, bufPtr);    
+    aMessage.ReadL(1, bufPtr);
+    
+    TInt lStatus = KErrNone;
     
     TRAPD(lErr, lStatus = iServer.PerformCleanupL(lBuffer, lChangeArray, lParamValArray));
     
@@ -1605,14 +1523,13 @@ TInt CSCPSession :: HandleCleanupL(const RMessage2& aMessage) {
     
     lParamValArray.ResetAndDestroy();
     CleanupStack :: PopAndDestroy(3); // lParamIDArray lParamValArray lBuffer    
-    Dprint((_L("[CSCPSession]-> HandleCleanupL() <<<")));
     return lStatus;
 }
 
 TInt CSCPSession :: HandleSetALPeriodL( const RMessage2& aMessage ) {
     Dprint((_L("[CSCPSession]-> HandleSetParamMessageL() >>>")));
     TBool oldALState = EFalse;
-    TBool lNotifyChange = ETrue;
+    
     #ifndef __WINS__ // No need to check for lock setting changes in emulator
     if ( ( (TSCPParameterID)aMessage.Int0() == ESCPAutolockPeriod ) ||
          ( (TSCPParameterID)aMessage.Int0() == ESCPMaxAutolockPeriod ) )    
@@ -1676,7 +1593,68 @@ void CSCPSession :: NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint3
 	}
 	
 	Dprint(_L("[CSCPSession]->INFO: Initiating notification to all the StakeHolders..."));
-	TRAPD(lErr, NotifyAllStakeHoldersL(lChangeArray, aCallerID));
+	TRAP_IGNORE( NotifyAllStakeHoldersL(lChangeArray, aCallerID));
 	Dprint(_L("[CSCPSession]->INFO: Notification to all the StakeHolders complete..."));
 	CleanupStack :: PopAndDestroy(); //lChangeArray
+}
+
+void CSCPSession :: ReadFailedPoliciestoMsgBufferL(CSCPParamObject*& aParamObject, const RMessage2& aMessage, TInt aSlotNumber) {
+    Dprint((_L("[CSCPSession]-> ReadFailedPoliciestoMsgBufferL() >>>")));
+    //get failed polices array from param object
+    const RArray<TInt>& failedPolicesArray = aParamObject->GetFailedPolices();
+    
+    // extra one for failed policies count
+    HBufC8* failedPoliciesBuf = HBufC8 :: NewLC((EDevicelockTotalPolicies+1) * sizeof(TInt32));
+    TPtr8 failedpoliciesBufPtr = failedPoliciesBuf->Des();
+    
+    RDesWriteStream writeStream(failedpoliciesBufPtr);
+    CleanupClosePushL(writeStream);
+    
+    writeStream.WriteInt32L(failedPolicesArray.Count());
+    
+    for(int count =0; count < failedPolicesArray.Count(); count++) {
+        writeStream.WriteInt32L(failedPolicesArray[count]);
+    }
+    
+    writeStream.CommitL();
+    aMessage.WriteL(aSlotNumber, failedPoliciesBuf->Des());
+    CleanupStack :: PopAndDestroy(2); //writeStream, failedPoliciesBuf
+    Dprint((_L("[CSCPSession]-> ReadFailedPoliciestoMsgBufferL() <<<")));
+}
+
+void CSCPSession :: ValidateLockcodeAgainstPoliciesL(const RMessage2& aMessage) {
+    Dprint((_L("[CSCPSession]-> ValidateLockcodeAgainstPolicies() <<<")));
+    TInt lRet = KErrNone;
+    HBufC* lockcodeBuf = NULL;
+    CSCPParamObject* addParams = NULL;
+    TInt lockcodeLen = aMessage.GetDesLength(0);
+    Dprint( (_L("CSCPSession :: ValidateLockcodeAgainstPoliciesL: lockcodeLen ->%d"), lockcodeLen ));
+    if (lockcodeLen == 0) {
+        User :: Leave(KErrArgument);
+    }
+    else {
+        lockcodeBuf = HBufC :: NewLC(lockcodeLen);
+    }
+    
+    TPtr lockcodeptr = lockcodeBuf->Des();
+    TRAP( lRet, aMessage.ReadL( 0, lockcodeptr ) );
+    User :: LeaveIfError(lRet);
+    
+    lRet = iServer.ValidateLockcodeAgainstPoliciesL(lockcodeptr, addParams);
+    
+    if(addParams) {
+        CleanupStack :: PushL(addParams);
+    }
+    
+    if (lRet != KErrNone) {
+        ReadFailedPoliciestoMsgBufferL(addParams, aMessage, 1);
+    }
+    
+    if(addParams) {
+        CleanupStack :: PopAndDestroy(addParams);
+    }
+    
+    CleanupStack :: PopAndDestroy(1); // lockcodeBuf
+    Dprint((_L("[CSCPSession]-> ValidateLockcodeAgainstPolicies() <<<")));
+    User :: LeaveIfError(lRet);
 }

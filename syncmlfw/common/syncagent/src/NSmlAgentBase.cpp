@@ -50,10 +50,10 @@
 #include <es_sock.h> // RConnection RSocket
 #include <es_enum.h> // TConnectionInfo
 #include <commdb.h>
-#include <ApListItemList.h>
-#include <ApListItem.h>
-#include <ApSelect.h>
-#include <ApUtils.h>
+#include <cmconnectionmethoddef.h>
+#include <cmconnectionmethod.h>
+#include <cmmanager.h>
+#include <cmpluginwlandef.h>
 #include "nsmlhttp.h"
 
 //Fix to Remove the Bad Compiler Warnings
@@ -451,7 +451,7 @@ EXPORT_C void CNSmlAgentBase::ConstructL()
 	//Auto_Restart
     iPacketDataUnAvailable = EFalse;    
     iNetmonAPId = 0;
-    iNetmonAPBearerType = TApBearerType(-1);
+    iAllowAutoRestart = EFalse;
 	}
 
 
@@ -958,7 +958,6 @@ EXPORT_C void CNSmlAgentBase::SendingStateL()
     				if(error == KErrNone && val == 1)
 					{
 		       		
-			       		DBG_FILE_CODE(iNetmonAPBearerType, _S8("CNSmlAgentBase::SendingStateL The Network Bearer Type is"));
 			       		DBG_FILE_CODE(err, _S8("CNSmlAgentBase::SendingStateL The Network Error is"));
 			       		
 			       		if(err == TNSmlHTTPErrCode::ENSmlHTTPErr_RequestTimeout)
@@ -971,8 +970,7 @@ EXPORT_C void CNSmlAgentBase::SendingStateL()
 			       			LaunchAutoRestartL(err);
 			       		}
 		       		
-			       		else if(iNetmonAPBearerType == EApBearerTypeGPRS ||
-		    				   iNetmonAPBearerType == EApBearerTypeCDMA )
+			       		else if( iAllowAutoRestart )
 			       		{
 			       			DBG_FILE(_S8("CNSmlAgentBase::SendingStateL Waiting for 30 sec"));
 			       			User::After(TTimeIntervalMicroSeconds32(30000000));
@@ -1605,73 +1603,28 @@ void CNSmlAgentBase::ReadAcessPointL()
 				connectionInfo );	
 		iNetmonAPId = connectionInfo().iIapId;
 		DBG_FILE_CODE(iNetmonAPId, _S8("CNSmlAgentBase::ReadAcessPointL(), The IAPId is:"));
-		iNetmonAPBearerType = CheckAPBearerTypeL( iNetmonAPId );
-		DBG_FILE_CODE(TInt(iNetmonAPBearerType), _S8("CNSmlAgentBase::ReadAcessPointL(), The Enumerated IAPId is:"));
-    	
-    }
+		RCmManager  cmmanager;
+		cmmanager.OpenL();
+		CleanupClosePushL(cmmanager);
+		RCmConnectionMethod cm;
+		cm = cmmanager.ConnectionMethodL( iNetmonAPId );
+		CleanupClosePushL( cm );
+		TUint32 bearer = 0;
+		//TRAP_IGNORE( accesspointId = cm.GetIntAttributeL(CMManager::ECmIapId) );?
+		bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );
+		CleanupStack::PopAndDestroy( 2 ); //cmmanager,cm
+		if ( bearer == KUidWlanBearerType )
+		{
+			 iAllowAutoRestart = EFalse;
+		}
+		else
+		{
+			iAllowAutoRestart = ETrue;
+		}
+	}
 
     myConnection.Close();
     socketServer.Close();
-}
-
-// -----------------------------------------------------------------------------
-// CNSmlAgentBase::CheckAPBearerTypeL
-// Returns bearer type of the selected Access Point.
-// -----------------------------------------------------------------------------
-EXPORT_C TApBearerType CNSmlAgentBase::CheckAPBearerTypeL( const TUint32 aIAPId )
-{
-    // Create connection to the Access Points setting data.
-    CCommsDatabase* cAPCommsDatabase = CCommsDatabase::NewL( EDatabaseTypeIAP );
-    
-    TApBearerType bearerType(TApBearerType(-1));
-    
-    // Attach to the Access Point Engine.
-    CApSelect* apSelect = CApSelect::NewLC( 
-                                        *cAPCommsDatabase,
-                                        KEApIspTypeAll,
-                                            EApBearerTypeWLAN |
-                                            EApBearerTypeCDMA |
-                                            EApBearerTypeGPRS,
-                                        KEApSortUidAscending,
-                                        EIPv4 | EIPv6
-                                        );
-    
-    // Create ApUtils for some utilities functions.
-    CApUtils* apUtils = CApUtils::NewLC( *cAPCommsDatabase );
-    
-    // Get supported Access Points from Access Point Engine..
-    CApListItemList* apItems = new (ELeave) CApListItemList;
-    CleanupStack::PushL( apItems );
-    apSelect->AllListItemDataL( *apItems );
-    
-    for ( TInt i = 0; i < apItems->Count(); i++ )
-        {
-        // Get id from APEngine and convert it to the CommsDB id.
-        TUint32 iapId = apUtils->IapIdFromWapIdL( apItems->At( i )->Uid() );
-        
-        // Change bearer type according to id match.
-        if ( aIAPId == iapId )
-            {
-            bearerType = apItems->At( i )->BearerType(); 
-            
-            //Getting the IAP name
-            const TDesC& name = apItems->At( i )->Name();
-		
-			DBG_ARGS(_S("CNSmlAgentBase::CheckAPBearerTypeL(), The IAP Name is: %S"), &name);         
-                   
-            i = apItems->Count();
-            }
-        }
-    
-    // PopAndDestroy some items.
-    CleanupStack::PopAndDestroy( apItems );
-    CleanupStack::PopAndDestroy( apUtils );
-    CleanupStack::PopAndDestroy( apSelect );
-    
-    delete cAPCommsDatabase;
-    
-    // Return bearer type.
-    return bearerType;    
 }
 //RD_AUTO_RESTART
 
@@ -1965,10 +1918,7 @@ void CNSmlAgentBase::ErrorHandling( TInt aErrorCode )
 	if(iPacketDataUnAvailable)
 	{
 		DBG_FILE(_S8("CNSmlAgentBase::FinaliseWhenErrorL Prompting for a Dialog"));
-		if (iError)
-			{
-			iError->SetErrorCode( TNSmlError::ESmlCommunicationError);		
-			}
+		iError->SetErrorCode( TNSmlError::ESmlCommunicationError);		
 		User::RequestComplete( iCallerStatus, TNSmlError::ESmlCommunicationError );
 	}
 	//RD_AUTO_RESTART

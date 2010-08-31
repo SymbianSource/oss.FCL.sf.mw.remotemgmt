@@ -21,25 +21,27 @@
 #include <e32std.h>
 #include <ecom/implementationproxy.h>
 #include <SCPParamObject.h>
-#include <SCPTimestampPluginLang.rsg>
+#include <SCPServerInterface.h>
+#include <scptimestamppluginlang.rsg>
 #include "SCP_IDs.h"
 #include <bautils.h>
 #include <hal.h>
 #include <AknGlobalNote.h>
+#include <AknGlobalConfirmationQuery.h>
 // For wipe
-//#include <StarterClient.h>
-//#include <sysutil.h>
-//#include <SysLangUtil.h>
-//#include <rfsClient.h>
-//#include "DMUtilClient.h"
+#include <starterclient.h>
+#include <sysutil.h>
+#include <syslangutil.h>
+#include <rfsClient.h>
+#include "DMUtilClient.h"
 
 #include "SCPTimestampPlugin.h"
 #include <featmgr.h>
-//#ifdef RD_MULTIPLE_DRIVE
-//#include <DriveInfo.h>
-//#include <PathInfo.h>
-//#include <f32file.h>
-//#endif //RD_MULTIPLE_DRIVEs
+#ifdef RD_MULTIPLE_DRIVE
+#include <driveinfo.h>
+#include <pathinfo.h>
+#include <f32file.h>
+#endif //RD_MULTIPLE_DRIVEs
 // CONSTANTS
 
 // ============================= LOCAL FUNCTIONS  =============================
@@ -99,7 +101,6 @@ void CSCPTimestampPlugin::ConstructL()
    		User::Leave( KErrNotSupported );
   	}
    	FeatureManager::UnInitializeLib();  
-	iUserInfo = CSCPUserInf::NewL();
     Dprint ( ( _L( "CSCPTimestampPlugin::ConstructL()" ) ) );    
     
     return;
@@ -125,8 +126,6 @@ CSCPTimestampPlugin::~CSCPTimestampPlugin()
         iConfiguration = NULL;
         }
 
-    if(iUserInfo)
-        delete iUserInfo;
     Dprint( ( _L( "<-- CSCPTimestampPlugin::~CSCPTimestampPlugin()" ) ) );
     return;
     }
@@ -140,11 +139,9 @@ CSCPTimestampPlugin::~CSCPTimestampPlugin()
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aParam )
-	{		
+void CSCPTimestampPlugin :: HandleEventL( TInt aID, CSCPParamObject& aParam, CSCPParamObject& aOutParam )
+	{
 	Dprint ( ( _L( "CSCPTimestampPlugin::HandleEvent()" ) ) );		
-    	
-	CSCPParamObject* retParams = NULL;
 	
 	// Get our current functional configuration
 	if ( iEventHandler->GetParameters().Get( 
@@ -167,18 +164,8 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
 	    {
 	    iMaxAttempts = 0;
 	    }	    	    
-	    
-	if ( !iResOpen )
-	    {
-	    // Load the resource file containing the localized texts
-        TInt ret = GetResource();
-        if ( ret == KErrNone )
-            {
-            iResOpen = ETrue;
-            }
-        // We'll continue without the resource if required
-	    }		    
-	
+	Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): iExpiration :%d, iExpiration :%d, iMinTolerance :%d, iMaxAttempts :%d"), iExpiration,iMinInterval,iMinTolerance,iMaxAttempts ) ); 
+	Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): aID is :%d"), aID) );
 	switch ( aID )
 	    {	    	    
 	    case ( KSCPEventPasswordChangeQuery ):
@@ -186,7 +173,7 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
 	        if ( iMinInterval > 0 )
                 {   
 	            // Ignore errors, the plugin will stay silent on error
-	            TRAP_IGNORE( IsChangeAllowedL( aParam, retParams ) );
+	            TRAP_IGNORE( IsChangeAllowedL( aParam, aOutParam ) );
                 }
 	        break;
 	        }
@@ -198,7 +185,7 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
 	            	            
 	        if ( aParam.Get( KSCPParamID, paramID ) == KErrNone ) 
 	            {	                
-	            ConfigurationQuery( paramID, aParam, retParams );
+	            ConfigurationQuery( paramID, aParam, aOutParam );
 	            }
 	                	                	            
 	        break;
@@ -206,7 +193,7 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
 
 	    case ( KSCPEventPasswordChanged ):
 	        {	            
-	        PasswordChanged( aParam, retParams );
+	        PasswordChanged( aParam, aOutParam );
 	        break;
 	        }
 
@@ -217,7 +204,7 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
                 {
                 TBool isSuccess = ( authStatus == KErrNone );
                 // No return value required in any case
-                AuthenticationAttempt( isSuccess, aParam, retParams );
+                AuthenticationAttempt( isSuccess, aParam, aOutParam );
                 }	            
            	                
             break;
@@ -241,7 +228,6 @@ CSCPParamObject* CSCPTimestampPlugin::HandleEvent( TInt aID, CSCPParamObject& aP
 	    }	    	    
 	
     // The caller will own this pointer from now on   
-    return retParams; 
 	}
 
 // ----------------------------------------------------------------------------
@@ -267,7 +253,7 @@ void CSCPTimestampPlugin::SetEventHandler( MSCPPluginEventHandler* aHandler )
 // Status : Approved
 // ----------------------------------------------------------------------------
 // 
-void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject*& aRetParams )
+void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject& aRetParams )
     {  
     (void)aParam;
                           
@@ -297,8 +283,7 @@ void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamOb
         iConfiguration->Get( KSCPUsedTolerance, tolerance ); // ignore errors
         Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): tolerance get: %d"), tolerance ) );                
         Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): iMinTolerance : %d"), iMinTolerance ) );                
-
-        if ( iMinTolerance > 0 && tolerance >= iMinTolerance )
+        if ( tolerance >= iMinTolerance )
             {
             ret = KErrSCPCodeChangeNotAllowed;
             Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL() KErrSCPCodeChangeNotAllowed") )); 
@@ -314,79 +299,10 @@ void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamOb
     
     if ( ret == KErrSCPCodeChangeNotAllowed )
         {
-        // Code change is not allowed, send the info back to the user
-        aRetParams  = CSCPParamObject::NewL();        
-                        
-        aRetParams->Set( KSCPParamStatus, KErrSCPCodeChangeNotAllowed );			        			        
-        aRetParams->Set( KSCPParamAction, KSCPActionShowUI );
-        aRetParams->Set( KSCPParamUIMode, KSCPUINote );
-        aRetParams->Set( KSCPParamNoteIcon, KSCPUINoteError );
-        
-        HBufC16* resText = NULL;
-        HBufC16* formatBuf = NULL;
-                
-        Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): iMinInterval : %d"), iMinInterval ) );                
-        Dprint( ( _L( "CSCPPatternPlugin::IsChangeAllowedL(): iMinTolerance : %d"), iMinTolerance ) );                 
-        if ( iMinInterval > 1 )
-            {
-            if ( iMinTolerance >1 )
-                {
-                Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL(): iMinInterval > 1,iMinTolerance >= 1") ));                      
-                resText = LoadResourceL( R_SET_SEC_CODE_CHANGE_DAY );
-                }
-            else
-                {
-                Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL(): iMinInterval > 1,iMinTolerance !>= 1") ));                      
-                resText = LoadResourceL( R_SET_SEC_CODE_CHANGE_HOURS );
-                }
-            }
-        else
-            if ( iMinTolerance > 1 )
-                {
-                Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL(): iMinInterval !> 1,iMinTolerance >= 1") ));                      
-                resText = LoadResourceL( R_SET_SEC_CODE_CHANGE_TIMES );
-                }
-            else
-                {
-                Dprint( (_L("CSCPTimestampPlugin::IsChangeAllowedL(): iMinInterval !> 1,iMinTolerance !>= 1") ));                      
-                resText = LoadResourceL( R_SET_SEC_CODE_CHANGE_ONES );
-                }         
-                
-        CleanupStack::PushL( resText );
-        
-        formatBuf = HBufC::NewL( resText->Length() + KSCPMaxMinChangeValueLen );
-		    
-		TPtr16 bufDes = formatBuf->Des();
-		
-        if ( iMinInterval > 1 )
-            {
-            if ( iMinTolerance > 1 )
-                {
-                bufDes.Format( resText->Des(), iMinTolerance , iMinInterval );
-                }
-            else
-                {
-                bufDes.Format( resText->Des(), iMinInterval );
-                }
-            }
-        else
-            if ( iMinTolerance > 1 )
-                {
-                bufDes.Format( resText->Des(), iMinTolerance  );
-                }
-            else
-                {
-                bufDes.Format( resText->Des() );
-                }  		    	
-		            
-        aRetParams->Set( KSCPParamPromptText, bufDes );
-            
-        delete formatBuf;
-		    
-        CleanupStack::PopAndDestroy( resText );
+        Dprint ( ( _L( "EDeviceLockMinChangeTolerance Failed" ) ) );
+        aRetParams.AddtoFailedPolices(EDeviceLockMinChangeTolerance);
+        aRetParams.Set( KSCPParamStatus, KErrSCPCodeChangeNotAllowed );
         }
-        
-    // No need to write configuration changes            
     }
 
 
@@ -397,10 +313,10 @@ void CSCPTimestampPlugin::IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamOb
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObject*& aRetParams )
+void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObject& aRetParams )
     {
     (void)aParam;
-    (void)aRetParams;    
+    
     Dprint( (_L("CSCPTimestampPlugin::PasswordChanged()") ));                      
     TInt err = ReadConfiguration();
     if ( err == KErrNone )
@@ -426,13 +342,11 @@ void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObj
             {
             // Set the last time the password was changed, for expiration
             iConfiguration->Set( KSCPLastChangeTime, timeBuf );
-            }
-
+            }        
         Dprint( ( _L( "CSCPPatternPlugin::PasswordChanged(): iMinInterval: %d"), iMinInterval ) );
-
-        if ( iMinInterval > 0 && iMinTolerance > 0) {
+        if ( iMinInterval > 0 )
+            {
             TInt ret = IsAfter( KSCPIntervalStartTime, iMinInterval, KSCPTypeHours );
-
             if ( ret == KSCPIsAfter )
                 {                                                        
                 // Interval exceeded, start a new interval from here
@@ -464,12 +378,7 @@ void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObj
                 Dprint( ( _L( "CSCPPatternPlugin::PasswordChanged(): tolerance set: %d"), tolerance ) );  
                 }                       
             }        
-		else {
-			iConfiguration->Set( KSCPIntervalStartTime, 0 );
-			iConfiguration->Set( KSCPUsedTolerance, 0 );
-		}
-
-
+        
         WriteConfiguration();
         }
         else
@@ -487,20 +396,20 @@ void CSCPTimestampPlugin::PasswordChanged( CSCPParamObject& aParam, CSCPParamObj
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful, 
+void CSCPTimestampPlugin :: AuthenticationAttempt( TBool aIsSuccessful, 
                                                  CSCPParamObject& aParam,
-                                                 CSCPParamObject*& aRetParams )
+                                                 CSCPParamObject& aRetParams )
     {
+    Dprint( (_L("CSCPTimestampPlugin::AuthenticationAttempt") )); 
     if ( ReadConfiguration() != KErrNone )
         {
         return;
         }
-    Dprint( (_L("CSCPTimestampPlugin::AuthenticationAttempt()") )); 
         
     // Check if immediate expiration is set
     TInt expireNow = 0;
     iConfiguration->Get( KSCPExpireOnNextCall, expireNow ); // ignore errors  
-    
+    Dprint( ( _L( "CSCPPatternPlugin::AuthenticationAttempt(): expireNow = %d"), expireNow ) );
     if ( ( iExpiration == 0 ) && ( iMaxAttempts == 0) && ( expireNow == 0 ) )
         {
         return; // We have no interest in this call
@@ -515,27 +424,20 @@ void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful,
         // Failed authentication attempt
         if ( iMaxAttempts > 0 )
             {
-		    Dprint( (_L("CSCPTimestampPlugin::iMaxAttempts > 0") )); 
             TInt failedCount = 0;
             iConfiguration->Get( KSCPFailedAttempts, failedCount ); // ignore errors
             failedCount++;                        
         
             if ( failedCount == iMaxAttempts - 1 )
                 {
-                // Warn the user. Only one attempt left. There's no use handling the error
-                // so we'll just stay silent at this point on failure.
-		        Dprint( (_L("CSCPTimestampPlugin::One Attempt Left") ));
-				HBufC16* resText = NULL;
-                resText = LoadResourceL( R_SET_SEC_CODE_WARNING_ATTEMPTS_LEFT );
-                FormatResourceString(*resText);               
-				// Call the dialog from an ActiveObj framework so that we could give control back to secui
-		        Dprint( (_L("CSCPTimestampPlugin::start actv obj for dialog") ));
-                iUserInfo->StartL(*resText);
+                Dprint ( ( _L( "EDeviceLockAllowedMaxAtempts Failed" ) ) );
+                aRetParams.AddtoFailedPolices(EDeviceLockAllowedMaxAtempts);
                 }
             else if ( failedCount >= iMaxAttempts )
                 {
                 // Try to wipe the device
                 TRAPD( err, WipeDeviceL( aRetParams ) );
+                
                 if ( err != KErrNone )
                     {
                     Dprint( ( _L( "CSCPPatternPlugin::\
@@ -559,8 +461,9 @@ void CSCPTimestampPlugin::AuthenticationAttempt( TBool aIsSuccessful,
 // ----------------------------------------------------------------------------
 //
 void CSCPTimestampPlugin::SuccessfulAuthenticationL( CSCPParamObject& aParam,
-                                                    CSCPParamObject*& aRetParams )
+                                                    CSCPParamObject& aRetParams )
     {
+    Dprint( (_L("CSCPTimestampPlugin::IsAfter()..enter") ));
     // Reset the failed attempts -counter
     if ( iMaxAttempts > 0 )
         {
@@ -574,7 +477,7 @@ void CSCPTimestampPlugin::SuccessfulAuthenticationL( CSCPParamObject& aParam,
     // Check if immediate expiration is set
     TInt expireNow = 0;
     iConfiguration->Get( KSCPExpireOnNextCall, expireNow ); // ignore errors    
-    
+    Dprint( ( _L( "CSCPPatternPlugin::SuccessfulAuthenticationL(): expireNow = %d, iExpiration =%d"), expireNow,iExpiration ) );
     // Check if the code should be changed now    
     if ( ( context != KSCPContextChangePsw ) && 
          ( ( iExpiration > 0 ) ||  ( expireNow ) ) )
@@ -582,15 +485,14 @@ void CSCPTimestampPlugin::SuccessfulAuthenticationL( CSCPParamObject& aParam,
         if ( ( IsAfter( KSCPLastChangeTime, iExpiration, KSCPTypeDays ) == KSCPIsAfter ) ||
              ( expireNow ) )
             {
-            // Refill the parameters to inform the client that the password
-            // should be changed.
-            aRetParams = CSCPParamObject::NewL(); 
-            aRetParams->Set( KSCPParamAction, KSCPActionForceChange );  
+            Dprint ( ( _L( "EDeviceLockPasscodeExpiration Failed" ) ) );
+                aRetParams.AddtoFailedPolices(EDeviceLockPasscodeExpiration);
+                aRetParams.Set( KSCPParamStatus, KErrSCPInvalidCode );
             }
         }
+    Dprint( (_L("CSCPTimestampPlugin::IsAfter()..exit") ));
     }
-    
-    
+
 // ----------------------------------------------------------------------------
 // CSCPTimestampPlugin::IsAfter()
 // 
@@ -607,6 +509,7 @@ TInt CSCPTimestampPlugin::IsAfter( TInt aConfID, TInt aInterval, TInt aIntType )
     
     TBuf<KSCPMaxInt64Length> savedTimeBuf;
     TInt64 savedTime;
+    Dprint( ( _L( "CSCPPatternPlugin::IsAfter: aConfID value is  :%d"), aConfID ) );
     ret = iConfiguration->Get( aConfID, savedTimeBuf );
     if ( ret == KErrNone )
         {    
@@ -656,7 +559,7 @@ TInt CSCPTimestampPlugin::IsAfter( TInt aConfID, TInt aInterval, TInt aIntType )
                 }
             }
         }
-    
+    Dprint( ( _L( "CSCPPatternPlugin::IsAfter: Retutn value is  :%d"), ret ) );
     return ret;
     }
     
@@ -669,7 +572,7 @@ TInt CSCPTimestampPlugin::IsAfter( TInt aConfID, TInt aInterval, TInt aIntType )
 //    
 void CSCPTimestampPlugin::ConfigurationQuery(  TInt aParamID, 
                                                CSCPParamObject& aParam, 
-                                               CSCPParamObject*& aRetParams )
+                                               CSCPParamObject& aRetParams )
     {
     // First check if this is our ID    
     if ( ( aParamID == RTerminalControl3rdPartySession::EPasscodeExpiration ) ||
@@ -784,20 +687,15 @@ void CSCPTimestampPlugin::ConfigurationQuery(  TInt aParamID,
             // Something wrong, and this is our parameter. Signal an error
             ret = KErrArgument;
             }       
+
+        aRetParams.Set( KSCPParamStatus, ret );
         
-        TRAPD( err, aRetParams = CSCPParamObject::NewL() );        
-        if ( err == KErrNone ) // If we can't create a paramObject, there's nothing we can do
+        if ( setPrivateStorage )
             {
-            aRetParams->Set( KSCPParamStatus, ret );
-            if ( setPrivateStorage )
-                {
-                aRetParams->Set( KSCPParamStorage, KSCPStoragePrivate );
-                }            
-            }  
-        }          
+            aRetParams.Set( KSCPParamStorage, KSCPStoragePrivate );
+            } 
+        }
     }
-    
-    
     
 // ----------------------------------------------------------------------------
 // CSCPTimestampPlugin::WipeDeviceL()
@@ -806,13 +704,8 @@ void CSCPTimestampPlugin::ConfigurationQuery(  TInt aParamID,
 // Status : Approved
 // ----------------------------------------------------------------------------
 //     
-void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject*& aRetParams )
+void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject& aRetParams )
     {
-    (void)aRetParams;
-    
-	Dprint( (_L("CSCPTimestampPlugin::WipeDeviceL") ));
-	iUserInfo->DoRfsL();
-    /*
     // First try to format other local drives than C:
     RRfsClient rfsClient;
     
@@ -867,23 +760,15 @@ void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject*& aRetParams )
   		{
   			if (driveList[i])
   			{
-		  			driveNumber = TDriveNumber(i);
-		  			if (phoneMemoryDrive != driveNumber)
-		  			{
-		  				TBuf<KSCPFormatScriptMaxLen> formatScript;
-		  				TChar driveLetter;
-		  				RFs::DriveToChar(i,driveLetter);
-		                formatScript.Format(KSCPFormatScript, (TUint)driveLetter );
-		                Dprint( ( _L( "CSCPPatternPlugin::WipeDeviceL(): Formatting %c:"), driveLetter ) );
-		                    
-		                ret = rfsClient.RunScriptInDescriptor(formatScript);
-		                
-		                if ( ret != KErrNone )
-		                    {
-		                    Dprint( ( _L( "CSCPPatternPlugin::WipeDeviceL():\
-		                     FAILED to format %c: %d"), driveLetter, ret ) );
-		                    }
-		  			}
+	  			driveNumber = TDriveNumber(i);
+	  			if (phoneMemoryDrive != driveNumber)
+	  			{
+	  				TBuf<KSCPFormatScriptMaxLen> formatScript;
+	  				TChar driveLetter;
+	  				RFs::DriveToChar(i,driveLetter);
+	                formatScript.Format(KSCPFormatScript, (TUint)driveLetter );		                    
+	                ret = rfsClient.RunScriptInDescriptor(formatScript);
+	  			}
   			}
   		}
   		
@@ -929,8 +814,7 @@ void CSCPTimestampPlugin::WipeDeviceL( CSCPParamObject*& aRetParams )
     if ( ret != KErrNone )
         {
         Dprint( ( _L( "CSCPPatternPlugin::WipeDeviceL(): Rfs FAILED: %d"), ret ) );
-        }     */                                                    
-	Dprint( (_L("CSCPTimestampPlugin::~WipeDeviceL") ));
+        }                                                         
     }
     
 // ----------------------------------------------------------------------------
@@ -1009,107 +893,4 @@ TInt CSCPTimestampPlugin::WriteConfiguration()
     return ret;    
     }
     
-
-
-// ----------------------------------------------------------------------------
-// CSCPTimestampPlugin::GetResource
-// GetResource
-//
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-
-TInt CSCPTimestampPlugin::GetResource()
-    {
- 	Dprint( (_L("CSCPTimestampPlugin::GetResource()") ));
-	// The resource has to be loaded manually since this is not an application.
-        		    
-    // Build the resource file name and localize it
-    TFileName resourceFile;
-    resourceFile.Append( KDriveZ );
-    resourceFile.Append( KSCPTimestampPluginResFilename );
-    BaflUtils::NearestLanguageFile( *iFsSession, resourceFile ); 
-    
-    TRAPD( err, iResFile.OpenL( *iFsSession, resourceFile ) );
-
-    if ( err == KErrNone )
-        {
-        TRAP( err, iResFile.ConfirmSignatureL() );
-        }               
-    
-    return err;
-    }
-
-
-// ----------------------------------------------------------------------------
-// CSCPTimestampPlugin::LoadResourceLC
-// 
-//
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC16* CSCPTimestampPlugin::LoadResourceL( TInt aResId )
-    {
-	if ( !iResOpen )
-	    {
-	    User::Leave( KErrNotReady );
-	    }
-	    
-	Dprint( (_L("CSCPTimestampPlugin::LoadResourceL()") ));
-	
-	// Load the actual resource
-    HBufC8* readBuffer = iResFile.AllocReadLC( aResId );
-    
-    // As we are expecting HBufC16    
-    const TPtrC16 ptrReadBuffer( (TText16*) readBuffer->Ptr(),
-                                 ( readBuffer->Length() + 1 ) >> 1 );
-                                 
-    HBufC16* textBuffer = HBufC16::NewL( ptrReadBuffer.Length() );
-    
-    *textBuffer = ptrReadBuffer;
-    
-    FormatResourceString(*textBuffer);
-    CleanupStack::PopAndDestroy( readBuffer );
-  	
-  	return textBuffer;
-    }
-
-// ----------------------------------------------------------------------------
-// CSCPTimestampPlugin::FormatResourceString
-// The buffer that is passed is formatted to have only %i as a format specifier instead of %N or %0N etc.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-void CSCPTimestampPlugin::FormatResourceString(HBufC16 &aResStr)
-{
-		TInt pos = 0;
-		TInt flag = 0;
-        TPtr16 bufPtr = aResStr.Des();
-        _LIT (mess1, "%N");
-        _LIT (mess2, "%i");
-        _LIT (mess3, "%0N");
-        _LIT (mess4, "%1N");
-                              
-        while ((pos = bufPtr.Find(mess1)) !=KErrNotFound)
-        {
-              bufPtr.Replace(pos,2,mess2); 
-              flag = 1;
-              break;                    
-        }
-               
-        if(flag == 0)
-        {
-              while ((pos = bufPtr.Find(mess3)) != KErrNotFound)
-              {
-              		bufPtr.Replace(pos,3,mess2);
-              }
-               		
-              while ((pos = bufPtr.Find(mess4)) != KErrNotFound)
-              {
-                	bufPtr.Replace(pos,3,mess2);
-              }
-        }	
-}
-
 // End of File

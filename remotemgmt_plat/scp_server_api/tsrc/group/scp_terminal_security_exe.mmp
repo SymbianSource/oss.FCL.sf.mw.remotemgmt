@@ -36,8 +36,8 @@ SOURCE		SCPClientTestSession.cpp
 USERINCLUDE   ../inc
 
 SYSTEMINCLUDE  /epoc32/include/ecom
-SYSTEMINCLUDE  /epoc32/include
-APP_LAYER_SYSTEMINCLUDE
+
+MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY		euser.lib
 LIBRARY		ecom.lib
@@ -47,5 +47,4 @@ LIBRARY     stiftestinterface.lib
 
 LIBRARY		scpclient.lib
 
-SMPSAFE
 // end of file

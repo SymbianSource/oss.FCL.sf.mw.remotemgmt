@@ -33,9 +33,7 @@ _LIT8( KNSmlDMAgentGenericAlert, "1226" );
 _LIT8( KNSmlDMAgentDisplayAlert, "1100" );
 _LIT8( KNSmlDMAgentContinueOrAbortAlert, "1101" );
 //#ifdef RD_DM_TEXT_INPUT_ALERT //for User Input Server alert
-_LIT8( KNSmlDMAgentUserInputAlert, "1102" );
-_LIT8( KNSmlDMAgentSingleChoiceAlert, "1103" );
-_LIT8( KNSmlDMAgentMultipleChoiceAlert, "1104" );
+
 //#endif
 // DM protocol version
 _LIT8( KNSmlDMAgentVerProto, "DM/1.1" );

@@ -57,9 +57,9 @@ LIBRARY         euser.lib
 LIBRARY         provisioningengine.lib
 LIBRARY         wvsapsettingsstore.lib
 LIBRARY         msgeditorutils.lib
-LIBRARY         apengine.lib
 LIBRARY         commdb.lib
-LIBRARY         inetprotutil.lib 
+LIBRARY         inetprotutil.lib
+LIBRARY         cmmanager.lib 
 DEBUGLIBRARY    flogger.lib
 
 

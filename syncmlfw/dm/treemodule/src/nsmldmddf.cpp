@@ -225,7 +225,7 @@ void CNSmlDmDDF::AddObjectL(const TDesC8& aURI,
 			     {
 			     TBool returnstatus = ETrue; 
 			     TPtrC8 Uri1 = NSmlDmURI::URISeg(aURI,1);
-			     if( iAddRootNodesList )//dm case
+			     if( iAddRootNodesList )
 			     {
 			     TPtrC8 FindUri = NSmlDmURI::URISeg(aURI,2);
 			     HBufC8* puri = HBufC8::NewLC(Uri1.Length()+FindUri.Length()+2);
@@ -634,8 +634,7 @@ void CNSmlDmDDF::ExecuteObjectL(const TDesC8& aURI,
 		// FOTA 
 		// For the FOTA adapter put the correlator to aObject instead of
 		// data.
-		if ( iAdapterId == KNSmlDMFotaAdapterImplUid || iAdapterId == KNSmlDMAMAdapterImplUid
-				|| iAdapterId == KNSmlDMLawMoAdapterImplUid)
+		if ( iAdapterId == KNSmlDMFotaAdapterImplUid || iAdapterId == KNSmlDMAMAdapterImplUid)
 			{
 			iSessionArray[iSessionId-1].ExecuteCommandL(iAdapterId,*luid,
 				aStatusRef,aURI,aCorrelator,aType,aLargeItem);

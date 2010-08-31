@@ -80,10 +80,11 @@ CBTObexSearcher::~CBTObexSearcher()
 	Cancel();
     delete iServiceSearcher;
     delete iSettings;   
-    if ( iNotifier.Handle() )
+/*    if ( iNotifier.Handle() )
         {
         iNotifier.Close();
         }
+*/        
     }
 
 //----------------------------------------------------------------------------
@@ -137,10 +138,11 @@ void CBTObexSearcher::RunL()
                 {
                 if( iWaitingForBTPower && iOffline() != EFalse )
                     {
-                    if ( iNotifier.Handle() )
+ /*                   if ( iNotifier.Handle() )
 				        {
 				        iNotifier.Close();
 				        }
+ */
                     TInt err = iSettings->ChangePowerStateTemporarily( );
                     if( err )
                         {
@@ -178,14 +180,13 @@ void CBTObexSearcher::RunL()
 			}
 		}
 	}
-
 // ----------------------------------------------------------------------------
 // CBTObexSearcher::RunError
 // ----------------------------------------------------------------------------
 TInt CBTObexSearcher::RunError ( TInt /*aError*/ )
     {
         return KErrNone;
-    }	
+	}
 
 //----------------------------------------------------------------------------
 // CBTObexSearcher::DoCancel()
@@ -301,13 +302,14 @@ TBool CBTObexSearcher::CheckOfflineModeL()
     if( offline == ECoreAppUIsNetworkConnectionNotAllowed && 
          offlineAllowed == EBTEnabledInOfflineMode )
         {
-        User::LeaveIfError( iNotifier.Connect() );
+/*        User::LeaveIfError( iNotifier.Connect() );
         TBTGenericQueryNotiferParamsPckg pckg;
         pckg().iMessageType = EBTActivateOffLineQuery;
         pckg().iNameExists = EFalse;
         iNotifier.StartNotifierAndGetResponse( iStatus, KBTGenericQueryNotifierUid, 
                                                 pckg, iOffline );
         SetActive();
+*/        
         }
     else if( offline == ECoreAppUIsNetworkConnectionNotAllowed && 
             offlineAllowed == EBTDisabledInOfflineMode )

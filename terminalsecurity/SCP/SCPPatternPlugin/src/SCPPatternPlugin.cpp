@@ -24,9 +24,9 @@
 #include <featmgr.h>
 
 #include "SCPPatternPlugin.h"
-#include <SCPPatternPluginLang.rsg>
+#include <scppatternpluginlang.rsg>
 #include "SCP_IDs.h"
-
+#include <SCPServerInterface.h>
 
 
 
@@ -85,60 +85,6 @@ void CSCPPatternPlugin::ConstructL()
     return;
     }
     
-
-// ----------------------------------------------------------------------------
-// CSCPPatternPlugin::GetResource
-// GetResource, opens the localisation filesystem
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-TInt CSCPPatternPlugin::GetResource()
-    {
- 	Dprint( (_L("CSCPPatternPlugin::GetResource()") ));
-	// The resource has to be loaded manually since it is not an application.        
-	
-	if ( iFs == NULL )
-	    {
-	    return KErrNotReady;
-	    }
-
-    // can't use resource here because it is not added yet....
-    TFileName resourceFile;
-    resourceFile.Append( KDriveZ );
-    resourceFile.Append( SCPPatternPluginSrcFile );
-    BaflUtils::NearestLanguageFile( *iFs, resourceFile );
-    
-    TRAPD( err, 
-        iRf.OpenL( *iFs, resourceFile );
-        iRf.ConfirmSignatureL();
-        );
-        
-    return err;
-    }
-
-// ----------------------------------------------------------------------------
-// CSCPPatternPlugin::LoadResourceLC
-// LoadResourceLC, loads the localisation resource
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC16* CSCPPatternPlugin::LoadResourceLC( TInt aResId )
-    {
-	Dprint ( ( _L( "CSCPPatternPlugin::LoadResourceLC()" ) ) );
-
-	// load the actual resource
-    HBufC8* readBuffer = iRf.AllocReadLC( aResId );
-    // as we are expecting HBufC16...
-    const TPtrC16 ptrReadBuffer( (TText16*) readBuffer->Ptr(),
-                                 ( readBuffer->Length() + 1 ) >> 1 );
-    HBufC16* textBuffer=HBufC16::NewL( ptrReadBuffer.Length() );    
-    *textBuffer=ptrReadBuffer;
-    CleanupStack::PopAndDestroy( readBuffer ); // readBuffer
-    CleanupStack::PushL( textBuffer );
-  	return textBuffer;
-    }
-
-
 // ----------------------------------------------------------------------------
 // CSCPPatternPlugin::~CSCPPatternPlugin
 // Destructor
@@ -162,16 +108,9 @@ CSCPPatternPlugin::~CSCPPatternPlugin()
 // Status : Approved
 // ----------------------------------------------------------------------------
 //    
-CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aParam )
+void CSCPPatternPlugin :: HandleEventL( TInt aID, CSCPParamObject& aParam, CSCPParamObject& aOutParam )
 	{	
-	
 	Dprint ( ( _L( "CSCPPatternPlugin::HandleEvent()" ) ) );
-	
-	// Make the ParamObject for success ack, Delete later
-	CSCPParamObject* retParams = NULL;
-		
-	TBool errRaised;
-	errRaised = EFalse;
 	
 	TBool isInvalid = EFalse;
 	
@@ -221,14 +160,17 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
             if ( config.Get( (RTerminalControl3rdPartySession::EPasscodeDisallowSimple), 
                  passcodedisallowsimple ) !=  KErrNone )
                     passcodedisallowsimple = EFalse;
-			
+            Dprint( ( _L( "CSCPPatternPlugin :: HandleEventL): EPasscodeMinLength :%d, EPasscodeMaxLength :%d, "), passcodeminlength,passcodemaxlength ) );		
+            Dprint( ( _L( "CSCPPatternPlugin :: HandleEventL):  EPasscodeMaxRepeatedCharacters :%d, EPasscodeRequireCharsAndNumbers :%d"), passcodemaxrepeatedcharacters,passcoderequirecharsandnumbers ) );
+            Dprint( ( _L( "CSCPPatternPlugin :: HandleEventL): EPasscodeRequireUpperAndLower :%d,minspecialcharacters :%d  "), passcoderequireupperandlower ,passcodeminspecialcharacters) );
+            Dprint( ( _L( "CSCPPatternPlugin :: HandleEventL):  EPasscodeConsecutiveNumbers :%d, EPasscodeDisallowSimple :%d, "), passcodeconsecutivenumbers,passcodeminspecialcharacters ) );
             // Get the password from the paramObject
             TBuf<KSCPPasscodeMaxLength> password;
             if ( aParam.Get( KSCPParamPassword, password ) != KErrNone )
                 {
                 // Nothing to do anymore
                 break;
-                }            
+                }
             
         	// The first rule is to check if securitycode has any
         	// forbidden chars, like WhiteSpace etc...
@@ -239,12 +181,7 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 			  TChar::TCategory chCat = ch.GetCategory();
 			  if ( ch.IsSpace() )
 				    {   
-					TRAPD( err, retParams  = CSCPParamObject::NewL() );
-					if ( err == KErrNone )
-					    {
-					    retParams->Set( KSCPParamStatus, KErrArgument );    
-					    }
-					    					    
+					aOutParam.Set( KSCPParamStatus, KErrArgument );
 					argumentError = ETrue;
 					break;
 				    }
@@ -264,15 +201,6 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				 passcodeminspecialcharacters != 0 ||
 				 passcodedisallowsimple)
 			    {			
-				// Get the filesystem for Resource
-				// If fail, bail out
-				TInt errgGR = GetResource();
-				if (errgGR != KErrNone)
-				    {
-					errRaised = ETrue;
-					break; // Break out 
-				    }
-
 				// Declare the Check flags										
 				TBool istoosimilar = EFalse;					
 				TBool consecutively = EFalse;
@@ -286,70 +214,41 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				TInt specialCount = 0;  // for passcodeminspecialcharacters
 				TChar temp = '1';
 			
-
-				// Prompt buf, iNote can show only 97 chars,
-				// without ... markings.
-				HBufC* hbuf = NULL;
-				
 			 	 // Check for required check or not.
 	        	if (passcodeminlength != 0)
 	        	    {
 		        	// check for Min lenght
 		            if (  password.Length() < passcodeminlength )
 		                {
+		                //koya: return error code to SecUi
+		                Dprint ( ( _L( "EDeviceLockMinlength Failed" ) ) );
+		                aOutParam.AddtoFailedPolices(EDeviceLockMinlength);
 		                isInvalid = ETrue;
-		                TRAP_IGNORE(
-		                    hbuf = LoadAndFormatResL( R_SET_SEC_CODE_MIN, &passcodeminlength ) 
-		                    );
 		                }
-	                }
 
-				if (!hbuf)
-				    {
 		        	// Check for required check or not.
-		        	if (passcodemaxlength!=0)
-		        	    {
 		        		// Check for Max Lenght
-	             	    if ( password.Length() > passcodemaxlength )
+		            else if ( password.Length() > passcodemaxlength )
 		             	    {
+		                Dprint ( ( _L( "EDeviceLockMaxlength Failed" ) ) );
+                            aOutParam.AddtoFailedPolices(EDeviceLockMaxlength);
 		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_MAX, &passcodemaxlength );
-		                        );
-		             	    }
 		           	    }
 				    }
  	
-				if (!hbuf)
-				    {
 		  			// Check for required check or not.
 		  			if ( passcodemaxrepeatedcharacters != 0 )
 		  			    {
 			  			// Check for TooManySameChars
 			  			TRAPD( err, istoosimilar = TooManySameCharsL(password,passcodemaxrepeatedcharacters) );
 					  	if ( ( err == KErrNone ) && ( istoosimilar ) )
-					  	    {					  		
-					  		if ( passcodemaxrepeatedcharacters > 1 )
-					  		    {
-		                        isInvalid = ETrue;
-		                        TRAP_IGNORE(
-		                            hbuf = LoadAndFormatResL( R_SET_SEC_CODE_REPEATED,
-					  		                              &passcodemaxrepeatedcharacters );
-		                            );						  		    						  		    					  		    
-					  		    }
-					  		else // passcodemaxrepeatedcharacters == 1
-					  		    {
-		                        isInvalid = ETrue;
-		                        TRAP_IGNORE(
-		                            hbuf = LoadAndFormatResL( R_SET_SEC_CODE_REPEATED_ONCE );
-		                            );					  		   
-					  		    }						  								  				  						
-					  	    }						  		
+					  	    {					  
+					  	  Dprint ( ( _L( "EDeviceLockAllowedMaxRepeatedChars Failed" ) ) );
+                            aOutParam.AddtoFailedPolices(EDeviceLockAllowedMaxRepeatedChars);
+                            isInvalid = ETrue;
+                            }
 				  	    }
-				    }
 				    
-   		   		if (!hbuf)
-				    {
 	   				// Check for Alphadigit
 	   				if ( passcoderequirecharsandnumbers)
 	   				    {
@@ -365,17 +264,13 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 		  				if (digitCount >= password.Length() || alphaCount >= password.Length()
 		  				           || digitCount == 0 || alphaCount == 0 )
 		  				    {
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_LETTERS_NUMBERS );
-		                        );		  				    				  				
+		  				  Dprint ( ( _L( "EDeviceLockRequireCharsAndNumbers Failed" ) ) );
+                              aOutParam.AddtoFailedPolices(EDeviceLockRequireCharsAndNumbers);
+                              isInvalid = ETrue;
 		  				    }
 	   				    }	// End of Alphadigit Check
-				    }
 				  	
 				  							
-				if (!hbuf)
-			    	{
 					// passcodeconsecutivenumbers
 					if (passcodeconsecutivenumbers)
 					    {
@@ -383,57 +278,11 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 
 						if ( consecutively )
 						    {
+						    Dprint ( ( _L( "EDeviceLockConsecutiveNumbers Failed" ) ) );
+						    aOutParam.AddtoFailedPolices(EDeviceLockConsecutiveNumbers);
 		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_CONSECUTIVE );
-		                        );	
 						    }
 					    } 
-				    }
-        
-        		/*
-        		if (!hbuf)
-				    {
-		        	// Check for required check or not.
-		        	if (passcoderequireupperandlower)
-		        	    {				        	
-		        		// Count the IsDigits first and miinus them from the lenghth!
-		        		// Count the possible NUM's count first!
-		        		for (TInt numcounter=0; numcounter < password.Length(); numcounter++)
-			  			    {
-			  				if ( static_cast<TChar>( password[numcounter] ).IsDigit() )
-						  		numberCount++;
-			  			    }
-
-		   			// Check for Caps, both
-		  			for (TInt capscounter=0; capscounter < password.Length(); capscounter++)
-		  			    {
-						if ( static_cast<TChar>( password[capscounter] ).IsUpper() )
-					  		upperCount++;
-						
-						if ( static_cast<TChar>( password[capscounter] ).IsLower() )
-					  		lowerCount++;
-		  			    }
-		  			    					  								  			
-                        if (upperCount >= (password.Length()-numberCount ) )
-                        	isallcaps = ETrue;
-				  			
-		  				if (lowerCount >= (password.Length() -numberCount) )
-		  					isallsmall = ETrue;				  			
-				
-						if (isallsmall || isallcaps)
-						    {	  
-		                    isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_UPPER_LOWER );
-		                        );			                          							    	  							    
-						    }	  							    	  							    		
-			        	}	// End of Caps check
-				    }
-				 */	   		   		
-
-        		if (!hbuf)
-				    {
 		        	// Check for required check or not.
 		        	if (passcoderequireupperandlower)
 		        	    {
@@ -451,18 +300,11 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 		  			    
 		  			    if ( upperCount == 0 || lowerCount == 0)
 		  			    	{
+		  			      Dprint ( ( _L( "EDeviceLockRequireUpperAndLower Failed" ) ) );
+		  			    	aOutParam.AddtoFailedPolices(EDeviceLockRequireUpperAndLower);
 		  			    	isInvalid = ETrue;
-		                    TRAP_IGNORE(
-		                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_UPPER_LOWER );
-		                        );		
 		  			    	}
-		        	    }
-				    }
-		        	    
-		        	    				        	
-        		
-        		if (!hbuf)
-        		   {
+		        	    }        		
                     // Check for required check or not.
                     if (passcodeminspecialcharacters != 0)
                         {
@@ -474,18 +316,13 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
                         
                         if ( specialCount < passcodeminspecialcharacters )
                             {
+                            //koya: return error code to SecUi
+                            Dprint ( ( _L( "EDeviceLockMinSpecialCharacters Failed" ) ) );
+                            aOutParam.AddtoFailedPolices(EDeviceLockMinSpecialCharacters);
                             isInvalid = ETrue;
-                            TRAP_IGNORE(
-                                    hbuf = LoadAndFormatResL( R_SET_SEC_CODE_MIN_SPECIAL_CHARS, 
-                                    &passcodeminspecialcharacters );
-                            );
-                            }
-                        
+                            }                        
                     	}
-        		   }
-        		                
-        		if (!hbuf)
-        		   {
+						    		                
                     if (passcodedisallowsimple)
                         {
                         for (TInt counter=0; counter< (password.Length()-1); counter++)
@@ -498,12 +335,12 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
                             }
                         if (singlerepeat)
                             {
+                            //koya: return error code to SecUi
+                            Dprint ( ( _L( "EDeviceLockSingleCharRepeatNotAllowed Failed" ) ) );
+                            aOutParam.AddtoFailedPolices(EDeviceLockSingleCharRepeatNotAllowed);
                             isInvalid = ETrue;
-                            TRAP_IGNORE(
-                                    hbuf = LoadAndFormatResL( R_SET_SEC_CODE_SINGLE_REPEAT ) );                            
                             }
-                        if (!hbuf)
-                            {
+                        
                             for (TInt counter=0; counter< (password.Length()-1); counter++)
                                 {
                                 //The consecutivity to be checked with only Alphanumeric characters.
@@ -527,43 +364,18 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
                                 }
                             if (consecutivechars)
                                 {
+                                //koya: return error code to SecUi
+                                Dprint ( ( _L( "EDevicelockConsecutiveCharsNotAllowed Failed" ) ) );
+                                aOutParam.AddtoFailedPolices(EDevicelockConsecutiveCharsNotAllowed);
                                 isInvalid = ETrue;
-                                TRAP_IGNORE(
-                                        hbuf = LoadAndFormatResL( R_SET_SEC_CODE_CONSECUTIVE_CHARS ) );
                                 }
-                            }
-                        }
-                    }
-				  	
-			  	
+                        }			  	
 				if ( isInvalid )
 				    {	    							
-			    	// Create the result-object to return
-				    TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                    
-                    if ( err == KErrNone )
-				        {
-			            retParams->Set( KSCPParamStatus, KErrSCPInvalidCode );
-    		            retParams->Set( KSCPParamAction, KSCPActionShowUI );
-	    	            retParams->Set( KSCPParamUIMode, KSCPUINote );
-		                
-		                if ( hbuf != NULL )
-		                    {
-		                    FormatResourceString(*hbuf);	
-		                    TPtr ptr = hbuf->Des();
-		                    retParams->Set( KSCPParamPromptText, ptr );
-		                    delete hbuf;
-		                    }
-				        }
-				    }
+			            aOutParam.Set( KSCPParamStatus, KErrSCPInvalidCode );		                
+		            }
 				    
                 } // end of All Zero check
-		    // All params were zero! no check!
-            else 
-                {
-                retParams = NULL;
-                }
-                			
             break;  
             } // KSCPEventValidate
                 
@@ -587,20 +399,11 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
 				||  paramID ==  (RTerminalControl3rdPartySession::EPasscodeMinSpecialCharacters)
 				||  paramID ==  (RTerminalControl3rdPartySession::EPasscodeDisallowSimple))
                 {
-                
-                // OK, we're interested, check that the value is valid
-                TRAPD( err, retParams  = CSCPParamObject::NewL() );
-                
-                if ( err != KErrNone )
-                    {
-                    break; // Fatal, cannot create paramObject
-                    }
-                
                 // All of our params are TInts
                 TInt paramValue;
                 if ( aParam.Get( KSCPParamValue, paramValue ) != KErrNone )
                     {
-                    retParams->Set( KSCPParamStatus, KErrGeneral );
+                    aOutParam.Set( KSCPParamStatus, KErrArgument );
                     break;
                     }
                                 
@@ -675,29 +478,12 @@ CSCPParamObject* CSCPPatternPlugin::HandleEvent( TInt aID, CSCPParamObject& aPar
                         break;
                     }
                 
-                retParams->Set( KSCPParamStatus, retStatus );
+                aOutParam.Set( KSCPParamStatus, retStatus );
                 }
-            else
-                {
-                retParams = NULL;
-                }
-               
             break;
             } //KSCPEventConfigurationQuery                         
         } //  switch ( aID )
-
-   	// Check if Any errors were raised and handle it
-    if (errRaised) 
-        {
-        if ( retParams != NULL )
-            {
-            delete retParams;
-            }
-        retParams = NULL;
-        }
-        
     // The caller will own this pointer from now on   
-    return retParams; 
 	}
 
 // ----------------------------------------------------------------------------
@@ -816,94 +602,4 @@ TBool CSCPPatternPlugin::consecutivelyCheck ( TDes& aParam )
     return charTooManyInRow;
     }
     
-
-// ----------------------------------------------------------------------------
-// CSCPPatternPlugin::LoadAndFormatResL
-// Load the given resouce, and format the string according to the TInt parameters
-// if given.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-HBufC* CSCPPatternPlugin::LoadAndFormatResL( TInt aResId, TInt* aParam1, TInt* aParam2 )
-    {
-    HBufC16* resource = NULL;
-    HBufC* hbuf = NULL;
-    
-    resource = LoadResourceLC( aResId );
-    FormatResourceString(*resource);
-    TInt allocLen = 0;
-    if ( aParam1 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-    if ( aParam2 != NULL )
-        {
-        allocLen += KSCPMaxIntLength;
-        }
-                
-	hbuf = HBufC::NewL( resource->Length() + allocLen );
-	
-	if ( ( aParam1 == NULL ) && ( aParam2 == NULL ) )
-	    {
-	    hbuf->Des().Copy( resource->Des() );
-	    }
-	else
-	    {
-	    if ( aParam1 == NULL )
-	        {
-	        hbuf->Des().Format( resource->Des(), *aParam2 );
-	        }
-	    else if ( aParam2 == NULL )
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1 );
-	        }
-	    else
-	        {
-	        hbuf->Des().Format(resource->Des(), *aParam1, *aParam2 );
-	        }	    
-	    }
-								    
-	CleanupStack::PopAndDestroy( resource );
-	return hbuf;
-    }
-
-// ----------------------------------------------------------------------------
-// CSCPPatternPlugin::FormatResourceString
-// The buffer that is passed is formatted to have only %i as a format specifier instead of %N or %0N etc.
-// 
-// Status : Approved
-// ----------------------------------------------------------------------------
-//
-void CSCPPatternPlugin::FormatResourceString(HBufC16 &aResStr)
-{
-		TInt pos = 0;
-		TInt flag = 0;
-        TPtr16 bufPtr = aResStr.Des();
-        _LIT (mess1, "%N");
-        _LIT (mess2, "%i");
-        _LIT (mess3, "%0N");
-        _LIT (mess4, "%1N");
-                              
-        while ((pos = bufPtr.Find(mess1)) !=KErrNotFound)
-        {
-              bufPtr.Replace(pos,2,mess2); 
-              flag = 1;
-              break;                    
-        }
-               
-        if(flag == 0)
-        {
-              while ((pos = bufPtr.Find(mess3)) != KErrNotFound)
-              {
-              		bufPtr.Replace(pos,3,mess2);
-              }
-               		
-              while ((pos = bufPtr.Find(mess4)) != KErrNotFound)
-              {
-                	bufPtr.Replace(pos,3,mess2);
-              }
-        }	
-}    
-
 // End of File

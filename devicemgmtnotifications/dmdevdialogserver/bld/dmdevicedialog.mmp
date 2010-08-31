@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Implementation of DM Device Dialogs
+*
+*/
+
+#include <platform_paths.hrh>
+#include <defaultcaps.hrh>
+
+
+CAPABILITY    CAP_SERVER
+
+TARGET        dmdevicedialog.exe
+TARGETTYPE    exe
+
+UID 0 0x2002FF68
+VENDORID 			VID_DEFAULT
+
+SOURCEPATH    ../src
+SOURCE		  dmdevicedialogserver.cpp
+SOURCE		  dmdevicedialogsession.cpp 
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../inc
+USERINCLUDE   ../../cenrep
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore 
+
+LIBRARY       euser.lib
+LIBRARY       efsrv.lib 
+LIBRARY       HbCore.lib
+LIBRARY 	  	syncmlclientapi.lib
+LIBRARY 	  	centralrepository.lib
+DEBUGLIBRARY  flogger.lib 
+
+

@@ -154,15 +154,11 @@ void CSmlActiveContactSuiteProgressCallback::RunL()
         }
 #endif
     }
-   
-// ----------------------------------------------------------------------------
-// CSmlActiveContactSuiteProgressCallback::RunError
-// ----------------------------------------------------------------------------
+    
 TInt CSmlActiveContactSuiteProgressCallback::RunError ( TInt /*aError*/ )
     {
     	return KErrNone;
     }	
-        
 // -----------------------------------------------------------------------------
 // CSmlActiveContactSuiteProgressCallback::Request()
 // Sends asynchronous progress event request to server.

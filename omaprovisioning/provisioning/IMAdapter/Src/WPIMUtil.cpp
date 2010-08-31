@@ -26,9 +26,9 @@
 #include <data_caging_path_literals.hrh>
 
 #include <CWPCharacteristic.h>
-#include <ApDataHandler.h>
-#include <ApAccessPointItem.h>
-#include <ApUtils.h>
+#include <cmconnectionmethoddef.h>
+#include <cmmanagerext.h>
+#include <cmpluginpacketdatadef.h>
 #include <commdb.h>
 #include "WPAdapterUtil.h"
 #include <wpwvadapterresource.rsg>
@@ -47,40 +47,43 @@ const TInt KURIMaxLength = 100;
 // CWPPecAdapter::FindGPRSL
 // -----------------------------------------------------------------------------
 //
-CApAccessPointItem* WPIMUtil::FindGPRSL( 
+TUint32 WPIMUtil::FindGPRSL( 
                                       RPointerArray<CWPCharacteristic>& aLinks )
 	{
-	CCommsDatabase* commDb = CCommsDatabase::NewL();
-	CleanupStack::PushL( commDb );
-	CApDataHandler* apHandler = CApDataHandler::NewLC( *commDb );
+	TUint32 iapID=NULL;
+	RCmManagerExt  cmmanagerExt;
+	cmmanagerExt.OpenL();
+	CleanupClosePushL(cmmanagerExt);
+	TUint32 bearer = 0;
+
 	
-    for( TInt i( 0 ); i < aLinks.Count(); i++ )
-        {
-        CWPCharacteristic* curr = aLinks[i];
+	for( TInt i( 0 ); i < aLinks.Count(); i++ )
+	   {
+	   CWPCharacteristic* curr = aLinks[i];
 
-        TPckgBuf<TUint32> uidPckg;
-        for( TInt dataNum( 0 ); curr->Data( dataNum ).Length() == uidPckg.MaxLength(); dataNum++ )
-            {
-            uidPckg.Copy( curr->Data( dataNum ) );
-
-			CApAccessPointItem* item = CApAccessPointItem::NewLC();
-	        // Read the access point pointed to by TO-NAPID or TO-PROXY
-	        apHandler->AccessPointDataL( uidPckg(), *item );
-
-            if( item->BearerTypeL() == EApBearerTypeGPRS )
-                {
-				CleanupStack::Pop(); // item
-	            CleanupStack::PopAndDestroy( 2 ); // apHandler, commDb
-				return item;
-                }
-			CleanupStack::PopAndDestroy( item );
-            }
-        }
-
+	   TPckgBuf<TUint32> uidPckg;
+	   for( TInt dataNum( 0 ); curr->Data( dataNum ).Length() == uidPckg.MaxLength(); dataNum++ )
+	      {
+	      uidPckg.Copy( curr->Data( dataNum ) );
+	      RCmConnectionMethodExt cm;
+	      cm = cmmanagerExt.ConnectionMethodL( uidPckg() );
+	      CleanupClosePushL( cm );
+	      bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );
+	      if(bearer == KUidPacketDataBearerType)
+	        {
+	        iapID = cm.GetIntAttributeL(CMManager::ECmIapId);
+	        CleanupStack::PopAndDestroy(2);
+	        return iapID;
+	        }
+	      CleanupStack::PopAndDestroy();  // cm         
+	      }
+	    }
+	CleanupStack::PopAndDestroy(); //cmmanagerExt
+	
 	// This leave is absolutely needed as it pops & destroys 
 	// data in CleanupStack
-    User::Leave( KErrNotFound );
-    return NULL;
+  //  User::Leave( KErrNotFound );
+    return iapID;
 	}
 
 // -----------------------------------------------------------------------------

@@ -813,26 +813,19 @@ void CNSmlSOSHandler::StartDMSyncL()
     CNSmlDMSettings* settings = CNSmlDMSettings::NewLC();
     CNSmlDMProfile* prof = settings->ProfileL( iCurrentJob->ProfileId() );
     if(prof)
+    	{
+      	CleanupStack::PushL( prof );    
+    		if ( iCurrentJob->iPending || prof->IntValue( EDMProfileHidden ))
         {
-        CleanupStack::PushL( prof );
-	    }
-    
-    if ( iCurrentJob->iPending || prof->IntValue( EDMProfileHidden ))
-        {
-        syncInit = EServerAlerted;
+        	syncInit = EServerAlerted;
         }
 
-    if ( !iCurrentJob->TransportId() )
-        {
-        if ( prof )
-            {
-            iCurrentJob->SetTransportId( prof->IntValue( EDMProfileTransportId ) );
-            }
+    		if ( !iCurrentJob->TransportId() )
+        {        
+           iCurrentJob->SetTransportId( prof->IntValue( EDMProfileTransportId ) );
         }
-    if(prof)
-        {
         CleanupStack::PopAndDestroy( prof );
-        }
+      }
     CleanupStack::PopAndDestroy( settings );
  
 

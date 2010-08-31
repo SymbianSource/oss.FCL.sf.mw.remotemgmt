@@ -20,7 +20,8 @@
 #include <platform_paths.hrh>
 
 CAPABILITY		ReadUserData WriteUserData // This server has Read / Write capabilities for user data.
-EPOCHEAPSIZE	0x500 0x400000 	// minimum and maximum heap sizes 
+EPOCSTACKSIZE		0x14000
+EPOCHEAPSIZE	0x020000 0x800000 	// minimum and maximum heap sizes 
 VENDORID		VID_DEFAULT
 UID				0 0x101F99FD
 TARGET			nsmldshostserver1.exe

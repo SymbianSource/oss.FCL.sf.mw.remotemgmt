@@ -19,8 +19,9 @@
 
 #include "dcmosession.h"
 #include "dcmoclientserver.h"
+#include "dcmomessagebox.h"
 #include "dcmodebug.h"
-#include "lawmodebug.h"
+
 
 // ----------------------------------------------------------------------------------------
 // CDCMOSession::CDCMOSession
@@ -68,13 +69,15 @@ void CDCMOSession::DispatchMessageL(const RMessage2& aMessage)
 	RDEBUG_2("CDCMOSession::DispatchMessageL; %d", aMessage.Function() );
   TInt value; 
   TDCMOStatus statusValue;
-  TLawMoStatus lstatusValue;
   TDCMONode nodeValue;
   TPckg<TDCMOStatus> status(statusValue);
-  TPckg<TLawMoStatus> lstatus(lstatusValue);
   TPckg<TDCMONode> node(nodeValue);
   TPckg<TInt> intvalue(value);
   
+  if(CDCMOMessageBox::IsMsgBoxClosed())
+  	{
+  		Server().CleanDcmoArray();
+  	}
   HBufC*     category  = HBufC::NewLC(KDCMOMaxStringSize);
   TPtr       categoryptr  = category->Des(); 
   aMessage.Read (0, categoryptr);           
@@ -154,88 +157,6 @@ void CDCMOSession::DispatchMessageL(const RMessage2& aMessage)
 						RDEBUG("CDCMOSession::DispatchMessageL - EDcmoSearchAdapter status " );
 	    	}
 	    	break;	
-	    case EWipe:
-	        {
-            //HBufC*     item  = HBufC::NewLC(KDCMOMaxStringSize);
-            //TPtr       itemPtr  = category->Des(); 
-            //aMessage.Read (0, itemPtr); 
-	        //aMessage.Complete(KErrNone);
-	        //RDEBUG("CDCMOSession::EWipe force complete the request");
-	        lstatusValue = Server().WipeItem(); 
-            aMessage.Write (0, lstatus);
-            //CleanupStack::PopAndDestroy();
-            RLDEBUG_2("CDCMOSession::DispatchMessageL EWipe %d", lstatusValue );
-	        }
-	        break;
-	        
-	    case EWipeAll:
-	        {
-	        //TInt aForce(1);
-	        lstatusValue = Server().WipeAllItem(); 
-	        aMessage.Write (0, lstatus);
-            RLDEBUG_2("CDCMOSession::DispatchMessageL EWipeAll %d", lstatusValue );
-	        }
-	        break;
-	        
-	    case EListItemName_Get:
-	        {
-	        HBufC*     buf1  = HBufC::NewLC(KDCMOMaxStringSize);
-	        TPtr       bufPtr1  = buf1->Des();
-	        HBufC*     item  = HBufC::NewLC(KDCMOMaxStringSize);
-	        TPtr       itemPtr  = item->Des(); 
-	        aMessage.Read (0, itemPtr); 
-	        lstatusValue = Server().GetListItemL(itemPtr, bufPtr1); 
-	        aMessage.Write (1, bufPtr1);
-	        aMessage.Write (2, lstatus);
-	        CleanupStack::PopAndDestroy(2);
-	        RLDEBUG_2("CDCMOSession::DispatchMessageL EListItemName_Get %d", lstatusValue );
-	        }
-	        break;
-	        
-	    case EToBeWiped_Get:
-	        {
-	        HBufC*     item  = HBufC::NewLC(KDCMOMaxStringSize);
-            TPtr       itemPtr  = item->Des();
-            HBufC*     buf1  = HBufC::NewLC(KDCMOMaxStringSize);
-            TPtr       bufPtr1  = buf1->Des();
-            aMessage.Read (0, itemPtr);
-            lstatusValue = Server().GetToBeWipedL(itemPtr, bufPtr1);
-            aMessage.Write (1, bufPtr1);
-            aMessage.Write (2, lstatus);
-            CleanupStack::PopAndDestroy(2);
-            RLDEBUG_2("CDCMOSession::DispatchMessageL EToBeWiped_Get %d", lstatusValue );
-	        }
-	        break;
-	            
-	      case EToBeWiped_Set:
-            {
-            //TLex lex;
-            //TInt val;
-            //TBuf<255> wipeValue;
-            HBufC*     item  = HBufC::NewLC(KDCMOMaxStringSize);
-            TPtr       itemPtr  = item->Des();
-            aMessage.Read (0, itemPtr);
-            TInt val = aMessage.Int1();
-            //aMessage.Read (1, wipeValue); 
-            RLDEBUG_2("Tobewiped category %s",itemPtr.PtrZ());
-            //lex.Assign( wipeValue );
-            //TInt err = lex.Val( val );
-            RLDEBUG_2("Tobewiped value,int %d", val );
-            //if(err==KErrNone)
-            //    {
-            //    RLDEBUG("SetToBeWiped call" );
-                lstatusValue = Server().SetToBeWipedL(itemPtr, val);
-            //    }
-            //else
-            //    {
-            //    RLDEBUG("SetToBeWiped not" );
-            //    lstatusValue = ELawMoFail;
-            //    }
-            aMessage.Write (2, lstatus);
-            CleanupStack::PopAndDestroy();  
-            RLDEBUG_2("CDCMOSession::DispatchMessageL EToBeWiped_Set %d", lstatusValue );
-            }
-            break;
 	    default :
 	    		RDEBUG("CDCMOSession::DispatchMessageL- Case Not Found" );
 	    }	  

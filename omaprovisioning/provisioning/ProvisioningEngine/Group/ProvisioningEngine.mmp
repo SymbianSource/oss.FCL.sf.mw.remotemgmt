@@ -70,12 +70,11 @@ LIBRARY         etel.lib
 LIBRARY         etelmm.lib
 LIBRARY         inetprotutil.lib
 LIBRARY         sysutil.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         edbms.lib
 LIBRARY         centralrepository.lib
 LIBRARY         cmmanager.lib 
-LIBRARY         commdb.lib    
-LIBRARY	        apengine.lib         
+LIBRARY         commdb.lib          
 
 DEBUGLIBRARY    flogger.lib
 

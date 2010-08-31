@@ -25,4 +25,3 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/DevManInternalCRKeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(DevManInternalCRKeys.h)
-../inc/lawmoadaptercrkeys.h	  MW_LAYER_PLATFORM_EXPORT_PATH(lawmoadaptercrkeys.h)

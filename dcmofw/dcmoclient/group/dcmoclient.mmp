@@ -35,5 +35,3 @@ USERINCLUDE     ../../inc
 LIBRARY         euser.lib
 LIBRARY         featmgr.lib
 LIBRARY       	flogger.lib
-
-SMPSAFE

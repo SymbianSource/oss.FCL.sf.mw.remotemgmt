@@ -18,7 +18,7 @@
 #include <platform_paths.hrh>
 
 
-CAPABILITY			CAP_SERVER TrustedUI NetworkControl DiskAdmin AllFiles
+CAPABILITY			CAP_SERVER DiskAdmin AllFiles
 
 TARGET        	dcmoserver.exe
 TARGETTYPE    	exe
@@ -29,12 +29,13 @@ TARGETPATH      /system/libs
 SOURCEPATH    	../src
 SOURCE       	 	dcmoserver.cpp
 SOURCE       	 	dcmosession.cpp
-SOURCE       	 	dcmonotifieraob.cpp
+SOURCE       	 	dcmomessagebox.cpp
 SOURCE					dcmogenericcontrol.cpp
-SOURCE				AMSmlHelper.cpp
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE 	/epoc32/include/ecom
+SYSTEMINCLUDE 	/epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE 	/epoc32/include/mw/hb/hbcore
 USERINCLUDE   	../inc
 USERINCLUDE   	../../inc
 
@@ -43,25 +44,8 @@ START RESOURCE 	../data/dcmo.rss
     TARGETPATH  resource
     LANGUAGE_IDS
 END 
-
-LIBRARY     	euser.lib commonengine.lib efsrv.lib
+LIBRARY     	euser.lib 
 LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib
-LIBRARY				aknnotify.lib eiksrv.lib
 LIBRARY    		flogger.lib
-LIBRARY 		TerminalControl.lib
-LIBRARY				nsmlprivateapi.lib
-LIBRARY     		commdb.lib
-LIBRARY				apengine.lib	esock.lib 
-#ifdef __TARM_SYMBIAN_CONVERGENCY
- LIBRARY				dmtreeclient.lib
- LIBRARY				SmlClient.lib
-#else
- LIBRARY			nsmldmtreedbhandler.lib
- LIBRARY  			syncmlclientapi.lib
- LIBRARY 			nsmldmmodule.lib
- LIBRARY 			nsmldmtreedbclient.lib connmon.lib
- LIBRARY     		nsmltransporthandler.lib
-LIBRARY     		nsmltransport.lib cone.lib javaregistryclient.lib avkon.lib eikcore.lib  apparc.lib
-#endif // __TARM_SYMBIAN_CONVERGENCY
-SMPSAFE
+LIBRARY       HbCore.lib HbWidgets.lib

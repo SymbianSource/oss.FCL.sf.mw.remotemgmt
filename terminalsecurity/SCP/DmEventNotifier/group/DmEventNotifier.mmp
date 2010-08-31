@@ -39,7 +39,6 @@ SOURCE				JavaApplicationService.cpp
 SOURCE				MMCService.cpp
 
 USERINCLUDE 	. ../inc
-SYSTEMINCLUDE	/epoc32/include/swi
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE	/epoc32/include/platform/mw/swi
 #endif
@@ -63,5 +62,3 @@ LIBRARY 	centralrepository.lib
 //Added for SCPEventHandler dll 
 LIBRARY		scpeventhandler.lib
 LIBRARY		flogger.lib
-
-SMPSAFE

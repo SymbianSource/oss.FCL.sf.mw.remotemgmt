@@ -39,5 +39,4 @@ const TUint KNSmlDMMMSAdapterImplUid = 0x101F6E37;
 const TUint KNSmlDMFotaAdapterImplUid = 0x101F9A09;
 const TUint KNSmlDMAMAdapterImplUid = 0x20021336;
 const TUint KNSmlDMConnMOAdapterImplUid = 0x2001FE5F; 
-const TUint KNSmlDMLawMoAdapterImplUid = 0x2002EA23;
 #endif // __CNSMLDMIMPLUIDS_H__

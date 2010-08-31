@@ -32,8 +32,7 @@
 #include "nsmldsitemmodificationset.h"
 #include "Nsmldsasyncrequesthandler.h"
 #include "Nsmldsdataproviderarray.h"
-#include "Nsmldshostsessioncanceleventhandler.h"
-#include "Nsmldshostsessioncancel.h"
+
 // ------------------------------------------------------------------------------------------------
 // Class forwards
 // ------------------------------------------------------------------------------------------------
@@ -49,8 +48,7 @@ class CSmlDataStore;
 //
 // @lib nsmldshostserver.lib
 // ------------------------------------------------------------------------------------------------
-class CNSmlDSHostSession : public CSession2,
-                           public MNSmlDsHostSessionCancelEventHandler
+class CNSmlDSHostSession : public CSession2
 	{
 private:	//DATA TYPES and INNER CLASSES
 	typedef CNSmlDSAsyncCallBack::TCallBackOperation TCallBackOperation;
@@ -254,11 +252,7 @@ public: //constructors and destructors
 public:	//Functions from base classes.
 
 	void ServiceL( const RMessage2 &aMessage );
-    /**
-    * Called when user canceled the operation
-    * @none.
-    */
-	void HandleCancelEventL();
+	
 private:	// New methods
 	
     /**
@@ -695,22 +689,12 @@ private:	// New methods
 	*/
     void StreamBufferToChunkL( TMemPtr& aMemPtr, TStreamBuffers* aSb );
     
-    /**
-    * Called when DeleteAll request is finished
-    * @param aDSAO. pointer to asynchronous request handler
-    * @param aOperation. callback operation.
-    */
-    TInt DeleteAllFinishedL( CNSmlDSAsyncCallBack* aDSAO, TCallBackOperation aOperation );
-       
 private:	//Data
 
 	TMemPtr iMemPtr;
 	CNSmlDSHostServer& iServer;
     RNSmlDSDataProviderArray iDataProviders;
     RStringPool iStringPool;
-    CNSmlHostSessionCancel* iCancelEventHandler;
-    CNSmlDSAsyncCallBack* iDsoDeleteAll;
-
 	};
 	
 #include "Nsmldshostsession.inl"

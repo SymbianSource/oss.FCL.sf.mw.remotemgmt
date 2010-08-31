@@ -25,7 +25,8 @@
 #include <TestScripterInternal.h>
 #include <StifTestModule.h>
 #include <TestclassAssert.h>
-
+#include <centralrepository.h>
+#include <CoreApplicationUIsSDKCRKeys.h>
 
 //SyncML Includes
 
@@ -34,7 +35,6 @@
 #include <SyncMLClientDM.h>
 #include <SyncMLObservers.h>
 #include <SyncMLErr.h>
-#include <MProfileEngineExtended.h>
 
 
 // CONSTANTS
@@ -229,8 +229,7 @@ NONSHARABLE_CLASS(Ctestprofileutil) : public CScriptBase
           TSmlTransportId			iConnectionId;
           TSmlDataProviderId		iDataProviderId;
           
-          MProfileEngineExtended* iProfileEngine;
-         // Reserved pointer for future extension
+          // Reserved pointer for future extension
         //TAny* iReserved;
 
     public:     // Friend classes
@@ -334,7 +333,9 @@ class CSync : public CActive,
 		
 		void CloseSyncSession();
 		
-  private:
+		void OfflineModeL();
+				
+ private:
         
         TInt iInterruptStage;
          
@@ -347,9 +348,6 @@ class CSync : public CActive,
         TStatus iPrgPrevStatus;
 		
 		TStatus iPrgCurStatus;
-        
-        MProfileEngineExtended* iProfileEngine;
-         
             
 };
 

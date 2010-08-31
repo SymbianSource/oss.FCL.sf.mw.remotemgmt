@@ -22,6 +22,9 @@
 #include <DataSyncInternalPSKeys.h>
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
+#include <cmpluginwlandef.h>
+#include <cmmanager.h>
+#include <cmconnectionmethod.h>
 
 // common includes with DM
 #include "nsmlagenttestdefines.h"
@@ -40,16 +43,15 @@
 #include "nsmldscontent.h"
 #include "nsmldserror.h"
 #include "nsmldssettings.h"
+#include "nsmldsoperatorsettings.h"
 #include "nsmlagentlog.h"
 #include "nsmlroam.h"
-#include "NsmlOperatorErrorCRKeys.h"
+#include "nsmloperatorerrorcrkeys.h"
 //RD_AUTO_RESTART
 #include <e32base.h>
 #include <centralrepository.h> 
 #include "SyncMLErr.h"
 #include "nsmldsconstants.h"
-#include <featmgr.h>
-#include "nsmloperatordefines.h"
 //RD_AUTO_RESTART
 _LIT( KNetMon,"\\netmon.exe" );
 _LIT( KAutoRestart,"netmon" );
@@ -62,9 +64,9 @@ _LIT( KAutoRestart,"netmon" );
 #endif
 
 // CONSTANTS
-const TInt KNSmlDsHTTPErrCodeBase = 1400;
-const TInt KNSmlDsErrCodeFirst = 400;
-const TInt KNSmlDsErrCodeLast = 516;
+const TInt KGranularity = 12;
+const TInt KErrorCodeRangeFirst = 400;
+const TInt KErrorCodeRangeLast = 516;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -73,7 +75,8 @@ const TInt KNSmlDsErrCodeLast = 516;
 // C++ constructor.
 // -----------------------------------------------------------------------------
 //
-CNSmlDSAgent::CNSmlDSAgent()
+CNSmlDSAgent::CNSmlDSAgent(): 
+        iServerStatusCodeArray ( RArray< TInt >( KGranularity ) )
     {
 	}
 
@@ -117,6 +120,15 @@ void CNSmlDSAgent::ConstructL( MSyncMLProgressObserver* aDSObserver )
 	}
 	//RD_AUTO_RESTART
 	
+    iRepositorySSC = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys );
+    CNSmlDSOperatorSettings* settings = CNSmlDSOperatorSettings::NewLC();
+    iErrorReportingEnabled = settings->SyncErrorReportingEnabled();
+    if ( iErrorReportingEnabled )
+        {
+        settings->PopulateStatusCodeListL( iServerStatusCodeArray );
+        }
+    CleanupStack::PopAndDestroy( settings );
+	
 	// security policies for P&S reading and writing
 	_LIT_SECURITY_POLICY_S0( KNSmlPSWritePolicy, KNSmlSOSServerPolicyUID.iUid ); // SID check (sosserver) when writing
 	_LIT_SECURITY_POLICY_PASS( KNSmlPSReadPolicy ); // no checks done when reading
@@ -127,16 +139,8 @@ void CNSmlDSAgent::ConstructL( MSyncMLProgressObserver* aDSObserver )
                        RProperty::EInt, // type
                        KNSmlPSReadPolicy, // read policy
                        KNSmlPSWritePolicy ); // write policy
-
-	//For Syncml Status Extended Error Codes
-	FeatureManager::InitializeLibL();
-	iIsExtendedServerErrorCodesSupported = EFalse;
-	if(FeatureManager::FeatureSupported(KFeatureIdFfSyncmlStatusExtendedErrorCodes))
-	  {
-      InitializeServerStatusCodeList();
-	  }
-	TRAP_IGNORE( iErrorReportingRep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
-	DBG_FILE(_S8("CNSmlDSAgent::ConstructL ends"));
+	DBG_FILE(_S8("CNSmlDSAgent::ConstructL ends"));                        
+	
 	}
 
 // -----------------------------------------------------------------------------
@@ -177,20 +181,9 @@ CNSmlDSAgent::~CNSmlDSAgent()
 		iDSNetmon = NULL;
 	}
     //RD_AUTO_RESTART
-	if(iServerStatusCodeArray)
-	    {
-	    delete iServerStatusCodeArray;
-	    }
-	if(iRepositorySSC)
-	    {
-	    delete iRepositorySSC;
-	    }
 	
-	if(iErrorReportingRep)
-	    {
-	    delete iErrorReportingRep;
-	    }
-	FeatureManager::UnInitializeLib();
+    iServerStatusCodeArray.Close();
+    delete iRepositorySSC;
 	}
 
 // -----------------------------------------------------------------------------
@@ -999,7 +992,7 @@ void CNSmlDSAgent::ClientModStartingSyncStateL()
 				if ( !iDSContent->ClientItemCountAsked() )
 					{
 					iDSContent->SetClientItemCountAsked();
-					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), 0 );
+					iDSObserver->OnSyncMLSyncProgress( MSyncMLProgressObserver::ESmlSendingModificationsToServer, iDSContent->ClientItemCount(), iDSContent->TaskId() );
 					}
 				break;
 			case CNSmlCmdsBase::EReturnBufferFull:
@@ -1571,10 +1564,7 @@ void CNSmlDSAgent::CreateSyncmlCmdsInstanceL()
 			iSyncMLCmds = CNSmlDSCmds::NewL( this, sessionIdString, KNSmlDSAgentVerProto12, KNSmlSyncMLPublicId12, *iSyncMLUserName, iSyncServer, *iDSContent, *iDSObserver, versionCheck );		
 			}
 			
-	    TInt value(0); 
-		if ( !iSyncMLCmds ) 
-		   User::Leave( KErrGeneral );
-		
+	    TInt value(0);
 	    TRAPD (err , ReadRepositoryL(KNSmlMaxMsgSizeKey, value));	    
 	    if ( ( iMediumType == KUidNSmlMediumTypeInternet ) && ( err == KErrNone ) )
 	        {
@@ -1660,22 +1650,7 @@ void CNSmlDSAgent::ReadSettingsL()
 	iSyncHTTPAuthPassword = profile->StrValue( EDSProfileHttpAuthPassword ).AllocL();	
 	iSyncHTTPAuthUsed = profile->IntValue( EDSProfileHttpAuthUsed );						
 	iProtocolVer = static_cast<TSmlProtocolVersion>( profile->IntValue( EDSProfileProtocolVersion ) );
-
-	//For extended error code logging
-    if(iRepositorySSC)
-        {
-        TBuf<KBufferLength> tempStr;
-        //Get the Operator server ID configured in cenrep
-        TInt error = iRepositorySSC->Get(KNsmlOperatorProfileServerId, tempStr);
-        if(error == KErrNone)
-            {
-            if(tempStr.Compare(*iDSServerId)== KErrNone)
-                {
-                //Extended Server Error logging supported, set the the flag
-                iIsExtendedServerErrorCodesSupported = ETrue;
-                }
-            }
-        }
+	
 	// set sync started to P&S (if fails -> sync not interrupted)
 	if ( iProtocolVer == ESmlVersion1_1_2 )
 	    {
@@ -1690,12 +1665,12 @@ void CNSmlDSAgent::ReadSettingsL()
                         EDataSyncRunning12 );	    
         }
     
-	if ( iErrorReportingRep )
-	    {
-        iErrorReportingRep->Set( KNsmlOpDsErrorCode, KErrNone );
-        iErrorReportingRep->Set( KNsmlOpDsSyncProfUid, profile->IntValue( EDSProfileId ) );
-        iErrorReportingRep->Set( KNsmlOpDsSyncInitiation, iSyncInitiation );
-	    }
+    if ( iRepositorySSC )
+        {
+        iRepositorySSC->Set( KNsmlOpDsSyncErrorCode, KErrNone );
+        iRepositorySSC->Set( KNsmlOpDsSyncProfId, profile->IntValue( EDSProfileId ) );
+        iRepositorySSC->Set( KNsmlOpDsSyncInitiation, iSyncInitiation );
+        }
 
 	TBool ifInternet = ETrue ; // CR: 403-1188
 	if ( iMediumType == KUidNSmlMediumTypeInternet )
@@ -1942,23 +1917,39 @@ void CNSmlDSAgent::ReplaceIAPIdL()
 			profileUtil->AccessPointIdL(LastUsedIAPId);
 			if(LastUsedIAPId > 0)
 			{
-				//Check Whether the IAPID still exists
-		    	TApBearerType bearertype = CheckAPBearerTypeL(LastUsedIAPId);
-		    	if(bearertype != TApBearerType(-1))
-		    	{
-		    		iIAPId = LastUsedIAPId;    	
-		    		DBG_FILE_CODE(iIAPId , _S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID Replaced from the CenRep:"));                
-		    	}
-		    	else
-		    	{
-		    		//Stop the DS Sync Session
-		    		DBG_FILE(_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid so stopping the session"));
-		    		iPacketDataUnAvailable = ETrue;
-		    		StopDSSession();
-		    	}	
+                //Check Whether the IAPID still exists
+                RCmManager  cmmanager;
+                cmmanager.OpenL();
+                CleanupClosePushL(cmmanager);
+                RCmConnectionMethod cm;
+                TRAPD(err, cm = cmmanager.ConnectionMethodL( LastUsedIAPId ));
+                CleanupClosePushL( cm );
+                TUint32 bearer = 0;
+                if( err == KErrNone )
+                {
+                    bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );        
+                    DBG_FILE_CODE( bearer ,_S8("CNSmlDSAgent::ReadSettingsL, BearerType"));
+                    if ( bearer == KUidWlanBearerType )
+                    {
+                        DBG_FILE(_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid WLAN"));
+                        iPacketDataUnAvailable = ETrue;
+                        StopDSSession();
+                    }
+                    else
+                    {
+                        iIAPId = LastUsedIAPId;      
+                        DBG_FILE_CODE(iIAPId , _S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID Replaced from the CenRep:"));
+                    }
+                }
+                else
+                {
+                    DBG_FILE_CODE( err ,_S8("CNSmlDSAgent::ReadSettingsL, The Access Point ID is invalid"));
+                    iPacketDataUnAvailable = ETrue;
+                    StopDSSession();
+                }              
+                CleanupStack::PopAndDestroy( 2 ); //cmmanagerext,cm			
 			}
-		}
-		
+		}		
 		CleanupStack::PopAndDestroy(profileUtil);
 	}
 }
@@ -2904,10 +2895,7 @@ void CNSmlDSAgent::FinalizeSyncLogL()
 	
 		TTime time;
 		time.UniversalTime();
-		if (iError)  
 		iSyncLog->SetResult( time, iError->SyncLogErrorCode() );
-		else
-		iSyncLog->SetResult( time, KErrGeneral );    
 	
 		CNSmlDSSettings* settings = CNSmlDSSettings::NewLC();
 		CNSmlDSProfile* profile = settings->ProfileL( iProfileID );
@@ -2941,9 +2929,9 @@ void CNSmlDSAgent::FinalizeSyncLogL()
     // Set sync stopped to P&S
     RProperty::Set( KPSUidDataSynchronizationInternalKeys, KDataSyncStatus, EDataSyncNotRunning );
   
-    if ( iErrorReportingRep )
+    if ( iRepositorySSC )
         {
-        iErrorReportingRep->Set( KNsmlOpDsSyncInitiation, EDataSyncNotRunning );
+        iRepositorySSC->Set( KNsmlOpDsSyncInitiation, EDataSyncNotRunning );
         }
 	
 	ResetDSSessionInfoL();
@@ -2999,10 +2987,13 @@ void CNSmlDSAgent::CheckServerStatusCodeL( TInt aEntryID )
 	TDesC8& cmd = iSyncMLCmds->ResponseController()->Cmd( aEntryID );
 	TNSmlError::TNSmlSyncMLStatusCode status = STATIC_CAST( TNSmlError::TNSmlSyncMLStatusCode, iSyncMLCmds->ResponseController()->StatusCode( aEntryID ) );
 	TBool error( EFalse );
-	if(iIsExtendedServerErrorCodesSupported)
-	    {
-	    StoreServerStatusCode(status);
-	    }
+			
+    // Store status code to cenrep if it is on the list
+    if ( iErrorReportingEnabled )
+        {
+        StoreServerStatusCode( status );
+        }
+        
 	switch ( status )
 		{
 		case TNSmlError::ESmlStatusInProgress:
@@ -3104,29 +3095,11 @@ void CNSmlDSAgent::CheckServerStatusCodeL( TInt aEntryID )
 			}	
 			//RD_SUSPEND_RESUME	
 			break;
-
-		/* Implementation of CMCC PIM v3 begins*/
-		case TNSmlError::ESmlStatusDeviceFull: // 420
-		    if ( FeatureManager::FeatureSupported(KFeatureIdFfTdCmccpimpromptserverfullwhenreceive420statuscodefromserver) )
-		        {
-                // CMCC server full error enabled
-                iDSObserver->OnSyncMLSyncError( MSyncMLProgressObserver::ESmlFatalError, SyncMLError::KErrServerFull, 0, 0, 0);
-                error = ETrue;
-		        }
-			break;
-		/* Implementation of CMCC PIM v3 ends*/
 			
 		default:
 			error = ETrue;
 		}
 		
-    // Store status code to cenrep in case of error
-    if ( error && iErrorReportingRep
-         && (  status >= KNSmlDsErrCodeFirst && status <= KNSmlDsErrCodeLast ) )
-        {
-        iErrorReportingRep->Set( KNsmlOpDsErrorCode, status );
-        }
-        
 	if ( cmd == KNSmlAgentSyncHdr )
 		{
 		SaveIfNonceL( *iSyncMLCmds->ResponseController(), aEntryID );
@@ -3463,23 +3436,6 @@ void CNSmlDSAgent::FinaliseWhenErrorL()
 	{
 	DBG_FILE(_S8("CNSmlDSAgent::FinaliseWhenErrorL begins"));
 	
-	// Store error code to cenrep
-	if ( iErrorReportingRep )
-	    {
-        TInt errCode = iError->SyncLogErrorCode();
-
-        if ( errCode >= ( KNSmlDsHTTPErrCodeBase + KNSmlDsErrCodeFirst ) && 
-                errCode <= ( KNSmlDsHTTPErrCodeBase + KNSmlDsErrCodeLast ) )
-            {
-            errCode -= KNSmlDsHTTPErrCodeBase;
-            }
-
-        if ( errCode >= KNSmlDsErrCodeFirst && errCode <= KNSmlDsErrCodeLast )
-            {
-            iErrorReportingRep->Set( KNsmlOpDsErrorCode, errCode );    	    
-            }
-	    }
-
 // <MAPINFO_RESEND_MOD_BEGIN>
 	if( iDSContent->ResendUsed() )
 		{
@@ -4346,90 +4302,28 @@ void CNSmlDSAgent::ResetDSSessionInfoL()
     }
 
 // ------------------------------------------------------------------------------------------------------------------
-// CNSmlDSAgent::InitializeServerStatusCodeList()
-// @description This function reads list of configured server status codes
-//              from cenrep and stores them locally in an array for later comparision during sync
-// ------------------------------------------------------------------------------------------------------------------
-void CNSmlDSAgent::InitializeServerStatusCodeList()
-    {
-    DBG_FILE(_S8("CNSmlDSAgent::InitializeServerStatusCodeList() begins"));
-    TRAPD(error, iRepositorySSC = CRepository::NewL(KNsmlOperatorCenrepUID));
-    if(error == KErrNone && iRepositorySSC!= NULL)
-        {
-        TBuf<KBufferLength> tempStr;
-        error = iRepositorySSC->Get(KNsmlExtendedServerStatusCodeList, tempStr);
-        if(error == KErrNone)
-            {
-            TInt commaPos = -1;
-            TInt codesCount = 0;
-            while ((commaPos = tempStr.Locate(',')) > KErrNotFound)
-                {
-                ++codesCount;
-                tempStr.Replace(commaPos,1,KSpace);
-                }
-            TRAPD(error, iServerStatusCodeArray = new (ELeave) RArray<TInt>(codesCount));
-            if(error == KErrNone && iServerStatusCodeArray!= NULL)
-                {
-				TLex lex(tempStr);
-				while(!lex.Eos())
-					{
-					TPtrC token=lex.NextToken();
-					TLex temp(token);
-					TInt val;
-					temp.Val(val);
-					TRAP(error, iServerStatusCodeArray->AppendL(val));
-					if(error !=KErrNone)
-						{
-						DBG_FILE(_S8("Item Could not be appended to array"));
-						}
-					}
-                }
-            else
-                {
-                iServerStatusCodeArray = NULL;
-                DBG_FILE(_S8("Error creating iServerStatusCodeArray"));
-                }
-            }
-        else
-            {
-	        DBG_FILE(_S8("Could not find ServerStatusCodeList Key in cenrep"));
-            }
-        }
-    else
-        {
-        iRepositorySSC = NULL;
-        DBG_FILE(_S8("Error opening cenrep to store Server Status Codes"));
-        }
-    DBG_FILE(_S8("CNSmlDSAgent::InitializeServerStatusCodeList() ends"));
-    }
-// ------------------------------------------------------------------------------------------------------------------
 // CNSmlDSAgent::StoreServerStatusCode(TInt aServerStatusCode)
 // @description This function stores Sync ML Server Status code to cenrep for Operator profile sync if matched with configured list of codes,
 //              and the same code can be used by any client for error logging.
 //              If there are multiple status codes during sync, the last server status code is stored.
 // @param aServerStatusCode Sync ML server status code while sync ongoing.
 // ------------------------------------------------------------------------------------------------------------------
-void CNSmlDSAgent::StoreServerStatusCode(TInt aServerStatusCode) const
+void CNSmlDSAgent::StoreServerStatusCode( TInt aServerStatusCode ) const
     {
     DBG_FILE(_S8("CNSmlDSAgent::StoreServerStatusCode() begins"));
-	if(iServerStatusCodeArray)
-	    {
-	    if(iServerStatusCodeArray->Find(aServerStatusCode) != KErrNotFound)
-	        {
-	        if(iRepositorySSC)
-	            {
-	            TInt error = iRepositorySSC->Set(KNsmlExtendedServerStatusCode, aServerStatusCode);
-	            if (error != KErrNone)
-	                {
-	                DBG_FILE(_S8("Error in storing the server status code in cenrep"));
-	                }
-	            }
-	        else
-	            {
-	            DBG_FILE(_S8("Repository for SSC could not be found"));
-	            }
-	        }
-	    }
+
+    if( ( iServerStatusCodeArray.Count() == 0 && 
+      ( aServerStatusCode >=  KErrorCodeRangeFirst ) && 
+      ( aServerStatusCode <=  KErrorCodeRangeLast ) ) ||
+      ( iServerStatusCodeArray.Find( aServerStatusCode ) != KErrNotFound ) )
+        {
+        TInt error = iRepositorySSC->Set( KNsmlOpDsSyncErrorCode, aServerStatusCode );
+        if ( error != KErrNone )
+            {
+            DBG_FILE(_S8("Error in storing the server status code in cenrep"));
+            }
+        }
+
     DBG_FILE(_S8("CNSmlDSAgent::StoreServerStatusCode() ends"));
     }
 // End of file  

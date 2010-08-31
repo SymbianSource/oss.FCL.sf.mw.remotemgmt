@@ -51,22 +51,4 @@ EDcmoAccessDenied,
 EDcmoUnknown
 };
 
-
-enum TLawMoStatus
-{
-    ELawMoSuccess,
-    ELawMoOk,
-    ELawMoFail,
-    ELawMoFullyLockFailed,
-    ELawMoPartialLockFailed,
-    ELawMoUnlockFailed,
-    ELawMoWipeSuccess,
-    ELawMoWipeFailed,
-    ELawMoWipeNotPerformed,
-    ELawMoUserCancelled,
-	ELawMoAccepted,
-	ELawMoInvalid,
-    ELawMoUnknown
-};
-
 #endif// __DCMOCONST_H__

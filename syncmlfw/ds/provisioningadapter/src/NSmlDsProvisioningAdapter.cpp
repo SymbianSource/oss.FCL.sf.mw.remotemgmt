@@ -26,11 +26,11 @@
 #include <barsread.h>
 #include <NSmlDSProvisioningAdapter.rsg>
 #include <bautils.h>
-#include <ApUtils.h>
 #include <barsc.h>
+#include <cmconnectionmethoddef.h>
+#include <cmmanagerext.h>
 #include <centralrepository.h> //For central Repository
-#include <NsmlOperatorDataCRKeys.h> // KCRUidOperatorDatasyncInternalKeys
-
+#include <nsmloperatordatacrkeys.h> // KCRUidOperatorDatasyncInternalKeys
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
 #include <nsmldsconstants.h>
@@ -267,12 +267,15 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
             {
             uid.Copy(iProfiles[aItem]->iVisitParameter->Data() );
 
-            CCommsDatabase* commDb = CCommsDatabase::NewL();
-            CleanupStack::PushL(commDb);
-            CApUtils* aputils = CApUtils::NewLC( *commDb);
+            RCmManagerExt  cmmanagerExt;
+		    cmmanagerExt.OpenL();
+		    CleanupClosePushL(cmmanagerExt);
+		    RCmConnectionMethodExt cm;
+		    cm = cmmanagerExt.ConnectionMethodL( uid());
+		    CleanupClosePushL( cm );
 
-            TRAP( ERROR, apId = aputils->IapIdFromWapIdL( uid() ) );
-            CleanupStack::PopAndDestroy(2); //commdb, aputils
+            TRAP( ERROR, apId = cm.GetIntAttributeL(CMManager::ECmIapId) );
+            CleanupStack::PopAndDestroy(2); //cmmanager,cm
             }
 
         //Get default access point in failure of getting AP
@@ -295,15 +298,13 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
 		// see if address contains also port
 		TBool portFound = EFalse;
 		TInt startPos(0);
-		TBool isHTTPS = EFalse;
 		if(iProfiles[aItem]->iHostAddress->Find(KNSmlDsProvisioningHTTP)==0)
 		    {
 		    startPos=KNSmlDsProvisioningHTTP().Length();		    		    
 		    }
 		else if(iProfiles[aItem]->iHostAddress->Find(KNSmlDsProvisioningHTTPS)==0)
 		    {
-		    startPos=KNSmlDsProvisioningHTTPS().Length();	
-		    isHTTPS = ETrue;
+		    startPos=KNSmlDsProvisioningHTTPS().Length();		    		    
 		    }
 		TPtrC uriPtr = iProfiles[aItem]->iHostAddress->Mid(startPos);
 		
@@ -334,18 +335,9 @@ void CNSmlDsProvisioningAdapter::SaveL(TInt aItem)
 				}
 			else
 				{
-				TBuf<16> portNum;
-				if (isHTTPS)
-				    {
-				    portNum.Copy(KNSmlDsHTTPSDefaultPort());
-				    }
-				else
-				    {
-				    portNum.Copy(KNSmlDsDefaultPort());
-				    }
 				// use default port
 				if( CombineURILC( iProfiles[aItem]->iHostAddress->Des(),
-				        portNum, uri ) == KErrNone )
+							  KNSmlDsDefaultPort(), uri ) == KErrNone )
 					{
 					if(iProfiles[aItem]->iHostAddress)
 					{

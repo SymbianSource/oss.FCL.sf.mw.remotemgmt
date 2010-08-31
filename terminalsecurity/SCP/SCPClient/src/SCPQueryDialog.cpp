@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2000-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -26,16 +26,13 @@
 // Include the SecUi definitions
 #include <secui.hrh>
 #include "SCPDebug.h"
-#include <SCPNotifier.rsg>
+#include <scpnotifier.rsg>
 // For Central Repository
 #include <centralrepository.h>
 #include <AknIncallBubbleNotify.h>
 #include <e32property.h>
 #include <ctsydomainpskeys.h>
 #include "SCPCodePrivateCRKeys.h"
-#include <DevManInternalCRKeys.h>
-#include <featmgr.h>
-
 /*#ifdef _DEBUG
 #define __SCP_DEBUG
 #endif // _DEBUG
@@ -51,7 +48,7 @@
 #endif // _DEBUG*/
 
 const TInt KSCPSpecialDeleteEvent( 63529 );
-const TInt KLockedbyLawmo (30);
+
 // ================= MEMBER FUNCTIONS =======================
 //
 // ----------------------------------------------------------
@@ -63,8 +60,7 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
                                     RSCPClient::TSCPButtonConfig aButtonsShown, 
                                     TInt aMinLength,
                                     TInt aMaxLength,
-                                    TBool aECSSupport,
-                                    TKeypadContext aContextSensitive /*= EContextSensitive*/
+                                    TBool aECSSupport
                                     )
             : CAknTextQueryDialog(aDataText, ENoTone),
 			  iMinLength(aMinLength),
@@ -78,10 +74,8 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
 			  iPreviousCharacterWasInvalid( EFalse ),
 			  iPrioritySet( EFalse ),
 			  iPriorityDropped( EFalse ),
-			  iLockedByLawMo( EFalse ),
-			  iKeyUsed ( NULL ),
-			  iContextSensitive(aContextSensitive)
-	{
+			  iKeyUsed ( NULL )
+	{		 
         def_mode = 0;
         iAppKey = 0;
         iMode = KSCPModeNormal;
@@ -97,12 +91,12 @@ CSCPQueryDialog::~CSCPQueryDialog()
 	{
 	Dprint( (_L("CSCPQueryDialog::~CSCPQueryDialog()")) );
 	
-   if (iDeviceLockStatusObserver)
-        delete iDeviceLockStatusObserver;
-    
-    if (iCallStatusObserver)
-        delete iCallStatusObserver;
-	    
+	    if ( AknLayoutUtils::PenEnabled() )
+        {
+        TRAP_IGNORE ( SetIncallBubbleAllowedInUsualL( ETrue ) );
+        }
+
+	
 	if (iFront)
 		{
 		// Uncapture keys, if they were captured
@@ -111,14 +105,14 @@ CSCPQueryDialog::~CSCPQueryDialog()
 			RWindowGroup& groupWin=iCoeEnv->RootWin();
 			groupWin.CancelCaptureKeyUpAndDowns(iAppKey);
 			groupWin.CancelCaptureKeyUpAndDowns(iVoiceKey2);
-			groupWin.CancelCaptureKey(iVoiceKey1);
+			groupWin.CancelCaptureKey(iVoiceKey1);						
 			}
 
 		if ( iPrioritySet )
 		    {
     		// Return normal high-priority in case there are other notifiers active 
 	    	// and were are not going to lose foregroung right after following call	
-		    iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
+		    iEikonEnv->RootWin().SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
 		    }
 		 						
 		iEikonEnv->BringForwards(EFalse);	
@@ -136,37 +130,36 @@ CSCPQueryDialog::~CSCPQueryDialog()
 		
 		iFront = EFalse;
 		}
-}
-
-void CSCPQueryDialog :: PostLayoutDynInitL() {
-    Dprint( (_L("[CSCPQueryDialog]-> PostLayoutDynInitL() >>>") ));    
-    iDeviceLockStatusObserver = CSCPLockObserver::NewL(this);
-    iCallStatusObserver = CSCPLockObserver::NewL(this, ESecUiCallStateObserver);
-    Dprint( (_L("[CSCPQueryDialog]-> PostLayoutDynInitL() <<<") ));
-}
-
+	
+	if (iDeviceLockStatusObserver)
+		delete iDeviceLockStatusObserver;
+		if (iCallStatusObserver)
+		delete iCallStatusObserver;
+	}
 //
 // ----------------------------------------------------------
 // CSCPQueryDialog::PreLayoutDynInitL()
 // Called by framework before dialog is shown 
 // ----------------------------------------------------------
 //
-void CSCPQueryDialog :: PreLayoutDynInitL()
+void CSCPQueryDialog::PreLayoutDynInitL()
     {
     Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL()") ));
     
+    /* CEikSecretEditor* queryControl = 
+                    static_cast<CEikSecretEditor*>(
+                        QueryControl()->ControlByLayoutOrNull( QueryControl()->QueryType() ) 
+                       ); 
+    queryControl->EnableSCT(EFalse); */
+    
     CAknTextQueryDialog::PreLayoutDynInitL();
     
-    CEikSecretEditor* queryControl = static_cast<CEikSecretEditor*>( 
-                QueryControl()->ControlByLayoutOrNull( QueryControl()->QueryType() ) );
-
-    queryControl->SetFeature(CEikSecretEditor::ELockQuerySCT, ETrue);
-
     //disable in call bubble.
     if ( AknLayoutUtils::PenEnabled() )
         {
         SetIncallBubbleAllowedInUsualL( EFalse );
         }
+
     
     // Create the ECS detector object if required
     if ( iECSSupport )
@@ -178,38 +171,24 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
     
     Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Set input mode") ));
         
-    switch(iContextSensitive) {
-        case EContextSensitive: {
-            Dprint(_L("[CSCPQueryDialog]-> iContextSensitive = EContextSensitive"));
-            /* The default input mode of the lock code query must be set on the basis of the
-            very first character of the current lock code. If the first character of the current
-            lock code is numeric, the default input mode will also be numeric. Otherwise, the 
-            default input mode will be alphabetic */
-            
-            CRepository* repository = CRepository :: NewL(KCRUidSCPParameters);
-            CleanupStack :: PushL(repository);
-            User :: LeaveIfError(repository->Get(KSCPLockCodeDefaultInputMode, def_mode));            
-            CleanupStack :: PopAndDestroy(repository);
-
-            if (def_mode == 0) {
-                Dprint(_L("[CSCPQueryDialog]-> Context determined as Numeric"));
-                SetDefaultInputMode(EAknEditorNumericInputMode);
-            }
-            else {
-                Dprint(_L("[CSCPQueryDialog]-> Context determined as Alphanumeric"));
-                SetDefaultInputMode(EAknEditorSecretAlphaInputMode);
-            }
-        }
-        break;
-        case ENumeric:
-            Dprint(_L("[CSCPQueryDialog]-> iContextSensitive = ENumeric"));
-            SetDefaultInputMode( EAknEditorNumericInputMode );
-            break;
-        case EAlphaNumeric:
-            Dprint(_L("[CSCPQueryDialog]-> iContextSensitive = EAlphaNumeric"));
-            SetDefaultInputMode( EAknEditorSecretAlphaInputMode );
-            break;
-    };
+    /* The default input mode of the lock code query must be set on the basis of the
+    very first character of the current lock code. If the first character of the current
+    lock code is numeric, the default input mode will also be numeric. Otherwise, the 
+    default input mode will be alphabetic */
+    
+    CRepository* repository;
+    repository = CRepository::NewL( KCRUidSCPParameters );
+    CleanupStack::PushL( repository );
+    
+    User::LeaveIfError(repository->Get( KSCPLockCodeDefaultInputMode , def_mode) );
+    
+    CleanupStack::PopAndDestroy( repository );
+    repository = NULL;   
+    
+    if (def_mode == 0)
+    	SetDefaultInputMode( EAknEditorNumericInputMode ); 
+    else
+    	SetDefaultInputMode( EAknEditorSecretAlphaInputMode );
     
     // Set the mode, we use this to determine the functionality for special keys
     if ( ( iButtons == RSCPClient::SCP_OK ) || ( iButtons == RSCPClient::SCP_OK_CANCEL ) )
@@ -278,39 +257,25 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
     TInt wgPrio = wsSession.GetWindowGroupOrdinalPriority(myWgId);
 	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): wgPrio %d"),wgPrio ));
 	TInt var;
-	RProperty::Get(KPSUidCtsyCallInformation, KCTsyCallState, var);
-	Dprint((_L("CSCPQueryDialog::PreLayoutDynInitL(): EPSCTsyCallStateNone %d"), var));
+	RProperty::Get(KPSUidCtsyCallInformation, KCTsyCallState,var);
+	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): EPSCTsyCallStateNone %d"),var ));
+    // we are already on forgeround, need to update priority differently
+	if (var != EPSCTsyCallStateNone)
+	{
+		// If the call is made during device startup have the priority as normal
+		if (iECSSupport && (iButtons == RSCPClient::SCP_OK))
+		{
+		iEikonEnv->RootWin().SetOrdinalPosition(1,ECoeWinPriorityNormal);
+		}
 	
-    // If the call is made during device startup have the priority as normal
-    if (iECSSupport)
-    {
-        switch(var) {
-            default:
-            case EPSCTsyCallStateNone:
-                Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Started Maximized...")));
-                iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront + 1);
-                iPrioritySet = ETrue;
-                break;
-            case EPSCTsyCallStateAlerting:
-            case EPSCTsyCallStateHold:
-            case EPSCTsyCallStateRinging:
-            case EPSCTsyCallStateDialling:
-            case EPSCTsyCallStateAnswering:
-            case EPSCTsyCallStateConnected: {
-                switch(iButtons) {
-                    case RSCPClient::SCP_OK:
-                    case RSCPClient::SCP_OK_ETEL: {
-                        Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Started Minimized...")));
-                        iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityLow);
-                        break;
-                    }
-                    default:
-                        break;
-                }
-            }
+	}
+    else if ((wgPrio == ECoeWinPriorityAlwaysAtFront)&&(iECSSupport))
+        {
+        Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): ECoeWinPriorityAlwaysAtFront+1") ));	
+        iEikonEnv->RootWin().SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront+1);
+        iPrioritySet = ETrue;
         }
-    }
-	        
+        
    // this must be done always to keep the reference count in synch  
    // this does not have any effect if autoforwarding has not been set true (normal application.)
    iEikonEnv->BringForwards(ETrue, ECoeWinPriorityAlwaysAtFront+1);
@@ -318,14 +283,14 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
 	/// -- Change Window Priority for dialog and CBA 
 	if (iECSSupport)
 		{
-		Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Changing Window Priority") ));
-		DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
-		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
+		Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Changing Window Priority") ));			
+		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
+		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront); 	
 		}
 	else
 		{
-		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1); //
-		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1);
+		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal); //
+		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal); 	  	
 		}	
 
 	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));
@@ -338,29 +303,12 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
 	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
 
 	iFront = ETrue;
-    TInt currentLawmoState(0); 
-    Dprint( (_L("CSCPQueryDialog::lawmo cenrep") ));
-    CRepository* crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
-    TInt reterr = crep->Get( KLAWMOPhoneLock, currentLawmoState ); 
-    Dprint( (_L("CSCPQueryDialog::lawmo cenrep done") ));
+	
+	Dprint( (_L("CSCPQueryDialog::CSCPLockObserver") ));
+	iDeviceLockStatusObserver = CSCPLockObserver::NewL(this);
+	iCallStatusObserver = CSCPLockObserver::NewL(this,ESecUiCallStateObserver);
 
-    if(reterr != KErrNone) 
-        {
-        Dprint(_L("[RSCPClient]-> ERROR: Unable to perform get on CenRep lawmo, lErr=%d"), reterr);
-        CleanupStack :: PopAndDestroy(crep);
-        return;
-        }
-    
-    if(currentLawmoState!=KLockedbyLawmo)
-        {
-        // Hide the OK key
-        Dprint( (_L("CSCPQueryDialog::lawmo state !=30, dim key") ));
-        iLockedByLawMo = ETrue;
-        ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-        ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-        }	
-	CleanupStack::PopAndDestroy();
-}
+	}
 //
 // ---------------------------------------------------------
 // CSCPQueryDialog::OfferKeyEventL
@@ -436,13 +384,9 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
 		
     if ( aKeyEvent.iCode == EKeyOK || aKeyEvent.iCode == EKeyEnter)
         {
-    
-            if(QueryControl()->GetTextLength() > 0) {
-                // Try to exit with OK as well
-                TryExitL(EAknSoftkeyOk);                
-            }
-            
-            return EKeyWasConsumed;
+        // Try to exit with OK as well
+        TryExitL(EAknSoftkeyOk);
+        return EKeyWasConsumed;
         }
 
 	// app key
@@ -473,22 +417,10 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
             {
             if (iECSSupport)
                 {
-                if ( iEcsDetector->State() == CAknEcsDetector::ECompleteMatch ||
-                     iEcsDetector->State() == CAknEcsDetector::EServiceNumMatch )
+                if (iEcsDetector->State()== CAknEcsDetector::ECompleteMatch)
                     {
-                    Dprint( (_L("CSCPQueryDialog::OfferKeyEventL(): adding EKeyPhoneSend to detector")));
+                    iEcsDetector->AddChar( (TText)(EKeyPhoneSend) );
                     
-                    switch(iButtons) {
-                        case RSCPClient::SCP_OK:
-                        case RSCPClient::SCP_OK_ETEL:
-                            //Required only during device startup
-                            iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityLow);
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    iEcsDetector->AddChar( (TText)(EKeyPhoneSend ) );
                     }   
                 else
                     {
@@ -568,16 +500,16 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
         iValidTextLen = QueryControl()->GetTextLength();
         }   
         
-    //Additional modifier set by query dialog, while simulating event
-    // As raw key events are used to simulate, modifiers and scan codes cannot be set at a time
-    // In the 1st event, modifiers are set and in subsequent event, scan codes will be set.
-    if( aKeyEvent.iModifiers & EModifierNumLock &&
-        aKeyEvent.iModifiers & EModifierKeypad && 
-        aKeyEvent.iModifiers & EModifierSpecial) {
-    
-        return EKeyWasConsumed;
+//Additional modifier set by query dialog, while simulating event
+// As raw key events are used to simulate, modifiers and scan codes cannot be set at a time
+// In the 1st event, modifiers are set and in subsequent event, scan codes will be set.
+if(aKeyEvent.iModifiers & EModifierNumLock &&
+        aKeyEvent.iModifiers & EModifierKeypad && aKeyEvent.iModifiers & EModifierSpecial
+)
+    {
+   
+    return EKeyWasConsumed;
     }
-    
     if ( iECSSupport )
         {
         // Save the text
@@ -589,14 +521,14 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
             {
             iEcsDetector->SetBuffer(iTextBuffer.Left(KAknEcsMaxMatchingLength));
             }
-        /*if ( aType == EEventKey )
+        if ( aType == EEventKey )
             {
         if ( iEMCallActivated )
             {
             TryExitL( ESecUiEmergencyCall );
             return EKeyWasConsumed;
             }
-        }*/
+        }
         // Retrieve the editor control ptr, we know it is a secret editor..
         CEikSecretEditor* queryControl = static_cast<CEikSecretEditor*>( 
             QueryControl()->ControlByLayoutOrNull( QueryControl()->QueryType() ) );                
@@ -636,36 +568,29 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
             if ( queryControl != NULL )
                 {
                 queryControl->RevealSecretText( EFalse );
-				
-                if(aType == EEventKey)
+			if(aType == EEventKey)
+			{
+                HBufC* cbaLabel = NULL;
+                TRAPD ( err , cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
+                if ( err == KErrNone )
                 {
-                    HBufC* cbaLabel = NULL;
-                    Dprint( (_L("CSCPQueryDialog::OfferKeyEventL(): R_SCPDIALOG_OK_TEXT") ));
-                    TRAPD ( err , cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
-                    if ( err == KErrNone )
-                    {
-                        if (isCallSoftkeyAdded)
-                        {
-                            isCallSoftkeyAdded = EFalse;
-                            ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyEmergencyCall);
-                        }
-                        else
-                        {
-                        ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
-                        }
-                    TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0,EAknSoftkeyOk,*cbaLabel) );
-	                if(iLockedByLawMo)
-	                {
-	                ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-	                ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-	                }
-                    ButtonGroupContainer().DrawDeferred();
-                    delete cbaLabel;
-                    }
+					if (isCallSoftkeyAdded)
+					{
+						isCallSoftkeyAdded = EFalse;
+						ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyEmergencyCall);
+					}
+					else
+					{
+					ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
+					}
+                TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0,EAknSoftkeyOk,*cbaLabel) );
+                ButtonGroupContainer().DrawDeferred();
+                delete cbaLabel;
+				}
+            	  }
                 }
             }
-        }
-    }
+        }                  
      
     Dprint( (_L("CSCPQueryDialog::OfferKeyEventL() exiting") ));
               
@@ -676,13 +601,6 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
     else
         {
         return CAknTextQueryDialog::OfferKeyEventL(aKeyEvent,aType);
-        }  
-    
-    if(iLockedByLawMo)
-	    {
-	    Dprint( (_L("dim key hit 2") ));
-	    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-	    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
         }    
 	}
 //
@@ -707,33 +625,68 @@ TBool CSCPQueryDialog::OkToExitL(TInt aButtonId)
 	     Dprint( (_L("CSCPQueryDialog::OkToExitL ( aButtonId :%d, "), aButtonId ));
 	TInt ret = EFalse;
 	
-	switch(aButtonId) {
-	    case EAknSoftkeyOk:
-	    case EAknSoftkeyCancel:
-	        ret = CAknTextQueryDialog::OkToExitL(aButtonId);
-	        break;
-	    case ESecUiEmergencyCall:
-	    case EAknSoftkeyEmergencyCall: {
-            Dprint( (_L("CSCPQueryDialog::OkToExitL(): adding EKeyPhoneSend to detector") ));
-            
-            switch(iButtons) {
-                case RSCPClient::SCP_OK:
-                case RSCPClient::SCP_OK_ETEL:
-                    //Required only during device startup
-                    iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityLow);
-                    break;
-                default:
-                    break;
-            }
-            
-            iEMCallActivated = ETrue;
-            iEcsDetector->AddChar( (TText)(EKeyPhoneSend ) );   
-	    }
-        break;
-	    default:
-	        break;	        
-	}
-	
+    if ( aButtonId == EAknSoftkeyOk )
+		{	        		
+		Dprint( (_L("CSCPQueryDialog::OkToExitL - EAknSoftkeyOk") ));		
+		TInt textLength = QueryControl()->GetTextLength();
+		if ( textLength < iMinLength )
+			{	
+			// The code was too short -> play error tone & clear editor
+			if ( textLength != 0 )
+				{
+				CAknKeySoundSystem* soundSystem;
+	            if ( iEikonEnv->AppUi() )
+		            {		            
+		            soundSystem = static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds();
+		            soundSystem->PlaySound( EAvkonSIDErrorTone );
+		            } 
+				QueryControl()->SetTextL( KNullDesC );
+				iTextBuffer.Zero();
+				iValidTextLen = 0;
+
+                // Hide the OK key
+                //ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, EFalse );
+               // ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
+
+                if (AknLayoutUtils::PenEnabled())
+                    {
+                    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
+                    }
+                else
+                    {
+                    ButtonGroupContainer().MakeCommandVisible(EAknSoftkeyOk, EFalse);
+                    }
+                }
+            ret = EFalse;
+            }	
+		else
+			{		
+			ret = CAknTextQueryDialog::OkToExitL(aButtonId);
+			}			    
+		}
+				
+	// Cancel is allowed, if the key is active
+	if ( aButtonId == EAknSoftkeyCancel )
+		{
+    	Dprint( (_L("CSCPQueryDialog::OkToExitL EAknSoftkeyCancel ")) );	
+	    ret = CAknTextQueryDialog::OkToExitL(aButtonId);
+		}
+		
+    // Emergency call, exit
+    if ( aButtonId == ESecUiEmergencyCall )
+        {
+		Dprint( (_L("CSCPQueryDialog::OkToExitL(): ESecUiEmergencyCall") ));
+        ret = ETrue;
+        }
+    if (aButtonId == EAknSoftkeyEmergencyCall)
+        {
+        //add EKeyPhonesend to ecs detector. 
+        ret = ETrue;
+        Dprint( (_L("CSCPQueryDialog::OkToExitL(): adding EKeyPhoneSend to detector") ));
+         iEcsDetector->AddChar( (TText)(EKeyPhoneSend ) );
+        CAknTextQueryDialog::OkToExitL(aButtonId);
+        }
+   
 	Dprint( (_L("CSCPQueryDialog::OkToExitL() done") ));   
 	return ret;
 	}
@@ -746,23 +699,18 @@ TBool CSCPQueryDialog::OkToExitL(TInt aButtonId)
 //
 void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector, 
                                      CAknEcsDetector::TState aUpdatedState)
-    {
+    {   
     (void)aDetector; // Not used
+    
     TInt err;
-
-    // Check if service calling feature is enabled
-    TBool serviceCallEnabled( EFalse );
-    TRAP( err, FeatureManager::InitializeLibL() );
-    if ( err == KErrNone )
+    if ( ( aUpdatedState == CAknEcsDetector::ECompleteMatchThenSendKey ) || 
+         ( aUpdatedState == CAknEcsDetector::ECallAttempted ) )
         {
-        serviceCallEnabled = FeatureManager::FeatureSupported( 
-            KFeatureIdFfServiceCallWhilePhoneLocked );
-        FeatureManager::UnInitializeLib();
-        }
-
-    if ( aUpdatedState == CAknEcsDetector::ECompleteMatch ||
-              ( serviceCallEnabled && aUpdatedState == CAknEcsDetector::EServiceNumMatch ) )
-        {
+        // Call attempted, cancel the query
+        iEMCallActivated = ETrue; // OfferKeyEventL will close the dialog         
+        }        
+    else if ( aUpdatedState == CAknEcsDetector::ECompleteMatch )    
+        {                
         iShowingEMNumber = ETrue;
         }
     else if ( iShowingEMNumber )
@@ -785,7 +733,7 @@ void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector,
                 {
                 queryControl->RevealSecretText( EFalse );
                 }
-
+           // }        
                 HBufC* cbaLabel = NULL;
 				Dprint( (_L("CSCPQueryDialog::HandleEcsEvent(): R_SCPDIALOG_OK_TEXT") ));
                 TRAP ( err, cbaLabel= StringLoader::LoadL(R_SCPDIALOG_OK_TEXT) );
@@ -801,17 +749,12 @@ void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector,
 							ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
 						}
                 	TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0, EAknSoftkeyOk, *cbaLabel) );
-                    if(iLockedByLawMo)
-                    {
-                    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-                    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-                    }
                 	ButtonGroupContainer().DrawDeferred();
                 	delete cbaLabel;
                 }
             }
-        }
-    }    
+        }    
+    }
  
 void CSCPQueryDialog::ShowWarningNoteL()
     {
@@ -832,51 +775,33 @@ void CSCPQueryDialog::ShowWarningNoteL()
 // CSCPQueryDialog::SetIncallBubbleAllowedInUsualL()
 // -----------------------------------------------------------------------------
 //
-void CSCPQueryDialog :: SetIncallBubbleAllowedInUsualL(TBool aAllowed) {
+void CSCPQueryDialog::SetIncallBubbleAllowedInUsualL(TBool aAllowed)
+    {
     CAknIncallBubble *incallBubble =  CAknIncallBubble::NewL();
-    CleanupStack :: PushL(incallBubble);
-    incallBubble->SetIncallBubbleAllowedInUsualL(aAllowed);
-    CleanupStack :: PopAndDestroy();
-}
-	
-void CSCPQueryDialog::TryCancelQueryL(TInt aReason) {
-    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL() >>>")) );
-    
-    switch(aReason) {
-        case CSCPLockObserver :: EEnded:
-            Dprint( (_L("CSCPQueryDialog::TryCancelQueryL(): Call ended, raising priority...")));
-            
-            switch(iButtons) {
-                case RSCPClient :: SCP_OK:
-                case RSCPClient :: SCP_OK_ETEL:
-                    if(iEMCallActivated) {
-                        TryExitL(EAknSoftkeyCancel);
-                    }
-                    else {
-                        iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront + 1);
-                        iPrioritySet = ETrue;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            break;
-        case CSCPLockObserver :: EInProgress:
-            Dprint( (_L("CSCPQueryDialog::TryCancelQueryL(): received call in progress event...")));
-            TryExitL(EAknSoftkeyCancel);
-            break;
-        case ESecUiDeviceLocked:
-            Dprint(_L("[CSCPQueryDialog]-> TryExitL 4"));
-            TryExitL(EAknSoftkeyCancel);
-            break;
-        case ESecUiNone:
-            Dprint(_L("[CSCPQueryDialog]-> TryExitL 5"));
-            TryExitL(EAknSoftkeyOk);
-            break;
-        default:
-            break;
+    CleanupStack::PushL(incallBubble);
+    incallBubble->SetIncallBubbleAllowedInUsualL( aAllowed );
+    CleanupStack::PopAndDestroy();
     }
 	
-    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL() <<<")) );
-}
+// Call from the SCPObserver
+	
+void CSCPQueryDialog::TryCancelQueryL(TInt aReason)
+    {
+    Dprint( (_L("CSCPQueryDialog::TryCancelQueryL()")) );
+    
+	if (EPSCTsyCallStateDisconnecting == aReason)
+	{
+	Dprint( (_L("CSCPQueryDialog::TryCancelQueryL() -SetOrdinalPosition ->0")) );
+	iEikonEnv->RootWin().SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront+1);
+	iPrioritySet = ETrue;
+	}
+	else
+	{
+	Dprint( (_L("CSCPQueryDialog::TryExitL(EAknSoftkeyCancel)")) );
+    TryExitL(EAknSoftkeyCancel);
+	}
+    }
+
+    
 // End of file
+

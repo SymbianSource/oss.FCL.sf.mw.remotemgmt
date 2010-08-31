@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hbdocument version="1.1">
+    <widget name="dialog" type="HbDialog">
+        <size height="expr(var(hb-param-screen-height)-(var(hb-param-margin-gene-screen)*2  )  )" name="size" width="expr(var(hb-param-screen-width)-(var(hb-param-margin-gene-screen)*2   ) )"/>
+        <rect height="var(hb-param-screen-height)" name="geometry" width="var(hb-param-screen-width)" x="2un" y="2un"/>
+        <sizepolicy horizontalPolicy="Preferred" horizontalStretch="0" verticalPolicy="Preferred" verticalStretch="0"/>
+        <sizehint height="expr(var(hb-param-screen-height) -2*var(hb-param-margin-gene-screen) )" type="PREFERRED" width="expr(var(hb-param-screen-width) - 2*var(hb-param-margin-gene-screen) )"/>
+        <sizehint height="expr(var(hb-param-screen-height) - 2*var(hb-param-margin-gene-screen))" type="MINIMUM" width="expr(var(hb-param-screen-width) -2*var(hb-param-margin-gene-screen) )"/>
+        <sizehint height="expr(var(hb-param-screen-height) - 2*var(hb-param-margin-gene-screen) )" type="MAXIMUM" width="expr(var(hb-param-screen-width) - 2*var(hb-param-margin-gene-screen) )"/>
+        <enums name="dismissPolicy" value="NoDismiss"/>
+        <widget name="container" role="HbDialog:contentWidget" type="HbWidget">
+            <widget name="container_4" type="HbWidget">
+                <widget name="lblTitle" type="HbLabel">
+                    <sizepolicy horizontalPolicy="Preferred" horizontalStretch="0" verticalPolicy="Preferred" verticalStretch="0"/>
+                    <string name="plainText" value="Updating phone"/>
+                </widget>
+                <widget name="lblSwVersion" type="HbLabel">
+                    <enums name="textWrapping" value="TextWordWrap"/>
+                    <string name="plainText" value="New device software version available [ size and version ]"/>
+                </widget>
+                <widget name="horizontalProgressBar" type="HbProgressBar">
+                    <integer name="progressValue" value="30"/>
+                    <bool name="minMaxTextVisible" value="FALSE"/>
+                    <string name="minText"/>
+                    <integer name="minimum" value="0"/>
+                    <enums name="orientation" value="Horizontal"/>
+                    <bool name="invertedAppearance" value="FALSE"/>
+                    <integer name="maximum" value="100"/>
+                    <string name="text"/>
+                </widget>
+                <widget name="lblDownloadState" type="HbLabel">
+                    <string name="plainText" value="Downloading..."/>
+                </widget>
+                <widget name="scrollArea" type="HbScrollArea">
+                    <widget name="container_6" role="HbScrollArea:contents" type="HbWidget">
+                        <widget name="container_5" type="HbWidget">
+                            <widget name="icnCharger" type="HbLabel">
+                                <enums name="alignment" value="AlignVCenter|AlignHCenter"/>
+                                <icon iconName="qtg_small_smiley_very_cool" name="icon"/>
+                            </widget>
+                            <widget name="lblcharger" type="HbLabel">
+                                <enums name="textWrapping" value="TextWrapAnywhere"/>
+                                <real name="z" value="2"/>
+                                <string name="plainText" value="It is recommmended to connect the charger."/>
+                            </widget>
+                            <real name="z" value="6"/>
+                            <sizehint height="11.9403un" type="PREFERRED" width="23.8806un"/>
+                            <layout orientation="Horizontal" type="linear">
+                                <linearitem itemname="icnCharger"/>
+                                <linearitem itemname="lblcharger"/>
+                            </layout>
+                        </widget>
+                        <widget name="container_3" type="HbWidget">
+                            <widget name="lblRestartNote" type="HbLabel">
+                                <enums name="textWrapping" value="TextWrapAnywhere"/>
+                                <real name="z" value="1"/>
+                                <string name="plainText" value="After the installation the phone will restart."/>
+                            </widget>
+                            <widget name="icnInstall" type="HbLabel">
+                                <enums name="alignment" value="AlignVCenter|AlignHCenter"/>
+                                <icon iconName="qtg_small_smiley_very_cool" name="icon"/>
+                            </widget>
+                            <real name="z" value="8"/>
+                            <sizehint height="11.9403un" type="PREFERRED" width="23.8806un"/>
+                            <layout orientation="Horizontal" type="linear">
+                                <linearitem itemname="icnInstall"/>
+                                <linearitem itemname="lblRestartNote"/>
+                            </layout>
+                        </widget>
+                        <widget name="container_1" type="HbWidget">
+                            <widget name="icnEmergency" type="HbLabel">
+                                <enums name="alignment" value="AlignVCenter|AlignHCenter"/>
+                                <icon iconName="qtg_small_smiley_very_cool" name="icon"/>
+                            </widget>
+                            <widget name="lblEmergency" type="HbLabel">
+                                <enums name="textWrapping" value="TextWrapAnywhere"/>
+                                <real name="z" value="1"/>
+                                <string name="plainText" value="During installation phone cannot be used even for emergency."/>
+                            </widget>
+                            <real name="z" value="10"/>
+                            <sizehint height="11.9403un" type="PREFERRED" width="23.8806un"/>
+                            <layout orientation="Horizontal" type="linear">
+                                <linearitem itemname="icnEmergency"/>
+                                <linearitem itemname="lblEmergency"/>
+                            </layout>
+                        </widget>
+                        <widget name="lblinstallnote" type="HbLabel">
+                            <enums name="textWrapping" value="TextWrapAnywhere"/>
+                            <real name="z" value="9"/>
+                            <string name="plainText" value="Installation will proceed now"/>
+                        </widget>
+                        <real name="z" value="1"/>
+                        <sizepolicy horizontalPolicy="MinimumExpanding" horizontalStretch="0" verticalPolicy="Preferred" verticalStretch="0"/>
+                        <sizehint height="62.53732un" type="PREFERRED" width="expr(var(hb-param-screen-width) )"/>
+                        <layout orientation="Vertical" type="linear">
+                            <linearitem itemname="lblinstallnote"/>
+                            <linearitem itemname="container_5"/>
+                            <linearitem itemname="container_3"/>
+                            <linearitem itemname="container_1"/>
+                        </layout>
+                    </widget>
+                    <enums name="scrollDirections" value="Vertical"/>
+                    <real name="z" value="4"/>
+                    <sizehint height="14.92537un" type="PREFERRED" width="14.92537un"/>
+                </widget>
+                <widget name="container_2" type="HbWidget">
+                    <widget name="btnHide" type="HbPushButton">
+                        <string name="text" value="Hide"/>
+                        <sizehint type="PREFERRED" width="10un"/>
+                    </widget>
+                    <widget name="btnResumeLater" type="HbPushButton">
+                        <string name="text" value="Resume Later"/>
+                        <sizehint type="PREFERRED" width="10un"/>
+                    </widget>
+                    <real name="z" value="5"/>
+                    <sizepolicy horizontalPolicy="Preferred" horizontalStretch="0" verticalPolicy="Fixed" verticalStretch="0"/>
+                    <sizehint height="11.9403un" type="PREFERRED" width="23.8806un"/>
+                    <layout orientation="Horizontal" type="linear">
+                        <linearitem itemname="btnHide"/>
+                        <linearitem itemname="btnResumeLater"/>
+                    </layout>
+                </widget>
+                <real name="z" value="3"/>
+                <bool name="visible" value="TRUE"/>
+                <layout orientation="Vertical" type="linear">
+                    <linearitem itemname="lblTitle"/>
+                    <linearitem itemname="lblSwVersion"/>
+                    <linearitem itemname="lblDownloadState"/>
+                    <linearitem itemname="horizontalProgressBar"/>
+                    <linearitem itemname="scrollArea"/>
+                    <linearitem itemname="container_2"/>
+                </layout>
+            </widget>
+            <layout type="grid">
+                <griditem column="0" itemname="container_4" row="0"/>
+            </layout>
+        </widget>
+    </widget>
+    <metadata activeUIState="Common ui state" display="NHD-3.2-inch_portrait" unit="un">
+        <uistate name="Common ui state" sections="#common"/>
+        <uistate name="portrait" sections="#common"/>
+        <uistate name="landscape" sections="#common"/>
+    </metadata>
+</hbdocument>

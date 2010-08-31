@@ -23,7 +23,7 @@
 #include <commdb.h>
 #include <cdbstore.h>
 #include <in_iface.h>
-#include <extendedconnpref.h>
+
 #include <nifman.h>
 #include <connectprog.h>
 #include <commdbconnpref.h>
@@ -40,7 +40,7 @@ class CNSmlDialUpAgent : public CActive
 
 	public:
 		CNSmlDialUpAgent();
-		void ConstructL(TBool aDmJob);
+		void ConstructL();
 		void ConnectL( CArrayFixFlat<TUint32>* aIAPIdArray, TRequestStatus &aStatus );
 		~CNSmlDialUpAgent();
 	
@@ -55,12 +55,13 @@ class CNSmlDialUpAgent : public CActive
 		void StartDatacallL();
 		void AttachToConnectionL();
 		TBool IsInOfflineModeL();
-		void IsRoamingL(TBool& aRoaming);
 	private:
 		TRequestStatus* iEngineStatus;
 		RConnection iConnection;
 		RSocketServ iSocketServer;
-		TUint iIAPid;		
+
+		TUint iIAPid;
+		TCommDbConnPref iPref;
 		TBool iCancelCalled;
 		TBool iSocketConnection;
         CArrayFixFlat<TUint32>* iIAPArray;
@@ -69,9 +70,6 @@ class CNSmlDialUpAgent : public CActive
         TBool iTimerReturn;
         TInt iRetryCounter;
         RTimer iTimer;
-        TConnPrefList iPrefList;
-        TExtendedConnPref iExtPrefs;
-		TBool iDmjob;
 
 	private:
 		friend class CNSmlHTTP;

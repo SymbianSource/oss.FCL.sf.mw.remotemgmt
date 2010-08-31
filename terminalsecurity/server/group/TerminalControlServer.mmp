@@ -57,4 +57,3 @@ LIBRARY		  	charconv.lib
 LIBRARY       flogger.lib
 LIBRARY                 featmgr.lib
 
-SMPSAFE

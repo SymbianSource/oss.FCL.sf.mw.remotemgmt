@@ -40,6 +40,8 @@ enum TSmlHttpPanics
 		KCouldNotNotifyBodyDataPart
 	};
 
+// FORWARD DECLARATIONS
+class CRepository;
 
 //============================================================
 // Class CHttpEventHandler declaration
@@ -64,6 +66,9 @@ protected:
 private:
 	CNSmlHTTP* iAgent;
 	MHTTPDataSupplier* iRespBody;
+	//For storing Server Status Code
+	CRepository* iRepositorySSC;
+	TBool iErrorReportingEnabled;
 
 private:
 	friend class CNSmlHTTP;

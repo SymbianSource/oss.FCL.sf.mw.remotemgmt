@@ -70,7 +70,7 @@ class CSCPHistoryPlugin : public CSCPPlugin
         /**
         * Event handler...
         */		
-		CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam );
+		void HandleEventL( TInt aID, CSCPParamObject& aInParam , CSCPParamObject& aOutParam);
 		
 		void SetEventHandler( MSCPPluginEventHandler* aHandler );
 

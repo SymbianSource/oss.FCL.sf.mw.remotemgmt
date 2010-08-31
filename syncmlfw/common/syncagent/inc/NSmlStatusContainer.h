@@ -70,11 +70,6 @@ class CNSmlStatusContainer : public CBase
 	//  
 	TBool AnyOtherThanOkSyncHdrStatus() const;
 	
-	// Populates the Item structure
-	IMPORT_C void FillItemDataL( SmlItem_t*& aItem );
-	// Retrieve the Status element bearing the ID provided
-	IMPORT_C SmlStatus_t* StatusItem( TInt aStatusID );
-	
 	private:
 	void ConstructL( TBool aClearText);
 	CNSmlStatusContainer();

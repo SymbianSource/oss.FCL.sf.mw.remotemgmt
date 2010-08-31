@@ -25,41 +25,41 @@ REM SyncML Device Management
 
 
 REM  SyncML Device Management plug-in adapters
-ECOM_PLUGIN(nsmldmdevdetailadapter.dll,nsmldmdevdetailadapter.rsc)
-ECOM_PLUGIN(nsmldmdevinfoadapter.dll,nsmldmdevinfoadapter.rsc)
-//ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
+REM ECOM_PLUGIN(nsmldmdevdetailadapter.dll,nsmldmdevdetailadapter.rsc)
+REM ECOM_PLUGIN(nsmldmdevinfoadapter.dll,nsmldmdevinfoadapter.rsc)
+REM ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
 #ifdef __SYNCML_DM_1_1_2
-ECOM_PLUGIN(nsmldmsettingsadapter.dll,nsmldmsettingsadapter.rsc)
+REM ECOM_PLUGIN(nsmldmsettingsadapter.dll,nsmldmsettingsadapter.rsc)
 #else
-ECOM_PLUGIN(nsmldmsettingsadapter12.dll,nsmldmsettingsadapter12.rsc)
+REM ECOM_PLUGIN(nsmldmsettingsadapter12.dll,nsmldmsettingsadapter12.rsc)
 #endif
 
 #ifdef FF_DM_STREAMING_ADAPTER
-ECOM_PLUGIN(nsmldmstreamingadapter.dll,nsmldmstreamingadapter.rsc)
+REM ECOM_PLUGIN(nsmldmstreamingadapter.dll,nsmldmstreamingadapter.rsc)
 #endif
 
-#ifdef FF_DM_BROWSER_ADAPTER
-ECOM_PLUGIN(nsmldmbrowseradapter.dll,nsmldmbrowseradapter.rsc)
-#endif
+REM #ifdef FF_DM_BROWSER_ADAPTER
+REM ECOM_PLUGIN(nsmldmbrowseradapter.dll,nsmldmbrowseradapter.rsc)
+REM #endif
 
-#ifdef __SYNCML_DS //  SyncML data synchronization
-#ifdef __SYNCML_DM_DS //  SyncML device management data sync settings plug-in
-ECOM_PLUGIN(nsmldssettingsadapter.dll,nsmldssettingsadapter.rsc)
-#endif // __SYNCML_DM_DS
-#endif // __SYNCML_DS
+REM #ifdef __SYNCML_DS //  SyncML data synchronization
+REM #ifdef __SYNCML_DM_DS //  SyncML device management data sync settings plug-in
+REM ECOM_PLUGIN(nsmldssettingsadapter.dll,nsmldssettingsadapter.rsc)
+REM #endif // __SYNCML_DM_DS
+REM #endif // __SYNCML_DS
 
-#ifdef __SYNCML_DM_EMAIL //  SyncML device management email settings plug-in
-ECOM_PLUGIN(nsmldmemailadapter.dll,nsmldmemailadapter.rsc)
-#endif // __SYNCML_DM_EMAIL
+REM #ifdef __SYNCML_DM_EMAIL //  SyncML device management email settings plug-in
+REM ECOM_PLUGIN(nsmldmemailadapter.dll,nsmldmemailadapter.rsc)
+REM #endif // __SYNCML_DM_EMAIL
 
-#ifdef __SYNCML_DM_MMS //  SyncML device management MMS settings plug-in
-ECOM_PLUGIN(nsmldmmmsadapter.dll,nsmldmmmsadapter.rsc)
-#endif // __SYNCML_DM_MMS
+REM #ifdef __SYNCML_DM_MMS //  SyncML device management MMS settings plug-in
+REM ECOM_PLUGIN(nsmldmmmsadapter.dll,nsmldmmmsadapter.rsc)
+REM #endif // __SYNCML_DM_MMS
 
-#ifdef __SYNCML_DM_FOTA // SyncML device management Firmware update plug-in
-ECOM_PLUGIN(nsmldmfotaadapter.dll,nsmldmfotaadapter.rsc)
-data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F9A02.SPD		private\100012a5\policy\101F9A02.SPD
-#endif // __SYNCML_DM_FOTA
+REM #ifdef __SYNCML_DM_FOTA // SyncML device management Firmware update plug-in
+REM ECOM_PLUGIN(nsmldmfotaadapter.dll,nsmldmfotaadapter.rsc)
+REM data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F9A02.SPD		private\100012a5\policy\101F9A02.SPD
+REM #endif // __SYNCML_DM_FOTA
 
 
 REM DM utils
@@ -96,24 +96,6 @@ file=ABI_DIR\BUILD_DIR\nsmldmagent.dll			SHARED_LIB_DIR\nsmldmagent.dll
 
 REM wappushalert
 ECOM_PLUGIN(nsmldmwappushalert.dll,101F6DE3.rsc)
-
-#ifdef FF_DM_CONNMO_ADAPTER 
-// old internet adapter is not used in that case for access point provisioning.
-ECOM_PLUGIN(connmoadapter.dll,connmoadapter.rsc)
-#else
-ECOM_PLUGIN(nsmlinternetadapter.dll,nsmlinternetadapter.rsc)
-#endif FF_DM_CONNMO_ADAPTER
-
-#ifdef __SYNCML_DM_WLAN 
-ECOM_PLUGIN(globalwlanadapter.dll,globalwlanadapter.rsc)
-#endif // __SYNCML_DM_WLAN
-
-#ifdef __ALWAYS_ONLINE_PDPCONTEXT2
-ECOM_PLUGIN( nsmldmalwaysonadapter.dll, nsmldmalwaysonadapter.rsc )
-#endif // __ALWAYS_ONLINE_PDPCONTEXT2
-
-ECOM_PLUGIN( nsmldmbmadapter.dll, nsmldmbmadapter.rsc )
-ECOM_PLUGIN(wlanctrldcmoadapter.dll,wlanctrldcmoadapter.rsc)
 
 #ifdef __SYNCML_DM_OTA
 REM DM OMA provisioning 

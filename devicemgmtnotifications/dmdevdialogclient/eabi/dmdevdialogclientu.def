@@ -1,0 +1,11 @@
+EXPORTS
+	_ZN12RDmDevDialog13LaunchPkgZeroERKiS1_S1_R5TDes8R14TRequestStatus @ 1 NONAME
+	_ZN12RDmDevDialog16ShowDisplayAlertERK7TDesC16R14TRequestStatus @ 2 NONAME
+	_ZN12RDmDevDialog17CancelPkgZeroNoteEv @ 3 NONAME
+	_ZN12RDmDevDialog17ShowConnectDialogEv @ 4 NONAME
+	_ZN12RDmDevDialog20DismissConnectDialogEv @ 5 NONAME
+	_ZN12RDmDevDialog21ShowConfirmationAlertERKiRK7TDesC16S4_R14TRequestStatus @ 6 NONAME
+	_ZN12RDmDevDialog25IsPkgZeroConnectNoteShownERi @ 7 NONAME
+	_ZN12RDmDevDialog5CloseEv @ 8 NONAME
+	_ZN12RDmDevDialog5OpenLEv @ 9 NONAME
+

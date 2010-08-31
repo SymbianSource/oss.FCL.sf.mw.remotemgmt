@@ -126,15 +126,11 @@ void CNSmlSOSBackup::RunL()
     _DBG_FILE("CNSmlSOSBackup::RunL() : End");
     }
 
-// ----------------------------------------------------------------------------
-// CNSmlSOSBackup::RunError
-// ----------------------------------------------------------------------------
 TInt CNSmlSOSBackup::RunError ( TInt aError )
     {
     DBG_FILE_CODE(aError, _S8("CNSmlSOSBackup::RunError() The Error occurred is "));
     return KErrNone;
     }	
-    
 // --------------------------------------------------------------------------
 // void CNSmlSOSBackup::DoCancel()
 // --------------------------------------------------------------------------

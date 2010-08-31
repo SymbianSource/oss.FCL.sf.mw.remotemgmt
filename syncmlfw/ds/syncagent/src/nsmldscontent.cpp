@@ -120,7 +120,7 @@ TInt CNSmlDSContent::CurrentIndex() const
 //
 TBool CNSmlDSContent::ContentIndexIsSet() const
 	{
-	if ( ( iIndex < 0 ) || ( iIndex >= iStores.Count() ) )
+	if ( iIndex == -1 )
 		{
 		return EFalse;
 		}
@@ -2476,13 +2476,7 @@ void CNSmlDSContent::PackupRequestL( const TTime& aAnchor )
 	DBG_FILE(_S8("CNSmlDSContent::PackupRequestL begins"));
 	RMutex mutex;
 	if(mutex.OpenGlobal( KNSmlDSContentAtomicOperationName ) != KErrNone )
-	    {
-		TRAPD(err, mutex.CreateGlobal( KNSmlDSContentAtomicOperationName ));
-		if(err != KErrNone)
-		    {
-            return;
-		    }
-	    }
+		mutex.CreateGlobal( KNSmlDSContentAtomicOperationName );
 	mutex.Wait();
 	SaveMapInfoL( aAnchor );
 	mutex.Signal();

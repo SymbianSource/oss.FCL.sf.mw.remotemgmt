@@ -31,7 +31,8 @@
 #include <centralrepository.h>
 
 #include <coreapplicationuisdomainpskeys.h>
-
+#include <hbsymbianvariant.h>
+#include <hbindicatorsymbian.h>
 
 
 #include <e32property.h>
@@ -47,6 +48,10 @@ const TUint8 KMMCDriveLetter = 'e';
 #endif
 _LIT( MDriveColon, ":");
 _LIT( KMMCEraseFlagFileName, "fmmc.dat");
+
+_LIT(KDMSettingsIndicatorType, "com.nokia.devicemanagement.settingsindicatorplugin/1.0");
+_LIT(KTarmTrustManagementActive, "ManagementActive");
+_LIT(KTarmTrustTerminalSecurity, "TerminalSecurity");
 
 // MACROS
 
@@ -339,6 +344,9 @@ void CDMUtilSession::SetIndicatorStateL( CRepository * aCenRep)
 	//get terminal security and management state from centrep
 	TInt terminalSecurity = 0;
 	TInt err( KErrNone );
+	
+	CHbIndicatorSymbian *ind = CHbIndicatorSymbian::NewL();
+	CleanupStack::PushL(ind);
 
 	if ( !aCenRep)
 		{
@@ -357,18 +365,33 @@ void CDMUtilSession::SetIndicatorStateL( CRepository * aCenRep)
 	if ( CDMUtilServer::iManagementActive )			
 		{
 		RDEBUG(" iManagementActive is ETrue -> ECoreAppUIsTarmMngActiveIndicatorOn");
-		err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmMngActiveIndicatorOn);	
+		//err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmMngActiveIndicatorOn);
+		
+		CHbSymbianVariant* parameter = CHbSymbianVariant::NewL(&KTarmTrustManagementActive,  
+                            CHbSymbianVariant::EDes);
+		ind->Activate(KDMSettingsIndicatorType, parameter );
+		delete parameter;
+
 		}
 	else if ( terminalSecurity )
 		{
 		RDEBUG(" terminalSecurity is ETrue -> ECoreAppUIsTarmTerminalSecurityOnIndicatorOn");
-		err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmTerminalSecurityOnIndicatorOn);	
+		//err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmTerminalSecurityOnIndicatorOn);
+		
+		CHbSymbianVariant* parameter = CHbSymbianVariant::NewL(&KTarmTrustTerminalSecurity,  
+                            CHbSymbianVariant::EDes);
+		ind->Activate(KDMSettingsIndicatorType, parameter );
+		delete parameter;
 		}
 	else
 		{
 		RDEBUG(" terminalSecurity is EFalse -> ECoreAppUIsTarmIndicatorsOff");
-		err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmIndicatorsOff);	
+		//err = RProperty::Set( KPSUidCoreApplicationUIs, KCoreAppUIsTarmIndicator, ECoreAppUIsTarmIndicatorsOff);
+		
+		ind->Deactivate(KDMSettingsIndicatorType);
 		}	
+	
+	CleanupStack::PopAndDestroy(ind);
 	
 	if( err != KErrNone )
 		{

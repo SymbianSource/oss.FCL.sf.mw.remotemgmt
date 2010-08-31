@@ -45,7 +45,7 @@ SOURCE		nsmlnetworkstatusengine.cpp
 
 
 MW_LAYER_SYSTEMINCLUDE
-SYSTEMINCLUDE			/epoc32/include/libc /epoc32/include/ecom	/epoc32/include/http
+SYSTEMINCLUDE			/epoc32/include/libc /epoc32/include/ecom
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE			/epoc32/include/mw/http
 #endif
@@ -72,8 +72,5 @@ LIBRARY			cmmanager.lib
 LIBRARY			ezlib.lib
 LIBRARY			connmon.lib
 LIBRARY         	connmonext.lib
-LIBRARY  		extendedconnpref.lib 
-LIBRARY  		netmeta.lib 
-LIBRARY 		etel.lib
-LIBRARY 		etelmm.lib
+
 SMPSAFE

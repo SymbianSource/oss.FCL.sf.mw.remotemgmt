@@ -53,8 +53,6 @@ TARGET          tcadapter.rsc
 LANGUAGE_IDS
 END
 
-SMPSAFE
-
 LIBRARY     		euser.lib
 LIBRARY     		ecom.lib 
 LIBRARY     		efsrv.lib

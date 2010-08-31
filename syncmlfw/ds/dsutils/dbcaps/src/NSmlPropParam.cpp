@@ -32,7 +32,7 @@
 // CNSmlPropParam::CNSmlPropParam
 // -----------------------------------------------------------------------------
 //
-CNSmlPropParam::CNSmlPropParam( SmlDevInfPropParamPtr_t aParamPtr )
+EXPORT_C CNSmlPropParam::CNSmlPropParam( SmlDevInfPropParamPtr_t aParamPtr )
  : iParamPtr(aParamPtr)
 	{
 	//_DBG_FILE("CNSmlPropParam::CNSmlPropParam(): begin");

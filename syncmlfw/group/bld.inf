@@ -25,6 +25,7 @@ PRJ_EXPORTS
 ../conf/datasync.confml				MW_LAYER_CONFML(datasync.confml)
 ../conf/datasync_2000CF7E.crml		MW_LAYER_CRML(datasync_2000CF7E.crml)
 ../conf/devman.confml				MW_LAYER_CONFML(devman.confml)
+../conf/CI_devman.confml				MW_LAYER_CONFML(CI_devman.confml)
 ../conf/devman_101F9A0A.crml		MW_LAYER_CRML(devman_101F9A0A.crml)
 ../conf/nsmlemailadapter.confml		MW_LAYER_CONFML(nsmlemailadapter.confml)
 ../conf/nsmlemailadapter_101F99DF.crml	MW_LAYER_CRML(nsmlemailadapter_101F99DF.crml)
@@ -39,15 +40,10 @@ PRJ_EXPORTS
 ../conf/datasyncsessioninfo.confml				MW_LAYER_CONFML(datasyncsessioninfo.confml)
 ../conf/datasyncsessioninfo_20029F15.crml     MW_LAYER_CRML(datasyncsessioninfo_20029F15.crml)
 
-//For extended server status code 
-../conf/nsmloperatorsettings.confml				MW_LAYER_CONFML(nsmloperatorsettings.confml)
-../conf/nsmloperatorsettings_2002682E.crml		MW_LAYER_CRML(nsmloperatorsettings_2002682E.crml)
-
 ../conf/operatordatasync.confml			MW_LAYER_CONFML(operatordatasync.confml)
 ../conf/operatordatasync_2001E2E1.crml		MW_LAYER_CRML(operatordatasync_2001E2E1.crml)
-../conf/operatordatasyncerror.confml		MW_LAYER_CONFML(operatordatasyncerror.confml)
-../conf/operatordatasyncerror_2001FDF1.crml	MW_LAYER_CRML(operatordatasyncerror_2001FDF1.crml)
-
+../conf/operatordatasyncerror.confml			MW_LAYER_CONFML(operatordatasyncerror.confml)
+../conf/operatordatasyncerror_2001FDF1.crml		MW_LAYER_CRML(operatordatasyncerror_2001FDF1.crml)
 
 //for IAD support
 syncmlfw_stub.sis  /epoc32/data/z/system/install/syncmlfw_stub.sis 
@@ -158,7 +154,4 @@ PRJ_MMPFILES
 
 // Disabling OTA configuration
 //#include "../ds/ota/bld/bld.inf"
-
-#include "../syncmlnotifier/group/bld.inf"
-#include "../syncservice/group/bld.inf"
 

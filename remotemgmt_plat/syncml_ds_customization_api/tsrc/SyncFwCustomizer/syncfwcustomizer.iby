@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <bldvariant.hrh>
+
+#ifndef __SYNCFWCUSTOMIZER_IBY__
+#define __SYNCFWCUSTOMIZER_IBY__
+
+file=ABI_DIR\BUILD_DIR\syncfwcustomizer.exe    PROGRAMS_DIR\syncfwcustomizer.exe
+data=\epoc32\data\z\resource\apps\syncfwcustomizer.rsc    RESOURCE_FILES_DIR\syncfwcustomizer.rsc
+data=\epoc32\data\z\private\10003a3f\import\apps\syncfwcustomizer_reg.rsc    \private\10003a3f\apps\syncfwcustomizer_reg.rsc
+
+#endif //__SYNCFWCUSTOMIZER_IBY__

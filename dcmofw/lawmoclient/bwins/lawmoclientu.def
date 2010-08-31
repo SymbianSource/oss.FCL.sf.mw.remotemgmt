@@ -1,9 +1,0 @@
-EXPORTS
-	?SetToBeWipedValue@RLawmoClient@@QAEHAAVTDes16@@H@Z @ 1 NONAME ; int RLawmoClient::SetToBeWipedValue(class TDes16 &, int)
-	?GetListItemName@RLawmoClient@@QAEHAAVTDes16@@0@Z @ 2 NONAME ; int RLawmoClient::GetListItemName(class TDes16 &, class TDes16 &)
-	?GetToBeWipedValue@RLawmoClient@@QAEHAAVTDes16@@AAH@Z @ 3 NONAME ; int RLawmoClient::GetToBeWipedValue(class TDes16 &, int &)
-	?DeviceWipe@RLawmoClient@@QAE?AW4TLawMoStatus@@XZ @ 4 NONAME ; enum TLawMoStatus RLawmoClient::DeviceWipe(void)
-	?Connect@RLawmoClient@@QAEHXZ @ 5 NONAME ; int RLawmoClient::Connect(void)
-	?DeviceWipeAll@RLawmoClient@@QAE?AW4TLawMoStatus@@XZ @ 6 NONAME ; enum TLawMoStatus RLawmoClient::DeviceWipeAll(void)
-	?Close@RLawmoClient@@QAEXXZ @ 7 NONAME ; void RLawmoClient::Close(void)
-

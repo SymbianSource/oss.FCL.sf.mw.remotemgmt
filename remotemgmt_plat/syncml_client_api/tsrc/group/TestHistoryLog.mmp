@@ -45,11 +45,7 @@ USERINCLUDE ../inc
 USERINCLUDE ../../../../inc
 USERINCLUDE ../../../../syncmlfw/common/historylog/inc
 
-#if defined(__S60_)
-    MW_LAYER_SYSTEMINCLUDE
-#else
-SYSTEMINCLUDE   /epoc32/include 
-#endif
+MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib
 LIBRARY         estor.lib

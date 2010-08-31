@@ -20,7 +20,9 @@
 // System Includes
 #include <e32base.h>
 #include <e32property.h>    //Publish subscribe key
-#include <javadomainpskeys.h> //Java installer
+//Commented to avoid app layer dependency
+//#include <javadomainpskeys.h> //Java installer
+//Comment ends here
 #include <swispubsubdefs.h> //Java Installer defined here
 #ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <schinfo.h>
@@ -31,6 +33,9 @@
 
 //User includes
 #include "DmEventServiceBase.h"
+
+//Constants for java installer - done to avoid app layer dependency
+#define KPSUidJavaLatestInstallation 0x10282567
 
 //The publish subscribe key with condition. Do not alter this unless absolutely needed!
 const TPSKeyCondition KJavaPSKeyCondition(KUidSystemCategory,KPSUidJavaLatestInstallation, 0, TTaskSchedulerCondition::EGreaterThan);

@@ -117,6 +117,60 @@ RESOURCE PROFILES nsml_ds_profiles
 			},
 		PROFILE
 			{
+			profiledisplayname="Intellisync";
+			//username="";
+			//password="";
+		//	serverurl="http://82.77.123.71:8080/services/syncml";
+			serverurl="https://sync.ovi.com:443/services/syncml";
+			serverid="Ovi.com";
+			profilehidden=0;
+			transportid=0x101F99F0;
+			deleteallowed=1;
+			visibility="nrhrnnrrhnrnnrnrnn";
+			protocolversion=ESmlVersion1_2;
+			serveralertedaction = ESmlEnableSync;		
+			//httpauthused = 1;
+			//httpauthusername = "UName";
+			//httpauthpassword = "PWord";		
+			contenttypes=
+				{
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDD; // Contacts
+					clientdatasource = "symbian";
+					serverdatasource = "./Contact/Unfiled";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F6DDE; // Calendar
+					clientdatasource = "C:Calendar";
+					serverdatasource = "./EventTask/Tasks";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					},
+				CONTENTTYPE
+					{
+					adapter_implementation_uid = 0x101F8612; // Notes
+					clientdatasource = "C:Note";
+					serverdatasource = "./Note/Unfiled";
+					synctype = ESmlTwoWay;
+					filtervisibility = "h";
+					synctypevisibility = "r";
+					creatorid = 0x101FF968;
+					
+					}
+				};
+			},
+		PROFILE
+			{
 			profiledisplayname="PC Suite Data Sync";
 			//username="xxx";
 			//password="xxx";

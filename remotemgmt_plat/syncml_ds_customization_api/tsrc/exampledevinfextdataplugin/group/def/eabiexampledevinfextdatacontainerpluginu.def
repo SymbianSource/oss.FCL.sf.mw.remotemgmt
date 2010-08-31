@@ -1,0 +1,5 @@
+EXPORTS
+	_Z24ImplementationGroupProxyRi @ 1 NONAME
+	_ZTI36CExampleDevInfExtDataContainerPlugin @ 2 NONAME
+	_ZTV36CExampleDevInfExtDataContainerPlugin @ 3 NONAME
+

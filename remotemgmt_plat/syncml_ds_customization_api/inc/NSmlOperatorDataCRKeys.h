@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  SyncMLNotifier Domain CenRep key definitions
+* Description:  SyncML DS customization API CenRep key definitions
 *
 */
 
@@ -74,5 +74,33 @@ const TUint32 KNsmlOpDsSyncProfileVisibility = 0x00000006;
  *
  */
 const TUint32 KNsmlOpDsOperatorSyncServerId = 0x00000007;
+
+/**
+* KNsmlOpDsDevInfoManValue
+* Define Man value for operator devinfo
+*
+*/
+const TUint32 KNsmlOpDsDevInfoManValue = 0x00000008;
+
+/**
+ * KNsmlOpDsSyncMLStatusCodeList
+ * Define list of SyncML status codes for error reporting
+ *
+ */
+const TUint32 KNsmlOpDsSyncMLStatusCodeList = 0x00000009;
+
+/**
+ * KNsmlOpDsHttpErrorReporting
+ * Define if HTTP status codes are reported
+ *
+ */
+const TUint32 KNsmlOpDsHttpErrorReporting = 0x0000000A;
+
+/**
+ * KNsmlOpDsSyncMLErrorReporting
+ * Define if SyncML status codes are reported
+ *
+ */
+const TUint32 KNsmlOpDsSyncMLErrorReporting = 0x0000000B;
 
 #endif //NSMLOPERATORDATACRKEYS_H

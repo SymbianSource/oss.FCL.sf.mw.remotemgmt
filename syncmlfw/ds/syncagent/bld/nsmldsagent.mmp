@@ -82,12 +82,13 @@ LIBRARY         nsmldssettings.lib
 LIBRARY         nsmlfilter.lib
 LIBRARY			nsmldshostclient.lib
 LIBRARY			nsmlhistorylog.lib
-LIBRARY			featmgr.lib
+LIBRARY			ecom.lib
 //RD_AUTO_RESTART
 LIBRARY 		ConnMon.lib
 LIBRARY        	connmonext.lib
 LIBRARY         NsmlProfileUtil.lib
 LIBRARY         syncmlclientapi.lib
 LIBRARY			centralrepository.lib
+LIBRARY         cmmanager.lib
 //RD_AUTO_RESTART
 

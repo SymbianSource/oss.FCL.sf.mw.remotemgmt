@@ -1457,57 +1457,37 @@ EXPORT_C void CNSmlDSAgentLog::GetServerDeviceInfoL( RPointerArray<CNSmlDbCaps>&
 						break;
 
 						case ESourceRef:
-						    if (dbCaps)
-						        {
-							    dbCaps->SetSourceRefL(ptrStringPart);
-						        }							
+							dbCaps->SetSourceRefL(ptrStringPart);
+								
 						break;
 
 						case EDisplayName:
-						    if (dbCaps)
-						        {
-							    dbCaps->SetDisplayNameL(ptrStringPart);
-						        }
+							dbCaps->SetDisplayNameL(ptrStringPart);
 						break;
 
 						case EMaxGUIDSize:
-						    if (dbCaps)
-						        {
-							    dbCaps->SetMaxGuidSizeL(ptrStringPart);
-						        }
+							dbCaps->SetMaxGuidSizeL(ptrStringPart);
 						break;
 
 						case ERxPref:
 							separator = ptrStringPart.Locate(KTabSeparator()[0]);
-							if (dbCaps)
-							   {
-							   dbCaps->SetRxPrefL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
-							   }
+							dbCaps->SetRxPrefL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
 						break;
 
 						case ERx:
 							separator = ptrStringPart.Locate(KTabSeparator()[0]);
-							if (dbCaps)
-							   {
-							   dbCaps->AddRxL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
-							   }
+							dbCaps->AddRxL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
 						break;
 
 						case ETxPref:
 							separator = ptrStringPart.Locate(KTabSeparator()[0]);
-							if (dbCaps)
-							   {
-							   dbCaps->SetTxPrefL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
-							   }
+							dbCaps->SetTxPrefL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
 						break;
 
 
 						case ETx:
 							separator = ptrStringPart.Locate(KTabSeparator()[0]);
-							if (dbCaps)
-							    {
-							    dbCaps->AddTxL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
-							    }
+							dbCaps->AddTxL(ptrStringPart.Left(separator),ptrStringPart.Right(ptrStringPart.Length()-separator-1));
 						break;
 
 
@@ -1515,10 +1495,7 @@ EXPORT_C void CNSmlDSAgentLog::GetServerDeviceInfoL( RPointerArray<CNSmlDbCaps>&
 						break;
 
 						case ESupportHierarchicalSync:
-						    if (dbCaps)
-						       {
-							    dbCaps->SetSupportHierarchicalSyncL();
-						       }
+							dbCaps->SetSupportHierarchicalSyncL();
 						break;
 
 						case ESyncCap:

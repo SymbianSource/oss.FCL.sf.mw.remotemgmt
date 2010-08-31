@@ -164,7 +164,6 @@ class CNSmlDmProvisioningAdapter : public CWPAdapter , public MWPContextExtensio
 		RSyncMLSession iSession;
 		TUint iInitSession;
 		TUint iAuthSecretLimitIndicator;
-		TBool iLock;
 	};
 
 #endif	// NSMLDMPROVISIONINGADAPTER_H

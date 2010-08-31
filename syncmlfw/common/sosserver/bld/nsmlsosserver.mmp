@@ -31,6 +31,11 @@ SYSTEMINCLUDE   /epoc32/include/libc
 SYSTEMINCLUDE   /epoc32/include/ecom 
 SYSTEMINCLUDE   /epoc32/include/syncml
 SYSTEMINCLUDE   /epoc32/include/connect
+
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE		/epoc32/include/mw/hb/hbtools
+   
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE		/epoc32/include/platform/mw/connect
 #endif
@@ -74,7 +79,7 @@ SOURCE      	NSmlDataProvider.cpp
 SOURCE      	NSmlJobObject.cpp
 
 LIBRARY     	euser.lib estor.lib ecom.lib bafl.lib efsrv.lib nsmldebug.lib edbms.lib
-LIBRARY     	nsmldssettings.lib 
+LIBRARY     	NSmlDSSettings.lib 
 LIBRARY     	nsmldmsettings.lib 
 LIBRARY			nsmltransport.lib
 LIBRARY     	nsmltransporthandler.lib
@@ -84,8 +89,8 @@ LIBRARY		nsmlhistorylog.lib
 LIBRARY		syncmldatafilter.lib
 LIBRARY		nsmlagentlog.lib
 LIBRARY		policyengine.lib
-LIBRARY		abclient.lib
+LIBRARY		abclient.lib dmdevdialogclient.lib
 LIBRARY     centralrepository.lib //tarm
-LIBRARY                 featmgr.lib
+LIBRARY                 featmgr.lib flogger.lib 
 
 SMPSAFE

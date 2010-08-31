@@ -21,10 +21,9 @@
 #include <e32base.h>
 #include <centralrepository.h>
 #include <stringresourcereader.h> 
-#include <dcmo.rsg> // Resource to be read header
-#include <AknGlobalMsgQuery.h>
 #include <data_caging_path_literals.hrh>
 #include <f32file.h> 
+#include <hbtextresolversymbian.h>
 #include "dcmoclientserver.h"
 #include "dcmoconst.h"
 #include "dcmointerface.h"
@@ -32,18 +31,11 @@
 #include "dcmosession.h"
 #include "dcmogenericcontrol.h"
 #include "dcmodebug.h"
-#include "lawmodebug.h"
-#include "amsmlhelper.h"
-#include <lawmoadaptercrkeys.h>
-#include <DevManInternalCRKeys.h>
 
-#include    <e32property.h>
-#include    <PSVariables.h>   // Property values
-#include    <lawmointerface.h>
-_LIT( KdcmoResourceFileName, "z:dcmo.rsc" );	
+
+_LIT( KdcmoResourceFileName, "deviceupdates_" );	
+_LIT( KdcmoResourceFilePath, "z:/resource/qt/translations/" );	
 const TInt KBufferSize = 256;
-const TInt KWipeSuccess = 1201;
-const TInt KWipeFailure = 1405;
 
 TInt CDCMOServer::iSessionCount = 0;
 // Standard server startup code
@@ -112,9 +104,6 @@ CServer2* CDCMOServer::NewLC()
 void CDCMOServer::ConstructL()
 	{
 	RDEBUG("CDCMOServer::ConstructL- begin");
-	iwipeStatus = 0;
-	iSessionIap = KErrNotFound;
-	iCount = -1;
 	StartL(KDCMOServerName);	
 	RDEBUG("CDCMOServer::ConstructL- end");
 	}
@@ -126,7 +115,7 @@ void CDCMOServer::ConstructL()
 CDCMOServer::CDCMOServer() : CServer2(EPriorityStandard, EUnsharableSessions) /*CServer2(0)*/
 	{	
 		iStarter = EFalse;
-		iNotifier = NULL;
+		iMessageBox = NULL;
 	}
 
 // ----------------------------------------------------------------------------------------
@@ -136,34 +125,24 @@ CDCMOServer::~CDCMOServer()
 {	
 	RDEBUG("CDCMOServer::~CDCMOServer- begin");
   TInt count = idcmoArray.Count();  
-	RDEBUG_2("~~CDCMOServer::~CDCMOServer; %d", count );
+  RDEBUG_2("CDCMOServer::~CDCMOServer; %d", count );
 	if(count)
 	{	
 		for(TInt i=0; i< count; i++)
 				delete idcmoArray[i].iCategoryName;
 		idcmoArray.Reset();
-		delete iNotifier;
-		iNotifier = NULL;	
+		delete iMessageBox;
+		iMessageBox = NULL;	
 	}
-	
-    RLDEBUG("CDCMOServer::wipe done delete pluginuid()");
-    TInt pluginObjectCount = ilawmoPlugins.Count();           
-    while(pluginObjectCount>0)
+	else
 	{
-        RLDEBUG("plugin to be deleted");
-        delete ilawmoPlugins[pluginObjectCount-1];
-        RLDEBUG("plugin deleted");
-        pluginObjectCount--;
+		//Kill the server
+		if( iSessionCount == 0)
+			CActiveScheduler::Stop();	
 	}
-    RLDEBUG("CDCMOServer::close all RArrays()");
-    ilawmoPluginUidToBeWiped.Close();
 	
-    RLDEBUG("CDCMOServer::closeD all RArrays()");
-    ilawmoPlugins.Close();
-		
-    RDEBUG("CDCMOServer::call FinalClose");	
 	REComSession::FinalClose();
-	RDEBUG("~~~CDCMOServer::~CDCMOServer- end");
+	RDEBUG("CDCMOServer::~CDCMOServer- end");
 }
 
 // -----------------------------------------------------------------------------
@@ -179,23 +158,19 @@ void CDCMOServer::DropSession()
   		RDEBUG("CDCMOServer::DropSession(): Starter");
   		SetStarter( EFalse );
   		return;                 
-  	}   
+  	} 
+  	if(CDCMOMessageBox::IsMsgBoxClosed())
+  	{
+  		CleanDcmoArray();
+  	}  
 		if( idcmoArray.Count() && ( iSessionCount == 0 ))
 		{
 			// A session is being destroyed		
-            RDEBUG("CDCMOServer::DropSession- dofinalise ?");
 			TRAPD( err, DoFinalizeL());		
-			iCount = 0;
 			if ( !err )
 			{
 				RDEBUG_2("CDCMOServer::DropSession err =  %d", err );
 			}						
-		}		
-		if((iSessionCount == 0)&&(iCount== -1))
-		    {
-            RDEBUG("DropSession kill server, only when no session and no wipe pending");
-            CActiveScheduler::Stop();
-            RDEBUG("DropSession kill server");
 		}		
 		RDEBUG("CDCMOServer::DropSession- end");
 	}
@@ -237,28 +212,21 @@ void CleanupEComArray(TAny* aArray)
 // CDCMOServer::GetAdapterUidL
 // Gets the plug-in adapter implementation uid if it present.
 // ----------------------------------------------------------------------------------------
-TUid CDCMOServer::GetAdapterUidL(const TDesC& aCategory, TBool aIsLawmo)
+TUid CDCMOServer::GetAdapterUidL(const TDesC& aCategory)
 {
 	RDEBUG("CDCMOServer::GetDCMOAdapterUidL(): begin");
-    RLDEBUG("CDCMOServer::GetAdapterUidL(): begin");
+	
 	TUid retUid = {0x0};
-	TEComResolverParams resolverParams;
+	
 	RImplInfoPtrArray infoArray;
 	// Note that a special cleanup function is required to reset and destroy
 	// all items in the array, and then close it.
 	TCleanupItem cleanup(CleanupEComArray, &infoArray);
 	CleanupStack::PushL(cleanup);
-	if(aIsLawmo)
-	    {
-	    REComSession::ListImplementationsL(KLAWMOPluginInterfaceUid, resolverParams, KRomOnlyResolverUid, infoArray);
-	    RLDEBUG("CDCMOServer::GetAdapterUidL(): listImpl");
-	    }
-	else
 	REComSession::ListImplementationsL(KDCMOInterfaceUid, infoArray);
 
 	// Loop through each info for each implementation			
 	TBuf8<KBufferSize> buf;            
-    RLDEBUG("CDCMOServer::GetAdapterUidL(): for loop");
 	for (TInt i=0; i< infoArray.Count(); i++)
 	{
 		buf = infoArray[i]->OpaqueData();
@@ -267,13 +235,12 @@ TUid CDCMOServer::GetAdapterUidL(const TDesC& aCategory, TBool aIsLawmo)
 		if(category.Find(infoArray[i]->OpaqueData())!= KErrNotFound)
 		{
 			retUid = infoArray[i]->ImplementationUid();
-                    RLDEBUG("CDCMOServer::GetAdapterUidL(): matched");
 			break;
 		}
 		buf.Zero();
 	}
 	CleanupStack::PopAndDestroy(); //cleanup
-    RLDEBUG("CDCMOServer::GetAdapterUidL():end");
+	
 	RDEBUG("CDCMOServer::GetDCMOAdapterUidL(): end");
 	return retUid;
 }
@@ -407,25 +374,21 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
 			RDEBUG("CDCMOServer::SetIntAttributeL(): LocalCategory");
 			CDCMOGenericControl* iGenericControl = new(ELeave) CDCMOGenericControl;
 			err = iGenericControl->SetIntAttributeL(categotyNumber, id, value);	
-			TFileName myFileName;
-  		TParse parseObj;
-  		parseObj.Set( KdcmoResourceFileName(), &KDC_RESOURCE_FILES_DIR,NULL );
- 			myFileName = parseObj.FullName();
- 			CStringResourceReader* test = CStringResourceReader::NewL( myFileName );
+			
+			TBool result = HbTextResolverSymbian::Init(KdcmoResourceFileName, KdcmoResourceFilePath );					
+
 			TPtrC buf;
 			dcmoList.iUid = categotyNumber;
 			if(categotyNumber == 0)
-			    {			    
-			    buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_CAMERA));
-			    stringHolder = buf.AllocL() ; 
+			    {
+					_LIT(KTextCamera, "txt_device_update_info_camera");
+					stringHolder = HbTextResolverSymbian::LoadL(KTextCamera);
 			    } 
 			else
-			    {			   
-			    buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_FIRMWARE_UPDATE));
-			    stringHolder = buf.AllocL() ; 
-			    }			
-     delete test;
-     test = NULL;
+			    {	
+					_LIT(KTextFOTA, "txt_device_update_info_firmware_update");
+					stringHolder = HbTextResolverSymbian::LoadL(KTextFOTA);
+			    }		
   	 delete iGenericControl;
 		 iGenericControl = NULL;
 	}
@@ -454,7 +417,7 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
   		RDEBUG("CDCMOServer::SetIntAttributeL(): Starter");
   		SetStarter ( EFalse );
   		delete stringHolder;
-		stringHolder = NULL;
+			stringHolder = NULL;
   		return err;                
    }   
 	if((err == EDcmoSuccess) && (id == EEnable) ) 
@@ -515,7 +478,7 @@ void CDCMOServer::DoFinalizeL()
 	RDEBUG("CDCMOServer::DoFinalizeL(): begin");	   
 
 	HBufC* content  = HBufC::NewLC(KDCMOMaxStringSize);
-  	TPtr   contentptr  = content->Des(); 
+  TPtr   contentptr  = content->Des(); 
 	HBufC* enableContent  = HBufC::NewLC(KDCMOMaxStringSize);
 	TPtr   enableContentptr  = enableContent->Des(); 
 	HBufC* disableContent  = HBufC::NewLC(KDCMOMaxStringSize);
@@ -523,10 +486,6 @@ void CDCMOServer::DoFinalizeL()
 
 	TBool enable ( EFalse );
 	TBool disable ( EFalse );
-	TFileName myFileName;
-  TParse parseObj;
-  parseObj.Set( KdcmoResourceFileName(), &KDC_RESOURCE_FILES_DIR,NULL );
-  myFileName = parseObj.FullName();
 	TInt arrayCount = idcmoArray.Count(); 
 	_LIT(KNewLine, "\n");
 		
@@ -547,38 +506,34 @@ void CDCMOServer::DoFinalizeL()
       		disableContentptr.Append( idcmoArray[i].iCategoryName->Des() );
       		disable = ETrue;
       	}	
-		}
-	  
-  	CStringResourceReader* test = CStringResourceReader::NewL( myFileName );	  
+		}	  
+  
+		TBool result = HbTextResolverSymbian::Init(KdcmoResourceFileName, KdcmoResourceFilePath );
 		if ( enable )
 		{
-			TPtrC buf;
-			buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_ENABLE)); 	    	
-			contentptr.Append(buf);
+			_LIT(KTextEnabled, "txt_device_update_title_enabled_by_the_system_admi");
+			HBufC* buf = HbTextResolverSymbian::LoadL(KTextEnabled);
+			contentptr.Append(buf->Des());
 	 		contentptr.Append(enableContentptr);
+	 		delete buf;
 		}
 		if ( disable )
 		{
-	 		TPtrC buf;
-	 		buf.Set(test->ReadResourceString(R_DM_RUN_TIME_VAR_DISABLE));
+	 		_LIT(KTextDisabled, "txt_device_update_title_disabled_by_the_system_adm");
+			HBufC* buf = HbTextResolverSymbian::LoadL(KTextDisabled);
 	 		if( enable )
-	 			contentptr.Append(KNewLine());
-	 		contentptr.Append(buf);
+	 			contentptr.Append(KNewLine());	 		
+			contentptr.Append(buf->Des());
 	 		contentptr.Append(disableContentptr);
+	 		delete buf;
 		}
-		delete test;
-		test = NULL;
-		
-		if( iNotifier )
-		{
-			iNotifier->Cancel();
+	
+		if( !iMessageBox )
+		{		
+			iMessageBox = CDCMOMessageBox::NewL();					
 		}
-		else
-		{			
-			iNotifier = CDCMONotifierAob::NewL( );			
-		}
-		
-	  iNotifier->ShowNotifierL(contentptr);    
+		iMessageBox->ShowMessageL(contentptr);
+
 	  CleanupStack::PopAndDestroy(3); //disableContent, enableContent, content
 	}	
 	RDEBUG("CDCMOServer::DoFinalizeL(): end");
@@ -647,170 +602,6 @@ void CDCMOServer::SearchAdaptersL(TDes& /* category */, TDes& aAdapterList)
 }
 
 // ----------------------------------------------------------------------------------------
-// CDCMOServer::GetPluginUids
-// Gets the plug-in adapter implementation uid if it present.
-// ----------------------------------------------------------------------------------------
-void CDCMOServer::GetLawmoPluginUidsL()
-{
-    RDEBUG("CDCMOServer::GetPluginUids(): begin");
-    ilawmoPluginUidToBeWiped.Reset();
-    RImplInfoPtrArray infoArray;
-    TEComResolverParams resolverParams;
-    // Note that a special cleanup function is required to reset and destroy
-    // all items in the array, and then close it.
-    TCleanupItem cleanup(CleanupEComArray, &infoArray);
-    CleanupStack::PushL(cleanup);
-    REComSession::ListImplementationsL(KLAWMOPluginInterfaceUid, resolverParams, KRomOnlyResolverUid, infoArray);
-    RLDEBUG("CDCMOServer::GetPluginUids(): listImpl");
-    // Loop through each info for each implementation           
-    for (TInt i=0; i< infoArray.Count(); i++)
-    {
-    ilawmoPluginUidToBeWiped.Append(infoArray[i]->ImplementationUid());
-    RLDEBUG("CDCMOServer::GetPluginUids(): for loop");
-    }
-    CleanupStack::PopAndDestroy(); //cleanup
-    RLDEBUG("CDCMOServer::GetPluginUids():end");
-    return;
-}
-
-TLawMoStatus CDCMOServer::WipeAllItem()
-    {
-    //Update ilawmopluginUid, so that all Node items are wiped.
-    //WipeItem doesn only on Uid's in the RArray.
-    TRAPD(error,GetLawmoPluginUidsL());
-    if(error == KErrNone)
-    return WipeItem();
-    else
-        return ELawMoWipeNotPerformed;
-    }
-
-TLawMoStatus CDCMOServer::WipeItem(TInt aValue)
-    {
-    RLDEBUG("CDCMOServer::WipeItem(): begin");
-    TLawMoStatus lawmostat(ELawMoAccepted);
-    iCount = 0;
-    if(ilawmoPluginUidToBeWiped.Count() > 0)
-        {
-		RLDEBUG_2("CDCMOServer::WipeItem got uid(): %d",ilawmoPluginUidToBeWiped[iCount]);
-        CLAWMOPluginInterface* obj;
-		RLDEBUG("CDCMOServer::WipeItem(): NewL");
-        TRAPD(err,obj = CLAWMOPluginInterface::NewL(ilawmoPluginUidToBeWiped[iCount], this));
-        if(err == KErrNone)
-            {
-            RLDEBUG("CDCMOServer::WipeItem(): obj created");
-            RLDEBUG_2("CDCMOServer::WipeItem plugin count: %d",ilawmoPlugins.Count());
-            TRAP(err,obj->WipeL());
-        RLDEBUG_2("CDCMOServer::WipeItem(): wipe called %d",err);
-        ilawmoPlugins.Append(obj);
-        // Get the IAP being used in the current session
-        TRAP( err, SmlHelper::GetDefaultIAPFromDMProfileL( iSessionIap ) );
-        RLDEBUG_2("CDCMOServer::HandleWipeCompleted(): get iap %d",iSessionIap);
-            }
-        if(err!=KErrNone)
-        HandleWipeCompleted(KErrGeneral);
-        }
-    else
-        {
-        lawmostat = ELawMoWipeNotPerformed;
-        }
-    
-    RLDEBUG("CDCMOServer::WipeItem(): End");
-    return lawmostat;
-    }
-
-TLawMoStatus CDCMOServer::GetListItemL(TDesC& item, TDes& strValue)
-{
-    RLDEBUG("CDCMOServer::GetListItem(): begin");
-    TEComResolverParams resolverParams;
-	TLawMoStatus lawmostat(ELawMoSuccess);
-    TBuf<KBufferSize> itemName;
-    RImplInfoPtrArray infoArray;
-    TCleanupItem cleanup(CleanupEComArray, &infoArray);
-    CleanupStack::PushL(cleanup);
-    REComSession::ListImplementationsL(KLAWMOPluginInterfaceUid, resolverParams, KRomOnlyResolverUid, infoArray);
-    RLDEBUG("CDCMOServer::GetListItem(): listImpl");
-
-    for (TInt i=0; i< infoArray.Count(); i++)
-        {   
-        RLDEBUG("CDCMOServer::GetListItem(): for loop");
-        TBuf<KBufferSize> temp;
-        temp.Copy(infoArray[i]->OpaqueData());
-        RLDEBUG_2("CDCMOServer::GetListItem opaque data to compare is %s", temp.PtrZ());
-        if(item == temp)
-            {
-                itemName.Copy(infoArray[i]->DisplayName());
-                RLDEBUG("CDCMOServer::GetListItem(): matched");
-                break;
-            }
-        }
-    CleanupStack::PopAndDestroy(); //cleanup
-    RLDEBUG_2("CDCMOServer::GetListItem display name is %s", itemName.PtrZ());
-    strValue.Zero();
-    strValue.Append(itemName);
-    RLDEBUG("CDCMOServer::GetListItem(): End");
-    return lawmostat;
-}
-
-
-TLawMoStatus CDCMOServer::GetToBeWipedL(TDesC& item, TDes& wipeValue)
-{
-    RLDEBUG("CDCMOServer::GetToBeWiped(): begin");
-    TLawMoStatus lawmostat(ELawMoSuccess);
-    TInt wipeVal(0);
-    TUid impluid = GetAdapterUidL(item, ETrue);
-    RLDEBUG_2("CDCMOServer::GetToBeWiped for uid(): %d", impluid);
-    TInt afind = ilawmoPluginUidToBeWiped.Find(impluid);
-    if(afind!=KErrNotFound)
-        {
-        wipeVal = 1;
-        RLDEBUG("CDCMOServer::GetToBeWiped(): uid in Rarray");
-        }
-    wipeValue.Zero();
-    wipeValue.Num(wipeVal);
-    RLDEBUG("CDCMOServer::GetToBeWiped(): End");
-    return lawmostat;
-}
-
-TLawMoStatus CDCMOServer::SetToBeWipedL(TDesC& item, TInt wipeValue)
-{
-    RLDEBUG("CDCMOServer::SetToBeWiped(): begin");
-    TLawMoStatus lawmostat(ELawMoSuccess);
-    TUid impluid = GetAdapterUidL(item, ETrue);
-    RLDEBUG_2("CDCMOServer::SetToBeWiped for uid(): %d", impluid);
-    TInt afind = ilawmoPluginUidToBeWiped.Find(impluid);
-    // Add Node's corresponding plugin uid to list so that it can be wiped
-    if(impluid.iUid)
-        {
-        if(wipeValue)
-            {
-            RLDEBUG("CDCMOServer::SetToBeWiped(): wipeVal true");
-            if(afind==KErrNotFound)
-                ilawmoPluginUidToBeWiped.Append(impluid);
-            else
-                RLDEBUG("CDCMOServer::SetToBeWiped() tobewiped already set");               
-            }
-        else
-            {
-            RLDEBUG("CDCMOServer::SetToBeWiped(): wipeVal false");        
-            if(afind!=KErrNotFound)
-                {
-                ilawmoPluginUidToBeWiped.Remove(afind);
-                RLDEBUG("CDCMOServer::SetToBeWiped() tobewiped unset");
-                }
-            else
-                RLDEBUG("CDCMOServer::SetToBeWiped() tobewiped notset atall");                
-            }
-        }
-    else
-        {
-        RLDEBUG("CDCMOServer::SetToBeWiped(): no such plugin found");
-        lawmostat = ELawMoFail;
-        }
-    RLDEBUG("CDCMOServer::SetToBeWiped(): End");
-    return lawmostat;
-}
-
-// ----------------------------------------------------------------------------------------
 // CDCMOServer::SetStarter
 // Sets the iStarter value
 // ----------------------------------------------------------------------------------------
@@ -821,137 +612,21 @@ void CDCMOServer::SetStarter(TBool aValue)
 	RDEBUG("CDCMOServer::SetStarter(): end");
 }
 
-void CDCMOServer::HandleWipeCompleted(TInt status)
+// ----------------------------------------------------------------------------------------
+// CDCMOServer::CleanDcmoArray
+// Sets the iStarter value
+// ----------------------------------------------------------------------------------------
+void CDCMOServer::CleanDcmoArray()
 {
-    RLDEBUG("CDCMOServer::HandleWipeCompleted(): begin");
-    // whether wipe is performed or failed
-    iwipeStatus = (iwipeStatus && status);
-    RLDEBUG_2("CDCMOServer::HandleWipeCompleted wipestate: %d",iwipeStatus);
-    iCount++;
-    if(ilawmoPluginUidToBeWiped.Count()>iCount)
-        {
-        RLDEBUG("CDCMOServer::HandleWipeCompleted(): create obj");
-        CLAWMOPluginInterface* obj;
-        TRAPD(err, obj = CLAWMOPluginInterface::NewL(ilawmoPluginUidToBeWiped[iCount], this));
-        if(err == KErrNone)
-             {
-             RLDEBUG("CDCMOServer::HandleWipeCompleted(): obj created");
-             RLDEBUG_2("CDCMOServer::HandleWipeCompleted plugin count: %d",ilawmoPlugins.Count());
-            TRAP(err,obj->WipeL());
-        RLDEBUG_2("CDCMOServer::HandleWipeCompleted(): wipe called %d",err);
-        ilawmoPlugins.Append(obj);
-            }
-        if(err!=KErrNone)
-            HandleWipeCompleted(KErrGeneral);
-        }
-    else
-        {
-        // start DM session using the Monitor for generic alert
-        RLDEBUG("CDCMOServer::HandleWipeCompleted(): done");
-        TInt err;
-        TBuf<KBufferSize> srvrid; 
-        CRepository* crep;
-        TRAP(err, crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
-                         CleanupStack::Pop(crep));
-        RLDEBUG("CDCMOServer::HandleWipeCompleted(): get srvrid");
-        if(err == KErrNone)
-            err = crep->Get( KLAWMOfactoryDmServerID, srvrid );
-        RDEBUG_2("CDCMOServer::GetCurrentServerId() %d",err);
-        RLDEBUG_2("CDCMOServer::HandleWipeCompleted(): srvrid %s",srvrid.PtrZ());
-        if (err == KErrNone)
-            {
-            RLDEBUG("CDCMOServer::startNwMonitor()");
-            TRAP(err,StartDMNetworkMonitorL(srvrid, iSessionIap));
-            }
-        
-        if(crep)
-			{
-            delete crep; //crep
-			crep = NULL;
-			}
-        
-        // Only when session is started successfully, Set wipestatus
-        if(err==KErrNone)
-            {
-            RLDEBUG("CDCMOServer::HandleWipeCompleted(): writing wipestatus to cenrep");
-            CRepository* repository;
-            TRAP(err, repository = CRepository::NewLC ( KCRUidLawmoAdapter );
-                      CleanupStack::Pop(crep));
-            
-            if(iwipeStatus==KErrNone)
-            iwipeStatus = KWipeSuccess;
-            else
-            iwipeStatus = KWipeFailure;
-            
-            repository->Set(KLawmoWipeStatus,iwipeStatus);
-            RLDEBUG_2("CDCMOServer::HandleWipeCompleted wipestate: %d",iwipeStatus);
-            if (repository)
-				{
-	            delete repository;
-				repository = NULL;
-				}
-            }
-        
-        RLDEBUG_2("printing ilawmoPluginUidToBeWiped %d", ilawmoPluginUidToBeWiped.Count());
-        RLDEBUG_2("printing ilawmoPlugins %d", ilawmoPlugins.Count());
-        RLDEBUG_2("printing ilawmoPlugins %d", iCount);
-        iCount = -1; // To indicate all wipe is done
-        if( iSessionCount == 0)
-           {
-            CActiveScheduler::Stop();
-            RLDEBUG("CDCMOServer::HandleWipeCompleted(): kill server");
-            }        
-        }    
-    
-    RLDEBUG("CDCMOServer::HandleWipeCompleted(): end");
+	RDEBUG("CDCMOServer::CleanDcmoArray(): begin");
+	TInt count = idcmoArray.Count();  
+  RDEBUG_2("CDCMOServer::CleanDcmoArray; %d", count );
+	if(count)
+	{	
+		for(TInt i=0; i< count; i++)
+				delete idcmoArray[i].iCategoryName;
+		idcmoArray.Reset();
+	}
+	CDCMOMessageBox::SetMsgBoxStatus(EFalse);
+	RDEBUG("CDCMOServer::CleanDcmoArray(): end");
 }
-
-// ------------------------------------------------------------------------------------------------
-// CDCMOServer::StartDMNetworkMonitorL()
-// ------------------------------------------------------------------------------------------------
-void CDCMOServer::StartDMNetworkMonitorL(TDesC& aServerId, TInt iapid)
-{
-    TInt retryenabled = 1;
-    _LIT( KNetMon,"\\dmnetworkmon.exe" );
-    RLDEBUG("CDCMOServer::StartDMNetworkMonitorL(): start");
-    TBuf8<KBufferSize> serverid;
-    serverid.Copy(aServerId);
-    // Enable DM Network Monitoring for retry of Generic alert in case of N/W loss
-    
-    CRepository *repository= CRepository::NewLC ( KCRUidDeviceManagementInternalKeys );
-    repository->Set(KDevManEnableDMNetworkMon, retryenabled);
-    repository->Set(KDevManServerIdKey, serverid);
-    repository->Set(KDevManIapIdKey, iapid);
-    RLDEBUG("CDCMOServer::StartDMNetworkMonitorL(): set rep keys");
-    CleanupStack::PopAndDestroy();
-    
-    // create NetMon EXE
-    RProcess rp;
-    TInt err = rp.Create(KNetMon,KNullDesC);
-    RLDEBUG("CDCMOServer::StartDMNetworkMonitorL():create rprocess");
-    User::LeaveIfError(err);
-    TRequestStatus stat;
-    rp.Rendezvous(stat);
-    RLDEBUG("CDCMOServer::StartDMNetworkMonitorL():rendezvous");
-        
-    if (stat!=KRequestPending)
-        {
-        RLDEBUG("CDCMOServer::StartDMNetworkMonitorL():abort srvr");
-        rp.Kill(0);     // abort startup
-        }
-    else
-        {
-        RLDEBUG("CDCMOServer::StartDMNetworkMonitorL(): start server");
-        rp.Resume();    // logon OK - start the server
-        }
-    User::WaitForRequest(stat);     // wait for start or death
-    TInt r= rp.ExitType();
-    TInt reqstat  = stat.Int();
-    //TExitType a;
-    RLDEBUG_2("CDCMOServer::StartDMNetworkMonitorL() exittype %d",r);
-    RLDEBUG_2("CDCMOServer::StartDMNetworkMonitorL() reqstatus %d",reqstat);
-
-    rp.Close();
-}
-
-

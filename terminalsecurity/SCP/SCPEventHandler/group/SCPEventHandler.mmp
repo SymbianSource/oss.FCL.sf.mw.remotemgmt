@@ -51,5 +51,4 @@ LIBRARY		sisxfile.lib
 LIBRARY 	siscontroller.lib
 //LIBRARY	javaregistryclient.lib
 
-SMPSAFE
 

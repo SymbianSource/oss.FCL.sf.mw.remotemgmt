@@ -221,8 +221,7 @@ void CNsmlDSNetmon::EventL ( const CConnMonEventBase& aEvent )
 
     //Fix for BPSS-7GBGV7
     if( iDSAgent->IsSyncClientInitiated() && 
-        (iDSAgent->iNetmonAPBearerType == EApBearerTypeGPRS ||
-	              iDSAgent->iNetmonAPBearerType == EApBearerTypeCDMA) )
+        (iDSAgent->iAllowAutoRestart ) )
 	    
 	{
 		switch(aEvent.ConnectionId())

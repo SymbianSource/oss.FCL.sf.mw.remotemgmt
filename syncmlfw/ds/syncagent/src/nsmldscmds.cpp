@@ -18,13 +18,10 @@
 #define SYNCML_V3
 // INCLUDE FILES
 #include <SyncMLObservers.h>
-#include <SyncMLNotifierParams.h>
-#include <SyncMLNotifier.h>
 #include <nsmlconstants.h>
 #include <nsmldebug.h>
 #include <nsmlphoneinfo.h>
 #include <nsmlunicodeconverter.h>
-#include <centralrepository.h>
 // common includes with DM
 #include "nsmlcliagconstants.h"
 #include "NSmlCmdsBase.h"
@@ -49,10 +46,11 @@
 #include "nsmldserror.h"
 #include "nsmlfilter.h"
 #include "nsmldssettings.h"
+#include "nsmldsoperatorsettings.h"
 #include "nsmldsbatchbuffer.h"
 #include "nsmldshostclient.h"
-#include "nsmloperatordefines.h"
-#include "NsmlOperatorErrorCRKeys.h"
+#include <nsmloperatorerrorcrkeys.h> // KCRUidOperatorDatasyncErrorKeys
+#include <nsmldevinfextdatacontainerplugin.h>
 
 #ifndef __WINS__
 // This lowers the unnecessary compiler warning (armv5) to remark.
@@ -64,9 +62,6 @@
 
 // CONSTANTS
 _LIT8( KNSmlRoot, "/" );
-static const TInt KMaxLength = 255;
-const TUid KRepositoryId =  { 0x2000CF7E };   
-const TInt KNsmlDsOrphanEvent = 0xB ;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -1544,38 +1539,8 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 			iAgent->Interrupt( TNSmlError::ESmlAlertInvalid, EFalse, EFalse );
 			return;
 			}
-		
-		//Read min and max times
-		// MINDT 
-		TInt mindt = AlertParameter( aAlert->itemList->item->data, KNSmlDSAgentMINDT );
-		// MAXDT 
-		TInt maxdt = AlertParameter( aAlert->itemList->item->data, KNSmlDSAgentMAXDT );
-		
-		HBufC* alertData = AlertDataLC( aAlert->itemList );
-		
-		//Fill notifier params
-		TSyncMLDlgNotifParams params;
-		params.iNoteType = ESyncMLInfoNote;
-		params.iServerMsg = TBufC<KSyncMLMaxServerMsgLength>(alertData->Des());
-		
-		CleanupStack::PopAndDestroy(); //alertData
-	
-		//Pack data and start notifier	
-		RNotifier notifier;
-		User::LeaveIfError( notifier.Connect() );
-		CleanupClosePushL(notifier);
-		
-		TPckgBuf<TBool> resBuf;
 
-		TRequestStatus status;
-			
-		TSyncMLDlgNotifParamsPckg data(params);
-   					
-		notifier.StartNotifierAndGetResponse( status, KSyncMLDlgNotifierUid, data, resBuf );
-		User::WaitForRequest(status);
-		
-		CleanupStack::PopAndDestroy(); //notifier, 
-		
+		// SyncmlNotifier Dependency is removed
 		return;
 		}
 
@@ -1719,7 +1684,7 @@ void CNSmlDSCmds::ProcessAlertCmdL( SmlAlert_t* aAlert, TBool aNextAlert, TBool 
 		}
 		
 	// status 406 is returned if <Filter> is present BUT the session continues
-	if (  aAlert->itemList && aAlert->itemList->item )
+	if ( aAlert->itemList->item )
 	    {
 	    if ( aAlert->itemList->item->target )
 	        {
@@ -1960,7 +1925,7 @@ void CNSmlDSCmds::ProcessSyncL( SmlSync_t* aSync )
 	            }
 			iDSObserver.OnSyncMLSyncProgress(
             	MSyncMLProgressObserver::ESmlReceivingModificationsFromServer,
-	        	iDSContent.ServerItemCount(), 0 );
+	        	iDSContent.ServerItemCount(), iDSContent.TaskId() );
 			}
 
         // If number of changes is more than batch limit then batch is used if
@@ -2490,37 +2455,52 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	// VerDTD element
 	PcdataNewL ( devInf->verdtd, KNSmlAgentVerDTD12 );
 
+    TBool isOperator = EFalse;
+    TInt profileId( iAgent->ProfileId() );
+    CNSmlDSOperatorSettings* settings = CNSmlDSOperatorSettings::NewLC();
+
+    CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewLC();
+    CNSmlDSProfile* profile = dsSettings->ProfileL( profileId );
+
+    if( profile )
+        {
+        CleanupStack::PushL( profile );
+        isOperator = settings->IsOperatorProfileL( 
+            profile->StrValue( EDSProfileServerId ) );
+        CleanupStack::PopAndDestroy( profile );
+        }
+    
 	// Man element (manufacturer)
 	HBufC* manufacturer = HBufC::NewLC( 50 );
 	TPtr manufacturerPtr( manufacturer->Des() );
-	iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
 	HBufC8* manufacturerInUTF8( NULL );
-	NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+    if ( isOperator )
+        {
+        manufacturerInUTF8 = settings->CustomManValueLC();
+        if ( manufacturerInUTF8->Length() == 0 )
+            {
+            CleanupStack::PopAndDestroy();// manufacturerInUTF8
+            iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
+            NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+            }
+        }
+    else
+        {
+        iPhoneInfo->PhoneDataL( CNSmlPhoneInfo::EPhoneManufacturer, manufacturerPtr );
+        NSmlUnicodeConverter::HBufC8InUTF8LC( *manufacturer, manufacturerInUTF8 );
+        }
 	PcdataNewL ( devInf->man, *manufacturerInUTF8 );
 	CleanupStack::PopAndDestroy( 2 ); // manufacturerInUTF8, manufacturer
 	
 	PcdataNewL ( devInf->fwv, KNullDesC8() );
 	
 	// Mod element (model name)
-	TBool isOperator = EFalse;
-	TInt profileId( iAgent->ProfileId() );
-	CNSmlDSSettings* settings = CNSmlDSSettings::NewLC();
-	CNSmlDSProfile* profile = settings->ProfileL( profileId );
-	
-	if( profile )
-	    {
-	    CleanupStack::PushL( profile );
-	    isOperator = settings->IsOperatorProfileL( 
-	        profile->StrValue( EDSProfileServerId ) );
-	    CleanupStack::PopAndDestroy( profile );
-	    }
-
 	HBufC* model = HBufC::NewLC( 50 );
 	TPtr modelPtr = model->Des();
 	HBufC8* modelInUTF8 = NULL;
 	if ( isOperator )
 	    {
-	    modelInUTF8 = settings->OperatorProfileModValueLC();
+	    modelInUTF8 = settings->CustomModValueLC();
 	    if ( modelInUTF8->Length() == 0 )
 	        {
 	        CleanupStack::PopAndDestroy();// modelInUTF8
@@ -2538,7 +2518,7 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	// SwV element (software version)
 	if ( isOperator )
 	    {
-	    HBufC8* swv = settings->OperatorProfileSWVValueLC();
+	    HBufC8* swv = settings->CustomSwvValueLC();
 	    if ( swv->Length() > 0 )
 	        {
 	        PcdataNewL ( devInf->swv, *swv );
@@ -2554,7 +2534,7 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	    PcdataNewL ( devInf->swv, iPhoneInfo->SwVersionL() );
 	    }
 
-	CleanupStack::PopAndDestroy( settings );
+	CleanupStack::PopAndDestroy( 2, settings );
 
 	PcdataNewL ( devInf->hwv, KNullDesC8() );
 
@@ -2583,10 +2563,17 @@ TPtrC8 CNSmlDSCmds::DoDeviceInfoL( TBool aConvert )
 	// DataStore elements
 	SmlDevInfDatastoreList_t** currDatastorePtr = &devInf->datastore;
 
-    // Operator DevInf ext fields enabler : START
-    InsertOperatorExtensionDevInfFieldsL( devInf );
-    // Operator DevInf ext fields enabler : END
-	
+	// Operator specific Device info extensions (XNam, XVal)
+	if( isOperator )
+		{
+		TRAPD( err, InsertOperatorExtensionDevInfFieldsL( devInf ) );
+		if( err != KErrNone )
+			{
+			DBG_FILE( _S8( "CNSmlDSCmds::DoDeviceInfoL(): Leave in InsertOperatorExtensionDevInfFieldsL()" ) );
+			DBG_FILE_CODE( err, _S8("Error code") );
+			}
+		}
+
     iDSContent.SetToFirst();
 
 	do
@@ -3620,9 +3607,7 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						}
 						
 					iItemOpened = EFalse;
-					SmlStatus_t* status = NULL;
-					SmlItemList_t** itemList;
-					CRepository* rep = NULL;
+					
 					switch ( returnCode )
 						{
 						case KErrNone:
@@ -3657,57 +3642,6 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						case KErrNotSupported:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusUnsupportedMediaTypeOrFormat );
 							break;
-							
-						case KErrPathNotFound:			
-						    // Read the Orphan Event ID from the cenrep
-						    rep = CRepository::NewLC(KRepositoryId);
-                            TRAPD( err, rep->Get(KNsmlDsOrphanEvent, iNewUid) );
-                            DBG_ARGS(_S("read the cenrep %d %d"), err, iNewUid);
-                            User::LeaveIfError(err);
-                            CleanupStack::PopAndDestroy(rep);
-							
-						    _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : Invalid Parent"));
-						    statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusMovedPermanently );
-						    DBG_ARGS(_S("Invalid parent: statusid %d"), statusId);
-						    status = iStatusToServer->StatusItem( statusId );
-						    DBG_ARGS(_S("Invalid parent: status %d"), status);
-						    if( status )
-                                {
-                                SmlItemList_t* newItemList = new( ELeave ) SmlItemList_t;
-                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : creating a new item"));
-                                newItemList->item = new( ELeave ) SmlItem_t;
-                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : creating a new data"));
-                                iStatusToServer->FillItemDataL( newItemList->item );
-                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : updating"));
-                                
-                                itemList = &(status->itemList);
-                                while ( *itemList )
-                                    {
-                                    itemList = &(*itemList)->next;
-                                    }
-                                *itemList = newItemList;
-                                _DBG_FILE(_S8("CNSmlDSCmds::ADD UpdateL : updated"));
-                                }
-						    if ( !iBatchModeOn )
-                                {
-                                iDSContent.IncreaseServerItemsAdded();
-                                clientModifications.iNumAdded = 1;
-                                
-                                if ( !iAtomicModeOn )
-                                    {
-                                    iDSContent.CreateNewMapItemL( iNewUid, aUID, 0 );
-                                    }
-                                else
-                                    {
-                                    iDSContent.CreateNewMapItemL( iNewUid, aUID, iAtomicId );
-                                    }
-                                }
-                            else
-                                {
-                                clientModifications.iNumAdded = 1;
-                                iBatchBuffer->SetStatusEntryId( statusId );
-                                }
-						    break;
 							
 						default:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusCommandFailed );
@@ -3865,11 +3799,6 @@ void CNSmlDSCmds::UpdateL( const TDesC8& aCmd, const SmlGenericCmd_t* aContent, 
 						case KErrNotSupported:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusUnsupportedMediaTypeOrFormat );
 							break;
-							
-						case KErrPathNotFound:
-						    _DBG_FILE(_S8("CNSmlDSCmds:: REPLACE UpdateL : Invalid Parent"));
-						    statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusMovedPermanently );
-						    break;
 							
 						default:
 							statusId = StatusDataToGenericCommandL( aCmd, aContent, aItem, TNSmlError::ESmlStatusCommandFailed );
@@ -4762,115 +4691,6 @@ TInt CNSmlDSCmds::ConvertUid( const TDesC8& aLiteralUid, TSmlDbItemUid& aNumeric
 	return lexer.Val( aNumericUid );
 	}
 
-// -----------------------------------------------------------------------------
-// CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL
-// Adds operator specific extension DevInf fields <XNam> and <XVal>
-// Currently only one <XNam> and one corresponding <XVal> field is supported
-// -----------------------------------------------------------------------------
-//
-void CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL(SmlDevInfDevInfPtr_t& aDevInf)
-    {
-    TInt error = KErrNotFound;
-    CRepository *operatorSettingsCenrep = NULL;
-    
-    // TRAP the creation of operator cenrep handle, because we don't want to 
-    // leave if the cenrep is not present
-    TRAP( error, operatorSettingsCenrep = CRepository::NewL( KNsmlOperatorCenrepUID ));
-    if( error != KErrNone )
-        {
-        // operator cenrep not found
-        return;
-        }
-    else
-        {
-        CleanupStack::PushL( operatorSettingsCenrep );
-
-        // get the server id from the current profile
-        TInt profileId( iAgent->ProfileId() );
-        CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewLC();
-        CNSmlDSProfile* profile = NULL;
-        TRAP( error, profile = dsSettings->ProfileL( profileId ) );
-        
-        if( error != KErrNone || !profile )
-            {
-            // if there was an error in reading profile from the profile ID
-            // return do not proceed to change the DevInf
-            CleanupStack::PopAndDestroy( dsSettings );
-            CleanupStack::PopAndDestroy( operatorSettingsCenrep );
-            return; 
-            }
-        
-        HBufC* buffSerVerId = HBufC::NewLC( KMaxLength );
-        TPtr ptrCurrentServerId = buffSerVerId->Des();
-        ptrCurrentServerId.Copy( profile->StrValue( EDSProfileServerId ) );
-        
-        // get the server id from operator cenrep
-        HBufC* buffCenrepServerId = HBufC::NewLC( KMaxLength );
-        TPtr ptrCenrepServerId = buffCenrepServerId->Des();        
-        error = operatorSettingsCenrep->Get( KNsmlOperatorProfileServerId, ptrCenrepServerId);
-        
-        // if serverID read from operator cenrep and current profile match only then attempt to
-        // add devInf extension fields
-        if( error == KErrNone && ptrCenrepServerId.Compare( ptrCurrentServerId ) == 0 )
-            {
-            // create 16-bit buffers to read XNam and XVal field values from cenrep
-            HBufC* buffXNamField = HBufC::NewLC( KMaxLength );
-            HBufC* buffXValField = HBufC::NewLC( KMaxLength );
-            TPtr xNamField = buffXNamField->Des();
-            TPtr xValField = buffXValField->Des();            
-        
-            TInt keyErrorXNam = operatorSettingsCenrep->Get( KNsmlOperatorDevInfExtXNam, xNamField );
-            TInt keyErrorXVal = operatorSettingsCenrep->Get( KNsmlOperatorDevInfExtXVal, xValField );
-                
-            if( keyErrorXNam == KErrNone && keyErrorXVal == KErrNone &&
-                xNamField.Length() > 0 && xValField.Length() > 0 )
-                {
-                // create 8-bit buffers of exact necessary length
-                // to write extn. fields in dev-inf
-                HBufC8* buffXNam = HBufC8::NewLC( xNamField.Length() );
-                HBufC8* buffXVal = HBufC8::NewLC( xValField.Length() );
-
-                TPtr8 xnam = buffXNam->Des();
-                TPtr8 xval = buffXVal->Des();
-
-                // copy extn fields from 16-bit desc. to 8-bit desc.
-                xnam.Copy( xNamField );
-                xval.Copy( xValField );
-    
-                SmlPcdataPtr_t XNamData;
-                PcdataNewL( XNamData, xnam );
-    
-                SmlPcdataPtr_t XValData;
-                PcdataNewL( XValData, xval );
-    
-                SmlPcdataListPtr_t listPtr = new (ELeave) SmlPcdataList_t;
-                listPtr->data = XValData;
-                listPtr->next = NULL;
-    
-                SmlDevInfExtPtr_t extElementPtr = new (ELeave) SmlDevInfExt_t;
-                extElementPtr->xnam = XNamData;
-                extElementPtr->xval = listPtr; 
-    
-                SmlDevInfExtListPtr_t extListPtr = new (ELeave) SmlDevInfExtList_t;
-                extListPtr->data = extElementPtr;
-                extListPtr->next = NULL;
-    
-                aDevInf->ext = extListPtr;
-    
-                CleanupStack::PopAndDestroy( buffXVal );
-                CleanupStack::PopAndDestroy( buffXNam );
-                }
-            CleanupStack::PopAndDestroy( buffXValField );
-            CleanupStack::PopAndDestroy( buffXNamField );     
-            }
-
-        CleanupStack::PopAndDestroy( buffCenrepServerId );   
-        CleanupStack::PopAndDestroy( buffSerVerId );
-        CleanupStack::PopAndDestroy( dsSettings );
-        CleanupStack::PopAndDestroy( operatorSettingsCenrep );
-        }
-    }
-
 //-----------------------------------------------------------------------------
 // CNSmlDSCmds::StoreSyncType
 // Checks if received Alert Code is a sync type and tries to convert
@@ -4917,4 +4737,134 @@ void CNSmlDSCmds::StoreSyncType( const TDes8& aAlertCode )
             }
         }
     }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL
+// Adds operator specific extension fields <XNam> and <XVal> to Device info
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::InsertOperatorExtensionDevInfFieldsL( 
+    SmlDevInfDevInfPtr_t& aDevInf )
+    {
+    // Instantiate Extension Data container ECom plugin 
+    CNSmlDevInfExtDataContainerPlugin* extensionPlugin = NULL;
+    TRAPD( err, extensionPlugin = CNSmlDevInfExtDataContainerPlugin::NewL() );
+    if( err == KErrNone )
+        {
+        CleanupStack::PushL( extensionPlugin );
+
+        if( extensionPlugin->GetExtensionCountL() > 0 )
+            {
+            // Create a list for extensions
+            SmlDevInfExtListPtr_t extList = new ( ELeave ) SmlDevInfExtList_t;
+            CleanupStack::PushL( extList );
+            extList->data = NULL;
+            extList->next = NULL;
+
+            for( TInt i = 0; i < extensionPlugin->GetExtensionCountL(); i++ )
+                {
+                // Create new <Ext> element and insert it to extension list
+                SmlDevInfExtPtr_t extElement = new ( ELeave ) SmlDevInfExt_t;
+                CleanupStack::PushL( extElement );
+
+                // Handle <XNam>
+                PcdataNewL( extElement->xnam, extensionPlugin->GetExtNameL( i ) );
+
+                // Handle <XVal>
+                if( extensionPlugin->GetExtValueCountL( i ) > 0 )
+                    {
+                    SmlPcdataListPtr_t xValList = new ( ELeave ) SmlPcdataList_t;
+                    CleanupStack::PushL( xValList );
+                    xValList->data = NULL;
+                    xValList->next = NULL;
+
+                    for( TInt j = 0; j < extensionPlugin->GetExtValueCountL( i ); j++ )
+                        {
+                        AppendToXValListL( xValList, 
+                            extensionPlugin->GetExtValueL( i, j ) );
+                        }
+                    extElement->xval = xValList;
+                    CleanupStack::Pop( xValList );
+                    }
+                else
+                    {
+                    extElement->xval = NULL;
+                    }
+                AppendToExtensionListL( extList, extElement );
+                CleanupStack::Pop( extElement );
+                }
+
+            // Add extensions as a part of DevInfo structure
+            aDevInf->ext = extList;
+            CleanupStack::Pop( extList );
+            }
+
+        // Do the cleanup
+        CleanupStack::PopAndDestroy( extensionPlugin );
+        REComSession::FinalClose();
+        }
+    }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::AppendToExtensionListL
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::AppendToExtensionListL( SmlDevInfExtListPtr_t aExtList, 
+    SmlDevInfExtPtr_t aExtItem )
+    {
+    if( !aExtList->data )
+        {
+        // This is the first item to be added to the list
+        aExtList->data = aExtItem;
+        aExtList->next = NULL;
+        }
+    else
+        {
+        // List is not empty
+        SmlDevInfExtListPtr_t newExtListItem = new ( ELeave ) SmlDevInfExtList_t;
+        newExtListItem->data = aExtItem;
+        newExtListItem->next = NULL;
+    
+        // Search the end of the extension list & add new item
+        SmlDevInfExtListPtr_t tmp = aExtList;
+        while( tmp->next )
+            {
+            tmp = tmp->next;
+            }
+        tmp->next = newExtListItem;
+        }
+    }
+
+// ----------------------------------------------------------------------------
+// CNSmlDSCmds::AppendToXValListL
+// ----------------------------------------------------------------------------
+//
+void CNSmlDSCmds::AppendToXValListL( SmlPcdataListPtr_t aXValList,
+    const TDesC8& aXVal )
+    {
+    if( !aXValList->data )
+        {
+        // This is the first item to be added to the list
+        PcdataNewL( aXValList->data, aXVal );
+        aXValList->next = NULL;
+        }
+    else
+        {
+        // List is not empty
+        SmlPcdataListPtr_t newXValItem = new ( ELeave ) SmlPcdataList_t;
+        CleanupStack::PushL( newXValItem );
+        PcdataNewL( newXValItem->data, aXVal );
+        CleanupStack::Pop( newXValItem );
+        newXValItem->next = NULL;
+    
+        // Search the end of the extension list & add new item
+        SmlPcdataListPtr_t tmp = aXValList;
+        while( tmp->next )
+            {
+            tmp = tmp->next;
+            }
+        tmp->next = newXValItem;
+        }
+    }
+
 // End of File

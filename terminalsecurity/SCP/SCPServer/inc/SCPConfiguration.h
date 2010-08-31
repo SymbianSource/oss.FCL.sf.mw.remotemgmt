@@ -29,8 +29,9 @@
 enum TSCPParamType
     {
     EParTypeInt = 0,
-    EParTypeDesc
-	};
+    EParTypeDesc,
+    EParTypeBool
+    };
 
 // LOCAL CONSTANTS
 
@@ -56,10 +57,11 @@ const TInt KParamIDBlockedAtTime = 6;
 const TInt KParamIDBlockedInOOS = 7;
 // ID number for the encrypted security code.
 const TInt KParamIDCryptoCode = 8;
-
+//ID number for the boolean for the configuartion check
+const TInt KParamIDConfigChecked = 9;
 
 // Total number of Param IDs
-const TInt KTotalParamIDs = 8;
+const TInt KTotalParamIDs = 9;
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 #define SCP_PARAMETERS_WithFlag { &iConfigFlag, \
@@ -69,8 +71,9 @@ const TInt KTotalParamIDs = 8;
                          &iFailedAttempts, \
                          &iBlockedAtTime, \
                          &iBlockedInOOS, \
-                         &iCryptoCode \
-						 };
+                         &iCryptoCode, \
+						 &iConfigChecked \
+                         };
 
 #define SCP_PARAMIDS_WithFlag    {  KParamIDConfigFlag, \
                            KParamIDMaxTimeout, \
@@ -79,8 +82,9 @@ const TInt KTotalParamIDs = 8;
                            KParamIDFailedAttempts, \
                            KParamIDBlockedAtTime, \
                            KParamIDBlockedInOOS, \
-                           KParamIDCryptoCode \
-						   };
+                           KParamIDCryptoCode, \
+						   KParamIDConfigChecked \
+                        };
 
 #define SCP_PARAMTYPES_WithFlag { EParTypeInt, \
                          EParTypeInt, \
@@ -89,8 +93,9 @@ const TInt KTotalParamIDs = 8;
                          EParTypeInt, \
                          EParTypeDesc, \
                          EParTypeInt, \
-                         EParTypeDesc\
-						};
+                         EParTypeDesc, \
+						 EParTypeBool \
+                       };
 
 //#else // !__SAP_DEVICE_LOCK_ENHANCEMENTS                   
 
@@ -184,7 +189,10 @@ class TSCPConfiguration
         /** The name of the main configuration file */
         TFileName iConfigFileName; 
         TInt iBlockedInOOS;
-       
+        
+        //Flag to check whether Configuration checked already
+        TBool iConfigChecked;
+        
         /** A ptr to a connected RFs, not owned */
         RFs* iFsSession;
         

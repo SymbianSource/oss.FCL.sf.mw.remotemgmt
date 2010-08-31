@@ -40,15 +40,8 @@ SOURCE 			testsync.cpp
 USERINCLUDE     ../inc 
 USERINCLUDE     ../../../../inc 
 
-SYSTEMINCLUDE     /epoc32/include/app
-#if defined(__S60_)
-//    OS_LAYER_SYSTEMINCLUDE
-    MW_LAYER_SYSTEMINCLUDE
-#else
-    SYSTEMINCLUDE   /epoc32/include 
-//    SYSTEMINCLUDE   /epoc32/include/internal
-//    SYSTEMINCLUDE     /epoc32/include/applications    
-#endif
+APP_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib
 LIBRARY         stiftestinterface.lib
@@ -67,8 +60,7 @@ LIBRARY cntmodel.lib
 LIBRARY apparc.lib
 LIBRARY cone.lib 
 LIBRARY eikcore.lib  
-LIBRARY avkon.lib 
-LIBRARY aknnotify.lib
+
 
 LANG            SC
 SMPSAFE

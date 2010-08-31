@@ -17,8 +17,7 @@
 
 // USER INCLUDES
 #include "DMNetworkMon.h"
-#include <e32property.h>
-#include <nsmldmconst.h>
+
 #include <SyncMLClient.h>
 #include <SyncMLClientDM.h>
 #include <nsmldmauthinfo.h>
@@ -481,25 +480,20 @@ void CDMNetworkMon::CreateDeviceManagementSessionL()
 
         RSyncMLDevManJob dmJob;
 
-        TInt IAPID = -1;
+        TInt IAPID = -2;
         TBuf<10> genalertap,temp;
         genalertap.Zero();
         temp.Zero();	  
         genalertap.Append(KNSmlDMJobIapPrefix);
         temp.Num(iapid);//Decimal Iap
         if( temp.Length() <= KNSmlHalfTransportIdLength && 
-                iapid > KErrNotFound)
+                iapid >= -2)
             {
             genalertap.AppendFill('0',KNSmlHalfTransportIdLength-temp.Length());
             genalertap.Append(temp);
             TLex gavalue(genalertap);
             gavalue.Val(IAPID);
             LOGSTRING("DM JOB CREATED");
-            static _LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
-            static _LIT_SECURITY_POLICY_C1(KAllowWriteDeviceDataPolicy, ECapabilityWriteDeviceData);
-            RProperty::Define(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,RProperty::EInt,KAllowAllPolicy,KAllowWriteDeviceDataPolicy);
-           TInt r2=RProperty::Set(KPSUidNSmlSOSServerKey,KNSmlDMSilentJob,ESilent);           
-		    LOGSTRING2( "CDMNetworkMon::RunError() KNSmlDMSilentJob get error code = %i", r2);
             TRAPD(err, dmJob.CreateL( iSyncSession, ProfileId, IAPID));
             LOGSTRING("DM JOB CREATED END");
             if(err!=KErrNone)

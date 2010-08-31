@@ -23,14 +23,14 @@
 #include <cdbcols.h>			 // CommsDB columname defs
 #include <stringresourcereader.h>
 #include <barsread.h>
-#include <NSmlDMProvisioningAdapter.rsg>
+#include <nsmldmprovisioningadapter.rsg>
 #include <f32file.h>
 #include <bautils.h>
-#include <ApUtils.h>
 #include <utf.h>
 #include <featmgr.h>
 #include <barsc.h> 
-
+#include <cmconnectionmethoddef.h>
+#include <cmmanagerext.h>
 #include <nsmldebug.h>
 #include <CWPCharacteristic.h>
 #include <CWPParameter.h>
@@ -40,6 +40,8 @@
 #include "NSmlTransportHandler.h"
 
 #include <data_caging_path_literals.hrh>
+#define KMINPORT 0
+#define KMAXPORT 65536
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -59,7 +61,6 @@ CNSmlDmProvisioningAdapter::CNSmlDmProvisioningAdapter()
 // -----------------------------------------------------------------------------
 void CNSmlDmProvisioningAdapter::ConstructL()
 	{
-    iLock = EFalse;
 	iSession.OpenL();
 	FeatureManager::InitializeLibL();
 	}
@@ -185,7 +186,35 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 		iAuthSecretLimitIndicator = 0;
 		User::Leave(KErrOverflow);
 	}
-
+	
+	//check for incorrect port
+	//Only port address between 1 to 65536 is allowed. 
+	if( iProfiles[aItem]->iPort )
+		{
+			const TDesC& port = iProfiles[aItem]->iPort->Des();
+			TInt len = port.Length();
+			if(len > 0)
+			{
+        HBufC* bufPort = port.AllocL();
+        TLex aLex(*bufPort);
+        TInt portNum ;
+        TInt err = aLex.Val(portNum);
+        if(bufPort)
+        {
+          delete bufPort;
+          bufPort = NULL;
+        }
+	    if(err != KErrNone)
+	    {
+          User::Leave(KErrGeneral);
+	    }
+	    if(!((portNum > KMINPORT) && (portNum < KMAXPORT)))
+	    {
+	      User::Leave(KErrGeneral);       
+	    }
+		}
+	}
+	
 	TPckgBuf<TUint32> uid;
 	
 	RSyncMLDevManProfile profile,ProfileToSearch;
@@ -218,8 +247,9 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 		TInt isprofilelocked=profile.ProfileLocked(EFalse, EFalse);
 		if (isprofilelocked == 1)
 		 {
-            profile.ProfileLocked(ETrue, EFalse);
-            iLock = ETrue;	 	
+		  
+      profile.Close(); 
+      User::Leave(KErrAccessDenied); 	 	
 		 }
 		
 		}
@@ -259,14 +289,6 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	    }
 		    
 	// creates profile -> must be done before opening the connection
-
-	
-	if(iLock)
-	    {
-      profile.ProfileLocked(ETrue, ETrue);
-      iLock = EFalse;
-	    }
-	    
 	profile.UpdateL();
 	
 	RSyncMLConnection connection;
@@ -276,13 +298,16 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	if( iProfiles[aItem]->iVisitParameter && iProfiles[aItem]->iVisitParameter->Data().Length() == uid.MaxLength() )
 		{
 		uid.Copy( iProfiles[aItem]->iVisitParameter->Data() );
-
-		CCommsDatabase* commDb = CCommsDatabase::NewL();
-		CleanupStack::PushL( commDb );
-		CApUtils* aputils = CApUtils::NewLC( *commDb );
+		
+		RCmManagerExt  cmmanagerExt;
+		cmmanagerExt.OpenL();
+		CleanupClosePushL(cmmanagerExt);
+		RCmConnectionMethodExt cm;
+		cm = cmmanagerExt.ConnectionMethodL( uid());
+		CleanupClosePushL( cm );
 
 		TUint apId = 0;
-		TRAPD( ERROR, apId = aputils->IapIdFromWapIdL( uid() ) );
+		TRAPD( ERROR, apId = cm.GetIntAttributeL(CMManager::ECmIapId) );
 		if( ERROR != KErrNone )
 			{
 			apId = GetDefaultIAPL();
@@ -294,7 +319,7 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 
 		connection.SetPropertyL( KNSmlIAPId, *iapBuf );
 		
-		CleanupStack::PopAndDestroy( 3 ); //commdb, aputils, iapBuf		
+		CleanupStack::PopAndDestroy( 3 ); //cmmanager,cm, iapBuf
 		}
 		
 	if( iProfiles[aItem]->iHostAddress )
@@ -434,7 +459,7 @@ void CNSmlDmProvisioningAdapter::SaveL(TInt aItem)
 	    
 	    CleanupStack::PopAndDestroy(alertMessage);	    
 	    }
-	    
+
 	CleanupStack::PopAndDestroy( &profile );
 
 	_DBG_FILE("CNSmlDmProvisioningAdapter::SaveL(): end");

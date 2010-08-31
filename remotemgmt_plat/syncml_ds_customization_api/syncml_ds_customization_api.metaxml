@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="824b33bd67b108d18fe063b94ed85ac5" dataversion="1.0">
+  <name>SyncML DS customization API</name>
+  <description>Definitions of operator settings keys related to data synchronizationk</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -23,4 +23,6 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/NSmlOperatorDataCRKeys.h		MW_LAYER_PLATFORM_EXPORT_PATH(NsmlOperatorDataCRKeys.h)
+../inc/nsmloperatordatacrkeys.h			    MW_LAYER_PLATFORM_EXPORT_PATH(nsmloperatordatacrkeys.h)
+../inc/nsmldevinfextdatacontainerplugin.h		MW_LAYER_PLATFORM_EXPORT_PATH(nsmldevinfextdatacontainerplugin.h)
+../inc/nsmldevinfextdatacontainerplugin.inl     MW_LAYER_PLATFORM_EXPORT_PATH(nsmldevinfextdatacontainerplugin.inl)

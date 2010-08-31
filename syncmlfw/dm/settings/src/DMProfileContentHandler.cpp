@@ -22,10 +22,8 @@
 #include <commdb.h>
 #include <nsmldebug.h>
 #include <featmgr.h>
-#include <centralrepository.h>
 #include "DMprofileContentHandler.h"
 #include "nsmldmsettings.h"
-#include "DevManInternalCRKeys.h"
 
 
 #define DES_AS_8_BIT(str) (TPtrC8((TText8*)((str).Ptr()), (str).Size()))
@@ -180,8 +178,7 @@ void CDMProfileContentHandler::SaveProfilesL()
 	RemoveRSCEntryL();
 	TInt iapId = 0;
 	
-	TInt count = iProfileArray->Count();
-	for ( TInt i = 0; i < count; i++ )
+	for ( TInt i = 0; i < iProfileArray->Count(); i++ )
 	{
 		if(iProfileArray->At(i)->iAccessPoint)
 		{
@@ -212,19 +209,6 @@ void CDMProfileContentHandler::SaveProfilesL()
 		profile->SaveL();
 		CleanupStack::PopAndDestroy(); // profile
 							
-	}
-  CRepository* centrep = NULL;
-  TRAPD( err, centrep = CRepository::NewL(KCRUidDeviceManagementInternalKeys));  
-  if (err==KErrNone ) 
-  {
-  	TInt num(-1);
-  	TInt err = centrep->Get( KMaxFactoryDMProfileId , num );
-  	if( num >= 0 )
-  		err = centrep->Set( KMaxFactoryDMProfileId , (count + num ) );
-  	else
-  		err = centrep->Set( KMaxFactoryDMProfileId , count - 1);	
-    delete centrep;
-    centrep = NULL;
 	}
 	_DBG_FILE("CDMProfileContentHandler::SaveProfilesL(): end");
 }

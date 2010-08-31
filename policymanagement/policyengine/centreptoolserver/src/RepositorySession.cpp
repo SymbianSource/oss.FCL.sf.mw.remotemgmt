@@ -423,8 +423,8 @@ void CRepositoryContent::CreateMaskBackupL( RPointerArray<CRangeMeta>& aSettings
 	if ( !aSettings.Count() )
 	{	
 		CRangeMeta * setting = CRangeMeta::NewL( aCompareValue, 0, aMask, KBackupBitMask);
-		aSettings.AppendL( setting );
-		iRangeMetas.AppendL( setting);
+		aSettings.Append( setting );
+		iRangeMetas.Append( setting);
 	}
 }
 

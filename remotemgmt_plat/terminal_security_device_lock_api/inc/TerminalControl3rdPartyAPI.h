@@ -148,22 +148,6 @@ class RTerminalControl3rdPartySession : public RSubSessionBase
 
 		IMPORT_C TInt GetDeviceLockParameter(TInt aType, TDes8& aData);
 
-		/**
-		ResetDeviceLockParameters
-
-		The function resets the Terminal Security parameters that were set by the calling application
-		(by earlier calls to SetDeviceLockParameter())
-
-		NOTE:
-		 > 	The function resets only those parameters that the calling function had set. Parameters
-			not set by the calling application are not affected.
-
-		 >	Calls to this function will not reset value of EPasscode. Device Lock Code will not be reset
-
-		@param none
-		@return KErrNone Symbian error code
-		*/
-		IMPORT_C TInt ResetDeviceLockParameters();
 	};
 
 #endif //__TERMINALCONTROL3RDPARTYAPI_H__

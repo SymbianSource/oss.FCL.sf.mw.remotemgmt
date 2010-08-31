@@ -41,7 +41,7 @@ _LIT8(KNSmlDmDDFDevInfoModDDF, "DevInfo/Ext/ModDDF");
 // ----------------------------------------------------------------------------
 // CNSmlDmModule::~CNSmlDmModule()
 // ----------------------------------------------------------------------------
-CNSmlDmModule::~CNSmlDmModule()
+EXPORT_C CNSmlDmModule::~CNSmlDmModule()
 	{
 	delete iDDF;
 	delete iCommandBuffer;

@@ -461,6 +461,7 @@ void CNSmlSOSSession::GetDMAuthInfoL( const RMessage2& aMessage )
     if ( !iDMAuthInfo )
         {
         aMessage.Complete( KErrNotFound );
+         _DBG_FILE("CNSmlSOSSession::GetDMAuthInfoL(): iDMAuthInfo is NULL");
         return;
         }
     aMessage.WriteL( 0, iDMAuthInfo->Ptr(0), 0 );
@@ -2235,16 +2236,16 @@ void CNSmlSOSSession::CompleteBufferedProgressEventL()
             break;               
             };
         
-	   	if ( buf )  
-	   	    { 
-                if ( iHandler->CompleteBufProgressMsg( *buf, this )) // if owner not found do not remove from buffer
-                    {
-                    iProgressEventBuffer.Remove(0);        
-                    }  
-                    
-                delete buf;
-                buf = NULL; 
-	   	    }   
+	   	        
+        if ( iHandler->CompleteBufProgressMsg( *buf, this )) // if owner not found do not remove from buffer
+            {
+            iProgressEventBuffer.Remove(0);        
+            }  
+            
+        delete buf;
+        buf = NULL;   
+        
+        
         }
     
     if ( !mutexError )
@@ -2309,16 +2310,14 @@ void CNSmlSOSSession::CompleteBufferedContactSuiteProgressEventL()
             iProgressEventBuffer.Remove(0);        
             }  
         */
-        if ( buf ) 
-          {     
-            if ( iHandler->CompleteBufContactSuiteProgressMsg( *buf, this )) // if owner not found do not remove from buffer
-                {
-                    iContactSuiteProgressEventBuffer.Remove(0);        
-                }  
+		if ( iHandler->CompleteBufContactSuiteProgressMsg( *buf, this )) // if owner not found do not remove from buffer
+            {
+            iContactSuiteProgressEventBuffer.Remove(0);        
+            }  
 
-            delete buf;
-            buf = NULL;   
-          } 
+        delete buf;
+        buf = NULL;   
+        
         
         }
     

@@ -33,7 +33,6 @@ CAPABILITY      CAP_ECOM_PLUGIN DiskAdmin
 SOURCEPATH      ../src
 SOURCE          SCPTimestampPlugin.cpp
 SOURCE          SCPTimestampPluginImpCollection.cpp
-SOURCE          SCPUserInf.cpp
 
 USERINCLUDE     ../inc
 USERINCLUDE     ../../inc
@@ -53,7 +52,7 @@ TARGETPATH      RESOURCE_FILES_DIR
 LANGUAGE_IDS
 END
 
-LIBRARY 	avkon.lib eikcdlg.lib eikctl.lib 
+
 LIBRARY         euser.lib 
 LIBRARY         ecom.lib 
 LIBRARY         scpclient.lib
@@ -71,9 +70,7 @@ LIBRARY         dmutil.lib
 LIBRARY					flogger.lib
 LIBRARY         featmgr.lib
 #ifdef RD_MULTIPLE_DRIVE
-LIBRARY         platformenv.lib 
+LIBRARY         PlatformEnv.lib 
 #endif
-
-SMPSAFE
 
 // End of File

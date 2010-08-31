@@ -59,7 +59,6 @@ MW_LAYER_SYSTEMINCLUDE
 APP_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE	/epoc32/include/libc
 SYSTEMINCLUDE   /epoc32/include/ecom
-SYSTEMINCLUDE   /epoc32/include/http 
 
 LIBRARY         euser.lib     
 LIBRARY         charconv.lib
@@ -75,16 +74,16 @@ LIBRARY         nsmltransport.lib
 LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlxml.lib
 LIBRARY		centralrepository.lib
-LIBRARY         bafl.lib
 LIBRARY         inetprotutil.lib
+LIBRARY         bafl.lib
 
 #ifdef ARMCC
-LIBRARY ECOM.LIB
+LIBRARY ecom.lib
 #endif
 //RD_AUTO_RESTART
 LIBRARY         commdb.lib 
 LIBRARY         esock.lib 
-LIBRARY         apengine.lib
+LIBRARY         cmmanager.lib
 //RD_AUTO_RESTART
 
 SMPSAFE
