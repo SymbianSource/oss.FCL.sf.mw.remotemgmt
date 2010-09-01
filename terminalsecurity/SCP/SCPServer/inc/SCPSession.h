@@ -26,7 +26,7 @@
 
 #include "SCPServerInterface.h"
 #include "SCPTimer.h"
-#include <SCPParamObject.h>
+
 #include <TerminalControl3rdPartyParamsPlugin.h>
 // FORWARD DECLARATIONS
 class CSCPServer;
@@ -241,14 +241,6 @@ class CSCPSession : public CSession2, public MSCPTimeoutHandler
         * @return KErrNone if successful, error status otherwise
         */         
         TInt HandleCleanupL( const RMessage2 &aMessage );
-        
-        /**
-        * Handles get on policies
-        * @param aMessage The message received from the client
-        * @return KErrNone if successful, error status otherwise
-        */         
-        void HandleGetPoliciesL( const RMessage2 &aMessage );
-		
         TInt HandleSetALPeriodL( const RMessage2 &aMessage );
 //#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS               
         
@@ -287,9 +279,6 @@ class CSCPSession : public CSession2, public MSCPTimeoutHandler
         */
         void NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint32 aCallerID );        
 
-        void ReadFailedPoliciestoMsgBufferL(CSCPParamObject*& aParamObject,const RMessage2 &aMessage,TInt aSlotNumber );
-		
-        void ValidateLockcodeAgainstPoliciesL(const RMessage2 &aMessage);
     private:   // Data
        // Possible states for iLockCommandState
        enum TSCPLockCmdState

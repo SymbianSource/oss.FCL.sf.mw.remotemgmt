@@ -49,6 +49,12 @@ USERINCLUDE     ../inc
 USERINCLUDE     ../../../terminalsecurity/tarmterminalcontrol/inc    // domain private headers
 MW_LAYER_SYSTEMINCLUDE
 
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+#else
+    SYSTEMINCLUDE   /epoc32/include 
+#endif
+
 LIBRARY         euser.lib
 LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
@@ -79,5 +85,7 @@ END
 */
 // DEFFILE ?filename
 // AIF ?filename
+
+SMPSAFE
 
 // End of File

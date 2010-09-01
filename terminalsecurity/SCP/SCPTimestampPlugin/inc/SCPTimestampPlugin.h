@@ -26,7 +26,7 @@
 #include <barsc.h>
 
 #include <TerminalControl3rdPartyAPI.h>
-
+#include "SCPUserInf.h"
 
 // LOCAL CONSTANTS
 const TInt KSCPMaxExpiration = 365;
@@ -50,6 +50,8 @@ const TInt KSCPIsNotAfter = 0;
 const TInt KSCPTypeMinutes = 0;
 const TInt KSCPTypeHours = 1;
 const TInt KSCPTypeDays = 2;
+
+const TInt KSCPNoteTimeout = 2000000;
 
 _LIT( KSCPTSConfigFile, "SCPTimestampPlugin.ini");
 _LIT( KDriveZ, "Z:" );
@@ -86,7 +88,7 @@ class CSCPTimestampPlugin : public CSCPPlugin
         /**
         * Event handler
         */		
-	    void HandleEventL( TInt aID, CSCPParamObject& aParam, CSCPParamObject& aOutParam );
+		CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam );
 		
 		void SetEventHandler( MSCPPluginEventHandler* aHandler );
 
@@ -107,25 +109,25 @@ class CSCPTimestampPlugin : public CSCPPlugin
 		/**        
         * Checks if the minimum timeout has expired since the last change
         */
-		void IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject& aRetParams );	 
+		void IsChangeAllowedL( CSCPParamObject& aParam, CSCPParamObject*& aRetParams );	 
 		
 		/**        
         * Updates the status when the password is changed
         */
-        void PasswordChanged( CSCPParamObject& aParam, CSCPParamObject& aRetParams );
+        void PasswordChanged( CSCPParamObject& aParam, CSCPParamObject*& aRetParams );
         
 		/**
         * Updates the status when after an authentication attempt
         */
         void AuthenticationAttempt( TBool aIsSuccessful, 
                                     CSCPParamObject& aParam,
-                                    CSCPParamObject& aRetParams );
+                                    CSCPParamObject*& aRetParams );
                                     
 		/**
         * Updates the status after successful authentication
         */
         void SuccessfulAuthenticationL( CSCPParamObject& aParam,
-                                       CSCPParamObject& aRetParams );
+                                       CSCPParamObject*& aRetParams );
         
         
 		/**
@@ -139,12 +141,12 @@ class CSCPTimestampPlugin : public CSCPPlugin
         */
         void ConfigurationQuery(    TInt aParamID, 
                                     CSCPParamObject& aParam, 
-                                    CSCPParamObject& aRetParams );
+                                    CSCPParamObject*& aRetParams );
                                     
         /**
         * Initiates RFS Deep (device wipe)
         */
-        void WipeDeviceL( CSCPParamObject& aRetParams );
+        void WipeDeviceL( CSCPParamObject*& aRetParams );
                                     
 		/**
         * Read the configuration from flash.
@@ -194,6 +196,7 @@ class CSCPTimestampPlugin : public CSCPPlugin
 	    
 	    /* Resource-file indicator */
 	    TBool iResOpen;   
+	    CSCPUserInf *iUserInfo;
     };
 
 #endif // __CSCPPTIMESTAMPPLUGIN_H

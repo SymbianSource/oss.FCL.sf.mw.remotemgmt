@@ -25,6 +25,9 @@
 #include "nsmlerror.h"
 #include "nsmlagenttestdefines.h"
 
+//Rnd_AutoRestart
+#include <ApEngineConsts.h>
+//Rnd_AutoRestart
 //DATA TYPES
 enum TNSmlSyncInitiation    
 	{		
@@ -83,6 +86,7 @@ class CNSmlAgentBase:public CActive, public MWBXMLSyncMLCallbacks
 	IMPORT_C virtual void DoOutsideCancel();
 	//Rnd_AutoRestart
 	IMPORT_C virtual void LaunchAutoRestartL(TInt aError);
+	IMPORT_C TApBearerType CheckAPBearerTypeL( const TUint32 aIAPId );
 	void ReadAcessPointL();
 	//Rnd_AutoRestart
 	
@@ -356,7 +360,7 @@ class CNSmlAgentBase:public CActive, public MWBXMLSyncMLCallbacks
 	//Rnd_AutoRestart
 	TBool iPacketDataUnAvailable;
 	TUint32 iNetmonAPId;
-	TBool iAllowAutoRestart;
+	TApBearerType iNetmonAPBearerType;
 	//Rnd_AutoRestart
 	
     protected:    // Data	

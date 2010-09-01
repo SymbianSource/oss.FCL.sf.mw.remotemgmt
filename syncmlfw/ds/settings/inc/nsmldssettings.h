@@ -369,7 +369,26 @@ class CNSmlDSSettings : public CBase
 		* @param -
 		* @return -
 		*/
-        IMPORT_C void UpdateHiddenProfilesL();
+		IMPORT_C void UpdateHiddenProfilesL();
+		
+		/**
+		 * Is current profile Operator specific profile.
+		 * @param aServerId Server Id to compare in Repository value.
+		 * @return Boolean ETrue if profile is Operator specific profile.
+		 */
+		IMPORT_C TBool IsOperatorProfileL( const TDesC& aServerId  );
+        
+		/**
+		 * SW version of Operator specific profile.
+		 * @return Software version.
+		 */
+		IMPORT_C HBufC8* OperatorProfileSWVValueLC();
+
+		/**
+		 * Mod value of Operator specific profile.
+		 * @return Mod value.
+		 */
+		IMPORT_C HBufC8* OperatorProfileModValueLC();
         
         /**
 		* Parse xml 

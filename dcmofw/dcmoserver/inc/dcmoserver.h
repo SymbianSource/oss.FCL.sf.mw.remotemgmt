@@ -21,28 +21,27 @@
 // INCLUDES
 
 #include <e32base.h>
-#include <hbdevicemessageboxsymbian.h>
 #include "dcmoclientserver.h"
 #include "dcmoconst.h"
-#include "dcmomessagebox.h"
-
-
+#include "dcmonotifieraob.h"
+#include <lawmocallbackinterface.h>
 // CONSTANTS
 const TUid KCRUidDCMOServer={0x2001FE47};
 const TInt KDCMOKeyMaxNumber = 16;
 // FORWARD DECLARATIONS
 // CLASS DECLARATION
-
+class CLAWMOPluginInterface;
 /**
 *  CDCMOServer
 *  Description.
 */
 
 
-class CDCMOServer : public CServer2
+class CDCMOServer : public CServer2,
+                    public MLawmoPluginWipeObserver
 	{
 	friend class CDCMOSession;
-	friend class CDCMOMessageBox;
+	friend class CDCMONotifierAob;
 
 public:
 	/**
@@ -87,6 +86,11 @@ public:
 	 * @return None
 	 */
 	void DropSession();
+public:
+	
+	// Callback from MLawmoPluginWipeObserver
+	void HandleWipeCompleted(TInt status);
+	//void SendGenericAlert();
 	
 private:
 	/**
@@ -169,12 +173,15 @@ protected:
 	 */
 	void SetStarter(TBool aValue);	
 	
-	/**
-	 * Deletes the idcmoArray value if any
-	 * @param none
-	 * @return none
-	 */
-	void CleanDcmoArray();	
+    TLawMoStatus WipeItem(TInt aValue=0);
+	
+    TLawMoStatus WipeAllItem();
+
+	TLawMoStatus GetListItemL(TDesC& item, TDes& strValue);
+
+	TLawMoStatus GetToBeWipedL(TDesC& item, TDes& wipeValue);
+
+	TLawMoStatus SetToBeWipedL(TDesC& item, TInt wipeValue);
 	
 private:
 	
@@ -183,7 +190,7 @@ private:
 	 * @param aCategory
 	 * @return the uid
 	 */
-	TUid GetAdapterUidL(const TDesC& aCategory);
+	TUid GetAdapterUidL(const TDesC& aCategory, TBool aIsLawmo = EFalse);
 	
 	/**
 	 * Finds whether the plug-in adapter is a generic category
@@ -192,11 +199,19 @@ private:
 	 */
 		TInt GetLocalCategoryL(const TDesC& aCategory);	
 	
+	void GetLawmoPluginUidsL();
+	
+	void StartDMNetworkMonitorL(TDesC& aServerId, TInt iapid=0);
 private:
 	RArray<dcmoInfoList> idcmoArray;
 	static TInt iSessionCount;
 	TBool iStarter;	
-	CDCMOMessageBox* iMessageBox;
+	CDCMONotifierAob* iNotifier;
+	RArray<TUid> ilawmoPluginUidToBeWiped;
+	RArray<CLAWMOPluginInterface*> ilawmoPlugins;
+	TInt iwipeStatus;
+    TInt iCount;
+    TInt iSessionIap;
 	};
 	
 #endif //__DCMO_SERVER_H__

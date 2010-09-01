@@ -109,5 +109,29 @@ RESOURCE TBUF r_set_sec_code_setting_query_server
     {
     buf = qtn_set_sec_code_setting_query_server;
     }
+    
+RESOURCE TBUF r_scp_lawmo_locked
+    {
+    buf = qtn_device_locked_remotely;
+    }
+    
+RESOURCE DIALOG r_dialog_warning
+{
+    flags = EAknWarningNoteFlags | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+    {
+    DLG_LINE
+        {
+            type = EAknCtNote;
+            id = EGeneralNote;
+            control = AVKON_NOTE
+            {
+                layout = EGeneralLayout;
+                animation = R_QGN_NOTE_WARNING_ANIM;
+            };
+        }
+    };
+}
 // end of file
 

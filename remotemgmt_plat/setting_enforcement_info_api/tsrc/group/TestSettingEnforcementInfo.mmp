@@ -59,6 +59,11 @@ USERINCLUDE     ../../../policymanagement/inc // domain private headers
 
 USERINCLUDE     ../inc 
 
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+#else
+    SYSTEMINCLUDE   /epoc32/include 
+#endif
 
 LIBRARY         euser.lib
 LIBRARY         stiftestinterface.lib

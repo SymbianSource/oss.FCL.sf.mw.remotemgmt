@@ -30,30 +30,9 @@ PRJ_EXPORTS
 ../conf/policy_management_10207843.crml 	        MW_LAYER_CRML(policy_management_10207843.crml)
 
 
-
 PRJ_EXTENSIONS
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 PRJ_MMPFILES
-
-
-
-
-
 
 #include "../pmdmadapter/group/bld.inf"
 #include "../dmutilserver/group/bld.inf"

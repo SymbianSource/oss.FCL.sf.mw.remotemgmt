@@ -22,6 +22,7 @@
 #include <DevManInternalCRKeys.h>
 #include <centralrepository.h>
 #include "nsmlprivatepskeys.h"
+#include <nsmlconstants.h>
 
 
 #include "nsmlerror.h"
@@ -81,6 +82,7 @@ void CNSmlHTTP::ConstructL()
 	{
 	// construct shutdown timer
 	DBG_FILE(_S8("CNSmlHTTP::ConstructL BEGIN"));
+	TBool dmjob = EFalse;
 	FeatureManager::InitializeLibL();
 	iShutdown = new (ELeave) CNSmlXptShutdownTimer( this );
 	iShutdown->ConstructL();
@@ -91,6 +93,7 @@ void CNSmlHTTP::ConstructL()
     DBG_FILE_CODE(session, _S8("CNSmlHTTP::ConstructL Current Session is (DM = 2, DS = 1) "));
     if( session == ESyncMLDMSession )//for dm session
        {
+       dmjob = ETrue;
 		TInt dmsessionTimeout = -1;
 		CRepository *rep = NULL;
 		TRAPD( err1, rep = CRepository::NewL( KCRUidDeviceManagementInternalKeys ))
@@ -122,7 +125,7 @@ void CNSmlHTTP::ConstructL()
     RProperty::Get( KPSUidNSmlSOSServerKey, KNSmlSyncJobOngoing, iSession);                       
 	// construct dialup agent
 	iDialUpAgent = new (ELeave) CNSmlDialUpAgent();
-	iDialUpAgent->ConstructL();
+	iDialUpAgent->ConstructL(dmjob);
 
 	iEngineState = ExptIdle;
 	iTimeOut = EFalse;
@@ -143,6 +146,16 @@ void CNSmlHTTP::ConstructL()
             iMaxMsgSize = value;
             }
         }
+    
+    CRepository* rep = CRepository::NewLC(KCRUidNSmlDSEngine);
+    TInt flag(0);
+    TRAPD(err, rep->Get(KNsmlDsDeflateSupport, flag));
+    DBG_FILE_CODE(flag, _S8("Flag value"));
+    if ( err == KErrNone )
+        {
+        iDeflateFlag = flag;
+        }
+    CleanupStack::PopAndDestroy(rep);
 	}
 
 // ---------------------------------------------------------
@@ -565,7 +578,7 @@ void CNSmlHTTP::SendDataL(
 	delete iReqBodySubmitBuffer;
     iReqBodySubmitBuffer = NULL;
 	
-	if( (iSession == ESyncMLDSSession) && (iServerAcceptEncoding == ExptDeflate) )
+	if( (iSession == ESyncMLDSSession) && (iServerAcceptEncoding == ExptDeflate) && iDeflateFlag )
 		{
 		TRAPD( err, CompressL(aStartPtr) );
 		User::LeaveIfError( err );
@@ -1070,13 +1083,13 @@ void CNSmlHTTP::InvokeHttpMethodL( const TDesC8& aUri, RStringF aMethod )
 	SetHeaderL( hdr, HTTP::EAcceptCharset, KSmlAcceptCharSet );
 	SetHeaderL( hdr, HTTP::EAcceptLanguage , KSmlAcceptLanguage );
 		
-	if( iSession == ESyncMLDSSession )//for ds session
-	  { 
+	if( iSession == ESyncMLDSSession && iDeflateFlag )//for ds session
+	  {
 	  if(iServerAcceptEncoding == ExptDeflate)
-	      {
-	      SetHeaderL( hdr, HTTP::EContentEncoding , KSmlContentDeflate );
-	      }
-	      SetHeaderL( hdr, HTTP::EAcceptEncoding , KSmlContentDeflate );
+          {
+          SetHeaderL( hdr, HTTP::EContentEncoding , KSmlContentDeflate );
+          }
+          SetHeaderL( hdr, HTTP::EAcceptEncoding , KSmlContentDeflate );
 	  }
 
 	// Add headers and body data for methods that use request bodies
@@ -1135,7 +1148,7 @@ void CNSmlHTTP::GetResponseBodyL( TDes8& aStartPtr )
 		}
 		else
 		{
-		    if ( (iSession == ESyncMLDSSession) && (iServerContentEncoding == ExptDeflate) )
+		    if ( (iSession == ESyncMLDSSession) && (iServerContentEncoding == ExptDeflate) && iDeflateFlag )
 		        {		    
 		        TRAPD( err, DecompressL( aStartPtr ) );		    
 				User::LeaveIfError( err );

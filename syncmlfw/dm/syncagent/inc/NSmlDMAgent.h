@@ -22,10 +22,11 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <devicedialogsymbian.h>
-#include <DevManInternalCRKeys.h>
 #include "NSmlAgentBase.h"
+
+#include "SyncMLNotifierParams.h"
 #include "NSmlPrivateAPI.h"
+#include <DevManInternalCRKeys.h>
 
 // FORWARD DECLARATIONS
 class MSyncMLProgressObserver;
@@ -270,7 +271,8 @@ class CNSmlAgentNotifierObserver : public CActive
 	private:
 		TRequestStatus& iCallerStatus;
 		
-
+		RNotifier iNotifier;
+		TSyncMLAppLaunchNotifRetValPckg iResBuf;
 	
 		TInt& iCreatorId;
 		CNSmlAgentNotifierTimeOut iNotifierTimeOut;

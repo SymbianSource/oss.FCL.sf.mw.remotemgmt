@@ -44,7 +44,11 @@ SOURCE          ClientAPIBlocks.cpp
 USERINCLUDE     ../inc 
 
 
-MW_LAYER_SYSTEMINCLUDE
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+#else
+SYSTEMINCLUDE   /epoc32/include 
+#endif
 
 LIBRARY         euser.lib bafl.lib
 LIBRARY         stiftestinterface.lib

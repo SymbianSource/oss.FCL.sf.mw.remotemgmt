@@ -390,18 +390,21 @@ void CSCPLockSettingEventHandler::RunL()
 	   
     if ( ( startFinalPhase ) && ( iAutolock ) )
         {
+        	Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-startFinalPhase") ));
         // Autolock activation/deactivation was requested
         TRAPD( err, SetAutolockStateL( iState ) );
     
         if ( err != KErrNone )
             {
             // If the call failed, send the result as the message status
+            Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-err!=Kerrnone") ));
             iMessageStatus = err;
             }
         else if ( !iState )
             {
             // Inform the session-class that an unlock-message has been sent
             // (the server won't respond to Autolock until the handler finishes)                    
+            Dprint( (_L("--> CSCPLockSettingEventHandler::RunL-!iState") ));                  
             iSession->LockOperationPending( ESCPCommandUnlockPhone, &iStatus );
             iUnlockSent = ETrue;	                
             finalCall = EFalse;

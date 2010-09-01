@@ -46,8 +46,8 @@ CSCPLockNotificationEventHandler::CSCPLockNotificationEventHandler(
             )
 	        : CSCPLockEventHandler( aServer ),
 	        iQueryState(ESCPLNQueryStateNotification),
-	        iAckReceived (EFalse),
-			iSession (aSession)
+	        iSession (aSession),
+	        iAckReceived (EFalse)
     {
     Dprint( (_L("--> CSCPLockNotificationEventHandler::\
 	      CSCPLockNotificationEventHandler()") ));

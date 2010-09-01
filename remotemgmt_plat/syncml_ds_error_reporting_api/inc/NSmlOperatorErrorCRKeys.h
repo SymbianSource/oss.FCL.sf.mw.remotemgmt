@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  SyncML DS Error reporting API CenRep key definitions
+* Description:  SyncMLNotifier Domain CenRep key definitions
 *
 */
 
@@ -21,34 +21,35 @@
 #include <e32std.h>
 
 /**
- * SyncML DS error reporting keys
+ * SyncML framework operator settings
  *
  */
 const TUid KCRUidOperatorDatasyncErrorKeys = { 0x2001FDF1 };
 
 /**
- * KNsmlOpDsSyncErrorCode
- * Holds error code of latest DS sync (0 if no error occured).
- * Storing of error codes is configured in KCRUidOperatorDatasyncInternalKeys
- * (nsmloperatordatacrkeys.h).
+ * KNsmlOpDsErrorCode
+ * Define operator specific SyncML error code
+ *
  */
-const TUint32 KNsmlOpDsSyncErrorCode = 0x00000001;
+const TUint32 KNsmlOpDsErrorCode = 0x00000001;
 
 /**
- * KNsmlOpDsSyncProfId
- * Holds sync profile Id used in last DS sync
+ * KNsmlOpDsSyncProfUid
+ * Defines operator sync profile uid
  */
-const TUint32 KNsmlOpDsSyncProfId = 0x00000002;
+const TUint32 KNsmlOpDsSyncProfUid = 0x00000002;
 
 /**
  * KNsmlOpDsSyncType
- * Holds sync type used in last DS sync
+ * Define sync type
+ *
  */
 const TUint32 KNsmlOpDsSyncType = 0x00000003;
 
 /**
  * KNsmlOpDsSyncInitiation
- * Holds sync initiation used in last DS sync
+ * Define sync initiation
+ *
  */
 const TUint32 KNsmlOpDsSyncInitiation = 0x00000004;
 

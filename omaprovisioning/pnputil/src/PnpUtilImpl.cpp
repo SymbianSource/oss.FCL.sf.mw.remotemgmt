@@ -904,7 +904,7 @@ EXPORT_C TInt CPnpUtilImpl::StoreAccessPoint(TUint32 /*aAP*/)
 // CPnpUtilImpl::FetchAccessPoint
 // -----------------------------------------------------------------------------
 //
-EXPORT_C TInt CPnpUtilImpl::FetchAccessPoint(TUint32& /*aAP*/)
+TInt CPnpUtilImpl::FetchAccessPoint(TUint32& /*aAP*/)
     {
     // Not used
     return KErrNotSupported;

@@ -38,7 +38,11 @@ SOURCE          TestStoreFormatBlocks.cpp
 
 USERINCLUDE     ../inc 
 
-MW_LAYER_SYSTEMINCLUDE
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+#else
+    SYSTEMINCLUDE   /epoc32/include 
+#endif
 
 START RESOURCE NSmlContactsDataStoreFormat_1_2.rss
 HEADER

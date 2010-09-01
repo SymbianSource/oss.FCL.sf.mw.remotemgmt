@@ -267,25 +267,55 @@ void CSync::OnSyncMLSyncProgress(TStatus aStatus, TInt aInfo1, TInt /*aInfo2*/)
 	switch(iInterruptStage)
 	{
 		case 1:if(aStatus==ESmlConnecting)
-	              OfflineModeL();
-	           break;
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }		  
+		      break;
 		case 2:if(aStatus==ESmlConnected)
-                  OfflineModeL();
-		       break;
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
+		
+		      break;
 		case 3:if(aStatus==ESmlLoggingOn)
-		          OfflineModeL();
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
 		      break;
 		case 4:if(aStatus==ESmlLoggedOn)
-		          OfflineModeL();
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
 		      break;
 		case 5:if(aStatus==ESmlSendingModificationsToServer)
-		          OfflineModeL();
-		      break;		      
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
+		      break;
+		      
 	    case 6:if(aStatus==ESmlReceivingModificationsFromServer)
-                  OfflineModeL();
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
 		      break;
 	   case 7:if(aStatus==ESmlSendingMappingsToServer)
-	             OfflineModeL();
+	           {
+  				iProfileEngine = CreateProfileEngineExtendedL();
+  				iProfileEngine->SetActiveProfileL( 5);	
+  				iProfileEngine->Release();
+	           }
 		      break;
 		default:
 		      break;
@@ -302,15 +332,5 @@ void CSync::OnSyncMLDataSyncModifications(TInt aTaskId,
 	//Do Nothing
 }
 
-void CSync::OfflineModeL()
-{
-    CRepository* repository = CRepository::NewL(KCRUidCoreApplicationUIs);
-    TInt err = repository->Set(KCoreAppUIsNetworkConnectionAllowed, 
-            ECoreAppUIsNetworkConnectionNotAllowed);
-    if(repository)
-           delete repository;
-    User::LeaveIfError(err);    
-  
-}
 
 

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designerData version="1.1.0">
+  <componentManifest>
+    <manifestEntry id="com.nokia.sdt.series60.DefaultAppUi" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.DesignTimeContainer" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CommonBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CAknSettingItemList" version="1.1.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.ContainerBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CAknIntegerEdwin" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CEikEdwinBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.EditorBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CCoeControlBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.ControlBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.CAknEnumeratedTextPopupSettingItem" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.EnumeratedTextPopupBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.MenuBar" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.MenuBase" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.MenuPane" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.MenuItem" version="1.0.0"/>
+    <manifestEntry id="com.nokia.sdt.series60.MenuItemBase" version="1.0.0"/>
+  </componentManifest>
+  <property id="com.nokia.sdt.symbian.dm.RESOURCE_DIRECTORY_ID">data</property>
+  <property id="com.nokia.sdt.component.symbian.version">5.0.0</property>
+  <property id="com.nokia.sdt.component.symbian.vendor">com.nokia.series60</property>
+  <property id="com.nokia.sdt.symbian.dm.COMPONENT_PROVIDER">com.nokia.sdt.component.symbian.Symbian-Provider</property>
+  <property id="com.nokia.sdt.symbian.dm.INCLUDE_DIRECTORY_ID">inc</property>
+  <property id="com.nokia.sdt.symbian.dm.SOURCE_DIRECTORY_ID">src</property>
+  <property id="com.nokia.sdt.symbian.dm.SOURCEGEN_PROVIDER">com.nokia.sdt.sourcegen.Symbian-Provider</property>
+  <property id="com.nokia.sdt.symbian.dm.BUILD_DIRECTORY_ID">group</property>
+  <component id="com.nokia.sdt.series60.DefaultAppUi">
+    <property id="className">CSyncStatusSpyAppUi</property>
+    <compoundProperty id="location">
+      <property id="x">51</property>
+      <property id="y">44</property>
+    </compoundProperty>
+    <property id="name">SyncStatusSpyAppUi</property>
+    <compoundProperty id="size">
+      <property id="width">240</property>
+      <property id="height">320</property>
+    </compoundProperty>
+    <component id="com.nokia.sdt.series60.CAknSettingItemList">
+      <property id="title" type="i18n">STR_SyncStatusSpyAppUi_1</property>
+      <compoundProperty id="location">
+        <property id="y">66</property>
+      </compoundProperty>
+      <property id="className">CSyncStatusSpySettingItemList</property>
+      <property id="name">SyncStatusSpySettingItemList</property>
+      <compoundProperty id="size">
+        <property id="width">240</property>
+        <property id="height">222</property>
+      </compoundProperty>
+      <component id="com.nokia.sdt.series60.CAknIntegerEdwin">
+        <compoundProperty id="location">
+          <property id="x">0</property>
+          <property id="y">0</property>
+        </compoundProperty>
+        <property id="name">integerEditor1</property>
+        <property id="itemTitle" type="i18n">STR_SyncStatusSpyAppUi_2</property>
+        <compoundProperty id="size">
+          <property id="height">54</property>
+          <property id="width">240</property>
+        </compoundProperty>
+      </component>
+      <component id="com.nokia.sdt.series60.CAknIntegerEdwin">
+        <compoundProperty id="location">
+          <property id="x">0</property>
+          <property id="y">54</property>
+        </compoundProperty>
+        <property id="name">integerEditor2</property>
+        <property id="itemTitle" type="i18n">STR_SyncStatusSpyAppUi_4</property>
+        <compoundProperty id="size">
+          <property id="height">54</property>
+          <property id="width">240</property>
+        </compoundProperty>
+      </component>
+      <component id="com.nokia.sdt.series60.CAknEnumeratedTextPopupSettingItem">
+        <sequenceProperty id="items">
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_55</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_56</property>
+            <property id="value">0</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_57</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_58</property>
+            <property id="value">1</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_59</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_60</property>
+            <property id="value">2</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_61</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_62</property>
+            <property id="value">3</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_63</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_64</property>
+            <property id="value">4</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_65</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_66</property>
+            <property id="value">5</property>
+          </compoundElement>
+        </sequenceProperty>
+        <compoundProperty id="location">
+          <property id="x">0</property>
+          <property id="y">108</property>
+        </compoundProperty>
+        <property id="name">enumeratedTextPopup2</property>
+        <property id="itemTitle" type="i18n">STR_SyncStatusSpyAppUi_8</property>
+        <compoundProperty id="size">
+          <property id="height">54</property>
+          <property id="width">240</property>
+        </compoundProperty>
+      </component>
+      <component id="com.nokia.sdt.series60.CAknEnumeratedTextPopupSettingItem">
+        <sequenceProperty id="items">
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_12</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_13</property>
+            <property id="value">0</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_14</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_15</property>
+            <property id="value">1</property>
+          </compoundElement>
+          <compoundElement>
+            <property id="settingText" type="i18n">STR_SyncStatusSpyAppUi_33</property>
+            <property id="popupText" type="i18n">STR_SyncStatusSpyAppUi_34</property>
+            <property id="value">2</property>
+          </compoundElement>
+        </sequenceProperty>
+        <compoundProperty id="location">
+          <property id="x">0</property>
+          <property id="y">162</property>
+        </compoundProperty>
+        <property id="name">enumeratedTextPopup1</property>
+        <property id="itemTitle" type="i18n">STR_SyncStatusSpyAppUi_6</property>
+        <compoundProperty id="size">
+          <property id="height">54</property>
+          <property id="width">240</property>
+        </compoundProperty>
+      </component>
+      <component id="com.nokia.sdt.series60.MenuBar">
+        <compoundProperty id="location">
+          <property id="x">6</property>
+          <property id="y">101</property>
+        </compoundProperty>
+        <property id="name">menubar</property>
+        <compoundProperty id="size">
+          <property id="height">187</property>
+          <property id="width">228</property>
+        </compoundProperty>
+        <component id="com.nokia.sdt.series60.MenuPane">
+          <compoundProperty id="location"/>
+          <property id="name">menuPane1</property>
+          <compoundProperty id="size">
+            <property id="height">187</property>
+            <property id="width">228</property>
+          </compoundProperty>
+          <component id="com.nokia.sdt.series60.MenuItem">
+            <compoundProperty id="location">
+              <property id="x">5</property>
+              <property id="y">2</property>
+            </compoundProperty>
+            <property id="name">saveMenuItem</property>
+            <property id="text" type="i18n">STR_SyncStatusSpyAppUi_69</property>
+            <compoundProperty id="size">
+              <property id="width">213</property>
+              <property id="height">28</property>
+            </compoundProperty>
+          </component>
+          <component id="com.nokia.sdt.series60.MenuItem">
+            <compoundProperty id="location">
+              <property id="x">5</property>
+              <property id="y">32</property>
+            </compoundProperty>
+            <property id="name">publishMenuItem</property>
+            <property id="text" type="i18n">STR_SyncStatusSpyAppUi_68</property>
+            <compoundProperty id="size">
+              <property id="width">213</property>
+              <property id="height">28</property>
+            </compoundProperty>
+          </component>
+          <component id="com.nokia.sdt.series60.MenuItem">
+            <compoundProperty id="location">
+              <property id="x">5</property>
+              <property id="y">62</property>
+            </compoundProperty>
+            <property id="name">view_logMenuItem</property>
+            <property id="text" type="i18n">STR_SyncStatusSpyAppUi_70</property>
+            <compoundProperty id="size">
+              <property id="width">213</property>
+              <property id="height">28</property>
+            </compoundProperty>
+          </component>
+          <component id="com.nokia.sdt.series60.MenuItem">
+            <compoundProperty id="location">
+              <property id="x">5</property>
+              <property id="y">92</property>
+            </compoundProperty>
+            <property id="name">hideMenuItem</property>
+            <property id="text" type="i18n">STR_SyncStatusSpyAppUi_67</property>
+            <compoundProperty id="size">
+              <property id="width">213</property>
+              <property id="height">28</property>
+            </compoundProperty>
+          </component>
+          <component id="com.nokia.sdt.series60.MenuItem">
+            <compoundProperty id="location">
+              <property id="x">5</property>
+              <property id="y">122</property>
+            </compoundProperty>
+            <property id="name">delete_logMenuItem</property>
+            <property id="text" type="i18n">STR_SyncStatusSpyAppUi_71</property>
+            <compoundProperty id="size">
+              <property id="width">213</property>
+              <property id="height">28</property>
+            </compoundProperty>
+          </component>
+        </component>
+      </component>
+    </component>
+  </component>
+  <stringBundle>
+    <stringTable language="LANG_English">
+      <string id="STR_SyncStatusSpyAppUi_1">Settings</string>
+      <string id="STR_SyncStatusSpyAppUi_2">Error code</string>
+      <string id="STR_SyncStatusSpyAppUi_4">Sync profile ID</string>
+      <string id="STR_SyncStatusSpyAppUi_6">Sync initiation</string>
+      <string id="STR_SyncStatusSpyAppUi_8">Sync type</string>
+      <string id="STR_SyncStatusSpyAppUi_12">No sync ongoing</string>
+      <string id="STR_SyncStatusSpyAppUi_13"/>
+      <string id="STR_SyncStatusSpyAppUi_14">Server initiated</string>
+      <string id="STR_SyncStatusSpyAppUi_15"/>
+      <string id="STR_SyncStatusSpyAppUi_33">Client initiated</string>
+      <string id="STR_SyncStatusSpyAppUi_34"/>
+      <string id="STR_SyncStatusSpyAppUi_55">ESmlTwoWay</string>
+      <string id="STR_SyncStatusSpyAppUi_56"/>
+      <string id="STR_SyncStatusSpyAppUi_57">ESmlOneWayFromServer</string>
+      <string id="STR_SyncStatusSpyAppUi_58"/>
+      <string id="STR_SyncStatusSpyAppUi_59">ESmlOneWayFromClient</string>
+      <string id="STR_SyncStatusSpyAppUi_60"/>
+      <string id="STR_SyncStatusSpyAppUi_61">ESmlSlowSync</string>
+      <string id="STR_SyncStatusSpyAppUi_62"/>
+      <string id="STR_SyncStatusSpyAppUi_63">ESmlRefreshFromServer</string>
+      <string id="STR_SyncStatusSpyAppUi_64"/>
+      <string id="STR_SyncStatusSpyAppUi_65">ESmlRefreshFromClient</string>
+      <string id="STR_SyncStatusSpyAppUi_66"/>
+      <string id="STR_SyncStatusSpyAppUi_67">Hide</string>
+      <string id="STR_SyncStatusSpyAppUi_68">Publish</string>
+      <string id="STR_SyncStatusSpyAppUi_69">Save</string>
+      <string id="STR_SyncStatusSpyAppUi_70">View log</string>
+      <string id="STR_SyncStatusSpyAppUi_71">Delete log</string>
+    </stringTable>
+  </stringBundle>
+  <macroTable/>
+  <sourceMappingState>
+    <resourceMappings>
+      <resourceMapping instanceName="enumeratedTextPopup1" rsrcId="associated">r_sync_status_spy_setting_item_list_enumerated_text_popup1</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup2" rsrcId="associated">r_sync_status_spy_setting_item_list_enumerated_text_popup2</resourceMapping>
+      <resourceMapping instanceName="menuPane1">r_sync_status_spy_setting_item_list_menu_pane1_menu_pane</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup1" rsrcId="popup">r_sync_status_spy_setting_item_list_enumerated_text_popup1_popped_up_texts_resource</resourceMapping>
+      <resourceMapping instanceName="SyncStatusSpySettingItemList">r_sync_status_spy_setting_item_list_sync_status_spy_setting_item_list</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup2" rsrcId="popup">r_sync_status_spy_setting_item_list_enumerated_text_popup2_popped_up_texts_resource</resourceMapping>
+      <resourceMapping instanceName="integerEditor1" rsrcId="member$setting_page_resource">r_sync_status_spy_setting_item_list_integer_editor1_setting_page_resource</resourceMapping>
+      <resourceMapping instanceName="integerEditor2" rsrcId="member$setting_page_resource">r_sync_status_spy_setting_item_list_integer_editor2_setting_page_resource</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup2">r_sync_status_spy_setting_item_list_enumerated_text_popup2_editor_resource_id</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup1">r_sync_status_spy_setting_item_list_enumerated_text_popup1_editor_resource_id</resourceMapping>
+      <resourceMapping instanceName="menubar">r_sync_status_spy_setting_item_list_menubar</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup2" rsrcId="setting">r_sync_status_spy_setting_item_list_enumerated_text_popup2_setting_texts_resource</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup1" rsrcId="setting">r_sync_status_spy_setting_item_list_enumerated_text_popup1_setting_texts_resource</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup2" rsrcId="member$setting_page_resource">r_sync_status_spy_setting_item_list_enumerated_text_popup2_setting_page_resource</resourceMapping>
+      <resourceMapping instanceName="enumeratedTextPopup1" rsrcId="member$setting_page_resource">r_sync_status_spy_setting_item_list_enumerated_text_popup1_setting_page_resource</resourceMapping>
+      <resourceMapping instanceName="integerEditor1">r_sync_status_spy_setting_item_list_integer_editor1_editor_resource_id</resourceMapping>
+      <resourceMapping instanceName="integerEditor2">r_sync_status_spy_setting_item_list_integer_editor2_editor_resource_id</resourceMapping>
+    </resourceMappings>
+    <enumMappings>
+      <enumMapping instanceName="enumeratedTextPopup1" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_SETTING_ITEM_ID">ESyncStatusSpyAppUiEnumeratedTextPopup1</enumMapping>
+      <enumMapping instanceName="enumeratedTextPopup2" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_SETTING_ITEM_ID">ESyncStatusSpyAppUiEnumeratedTextPopup2</enumMapping>
+      <enumMapping instanceName="integerEditor2" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_SETTING_ITEM_ID">ESyncStatusSpyAppUiIntegerEditor2</enumMapping>
+      <enumMapping instanceName="hideMenuItem" propertyId="command" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_COMMANDS">ESyncStatusSpyAppUiHideMenuItemCommand</enumMapping>
+      <enumMapping instanceName="integerEditor1" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_SETTING_ITEM_ID">ESyncStatusSpyAppUiIntegerEditor1</enumMapping>
+      <enumMapping instanceName="enumeratedTextPopup2" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_CONTROL_TYPE">EAknCtPopupSettingList</enumMapping>
+      <enumMapping instanceName="enumeratedTextPopup1" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_CONTROL_TYPE">EAknCtPopupSettingList</enumMapping>
+      <enumMapping instanceName="integerEditor1" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_CONTROL_TYPE">EAknCtIntegerEdwin</enumMapping>
+      <enumMapping instanceName="view_logMenuItem" propertyId="command" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_COMMANDS">ESyncStatusSpyAppUiView_logMenuItemCommand</enumMapping>
+      <enumMapping instanceName="integerEditor2" propertyId="" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_CONTROL_TYPE">EAknCtIntegerEdwin</enumMapping>
+      <enumMapping instanceName="delete_logMenuItem" propertyId="command" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_COMMANDS">ESyncStatusSpyAppUiDelete_logMenuItemCommand</enumMapping>
+      <enumMapping instanceName="saveMenuItem" propertyId="command" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_COMMANDS">ESyncStatusSpyAppUiSaveMenuItemCommand</enumMapping>
+      <enumMapping instanceName="publishMenuItem" propertyId="command" nameAlgorithm="com.nokia.sdt.component.symbian.NAME_ALG_COMMANDS">ESyncStatusSpyAppUiPublishMenuItemCommand</enumMapping>
+    </enumMappings>
+    <arrayMappings/>
+  </sourceMappingState>
+  <generatedFiles>
+    <file>inc/syncstatusspysettingitemlist.h</file>
+    <file>src/syncstatusspysettingitemlist.cpp</file>
+    <file>src/syncstatusspysettingitemlistsettings.cpp</file>
+    <file>inc/syncstatusspysettingitemlistsettings.h</file>
+    <file>data/syncstatusspy.rss</file>
+    <file>data/syncstatusspysettingitemlist.rssi</file>
+    <file>data/syncstatusspy.loc</file>
+    <file>data/syncstatusspy.l01</file>
+    <file>data/syncstatusspysettingitemlist.loc</file>
+    <file>data/syncstatusspysettingitemlist.l01</file>
+    <file>inc/syncstatusspysettingitemlist.hrh</file>
+  </generatedFiles>
+</designerData>

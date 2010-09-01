@@ -64,7 +64,7 @@ SOURCE		XMLDevInfGenerator.cpp
 LIBRARY         nsmlwbxml.lib euser.lib estor.lib
 
 #ifdef ARMCC
-LIBRARY ecom.lib
+LIBRARY ECOM.LIB
 #endif
 
 SMPSAFE

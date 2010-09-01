@@ -183,22 +183,8 @@ class CSCPParamObject: public CBase
         * pointer is not supplied a new RFs will be connected.
         */        
         IMPORT_C void ReadFromFileL( TDesC& aFilename, RFs* aRfs = NULL );                 
-
-		/*
-		* Would store details of the policy for which the current context is incompatible
-		*
-		* NOTE: The context could be Lock Code verification, Storing a New Lock Code etc...
-		*/
-        IMPORT_C TInt AddtoFailedPolices( TInt aFailedpolicyID );
-
-        /*
-        * Returns a reference to the array that contains the policies for which the current
-        * context is incompatible
-        *
-        * NOTE: The context could be Lock Code verification, Storing a New Lock Code etc...
-        */
-        IMPORT_C const RArray<TInt>& GetFailedPolices( );
-		
+               
+                
     protected:  // Methods
                         
         // Methods from base classes       
@@ -224,7 +210,6 @@ class CSCPParamObject: public CBase
         RArray<TInt> iParamIDs;
         /** An array containing the pointers to the parameter values */
         RPointerArray<HBufC> iParamValues;
-        RArray<TInt> iFailedPolicyIDs;
     };
 
 #endif      // SCPPARAMOBJECT_H   

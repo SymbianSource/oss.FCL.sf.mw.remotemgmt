@@ -1,0 +1,311 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include "SyncFwCustomizerSettingItemList.hrh"
+#include "SyncFwCustomizerSettingItemList.loc"
+
+RESOURCE AVKON_VIEW r_sync_fw_customizer_setting_item_list_sync_fw_customizer_setting_item_list_view
+	{
+	cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+	menubar = r_sync_fw_customizer_setting_item_list_options_menu;
+	toolbar = 0;
+	}
+RESOURCE MENU_BAR r_sync_fw_customizer_setting_item_list_options_menu
+	{
+	titles =
+		{
+		MENU_TITLE
+			{
+			menu_pane = r_sync_fw_customizer_setting_item_list_menu_pane1_menu_pane;
+			}
+		};
+	}
+RESOURCE MENU_PANE r_sync_fw_customizer_setting_item_list_menu_pane1_menu_pane
+	{
+	items =
+		{
+		MENU_ITEM
+			{
+			command = ESyncFwCustomizerSettingEdit;
+			txt = STR_SyncFwCustomizerSettingItemListView_7;
+			},
+		MENU_ITEM
+			{
+			command = ESyncFwCustomizerSettingReset;
+			txt = STR_SyncFwCustomizerSettingItemListView_52;
+			},
+		MENU_ITEM
+			{
+			command = ESyncFwCustomizerSettingSync;
+			txt = STR_SyncFwCustomizerSettingItemListView_65;
+			}
+		};
+	}
+RESOURCE STATUS_PANE_APP_MODEL r_sync_fw_customizer_setting_item_list_status_pane
+	{
+	panes =
+		{
+		SPANE_PANE
+			{
+			id = EEikStatusPaneUidTitle;
+			type = EAknCtTitlePane;
+			resource = r_sync_fw_customizer_setting_item_list_title_resource;
+			}
+		};
+	}
+RESOURCE TITLE_PANE r_sync_fw_customizer_setting_item_list_title_resource
+	{
+	txt = STR_SyncFwCustomizerSettingItemListView_5;
+	}
+RESOURCE AVKON_SETTING_ITEM_LIST r_sync_fw_customizer_setting_item_list_sync_fw_customizer_setting_item_list
+	{
+	flags = EAknSettingItemNumberedStyle;
+	items =
+		{
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_9;
+			identifier = ESyncFwCustomizerSettingItemListViewEdit1;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_edit1_setting_page_resource;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_11;
+			identifier = ESyncFwCustomizerSettingItemListViewSyncAdapterEditor;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_sync_adapter_editor_setting_page_resource;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_13;
+			identifier = ESyncFwCustomizerSettingItemListViewIntegerEditor2;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_integer_editor2_setting_page_resource;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_16;
+			identifier = ESyncFwCustomizerSettingItemListViewEdit2;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_edit2_setting_page_resource;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_19;
+			identifier = ESyncFwCustomizerSettingItemListViewEdit3;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_edit3_setting_page_resource;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_23;
+			identifier = ESyncFwCustomizerSettingItemListViewEnumeratedTextPopup1;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_setting_page_resource;
+			associated_resource = r_sync_fw_customizer_setting_item_list_enumerated_text_popup1;
+			},
+		AVKON_SETTING_ITEM
+			{
+			name = STR_SyncFwCustomizerSettingItemListView_26;
+			identifier = ESyncFwCustomizerSettingItemListViewEdit4;
+			setting_page_resource = r_sync_fw_customizer_setting_item_list_edit4_setting_page_resource;
+			}
+		};
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_edit1_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_45;
+	label = STR_SyncFwCustomizerSettingItemListView_9;
+	type = EEikCtEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_edit1_editor_resource_id;
+	}
+RESOURCE EDWIN r_sync_fw_customizer_setting_item_list_edit1_editor_resource_id
+	{
+	maxlength = 255;
+	default_case = EAknEditorTextCase;
+	allowed_case_modes = EAknEditorAllCaseModes;
+	numeric_keymap = EAknEditorStandardNumberModeKeymap;
+	default_input_mode = EAknEditorTextInputMode;
+	allowed_input_modes = EAknEditorTextInputMode | EAknEditorNumericInputMode | EAknEditorSecretAlphaInputMode | EAknEditorKatakanaInputMode | EAknEditorFullWidthTextInputMode | EAknEditorFullWidthNumericInputMode | EAknEditorFullWidthKatakanaInputMode | EAknEditorHiraganaKanjiInputMode | EAknEditorHalfWidthTextInputMode;
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_sync_adapter_editor_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_43;
+	label = STR_SyncFwCustomizerSettingItemListView_11;
+	type = EAknCtIntegerEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_sync_adapter_editor_editor_resource_id;
+	}
+RESOURCE AVKON_INTEGER_EDWIN r_sync_fw_customizer_setting_item_list_sync_adapter_editor_editor_resource_id
+	{
+	unset_value = 0;
+	min = -2147483647;
+	max = 2147483647;
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_integer_editor2_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_44;
+	label = STR_SyncFwCustomizerSettingItemListView_13;
+	type = EAknCtIntegerEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_integer_editor2_editor_resource_id;
+	}
+RESOURCE AVKON_INTEGER_EDWIN r_sync_fw_customizer_setting_item_list_integer_editor2_editor_resource_id
+	{
+	unset_value = 0;
+	min = -2147483647;
+	max = 2147483647;
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_edit2_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_47;
+	label = STR_SyncFwCustomizerSettingItemListView_16;
+	type = EEikCtEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_edit2_editor_resource_id;
+	}
+RESOURCE EDWIN r_sync_fw_customizer_setting_item_list_edit2_editor_resource_id
+	{
+	maxlength = 255;
+	default_case = EAknEditorTextCase;
+	allowed_case_modes = EAknEditorAllCaseModes;
+	numeric_keymap = EAknEditorStandardNumberModeKeymap;
+	default_input_mode = EAknEditorTextInputMode;
+	allowed_input_modes = EAknEditorTextInputMode | EAknEditorNumericInputMode | EAknEditorSecretAlphaInputMode | EAknEditorKatakanaInputMode | EAknEditorFullWidthTextInputMode | EAknEditorFullWidthNumericInputMode | EAknEditorFullWidthKatakanaInputMode | EAknEditorHiraganaKanjiInputMode | EAknEditorHalfWidthTextInputMode;
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_edit3_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_49;
+	label = STR_SyncFwCustomizerSettingItemListView_19;
+	type = EEikCtEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_edit3_editor_resource_id;
+	}
+RESOURCE EDWIN r_sync_fw_customizer_setting_item_list_edit3_editor_resource_id
+	{
+	maxlength = 255;
+	default_case = EAknEditorTextCase;
+	allowed_case_modes = EAknEditorAllCaseModes;
+	numeric_keymap = EAknEditorStandardNumberModeKeymap;
+	default_input_mode = EAknEditorTextInputMode;
+	allowed_input_modes = EAknEditorTextInputMode | EAknEditorNumericInputMode | EAknEditorSecretAlphaInputMode | EAknEditorKatakanaInputMode | EAknEditorFullWidthTextInputMode | EAknEditorFullWidthNumericInputMode | EAknEditorFullWidthKatakanaInputMode | EAknEditorHiraganaKanjiInputMode | EAknEditorHalfWidthTextInputMode;
+	}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_50;
+	label = STR_SyncFwCustomizerSettingItemListView_23;
+	type = EAknCtPopupSettingList;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_editor_resource_id;
+	}
+RESOURCE POPUP_SETTING_LIST r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_editor_resource_id
+	{
+	}
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_sync_fw_customizer_setting_item_list_enumerated_text_popup1
+	{
+	setting_texts_resource = r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_setting_texts_resource;
+	popped_up_texts_resource = r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_popped_up_texts_resource;
+	}
+RESOURCE ARRAY r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_setting_texts_resource
+	{
+	items =
+		{
+		AVKON_ENUMERATED_TEXT
+			{
+			text = STR_SyncFwCustomizerSettingItemListView_59;
+			},
+		AVKON_ENUMERATED_TEXT
+			{
+			text = STR_SyncFwCustomizerSettingItemListView_61;
+			value = 1;
+			},
+		AVKON_ENUMERATED_TEXT
+			{
+			text = STR_SyncFwCustomizerSettingItemListView_63;
+			value = 2;
+			}
+		};
+}
+RESOURCE ARRAY r_sync_fw_customizer_setting_item_list_enumerated_text_popup1_popped_up_texts_resource
+	{
+	items =
+		{
+		LBUF
+			{
+			txt = STR_SyncFwCustomizerSettingItemListView_59;
+			},
+		LBUF
+			{
+			txt = STR_SyncFwCustomizerSettingItemListView_61;
+			},
+		LBUF
+			{
+			txt = STR_SyncFwCustomizerSettingItemListView_63;
+			}
+		};
+}
+RESOURCE AVKON_SETTING_PAGE r_sync_fw_customizer_setting_item_list_edit4_setting_page_resource
+	{
+	hint_text = STR_SyncFwCustomizerSettingItemListView_51;
+	label = STR_SyncFwCustomizerSettingItemListView_26;
+	type = EEikCtEdwin;
+	editor_resource_id = r_sync_fw_customizer_setting_item_list_edit4_editor_resource_id;
+	}
+RESOURCE EDWIN r_sync_fw_customizer_setting_item_list_edit4_editor_resource_id
+	{
+	maxlength = 255;
+	default_case = EAknEditorTextCase;
+	allowed_case_modes = EAknEditorAllCaseModes;
+	numeric_keymap = EAknEditorStandardNumberModeKeymap;
+	default_input_mode = EAknEditorTextInputMode;
+	allowed_input_modes = EAknEditorTextInputMode | EAknEditorNumericInputMode | EAknEditorSecretAlphaInputMode | EAknEditorKatakanaInputMode | EAknEditorFullWidthTextInputMode | EAknEditorFullWidthNumericInputMode | EAknEditorFullWidthKatakanaInputMode | EAknEditorHiraganaKanjiInputMode | EAknEditorHalfWidthTextInputMode;
+	}
+RESOURCE TBUF r_sync_fw_customizer_setting_item_list_edit1
+	{
+	buf = STR_SyncFwCustomizerSettingItemListView_8;
+	}
+RESOURCE TBUF r_sync_fw_customizer_setting_item_list_edit2
+	{
+	buf = STR_SyncFwCustomizerSettingItemListView_15;
+	}
+RESOURCE TBUF r_sync_fw_customizer_setting_item_list_edit3
+	{
+	buf = STR_SyncFwCustomizerSettingItemListView_18;
+	}
+RESOURCE TBUF r_sync_fw_customizer_setting_item_list_edit4
+	{
+	buf = STR_SyncFwCustomizerSettingItemListView_25;
+	}
+
+//------------------------------------------------------------------------------
+// number query resource
+//------------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_sync_fw_customizer_number_query
+    {
+    flags=EAknGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+
+			control = AVKON_DATA_QUERY
+				{ 
+				layout = ENumberLayout;
+				label = "Profile ID:";
+				control = AVKON_INTEGER_EDWIN
+					{
+					min=1;
+					max=100;
+					};
+				};
+            }
+        };
+    }

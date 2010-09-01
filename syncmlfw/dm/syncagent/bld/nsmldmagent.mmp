@@ -56,10 +56,6 @@ USERINCLUDE     ../../../common/wbxml/inc/devinf
 USERINCLUDE     ../../../common/historylog/inc
 SYSTEMINCLUDE   /epoc32/include/ecom
 
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbwidgets
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbtools
-
 LIBRARY         euser.lib
 LIBRARY         estor.lib
 LIBRARY         nsmlagentcommon.lib
@@ -71,12 +67,12 @@ LIBRARY         nsmldmsettings.lib
 LIBRARY         nsmldmmodule.lib 
 // FOTA
 LIBRARY			featmgr.lib
-LIBRARY			centralrepository.lib dmdevdialogclient.lib
+LIBRARY			centralrepository.lib
 // FOTA end
 
 //LIBRARY       nsmldmtestmodule.lib
 
-LIBRARY 		policyengine.lib HbWidgets.lib HbCore.lib flogger.lib
+LIBRARY 		policyengine.lib
 
 
 

@@ -54,6 +54,7 @@ _LIT( KNSmlDSProvisioningHTTPDigest, "HTTP-DIGEST" );
 _LIT( KNSmlDsPovisioningDirAndResource,	"z:NSmlDsProvisioningAdapter.rsc" );
 
 _LIT( KNSmlDsDefaultPort, "80");
+_LIT( KNSmlDsHTTPSDefaultPort, "443");
 _LIT(KNSmlVersion12, "1.2");
 _LIT(KNSmlVersion112, "1.1.2");
 _LIT(KNSmlVersion11, "1.1");

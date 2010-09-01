@@ -30,6 +30,8 @@
 #include "NSmlAdapterLog.h"
 #include "nsmldshostconstants.h"
 #include "Nsmldshostserver.h"
+#include "Nsmldshostsessioncanceleventhandler.h"
+#include "Nsmldshostsessioncancel.h"
 #include "Nsmldshostsession.h"
 #include "nsmldsdpinformation.h"
 #include "Nsmldsdataproviderarray.h"
@@ -174,6 +176,16 @@ CNSmlDSHostSession::~CNSmlDSHostSession()
     iMemPtr.iChunk.Close();
     iDataProviders.ResetAndDestroy();
     iStringPool.Close();
+    if(iDsoDeleteAll)
+      {
+      delete iDsoDeleteAll;
+      iDsoDeleteAll = NULL;
+      }   
+    if(iCancelEventHandler)
+        {
+        delete iCancelEventHandler;
+        iCancelEventHandler = NULL;
+        }
     REComSession::FinalClose();
     iServer.DecSessionCount();
 	_DBG_FILE( "CNSmlDSHostSession::~CNSmlDSHostSession(): end" );
@@ -410,6 +422,8 @@ void CNSmlDSHostSession::ConstructL()
 	{
 	_DBG_FILE( "CNSmlDSHostSession::ConstructL(): begin" );
     iStringPool.OpenL();
+	iDsoDeleteAll = NULL;
+	iCancelEventHandler = NULL;
 	_DBG_FILE( "CNSmlDSHostSession::ConstructL(): end" );
 	}
 	
@@ -855,7 +869,7 @@ void CNSmlDSHostSession::OpenL( const RMessage2& aMessage )
     	}
     
     CNSmlDSAsyncCallBackForOpen* p = new ( ELeave ) CNSmlDSAsyncCallBackForOpen( 
-    	this, aMessage, &CNSmlDSHostSession::OpenFinishedL );
+    	this, aMessage, OpenFinishedL );
     CleanupStack::PushL( p );
     
     p->iDpi = DataProviderItemL( aMessage.Int0() );
@@ -1024,7 +1038,7 @@ void CNSmlDSHostSession::CommitBatchL( const RMessage2& aMessage )
     RArray<TInt>* resultArray = new ( ELeave ) RArray<TInt>;
     CleanupStack::PushL( resultArray );
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::CommitBatchRequestFinishedL, resultArray );
+    	this, dsi, aMessage, CommitBatchRequestFinishedL, resultArray );
     CleanupStack::Pop( resultArray ); //dsao takes ownership
     
     CleanupStack::PushL( dsao );
@@ -1162,7 +1176,7 @@ void CNSmlDSHostSession::OpenItemL( const RMessage2& aMessage )
     CNSmlServerDSHostItem* dshi = DataStoreItemParamsLC();
     
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::OpenItemRequestFinishedL, dshi );
+    	this, dsi, aMessage, OpenItemRequestFinishedL, dshi );
     CleanupStack::Pop( dshi ); //dsao takes ownership
     CleanupStack::PushL( dsao );
     
@@ -1244,7 +1258,7 @@ void CNSmlDSHostSession::CreateItemL( const RMessage2& aMessage )
     TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
     CNSmlServerDSHostItem* dshi = DataStoreItemParamsLC();
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::CreateItemRequestFinishedL, dshi );
+    	this, dsi, aMessage, CreateItemRequestFinishedL, dshi );
     CleanupStack::Pop( dshi ); //dsao takes ownership
     CleanupStack::PushL( dsao );
     
@@ -1381,7 +1395,7 @@ void CNSmlDSHostSession::CommitItemL( const RMessage2& aMessage )
     TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
 
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::CommitItemRequestFinishedL );
+    	this, dsi, aMessage, CommitItemRequestFinishedL );
     CleanupStack::PushL( dsao );
     dsao->CallDSAsyncLC().CommitItemL( dsao->iStatus );
     CleanupStack::Pop(2); //CallDSAsyncLC, dsao
@@ -1486,11 +1500,14 @@ void CNSmlDSHostSession::SoftDeleteItemL( const RMessage2& aMessage )
 // ------------------------------------------------------------------------------------------------	
 void CNSmlDSHostSession::DeleteAllItemsL( const RMessage2& aMessage )
 	{
+    //Create cancel event handler
+    iCancelEventHandler = CNSmlHostSessionCancel::NewL(this);
     TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
-    CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( this, dsi, aMessage );
+    CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( this, dsi, aMessage, DeleteAllFinishedL );
     CleanupStack::PushL( dsao );
-    dsao->CallDSAsyncLC().DeleteAllItemsL( dsao->iStatus );
+    dsao->CallDSAsyncLC().DeleteAllItemsL( dsao->iStatus );   
     CleanupStack::Pop(2); //CallDSAsyncLC(), dsao
+    iDsoDeleteAll = dsao;
 	}
 
 // ------------------------------------------------------------------------------------------------
@@ -1622,7 +1639,7 @@ void CNSmlDSHostSession::AllItemsL( const RMessage2& aMessage )
 	TNSmlDSDataStoreElement* dsi = DataStoreItemL( aMessage );
 	
     CNSmlDSChangedItemsFetcher* dsao = CNSmlDSChangedItemsFetcher::NewLC( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::AllItemsRequestFinishedL );
+    	this, dsi, aMessage, AllItemsRequestFinishedL );
     dsao->FetchAllChangedItemsL();
     CleanupStack::Pop(); //dsao
 	}
@@ -1673,7 +1690,7 @@ void CNSmlDSHostSession::CommitChangesL( const RMessage2& aMessage )
     CleanupStack::PopAndDestroy(); //readStream
     
     CNSmlDSAsyncCallBack* dsao = new ( ELeave ) CNSmlDSAsyncCallBack( 
-    	this, dsi, aMessage, &CNSmlDSHostSession::CommitChangesRequestFinishedL, dius );
+    	this, dsi, aMessage, CommitChangesRequestFinishedL, dius );
     CleanupStack::Pop( dius ); //dsao takes the ownership.
     CleanupStack::PushL( dsao );
     dsao->CallDSAsyncLC().CommitChangeInfoL( dsao->iStatus, *dius );
@@ -1891,4 +1908,46 @@ void CNSmlDSHostSession::StreamBufferToChunkL( TMemPtr& aMemPtr, TStreamBuffers*
 	CleanupStack::PopAndDestroy(); //wStream
 	}
 
+// ------------------------------------------------------------------------------------------------
+// CNSmlDSHostSession::HandleCancelEventL
+// called when user canceled the operation
+// ------------------------------------------------------------------------------------------------ 
+void CNSmlDSHostSession::HandleCancelEventL()
+    {
+    if(iCancelEventHandler)
+        {
+        iDsoDeleteAll->Cancel();
+        }
+    }
+
+// ------------------------------------------------------------------------------------------------
+// CNSmlDSHostSession::DeleteAllFinishedL
+// called when DeleteAll request is finished.
+// Note! when aOperation is CNSmlDSAsyncCallBack::ECanceled or CNSmlDSAsyncCallBack::EFree, 
+// aDSAO->iDSItem might be NULL.
+// ------------------------------------------------------------------------------------------------ 
+TInt CNSmlDSHostSession::DeleteAllFinishedL( CNSmlDSAsyncCallBack* aDSAO, TCallBackOperation aOperation )
+    {
+    TInt err( aDSAO->iStatus.Int() );
+
+    switch( aOperation )
+        {
+        case CNSmlDSAsyncCallBack::EFinished:
+        case CNSmlDSAsyncCallBack::ECanceled:
+        case CNSmlDSAsyncCallBack::EFree:
+            {
+            if(iCancelEventHandler)
+                {
+                delete iCancelEventHandler;
+                iCancelEventHandler = NULL;
+                iDsoDeleteAll = NULL;
+                }
+            break;
+            }
+        default:
+            User::Leave( KErrUnknown );
+        };
+
+    return err;
+    }
 // End of File

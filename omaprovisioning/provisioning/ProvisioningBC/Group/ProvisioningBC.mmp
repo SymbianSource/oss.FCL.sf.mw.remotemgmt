@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project the ProvisioningBC.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+#include <data_caging_paths.hrh>
+#include "../../Group/ProvisioningUIDs.h"
+
+TARGET          provisioningbc.dll
+TARGETPATH      system/libs
+TARGETTYPE      dll
+UID             KProvisioningBCUid2 KProvisioningBCUid3
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+
+
+SOURCEPATH      ../Src
+SOURCE          CWPBioControl.cpp
+SOURCE          CWPSaver.cpp
+SOURCE          CWPCodeQueryDialog.cpp
+SOURCE          CWPNameValue.cpp
+
+START RESOURCE  ../Group/ProvisioningBC.rss
+HEADER
+TARGETPATH  RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+START RESOURCE ../Bif/ProvisioningBif.rss
+TARGETPATH BIOFILE_DIR
+TARGET     prov.rsc
+LANGUAGE_IDS
+END	// RESOURCE
+
+USERINCLUDE     ../Inc ../Group ../../Group ../../ProvisioningEngine/Inc
+
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+//SYSTEMINCLUDE   /epoc32/include/cshelp
+
+LIBRARY         euser.lib
+LIBRARY         eikdlg.lib          // dialog base
+LIBRARY         bafl.lib 
+LIBRARY         eikcore.lib 
+LIBRARY         eikcoctl.lib        // bordered control
+LIBRARY         msgeditorutils.lib
+LIBRARY         cone.lib
+LIBRARY         msgs.lib            // Messaging Centre interface
+LIBRARY         commonengine.lib    // StringLoader
+LIBRARY         richbio.lib
+LIBRARY         provisioningengine.lib
+LIBRARY         avkon.lib
+LIBRARY         eikctl.lib
+LIBRARY         featmgr.lib
+LIBRARY         apengine.lib
+LIBRARY         favouritesengine.lib
+LIBRARY         sysutil.lib
+LIBRARY         centralrepository.lib
+
+DEBUGLIBRARY    flogger.lib
+
+SMPSAFE
+// End of file
+

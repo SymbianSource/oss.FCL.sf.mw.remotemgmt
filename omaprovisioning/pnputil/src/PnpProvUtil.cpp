@@ -68,7 +68,7 @@ void CPnpProvUtil::ConstructL()
 // Two-phased constructor.
 // -----------------------------------------------------------------------------
 //
-EXPORT_C CPnpProvUtil* CPnpProvUtil::NewL()
+CPnpProvUtil* CPnpProvUtil::NewL()
     {
 
     CPnpProvUtil* self = NewLC();

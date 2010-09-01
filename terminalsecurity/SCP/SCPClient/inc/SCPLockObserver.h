@@ -27,6 +27,11 @@ class CSCPQueryDialog;
 NONSHARABLE_CLASS(CSCPLockObserver): public CActive
     {
     public:
+        enum TCurrCallStatus {
+            EInProgress = 34221,
+            EEnded
+        };
+        
 		/**
         * Creates instance of the CLockObserver class.
         *
@@ -72,13 +77,16 @@ NONSHARABLE_CLASS(CSCPLockObserver): public CActive
     private: // from CActive
          /** @see CActive::RunL() */
 		void RunL();
+		TInt RunError(TInt aError);
 		/** @see CActive::DoCancel() */
         void DoCancel();
     private: // data
         CSCPQueryDialog*      iDialog; //not owned!
         RProperty            iProperty;
-        TBool				 iSubscribedToEvent;
         TInt                 iType; //Type of the observer
+        TBool                iInformCallEnding;
+        TInt                 iSubscribedToEvent;
+        TInt                 iPrevCallState;
     };
 
 #endif 

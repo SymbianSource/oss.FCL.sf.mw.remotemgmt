@@ -19,13 +19,9 @@
 #include "nsmlhttpclient.h"
 #include "nsmlerror.h"
 #include <featmgr.h>
-#include <nsmloperatorerrorcrkeys.h>
-#include <nsmloperatordatacrkeys.h> // KCRUidOperatorDatasyncInternalKeys
+#include "NsmlOperatorErrorCRKeys.h"
 #include <centralrepository.h> 
 
-//CONSTANTS
-const TInt KErrorCodeRangeFirst = 400;
-const TInt KErrorCodeRangeLast = 516;
 
 //Fix to Remove the Bad Compiler Warnings
 #ifndef __WINS__
@@ -55,14 +51,6 @@ void CHttpEventHandler::ConstructL( CNSmlHTTP* aAgent )
 	{
 	FeatureManager::InitializeLibL();
 	iAgent = aAgent;
- 
-    CRepository* rep = NULL;
-    rep = CRepository::NewL( KCRUidOperatorDatasyncInternalKeys );
-    CleanupStack::PushL( rep );
-    rep->Get( KNsmlOpDsHttpErrorReporting, iErrorReportingEnabled );
-    CleanupStack::PopAndDestroy( rep );
- 
-    iRepositorySSC = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys );
 	}
 //------------------------------------------------------------
 // CHttpEventHandler::~CHttpEventHandler()
@@ -70,8 +58,7 @@ void CHttpEventHandler::ConstructL( CNSmlHTTP* aAgent )
 //------------------------------------------------------------
 CHttpEventHandler::~CHttpEventHandler()
 	{
-    FeatureManager::UnInitializeLib();		
-    delete iRepositorySSC;
+		FeatureManager::UnInitializeLib();
 	}
 //------------------------------------------------------------
 // CHttpEventHandler::NewLC()
@@ -139,25 +126,27 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 			if ( contentTypeStr != KSmlContentTypeDS 
 				&& contentTypeStr != KSmlContentTypeDM )
 				{
-                if( this->iAgent->iSession == ESyncMLDSSession )
-                    {
-                    if( iErrorReportingEnabled && ( ( status >= KErrorCodeRangeFirst ) 
-                            && ( status <= KErrorCodeRangeLast ) ) )
-                        {
-                        iRepositorySSC->Set( KNsmlOpDsSyncErrorCode, status );
-                        }
-                    }  
-
 				//Error fix for BPSS-7H7H5S				
 				DBG_FILE( _S8("CHttpEventHandler::MHFRunL() There is a mismatch in the Content Type") );
 				
 				status = CNSmlHTTP::SetErrorStatus( status );
 				
 				if (status == resp.StatusCode() )
-				{
-					DBG_FILE( _S8("Error in Communication string is set"));
-					status = TNSmlError::ESmlCommunicationInterrupted;
-				}
+				    {
+                    if( this->iAgent->iSession == ESyncMLDSSession )
+                        {
+                        CRepository* rep = NULL;
+                        TRAPD ( err, rep = CRepository::NewL( KCRUidOperatorDatasyncErrorKeys ) );
+                        if ( err == KErrNone )
+                            {
+                            rep->Set( KNsmlOpDsErrorCode, status );
+                            delete rep;
+                            }
+                        }  
+
+                    DBG_FILE( _S8("Error in Communication string is set"));
+                    status = TNSmlError::ESmlCommunicationInterrupted;
+				    }
 					
 				// content mismatch
 				aTransaction.Close();
@@ -166,32 +155,31 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 				break;
 				}
 
-			if(this->iAgent->iSession == ESyncMLDSSession)
+			if(this->iAgent->iSession == ESyncMLDSSession && this->iAgent->iDeflateFlag )
 			    {
-    	         RStringF serverContentEncoding = strPool.OpenFStringL( KSmlContentEncodingType );
-    	         THTTPHdrVal serverContentEncodingValue;
-    	         if(hdr.GetField( serverContentEncoding, 0, serverContentEncodingValue ) != KErrNotFound)	         
-    	             {
-        	         RStringF fieldServerContentEncodingValStr = strPool.StringF( serverContentEncodingValue.StrF() ); 
-        	         const TDesC8& serverContentEncodingStr = fieldServerContentEncodingValStr.DesC();
-        	         if( serverContentEncodingStr == KSmlContentDeflate)
-        	             {
-        	             this->iAgent->iServerContentEncoding = CNSmlHTTP::ExptDeflate;
-        	             }
-    	             }
-    
-    			 RStringF serverAcceptEncoding = strPool.OpenFStringL( KSmlAcceptEncodingType );
-    	         THTTPHdrVal serverAcceptEncodingValue;
-    	         if(hdr.GetField( serverAcceptEncoding, 0, serverAcceptEncodingValue )  != KErrNotFound )	         
-    	             {
-        	         RStringF fieldServerAcceptEncodingValStr = strPool.StringF( serverAcceptEncodingValue.StrF() ); 
-        	         const TDesC8& serverAcceptEncodingStr = fieldServerAcceptEncodingValStr.DesC();
-        	         if( serverAcceptEncodingStr.Find(KSmlContentDeflate) != KErrNotFound)
-        	             {
-        	             this->iAgent->iServerAcceptEncoding = CNSmlHTTP::ExptDeflate;
-        	             }
-    	             }
-			    }
+			    RStringF serverContentEncoding = strPool.OpenFStringL( KSmlContentEncodingType );
+                THTTPHdrVal serverContentEncodingValue;
+                if(hdr.GetField( serverContentEncoding, 0, serverContentEncodingValue ) != KErrNotFound)	         
+                    {
+                    RStringF fieldServerContentEncodingValStr = strPool.StringF( serverContentEncodingValue.StrF() ); 
+                    const TDesC8& serverContentEncodingStr = fieldServerContentEncodingValStr.DesC();
+                    if( serverContentEncodingStr == KSmlContentDeflate)
+                        {
+                        this->iAgent->iServerContentEncoding = CNSmlHTTP::ExptDeflate;
+                        }
+                    }
+                RStringF serverAcceptEncoding = strPool.OpenFStringL( KSmlAcceptEncodingType );
+                THTTPHdrVal serverAcceptEncodingValue;
+                if(hdr.GetField( serverAcceptEncoding, 0, serverAcceptEncodingValue )  != KErrNotFound )	         
+                    {
+                    RStringF fieldServerAcceptEncodingValStr = strPool.StringF( serverAcceptEncodingValue.StrF() ); 
+                    const TDesC8& serverAcceptEncodingStr = fieldServerAcceptEncodingValStr.DesC();
+                    if( serverAcceptEncodingStr.Find(KSmlContentDeflate) != KErrNotFound)
+                        {
+                        this->iAgent->iServerAcceptEncoding = CNSmlHTTP::ExptDeflate;
+                        }
+                    }
+    		    }
 			
 			if ( status == 200 )
 				{

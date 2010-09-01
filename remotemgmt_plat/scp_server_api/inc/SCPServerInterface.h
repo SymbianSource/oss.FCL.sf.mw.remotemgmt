@@ -49,7 +49,6 @@ enum TSCPServRqst
 	ESCPServAuthenticateS60 = 40,
 	ESCPServChangeEnhCode,
 	ESCPServCodeChangeQuery,
-	ESCPServValidateLockcode,
 	ESCPServCheckConfig = 50,
 	ESCPApplicationUninstalled = 60,
 	ESCPServUISetAutoLock = 70
@@ -69,56 +68,6 @@ enum TSCPParameterID
     ESCPMaxAutolockPeriod,
     ESCPCodeChangePolicy
     };
-
-enum TDevicelockPolicies {
-    //Autolock timeout. Values in minutes
-    EDeviceLockAutolockperiod = 0,
-    // Maximum autolock timeout value, Values in minutes
-    EDeviceLockMaxAutolockPeriod,
-    //specifies the minimum lock code length
-    EDeviceLockMinlength,
-    //Allowed maxim lock code length
-    EDeviceLockMaxlength,
-    // 0 = No restriction,
-    //1 = Both upper and lower case letters are required in the password
-    EDeviceLockRequireUpperAndLower,
-    // 0 = No restriction,
-    // 1 = Both characters and numbers are required in the password
-    EDeviceLockRequireCharsAndNumbers,
-    // 0 = No restriction,
-    // 1-4 = A single character cannot be used more than X times in the password
-    EDeviceLockAllowedMaxRepeatedChars,
-    // 0 = No restriction,
-    // 1-X = The new password cannot match the previous X passwords
-    EDeviceLockHistoryBuffer,
-    // 0 = No restriction,
-    // 1-365 = The password expires after X days and must be changed by the user
-    // -1 = password expires immediately
-    EDeviceLockPasscodeExpiration,
-    // The user can change the password only X times before EPasscodeMinChangeInterval //hours have passed (default 0).
-    EDeviceLockMinChangeTolerance,
-    // 0 = No restriction,
-    // 1-1000 = The user cannot change the password more than EPasscodeMinChangeTolerance // times before X hours have passed since the previous change
-    EDeviceLockMinChangeInterval,
-    // disallow the specific string or strings given.
-    EDeviceLockDisallowSpecificStrings,
-    // 0 = No restriction,
-    // 3-100 = The device is "hard" reset after the user has consecutively failed X times // to answer the password query
-    EDeviceLockAllowedMaxAtempts,
-    // 0 = No restriction, 1 = The password cannot contain two consecutive numbers.
-    EDeviceLockConsecutiveNumbers,
-    // 0 = No restriction,
-    // 1-255 = The password should contain at least X number of special characters.
-    EDeviceLockMinSpecialCharacters,
-    // 0 = No restriction,
-    // 1 = Single character repeat not allowed (ex: 222222, aaaaaa etc) are not allowed
-    EDeviceLockSingleCharRepeatNotAllowed,
-    // 0 = No restriction,
-    // 1 = lock code shouldn’t consist of consecutive characters (ex: 12345, abcde etc) are notallowed
-    EDevicelockConsecutiveCharsNotAllowed,
-
-    EDevicelockTotalPolicies
-};
 
 // The version number of this client-server package
 const TUint KSCPServMajorVersionNumber=0;

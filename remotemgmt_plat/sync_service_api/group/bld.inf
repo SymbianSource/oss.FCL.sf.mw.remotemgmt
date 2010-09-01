@@ -1,0 +1,31 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Sync Service API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/SyncServiceParams.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncServiceParams.h)
+../inc/SyncServiceConst.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncServiceConst.h)
+../inc/SyncService.rh     MW_LAYER_PLATFORM_EXPORT_PATH(SyncService.rh)
+../inc/SyncService.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncService.h)
+../inc/SyncServiceSession.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncServiceSession.h)

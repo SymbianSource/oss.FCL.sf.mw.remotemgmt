@@ -267,10 +267,14 @@ void CSmlActiveEventCallback::RunL()
 #endif
 	}
 
+// ----------------------------------------------------------------------------
+// CSmlActiveEventCallback::RunError
+// ----------------------------------------------------------------------------
 TInt CSmlActiveEventCallback::RunError ( TInt /*aError*/ )
     {
     	return KErrNone;
     }	
+    
 // -----------------------------------------------------------------------------
 // CSmlActiveEventCallback::Request()
 // Makes an event request to server.
@@ -441,10 +445,15 @@ void CSmlActiveProgressCallback::RunL()
 		}
 #endif
 	}
+
+// ----------------------------------------------------------------------------
+// CSmlActiveProgressCallback::RunError
+// ----------------------------------------------------------------------------
 TInt CSmlActiveProgressCallback::RunError ( TInt /*aError*/ )
     {
     	return KErrNone;
     }	
+    	
 // -----------------------------------------------------------------------------
 // CSmlActiveProgressCallback::Request()
 // Sends asynchronous progress event request to server.

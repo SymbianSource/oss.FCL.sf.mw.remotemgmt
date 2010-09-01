@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to 
-:               SyncML DS Error reporting API
+:               SyncML FW Error reporting API
 *
 */
 
@@ -23,4 +23,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/nsmloperatorerrorcrkeys.h		MW_LAYER_PLATFORM_EXPORT_PATH(nsmloperatorerrorcrkeys.h)
+../inc/NSmlOperatorErrorCRKeys.h		MW_LAYER_PLATFORM_EXPORT_PATH(NsmlOperatorErrorCRKeys.h)

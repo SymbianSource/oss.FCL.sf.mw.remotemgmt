@@ -97,7 +97,7 @@ class CSCPPlugin: public CBase
         * @param aParam The event parameters
         * @returns The parameter object identifying the actions taken.
         */
-        virtual void HandleEventL( TInt aID, CSCPParamObject& aInParam, CSCPParamObject& aOutParam ) = 0;
+        virtual CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam ) = 0;
         
         virtual void SetEventHandler( MSCPPluginEventHandler* aHandler ) = 0;
                 

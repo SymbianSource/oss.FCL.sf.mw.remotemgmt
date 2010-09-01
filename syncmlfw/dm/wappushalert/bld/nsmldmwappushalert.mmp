@@ -30,6 +30,7 @@ VENDORID 	VID_DEFAULT
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE 	/epoc32/include/ecom
+SYSTEMINCLUDE 	/epoc32/include/push
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE		/epoc32/include/platform/mw/push
 #endif
@@ -49,5 +50,5 @@ LIBRARY         euser.lib
 LIBRARY         ecom.lib 
 LIBRARY         wappushutils.lib 
 LIBRARY         nsmldebug.lib
-LIBRARy					NSmlPrivateAPI.lib
+LIBRARy		nsmlprivateapi.lib
 SMPSAFE

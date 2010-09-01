@@ -51,7 +51,7 @@ LIBRARY            flogger.lib
 LIBRARY	           efsrv.lib
 LIBRARY            rfs.lib
 #ifdef RD_MULTIPLE_DRIVE
-LIBRARY         PlatformEnv.lib 
+LIBRARY         platformenv.lib 
 LIBRARY          estor.lib 
 #endif
 

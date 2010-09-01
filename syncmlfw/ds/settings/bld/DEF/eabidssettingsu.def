@@ -83,21 +83,7 @@ EXPORTS
 	_ZTV26CNSmlDSResourceContentType @ 82 NONAME ; #<VT>#
 	_ZTI26CNSmlProfileContentHandler @ 83 NONAME ; #<TI>#
 	_ZTV26CNSmlProfileContentHandler @ 84 NONAME ; #<VT>#
-	_ZN15CNSmlDSSettingsD0Ev @ 85 NONAME
-	_ZN15CNSmlDSSettingsD1Ev @ 86 NONAME
-	_ZN15CNSmlDSSettingsD2Ev @ 87 NONAME
-	_ZN23CNSmlDSOperatorSettings16CustomManValueLCEv @ 88 NONAME
-	_ZN23CNSmlDSOperatorSettings16CustomModValueLCEv @ 89 NONAME
-	_ZN23CNSmlDSOperatorSettings16CustomSwvValueLCEv @ 90 NONAME
-	_ZN23CNSmlDSOperatorSettings18IsOperatorProfileLERK7TDesC16 @ 91 NONAME
-	_ZN23CNSmlDSOperatorSettings23PopulateStatusCodeListLER6RArrayIiE @ 92 NONAME
-	_ZN23CNSmlDSOperatorSettings4NewLEv @ 93 NONAME
-	_ZN23CNSmlDSOperatorSettings5NewLCEv @ 94 NONAME
-	_ZN23CNSmlDSOperatorSettingsD0Ev @ 95 NONAME
-	_ZN23CNSmlDSOperatorSettingsD1Ev @ 96 NONAME
-	_ZN23CNSmlDSOperatorSettingsD2Ev @ 97 NONAME
-	_ZTI23CNSmlDSOperatorSettings @ 98 NONAME
-	_ZTV23CNSmlDSOperatorSettings @ 99 NONAME
-	_ZN23CNSmlDSOperatorSettings25HttpErrorReportingEnabledEv @ 100 NONAME
-	_ZN23CNSmlDSOperatorSettings25SyncErrorReportingEnabledEv @ 101 NONAME
+	_ZN15CNSmlDSSettings18IsOperatorProfileLERK7TDesC16 @ 85 NONAME
+	_ZN15CNSmlDSSettings25OperatorProfileModValueLCEv @ 86 NONAME
+	_ZN15CNSmlDSSettings25OperatorProfileSWVValueLCEv @ 87 NONAME
 

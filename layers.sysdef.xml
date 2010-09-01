@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
-<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_5_1.dtd" [
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
   <!ENTITY layer_real_source_path "sf/mw/remotemgmt" >
 ]>
 
-<SystemDefinition name="remotemgmt" schema="1.5.1">
+<SystemDefinition name="remotemgmt" schema="1.4.0">
   <systemModel>
     <layer name="mw_layer">
       <module name="remotemgmt">
         <unit unitID="spdo.remotemgmt" mrp="" bldFile="&layer_real_source_path;/group" name="remotemgmt" />
-		<unit unitID="spdo.remotemgmt.pro" mrp="" bldFile="&layer_real_source_path;" name="remotemgmt_pro" proFile="remotemgmt.pro"/>
       </module>
       <module name="policyenginepolicies"> 
      	<unit unitID="spdo.remotemgmt.policyenginepolicies" mrp="" bldFile="&layer_real_source_path;/policymanagement/policyengine/policyenginepolicies/group" filter="!dfs_build"  name="spdo_remotemgmt_policyenginepolicies"  />

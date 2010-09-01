@@ -38,9 +38,8 @@ CNSmlBTServiceSearcher::~CNSmlBTServiceSearcher()
     {
     if( iIsDeviceSelectorConnected )
         {
-/*        iDeviceSelector.CancelNotifier( KDeviceSelectionNotifierUid );
+        iDeviceSelector.CancelNotifier( KDeviceSelectionNotifierUid );
         iDeviceSelector.Close();
- */       
         }
 	Finished();
     delete iSdpSearchPattern;
@@ -56,10 +55,8 @@ void CNSmlBTServiceSearcher::SelectDeviceByDiscoveryL( TRequestStatus& aObserver
     {
      if( !iIsDeviceSelectorConnected )
         {
- /*       	
         User::LeaveIfError( iDeviceSelector.Connect() );
         iIsDeviceSelectorConnected = ETrue;
-*/        
         }
 
     //  Request a device selection 
@@ -72,11 +69,11 @@ void CNSmlBTServiceSearcher::SelectDeviceByDiscoveryL( TRequestStatus& aObserver
 
 	pckg().SetUUID( iBTConnInfo.iServiceClass );
 
-//    iDeviceSelector.StartNotifierAndGetResponse(
-//         aObserverRequestStatus, 
-//         KDeviceSelectionNotifierUid, 
-//         /*selectionFilter*/pckg, 
-//         iResponse);
+    iDeviceSelector.StartNotifierAndGetResponse(
+         aObserverRequestStatus, 
+         KDeviceSelectionNotifierUid, 
+         /*selectionFilter*/pckg, 
+         iResponse);
 
 
     }

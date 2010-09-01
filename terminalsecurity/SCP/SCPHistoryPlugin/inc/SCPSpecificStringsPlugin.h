@@ -67,7 +67,7 @@ class CSCPSpecificStringsPlugin : public CSCPPlugin
         /**
         * Event handler...
         */		
-		void HandleEventL( TInt aID, CSCPParamObject& aParam,CSCPParamObject& aOutParam );
+		CSCPParamObject* HandleEvent( TInt aID, CSCPParamObject& aParam );
 		
 		void SetEventHandler( MSCPPluginEventHandler* aHandler );
 

@@ -60,4 +60,5 @@ EXPORTS
 	?GetPasscodeMinSpecialCharacters@RTerminalControlSession@@QAEHAAJ@Z @ 59 NONAME ; int RTerminalControlSession::GetPasscodeMinSpecialCharacters(long &)
 	?GetPasscodeDisallowSimple@RTerminalControlSession@@QAEHAAH@Z @ 60 NONAME ; int RTerminalControlSession::GetPasscodeDisallowSimple(int &)
 	?SetPasscodeDisallowSimple@RTerminalControlSession@@QAEHH@Z @ 61 NONAME ; int RTerminalControlSession::SetPasscodeDisallowSimple(int)
+	?ResetDeviceLockParameters@RTerminalControl3rdPartySession@@QAEHXZ @ 62 NONAME ; int RTerminalControl3rdPartySession::ResetDeviceLockParameters(void)
 

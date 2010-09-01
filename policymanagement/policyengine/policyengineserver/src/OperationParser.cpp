@@ -434,9 +434,7 @@ void COperationParser::OnError(TInt /*aErrorCode*/)
 	// PolicyEngine expects this leave in error conditions -> prgram flow
 	// goes to correct TRAP after this. Can not remove this Leave although
 	// the function name does not have "L"
-	
-	// Commented due to RVCT4.0
-	//User::Leave( KErrOpParser ); 	
+	User::Leave( KErrOpParser ); 	
 }
 
 // -----------------------------------------------------------------------------

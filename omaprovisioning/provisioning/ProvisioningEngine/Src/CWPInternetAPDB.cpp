@@ -241,9 +241,9 @@ void CWPInternetAPDB::ReadItemsL(RArray<TAccessPointItem>& aItemArray,
     Myview.Prepare(iItemsDatabase, TDbQuery(QueryBuffer));
     CleanupClosePushL(Myview);
     Myview.EvaluateAll();
-    if ( Myview.FirstL())
-    {
-    	while (Myview.AtRow())
+    Myview.FirstL();
+
+    while (Myview.AtRow())
         {
         Myview.GetL();
 
@@ -256,7 +256,6 @@ void CWPInternetAPDB::ReadItemsL(RArray<TAccessPointItem>& aItemArray,
         aItemArray.Append(AccessPointItem);
         Myview.NextL();
         }
-    }
 
     CleanupStack::PopAndDestroy(); // Myview
     FLOG( _L( "[Provisioning] CWPInternetAPDB::ReadItemsL: done" ) );
@@ -324,9 +323,9 @@ TBool CWPInternetAPDB::DeleteFromDatabaseL(TUint aAPId)
     CleanupClosePushL(Myview);
 
     Myview.EvaluateAll();
-    if( Myview.FirstL())
-    {
-    	if (!Myview.IsEmptyL())
+    Myview.FirstL();
+
+    if (!Myview.IsEmptyL())
         {
         // we have autoincrement in index so it should be unique
         // but just to make sure, we use 'while', instead of 'if'
@@ -342,7 +341,6 @@ TBool CWPInternetAPDB::DeleteFromDatabaseL(TUint aAPId)
         iItemsDatabase.Compact();
         rowsdeleted = ETrue;
         }
-    }
     CleanupStack::PopAndDestroy(1); // Myview
 
     FLOG( _L( "[Provisioning] CWPInternetAPDB::DeleteFromDatabaseL: done" ) );

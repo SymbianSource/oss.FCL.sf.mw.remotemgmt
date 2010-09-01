@@ -177,24 +177,24 @@ TInt CSCPParamDB :: GetValueForParameterL(TInt aParamID, TInt32& aValue, TInt32&
 
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
-    if( lDBView.FirstL())
-    {
-    	TInt lRowCount = lDBView.CountL();
 
-    	if(lRowCount == 0) {
+    lDBView.FirstL();
+
+    TInt lRowCount = lDBView.CountL();
+
+    if(lRowCount == 0) {
         _SCPDB_LOG(_L("[CSCPParamDB]-> No Rows found for this parameter"));
         CleanupStack :: PopAndDestroy(2);
         return KErrNotFound;
-    	}
-    	else if(lRowCount > 1) {
+    }
+    else if(lRowCount > 1) {
         _SCPDB_LOG(_L("[CSCPParamDB]-> ERROR: More than one record matches the criterion. Db is corrupt! Leaving..."));
         User :: Leave(KErrCorrupt);
-    	}
-
-    	lDBView.GetL();
-    	aApp = lDBView.ColInt(iColSet->ColNo(KColAppId));
-    	aValue = lDBView.ColInt(iColSet->ColNo(KColValueInt));
     }
+
+    lDBView.GetL();
+    aApp = lDBView.ColInt(iColSet->ColNo(KColAppId));
+    aValue = lDBView.ColInt(iColSet->ColNo(KColValueInt));
     CleanupStack :: PopAndDestroy(2);
 
     _SCPDB_LOG(_L("[CSCPParamDB]-> GetValueForParameterL <<<"));
@@ -212,21 +212,21 @@ TInt CSCPParamDB :: GetValuesForParameterL(TInt aParamID, RPointerArray <HBufC>&
 
     __LEAVE_IF_ERROR(lDBView.Prepare(iParameterDB, TDbQuery(*lSelectQry)));
     __LEAVE_IF_ERROR(lDBView.EvaluateAll());
-    
-    if (lDBView.FirstL())
-    {
-    	TInt size(0);
-    	TInt lRowCount = lDBView.CountL();
 
-    	if(lRowCount == 0) {
+    lDBView.FirstL();
+
+    TInt size(0);
+    TInt lRowCount = lDBView.CountL();
+
+    if(lRowCount == 0) {
         _SCPDB_LOG(_L("[CSCPParamDB]-> No Rows found for this parameter"));
         CleanupStack :: PopAndDestroy(2);
         return KErrNotFound;
-    	}
+    }
     
-    	TInt lErr(KErrNone);
+    TInt lErr(KErrNone);
     
-    	do {
+    do {
         lDBView.GetL();
         size = lDBView.ColDes(iColSet->ColNo(KColValueDes)).Size();
 
@@ -242,9 +242,8 @@ TInt CSCPParamDB :: GetValuesForParameterL(TInt aParamID, RPointerArray <HBufC>&
                 User :: Leave(lErr);
             }
         }
-    	}
-    	while(lDBView.NextL());
     }
+    while(lDBView.NextL());
 
     CleanupStack :: PopAndDestroy(2);
     _SCPDB_LOG(_L("[CSCPParamDB]-> GetValuesForParameterL <<<"));
@@ -330,7 +329,7 @@ TInt CSCPParamDB :: DropValuesL(TInt aParamID, RPointerArray <HBufC>& aParamValu
         _SCPDB_LOG(_L("[CSCPParamDB]-> WARNING: Nothing to do!!"));
         return KErrNone;  
     }
-    
+
     HBufC* lDelQuery(NULL);
     
     if(iParameterDB.InTransaction()) {
@@ -415,7 +414,7 @@ TInt CSCPParamDB :: ListParamsUsedByAppL(RArray <TInt>& aParamIds, const TInt32 
 
 TInt CSCPParamDB :: DropValuesL(TInt aParamID, const TInt32 aApp) {
     _SCPDB_LOG(_L("[CSCPParamDB]-> DropValuesL() >>>"));
-    
+
     HBufC* lDelQuery(NULL);
     
     if(iParameterDB.InTransaction()) {

@@ -68,7 +68,7 @@ inline CDMEncryptionUtil* CDMEncryptionUtil::NewL()
        {
            User::Leave(terr);
        }
-       if(infoArray.Count() > 1 || (0 == infoArray.Count()))
+       if(infoArray.Count() != 1)
        {
            User::Leave(KErrBadName);
        }

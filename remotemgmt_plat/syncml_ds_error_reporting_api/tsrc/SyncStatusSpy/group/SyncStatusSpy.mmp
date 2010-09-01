@@ -1,0 +1,97 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <data_caging_paths.hrh>
+
+VENDORID VID_DEFAULT
+CAPABILITY CAP_GENERAL_DLL
+APP_LAYER_SYSTEMINCLUDE
+
+
+TARGET			SyncStatusSpy.exe
+UID			   0x100039CE 0x2001FDF3
+//VENDORID	  	  0
+TARGETTYPE		exe
+EPOCSTACKSIZE	 0x5000
+
+USERINCLUDE	   ..\inc ..\data
+
+SOURCEPATH		..\data
+START RESOURCE	SyncStatusSpy.rss
+HEADER
+TARGETPATH resource\apps
+END //RESOURCE
+
+START RESOURCE	SyncStatusSpy_reg.rss
+TARGETPATH 	  \private\10003a3f\apps
+END //RESOURCE
+
+LIBRARY	euser.lib 
+LIBRARY apparc.lib 
+LIBRARY cone.lib 
+LIBRARY eikcore.lib 
+LIBRARY avkon.lib
+LIBRARY	commonengine.lib 
+LIBRARY efsrv.lib 
+LIBRARY estor.lib 
+LIBRARY eikcoctl.lib 
+LIBRARY eikdlg.lib 
+LIBRARY	eikctl.lib 
+LIBRARY bafl.lib 
+LIBRARY fbscli.lib 
+LIBRARY aknnotify.lib 
+LIBRARY aknicon.lib
+LIBRARY	etext.lib 
+LIBRARY gdi.lib 
+LIBRARY egul.lib 
+LIBRARY insock.lib 
+LIBRARY apmime.lib
+LIBRARY	ecom.lib 
+LIBRARY InetProtUtil.lib 
+LIBRARY http.lib 
+LIBRARY esock.lib 
+LIBRARY commonui.lib
+LIBRARY	centralrepository.lib 
+LIBRARY charconv.lib 
+LIBRARY apgrfx.lib 
+LIBRARY ws32.lib
+
+LANG 				01
+
+START BITMAP	SyncStatusSpy.mbm
+HEADER
+TARGETPATH		\resource\apps
+SOURCEPATH		..\gfx
+SOURCE	c12,1	list_icon.bmp list_icon_mask.bmp
+END
+
+SOURCEPATH		..\src
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif
+
+SOURCE SyncStatusSpySettingItemList.cpp 
+SOURCE SyncStatusSpySettingItemListSettings.cpp 
+SOURCE SyncStatusSpyApplication.cpp 
+SOURCE SyncStatusSpyDocument.cpp 
+SOURCE SyncStatusSpyAppUi.cpp 
+SOURCE CenrepUtils.cpp 
+SOURCE ErrorCodeNotifier.cpp 
+SOURCE SyncTypeNotifier.cpp 
+SOURCE ProfileIdNotifier.cpp 
+SOURCE SyncInitiationNotifier.cpp

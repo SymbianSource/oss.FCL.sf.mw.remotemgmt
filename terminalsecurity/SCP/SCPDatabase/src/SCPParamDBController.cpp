@@ -45,7 +45,6 @@ void CSCPParamDBController :: ConstructL() {
         TInt lVal = KErrNone;
     	TInt err_val = centrep->Get(KDmEventNotifierEnabled, lVal);
     	
-#ifndef __WINS__
         _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): cenrep KDmEventNotifierEnabled value:  %d "), lVal);
         if(err_val == KErrNone && 0 == lVal) {
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): RApaLsSession connection >>> "));
@@ -57,7 +56,7 @@ void CSCPParamDBController :: ConstructL() {
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): run dmeventnotifier.exe "));
             //apaLsSession.GetAppInfo(appInfo, aUid); Required only if handle is registered through _reg file.
             #if defined (__WINS__) // ifdef (__WINSCW__)
-            _LIT(KExampleTaskHandlerExe, "dmeventnotifier.exe");
+            _LIT(KExampleTaskHandlerExe, "C:\\sys\\bin\\dmeventnotifier.exe");
             #else
             _LIT(KExampleTaskHandlerExe, "Z:\\Sys\\Bin\\dmeventnotifier.exe");            
             #endif
@@ -74,7 +73,6 @@ void CSCPParamDBController :: ConstructL() {
             apaLsSession.Close();
             _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): started dmeventnotifier.exe successfully"));
         }
-#endif
     }
     _SCPDB_LOG(_L("[CSCPParamDBController]-> ConstructL(): Checking KAppUidDmEventNotifier cenrep completed "));
 
@@ -108,6 +106,7 @@ EXPORT_C CSCPParamDBController* CSCPParamDBController :: NewLC() {
 
 EXPORT_C TInt CSCPParamDBController :: SetValueL(TInt aParamID, const TInt32 aValue, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -148,6 +147,7 @@ EXPORT_C TInt CSCPParamDBController :: SetValuesL(TInt aParamID, const RPointerA
 
 EXPORT_C TInt CSCPParamDBController :: GetValueL(TInt aParamID, TInt32& aValue, TInt32& aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -192,6 +192,7 @@ EXPORT_C TBool CSCPParamDBController :: IsParamValueSharedL(HBufC* aParamValue, 
 
 EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
     case RTerminalControl3rdPartySession :: EMaxTimeout:
     case RTerminalControl3rdPartySession :: EPasscodeMinLength:
     case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -218,6 +219,7 @@ EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, const TInt32 a
 
 EXPORT_C TInt CSCPParamDBController :: DropValuesL(TInt aParamID, RPointerArray <HBufC>& aParamValues, const TInt32 aApp) {
     switch(aParamID) {
+        case RTerminalControl3rdPartySession :: ETimeout:
     case RTerminalControl3rdPartySession :: EMaxTimeout:
     case RTerminalControl3rdPartySession :: EPasscodeMinLength:
     case RTerminalControl3rdPartySession :: EPasscodeMaxLength:

@@ -1,0 +1,383 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  FOTA specific localisation file for SyncML framework.
+*
+*/
+
+
+
+// LOCALISATION STRINGS
+
+//d:Header text of the firmware update related message
+//d:queries.
+//l:heading_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_query_title_phone_updates  "Phone updates"
+
+//d:Text of the popup query indicating that the
+//d:firmware update was successful. Shown after
+//d:the phone has rebooted back to normal mode.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_notif_complete             "Update successful"
+
+//d:Text of the popup query indicating that the
+//d:firmware update was not successful and the phone
+//d:has not been updated. Shown after the phone
+//d:has rebooted back to normal mode.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_msg_query_not_updated      "The phone was not updated. The update package was not compatible with the phone. Please contact your service provider."
+
+//d:Text of the popup query indicating that there
+//d:is not enough power in the battery to perform
+//d:a firmware update. Shown before the phone reboots
+//d:to the update mode.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_battery_low                "Not enough battery power for update. Connect the charger now or update later."
+
+//d:Text of the popup query indicating that there
+//d:is not enough power in the battery to perform
+//d:a firmware update for USB charging support.
+//d:Shown before the phone reboots
+//d:to the update mode.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.2.3
+//
+#define qtn_fota_msg_query_update_usb_charger               "Connect the charger. You will be notified once the charging level reaches acceptable level."
+
+//d:Text of the popup query indicating that the connection
+//d:to FOTA server was lost during the download and the
+//d:package retrieval could not be finished.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_err_lost_connection        "Connection lost while downloading."
+
+//d:Text of the popup query indicating that the FOTA
+//d:or download server retuned an internal error when
+//d:the phone tried to access it.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_server_error               "Service error. Cannot perform update at this time."
+
+//d:Text of the popup query indicating that the
+//d:firmware update was not permitted. The cause
+//d:is usually the incompatibility of the update
+//d:package.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_not_permitted              "Update not permitted. Please contact your service provider."
+
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved. %U is the
+//d:name of the device management server, which initiated
+//d:the download.
+//l:popup_note_window_1
+//w:
+//r:3.1
+//
+#define qtn_fota_conf_query_install_now     "New software update downloaded from %U. Install now?"
+
+//d:Text of the first confirmation query describing the effect
+//d:of the firmware update and warning that the phone
+//d:will be unusable for several minutes. The user
+//d:may cancel the update at this stage.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_msg_query_update_1_warning   "Data and content back up is recommended before proceeding with installation."
+
+//d:Text of the second confirmation query describing the effect
+//d:of the firmware update and warning that the phone
+//d:will be unusable for several minutes. The user
+//d:may cancel the update at this stage.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_msg_query_update_2_warning   "Installation will proceed until complete. You will not be able to use your phone during the installation, even for emergencies. During the installation your phone will restart."
+
+//d:Text of the permanent note informing the user that
+//d:the phone is being rebooted because of the software
+//d:update.
+//l:popup_note_window_1
+//w:
+//r:3.1
+//
+#define qtn_fota_restarting_for_update      "Restarting for update..."
+
+//d:Text of the popup query informing user that
+//d:the update installation was canceled. Shown if
+//d:the user rejects the "install now" query and the
+//d:manual installation is not allowed.
+//l:popup_note_window_1
+//w:
+//r:3.1
+//
+#define qtn_fota_conf_note_installing_cancelled "Installing cancelled"
+
+//d:Text of the popup query informing user that
+//d:the update installation can be started from the
+//d:Device Manager application. Shown if the user
+//d:rejects the "install now" query.
+//l:popup_info_list_pane_t1
+//w:
+//r:3.1
+//
+#define qtn_fota_msg_query_update_reminder  "To update your phone later, select Install update in Device Manager."
+
+//d:Text of the popup message query informing user that
+//d:no enough memory for downloading the large object.
+//d:%N displays how much memory in KB needed for downloading Update package 
+//l:popup_info_list_pane_t1
+//r:3.2
+//
+#define qtn_fota_note_not_enough_disk_space "Device was not updated. Not enough memory for update. %N kB free memory needed for update."
+//d:Text of the popup message query informing user that
+//d:no enough memory for downloading using OMA Download.
+//d:%N displays how much memory in KB needed for downloading Update package 
+//l:popup_info_list_pane_t1
+//r:3.2
+//
+#define qtn_fota_querry_not_enough_disk_space "Not enough memory for update.%N kB free memory needed for update. Delete some data now or update later."
+//d:Text for the left soft key of update package 
+//d:install popup query after downloading the package
+//d:Selecting "Now" starts installation
+//l:control_pane_t1/opt3
+//r:3.2
+//
+#define text_softkey_now "Now"
+//d:Text for the right soft key of update package 
+//d:install popup query after downloading the package 
+//d:Selecting "Later" shows remainder dialog
+//l:control_pane_t1/opt3
+//r:3.2
+//
+#define text_softkey_later "Later"
+
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved. 
+//d:The chinese text should be as per the one mentioned in Requirement
+//l:popup_info_list_pane_t1 
+//r:5.0
+//
+#define qtn_fota_msg_query_update_custom_warning     "New software update downloaded. The software updating might take 10 minutes. During the updating, all the functions will be unavailable, including emergency call.  Update now?"
+
+// new localization for FOTA Suspend&Resume
+
+//d:Text of the popup message query informing user that
+//d:connection was lost downloading using OMA Download.
+//l:popup_info_list_pane_t1
+//r:5.0
+//
+#define qtn_fota_query_download_conn_lost  "Connection was lost during download. You can continue downloading phone software update later when connection is available."
+
+//d:Text of the popup message query asking user 
+//d:if download can be continued now or later
+//l:popup_info_list_pane_t1
+//r:5.0
+//
+#define qtn_fota_query_download_continue 	"Do you want to continue downloading phone software update later?"
+
+//d:Text of the popup message query informing user that
+//d:download is postponed
+//l:popup_note_window
+//r:5.0
+//
+#define qtn_fota_query_download_postponed		"Download postponed."
+
+//d:Text of the popup message query 
+//d:Asking user when he chooses to resume option to continue downloading
+//l:popup_info_list_pane_t1
+//r:5.0
+//
+#define qtn_fota_query_download_resume	"Do you want to continue phone software update?"
+
+//d:Text of the popup query indicating that the
+//d:download is cancelled.
+//l:popup_note_window
+//r:5.0
+//
+#define qtn_fota_query_download_cancelled			  "Download Cancelled."
+
+//d:Text of the information indicating user that  
+//d:there was an error occurred during download
+//d:And downloading can be resumed later 
+//l:popup_info_list_pane_t1 
+//r:5.0
+//
+
+#define qtn_fota_query_download_error_continue "An error occurred during download. You can continue downloading phone software update later."
+
+//d:Text of the information indicating user that  
+//d:there was an error occurred and 
+//d:user has to perform check for updates again. 
+//l:popup_info_list_pane_t1 
+//r:5.0
+//
+
+#define qtn_fota_query_download_error_restart "An error occurred during download. Please restart phone software update."
+
+//d:Text of the confirmation query when phone memory is encrypted.
+//d:Firmware update might take more time as memory has to be decrypted first
+//d:before performing the update. The duration of decryption depends on the memory size and how much data is in.
+//l:popup_info_list_pane_t1
+//w:
+//r:5.2
+//
+
+#define qtn_fota_msg_query_update_dec_warning   "You will not be able to use your phone during the installation, even for emergencies. During the installation your phone will restart. Installation might take few minutes because of the memory decryption and it will proceed until complete."
+
+//d:Text of the confirmation query when phone memory has to be encrypted.
+//d:Once firmware is updated on a phone that had encrypted memory, user is
+//d:prompted to encrypt the memory back. When user denies, the phone memory is not encrypted.
+//d:This query will be combined with the firmware update status note.
+//l:popup_info_list_pane_t1
+//w:
+//r:5.2
+//
+
+#define qtn_fota_msg_query_update_encrypt   "\nDo you want to encrypt your phone memory again? It might take few minutes and you are not able to use your phone during encryption."
+
+//d:Error message shown when battery is low to start encryption.
+//l:popup_info_list_pane_t1
+//w:
+//r:5.2
+//
+
+#define qtn_fota_battery_encryption_low   "Battery  too low.  Connect power adapter and encrypt."
+
+//d:Error message shown when user starts firmware installation while encryption or decryption is ongoing in background.
+//l:popup_info_list_pane_t1
+//w:
+//r:5.2
+//
+
+#define qtn_fota_device_busy   "Device memory is busy. Try installation later."
+
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved. %U is the
+//d:Operator name.
+//l:popup_note_window_1
+//w:
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_conf_query_install_now "A new software update for your phone is available from %U.\nThe software update process will not delete any personal data on your phone.\nInstall now?"
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_one_minute "Installation postponed for 1 minute. %0N of %1N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in minutes.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_minutes "Installation postponed for %0N minutes. %1N of %2N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+
+#define qtn_att_fota_info_installation_postponed_one_hour "Installation postponed for 1 hour. %0N of %1N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in hours.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+
+#define qtn_att_fota_info_installation_postponed_hours "Installation postponed for %0N hours. %1N of %2N allowed postpones left."
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the number of times user has 
+//d:postponed and %1N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_one_day "Installation postponed for 1 day. %0N of %1N allowed postpones left."
+
+
+
+//d:Text of the popup message query informing user that
+//d:Installation is postponed. It also displays the 
+//d:number of allowed postpone left. %0N is the postpone option
+//d:chosen by the user in days.%1N is the number of times user has 
+//d:postponed and %2N is the total number of allowed postpone.
+//l:popup_note_window
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_info_installation_postponed_days "Installation postponed for %0N days. %1N of %2N allowed postpones left."
+
+
+//d:Text of the confirmation query requesting if
+//d:the firmware update should be started. Asked
+//d:when the package has been retrieved and the 
+//d:numer of postpone is used. %U is the
+//d:Operator name.
+//l:popup_note_window_1
+//w:
+//r:5.0,5.2
+//
+
+#define qtn_att_fota_conf_query_install_forced "A new software update for your phone is available from %U.\nThe software update process will not delete any personal data on your phone.\nNo more postpones allowed. Installation will begin shortly."
+
+// End of File

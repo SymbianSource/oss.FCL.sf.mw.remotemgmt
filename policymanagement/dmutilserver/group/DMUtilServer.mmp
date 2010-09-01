@@ -48,10 +48,6 @@ USERINCLUDE     ../../../inc // domain private headers
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   /epoc32/include/ecom
 
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbwidgets
-
-
 #ifdef __TARM_SYMBIAN_CONVERGENCY
 SYSTEMINCLUDE   /Epoc32/include/devman
 SYSTEMINCLUDE   /Epoc32/include/syncml
@@ -60,13 +56,11 @@ SYSTEMINCLUDE   /Epoc32/include/syncml
 #endif // __TARM_SYMBIAN_CONVERGENCY
 
 // Symbian
-LIBRARY     euser.lib
-LIBRARY     efsrv.lib
-LIBRARY     bafl.lib
-LIBRARY     centralrepository.lib
-LIBRARY		flogger.lib
-LIBRARY 	HbCore.lib
-LIBRARY     HbWidgets.lib
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         centralrepository.lib
+LIBRARY					flogger.lib
 
 #ifdef __TARM_SYMBIAN_CONVERGENCY
  LIBRARY				dmtreeclient.lib
@@ -81,13 +75,13 @@ LIBRARY     HbWidgets.lib
 // S60
 LIBRARY         rfs.lib
 LIBRARY         sysutil.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 // TARM
 LIBRARY					policyengine.lib
 LIBRARY					centreptool.lib
 
 #ifdef RD_MULTIPLE_DRIVE
-LIBRARY         PlatformEnv.lib 
+LIBRARY         platformenv.lib 
 LIBRARY          estor.lib 
 LIBRARY		ecom.lib
 #endif

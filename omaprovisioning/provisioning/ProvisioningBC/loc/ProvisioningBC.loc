@@ -1,0 +1,122 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     This is a localisation file for Provisioning
+*
+*  -------------------------------------------------------------------
+*
+*/
+
+
+
+// LOCALISATION STRINGS
+
+//****************************************************************************
+
+//d:Message info in Message Details
+//l:list_single_heading_pane_t1
+#define qtn_sm_title_configuration "Config. msg."
+   
+//d:Provisioning message title pane item.
+//l:title_pane_t2/opt12
+//
+#define qtn_op_title_confsett     "Configuration settings"
+
+//d:Help text for the user
+//l:popup_info_list_pane_t1
+#define qtn_op_view_help "Select 'Save' from 'Options' to configure all settings"
+
+//d:Number of settings text if >5
+//l:popup_info_list_pane_t1
+#define qtn_op_sett_items "%N items"
+
+//d:Heading text for wait note in save all-operation
+//l:popup_note_wait_window
+//
+#define qtn_sm_wait_saving_servsett "Saving service settings "
+
+//d:Not all settings saved
+//l:popup_note_window
+//
+#define qtn_op_info_notsaved "%N settings saved. Uncompleted settings were not saved"
+
+//d:All settings saved
+//l:popup_note_window
+//
+#define qtn_sm_all_serv_settings_copied "Saved"
+
+//d:Set as default query
+//l:popup_note_window
+//
+#define qtn_op_conf_setdef "Set the received settings as default?"
+
+//d:Query presented when message is not authenticated.
+//l:popup_note_window
+//
+#define qtn_op_nottsp_conf_note "Sender of the message is unknown. Continue?"
+
+//d:Command in options list.
+//d:Saves the settings to the device.
+//l:list_single_pane_t1_cp2
+//
+#define qtn_op_options_save "Save"
+
+//d:Message cannot be opened
+//l:popup_note_window
+#define qtn_mce_info_message_not_opened "Unable to open. Message format not supported."
+
+//d:Message cannot be saved
+//l:popup_note_window
+#define qtn_op_error_save "No access points found in the message. Settings cannot be saved."
+
+//d:Message cannot be saved due to protected AP settings
+//l:popup_note_window
+#define qtn_sms_note_protected_ap "Unable to add access point to protected access point settings"
+
+//d:User entered a wrong PIN
+//l:popup_note_window
+#define qtn_op_verific_failed "Code error"
+
+//d:Text for PIN query
+//l:popup_query_code_window/opt1
+#define qtn_op_enter_settpin "Enter settings’ PIN:"
+
+//d:User entered wrong PIN three times
+//l:popup_note_window
+#define qtn_op_verific_failed_totally "Verification failed and message was deleted. Contact your service provider."
+
+//d:Settings already saved query
+//l:popup_note_window
+#define qtn_op_already_saved 		"Settings are already saved. Save again?"
+
+//****************************************************************
+//from the mce ui specification
+
+//d:Name of the message [type].
+//l:list_double_graphic_pane_t2
+#define qtn_mce_inbox_type_smart_conf       "Configuration message"
+
+//d:Text to be displayed on the pop up note
+//l:popup_note_window
+//r:3.2
+//
+#define qtn_op_info_notsaved_singular_zero  "No settings saved"
+
+//d:Text to be displayed on the pop up note
+//l:popup_note_window
+//r:3.2
+//
+#define qtn_op_info_notsaved_singular_one   "%N setting saved. Uncompleted settings were not saved " 
+
+// End of File

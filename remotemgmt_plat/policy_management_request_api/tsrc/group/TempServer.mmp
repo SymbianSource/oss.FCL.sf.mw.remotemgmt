@@ -46,6 +46,9 @@ SOURCE		  TempSession.cpp
 
 
 SYSTEMINCLUDE  /epoc32/include/ecom
+SYSTEMINCLUDE  /epoc32/include
+APP_LAYER_SYSTEMINCLUDE
+
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY       euser.lib

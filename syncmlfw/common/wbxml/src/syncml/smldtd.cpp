@@ -193,7 +193,7 @@ EXPORT_C void sml_pcdata_s::FreeContent()
 		}
 	else
 		{
-		User::Free(content);
+		delete content;
 		}
 	content = 0;
 	}

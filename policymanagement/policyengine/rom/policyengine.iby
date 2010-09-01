@@ -23,10 +23,8 @@ file=ABI_DIR\BUILD_DIR\PolicyEngine.dll     											SHARED_LIB_DIR\PolicyEngi
 	S60_APP_EXE(PolicyEngineServer)
 	S60_APP_EXE(CentRepToolServer)
 	file=ABI_DIR\BUILD_DIR\CentRepTool.dll      											SHARED_LIB_DIR\CentRepTool.dll
+	ECOM_PLUGIN(PolicyEngineUI.dll, PolicyEngineUI.rsc)
 	ECOM_PLUGIN(PMRFsPlugin.dll, PMRFsPlugin.rsc)
-	
-data=/epoc32/data/z/resource/plugins/devicedialogs/PolicyEngUINotifiersplugin.qtplugin		resource/plugins/devicedialogs/PolicyEngUINotifiersplugin.qtplugin
-file=ABI_DIR/BUILD_DIR/PolicyEngUINotifiersplugin.dll		SHARED_LIB_DIR/PolicyEngUINotifiersplugin.dll
 //#endif
 
 #endif

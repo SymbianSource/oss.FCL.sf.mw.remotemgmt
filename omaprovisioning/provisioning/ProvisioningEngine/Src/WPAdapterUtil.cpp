@@ -29,6 +29,7 @@
 #include <data_caging_path_literals.hrh>
 #include "CWPInternetAPDB.h"
 
+#include <ApUtils.h>
 #include "ProvisioningDebug.h"
 #include <cmmanager.h>
 #include <cmmanagerext.h>
@@ -388,21 +389,20 @@ EXPORT_C void WPAdapterUtil::SetAPDetailsL(TUint aAPId)
     TBuf<KOriginatorMaxLength> Orig1;
     Orig1.Copy(Orig);
 
-    RCmManagerExt cmmanagerExt;
-    cmmanagerExt.OpenL();
-    CleanupClosePushL(cmmanagerExt);
-    RCmConnectionMethodExt cm;
-    cm = cmmanagerExt.ConnectionMethodL( aAPId );
-    CleanupClosePushL( cm );
-    TUint apId = 0;
-    TRAPD( ERROR, apId = cm.GetIntAttributeL(CMManager::ECmIapId) );
+    CCommsDatabase* commDb = CCommsDatabase::NewL();
+    CleanupStack::PushL( commDb );
+    CApUtils* aputils = CApUtils::NewLC( *commDb );
+
+    TUint32 apid = 0;
+    //Get IAP ID from WAPID
+    TRAPD( ERROR, apid = aputils->IapIdFromWapIdL( aAPId ) );
     User::LeaveIfError(ERROR);
 
     //Set AP to SNAP and DB
-    TRAPD(err,SetAPtoDBandSNAPL(apId, Orig1));
+    TRAPD(err,SetAPtoDBandSNAPL(apid, Orig1));
     User::LeaveIfError(err);
 
-    CleanupStack::PopAndDestroy(2); //cm, cmmanagerExt 
+    CleanupStack::PopAndDestroy(2); //aputils, commDb 
 
     FLOG( _L( "[Provisioning] WPAdapterUtil::SetAPDetailsL: done" ) );
 

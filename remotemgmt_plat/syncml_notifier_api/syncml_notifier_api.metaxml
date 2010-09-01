@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="f25e77cadb2479c192323433f30932d7" dataversion="1.0">
+  <name>SyncML Notifier API</name>
+  <description>SyncML Notifier API which indicates the UIDs and the message formats that should be used/understood by the notifier side implementation for the notifications sent by the SyncMLFW subsystem.</description>
+  <type>c++</type>
+  <subsystem>syncmlfw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

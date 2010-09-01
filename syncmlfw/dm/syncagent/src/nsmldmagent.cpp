@@ -50,6 +50,7 @@
 #include "NSmlPrivateAPI.h"
 // FOTA end
 #include <featmgr.h>
+const TUid KUidNotifier = { 0x101F8769 };
 const TInt KNotifierTimeout = 300000000; // 5 min timeout
 _LIT8 ( KNSmlDMFotaNode, "FUMO" );
 
@@ -207,7 +208,10 @@ if ( aAlertCode == KNSmlDMAgentServerInitAlert ||
         aAlertCode == KNSmlDMAgentNextMessage ||
         aAlertCode == KNSmlDMAgentSessionAbortAlert ||
         aAlertCode == KNSmlDMAgentDisplayAlert ||
-        aAlertCode == KNSmlDMAgentContinueOrAbortAlert )
+        aAlertCode == KNSmlDMAgentContinueOrAbortAlert 
+		 || aAlertCode == KNSmlDMAgentUserInputAlert 
+		 || aAlertCode == KNSmlDMAgentSingleChoiceAlert
+		 || aAlertCode == KNSmlDMAgentMultipleChoiceAlert )
 		{
 		return ETrue;
 		}
@@ -1873,9 +1877,9 @@ CNSmlAgentNotifierObserver::~CNSmlAgentNotifierObserver()
 	// StartNotifier called to avoid Notifier server panic, if 
 	// notifier does not exist anymore.
 	TBuf8<1> dummy;	
-//	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
-//	iNotifier.CancelNotifier( KUidNotifier );
-//	iNotifier.Close();
+	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+	iNotifier.CancelNotifier( KUidNotifier );
+	iNotifier.Close();
 	iNotifierTimeOut.Cancel();
 	Cancel();
 	}
@@ -1895,9 +1899,19 @@ void CNSmlAgentNotifierObserver::ConnectToNotifierL( CNSmlAgentBase * aNSmlAgent
 		SetActive();
 		}
 
+	//connect to repository		
+	CRepository* rep = CRepository::NewLC( KCRUidPolicyManagementUtilInternalKeys );
+		
+	//get parameters 	
+	TSyncMLAppLaunchNotifParams params;
+    TPckg<TSyncMLAppLaunchNotifParams> data( params );
+	User::LeaveIfError( rep->Get( KSyncMLSessionParamsKey, data)); 
+
+	CleanupStack::PopAndDestroy( rep);
+
     iNotifierTimeOut.LaunchNotifierTimer( this );
-//    User::LeaveIfError( iNotifier.Connect() );
-//   iNotifier.StartNotifierAndGetResponse( iStatus, KUidNotifier, data, iResBuf );
+    User::LeaveIfError( iNotifier.Connect() );
+    iNotifier.StartNotifierAndGetResponse( iStatus, KUidNotifier, data, iResBuf );
 	}
 
 // --------------------------------------------------------------------------
@@ -1911,9 +1925,9 @@ void CNSmlAgentNotifierObserver::NotifierTimeOut()
 	// StartNotifier called to avoid Notifier server panic, if 
 	// notifier does not exist anymore.
 	TBuf8<1> dummy;	
-//	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
+	iNotifier.StartNotifier(KNullUid, dummy, dummy); // KNullUid should do also..
 	
-//	iNotifier.CancelNotifier( KUidNotifier );
+	iNotifier.CancelNotifier( KUidNotifier );
 	}
 
 // --------------------------------------------------------------------------
@@ -1943,6 +1957,7 @@ void CNSmlAgentNotifierObserver::RunL()
 	    if ( ret == KErrNone )
     	{	   
         
+	  		TInt sid = iResBuf().iSecureId.iUid; // read secure id from notifier.
 	   	
 	    	// Check the response and error code. If there is a fail, dump the job.        
 	    	// Also compare sid to creator id saved for current job to secure that listener owns the job.

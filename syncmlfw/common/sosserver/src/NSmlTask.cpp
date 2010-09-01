@@ -378,7 +378,8 @@ TInt CNSmlTask::PrepareFilterBufferL( const TInt aTaskId )
 			RReadStream filterStream = ctype->FilterReadStreamL();
 			CleanupClosePushL( filterStream );
 			RPointerArray<CSyncMLFilter>* filterArray = new ( ELeave ) RPointerArray<CSyncMLFilter>();
-			CleanupStack::PushL( filterArray );
+			CleanupRPtrArrayPushL(filterArray);
+
 			TInt count(0);
 			TRAPD(error, count = filterStream.ReadInt32L() );
 			if ( error == KErrNone )
@@ -391,11 +392,9 @@ TInt CNSmlTask::PrepareFilterBufferL( const TInt aTaskId )
 				}
 			else if ( prof->IntValue( EDSProfileProtocolVersion ) == ESmlVersion1_2 )
 				{
-				CleanupStack::Pop(); // filterArray;
-				filterArray->ResetAndDestroy();
-				delete filterArray;
+                CleanupStack::PopAndDestroy(filterArray); 
 				filterArray = iSession.HostClient().SupportedServerFiltersL( iTaskUID, matchType, changeInfo, resultCode );				
-				CleanupStack::PushL( filterArray );
+				CleanupRPtrArrayPushL(filterArray);
 				}
 		    
 			iSession.HostClient().CheckServerFiltersL( iTaskUID, *filterArray, changeInfo, resultCode );
@@ -435,8 +434,7 @@ TInt CNSmlTask::PrepareFilterBufferL( const TInt aTaskId )
 				
             CleanupStack::PopAndDestroy(agentLog);
             
-            filterArray->ResetAndDestroy();            
-			CleanupStack::PopAndDestroy(filterArray);            	
+            CleanupStack::PopAndDestroy(filterArray);            	
             CleanupStack::PopAndDestroy(&filterStream);            
             }
         else

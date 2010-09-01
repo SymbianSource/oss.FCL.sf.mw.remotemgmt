@@ -285,7 +285,7 @@ EXPORT_C TInt CSCPParamObject::Reset()
     {
     iParamIDs.Reset();
 	iParamValues.ResetAndDestroy();
-	iFailedPolicyIDs.Reset();	
+	
 	return KErrNone;
     }
    
@@ -612,15 +612,7 @@ EXPORT_C void CSCPParamObject::ReadFromFileL( TDesC& aFilename, RFs* aRfs /*= NU
         }    
     }
 
-EXPORT_C TInt CSCPParamObject::AddtoFailedPolices( TInt aFailedpolicyID )
-    {
-    return iFailedPolicyIDs.Append(aFailedpolicyID);
-    }
 	
-EXPORT_C const RArray<TInt>& CSCPParamObject::GetFailedPolices( )
-    {
-    return iFailedPolicyIDs;
-    }
 // ----------------------------------------------------------
 // CSCPParamObject::~CSCPParamObject()
 // Destructor

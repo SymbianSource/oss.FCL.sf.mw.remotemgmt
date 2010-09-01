@@ -53,9 +53,13 @@ USERINCLUDE     ../inc
 USERINCLUDE	. ../../../../omaprovisioning/provisioning/Group ../../../../omaprovisioning/provisioning/provisioningengine/Inc
 MW_LAYER_SYSTEMINCLUDE
 
-SYSTEMINCLUDE 	/epoc32/include/push
-SYSTEMINCLUDE   /epoc32/include/ecom
-
+#if defined(__S60_)
+    MW_LAYER_SYSTEMINCLUDE
+    SYSTEMINCLUDE 	/epoc32/include/push
+    SYSTEMINCLUDE   /epoc32/include/ecom
+#else
+    SYSTEMINCLUDE   /epoc32/include 
+#endif
 
 LIBRARY         euser.lib EFSRV.LIB
 LIBRARY         stiftestinterface.lib

@@ -21,16 +21,13 @@
 #include <CoreApplicationUIsSDKCRKeys.h>
 #include <btengdomaincrkeys.h>
 #include <centralrepository.h>
+#include <ApUtils.h>
 #include "nsmltransport.h"
 #include "nsmlhttp.h"
 #include "NSmlObexClient.h"
 #include "nsmlobexserverbinding.h"
 #include "nsmlerror.h"  
 #include <featmgr.h>
-#include <cmconnectionmethoddef.h>
-#include <cmmanagerext.h>
-#include <cmpluginwlandef.h>
-
 
 //============================================================
 // CNSmlTransport definition
@@ -251,19 +248,14 @@ EXPORT_C void CNSmlTransport::ConnectL( TUid aMediumType, TBool aServerAlerted, 
 			// 0xffffffff is same as -1 (KErrNotFound) and -2 for Default connection
                 {
                 TUint32 accesspointId = aIAPIdArray->At(0);
-                RCmManagerExt  cmmanagerExt;
-                cmmanagerExt.OpenL();
-                CleanupClosePushL(cmmanagerExt);
-                RCmConnectionMethodExt cm;
-                cm = cmmanagerExt.ConnectionMethodL( accesspointId );
-                CleanupClosePushL( cm );
-                TUint32 bearer = 0;
-                                
-                TRAP_IGNORE( accesspointId = cm.GetIntAttributeL(CMManager::ECmIapId) );
-                bearer = cm.GetIntAttributeL( CMManager::ECmBearerType );
-                CleanupStack::PopAndDestroy( 2 ); //cmmanagerext,cm
+                CCommsDatabase* commDb = CCommsDatabase::NewL();
+                CleanupStack::PushL(commDb);
+                CApUtils* aputils = CApUtils::NewLC( *commDb );
+                TRAP_IGNORE( accesspointId = aputils->WapIdFromIapIdL( accesspointId ) );
+                TApBearerType bearerType = aputils->BearerTypeL( accesspointId );
+                CleanupStack::PopAndDestroy( 2 ); //commdb,aputils
                             
-                if ( bearer != KUidWlanBearerType )
+                if ( bearerType != EApBearerTypeWLAN )
                     {
                     	errormsg = ETrue;
                     }

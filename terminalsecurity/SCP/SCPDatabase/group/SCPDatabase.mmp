@@ -29,8 +29,9 @@ VENDORID		VID_DEFAULT
 USERINCLUDE		../inc
 USERINCLUDE		../../SCPServer/inc
 USERINCLUDE 		../../DmEventNotifier/inc
+SYSTEMINCLUDE		/epoc32/include
 
-MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
 SOURCEPATH	  	../src
 SOURCE		  	SCPParamDB.cpp SCPParamDBController.cpp
 
@@ -42,5 +43,7 @@ LIBRARY			flogger.lib
 LIBRARY		centralrepository.lib
 LIBRARY		apgrfx.lib
 LIBRARY		apparc.lib
+
+SMPSAFE
 
 //End of file

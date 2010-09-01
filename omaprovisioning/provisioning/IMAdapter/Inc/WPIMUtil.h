@@ -40,6 +40,7 @@ const TUint32 KNotSet = 0xffffffff;
 
 // FORWARD DECLARATIONS
 class RResourceFile;
+class CApAccessPointItem;
 class CWPCharacteristic;
 // CLASS DECLARATION
 
@@ -88,7 +89,7 @@ class WPIMUtil
         */
         static TBool HasIllegalChars( const TDesC& aDes );
 			
-        static TUint32 FindGPRSL( RPointerArray<CWPCharacteristic>& aLinks );
+        static CApAccessPointItem* FindGPRSL( RPointerArray<CWPCharacteristic>& aLinks );
         
         /**
         * Checks the validity of current data

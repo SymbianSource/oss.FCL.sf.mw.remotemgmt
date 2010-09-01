@@ -405,9 +405,8 @@ CArrayFix<TUint32>* CWPMultiContextManager::ContextUidsL()
         new(ELeave) CArrayFixFlat<TUint32>( Max( 1, contexts.CountL() ) );
     CleanupStack::PushL( array );
     FTRACE(RDebug::Print(_L("[Provisioning] CWPMultiContextManager::ContextUidsL: count (%d)"), contexts.CountL()));
-    if ( contexts.FirstL())
-    {    	
-    	while( contexts.AtRow() )
+    contexts.FirstL();
+    while( contexts.AtRow() )
         {
         FLOG( _L( "[Provisioning] CWPMultiContextManager::ContextUidsL contexts.GetL()" ) );
         contexts.GetL();
@@ -416,7 +415,6 @@ CArrayFix<TUint32>* CWPMultiContextManager::ContextUidsL()
         array->AppendL( uid );
         contexts.NextL();
         }
-     }
 
     CleanupStack::Pop(); // array
     CleanupStack::PopAndDestroy(); // contexts
@@ -790,10 +788,15 @@ void CWPMultiContextManager::RunL()
     IssueRequest();
     }
 
+// ----------------------------------------------------------------------------
+// CWPMultiContextManager::RunError
+// ----------------------------------------------------------------------------
 TInt CWPMultiContextManager::RunError ( TInt /*aError*/ )
     {
         return KErrNone;
     }	
+    
+    
 // -----------------------------------------------------------------------------
 // CWPMultiContextManager::DoCancel
 // -----------------------------------------------------------------------------

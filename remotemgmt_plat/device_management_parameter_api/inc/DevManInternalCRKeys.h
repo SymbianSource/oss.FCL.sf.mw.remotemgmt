@@ -136,7 +136,7 @@ const TUint32 KDevManNetMonTimeoutKey = 0x0000000E;
 * If value is 1  then locked profile values can changed.
 * 
 */
-const TUint32 KDevManEnableHbNotifier = 0x0000000F; 
+const TUint32 KDevOverrideProfileLock = 0x0000000F; 
 
 /*
 * This key is used to store the External memory card status for DCMO
@@ -148,6 +148,33 @@ const TUint32 KDevManEnableHbNotifier = 0x0000000F;
 * 
 */
 const TUint32 KDevManMemCardCtrl = 0x00000010; 
+
+/*
+* This key is used to indicate whether the privacy policy disclaimer has been accepted
+* Default value : 0 
+* Allowed values.
+* 0,1 or 2 
+* If value is 0 when disclaimer not accepted
+* If value is 1 when disclaimer has been accepted
+* If value is 2 if the dialog has been displayed but not accepted yet
+* 
+*/
+const TUint32 KDMDisclaimerAccepted = 0x00000011;
+
+/*
+* This key stores the TargetRef for SCOMO to send Alert. Default value is null.
+*/
+const TUint32 KNSmlDMSCOMOTargetRef = 0x00000012;
+
+const TUint32 KLAWMOPhoneLock = 0x00000013;
+
+const TUint32 KLAWMOfactoryDmProfileID = 0x00000014;
+
+const TUint32 KMaxFactoryDMProfileId = 0x00000015;
+
+const TUint32 KLAWMOfactoryDmServerName = 0x00000016;
+
+const TUint32 KLAWMOfactoryDmServerID = 0x00000017;
 
 #endif // SYNCML_DEVMAN_INTERNAL_CR_KEYS_H
 

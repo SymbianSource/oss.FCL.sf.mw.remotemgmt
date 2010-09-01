@@ -25,7 +25,7 @@
 #include "MWPContextManager.h"
 #include "MWPContextExtension.h"
 #include "ProvisioningDebug.h"
-
+#include <mmf/common/mmfcontrollerpluginresolver.h>
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -239,6 +239,7 @@ void CWPAdapterManager::SaveL( MWPContextManager& aManager, TInt aItem )
     // Place [0] is reserved for APPID parameter, [1] for APPREF parameter 
     // and [2] for storage id i.e. id that identifies the saved settings in its storage.
     RPointerArray< HBufC8 > savingInfo;
+    CleanupResetAndDestroy<RPointerArray<HBufC8> > :: PushL(savingInfo);
     a->GetSavingInfoL( index, savingInfo );
 
     // If the adapter had something to tell to the other adapters...
@@ -278,8 +279,8 @@ void CWPAdapterManager::SaveL( MWPContextManager& aManager, TInt aItem )
 
             }// if
 	    }// if
-	savingInfo.ResetAndDestroy();
-    savingInfo.Close();
+		
+	CleanupStack :: PopAndDestroy(1); //savingInfo
     
     // Tell the adapters that all the settings have been now saved.
     TInt quantityOfAdapter( iAdapters->Count() );

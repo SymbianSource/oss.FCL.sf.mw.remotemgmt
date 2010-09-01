@@ -88,6 +88,7 @@ void CNSmlDSAsyncCallBack::DoCancel()
     if ( iReqFinishedFunc != NULL )
     	{
     	( *iSession.*iReqFinishedFunc )( this, ECanceled );
+    	iMessage.Complete( KErrCancel);
     	}
     }
 

@@ -24,6 +24,9 @@
 #include <CWPParameter.h>
 #include <wpwvadapterresource.rsg>
 
+#include <ApDataHandler.h>
+#include <ApAccessPointItem.h>
+#include <ApUtils.h>
 #include <commdb.h>
 #include "WPAdapterUtil.h"
 #include "CWPIMSAPItem.h"
@@ -170,12 +173,22 @@ void CWPPecAdapter::SaveL( TInt aIndex )
         sapItem->SetSettingsNameL( data->iName );
 
     	// Find a proper GPRS access point
-        TUint32 iapId = WPIMUtil::FindGPRSL( data->iLinks );
-    	
+        CApAccessPointItem* item = WPIMUtil::FindGPRSL( data->iLinks );
+    	CleanupStack::PushL( item );
+
+        // get the WAP id
+    	CCommsDatabase* commDb = CCommsDatabase::NewL();
+    	CleanupStack::PushL(commDb);
+    	TUint32 uid( item->WapUid() );
+
+    	// Convert WAP uid to IAP uid
+        CApUtils* apUtils = CApUtils::NewLC( *commDb );
+    	TUint32 iapId = apUtils->IapIdFromWapIdL( uid );
 
     	// set the IAP id as part of save item.
     	sapItem->SetIAPIdL( iapId );
            
+    	CleanupStack::PopAndDestroy( 3 ); // apUtils, commDb, item    
         // store SAP item
         TUint32 SAPuid = sapItem->StoreL();
     	data->iSAPId = SAPuid;

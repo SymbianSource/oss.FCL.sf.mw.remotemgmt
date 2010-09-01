@@ -18,8 +18,10 @@
 
 PRJ_EXPORTS
 ../rom/dcmofw.iby				CORE_MW_LAYER_IBY_EXPORT_PATH(dcmofw.iby)
+../rom/dcmofwresources.iby			LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(dcmofwresources.iby)
 
 PRJ_MMPFILES
 #include "../dcmoclient/group/bld.inf"
 #include "../dcmoserver/group/bld.inf"
 #include "../dcmocustcmd/group/bld.inf"
+#include "../lawmoclient/group/bld.inf"

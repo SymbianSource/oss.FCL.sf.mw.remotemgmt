@@ -24,7 +24,6 @@
 #define KNSmlDmServerIdMaxLength 150
 #define KNSmlDmSharedSecretMaxLength 50 
 
-
 #endif //__NSMLDMCONSTANTS_H__
 
 //  End of File

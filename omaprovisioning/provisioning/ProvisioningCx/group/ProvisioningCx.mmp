@@ -1,0 +1,77 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     This is project specification file for the ProvisioningCx.
+*
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+#include "../../Group/ProvisioningUIDs.h"
+
+TARGET	ProvisioningCx.exe
+TARGETTYPE exe
+
+UID  KProvisioningCxUID2 KProvisioningCxUID3
+
+CAPABILITY	CAP_APPLICATION 
+VENDORID	VID_DEFAULT
+
+SOURCEPATH ../src
+SOURCE  CWPCxApp.cpp 
+SOURCE  CWPCxAppUi.cpp
+SOURCE  CWPCxDocument.cpp
+SOURCE  CWPCxContainer.cpp
+SOURCE  CWPCxView.cpp
+SOURCE  CWPCxDeleter.cpp
+
+START RESOURCE ../rss/ProvisioningCx.rss
+HEADER
+TARGETPATH APP_RESOURCE_DIR
+LANGUAGE_IDS
+END	// RESOURCE
+
+START RESOURCE ../rss/ProvisioningCx_reg.rss
+DEPENDS provisioningcx.rsg
+TARGETPATH /private/10003a3f/apps
+END	// RESOURCE
+
+
+USERINCLUDE . ../Inc ../rss ../../Group ../../ProvisioningEngine/Inc
+MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/ecom
+//SYSTEMINCLUDE /epoc32/include/cshelp
+
+LIBRARY euser.lib 
+LIBRARY apparc.lib 
+LIBRARY cone.lib 
+LIBRARY eikcore.lib 
+LIBRARY eikctl.lib
+LIBRARY eikcoctl.lib 
+LIBRARY avkon.lib
+LIBRARY provisioningengine.lib
+LIBRARY bafl.lib
+LIBRARY commonengine.lib
+LIBRARY featmgr.lib
+LIBRARY hlplch.lib
+LIBRARY apengine.lib
+LIBRARY favouritesengine.lib
+DEBUGLIBRARY flogger.lib
+
+SMPSAFE
+// End of file
+

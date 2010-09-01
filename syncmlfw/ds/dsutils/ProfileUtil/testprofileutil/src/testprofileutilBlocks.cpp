@@ -690,14 +690,11 @@ TInt Ctestprofileutil::ReadAndWriteCenrepKeysL( CStifItemParser& /*aItem*/ )
 
 TInt Ctestprofileutil::OffLineL( CStifItemParser& /*aItem*/ )
 {
-    CRepository* repository = CRepository::NewL(KCRUidCoreApplicationUIs);
-    TInt err = repository->Set(KCoreAppUIsNetworkConnectionAllowed, 
-                                        ECoreAppUIsNetworkConnectionNotAllowed);
-    
-    if(repository)
-       delete repository;
-    
-    User::LeaveIfError(err);
+  iProfileEngine = CreateProfileEngineExtendedL();
+  iProfileEngine->SetActiveProfileL( 5);	
+  iProfileEngine->Release();
+ 
+   	
    	return KErrNone;
 
 }
@@ -711,14 +708,11 @@ TInt Ctestprofileutil::OffLineL( CStifItemParser& /*aItem*/ )
 
 TInt Ctestprofileutil::GeneralL( CStifItemParser& /*aItem*/ )
 {
-    CRepository* repository = CRepository::NewL(KCRUidCoreApplicationUIs);
-    TInt err = repository->Set(KCoreAppUIsNetworkConnectionAllowed, 
-                                            ECoreAppUIsNetworkConnectionAllowed);
-    if(repository)
-         delete repository;
-    User::LeaveIfError(err);
-    
-    
+  iProfileEngine = CreateProfileEngineExtendedL();
+  iProfileEngine->SetActiveProfileL(0);	
+  iProfileEngine->Release();
+ 
+   	
    	return KErrNone;
 
 }

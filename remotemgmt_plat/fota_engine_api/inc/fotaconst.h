@@ -23,6 +23,7 @@
 // Definition of app server uid and service uid
 #define KFotaServerUid	0x102072C4
 #define KFotaServiceUid	0x102072C5
+#define KStorageIFUid   0x10207384
 #define KDMHostServer1Uid	0x101F9A02
 #define KSosServerUid   0x101f99fb
 #define KOmaDMAppUid    0x101F6DE5
@@ -37,6 +38,9 @@
 const TInt KDefaultSmlTryCount = 4;
 const TInt KMaximumSmlTryCount = 1000;
 
+// Chunk used to transfer swupd
+const TInt  KFotaChunkMinSize = 131072;//128 KB size
+const TInt  KFotaChunkMaxSize = 3000000;
 
 const TInt KFotaMaxPkgURLLength     ( 2048 );
 const TInt KFotaMaxPkgNameLength    ( 80 );
@@ -46,21 +50,6 @@ const TInt KFotaMaxPkgVersionLength ( 80 );
 const TInt KBmpMargin(21);
 
 _LIT8( KNSmlIAPId,			"NSmlIapId" ); 
-_LIT( KFotaPanic, "FotaServer");
-_LIT(KFotaServerName,"FotaServer");
-_LIT( KFotaServerScem, "FotaServer_10247628");
-
-enum TFotaClient
-    {
-    EUnknown = 0,
-    EDMHostServer = 1,
-    EOMADMAppUi = 2,
-    EFotaScheduler  = 3,
-    EStarter  = 4,
-    EFMSServer = 5,
-    EFotaTestApp = 6,
-    ESoftwareChecker = 7,
-    ESoftwareCheckerBackground = 8
-    };
+_LIT( KFotaPanic, "Download");
 
 #endif

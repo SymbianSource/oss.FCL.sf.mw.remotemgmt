@@ -49,7 +49,7 @@ SOURCE			Btconninfo.cpp
 
 MW_LAYER_SYSTEMINCLUDE
 
-SYSTEMINCLUDE   /epoc32/include/libc /epoc32/include/ecom 
+SYSTEMINCLUDE   /epoc32/include/libc /epoc32/include/ecom ../inc ../../../transport/inc
 
 USERINCLUDE     ../inc ../../../inc ../../../transport/inc ../../../wbxml/inc ../../../wbxml/inc/syncml ../../../syncagent/inc  ../../../xml/inc
 USERINCLUDE     ../../../debug/inc

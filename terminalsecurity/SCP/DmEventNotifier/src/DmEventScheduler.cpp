@@ -238,7 +238,6 @@ void CDmEventScheduler::WaitAndCreateConditionScheduleL(TName& aTaskName)
 
     	service->GetServiceIdAndOperation(srvid,opn);
 
-		
     TBool mmcservice (EFalse);
     if (service == iServices[EMmcService])
         {

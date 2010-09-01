@@ -39,4 +39,15 @@ enum TDCMOOperation
 	EDcmoSearchAdapter
 	};
 
+enum TLawmoControlMessages
+    {
+    ECreateSubSession = 10,
+    ECloseSubSession,
+    EListItemName_Get,
+    EToBeWiped_Get, 
+    EToBeWiped_Set,
+    EWipe,
+    EWipeAll,
+    ENotUsed
+    };
 #endif// __DCMOCLIENTSERVER_H__

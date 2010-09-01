@@ -175,6 +175,28 @@ class RSCPClient : public RSessionBase
         * <BR><B>Contents of return value:</B> The status code of the operation.        
         */        
         IMPORT_C TInt GetParamValue( TInt aParamID, TDes& aValue ); 
+    
+        enum TSCPButtonConfig
+            {
+            SCP_OK,
+            SCP_OK_CANCEL,
+            SCP_OK_ETEL,
+            SCP_OK_CANCEL_ETEL
+            };            
+        
+        /**
+        * Request the security code from the user.
+        * 
+        */        
+        IMPORT_C TInt SecCodeQuery( RMobilePhone::TMobilePassword& aPassword, 
+                                    TSCPButtonConfig aButtonsShown, 
+                                    TBool aECSSupport,
+                                    TInt aFlags );
+        
+        /**
+        * Prompt the user to change the security code.
+        */        
+        IMPORT_C TInt ChangeCodeRequest(); 
         
         /**
         * Checks the server configuration and reports the status.
@@ -217,130 +239,37 @@ class RSCPClient : public RSessionBase
 
 
 	  IMPORT_C TInt SetAutoLockPeriod( TInt aValue );
-	  
-	/**
-	* This function would return if the Lock Code of the device is allowed to be changed at the given moment.
-	*
-	* The outcome of this function would depend on two of the policies enforced at TARM, EPasscodeMinChangeTolerance and
-	* EPasscodeMinChangeInterval. These two policies would determine how often the user is allowed to change the Lock Code
-	* of the device between a specified time interval. If the user has exceeded the maximum number of times he is allowed
-	* to change the Lock Code of the device then this function would return a non-KErrNone status
-	*
-	* @param 	aFailedPolicies: On completion of the call, If the Lock Code is not allowed to be changed at this point in time
-				then this array would contain the two policies (mentioned earlier) that failed.
-
-				The policy ID's are available in SCPServerInterface.h under TDevicelockPolicies
-	*
-	*
-	* @return The status, see below
-	* <BR><B>Name of return value:</B> Operation status
-	* <BR><B>Type of return value:</B> TInt
-	* <BR><B>Range of return value:</B> A system wide error code
-	* <BR><B>Contents of return value:</B> The status code of the operation.
-	*
-	*/
-	IMPORT_C TBool IsLockcodeChangeAllowedNow(RArray<TDevicelockPolicies> &aDevicelockPolicies);
-
-	/**
-	* Get values for all the policies that are maintained at the server
-	*
-	* @param aDevicelockPolicies: Upon completion of the call, this array would contain the values
-								for each of the parameter that is maintained at the server. The values can be
-								accessed using the policy ID's as index to the aDevicelockPolicies array
-
-								Ex: aDevicelockPolicies[TDevicelockPolicies :: EDeviceLockMaxlength];
-
-								The policy ID's are available in SCPServerInterface.h
-	*
-	*
-	* @return The status, see below
-	* <BR><B>Name of return value:</B> Operation status
-	* <BR><B>Type of return value:</B> TInt
-	* <BR><B>Range of return value:</B> A system wide error code
-	* <BR><B>Contents of return value:</B> The status code of the operation.
-	*
-	*/
-	IMPORT_C TInt GetPolicies(RArray<TInt>& aDevicelockPolicies);
-
-	/**
-	* Verifies if a new Lock Code is in compliance with the policies enforced at TARM. Ideally this should be invoked
-	*	before a call to StoreLockCode.
-	*
-	* @param 	aNewLockcode: The new Lock Code that is to be verified against TARM policies
-
-				aFailedPolicies: On completion of the call, if the return value is other than KErrNone, this array
-				would contain the policies that were not satisfied by Lock Code provided in aLockCode
-
-				The policy ID's are available in SCPServerInterface.h under TDevicelockPolicies
-	*
-	*
-	* @return The status, see below
-	* <BR><B>Name of return value:</B> Operation status
-	* <BR><B>Type of return value:</B> TInt
-	* <BR><B>Range of return value:</B> A system wide error code
-	* <BR><B>Contents of return value:</B> The status code of the operation.
-	*
-	*/
-	IMPORT_C TInt VerifyNewLockcodeAgainstPolicies(TDesC& aNewLockcode, RArray<TDevicelockPolicies>& aFailedPolicies);
-
-	/**
-	* Sets a new device Lock Code
-	*
-	* @param 	aNewLockCode: The new Lock Code that is to be set on the device
-
-				aFailedPolicies: On completion of the call, if the New Lock Code is not compliant with the TARM policies
-				(if the return value is other than KErrNone) this array
-				would contain the policies that were not satisfied by Lock Code provided in aNewLockCode
-
-				The policy ID's are available in SCPServerInterface.h under TDevicelockPolicies
-	*
-	*
-	* @return The status, see below
-	* <BR><B>Name of return value:</B> Operation status
-	* <BR><B>Type of return value:</B> TInt
-	* <BR><B>Range of return value:</B> A system wide error code
-	* <BR><B>Contents of return value:</B> The status code of the operation.
-	*
-	*/
-	IMPORT_C TInt StoreLockcode(TDesC& aNewLockcode, TDesC& aOldLockcode, RArray<TDevicelockPolicies>& aFailedPolicies);
-
-	/**
-	* Verifies if the Lock Code enforced on the device is the same as the one mentioned in the argument.
-	*
-	* @param 	aLockCode: The Lock Code that is to be verified against the current device LockCode
-
-			aISACode: The Lock Code enforced through a call to StoreLockCode would hash the New Lock Code before storing
-			at the ISA (RMobilePhone) side.
-
-			On successful completion of a call to VerifyCurrentLockCode, aISACode would return
-			the Hashed code value equivalent to the current Lock Code enforced on the device
-
-			aFailedPolicies: On completion of the call, this array may contain EDeviceLockPasscodeExpiration depending on
-			if the Lock Code is marked as expired due to the current value of the policy at TARM
-
-			The policy ID's are available in SCPServerInterface.h under TDevicelockPolicies
-	*
-	*
-	* @return The status, see below
-	* <BR><B>Name of return value:</B> Operation status
-	* <BR><B>Type of return value:</B> TInt
-	* <BR><B>Range of return value:</B> A system wide error code
-	* <BR><B>Contents of return value:</B> The status code of the operation.
-	*
-	*/
-	IMPORT_C TInt VerifyCurrentLockcode(TDesC& aLockcode, RMobilePhone :: TMobilePassword& aISACode,
-		  RArray<TDevicelockPolicies>& aFailedPolicies, TInt aFlags);
-		  
     private: // Methods
-	
-	
-	    /**
+
+        /**
+        * Request the security code from the user (encapsulates functionalities of SecCodeQuery()).
+        *
+        */
+    	TInt SetSecurityCodeL(RMobilePhone::TMobilePassword& aPassword, TSCPButtonConfig aButtonsShown,
+                             TBool aECSSupport, TInt aFlags, TInt& aResFileSCP, TInt& aResFileSecUi);
+
+        /**
+        * Request the new code from the user and try to change the code
+        */         
+        TInt GetNewCodeAndChange( TDes& aOldCode, TInt aMode, TSCPSecCode* aNewDOSCode = NULL, HBufC** aNewCodePptr = NULL );
+    
+        /**
+        * Process the server's response-commands
+        */         
+        void ProcessServerCommandsL( TDes8& aInParams, 
+                                    CSCPParamObject** aOutParams = NULL,
+                                    TBool isNotifierEvent = EFalse );
+        
+        /**
+        * Show UI controls based on server commands
+        */          
+        void ShowUIL( CSCPParamObject& aContext );
+        
+        /**
         * Fetch the limit-values for code length
         */          
         void FetchLimits( TInt& aMin, TInt& aMax );
-		
-        void ReadFailedPoliciesL(TDes8& aFailedPolicyBuf, RArray< TDevicelockPolicies > &aFailedPolicies);
-		
+		void InformAutolockTask();
         TBool isFlagEnabled;        
     };
 

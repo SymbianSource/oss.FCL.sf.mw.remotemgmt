@@ -1,0 +1,156 @@
+EXPORTS
+	_ZN19CDiagTestPluginBase10GetCustomLE4TUidPv @ 1 NONAME
+	_ZN19CDiagTestPluginBase12SetDtorIdKeyE4TUid @ 2 NONAME
+	_ZN19CDiagTestPluginBase13CompleteTestLEN24CDiagResultsDatabaseItem7TResultE @ 3 NONAME
+	_ZN19CDiagTestPluginBase14BaseConstructLERK7TDesC16 @ 4 NONAME
+	_ZN19CDiagTestPluginBase14ExecutionParamEv @ 5 NONAME
+	_ZN19CDiagTestPluginBase14ExecutionStopLEN15MDiagTestPlugin11TStopReasonE @ 6 NONAME
+	_ZN19CDiagTestPluginBase15StopAndCleanupLEv @ 7 NONAME
+	_ZN19CDiagTestPluginBase15TestSessionEndLER17MDiagEngineCommoniPv @ 8 NONAME
+	_ZN19CDiagTestPluginBase16CustomOperationLE4TUidPv @ 9 NONAME
+	_ZN19CDiagTestPluginBase16DoExecutionStopLEN15MDiagTestPlugin11TStopReasonERN24CDiagResultsDatabaseItem7TResultE @ 10 NONAME
+	_ZN19CDiagTestPluginBase17RunWaitingDialogLEP10CAknDialogRi @ 11 NONAME
+	_ZN19CDiagTestPluginBase17TestSessionBeginLER17MDiagEngineCommoniPv @ 12 NONAME
+	_ZN19CDiagTestPluginBase19ReportTestProgressLEj @ 13 NONAME
+	_ZN19CDiagTestPluginBase20DismissWaitingDialogEv @ 14 NONAME
+	_ZN19CDiagTestPluginBase20ResultsDbItemBuilderEv @ 15 NONAME
+	_ZN19CDiagTestPluginBase6CoeEnvEv @ 16 NONAME
+	_ZN19CDiagTestPluginBase7ResumeLEv @ 17 NONAME
+	_ZN19CDiagTestPluginBase8RunErrorEi @ 18 NONAME
+	_ZN19CDiagTestPluginBase8RunTestLEP18TDiagTestExecParamiiPv @ 19 NONAME
+	_ZN19CDiagTestPluginBase8SuspendLEv @ 20 NONAME
+	_ZN19CDiagTestPluginBaseC2EP28CDiagPluginConstructionParam @ 21 NONAME
+	_ZN19CDiagTestPluginBaseD0Ev @ 22 NONAME
+	_ZN19CDiagTestPluginBaseD1Ev @ 23 NONAME
+	_ZN19CDiagTestPluginBaseD2Ev @ 24 NONAME
+	_ZN20CDiagSuitePluginBase10GetCustomLE4TUidPv @ 25 NONAME
+	_ZN20CDiagSuitePluginBase12SetDtorIdKeyE4TUid @ 26 NONAME
+	_ZN20CDiagSuitePluginBase14BaseConstructLERK7TDesC16 @ 27 NONAME
+	_ZN20CDiagSuitePluginBase14ExecutionStopLEN16MDiagSuitePlugin11TStopReasonE @ 28 NONAME
+	_ZN20CDiagSuitePluginBase15TestSessionEndLER17MDiagEngineCommoniPv @ 29 NONAME
+	_ZN20CDiagSuitePluginBase16CustomOperationLE4TUidPv @ 30 NONAME
+	_ZN20CDiagSuitePluginBase17RunWaitingDialogLEP10CAknDialogRi @ 31 NONAME
+	_ZN20CDiagSuitePluginBase17TestSessionBeginLER17MDiagEngineCommoniPv @ 32 NONAME
+	_ZN20CDiagSuitePluginBase20DismissWaitingDialogEv @ 33 NONAME
+	_ZN20CDiagSuitePluginBase25PrepareChildrenExecutionLEP19TDiagSuiteExecParamii @ 34 NONAME
+	_ZN20CDiagSuitePluginBase26FinalizeChildrenExecutionLEP19TDiagSuiteExecParamii @ 35 NONAME
+	_ZN20CDiagSuitePluginBase6CoeEnvEv @ 36 NONAME
+	_ZN20CDiagSuitePluginBase9AddChildLEP11MDiagPlugin @ 37 NONAME
+	_ZN20CDiagSuitePluginBaseC2EP28CDiagPluginConstructionParam @ 38 NONAME
+	_ZN20CDiagSuitePluginBaseD0Ev @ 39 NONAME
+	_ZN20CDiagSuitePluginBaseD1Ev @ 40 NONAME
+	_ZN20CDiagSuitePluginBaseD2Ev @ 41 NONAME
+	_ZN22CDiagResultDetailBasic14BaseConstructLER11RReadStream @ 42 NONAME
+	_ZN22CDiagResultDetailBasic14BaseConstructLERK8CBufFlat @ 43 NONAME
+	_ZN22CDiagResultDetailBasic9SetResultEN24CDiagResultsDatabaseItem7TResultE @ 44 NONAME
+	_ZN22CDiagResultDetailBasic9SetValueLEiRK6TDesC8RK7TDesC16 @ 45 NONAME
+	_ZN22CDiagResultDetailBasic9SetValueLEiRK6TDesC8S2_ @ 46 NONAME
+	_ZN22CDiagResultDetailBasic9SetValueLEiRK6TDesC8i @ 47 NONAME
+	_ZN22CDiagResultDetailBasicC1EN24CDiagResultsDatabaseItem7TResultE @ 48 NONAME
+	_ZN22CDiagResultDetailBasicC2EN24CDiagResultsDatabaseItem7TResultE @ 49 NONAME
+	_ZN22CDiagResultDetailBasicD0Ev @ 50 NONAME
+	_ZN22CDiagResultDetailBasicD1Ev @ 51 NONAME
+	_ZN22CDiagResultDetailBasicD2Ev @ 52 NONAME
+	_ZN31CDiagPluginWaitingDialogWrapper4NewLEP10CAknDialog @ 53 NONAME
+	_ZN31CDiagPluginWaitingDialogWrapper5RunLDERi @ 54 NONAME
+	_ZN31CDiagPluginWaitingDialogWrapperD0Ev @ 55 NONAME
+	_ZN31CDiagPluginWaitingDialogWrapperD1Ev @ 56 NONAME
+	_ZN31CDiagPluginWaitingDialogWrapperD2Ev @ 57 NONAME
+	_ZNK19CDiagTestPluginBase11CreateIconLEv @ 58 NONAME
+	_ZNK19CDiagTestPluginBase11CustomParamEv @ 59 NONAME
+	_ZNK19CDiagTestPluginBase11IsSupportedEv @ 60 NONAME
+	_ZNK19CDiagTestPluginBase13CreateDetailLERK24CDiagResultsDatabaseItem @ 61 NONAME
+	_ZNK19CDiagTestPluginBase15GetDescriptionLEv @ 62 NONAME
+	_ZNK19CDiagTestPluginBase18ServiceLogicalNameEv @ 63 NONAME
+	_ZNK19CDiagTestPluginBase21IsDependencyExecutionEv @ 64 NONAME
+	_ZNK19CDiagTestPluginBase23GetLogicalDependenciesLER12CPtrC16Array @ 65 NONAME
+	_ZNK19CDiagTestPluginBase24IsDependencyCheckSkippedEv @ 66 NONAME
+	_ZNK19CDiagTestPluginBase25AreDependenciesSatisfiedLER17MDiagEngineCommonRP6RArrayI4TUidE @ 67 NONAME
+	_ZNK19CDiagTestPluginBase4TypeEv @ 68 NONAME
+	_ZNK19CDiagTestPluginBase5OrderEv @ 69 NONAME
+	_ZNK19CDiagTestPluginBase9GetTitleLEv @ 70 NONAME
+	_ZNK19CDiagTestPluginBase9ParentUidEv @ 71 NONAME
+	_ZNK20CDiagSuitePluginBase11CreateIconLEv @ 72 NONAME
+	_ZNK20CDiagSuitePluginBase11IsSupportedEv @ 73 NONAME
+	_ZNK20CDiagSuitePluginBase12GetChildrenLER13RPointerArrayI11MDiagPluginEN16MDiagSuitePlugin10TSortOrderE @ 74 NONAME
+	_ZNK20CDiagSuitePluginBase15GetDescriptionLEv @ 75 NONAME
+	_ZNK20CDiagSuitePluginBase16GetChildrenUidsLER6RArrayI4TUidEN16MDiagSuitePlugin10TSortOrderE @ 76 NONAME
+	_ZNK20CDiagSuitePluginBase18ServiceLogicalNameEv @ 77 NONAME
+	_ZNK20CDiagSuitePluginBase23GetLogicalDependenciesLER12CPtrC16Array @ 78 NONAME
+	_ZNK20CDiagSuitePluginBase4TypeEv @ 79 NONAME
+	_ZNK20CDiagSuitePluginBase5OrderEv @ 80 NONAME
+	_ZNK20CDiagSuitePluginBase9GetTitleLEv @ 81 NONAME
+	_ZNK20CDiagSuitePluginBase9ParentUidEv @ 82 NONAME
+	_ZNK22CDiagResultDetailBasic10GetOutputLEN17MDiagResultDetail13TOutputFormatER6RBuf16 @ 83 NONAME
+	_ZNK22CDiagResultDetailBasic11CreateIconLEv @ 84 NONAME
+	_ZNK22CDiagResultDetailBasic12ExternalizeLER12RWriteStream @ 85 NONAME
+	_ZNK22CDiagResultDetailBasic17IsOutputSupportedEN17MDiagResultDetail13TOutputFormatE @ 86 NONAME
+	_ZNK22CDiagResultDetailBasic18GetSupportedOutputER6RArrayIN17MDiagResultDetail13TOutputFormatEE @ 87 NONAME
+	_ZNK22CDiagResultDetailBasic20ExternalizeToBufferLEv @ 88 NONAME
+	_ZNK22CDiagResultDetailBasic8GetValueEiR6TPtrC8 @ 89 NONAME
+	_ZNK22CDiagResultDetailBasic8GetValueEiR7TPtrC16 @ 90 NONAME
+	_ZNK22CDiagResultDetailBasic8GetValueEiRi @ 91 NONAME
+	_ZTI19CDiagTestPluginBase @ 92 NONAME ; #<TI>#
+	_ZTI20CDiagSuitePluginBase @ 93 NONAME ; #<TI>#
+	_ZTI22CDiagResultDetailBasic @ 94 NONAME ; #<TI>#
+	_ZTI26CDiagResultDetailBasicItem @ 95 NONAME ; #<TI>#
+	_ZTI31CDiagPluginWaitingDialogWrapper @ 96 NONAME ; #<TI>#
+	_ZTV19CDiagTestPluginBase @ 97 NONAME ; #<VT>#
+	_ZTV20CDiagSuitePluginBase @ 98 NONAME ; #<VT>#
+	_ZTV22CDiagResultDetailBasic @ 99 NONAME ; #<VT>#
+	_ZTV26CDiagResultDetailBasicItem @ 100 NONAME ; #<VT>#
+	_ZTV31CDiagPluginWaitingDialogWrapper @ 101 NONAME ; #<VT>#
+	_ZThn28_N19CDiagTestPluginBase10GetCustomLE4TUidPv @ 102 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase12SetDtorIdKeyE4TUid @ 103 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase14ExecutionStopLEN15MDiagTestPlugin11TStopReasonE @ 104 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase15TestSessionEndLER17MDiagEngineCommoniPv @ 105 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase16CustomOperationLE4TUidPv @ 106 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase17TestSessionBeginLER17MDiagEngineCommoniPv @ 107 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase7ResumeLEv @ 108 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase8RunTestLEP18TDiagTestExecParamiiPv @ 109 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBase8SuspendLEv @ 110 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBaseD0Ev @ 111 NONAME ; #<thunk>#
+	_ZThn28_N19CDiagTestPluginBaseD1Ev @ 112 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase10GetCustomLE4TUidPv @ 113 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase12SetDtorIdKeyE4TUid @ 114 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase14ExecutionStopLEN16MDiagSuitePlugin11TStopReasonE @ 115 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase15TestSessionEndLER17MDiagEngineCommoniPv @ 116 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase16CustomOperationLE4TUidPv @ 117 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase17TestSessionBeginLER17MDiagEngineCommoniPv @ 118 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase25PrepareChildrenExecutionLEP19TDiagSuiteExecParamii @ 119 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase26FinalizeChildrenExecutionLEP19TDiagSuiteExecParamii @ 120 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBase9AddChildLEP11MDiagPlugin @ 121 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBaseD0Ev @ 122 NONAME ; #<thunk>#
+	_ZThn28_N20CDiagSuitePluginBaseD1Ev @ 123 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase11CreateIconLEv @ 124 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase11IsSupportedEv @ 125 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase13CreateDetailLERK24CDiagResultsDatabaseItem @ 126 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase15GetDescriptionLEv @ 127 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase18ServiceLogicalNameEv @ 128 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase23GetLogicalDependenciesLER12CPtrC16Array @ 129 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase4TypeEv @ 130 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase5OrderEv @ 131 NONAME ; #<thunk>#
+	_ZThn28_NK19CDiagTestPluginBase9ParentUidEv @ 132 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase11CreateIconLEv @ 133 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase11IsSupportedEv @ 134 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase12GetChildrenLER13RPointerArrayI11MDiagPluginEN16MDiagSuitePlugin10TSortOrderE @ 135 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase15GetDescriptionLEv @ 136 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase16GetChildrenUidsLER6RArrayI4TUidEN16MDiagSuitePlugin10TSortOrderE @ 137 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase18ServiceLogicalNameEv @ 138 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase23GetLogicalDependenciesLER12CPtrC16Array @ 139 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase4TypeEv @ 140 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase5OrderEv @ 141 NONAME ; #<thunk>#
+	_ZThn28_NK20CDiagSuitePluginBase9ParentUidEv @ 142 NONAME ; #<thunk>#
+	_ZThn4_N22CDiagResultDetailBasicD0Ev @ 143 NONAME ; #<thunk>#
+	_ZThn4_N22CDiagResultDetailBasicD1Ev @ 144 NONAME ; #<thunk>#
+	_ZThn4_NK22CDiagResultDetailBasic10GetOutputLEN17MDiagResultDetail13TOutputFormatER6RBuf16 @ 145 NONAME ; #<thunk>#
+	_ZThn4_NK22CDiagResultDetailBasic11CreateIconLEv @ 146 NONAME ; #<thunk>#
+	_ZThn4_NK22CDiagResultDetailBasic17IsOutputSupportedEN17MDiagResultDetail13TOutputFormatE @ 147 NONAME ; #<thunk>#
+	_ZThn4_NK22CDiagResultDetailBasic18GetSupportedOutputER6RArrayIN17MDiagResultDetail13TOutputFormatEE @ 148 NONAME ; #<thunk>#
+	_ZThn4_NK22CDiagResultDetailBasic20ExternalizeToBufferLEv @ 149 NONAME ; #<thunk>#
+	_ZNK19CDiagTestPluginBase21SinglePluginExecutionEv @ 150 NONAME
+	_ZNK19CDiagTestPluginBase19VerifyDependenciesLER17MDiagEngineCommonRP6RArrayI4TUidE @ 151 NONAME
+	_ZN19CDiagTestPluginBase13ResetWatchdogE24TDiagEngineWatchdogTypesN24CDiagResultsDatabaseItem7TResultE @ 152 NONAME
+	_ZN19CDiagTestPluginBase13ResetWatchdogEiN24CDiagResultsDatabaseItem7TResultE @ 153 NONAME
+	_ZN19CDiagTestPluginBase22ResetWatchdogToDefaultEv @ 154 NONAME
+

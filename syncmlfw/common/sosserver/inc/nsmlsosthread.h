@@ -19,12 +19,9 @@
 #ifndef __NSMLTHREADSTART_H__
 #define __NSMLTHREADSTART_H__
 
-#include <devicedialogsymbian.h>
-#include <dmdevdialogclient.h>
-#include <hbdevicedialogsymbian.h>
-#include <hbsymbianvariant.h>
+#include <SyncMLNotifierParams.h>
+#include <SyncMLNotifier.h>
 #include "nsmlsosserver.h"
-
 
 class CNSmlJob;
 class CNSmlNotifierObserver;
@@ -92,7 +89,7 @@ class CNSmlThreadEngine : public CActive
 		
 		void StartJobSessionL();
 		void CancelJob();
-		TInt VerifyJobFromNotifierL(TBool aServerInitiated);
+		TInt VerifyJobFromNotifierL();
 		
 		TInt FinishedStatus() 
 			{
@@ -125,12 +122,14 @@ class CNSmlThreadEngine : public CActive
 		
 		//used for server alert initiated job
 		RTimer iTimeout;
-//    	RNotifier iNotifier;
+    	RNotifier iNotifier;
     	CNSmlNotifierObserver* iNotifierObserver;
     	RLibrary iSessionLib;
     	CNSmlDMAgent* iDMAgent;		
 		CNSmlDSAgent* iDSAgent;	
 		CNSmlCancelTimeOut* iCancelTimeout;
+		// Fix for cancel not happening when cancel key is pressed 
+		TBool iSyncCancelled;
 	};
 
 
@@ -185,26 +184,18 @@ class CNSmlNotifierObserver : public CActive
 		~CNSmlNotifierObserver();
 		void ConnectToNotifierL( const TSyncMLAppLaunchNotifParams& aParam );
 		void NotifierTimeOut();
-		TBool IsHbSyncmlNotifierEnabledL();
-		void HbNotifierObserverL(const TSyncMLAppLaunchNotifParams& aParam);
 	protected:
 		void DoCancel();
 		void RunL();
 	private:
 		TRequestStatus& iCallerStatus;
 		
-//		RNotifier iNotifier;
-		TPckgBuf<TInt> iResBuf;
+		RNotifier iNotifier;
+		TSyncMLAppLaunchNotifRetValPckg iResBuf;
 	
 		CNSmlThreadParams& iThreadParams;
 		CNSmlNotifierTimeOut iNotifierTimeOut;
 		TBool iTimeOut;
-
-		CHbDeviceDialogSymbian* iDevDialog;
-            RProperty iProperty;
-            TBool iHbSyncmlNotifierEnabled;
-           RDmDevDialog iDmDevdialog;
-
 	};
 	
 

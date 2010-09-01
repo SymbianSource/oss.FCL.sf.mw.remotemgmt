@@ -54,14 +54,11 @@ USERINCLUDE   ../../../inc // domain private headers
 MW_LAYER_SYSTEMINCLUDE
 APP_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE /epoc32/include/xml
+SYSTEMINCLUDE /epoc32/include/comms-infras/commdb/protection
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 SYSTEMINCLUDE 	/epoc32/include/platform/xml
 SYSTEMINCLUDE 	/epoc32/include/platform/comms-infras/commdb/protection
 #endif
-
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbcore
-SYSTEMINCLUDE		/epoc32/include/mw/hb/hbwidgets
-
 
 LIBRARY     euser.lib 
 LIBRARY		  efsrv.lib 
@@ -79,7 +76,6 @@ LIBRARY		  commdb.lib
 LIBRARY		  commsdat.lib
 LIBRARY		  flogger.lib
 LIBRARY 	  featmgr.lib
-LIBRARY       HbWidgets.lib HbCore.lib
-LIBRARY 	  inetprotutil.lib
+LIBRARY     inetprotutil.lib
 
 SMPSAFE

@@ -1,0 +1,89 @@
+EXPORTS
+	??0CDiagResultDetailBasic@@QAE@W4TResult@CDiagResultsDatabaseItem@@@Z @ 1 NONAME ; CDiagResultDetailBasic::CDiagResultDetailBasic(enum CDiagResultsDatabaseItem::TResult)
+	??0CDiagSuitePluginBase@@IAE@PAVCDiagPluginConstructionParam@@@Z @ 2 NONAME ; CDiagSuitePluginBase::CDiagSuitePluginBase(class CDiagPluginConstructionParam *)
+	??0CDiagTestPluginBase@@IAE@PAVCDiagPluginConstructionParam@@@Z @ 3 NONAME ; CDiagTestPluginBase::CDiagTestPluginBase(class CDiagPluginConstructionParam *)
+	??1CDiagPluginWaitingDialogWrapper@@UAE@XZ @ 4 NONAME ; CDiagPluginWaitingDialogWrapper::~CDiagPluginWaitingDialogWrapper(void)
+	??1CDiagResultDetailBasic@@UAE@XZ @ 5 NONAME ; CDiagResultDetailBasic::~CDiagResultDetailBasic(void)
+	??1CDiagSuitePluginBase@@UAE@XZ @ 6 NONAME ; CDiagSuitePluginBase::~CDiagSuitePluginBase(void)
+	??1CDiagTestPluginBase@@UAE@XZ @ 7 NONAME ; CDiagTestPluginBase::~CDiagTestPluginBase(void)
+	?AddChildL@CDiagSuitePluginBase@@UAEXPAVMDiagPlugin@@@Z @ 8 NONAME ; void CDiagSuitePluginBase::AddChildL(class MDiagPlugin *)
+	?AreDependenciesSatisfiedL@CDiagTestPluginBase@@MBEHAAVMDiagEngineCommon@@AAPAV?$RArray@VTUid@@@@@Z @ 9 NONAME ; int CDiagTestPluginBase::AreDependenciesSatisfiedL(class MDiagEngineCommon &, class RArray<class TUid> * &) const
+	?BaseConstructL@CDiagResultDetailBasic@@IAEXAAVRReadStream@@@Z @ 10 NONAME ; void CDiagResultDetailBasic::BaseConstructL(class RReadStream &)
+	?BaseConstructL@CDiagResultDetailBasic@@IAEXABVCBufFlat@@@Z @ 11 NONAME ; void CDiagResultDetailBasic::BaseConstructL(class CBufFlat const &)
+	?BaseConstructL@CDiagSuitePluginBase@@IAEXABVTDesC16@@@Z @ 12 NONAME ; void CDiagSuitePluginBase::BaseConstructL(class TDesC16 const &)
+	?BaseConstructL@CDiagTestPluginBase@@IAEXABVTDesC16@@@Z @ 13 NONAME ; void CDiagTestPluginBase::BaseConstructL(class TDesC16 const &)
+	?CoeEnv@CDiagSuitePluginBase@@IAEAAVCCoeEnv@@XZ @ 14 NONAME ; class CCoeEnv & CDiagSuitePluginBase::CoeEnv(void)
+	?CoeEnv@CDiagTestPluginBase@@IAEAAVCCoeEnv@@XZ @ 15 NONAME ; class CCoeEnv & CDiagTestPluginBase::CoeEnv(void)
+	?CompleteTestL@CDiagTestPluginBase@@IAEXW4TResult@CDiagResultsDatabaseItem@@@Z @ 16 NONAME ; void CDiagTestPluginBase::CompleteTestL(enum CDiagResultsDatabaseItem::TResult)
+	?CreateDetailL@CDiagTestPluginBase@@MBEPAVMDiagResultDetail@@ABVCDiagResultsDatabaseItem@@@Z @ 17 NONAME ; class MDiagResultDetail * CDiagTestPluginBase::CreateDetailL(class CDiagResultsDatabaseItem const &) const
+	?CreateIconL@CDiagResultDetailBasic@@UBEPAVCGulIcon@@XZ @ 18 NONAME ; class CGulIcon * CDiagResultDetailBasic::CreateIconL(void) const
+	?CreateIconL@CDiagSuitePluginBase@@UBEPAVCGulIcon@@XZ @ 19 NONAME ; class CGulIcon * CDiagSuitePluginBase::CreateIconL(void) const
+	?CreateIconL@CDiagTestPluginBase@@MBEPAVCGulIcon@@XZ @ 20 NONAME ; class CGulIcon * CDiagTestPluginBase::CreateIconL(void) const
+	?CustomOperationL@CDiagSuitePluginBase@@UAEPAXVTUid@@PAX@Z @ 21 NONAME ; void * CDiagSuitePluginBase::CustomOperationL(class TUid, void *)
+	?CustomOperationL@CDiagTestPluginBase@@MAEPAXVTUid@@PAX@Z @ 22 NONAME ; void * CDiagTestPluginBase::CustomOperationL(class TUid, void *)
+	?CustomParam@CDiagTestPluginBase@@IBEPAXXZ @ 23 NONAME ; void * CDiagTestPluginBase::CustomParam(void) const
+	?DismissWaitingDialog@CDiagSuitePluginBase@@IAEXXZ @ 24 NONAME ; void CDiagSuitePluginBase::DismissWaitingDialog(void)
+	?DismissWaitingDialog@CDiagTestPluginBase@@IAEXXZ @ 25 NONAME ; void CDiagTestPluginBase::DismissWaitingDialog(void)
+	?DoExecutionStopL@CDiagTestPluginBase@@MAEXW4TStopReason@MDiagTestPlugin@@AAW4TResult@CDiagResultsDatabaseItem@@@Z @ 26 NONAME ; void CDiagTestPluginBase::DoExecutionStopL(enum MDiagTestPlugin::TStopReason, enum CDiagResultsDatabaseItem::TResult &)
+	?ExecutionParam@CDiagTestPluginBase@@IAEAAVTDiagTestExecParam@@XZ @ 27 NONAME ; class TDiagTestExecParam & CDiagTestPluginBase::ExecutionParam(void)
+	?ExecutionStopL@CDiagSuitePluginBase@@UAEXW4TStopReason@MDiagSuitePlugin@@@Z @ 28 NONAME ; void CDiagSuitePluginBase::ExecutionStopL(enum MDiagSuitePlugin::TStopReason)
+	?ExecutionStopL@CDiagTestPluginBase@@MAEPAVCDiagResultsDatabaseItem@@W4TStopReason@MDiagTestPlugin@@@Z @ 29 NONAME ; class CDiagResultsDatabaseItem * CDiagTestPluginBase::ExecutionStopL(enum MDiagTestPlugin::TStopReason)
+	?ExternalizeL@CDiagResultDetailBasic@@QBEXAAVRWriteStream@@@Z @ 30 NONAME ; void CDiagResultDetailBasic::ExternalizeL(class RWriteStream &) const
+	?ExternalizeToBufferL@CDiagResultDetailBasic@@UBEPAVCBufFlat@@XZ @ 31 NONAME ; class CBufFlat * CDiagResultDetailBasic::ExternalizeToBufferL(void) const
+	?FinalizeChildrenExecutionL@CDiagSuitePluginBase@@UAEXPAVTDiagSuiteExecParam@@HH@Z @ 32 NONAME ; void CDiagSuitePluginBase::FinalizeChildrenExecutionL(class TDiagSuiteExecParam *, int, int)
+	?GetChildrenL@CDiagSuitePluginBase@@UBEXAAV?$RPointerArray@VMDiagPlugin@@@@W4TSortOrder@MDiagSuitePlugin@@@Z @ 33 NONAME ; void CDiagSuitePluginBase::GetChildrenL(class RPointerArray<class MDiagPlugin> &, enum MDiagSuitePlugin::TSortOrder) const
+	?GetChildrenUidsL@CDiagSuitePluginBase@@UBEXAAV?$RArray@VTUid@@@@W4TSortOrder@MDiagSuitePlugin@@@Z @ 34 NONAME ; void CDiagSuitePluginBase::GetChildrenUidsL(class RArray<class TUid> &, enum MDiagSuitePlugin::TSortOrder) const
+	?GetCustomL@CDiagSuitePluginBase@@UAEPAXVTUid@@PAX@Z @ 35 NONAME ; void * CDiagSuitePluginBase::GetCustomL(class TUid, void *)
+	?GetCustomL@CDiagTestPluginBase@@MAEPAXVTUid@@PAX@Z @ 36 NONAME ; void * CDiagTestPluginBase::GetCustomL(class TUid, void *)
+	?GetDescriptionL@CDiagSuitePluginBase@@UBEPAVHBufC16@@XZ @ 37 NONAME ; class HBufC16 * CDiagSuitePluginBase::GetDescriptionL(void) const
+	?GetDescriptionL@CDiagTestPluginBase@@MBEPAVHBufC16@@XZ @ 38 NONAME ; class HBufC16 * CDiagTestPluginBase::GetDescriptionL(void) const
+	?GetLogicalDependenciesL@CDiagSuitePluginBase@@UBEXAAVCPtrC16Array@@@Z @ 39 NONAME ; void CDiagSuitePluginBase::GetLogicalDependenciesL(class CPtrC16Array &) const
+	?GetLogicalDependenciesL@CDiagTestPluginBase@@MBEXAAVCPtrC16Array@@@Z @ 40 NONAME ; void CDiagTestPluginBase::GetLogicalDependenciesL(class CPtrC16Array &) const
+	?GetOutputL@CDiagResultDetailBasic@@UBEXW4TOutputFormat@MDiagResultDetail@@AAVRBuf16@@@Z @ 41 NONAME ; void CDiagResultDetailBasic::GetOutputL(enum MDiagResultDetail::TOutputFormat, class RBuf16 &) const
+	?GetSupportedOutput@CDiagResultDetailBasic@@UBEXAAV?$RArray@W4TOutputFormat@MDiagResultDetail@@@@@Z @ 42 NONAME ; void CDiagResultDetailBasic::GetSupportedOutput(class RArray<enum MDiagResultDetail::TOutputFormat> &) const
+	?GetTitleL@CDiagSuitePluginBase@@UBEPAVHBufC16@@XZ @ 43 NONAME ; class HBufC16 * CDiagSuitePluginBase::GetTitleL(void) const
+	?GetTitleL@CDiagTestPluginBase@@MBEPAVHBufC16@@XZ @ 44 NONAME ; class HBufC16 * CDiagTestPluginBase::GetTitleL(void) const
+	?GetValue@CDiagResultDetailBasic@@IBEHHAAH@Z @ 45 NONAME ; int CDiagResultDetailBasic::GetValue(int, int &) const
+	?GetValue@CDiagResultDetailBasic@@IBEHHAAVTPtrC16@@@Z @ 46 NONAME ; int CDiagResultDetailBasic::GetValue(int, class TPtrC16 &) const
+	?GetValue@CDiagResultDetailBasic@@IBEHHAAVTPtrC8@@@Z @ 47 NONAME ; int CDiagResultDetailBasic::GetValue(int, class TPtrC8 &) const
+	?IsDependencyCheckSkipped@CDiagTestPluginBase@@IBEHXZ @ 48 NONAME ; int CDiagTestPluginBase::IsDependencyCheckSkipped(void) const
+	?IsDependencyExecution@CDiagTestPluginBase@@IBEHXZ @ 49 NONAME ; int CDiagTestPluginBase::IsDependencyExecution(void) const
+	?IsOutputSupported@CDiagResultDetailBasic@@UBEHW4TOutputFormat@MDiagResultDetail@@@Z @ 50 NONAME ; int CDiagResultDetailBasic::IsOutputSupported(enum MDiagResultDetail::TOutputFormat) const
+	?IsSupported@CDiagSuitePluginBase@@UBEHXZ @ 51 NONAME ; int CDiagSuitePluginBase::IsSupported(void) const
+	?IsSupported@CDiagTestPluginBase@@MBEHXZ @ 52 NONAME ; int CDiagTestPluginBase::IsSupported(void) const
+	?NewL@CDiagPluginWaitingDialogWrapper@@SAPAV1@PAVCAknDialog@@@Z @ 53 NONAME ; class CDiagPluginWaitingDialogWrapper * CDiagPluginWaitingDialogWrapper::NewL(class CAknDialog *)
+	?Order@CDiagSuitePluginBase@@UBEIXZ @ 54 NONAME ; unsigned int CDiagSuitePluginBase::Order(void) const
+	?Order@CDiagTestPluginBase@@MBEIXZ @ 55 NONAME ; unsigned int CDiagTestPluginBase::Order(void) const
+	?ParentUid@CDiagSuitePluginBase@@UBE?AVTUid@@XZ @ 56 NONAME ; class TUid CDiagSuitePluginBase::ParentUid(void) const
+	?ParentUid@CDiagTestPluginBase@@MBE?AVTUid@@XZ @ 57 NONAME ; class TUid CDiagTestPluginBase::ParentUid(void) const
+	?PrepareChildrenExecutionL@CDiagSuitePluginBase@@UAEXPAVTDiagSuiteExecParam@@HH@Z @ 58 NONAME ; void CDiagSuitePluginBase::PrepareChildrenExecutionL(class TDiagSuiteExecParam *, int, int)
+	?ReportTestProgressL@CDiagTestPluginBase@@IAEXI@Z @ 59 NONAME ; void CDiagTestPluginBase::ReportTestProgressL(unsigned int)
+	?ResultsDbItemBuilder@CDiagTestPluginBase@@IAEAAVCDiagResultsDbItemBuilder@@XZ @ 60 NONAME ; class CDiagResultsDbItemBuilder & CDiagTestPluginBase::ResultsDbItemBuilder(void)
+	?ResumeL@CDiagTestPluginBase@@MAEXXZ @ 61 NONAME ; void CDiagTestPluginBase::ResumeL(void)
+	?RunError@CDiagTestPluginBase@@MAEHH@Z @ 62 NONAME ; int CDiagTestPluginBase::RunError(int)
+	?RunLD@CDiagPluginWaitingDialogWrapper@@QAEHAAH@Z @ 63 NONAME ; int CDiagPluginWaitingDialogWrapper::RunLD(int &)
+	?RunTestL@CDiagTestPluginBase@@MAEXPAVTDiagTestExecParam@@HHPAX@Z @ 64 NONAME ; void CDiagTestPluginBase::RunTestL(class TDiagTestExecParam *, int, int, void *)
+	?RunWaitingDialogL@CDiagSuitePluginBase@@IAEHPAVCAknDialog@@AAH@Z @ 65 NONAME ; int CDiagSuitePluginBase::RunWaitingDialogL(class CAknDialog *, int &)
+	?RunWaitingDialogL@CDiagTestPluginBase@@IAEHPAVCAknDialog@@AAH@Z @ 66 NONAME ; int CDiagTestPluginBase::RunWaitingDialogL(class CAknDialog *, int &)
+	?ServiceLogicalName@CDiagSuitePluginBase@@UBEABVTDesC16@@XZ @ 67 NONAME ; class TDesC16 const & CDiagSuitePluginBase::ServiceLogicalName(void) const
+	?ServiceLogicalName@CDiagTestPluginBase@@MBEABVTDesC16@@XZ @ 68 NONAME ; class TDesC16 const & CDiagTestPluginBase::ServiceLogicalName(void) const
+	?SetDtorIdKey@CDiagSuitePluginBase@@UAEXVTUid@@@Z @ 69 NONAME ; void CDiagSuitePluginBase::SetDtorIdKey(class TUid)
+	?SetDtorIdKey@CDiagTestPluginBase@@MAEXVTUid@@@Z @ 70 NONAME ; void CDiagTestPluginBase::SetDtorIdKey(class TUid)
+	?SetResult@CDiagResultDetailBasic@@QAEXW4TResult@CDiagResultsDatabaseItem@@@Z @ 71 NONAME ; void CDiagResultDetailBasic::SetResult(enum CDiagResultsDatabaseItem::TResult)
+	?SetValueL@CDiagResultDetailBasic@@IAEXHABVTDesC8@@0@Z @ 72 NONAME ; void CDiagResultDetailBasic::SetValueL(int, class TDesC8 const &, class TDesC8 const &)
+	?SetValueL@CDiagResultDetailBasic@@IAEXHABVTDesC8@@ABVTDesC16@@@Z @ 73 NONAME ; void CDiagResultDetailBasic::SetValueL(int, class TDesC8 const &, class TDesC16 const &)
+	?SetValueL@CDiagResultDetailBasic@@IAEXHABVTDesC8@@H@Z @ 74 NONAME ; void CDiagResultDetailBasic::SetValueL(int, class TDesC8 const &, int)
+	?StopAndCleanupL@CDiagTestPluginBase@@IAEXXZ @ 75 NONAME ; void CDiagTestPluginBase::StopAndCleanupL(void)
+	?SuspendL@CDiagTestPluginBase@@MAEXXZ @ 76 NONAME ; void CDiagTestPluginBase::SuspendL(void)
+	?TestSessionBeginL@CDiagSuitePluginBase@@UAEXAAVMDiagEngineCommon@@HPAX@Z @ 77 NONAME ; void CDiagSuitePluginBase::TestSessionBeginL(class MDiagEngineCommon &, int, void *)
+	?TestSessionBeginL@CDiagTestPluginBase@@MAEXAAVMDiagEngineCommon@@HPAX@Z @ 78 NONAME ; void CDiagTestPluginBase::TestSessionBeginL(class MDiagEngineCommon &, int, void *)
+	?TestSessionEndL@CDiagSuitePluginBase@@UAEXAAVMDiagEngineCommon@@HPAX@Z @ 79 NONAME ; void CDiagSuitePluginBase::TestSessionEndL(class MDiagEngineCommon &, int, void *)
+	?TestSessionEndL@CDiagTestPluginBase@@MAEXAAVMDiagEngineCommon@@HPAX@Z @ 80 NONAME ; void CDiagTestPluginBase::TestSessionEndL(class MDiagEngineCommon &, int, void *)
+	?Type@CDiagSuitePluginBase@@UBE?AW4TPluginType@MDiagPlugin@@XZ @ 81 NONAME ; enum MDiagPlugin::TPluginType CDiagSuitePluginBase::Type(void) const
+	?Type@CDiagTestPluginBase@@MBE?AW4TPluginType@MDiagPlugin@@XZ @ 82 NONAME ; enum MDiagPlugin::TPluginType CDiagTestPluginBase::Type(void) const
+	?SinglePluginExecution@CDiagTestPluginBase@@IBEHXZ @ 83 NONAME ; int CDiagTestPluginBase::SinglePluginExecution(void) const
+	?VerifyDependenciesL@CDiagTestPluginBase@@MBE?AW4TResult@CDiagResultsDatabaseItem@@AAVMDiagEngineCommon@@AAPAV?$RArray@VTUid@@@@@Z @ 84 NONAME ; enum CDiagResultsDatabaseItem::TResult CDiagTestPluginBase::VerifyDependenciesL(class MDiagEngineCommon &, class RArray<class TUid> * &) const
+	?ResetWatchdog@CDiagTestPluginBase@@IAEXHW4TResult@CDiagResultsDatabaseItem@@@Z @ 85 NONAME ; void CDiagTestPluginBase::ResetWatchdog(int, enum CDiagResultsDatabaseItem::TResult)
+	?ResetWatchdog@CDiagTestPluginBase@@IAEXW4TDiagEngineWatchdogTypes@@W4TResult@CDiagResultsDatabaseItem@@@Z @ 86 NONAME ; void CDiagTestPluginBase::ResetWatchdog(enum TDiagEngineWatchdogTypes, enum CDiagResultsDatabaseItem::TResult)
+	?ResetWatchdogToDefault@CDiagTestPluginBase@@IAEXXZ @ 87 NONAME ; void CDiagTestPluginBase::ResetWatchdogToDefault(void)
+

@@ -65,7 +65,7 @@ SOURCE          NSmlParserFactory.cpp
 
 LIBRARY         euser.lib estor.lib bafl.lib efsrv.lib nsmlwbxml.lib
 LIBRARY		nsmlhistorylog.lib
-LIBRARY		NSmlDSSettings.lib
+LIBRARY		nsmldssettings.lib
 LIBRARY		nsmldmsettings.lib
 LIBRARY		nsmldshostclient.lib
 LIBRARY         nsmlagentcommon.lib

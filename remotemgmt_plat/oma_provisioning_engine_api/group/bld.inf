@@ -25,9 +25,3 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/CWPEngine.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPEngine.h)
-../inc/CWPBootstrap.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPBootstrap.h)
-../inc/CWPPushMessage.h     MW_LAYER_PLATFORM_EXPORT_PATH(CWPPushMessage.h)
-../inc/MWPPhone.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPPhone.h)
-../inc/ProvisioningInternalCRKeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(ProvisioningInternalCRKeys.h)
-../inc/WPPhoneFactory.h     MW_LAYER_PLATFORM_EXPORT_PATH(WPPhoneFactory.h)
-../inc/MWPContextManager.h     MW_LAYER_PLATFORM_EXPORT_PATH(MWPContextManager.h)

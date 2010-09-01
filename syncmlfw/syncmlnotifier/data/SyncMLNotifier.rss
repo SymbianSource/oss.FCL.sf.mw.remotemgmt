@@ -1,0 +1,909 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file for SyncML notifier component.
+*
+*/
+
+
+
+//  RESOURCE IDENTIFIER
+NAME    SMLN
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rsg>
+#include <eikon.rh>
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include <avkon.loc>
+
+#include "SyncMLNotifier.hrh"
+#include <syncmlnotifier.loc>
+#include <syncmlnotifierfota.loc>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+
+//  CONSTANTS  
+
+//  MACROS  
+
+//  RESOURCE DEFINITIONS 
+
+// =============================================================================
+// POP-UP QUERY TEXTS
+//
+// -----------------------------------------------------------------------------
+//   
+// r_sml_init_ds_server_prompt
+// Text for the server initiated synchronisation session acception
+// pop-up query.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_sml_init_ds_server_prompt    { buf = qtn_ds_query_accept_configuration; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_init_dm_server_prompt
+// Text for the server initiated management session acception
+// pop-up query.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_sml_init_dm_server_prompt    { buf = qtn_dm_query_accept_configuration; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_init_dm_server_prompt   
+// Text for the server initiated management session acception for chinese variant
+// pop-up query.
+//
+// -----------------------------------------------------------------------------
+RESOURCE TBUF r_qtn_dm_query_accept_postsale    { buf = qtn_dm_query_accept_postsale ; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_server_msg_prompt
+// Text for the server initiated management session acception
+// pop-up query.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_sml_server_msg_prompt    { buf = qtn_sml_server_message_heading; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_notif_complete
+// Text indicating that the firmware update was successful.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_notif_complete    { buf = qtn_fota_notif_complete; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_notif_complete
+// Text indicating that the firmware update was not successful.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_msg_query_not_updated  { buf = qtn_fota_msg_query_not_updated; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_battery_low
+// Text indicating that there is not enough battery power to perform
+// firmware update.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_battery_low            { buf = qtn_fota_battery_low; }
+//
+//----------------------------------------------------------------------------
+// r_fota_battery_low
+// Text indicating that there is not enough battery power to perform
+// firmware update.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_usb_battery_low            { buf = qtn_fota_msg_query_update_usb_charger; }
+//
+// -----------------------------------------------------------------------------
+//   
+// r_fota_lost_connection
+// Text indicating that the connection was lost during management
+// or FOTA package download.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_lost_connection        { buf = qtn_fota_err_lost_connection; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_server_error
+// Text indicating that the server returned an internal error when
+// the phone tried to connect to it.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_server_error           { buf = qtn_fota_server_error; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_not_permitted
+// Text indicating that firmware updating is not permitted.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_not_permitted          { buf = qtn_fota_not_permitted; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_query_install_now
+// Text indicating that firmware updating is not permitted.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_query_install_now      { buf = qtn_fota_conf_query_install_now; }
+
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_query_install_force_now
+// Text indicating that firmware updating is not permitted.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_query_install_force_now      { buf = qtn_att_fota_conf_query_install_forced; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_post_limit_fota_query_install_now
+// Text indicating that firmware updating, is to be done now or later.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_post_limit_fota_query_install_now      { buf = qtn_att_fota_conf_query_install_now; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_update_1_warning
+// First confirmation query describing the effect of firmware update.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_update_1_warning         { buf = qtn_fota_msg_query_update_1_warning; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_update_2_warning
+// Second confirmation query describing the effect of firmware update.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_update_2_warning         { buf = qtn_fota_msg_query_update_2_warning; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_custom_warning
+// confirmation query describing the effect of firmware update(chinese variant).
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_fota_msg_query_update_custom_warning  {buf = qtn_fota_msg_query_update_custom_warning;}
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_reboot_note
+// Text indicating that firmware updating is not permitted.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_reboot_note            { buf = qtn_fota_restarting_for_update; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_update_reminder
+// Text informing the user that he may installe the update from
+// device manager application.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_update_reminder        { buf = qtn_fota_msg_query_update_reminder; }
+
+// -----------------------------------------------------------------------------
+//   
+// r_fota_title_phone_updates
+// Header text for firmware update specific queries.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_fota_title_phone_updates    { buf = qtn_fota_query_title_phone_updates; }
+//#ifdef RD_FOTA_FLEXIBLE_MEMORY_USAGE
+RESOURCE TBUF r_fota_large_no_flexible_memory    { buf = qtn_fota_note_not_enough_disk_space; }
+RESOURCE TBUF r_fota_omadl_no_flexible_memory    { buf = qtn_fota_querry_not_enough_disk_space; }
+//#endif
+//#ifdef RD_DM_TEXT_INPUT_ALERT
+RESOURCE TBUF r_default_alert_heading  { buf = qtn_sml_server_message_heading; }
+//#endif
+RESOURCE TBUF r_fota_user_cancel    			{ buf = qtn_fota_query_download_continue; }
+RESOURCE TBUF r_fota_download_postponed   { buf = qtn_fota_query_download_postponed; }
+RESOURCE TBUF r_fota_download_cancelled   { buf = qtn_fota_query_download_cancelled; }
+RESOURCE TBUF r_fota_connection_fail2   	{ buf = qtn_fota_query_download_conn_lost; }
+RESOURCE TBUF r_fota_download_general_resume   { buf = qtn_fota_query_download_error_continue; }
+RESOURCE TBUF r_fota_download_no_resume   { buf = qtn_fota_query_download_error_restart; }
+RESOURCE TBUF r_fota_download_resume   		{ buf = qtn_fota_query_download_resume; }
+
+// Update Postpone Limit
+
+RESOURCE TBUF r_fota_postpone_update_one_minute   { buf = qtn_att_fota_info_installation_postponed_one_minute; }
+RESOURCE TBUF r_fota_postpone_update_minutes   { buf = qtn_att_fota_info_installation_postponed_minutes; }
+RESOURCE TBUF r_fota_postpone_update_one_hour   { buf = qtn_att_fota_info_installation_postponed_one_hour; }
+RESOURCE TBUF r_fota_postpone_update_hours   { buf = qtn_att_fota_info_installation_postponed_hours; }
+RESOURCE TBUF r_fota_postpone_update_one_day   { buf = qtn_att_fota_info_installation_postponed_one_day; }
+RESOURCE TBUF r_fota_postpone_update_days   { buf = qtn_att_fota_info_installation_postponed_days; }
+
+
+// Header text for encryption related queries
+RESOURCE TBUF r_fota_update_dec_warning        { buf = qtn_fota_msg_query_update_dec_warning; }
+RESOURCE TBUF r_fota_update_enc                { buf = qtn_fota_msg_query_update_encrypt; }
+RESOURCE TBUF r_fota_update_enc_battery_low    { buf = qtn_fota_battery_encryption_low; }
+RESOURCE TBUF r_fota_device_memory_busy        { buf = qtn_fota_device_busy; }
+
+// =============================================================================
+// SOFTKEYS
+//
+// -----------------------------------------------------------------------------
+//   
+// r_sml_softkeys_accept_cancel
+// Query for the server initiated session acception.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE CBA r_sml_softkeys_accept_cancel__accept
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = text_softkey_cancel; },
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_softkeys_force_accept
+// Query for the server initiated session acception.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE CBA r_sml_softkeys_force_accept__accept
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; },
+        CBA_BUTTON { txt=text_softkey_empty;},
+        CBA_BUTTON { id = EAknSoftkeyOk;     txt = text_softkey_accept; }
+        };
+    }
+
+
+//------------------------------------------------------------------------------
+//softkeys for the query to install downloaded package
+//------------------------------------------------------------------------------
+
+RESOURCE CBA r_fota_install_query_softkeys_now_later__now
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_now;   },
+        CBA_BUTTON { id = EAknSoftkeyNo;  txt = text_softkey_later; },
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_now;   }
+        };
+    }
+    
+    
+//------------------------------------------------------------------------------
+//softkeys for the query to install downloaded package, customized for AT&T.
+//------------------------------------------------------------------------------
+
+RESOURCE CBA r_fota_install_query_softkeys_force__now
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_ok;   },
+        CBA_BUTTON { txt=text_softkey_empty;},
+        CBA_BUTTON { id = EAknSoftkeyYes; txt = text_softkey_ok;   }
+        };
+    }
+
+// =============================================================================
+// QUERIES
+//
+// -----------------------------------------------------------------------------
+//   
+// r_sml_confirmation_query
+// Query for the server initiated session acception.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE DIALOG r_sml_confirmation_query
+    {
+    flags   = EGeneralQueryFlags;
+    	buttons = R_AVKON_SOFTKEYS_YES_NO__YES;
+    items   =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtQuery;
+            id      = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY
+                {
+                layout    = EConfirmationQueryLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+// -----------------------------------------------------------------------------
+//   
+// r_sml_confirmation_query
+// Query for the downloaded package installation.
+//
+// -----------------------------------------------------------------------------
+
+ RESOURCE DIALOG r_fota_install_confirmation_query
+    {
+    flags   = EGeneralQueryFlags;
+    buttons = r_fota_install_query_softkeys_now_later__now;
+    items   =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtQuery;
+            id      = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY
+                {
+                layout    = EConfirmationQueryLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+/*
+
+RESOURCE DIALOG r_fota_install_confirmation_query
+     {
+     flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+     buttons = r_fota_install_query_softkeys_now_later__now;
+     items   =
+         {
+                 DLG_LINE
+                     {
+                     type    = EAknCtPopupHeadingPane;
+                     id      = EAknMessageQueryHeaderId;
+                     control = AVKON_HEADING
+                         {
+                         label   = qtn_sml_server_message_heading;
+                         headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                         };
+                     },
+                     DLG_LINE
+                         {
+                         type    = EAknCtMessageQuery;
+                         id      = EAknMessageQueryContentId;
+                         control = AVKON_MESSAGE_QUERY
+                             {
+                             //layout    = EConfirmationQueryLayout;
+                             //animation = R_QGN_NOTE_QUERY_ANIM;
+                             message = "%U";
+                             };
+                         }
+         };
+     }
+     
+     */
+
+ 
+ // -----------------------------------------------------------------------------
+ //   
+ // r_sml_confirmation_query
+ // Query for forcing the downloaded package installation.
+ //
+ // -----------------------------------------------------------------------------
+
+  
+  RESOURCE DIALOG r_fota_force_install_confirmation_query
+     {
+     flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+     buttons = r_fota_install_query_softkeys_force__now;
+     items   =
+         {
+                 DLG_LINE
+                     {
+                     type    = EAknCtPopupHeadingPane;
+                     id      = EAknMessageQueryHeaderId;
+                     control = AVKON_HEADING
+                         {
+                         label   = qtn_sml_server_message_heading;
+                         headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                         };
+                     },
+                     DLG_LINE
+                         {
+                         type    = EAknCtMessageQuery;
+                         id      = EAknMessageQueryContentId;
+                         control = AVKON_MESSAGE_QUERY
+                             {
+                             //layout    = EConfirmationQueryLayout;
+                             //animation = R_QGN_NOTE_QUERY_ANIM;
+                             message = "%U";
+                             };
+                         }
+         };
+     }
+
+  
+  // -----------------------------------------------------------------------------
+   //   
+   // r_sml_confirmation_query
+   // Query for forcing the downloaded package installation.
+   //
+   // -----------------------------------------------------------------------------
+
+    
+    RESOURCE DIALOG r_fota_install_message_query
+       {
+       flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+       buttons = r_fota_install_query_softkeys_now_later__now;
+       items   =
+           {
+                   DLG_LINE
+                       {
+                       type    = EAknCtPopupHeadingPane;
+                       id      = EAknMessageQueryHeaderId;
+                       control = AVKON_HEADING
+                           {
+                           label   = qtn_sml_server_message_heading;
+                           headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                           };
+                       },
+                       DLG_LINE
+                           {
+                           type    = EAknCtMessageQuery;
+                           id      = EAknMessageQueryContentId;
+                           control = AVKON_MESSAGE_QUERY
+                               {
+                               //layout    = EConfirmationQueryLayout;
+                               //animation = R_QGN_NOTE_QUERY_ANIM;
+                               message = "%U";
+                               };
+                           }
+           };
+       }
+
+  
+  
+// -----------------------------------------------------------------------------
+//   
+// r_sml_server_msg_infonote
+// Info note for showing the information received from the server.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE DIALOG r_sml_server_msg_infonote
+    {
+    flags   = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY__OK;
+    items   =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtPopupHeadingPane;
+            id      = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label   = qtn_sml_server_message_heading;
+                };
+            },
+        DLG_LINE
+            {
+            type    = EAknCtMultilineQuery;
+            id      = EGeneralQuery;
+            control = AVKON_MESSAGE_QUERY
+                {
+                message    = "%U";
+                };
+            }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_message_query
+// Query for showing the information received from the server.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE DIALOG r_sml_message_query
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = qtn_sml_server_message_heading;
+                headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;
+            control = AVKON_MESSAGE_QUERY
+                {
+                message = "%U";
+                };
+            }
+        };
+
+    }
+
+// -----------------------------------------------------------------------------
+//   
+// r_sml_fota_restart_note
+// Query for showing the information received from the server.
+//
+// -----------------------------------------------------------------------------
+//        
+RESOURCE DIALOG r_sml_fota_restart_note
+    {
+    flags   = EAknPermanentNoteFlags | EEikDialogFlagNoUserExit;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items   =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtNote;
+            id      = EGeneralQuery;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+// r_qtn_dm_info_note_updating  
+// Text indicating that server alert session is informative
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_dm_info_note_updating  { buf = qtn_dm_info_note_updating; }
+// r_sml_init_dm_server_prompt
+// Text for the server initiated management session acception for chinese variant
+// pop-up query.
+// -----------------------------------------------------------------------------
+RESOURCE TBUF r_qtn_dm_info_note_postsale    { buf = qtn_dm_info_note_postsale ; }
+
+//#ifdef RD_DM_TEXT_INPUT_ALERT
+// -----------------------------------------------------------------------------
+//   
+// r_inputtext_data_query
+// Data Query for Alphanumeric Text Input type
+//
+// -----------------------------------------------------------------------------
+//   
+RESOURCE DIALOG r_inputtext_data_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EDataLayout;
+                control =  EDWIN 
+               		{
+                		
+                		flags = EEikEdwinNoHorizScrolling;
+                		max_view_height_in_lines = 1;
+                		lines = 1;
+                		                		
+                	};
+                };
+            }
+        };
+    } 
+
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_date_query
+// Data Query for Date Input type.
+//
+// -----------------------------------------------------------------------------
+//   
+RESOURCE DIALOG r_newalert_date_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EDateLayout;
+                
+               	 	control =  DATE_EDITOR
+               		{
+                		minDate = DATE
+										{
+										year = 0001;
+											};
+										maxDate = DATE
+										{
+										year = 9999;
+										};
+										flags = 0;
+                		
+                		
+                	};
+                };
+            }
+        };
+    } 
+    
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_time_query
+// Data Query for Date Input type.
+//
+// -----------------------------------------------------------------------------
+//   
+    RESOURCE DIALOG r_newalert_time_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = ETimeLayout;
+                
+               	 	control =  TIME_EDITOR
+               		{
+                		
+                		minTime = TIME
+						{
+						second = 0;
+						minute = 0;
+						hour = 0;
+						};
+						maxTime = TIME
+						{
+						second = 59;
+						minute = 59;
+						hour = 23;
+						};
+					flags = EEikTimeForce24HourFormat/*|EEikTimeWithoutSecondsField*/; //remove this flag to get seconds
+					
+                		
+                	};
+                };
+            }
+        };
+    } 
+    
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_data_pwd_query
+// Data Query for Alphanumeric Password Input type.
+//
+// -----------------------------------------------------------------------------
+//      
+RESOURCE DIALOG r_newalert_data_pwd_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                
+                layout = ECodeLayout;
+                 control = SECRETED
+               		{
+                		num_letters = 200;
+                		                		
+                	};
+                };
+            }
+        };
+    } 
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_numeric_pwd_query
+// Data Query for Numeric Password Input type.
+//
+// -----------------------------------------------------------------------------
+//   
+ RESOURCE DIALOG r_newalert_numeric_pwd_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                
+                layout = EPinLayout;
+                 control = SECRETED
+               		{
+                		num_letters = 20;
+                		                		
+                	};
+                };
+            }
+        };
+    } 
+ 
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_phone_query
+// Data Query for Phone number Input type.
+//
+// -----------------------------------------------------------------------------
+//   
+ RESOURCE DIALOG r_newalert_phone_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EPhoneLayout;
+               	 control = EDWIN
+               		{
+                		
+                		flags = EEikEdwinNoHorizScrolling;
+                		lines = 1;
+                		maxlength = 200;
+                		allowed_input_modes =  EAknEditorNumericInputMode; 
+                		max_view_height_in_lines = 1;
+                		
+                	};
+                };
+            }
+        };
+    }    
+    
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_number_query
+// Data Query for Number Text Input type.
+//
+// -----------------------------------------------------------------------------
+//       
+RESOURCE DIALOG r_newalert_number_query
+{
+	flags = EGeneralQueryFlags;
+	buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+	items =
+		{
+		DLG_LINE
+		{
+		type = EAknCtQuery;
+		id = EGeneralQuery;
+		control = AVKON_DATA_QUERY
+			{
+			layout = EFloatingPointLayout;
+			control = FLPTED
+				{
+				maxlength = 12;				
+				default = 0;
+				};
+			};
+		}
+		};
+}
+
+// -----------------------------------------------------------------------------
+//   
+// r_newalert_ip_query
+// Data Query for Ip Address Input type.
+//
+// -----------------------------------------------------------------------------
+//   
+RESOURCE DIALOG r_newalert_ip_query 
+{
+	flags = EGeneralQueryFlags; 
+	buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK; 
+		items = 
+		{
+		DLG_LINE 
+			{
+			type = EAknExtCtQuery; 
+			id = EGeneralQuery; 
+			control = AVKON_DATA_QUERY 
+				{
+				layout = EIpLayout; 
+				control = IP_FIELD_EDITOR 
+					{
+						min_field_values=IP_FIELD
+						{
+						first_field=0;
+						second_field=0;
+						third_field=0;
+						fourth_field=0;
+						};
+						max_field_values=IP_FIELD
+						{
+						first_field=255;
+						second_field=255;
+						third_field=255;
+						fourth_field=255;
+						}; 
+					}; 
+				} ;
+			}
+		};
+}
+
+//#endif
+// End of File
+
+

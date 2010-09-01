@@ -20,7 +20,7 @@
 #include <barsread.h>
 #include <barsc.h>
 #include <s32mem.h>
-#include <nsmldstypesres.rsg>
+#include <NSmlDSTypesRes.rsg>
 #include <data_caging_path_literals.hrh> 
 
 #include <nsmlconstants.h>

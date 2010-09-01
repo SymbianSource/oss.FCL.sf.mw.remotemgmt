@@ -71,7 +71,7 @@ class CSCPLockNotificationEventHandler : public CSCPLockEventHandler
         * From CActive The active object request cancellation method.
         */
         void DoCancel();
-
+		
         // send passcode to ISA
         void VerifyPass();
 

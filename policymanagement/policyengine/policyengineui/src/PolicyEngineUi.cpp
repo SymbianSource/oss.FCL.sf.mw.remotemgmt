@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2000 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,436 +11,539 @@
 *
 * Contributors:
 *
-* Description: Implementation of policymanagement components
+* Description:  This file contains the implementation of PolicyEngineUI
 *
 */
 
-#include "PolicyEngineUI.h"
-#include <hbpopup.h>
-#include <hbinputdialog.h>
-#include <hbdocumentloader.h>
-#include <hbdialog.h>
-#include <hblabel.h>
-#include <hbaction.h>
-#include <hbnotificationdialog.h>
-#include <hbmessagebox.h>
-#include <hbdevicenotificationdialog.h>
-#include "Logger.h"
 
-const int KMaxTries = 4;
-const int KMaxCodeLength = 4;
+// INCLUDE FILES
+#include "PolicyEngineUi.h"
+#include "debug.h"
+#include "policyengineui.hrh"
+#include <policyengineuidlgs.rsg>
 
+#include <bautils.h>
+#include <eikenv.h>
+#include <StringLoader.h>
+#include <AknQueryDialog.h>
+#include <eikprogi.h>
+#include <aknnotewrappers.h>
+#include <aknmessagequerydialog.h>
+#include <data_caging_path_literals.hrh>
+#include "SyncService.h"
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::PolicyEngineUI()
-// -----------------------------------------------------------------------------
-PolicyEngineUI::PolicyEngineUI(const QVariantMap& parameters)
-    {
-    estbTrustCount = KMaxTries;
-    DisplayNotificationDialog(parameters);
-    }
+#include <implementationproxy.h>
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::~PolicyEngineUI()
-// -----------------------------------------------------------------------------
-PolicyEngineUI::~PolicyEngineUI()
-    {
+_LIT( KCUIResourceFileName, "PolicyEngineUIDlgs.rsc" );
+const TUid KUidPolicyEngineUi = { 0x10207817 };
+const TUid KScreenOutputChannel = { 0x0000781F };
 
-    }
+LOCAL_C void CreateNotifiersL( CArrayPtrFlat<MEikSrvNotifierBase2>* aNotifiers );
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::DisplayNotificationDialog()
-// Read the parameters sent from client
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::DisplayNotificationDialog(const QVariantMap& parameters)
-    {
-    LOGSTRING( "+ DisplayNotificationDialog +" );
-    QVariantMap::const_iterator i = parameters.constBegin();
+// ---------------------------------------------------------
+// CArrayPtr<MEikSrvNotifierBase2>* NotifierArray()
+// ---------------------------------------------------------
+//
 
-    while (i != parameters.constEnd())
-        {
-        if (i.key().toAscii() == "serverdisplayname")
-            {
-            iServerName = i.value().toString();
-            }
-        else if (i.key().toAscii() == "fingerprint")
-            {
-            iFingerprint = i.value().toString();
-            }
-        ++i;
-        }
+LOCAL_C void CreateNotifiersL( CArrayPtrFlat<MEikSrvNotifierBase2>* aNotifiers )
+{
+    MEikSrvNotifierBase2 *policyEngineNotifier = CPolicyEngineNotifier::NewL();
     
-    TBuf<50> server(iServerName.utf16());
-    TBuf<10> buffer(iFingerprint.utf16());
+    CleanupStack::PushL( policyEngineNotifier );
+    aNotifiers->AppendL( policyEngineNotifier );
+    CleanupStack::Pop( policyEngineNotifier ); // serNotify
+	RDEBUG("PolicyEngineUI notifier created!");
+}
 
-    LOGSTRING2( "serverdisplayname %S", &server );
-    LOGSTRING2( "fingerprint %S", &buffer );
 
-    ShowInputDialog();
-    LOGSTRING( "- DisplayNotificationDialog -" );
+
+CArrayPtr<MEikSrvNotifierBase2>* NotifierArray()
+    { 
+    CArrayPtrFlat<MEikSrvNotifierBase2>* array =
+    new CArrayPtrFlat<MEikSrvNotifierBase2>( 1 );
+
+    if (array)
+        {
+        TRAPD( err, CreateNotifiersL( array ) );
+        if (err != KErrNone)
+            {
+            delete array;
+            array = NULL;
+            }
+        }
+    return array;
     }
 
+const TImplementationProxy ImplementationTable[] = { {{0x10207817},(TProxyNewLPtr)NotifierArray} };
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::ShowInputDialog()
-// Show the accept control dialog
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::ShowInputDialog()
-    {
-    LOGSTRING( "+ ShowInputDialog +" );
-    HbDocumentLoader loader;
-    bool ok = false;
-    loader.load(":/xml/dialog.docml", &ok);
-    if (!ok)
-        {
-        return;
-        }
+EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount)
+	{
+	RDEBUG("PolicyEngineUI notifier detected!");
+	aTableCount = sizeof(ImplementationTable) / sizeof(TImplementationProxy) ;
+	return ImplementationTable;
+	}
 
-    HbDialog *dialog1 =
-            qobject_cast<HbDialog *> (loader.findWidget("dialog"));
 
-    //set heading content
-    HbLabel *contentheading = qobject_cast<HbLabel *> (loader.findWidget(
-            "qtl_dialog_pri_heading"));
-    QString heading(hbTrId("txt_device_update_title_security_information"));
-    contentheading->setPlainText(heading);
 
-    //set body content
-    HbLabel *contentbody = qobject_cast<HbLabel *> (loader.findWidget(
-            "qtl_dialog_pri5"));
+CPolicyEngineNotifier::CPolicyEngineNotifier()
+	{
+	}
 
-    QString body(
-            (hbTrId("txt_device_update_info_1_server_wants_to_contro").arg(
-                    iServerName)));
-    contentbody->setTextWrapping(Hb::TextWordWrap);
-    contentbody->setPlainText(body);
 
-    HbAction *primaryAction = qobject_cast<HbAction *> (
-            dialog1->actions().at(0));
-    HbAction *secondaryAction = qobject_cast<HbAction *> (
-            dialog1->actions().at(1));
+CPolicyEngineNotifier::~CPolicyEngineNotifier()
+	{
+	//delete and close policy engine ui
+	delete iPolicyEngineUi;	
+	}
 
-    //set dialog properties
-    dialog1->setTimeout(HbPopup::NoTimeout);
-    dialog1->setDismissPolicy(HbPopup::NoDismiss);
 
-    QObject::connect(primaryAction, SIGNAL(triggered()), this,
-            SLOT(onOKSelected()));
-    QObject::connect(secondaryAction, SIGNAL(triggered()), this,
-            SLOT(onCancelSelected()));
+CPolicyEngineNotifier* CPolicyEngineNotifier::NewL()
+	{
+	CPolicyEngineNotifier* self = new (ELeave) CPolicyEngineNotifier();
+	
+	CleanupStack::PushL( self);
+	self->ConstructL();	
+	CleanupStack::Pop();
+	
+	return self;
+	}
 
-    if (dialog1)
-        dialog1->show();
+void CPolicyEngineNotifier::ConstructL()
+	{
+	}
+		
 
-    LOGSTRING( "- ShowInputDialog -" );
+void CPolicyEngineNotifier::Release()
+	{
+	delete this;	
+	}
+
+
+CPolicyEngineNotifier::TNotifierInfo CPolicyEngineNotifier::RegisterL()
+	{
+	//Registration info
+    iInfo.iUid = KUidPolicyEngineUi;
+    iInfo.iPriority = ENotifierPriorityHigh;
+	iInfo.iChannel = KScreenOutputChannel;	
+	
+	return iInfo;
+	}
+
+
+CPolicyEngineNotifier::TNotifierInfo CPolicyEngineNotifier::Info() const
+	{
+	//Registration info
+	return iInfo;
+	}
+
+
+TPtrC8 CPolicyEngineNotifier::StartL(const TDesC8& /*aBuffer*/)
+	{
+	return KNullDesC8().Ptr();
+	}
+
+
+void CPolicyEngineNotifier::Complete( TUserResponse aResponse)
+	{
+	RDEBUG("CPolicyEngineNotifier::Complete");
+
+	//Write return value to message and compeltes it
+	if ( aResponse == EUserAccept )
+		{
+		iMessage.Write( iReplySlot, KUserAcceptMark, 0);	
+		}
+	else
+		{
+		iMessage.Write( iReplySlot, KUserDenyMark, 0);	
+		}
+	
+    iManager->CancelNotifier( iInfo.iUid );   // Notify framework we've done
+	iMessage.Complete( KErrNone);
+	}
+
+
+void CPolicyEngineNotifier::StartL(const TDesC8& aBuffer, TInt aReplySlot, const RMessagePtr2& aMessage)
+	{
+	RDEBUG("CPolicyEngineNotifier::StartL!");
+
+	TInt index = aBuffer.Locate( KDelimeterChar);
+	
+	if ( index != KErrNotFound && !iPolicyEngineUi)
+		{	
+		//decode name and fingerprint from message
+		TPtrC8 name = aBuffer.Left( index);
+		TPtrC8 fingerPrint = aBuffer.Mid( index + 1);
+
+		iReplySlot = aReplySlot;
+		iMessage = aMessage;
+
+		//Show policy engine ui dialogs
+		iPolicyEngineUi = CPolicyEngineUi::NewL();
+		iPolicyEngineUi->ActivateL( name, fingerPrint, this);
+		}
+	else
+		{
+		Complete( EUserDeny);
+		}
+	}
+
+
+void CPolicyEngineNotifier::Cancel()
+	{
+	RDEBUG("CPolicyEngineNotifier::Cancel!");
+
+	//Delete policy engine ui
+	delete iPolicyEngineUi;
+	iPolicyEngineUi = 0;
+	}
+
+
+TPtrC8 CPolicyEngineNotifier::UpdateL(const TDesC8& /*aBuffer*/)
+	{
+	return KNullDesC8().Ptr();
+	}
+
+CPolicyEngineUi::CPolicyEngineUi()
+	: CActive( EPriorityStandard)
+    {  
     }
 
-
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::onOKSelected()
-// Show the user input dialog once control is accepted
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::onOKSelected()
+void CPolicyEngineUi::ConstructL()
     {
+	RDEBUG("CPolicyEngineUi::ConstructL!");
 
-    LOGSTRING( "+ onOKSelected +" );
-
-    HbDocumentLoader loader;
-    bool ok = false;
-    loader.load(":/xml/InputDialog.docml", &ok);
-    if (!ok)
-        {
-        return;
-        }
-
-    mdialog = qobject_cast<HbDialog *> (loader.findWidget("dialog"));
-
-    //set heading content
-    HbLabel *contentheading = qobject_cast<HbLabel *> (loader.findWidget(
-            "qtl_dialog_pri_heading"));
-    QString heading(hbTrId("txt_device_update_title_security_information"));
-    contentheading->setPlainText(heading);
-
-    //set label
-    HbLabel *contentlabel = qobject_cast<HbLabel *> (loader.findWidget(
-            "HeadingLabel"));
-    contentlabel->setTextWrapping(Hb::TextWordWrap);
-    QString label(
-                (hbTrId("txt_device_update_info_enter_first_4_characters_of").arg(
-                        iServerName)));
-    contentlabel ->setPlainText(label);
-
-    //set length for editline
-    mContentEdit = qobject_cast<HbLineEdit*> (loader.findWidget("InputLine"));
-    mContentEdit->setMaxLength(KMaxCodeLength);
-
-    //set dialog properties
-    mdialog->setTimeout(HbPopup::NoTimeout);
-    mdialog->setDismissPolicy(HbPopup::NoDismiss);
+    //get pointer to CEikonEnv
+	iCoeEnv = CEikonEnv::Static();    
     
-    HbAction* primaryAction = (HbAction*) (mdialog->actions().at(0));
-    HbAction *secondaryAction = (HbAction*) (mdialog->actions().at(1));
-    primaryAction->setEnabled(false);
+    if ( !iCoeEnv )
+    	{
+		RDEBUG("Policy engine ui: CoeEnv not found!");
+        User::Leave( KErrGeneral );        
+    	}
 
-    QObject::connect(primaryAction, SIGNAL(triggered()), this,
-            SLOT(establishTrust()));
-    QObject::connect(secondaryAction, SIGNAL(triggered()), this,
-            SLOT(cancelTrust()));
-    QObject::connect(mContentEdit, SIGNAL(contentsChanged()), this,
-            SLOT(codeTextChanged()));
+	//Open resource file
+    TFileName fileName;
+    fileName.Zero();
 
-    if (mdialog)
-        mdialog->show();
+    TFileName drivePath;
+    Dll::FileName( drivePath );
 
-    LOGSTRING( "- onOKSelected -" );
-    }
+    fileName.Append( TParsePtrC( drivePath ).Drive() );
+    fileName.Append( KDC_RESOURCE_FILES_DIR );
+    fileName.Append( KCUIResourceFileName );   
+    
+    BaflUtils::NearestLanguageFile( iCoeEnv->FsSession(), fileName );
+
+	//handle to resource file
+    iResourceFileOffset = iCoeEnv->AddResourceFileL( fileName );
+
+	RDEBUG("Policy engine ui resources loaded!");
+ 	}
+
+CPolicyEngineUi* CPolicyEngineUi::NewL()
+	{
+    CPolicyEngineUi* self = new ( ELeave ) CPolicyEngineUi();
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    return self; 
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::onCancelSelected()
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::onCancelSelected()
+CPolicyEngineUi::~CPolicyEngineUi()
+	{
+	RDEBUG("CPolicyEngineUi::~CPolicyEngineUi()");
+
+    // Close non-modal dialogs
+    if( iResourceFileOffset )
+    	{
+        iCoeEnv->DeleteResourceFile( iResourceFileOffset );
+    	}
+	
+	delete iCorporate;
+	delete iRandomPart;
+	}
+
+
+void CPolicyEngineUi::ActivateL( const TDesC8& aCorporate, const TDesC8& aRandomPart, CPolicyEngineNotifier* aNotifier)
+	{
+	RDEBUG("CPolicyEngineUi::ActivateL");
+
+	//reference to notifier (for message completion)
+	iNotifier = aNotifier;
+	
+	//allocate new space for parameters and save them
+	delete iCorporate;
+	iCorporate = NULL;
+	delete iRandomPart;
+	iRandomPart = NULL;
+	iCorporate = HBufC::NewL( aCorporate.Length());
+	iRandomPart = HBufC::NewL( aRandomPart.Length());
+
+	iCorporate->Des().Copy( aCorporate);
+	iRandomPart->Des().Copy( aRandomPart);	
+	
+	//add active object to active scheduler and set object active
+	CActiveScheduler::Add( this);
+	SetActive();
+	
+	//complete request....
+	TRequestStatus * status = &iStatus;
+	User::RequestComplete( status, KErrNone);	
+	}
+
+
+
+void CPolicyEngineUi::RunL()
+	{
+	RDEBUG("CPolicyEngineUi::RunL()");
+	
+	//in state ERemove user has already accepted query
+	if ( ERemove == iState )
+		{
+		//show info, remove from scheduler
+		ShowDialogL( ERemove);
+		Deque();
+		iNotifier->Complete( EUserAccept);
+		return;		
+		}
+
+	if ( EDenied == iState )
+		{
+		//show info, remove from scheduler
+		ShowDialogL( EDenied);
+		Deque();
+		iNotifier->Complete( EUserDeny);
+		return;		
+		}
+
+	//Control dialog
+	if ( EUserAccept == ShowDialogL( (TDialog) iState))
+		{
+		//if user cancel dialog, show deny-dialog and return
+		iState = iState + 1;
+		}
+	else
+		{
+		//user press cancel -> state = EDenied
+		iState = EDenied;
+		}
+	
+	//set active and complete message
+	SetActive();
+	TRequestStatus * status = &iStatus;
+	User::RequestComplete( status, KErrNone);
+	}
+
+// ----------------------------------------------------------------------------
+// CPolicyEngineUi::RunError
+// ----------------------------------------------------------------------------
+TInt CPolicyEngineUi::RunError ( TInt /*aError*/ )
     {
-    LOGSTRING( "+ onCancelSelected +" );
+       return KErrNone;
+    }	
 
-    QVariantMap result;
-
-    result.insert("keyResponse", -1);
-    emit
-    deviceDialogData(result);
-
-    emit
-    deviceDialogClosed();
-
-    LOGSTRING( "- onCancelSelected -" );
-    }
+void CPolicyEngineUi::DoCancel()
+	{
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::onTrustCreation()
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::onTrustCreation()
-    {
-    LOGSTRING( "+ onTrustCreation +" );
-    QVariantMap result;
 
-    result.insert("keyResponse", 0);
-    emit
-    deviceDialogData(result);
-
-    emit
-    deviceDialogClosed();
-
-    LOGSTRING( "- onTrustCreation -" );
-    }
-
-
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::establishTrust()
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::establishTrust()
-    {
-    LOGSTRING( "+ establishTrust +" );
-    bool retVal; // return value from code verification API.
-    estbTrustCount--;
-    retVal = verifyFingerPrint();
-
-    if (retVal)
-        {
-        LOGSTRING( "Trust Created" );
-        //Reset the counter.
-        estbTrustCount = 0;
-        onTrustCreation();
-
-        }
-    else
-        {
-        //check the number of tries.
-        if (estbTrustCount == 0)
-            {
-            //Access denied.
-            LOGSTRING( "Access Denied" );
-            HbMessageBox *msgBox = new HbMessageBox();
-            msgBox->setHeadingWidget(new HbLabel(hbTrId(
-                    "txt_device_update_title_security_information")));
-
-            msgBox->setText(hbTrId(
-                    "txt_device_update_info_security_info_access_denied"));
-            msgBox->setTimeout(HbDialog::NoTimeout);
-            msgBox->setDismissPolicy(HbDialog::NoDismiss);
-
-            HbAction *action = (HbAction*) (msgBox->actions().at(0));
-            QObject::connect(action, SIGNAL(triggered()), this,
-                    SLOT(onCancelSelected()));
-
-            msgBox->show();
-            }
-        else
-            {
-            LOGSTRING2( "tries left %i", estbTrustCount );
-            //Code didnot match.
-            HbDocumentLoader loader;
-            bool ok = false;
-            loader.load(":/xml/InputDialog.docml", &ok);
-            if (!ok)
-                {
-                return;
-                }
-
-            mdialog = qobject_cast<HbDialog *> (loader.findWidget("dialog"));
-
-            //set heading content
-            HbLabel *contentheading = qobject_cast<HbLabel *> (
-                    loader.findWidget("qtl_dialog_pri_heading"));
-            contentheading->setTextWrapping(Hb::TextWordWrap);
-            QString heading(hbTrId(
-                    "txt_device_update_title_security_information"));
-            contentheading->setPlainText(heading);
-
-            //set label
-            HbLabel *contentlabel = qobject_cast<HbLabel *> (
-                    loader.findWidget("HeadingLabel"));
-            QString
-                    label(
-                            (hbTrId(
-                                    "txt_device_update_info_security_information_did_no").arg(
-                                    estbTrustCount)));
-
-            contentlabel->setTextWrapping(Hb::TextWordWrap);
-            contentlabel->setPlainText(label);
-
-            mContentEdit = qobject_cast<HbLineEdit*> (loader.findWidget(
-                    "InputLine"));
-            mContentEdit->setMaxLength(KMaxCodeLength);
-
-            mdialog->setTimeout(HbPopup::NoTimeout);
-            mdialog->setDismissPolicy(HbPopup::NoDismiss);
-
-            HbAction* primaryAction = qobject_cast<HbAction*> (
-                    mdialog->actions().at(0));
-            HbAction *secondaryAction = qobject_cast<HbAction*> (
-                    mdialog->actions().at(1));
-            primaryAction->setEnabled(false);
-
-            QObject::connect(primaryAction, SIGNAL(triggered()), this,
-                    SLOT(establishTrust()));
-            QObject::connect(secondaryAction, SIGNAL(triggered()), this,
-                    SLOT(cancelTrust()));
-            QObject::connect(mContentEdit, SIGNAL(contentsChanged()), this,
-                    SLOT(codeTextChanged()));
-
-            if (mdialog)
-                mdialog->show();
-            }
-        }
-    LOGSTRING( "- establishTrust -" );
-    }
+CPolicyEngineUi::TDlgResp CPolicyEngineUi::ShowConfirmationQueryL( 
+	const TDesC& aText, const TBool& aWithCancel)
+	{
+	//create dialog
+    CAknQueryDialog* note = 
+        CAknQueryDialog::NewL( CAknQueryDialog::EConfirmationTone );
+				
+	//select correct text resource 					 
+	TInt resource = R_POLICYENGINEUI_CONFIRMATION_QUERY;
+	
+	if ( !aWithCancel )
+		{
+		resource = R_POLICYENGINEUI_CONFIRMATION;
+		}			   
+						
+	//execute dialog, dialog contains self destruction			 
+    TInt response = note->ExecuteLD( resource, aText );
+    
+	if ( response )
+		{
+		return EOkResp;
+		}
+	
+	return ECancelResp;
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::cancelTrust()
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::cancelTrust()
-    {
-    LOGSTRING( "+ cancelTrust +" );
-    //Reset the counter.
-    estbTrustCount = 0;
+CPolicyEngineUi::TDlgResp CPolicyEngineUi::DataQueryL( const TDesC& aText, TDes& aInput )
+	{
 
-    QVariantMap result;
-    result.insert("keyResponse", -1);
-    emit
-    deviceDialogData(result);
+	//Create dialog with reference to input descriptor
+	CAknTextQueryDialog* dlg = 
+		CAknTextQueryDialog::NewL( aInput, CAknQueryDialog::ENoTone);
 
-    emit
-    deviceDialogClosed();
-    LOGSTRING( "- cancelTrust -" );
-    }
-
-
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::setDeviceDialogParameters()
-// -----------------------------------------------------------------------------
-bool PolicyEngineUI::setDeviceDialogParameters(const QVariantMap &parameters)
-    {
-	Q_UNUSED(parameters);
-    LOGSTRING( "+ setDeviceDialogParameters +" );
-    return true;
-    }
+	//set prompt
+	CleanupStack::PushL( dlg);
+	dlg->SetPromptL( aText);
+	CleanupStack::Pop();
+	
+	//execute dialog, dialog contains self destruction			 
+	TInt response = dlg->ExecuteLD( R_POLICYENGINEUI_DATA_QUERY);
+	
+	if ( response )
+		{
+		return EOkResp;
+		}
+	
+	return ECancelResp;
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::deviceDialogError()
-// Get error
-// -----------------------------------------------------------------------------
-int PolicyEngineUI::deviceDialogError() const
-    {
-    LOGSTRING( "+ deviceDialogError +" );
-    return 0;
-    }
+TInt CPolicyEngineUi::ShowDialogL( const TDialog& aDialog)
+	{
+	TInt response = EUserDeny;
+
+	//select correct dialog
+	switch ( aDialog)
+		{
+		case EControl : 
+			{
+			response = ShowPossessionMessageQueryL();
+			break;
+			}
+		case ERemove:
+			{
+			//load resource
+		    HBufC* displayString = StringLoader::LoadLC( R_POLICYENGINEUI_TRUST_ESTABLISHED );
+			
+			TInt length1 = displayString->Length();
+			HBufC16* trustString = HBufC16::NewLC ( length1  );
+			TPtr bufPtr = trustString -> Des();
+			bufPtr.Append (*displayString);
+			// Hide background connecting note
+			CSyncService *syncService =
+                            CSyncService::NewL(NULL, KDevManServiceStart);
+                    if (syncService)
+                        {
+                        syncService->EnableProgressNoteL(EFalse);
+                        }
+
+                    delete syncService;
+			
+			response = ShowConfirmationQueryL( *trustString, EFalse);
+			CleanupStack::PopAndDestroy();
+			CleanupStack::PopAndDestroy();
+			
+			break;
+			}
+		case EDenied:
+			{
+			//load resource
+			TBuf<100> array(*iCorporate);
+		  HBufC* displayString = StringLoader::LoadLC( R_POLICYENGINEUI_DENIED_NOTE, array);
+			
+			//show dialog and get response
+			response = ShowConfirmationQueryL( *displayString, EFalse);
+			//delete resource
+			CleanupStack::PopAndDestroy();
+			
+			break;
+			}		
+		case EUnMatch:
+			{
+			//load resource
+		    HBufC* displayString = StringLoader::LoadLC( R_POLICYENGINEUI_UNMATCH_NOTE);
+			
+			//show dialog and get response
+			response = ShowConfirmationQueryL( *displayString, ETrue);
+			//delete resource
+			CleanupStack::PopAndDestroy();
+			
+			break;
+			}
+		case EQuestion:
+			{
+			//question note prompt
+			TBuf<100> array(*iCorporate);
+    		HBufC* displayString = StringLoader::LoadLC( R_POLICYENGINEUI_QUESTION_NOTE,array);
+			TBuf<RANDOM_PART_MAX_SIZE> input;
+			TBool ready = EFalse;
+
+			//until cancel pressed or valid user gives valid certificate part
+			while ( !ready)
+				{
+				//data query
+				CPolicyEngineUi::TDlgResp resp = DataQueryL( *displayString, input);
+				if ( resp == EUserAccept )
+					{
+					if ( input.CompareF( *iRandomPart) != 0)
+						{
+						//if user input doesn't match
+						if ( EUserDeny == ShowDialogL( EUnMatch))
+							{
+							//if user cancel dialog, show deny-dialog and return
+							response = EUserDeny;
+							break;
+							}			
+						}
+					else
+						{
+						response = EUserAccept;
+						ready = ETrue;				
+						}
+					}
+				else
+					{
+					//if user cancel dialog, show deny-dialog and return
+					response = EUserDeny;
+					break;
+					}
+				}	
+	
+			//delete resource
+			CleanupStack::PopAndDestroy();
+			break;
+			}
+		default:
+		break;
+		}
+	
+	return response;
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::PolicyEngineUI()
-// Close device dialog
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::closeDeviceDialog(bool byClient)
-    {
-	Q_UNUSED(byClient);
-    LOGSTRING( "+ closeDeviceDialog +" );
-    close();
-    }
+CPolicyEngineUi::TDlgResp CPolicyEngineUi::ShowPossessionMessageQueryL()
+	{
+	HBufC* securityInfoString = StringLoader::LoadLC( R_POLICYENGINEUI_SECURITY_INFO_NOTE );
+	TBuf<60> buffer;
+	buffer.Copy( *securityInfoString );
+	CleanupStack::PopAndDestroy( securityInfoString );
+		
+	//load resource
+	TBuf<100> array(*iCorporate);
+  HBufC* displayString = StringLoader::LoadLC( R_POLICYENGINEUI_CONTROL_NOTE, array);
+			
+			
+	//show dialog and get response
+	CAknMessageQueryDialog* dlg = CAknMessageQueryDialog::NewL( *displayString );
+    dlg->PrepareLC( R_POLICY_ENGINE_POSSESSION_INFO );
+    dlg->QueryHeading()->SetTextL( buffer );
+    TInt response = dlg->RunLD();
+    
+    CleanupStack::PopAndDestroy();
+    
+	if ( response )
+		{
+		return EOkResp;
+		}
+	
+	return ECancelResp; 
+	}
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::PolicyEngineUI()
-// Return display widget
-// -----------------------------------------------------------------------------
-HbDialog *PolicyEngineUI::deviceDialogWidget() const
-    {
-    LOGSTRING( "+ deviceDialogWidget +" );
-    return const_cast<PolicyEngineUI*> (this);
-    }
 
 
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::PolicyEngineUI()
-// Verify the user entered code
-// -----------------------------------------------------------------------------
-bool PolicyEngineUI::verifyFingerPrint()
-    {
-    LOGSTRING( "+ verifyFingerPrint +" );
 
-    QString enteredCode = mContentEdit->text();
-    TBuf<10> buffer(enteredCode.utf16());
-
-    LOGSTRING2( "User entered code %i", &buffer);
-    LOGSTRING2( "User entered code %S", &buffer);
-
-    if (enteredCode.compare(iFingerprint, Qt::CaseInsensitive) == 0)
-    {
-        LOGSTRING( "+ fingerprint MATCH !!!! +" );
-        return true;
-    }
-    else
-    {
-        LOGSTRING( "+  fingerprint DOESNOT MATCH  +" );
-        return false;
-    }
-    }
-
-
-// -----------------------------------------------------------------------------
-// PolicyEngineUI::codeTextChanged()
-// checks the entered text length and enables the OK option accordingly.
-// -----------------------------------------------------------------------------
-void PolicyEngineUI::codeTextChanged()
-    {
-    QString str = mContentEdit->text();
-
-    if (str.length() >= KMaxCodeLength)
-        mdialog->actions().at(0)->setEnabled(true);
-    else
-        mdialog->actions().at(0)->setEnabled(false);
-    }
