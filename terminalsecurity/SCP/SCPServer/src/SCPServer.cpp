@@ -115,7 +115,7 @@ void CSCPServer::ConstructL()
     
     // Assign default config flag
     iConfiguration.iConfigFlag = KSCPConfigUnknown;
-    iConfiguration.iConfigChecked = EFalse;
+    
     
     // Assign the default codes
     iConfiguration.iSecCode.Zero();
@@ -172,24 +172,8 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
         }
     
     
-    //If Configuration is not validated already, validate it
-    
-    if (!iConfiguration.iConfigChecked)
-        {
-        TInt valerr = KErrNone;
-        TRAP( valerr, ValidateConfigurationL( KSCPComplete ));
-        if (valerr != KErrNone)
-            {
-            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation failed: %d"), valerr ));
-            }
-        else
-            {
-            Dprint( (_L("CSCPServer::ConstructL(): Configuration Validation Passed")));
-            }
-        }
-    
-        
-        
+   
+
     Dprint( (_L("CSCPServer::ConstructL(): Connecting to CenRep") ));
     iALPeriodRep = CRepository::NewL( KCRUidSecuritySettings );        
     
@@ -654,155 +638,90 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 //	
 void CSCPServer::ValidateConfigurationL( TInt aMode )
     {
-    Dprint( (_L("--> CSCPServer::ValidateConfigurationL()") ));
-    RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
-    TInt startupReason(ENormalStartup);
-    RProperty::Get(KPSUidStartup, KPSStartupReason, startupReason);
-    Dprint( (_L("CSCPServer::ValidateConfigurationL(): startupReason = %d"), startupReason));
-     if((startupReason == ENormalRFSReset)||(startupReason ==  EDeepRFSReset)||(startupReason == EFirmwareUpdate)||(iConfiguration.iConfigFlag == KSCPConfigUnknown))
-         {
+    if (aMode == KSCPInitial) {
+        // Return here, must be checked by complete mode
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@@aMode == KSCPInitial "));
+        User::Leave(KErrAccessDenied);
+    }
     
-	RMobilePhone::TMobilePassword storedCode;
+    RMobilePhone::TMobilePassword storedCode;
     storedCode.Zero();
     User::LeaveIfError(GetCode(storedCode));
+    TBool isDefaultLockcode = ETrue;
+    TInt err = KErrNone;
     
-    
-	Dprint( (_L("CSCPServer::ValidateConfigurationL(): Checking code: %s"), storedCode.PtrZ() ));
-	// Check that the ISA code is stored correctly
-	TRAPD( err, CheckISACodeL( storedCode ) );
-	 //Bool for the correction of Defaultlockcode cenrep
-    TBool lCorrectDefaultlockcode = EFalse;
-    
-     Dprint( (_L("CSCPServer::ValidateConfigurationL(): iConfigFlag = %d, iConfigChecked = %d"), iConfiguration.iConfigFlag, iConfiguration.iConfigChecked));
-     
-    if ((iConfiguration.iConfigFlag == KSCPConfigOK)
-            && (iConfiguration.iConfigChecked) && (err == KErrNone))
-        {
-        // The configuration has already been checked, exit
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): Configuration is non-default.") ));
-        User::Leave( KErrNone );
+    RMobilePhone::TMobilePassword defaultLockcode;
+    defaultLockcode.Zero();
+    defaultLockcode.Copy(KSCPDefaultSecCode);
+    if (storedCode.Compare(KSCPDefaultSecCode) == 0) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@config has KSCPDefaultSecCode "));
+        TRAP( err, CheckISACodeL( defaultLockcode ) );
+        if (err == KErrNone) {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA also has KSCPDefaultSecCode "));
+            iConfiguration.iConfigFlag = KSCPConfigOK;
+            isDefaultLockcode = ETrue;
         }
-    else if ( aMode == KSCPInitial )
-        {
-        // Return here, must be checked by complete mode
-        User::Leave( KErrAccessDenied );
+        else {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA doesn't has KSCPDefaultSecCode "));
+            iConfiguration.iConfigFlag = KSCPConfigInvalid;
+            iConfiguration.iFailedAttempts++;
+            isDefaultLockcode = EFalse;
         }
-    
-   
-    TInt hashedISAcode;
-    TSCPSecCode hashedCode;
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS    
-if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-{
-	/*TInt*/ hashedISAcode = HashISACode( iConfiguration.iEnhSecCode );
-   // TSCPSecCode hashedCode;
-    hashedCode.Zero();
-    hashedCode.AppendNum( hashedISAcode );
-}
-//#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS    
-            
-    
-    
-   
-    if (err != KErrNone)
-        {
-        lCorrectDefaultlockcode = ETrue;
-        }
-    if ( err == KErrNone ) 
-        {
-        iConfiguration.iConfigFlag = KSCPConfigOK;
-        }
-    else if ( err == KErrAccessDenied )
-        {        
-        iConfiguration.iConfigFlag = KSCPConfigInvalid;
-        }
-    else if ( err == KErrLocked )
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): ISA code locked.") ));
-        }
-    else
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): ERROR in validation.") ));
-        }
-
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS         
-if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-{
-    if ( err == KErrNone )
-        {
-        // Check that the codes are in-sync with each other. Especially the default ISA code must
-        // be changed according to the default enhanced code.        
-        if ( storedCode.Compare( hashedCode ) != 0 )
-            {
-            Dprint( (_L("CSCPServer::ValidateConfigurationL(): Correct ISA code stored.\
-               Changing ISA code to match enhanced code => %d"), hashedISAcode ));
-               
-            storedCode.Copy( hashedCode );
-            // Change the ISA code to match the hashed code
-            ChangeISACodeL( storedCode );
-            }
-        }
-    else if ( ( err == KErrAccessDenied ) && ( storedCode.Compare( hashedCode ) != 0 ) )
-        {
-        // Try again with the hashed code
-        TRAP( err, CheckISACodeL( hashedCode ) );
-        
-        if ( err == KErrNone )
-            {            
-            Dprint( (_L("CSCPServer::ValidateConfigurationL(): Hashed code is correct.\
-               Storing hashed code(%d)"), hashedISAcode ));
-               
-            if ( StoreCode( hashedCode ) == KErrNone )
-                {
-                iConfiguration.iConfigFlag = KSCPConfigOK;
-                lCorrectDefaultlockcode = ETrue;
-                }
-            }        
-        }
-    
-    //If Correction of Defaultlockcode cenrep is required for the mismatch between Config and ISA
-        if (lCorrectDefaultlockcode)
-            {
-            TInt lDefCode = -1;
-            CRepository* lRepository = CRepository::NewL(KCRUidSCPLockCode);
-            CleanupStack::PushL(lRepository);
-            TInt lRet = lRepository->Get(KSCPLockCodeDefaultLockCode,
-                    lDefCode);
-            if (lRet == KErrNone && lDefCode != -1)
-                {
-                if (lDefCode == 12345)
-                    {
-                    //Although lock code is already set, due to some unexpected condition
-                    //like C drive wipe, cenrep status is wrongly shown. Correcting it here.
-                    lRepository->Set(KSCPLockCodeDefaultLockCode, 0);
-                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 0") ));
-                    }
-                else if (lDefCode == 0)
-                    {
-                    //If only ISA side is formatted, then the lock code on ISA side is default; 
-                    //Cenrep status remains wrongly as the lock code is already set. Correcting it here.
-                    lRepository->Set(KSCPLockCodeDefaultLockCode, 12345);
-                    Dprint( (_L("RSCPClient::ValidateConfigurationL(): Corrected the Default lock code cenrep status to 12345") ));
-                    }
-                }
-            CleanupStack::PopAndDestroy(lRepository);
-            }
-        }
-//#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
-    //Set the flag to True, after config is validated 
-    iConfiguration.iConfigChecked = ETrue;
-    
-    TRAPD( err2, iConfiguration.WriteSetupL() );
-    if ( err2 != KErrNone )
-        {
-        Dprint( (_L("CSCPServer::ValidateConfigurationL(): WARNING: failed to write configuration\
-            : %d"), err2 ));        
-        } 
-    
-    User::LeaveIfError( err );
-         }
-    Dprint( (_L("<-- CSCPServer::ValidateConfigurationL()") ));
     }
+    else {
+        RDebug::Print(_L("CSCPServer::CheckISACodeL(): config lock code %s"), storedCode.PtrZ());
+        TRAP( err, CheckISACodeL( storedCode ) );
+        if (err == KErrNone) {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA and config are in SYNC !! "));
+            iConfiguration.iConfigFlag = KSCPConfigOK;
+            isDefaultLockcode = EFalse;
+        }
+        else {
+            iConfiguration.iSecCode.Zero();
+            iConfiguration.iSecCode.Append(KSCPDefaultSecCode);
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@May be ISA has KSCPDefaultSecCode "));
+            TRAP(err,ChangeISACodeL(storedCode));
+            if (err == KErrNone) {
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()chnaged ISA code with config value "));
+                iConfiguration.iConfigFlag = KSCPConfigOK;
+                isDefaultLockcode = EFalse;
+            }
+            else
+            {
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()it shouldn't reach this :( "));
+            }
+        }
+    }
+
+    CRepository* repository = CRepository::NewL(KCRUidSCPLockCode);
+    CleanupStack::PushL(repository);
+    if (isDefaultLockcode ) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()setting def. lockcode to 12345 "));
+        repository->Set(KSCPLockCodeDefaultLockCode, 12345);
+    }
+    else {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()setting def. lockcode to 0 "));
+        repository->Set(KSCPLockCodeDefaultLockCode, 0);
+    }
+    CleanupStack::PopAndDestroy(repository);
+    
+    TRAP( err, iConfiguration.WriteSetupL() );
+    if (err != KErrNone) {
+        Dprint( (_L("CSCPServer::ValidateConfigurationL(): WARNING: failed to write configuration\
+                : %d"), err ));
+    }
+
+    if (iConfiguration.iConfigFlag == KSCPConfigOK) {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@iConfigFlag == KSCPConfigOK "));
+        err = KErrNone;
+    }
+    else {
+        RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@iConfigFlag == KErrAccessDenied "));
+        err = KErrAccessDenied;
+    }
+
+    User::LeaveIfError(err);
+}
 
         
     
@@ -823,7 +742,10 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
     (void)aCode;    
 
 #endif // __WINS__
-   
+
+
+Dprint( (_L("CSCPServer::CheckISACodeL(): current lock code %s"), aCode.PtrZ() ));
+RDebug::Print(_L("CSCPServer::CheckISACodeL(): current lock code %s"), aCode.PtrZ());
     RMobilePhone::TMobilePhoneSecurityCode secCodeType;
     secCodeType = RMobilePhone::ESecurityCodePhonePassword;
     
@@ -859,6 +781,7 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
 	         {
 	            	iConfiguration.iBlockedInOOS = 0;
    	            	Dprint( (_L("CSCPServer::CheckISACodeL():iBlockedInOOS = 0, KErrAccessDenied") ));
+   	            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@iBlockedInOOS = 0, KErrAccessDenie"));
 	         }            
             ret = KErrAccessDenied;             
             }
@@ -867,17 +790,20 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
             Dprint( (_L("CSCPServer::CheckISACodeL(): ISA code BLOCKED") ));            
             if (ret==KErrGsmSSPasswordAttemptsViolation)
             {
-            	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrGsmSSPasswordAttemptsViolation") ));            	
+            	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrGsmSSPasswordAttemptsViolation") ));  
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@KErrGsmSSPasswordAttemptsViolation"));
             }
             else
             {
             	Dprint( (_L("CSCPServer::CheckISACodeL(): KErrLocked") ));
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@KErrLocked"));
             }	            
             ret = KErrLocked;
             if (iConfiguration.iBlockedInOOS == 0)
         	 {
             	iConfiguration.iBlockedInOOS = 1;
             	Dprint( (_L("CSCPServer::CheckISACodeL():iBlockedInOOS = 1, KSCPErrCodeBlockStarted") ));
+            	RDebug::Print(_L("--> CSCPServer::CheckISACodeL()@@@@@"));
             	ret = KSCPErrCodeBlockStarted;	
         	 }
             }            
@@ -885,6 +811,7 @@ void CSCPServer::CheckISACodeL( RMobilePhone::TMobilePassword aCode )
             {
             Dprint( (_L("CSCPServer::CheckISACodeL(): ERROR reply checking ISA code: %d"),
                 status.Int() ));
+                RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()"));
             }            
         }
         TRAPD( err, iConfiguration.WriteSetupL() );
@@ -1002,6 +929,7 @@ TInt CSCPServer::StoreEnhCode( TDes& aCode, TSCPSecCode* aNewDOSCode /*=NULL*/)
     		TRAP(err, repository = CRepository :: NewL(KCRUidSCPLockCode));
     		
     		if(err == KErrNone) {
+    			RDebug::Print(_L("<-- CSCPServer::StoreEnhCode()  setting KSCPLockCodeDefaultLockCode to 0"));
                 err = repository->Set(KSCPLockCodeDefaultLockCode, 0);
                 delete repository;
     		}
@@ -2183,11 +2111,13 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
         // We might be out-of-sync, no idea about the real code.
         // Check if the DOS code hashed from the given code is correct.
         Dprint( (_L("CSCPServer::IsCorrectEnhCode(): Attempting to correct OoS situation.") ));
-                
+        if (IsCodeBlocked()) {
+            Dprint( (_L("CSCPServer::IsCorrectEnhCode(): OOS ->KErrLocked  ") ));
+            return KErrLocked;
+        }
         TRAP( ret, CheckISACodeL( pswCandidate ) );
 
-        if ( ret == KErrNone )
-            {
+        if (ret == KErrNone) {
             // OK, we must assume that this is the correct code, since
             // the hashed DOS code is correct. Save the codes, and return OK.
 
@@ -2203,39 +2133,34 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
             // Unset the invalid configuration flag
             iConfiguration.iConfigFlag = KSCPConfigOK;
             writeSetup = ETrue;
-            }
-        else
-            {
-				
-            Dprint( (_L("CSCPServer::IsCorrectEnhCode(): Given code does not have the \
-                correct hash: ret; %d user enter password: %d"), ret ));
-			TRAP( ret, CheckISACodeL( aCode ) );
-			if (ret == KErrNone)
-			{
-				//store this code in our interal storage as it is used as oldpassword while changing at ISA side in next command
-				//ChangeISACodeL. 
-				iConfiguration.iSecCode.Zero();
-				iConfiguration.iSecCode.Append( aCode );
-				TRAP(ret,ChangeISACodeL(pswCandidate));
-			}
-			if (ret == KErrNone)
-			{
-			iConfiguration.iEnhSecCode.Zero();
-            iConfiguration.iEnhSecCode.Copy( hashBuf );
+        }
+        else {
+            ret = KErrAccessDenied;
 
-            iConfiguration.iSecCode.Zero();
-            iConfiguration.iSecCode.AppendNum( ISACode );
-            
-            // Unset the invalid configuration flag
-            iConfiguration.iConfigFlag = KSCPConfigOK;
+            iConfiguration.iFailedAttempts++;
+            Dprint( (_L("CSCPServer::IsCorrectEnhCode():@@@: iFailedAttempts (%d)."), iConfiguration.iFailedAttempts ));
             writeSetup = ETrue;
-			}
+
+            if (iConfiguration.iFailedAttempts == KSCPCodeBlockLimit) {
+                Dprint( (_L("CSCPServer::IsCorrectEnhCode(): KSCPCodeBlockLimit  ") ));
+                // Block the code
+                TTime curTime;
+                curTime.UniversalTime();
+
+                iConfiguration.iBlockedAtTime.Zero();
+                iConfiguration.iBlockedAtTime.AppendNum(curTime.Int64());
+
+                // The code will be blocked for now on
+                ret = KSCPErrCodeBlockStarted;
             }
         }
+
+    }
     
     // Write setup if needed
     if ( writeSetup )
         {
+        	Dprint( (_L("CSCPServer::IsCorrectEnhCode(): 7  ") ));
         TRAPD( err, iConfiguration.WriteSetupL() );
         if ( err != KErrNone )
             {
@@ -2243,7 +2168,7 @@ TInt CSCPServer::IsCorrectEnhCode( TDes& aCode, TInt aFlags )
                 failed to write configuration: %d"), err ));                                        
             }                 
         }
-    Dprint( (_L("CSCPServer::IsCorrectEnhCode %d"), ret )); 
+        
     return ret;
     }
     

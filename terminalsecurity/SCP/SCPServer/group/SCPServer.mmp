@@ -64,7 +64,6 @@ MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY     euser.lib
 LIBRARY     cone.lib
-LIBRARY     eikcoctl.lib
 LIBRARY     eikcore.lib
 LIBRARY     fbscli.lib
 LIBRARY     efsrv.lib

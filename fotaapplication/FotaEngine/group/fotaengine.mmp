@@ -41,7 +41,6 @@ USERINCLUDE    ../INC  ../../inc ../../cenrep
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE		/epoc32/include/uiklaf/private
 
-LIBRARY         avkon.lib
 LIBRARY         euser.lib
 LIBRARY         estor.lib
 LIBRARY         apparc.lib
@@ -50,10 +49,10 @@ LIBRARY         bafl.lib
 LIBRARY         apgrfx.lib
 LIBRARY         mtur.lib
 LIBRARY         eikcore.lib
-LIBRARY			efsrv.lib
-LIBRARY			ws32.lib			// wssession
-LIBRARY			centralrepository.lib
-LIBRARY	flogger.lib
+LIBRARY					efsrv.lib
+LIBRARY					ws32.lib			// wssession
+LIBRARY					centralrepository.lib
+LIBRARY					flogger.lib
 
 SMPSAFE
 

@@ -12,6 +12,8 @@
 TEMPLATE = app
 TARGET = fotaserver
 
+RSS_RULES += "hidden = KAppIsHidden;"
+
 DEPENDPATH += . \
     ./inc \
     ./src \

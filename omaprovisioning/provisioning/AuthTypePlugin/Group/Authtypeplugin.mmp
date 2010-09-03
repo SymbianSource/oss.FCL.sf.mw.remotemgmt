@@ -58,11 +58,10 @@ TARGETPATH          RESOURCE_FILES_DIR
 LANGUAGE_IDS  
 END // OperatorLogo resources
 
-LIBRARY             eikctl.lib aknnotify.lib eiksrv.lib 
+LIBRARY             eiksrv.lib 
 LIBRARY             aknskins.lib // AknsUtils.h
 LIBRARY             apgrfx.lib // RApaLsSession
 LIBRARY             apparc.lib
-LIBRARY             avkon.lib
 LIBRARY             bafl.lib
 LIBRARY             commdb.lib
 LIBRARY             CommonEngine.lib // RConeResourceLoader
@@ -70,16 +69,14 @@ LIBRARY             cone.lib
 LIBRARY             ecom.lib
 LIBRARY             efsrv.lib
 LIBRARY             egul.lib // CGulIcon
-LIBRARY             eikcoctl.lib
 LIBRARY             eikcore.lib
 LIBRARY             euser.lib
 LIBRARY             featmgr.lib // FeatureManager
 LIBRARY             gsecomplugin.lib
 LIBRARY             gsframework.lib // Base classes
 LIBRARY             gslistbox.lib // CGSListBoxItemTextArray
-LIBRARY             hlplch.lib // HlpLauncher
 LIBRARY             ws32.lib
-LIBRARY		    akncapserverclient.lib centralrepository.lib provisioningengine.lib
+LIBRARY		    			akncapserverclient.lib centralrepository.lib provisioningengine.lib
 LIBRARY             aknicon.lib
 
 DEBUGLIBRARY        flogger.lib // RFileLogger

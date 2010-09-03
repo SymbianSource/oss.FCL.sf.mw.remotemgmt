@@ -49,22 +49,16 @@ END
 
 LIBRARY         euser.lib
 LIBRARY         cone.lib
-LIBRARY         eikcoctl.lib
-LIBRARY         eikctl.lib
 LIBRARY         eikcore.lib
 LIBRARY         fbscli.lib
 LIBRARY         efsrv.lib
-LIBRARY         avkon.lib
-LIBRARY         aknnotify.lib
-LIBRARY         eikdlg.lib
 LIBRARY         ws32.lib
 LIBRARY         CommonEngine.lib
 LIBRARY         bafl.lib
 LIBRARY					flogger.lib
 LIBRARY         featmgr.lib
-LIBRARY     centralrepository.lib  // CenRep
-LIBRARY					aknnotify.lib
-LIBRARY 		estor.lib
+LIBRARY     		centralrepository.lib  // CenRep
+LIBRARY 				estor.lib
 
 // End of file
 

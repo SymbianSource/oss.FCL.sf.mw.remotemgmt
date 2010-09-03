@@ -16,7 +16,7 @@
 */
 
 
-#include <NSmlDSProfileRes.rsg>
+#include <nsmldsprofileres.rsg>
 
 #include <nsmlconstants.h>
 #include <nsmldsconstants.h>

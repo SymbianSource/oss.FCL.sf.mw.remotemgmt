@@ -77,7 +77,6 @@ LIBRARY         bifu.lib                // bif reader
 LIBRARY         wappushutils.lib        // cpushmessage
 LIBRARY         smcm.lib                // smsheader
 LIBRARY         etext.lib               // rich text
-LIBRARY         aknnotify.lib           // global note
 LIBRARY         sysutil.lib
 
 LIBRARY         wimclient.lib

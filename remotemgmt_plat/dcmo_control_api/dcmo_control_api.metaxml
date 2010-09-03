@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api id="3e3e8527240a0c9359f959b6546bf784" dataversion="2.0">
+  <name>dcmo_control_api</name>
+  <description>This is the DCMO (Device Capabilities Management Object) framework API. Clients like OMA DM uses this API to take control over the capabilities of the platform.</description>
+  <type>c++</type>
+  <collection>dcmofw</collection>
+  <libs>
+    <lib name="dcmoclient.lib"/>
+  </libs>
+  <release category="platform" sinceversion="5.1"/>
+  <attributes>
+    <htmldocprovided>no</htmldocprovided>
+    <adaptation>no</adaptation>
+  </attributes>
+</api>

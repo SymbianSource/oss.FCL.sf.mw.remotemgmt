@@ -40,7 +40,7 @@ LIBRARY       connmon.lib
 LIBRARY       flogger.lib
 LIBRARY       syncmlclientapi.lib
 LIBRARY       nsmltransporthandler.lib
-LIBRARY       nsmlprofileutil.lib
+LIBRARY       NsmlProfileUtil.lib
 LIBRARY       nsmldebug.lib
 LIBRARY       centralrepository.lib
 LIBRARY       efsrv.lib

@@ -26,7 +26,6 @@
 #include <Stiftestinterface.h>
 #include "TestPnpUtil.h"
 #include <ETELMM.H>
-#include <DocumentHandler.h>
 #include <e32std.h>
  
 

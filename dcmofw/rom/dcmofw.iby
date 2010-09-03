@@ -22,7 +22,6 @@
 file=ABI_DIR\BUILD_DIR\dcmoclient.dll		SHARED_LIB_DIR\dcmoclient.dll
 
 #ifdef FF_RUNTIME_DEVICE_CAPABILITY_CONFIGURATION
-data=DATAZ_\RESOURCE_FILES_DIR\dcmo.rsc	RESOURCE_FILES_DIR\dcmo.rsc
 file=ABI_DIR\BUILD_DIR\dcmoserver.exe		PROGRAMS_DIR\dcmoserver.exe
 
 data=\epoc32\data\Z\private\10202BE9\2001FE47.txt       private\10202BE9\2001FE47.txt

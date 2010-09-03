@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api id="7db523dcb948b7940b89843be9f93b58" dataversion="2.0">
+  <name>dcmo_adapter_api</name>
+  <description>This is the ecom interface that every DCMO (Device Capabilities Management Object) adapter should implement. The adapter, which is an ecom plugins, is loaded by the DCMO framework when needed.</description>
+  <type>c++</type>
+  <collection>dcmofw</collection>
+  <libs/>
+  <release category="platform" sinceversion="5.1"/>
+  <attributes>
+    <htmldocprovided>no</htmldocprovided>
+    <adaptation>no</adaptation>
+  </attributes>
+</api>

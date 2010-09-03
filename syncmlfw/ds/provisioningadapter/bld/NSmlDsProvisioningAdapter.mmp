@@ -49,8 +49,8 @@ USERINCLUDE	../../dsutils/dbcaps/inc ../../../common/sosserver_transporthandler/
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE	/epoc32/include/ecom
 
-LIBRARY     euser.lib ECom.lib commdb.lib charconv.lib cmmanager.lib
+LIBRARY     euser.lib ecom.lib commdb.lib charconv.lib cmmanager.lib
 LIBRARY     nsmldbcaps.lib bafl.lib efsrv.lib nsmldebug.lib syncmlclientapi.lib
-LIBRARY     ProvisioningEngine.lib centralrepository.lib
+LIBRARY     provisioningengine.lib  centralrepository.lib
 
 SMPSAFE

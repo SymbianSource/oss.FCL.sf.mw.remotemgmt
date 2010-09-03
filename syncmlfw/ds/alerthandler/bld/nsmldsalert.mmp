@@ -49,8 +49,8 @@ SYSTEMINCLUDE   /epoc32/include/ecom
 LIBRARY         euser.lib    
 LIBRARY         estor.lib    
 LIBRARY         nsmldebug.lib    
-LIBRARY 	NSmlPrivateApi.lib
-LIBRARY         nsmldssettings.lib
+LIBRARY 	NSmlPrivateAPI.lib
+LIBRARY         NSmlDSSettings.lib
 LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlagentcommon.lib
 LIBRARY		ecom.lib

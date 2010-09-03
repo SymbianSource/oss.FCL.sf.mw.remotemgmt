@@ -59,7 +59,6 @@ LIBRARY         scpclient.lib
 LIBRARY         bafl.lib	 // for BaFutil
 LIBRARY         cone.lib	// CoeEnvironment
 LIBRARY         efsrv.lib	// FileServer
-LIBRARY         aknnotify.lib
 
 // For wipe
 LIBRARY         starterclient.lib

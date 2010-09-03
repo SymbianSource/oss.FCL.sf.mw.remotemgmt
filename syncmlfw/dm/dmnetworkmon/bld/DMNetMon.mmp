@@ -41,7 +41,7 @@ LIBRARY       syncmlclientapi.lib
 LIBRARY       nsmltransporthandler.lib
 LIBRARY       nsmldebug.lib
 LIBRARY       centralrepository.lib
-LIBRARY       efsrv.lib avkon.lib aknnotify.lib eiksrv.lib 
+LIBRARY       efsrv.lib eiksrv.lib 
 
 
 SMPSAFE

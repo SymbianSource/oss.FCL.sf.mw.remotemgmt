@@ -21,9 +21,7 @@ PRJ_PLATFORMS
 DEFAULT   
 PRJ_EXPORTS
 
-../rom/devicemgmtnotifications.iby			CORE_MW_LAYER_IBY_EXPORT_PATH(devicemgmtnotifications.iby)
-
 PRJ_MMPFILES
-
+#include "../rom/bld.inf"
 #include "../dmdevdialogclient/bld/bld.inf"
 #include "../dmdevdialogserver/bld/bld.inf"

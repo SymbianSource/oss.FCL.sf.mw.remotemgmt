@@ -39,11 +39,6 @@ SYSTEMINCLUDE 	/epoc32/include/mw/hb/hbcore
 USERINCLUDE   	../inc
 USERINCLUDE   	../../inc
 
-START RESOURCE 	../data/dcmo.rss
-    HEADER
-    TARGETPATH  resource
-    LANGUAGE_IDS
-END 
 LIBRARY     	euser.lib 
 LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib

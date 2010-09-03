@@ -54,11 +54,9 @@ LIBRARY     stiftestengine.lib
 LIBRARY     etelmm.lib
 LIBRARY     etel.lib
 LIBRARY	    cryptography.lib   
-LIBRARY     commonui.lib
 LIBRARY     efsrv.lib
 LIBRARY     apmime.lib 
-LIBRARY	    centralrepository.lib  
-LIBRARY	    eikcoctl.lib
+LIBRARY	    centralrepository.lib 
 LIBRARY     xmlframework.lib
 LIBRARY	    flogger.lib
 LIBRARY     Sysutil.lib

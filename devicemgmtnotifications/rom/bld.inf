@@ -11,16 +11,14 @@
 *
 * Contributors:
 *
-* Description: Implementation of policymanagement components
+* Description:  Build info file for Device management notification ROM
 *
 */
-#ifndef __POLICYENGINERESOURCES_IBY__
-#define __POLICYENGINERESOURCES_IBY__
 
-//#ifdef __SAP_POLICY_MANAGEMENT
+#include <platform_paths.hrh>
 
-data=DATAZ_\RESOURCE_FILES_DIR\PolicyEngineUIdlgs.rsc       RESOURCE_FILES_DIR\PolicyEngineUIdlgs.rsc
+PRJ_PLATFORMS
+DEFAULT   
+PRJ_EXPORTS
 
-//#endif // __SAP_POLICY_MANAGEMENT
-
-#endif // __POLICYENGINERESOURCES_IBY__
+devicemgmtnotifications.iby			CORE_MW_LAYER_IBY_EXPORT_PATH(devicemgmtnotifications.iby)

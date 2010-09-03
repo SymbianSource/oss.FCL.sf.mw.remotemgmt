@@ -28,13 +28,10 @@ PRJ_EXPORTS
 ../PMRfsPlugin/scripts/format_e_.txt /epoc32/release/armv5/urel/z/private/1020783f/format_e_.txt
 
 ../rom/policyengine.iby												CORE_MW_LAYER_IBY_EXPORT_PATH(policyengine.iby)
-../rom/policyengineresources.iby							LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(policyengineresources.iby)
-//../policyengineui/loc/PolicyEngineUI.loc			MW_LAYER_LOC_EXPORT_PATH(policyengineui.loc)
 
 PRJ_MMPFILES
 PolicyEngineClient.mmp
 CentRepToolClient.mmp
-//PolicyEngineUI.mmp
 PolicyEngineServer.mmp
 CentRepToolServer.mmp
 PMRfsPlugin.mmp

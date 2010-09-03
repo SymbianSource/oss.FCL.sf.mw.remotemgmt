@@ -36,7 +36,6 @@
 #include    <aknViewAppUi.h>
 #include    <bautils.h>
 #include    <featmgr.h>
-#include    <hlplch.h> // HlpLauncher
 #include    <StringLoader.h>
 
 #include    <badesca.h>
