@@ -26,6 +26,7 @@
 
 #include "SCPServerInterface.h"
 #include "SCPTimer.h"
+#include <PolicyEngineClient.h>
 
 #include <TerminalControl3rdPartyParamsPlugin.h>
 // FORWARD DECLARATIONS
@@ -278,6 +279,10 @@ class CSCPSession : public CSession2, public MSCPTimeoutHandler
         * @return none
         */
         void NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint32 aCallerID );        
+        
+        // Check whether the SID is present in the TARM db
+        
+        TInt CheckTerminalControl3rdPartySecureIDL(TSecureId aId);
 
     private:   // Data
        // Possible states for iLockCommandState
@@ -325,6 +330,9 @@ class CSCPSession : public CSession2, public MSCPTimeoutHandler
     	/* The SID of the app that set the above two (iALParamID, iALParamValue) fields
     	 */
     	TUint32 iALParamCallerID;
+        
+    	RPolicyEngine   iPE;
+        RPolicyRequest  iPR;
     };
 
 #endif      // SCPSESSION_H   

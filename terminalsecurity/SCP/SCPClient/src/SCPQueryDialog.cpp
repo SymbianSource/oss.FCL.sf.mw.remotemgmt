@@ -22,11 +22,11 @@
 #include <StringLoader.h>
 #include <aknappui.h> 
 #include <avkon.rsg>
-#include <SecUi.rsg>
+#include <secui.rsg>
 // Include the SecUi definitions
 #include <secui.hrh>
 #include "SCPDebug.h"
-#include <SCPNotifier.rsg>
+#include <scpnotifier.rsg>
 // For Central Repository
 #include <centralrepository.h>
 #include <AknIncallBubbleNotify.h>
@@ -35,6 +35,7 @@
 #include "SCPCodePrivateCRKeys.h"
 #include <DevManInternalCRKeys.h>
 #include <featmgr.h>
+#include <aknglobalpopupprioritycontroller.h>
 
 /*#ifdef _DEBUG
 #define __SCP_DEBUG
@@ -282,13 +283,14 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
 	Dprint((_L("CSCPQueryDialog::PreLayoutDynInitL(): EPSCTsyCallStateNone %d"), var));
 	
     // If the call is made during device startup have the priority as normal
-    if (iECSSupport)
-    {
+    if (iECSSupport) {
+    
         switch(var) {
             default:
             case EPSCTsyCallStateNone:
                 Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Started Maximized...")));
                 iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront + 1);
+                AknGlobalPopupPriorityController :: SetPopupPriorityL(*this, 1);
                 iPrioritySet = ETrue;
                 break;
             case EPSCTsyCallStateAlerting:
@@ -309,35 +311,28 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
                 }
             }
         }
-    }
 	        
-   // this must be done always to keep the reference count in synch  
-   // this does not have any effect if autoforwarding has not been set true (normal application.)
-   iEikonEnv->BringForwards(ETrue, ECoeWinPriorityAlwaysAtFront+1);
+        Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Changing Window Priority") ));
+        DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
+        ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
+    }
+    else {
+        AknGlobalPopupPriorityController :: SetPopupPriorityL(*this, 0);
+        DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityNormal);
+        ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityNormal);
+    }
 
-	/// -- Change Window Priority for dialog and CBA 
-	if (iECSSupport)
-		{
-		Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Changing Window Priority") ));
-		DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
-		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
-		}
-	else
-		{
-		DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1); //
-		ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityNormal + 1);
-		}	
+    // this must be done always to keep the reference count in synch  
+    // this does not have any effect if autoforwarding has not been set true (normal application.)
+    iEikonEnv->BringForwards(ETrue, ECoeWinPriorityAlwaysAtFront+1);
 
-	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));
-	// Key sounds
-
-	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->
-	    PushContextL(R_AVKON_DEFAULT_SKEY_LIST);
-	    	                                                             
-	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->BringToForeground();
-	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
-
-	iFront = ETrue;
+    Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));
+    // Key sounds
+    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->PushContextL(R_AVKON_DEFAULT_SKEY_LIST);
+    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->BringToForeground();
+    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
+    iFront = ETrue;
+	
     TInt currentLawmoState(0); 
     Dprint( (_L("CSCPQueryDialog::lawmo cenrep") ));
     CRepository* crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
@@ -853,6 +848,7 @@ void CSCPQueryDialog::TryCancelQueryL(TInt aReason) {
                         TryExitL(EAknSoftkeyCancel);
                     }
                     else {
+                        AknGlobalPopupPriorityController :: SetPopupPriorityL(*this, 1);
                         iEikonEnv->RootWin().SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront + 1);
                         iPrioritySet = ETrue;
                     }

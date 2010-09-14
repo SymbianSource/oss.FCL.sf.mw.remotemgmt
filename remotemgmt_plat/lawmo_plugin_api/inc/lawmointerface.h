@@ -65,7 +65,7 @@ private:
 
 	};
 
-#include "LAWMOInterface.inl"
+#include "lawmointerface.inl"
 
 #endif  // _MLAWMOPLUGININTERFACE_H__
 

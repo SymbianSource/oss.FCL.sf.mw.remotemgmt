@@ -23,7 +23,7 @@
 
 #include <CWPCharacteristic.h>
 #include <commdb.h>
-#include <WPAPAdapterResource.rsg>
+#include <wpapadapterresource.rsg>
 #include <featmgr.h>					// Feature manager
 #include "WPAPUtil.h"
 #include "CWPAPAccesspointItem.h"

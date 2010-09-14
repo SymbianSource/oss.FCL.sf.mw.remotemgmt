@@ -200,16 +200,8 @@ TBool CDevEncController::NeedToDecryptL(const TDriveNumber &aDrive)
     TInt err (KErrNone);
     TInt status (KErrNone);
 
-    TInt deoperation (EOpIdle);  
-
-    RProperty::Get(KDevEncProtectedUid, KDevEncOperationKey, deoperation );
-
-    if (deoperation != EOpIdle)
-        {
-        FLOG(_L("Some disk operation is ongoing. Hence Fota is not possible."));
-        User::Leave(KErrNotReady);
-        }
-
+    CheckIfDeviceMemoryBusyL();
+    
 		iEncMemorySession->SetDrive( aDrive);
 
     err = iEncMemorySession->Connect();
@@ -524,6 +516,20 @@ TInt CDevEncController::GetDEOperation()
     {
     return iDevEncOperation;
     }
+
+void CDevEncController::CheckIfDeviceMemoryBusyL()
+    {
+    TInt deoperation (EOpIdle);  
+
+    RProperty::Get(KDevEncProtectedUid, KDevEncOperationKey, deoperation );
+
+    if (deoperation != EOpIdle)
+        {
+        FLOG(_L("Some disk operation is ongoing. Hence Fota is not possible."));
+        User::Leave(KErrNotReady);
+        }
+	
+	  }
 
 // End of file
 

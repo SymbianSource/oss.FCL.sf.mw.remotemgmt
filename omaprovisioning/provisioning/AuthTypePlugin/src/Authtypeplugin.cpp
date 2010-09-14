@@ -21,7 +21,7 @@
 
 #include    <gsparentplugin.h>
 #include    <gscommon.hrh>
-#include    <AuthtypepluginRsc.rsg> // GUI Resource
+#include    <authtypepluginrsc.rsg> // GUI Resource
 #include    <Authtypeplugin.mbg>
 #include    <gsprivatepluginproviderids.h>
 #include    <gsfwviewuids.h>

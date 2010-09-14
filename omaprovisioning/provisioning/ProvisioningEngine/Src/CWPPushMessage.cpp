@@ -1047,6 +1047,14 @@ EXPORT_C TInt CWPPushMessage::AuthenticateL( const TDesC& aIMSI,
             	{
             	if( aPIN.Length() == 0 )
                 	{
+                	TInt aSetAuthValue = 1;	
+                	CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	
+                	TInt err = repository->Set(KOMAProvIsUserPin, aSetAuthValue);                	
+                	if(err != KErrNone)
+                		{
+                				FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: set KOMAProvIsUserPin Failed" ) );
+                		}
+                	CleanupStack::PopAndDestroy(); // repository
                 	result = KWPAuthResultPinRequired;
                 	FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: KWPAuthResultPinRequired" ) );
                 	}
@@ -1089,6 +1097,14 @@ EXPORT_C TInt CWPPushMessage::AuthenticateL( const TDesC& aIMSI,
             	{
 	            if( aPIN.Length() == 0 )
     	            {
+    	            TInt aSetAuthValue = 1;	
+                	CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	
+                	TInt err = repository->Set(KOMAProvIsUserPin, aSetAuthValue);  
+                	if(err != KErrNone)
+                		{
+                				FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: set KOMAProvIsUserPin Failed" ) );
+                		}              	
+                	CleanupStack::PopAndDestroy(); // repository	
         	        result = KWPAuthResultPinRequired;
         	        FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: KWPAuthResultPinRequired" ) );
             	    }
@@ -1112,6 +1128,14 @@ EXPORT_C TInt CWPPushMessage::AuthenticateL( const TDesC& aIMSI,
             	}
             else
             	{
+              TInt aSetAuthValue = 1;	
+              CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	
+              TInt err = repository->Set(KOMAProvIsUserPin, aSetAuthValue);    
+              if(err != KErrNone)
+                 		{
+                		FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: set KOMAProvIsUserPin Failed" ) );
+                		}	            
+              CleanupStack::PopAndDestroy(); // repository
             	result = KWPAuthResultNoAuthentication;	
             	FLOG( _L( "[Provisioning] CWPPushMessage::AuthenticateL: KWPAuthResultNoAuthentication" ) );
             	}            	

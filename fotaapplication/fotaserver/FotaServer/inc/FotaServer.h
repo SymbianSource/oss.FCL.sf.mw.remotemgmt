@@ -739,6 +739,15 @@ private: // new functions
 	 * @return None
 	 */ 
 	void StartNetworkMonitorL();
+	
+	/**
+	 * Checks whether FOTA needs to decrypt the memory before updating by examing the Feature Flag
+	 *
+	 * @since SF 3
+	 * @param None
+	 * @return TBool
+	 */
+	TBool IsFOTANeedToDecryptL();
 
 
 private: // Data

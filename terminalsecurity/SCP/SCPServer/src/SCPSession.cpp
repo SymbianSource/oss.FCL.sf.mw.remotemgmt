@@ -50,6 +50,8 @@
 #include <TerminalControl3rdPartyAPI.h>
 #include <TerminalControl3rdPartyParamsPlugin.h>
 #include <utf.h>
+
+#include <PolicyEngineXACML.h>
 // ================= MEMBER FUNCTIONS =======================
 
 // C++ default constructor can NOT contain any code, that
@@ -69,6 +71,8 @@ CSCPSession::CSCPSession( CSCPServer& aServer )
 // Symbian 2nd phase constructor can leave.
 void CSCPSession::ConstructL()
     {
+    User::LeaveIfError( iPE.Connect() );
+    User::LeaveIfError( iPR.Open( iPE ) );
     iServer.SessionOpened();
     }
 
@@ -113,7 +117,8 @@ CSCPSession::~CSCPSession()
     if(iALParamValue) {
 		delete iALParamValue;		
     }
-        
+    iPR.Close();
+	iPE.Close();    
     Dprint( (_L("<-- CSCPSession::~CSCPSession()")) );   
     }
 
@@ -851,7 +856,9 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
 	}
     
     TSecureId id = aMessage.SecureId();
-	
+    TBool hasAllFilesCap = aMessage.HasCapability(ECapabilityAllFiles);
+    TBool hasDiskAdminCap = aMessage.HasCapability(ECapabilityDiskAdmin);
+    
     switch(id.iId) {
         case KSCPServerSIDAutolock:
         case KAknNfySrvUid:
@@ -860,10 +867,23 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
         case KSCPServerSIDTerminalControl:
         case KSCPServerSIDTelephone:
         case KSCPServerSIDLog:
+            {
+            Dprint( (_L("[CSCPSession]-> fixed sid's") ));
             break;
+            }
         default: {
+        TInt retVal = CheckTerminalControl3rdPartySecureIDL(id);
+        Dprint(_L("[CSCPSession]->CheckTerminalControl3rdPartySecureIDL retval %d"), retVal);
+        if(((retVal==KErrNone)&&(hasDiskAdminCap))||(hasAllFilesCap))
+            {
+            Dprint( (_L("[CSCPSession]-> sid is 3rd party or has AllFiles") ));
+            break;
+            }
+        else
+            {
             Dprint( (_L("[CSCPSession]-> ERROR: Permission denied") ));
-        User::Leave( KErrPermissionDenied );
+            User::Leave( KErrPermissionDenied );
+            }
         }
     };
 	
@@ -1680,3 +1700,36 @@ void CSCPSession :: NotifyChangeL( TInt aParamID, const TDesC8 aParamVal, TUint3
 	Dprint(_L("[CSCPSession]->INFO: Notification to all the StakeHolders complete..."));
 	CleanupStack :: PopAndDestroy(); //lChangeArray
 }
+// -------------------------------------------------------------------------------------
+// CTcTrustedSession::CheckTerminalControl3rdPartySecureIDL
+// -------------------------------------------------------------------------------------   
+TInt CSCPSession::CheckTerminalControl3rdPartySecureIDL(TSecureId aId)
+    {
+    Dprint(_L("TerminalControl: [CSCPSession]CheckTerminalControl3rdPartySecureIDL"));    
+    TRequestContext context;
+    TResponse response;
+    TUid secureId = TUid::Uid(aId.iId);
+    context.AddSubjectAttributeL(
+        PolicyEngineXACML::KSubjectId, secureId
+        );
+    context.AddResourceAttributeL(
+        PolicyEngineXACML::KResourceId,
+        PolicyEngineXACML::KThirdPartySecureIds,
+        PolicyEngineXACML::KStringDataType
+        );
+    User::LeaveIfError( iPR.MakeRequest( context, response ) );
+    TResponseValue resp = response.GetResponseValue();
+    Dprint(_L("[CSCPSession]->CheckTerminalControl3rdPartySecureIDL Policy check returned %d"), (TInt)resp);
+    switch( resp )
+        {
+        case EResponsePermit:
+            return KErrNone;
+        case EResponseDeny:
+            case EResponseIndeterminate:
+            case EResponseNotApplicable:
+            default:
+                User::Leave( KErrAccessDenied );
+        }
+        
+      return KErrAccessDenied;
+    }

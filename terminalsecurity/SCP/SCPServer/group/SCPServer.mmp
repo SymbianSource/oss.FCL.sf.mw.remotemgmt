@@ -80,7 +80,7 @@ LIBRARY     policyengine.lib
 #endif // SCP_USE_POLICY_ENGINE
 
 #ifdef SCP_SMS_LOCK_AVAILABLE
-LIBRARY    rlocksettings.lib
+LIBRARY    RLockSettings.lib
 #endif // SCP_SMS_LOCK_AVAILABLE
 
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
@@ -96,6 +96,7 @@ LIBRARY					flogger.lib
 LIBRARY     featmgr.lib
 LIBRARY 	estor.lib
 LIBRARY 	charconv.lib
+LIBRARY       policyengine.lib
 
 SMPSAFE
 

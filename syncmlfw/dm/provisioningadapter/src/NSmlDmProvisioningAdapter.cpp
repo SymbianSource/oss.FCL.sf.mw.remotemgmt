@@ -23,7 +23,7 @@
 #include <cdbcols.h>			 // CommsDB columname defs
 #include <stringresourcereader.h>
 #include <barsread.h>
-#include <NSmlDMProvisioningAdapter.rsg>
+#include <nsmldmprovisioningadapter.rsg>
 #include <f32file.h>
 #include <bautils.h>
 #include <ApUtils.h>
@@ -38,8 +38,9 @@
 #include <NSmlPrivateAPI.h>
 #include "NSmlDmProvisioningAdapter.h"
 #include "NSmlTransportHandler.h"
-
 #include <data_caging_path_literals.hrh>
+#include "ProvisioningInternalCRKeys.h"
+#include <centralrepository.h>
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -132,8 +133,24 @@ void CNSmlDmProvisioningAdapter::SetAsDefaultL(TInt /*aItem*/ )
 // -----------------------------------------------------------------------------
 TInt CNSmlDmProvisioningAdapter::ItemCount() const
 	{
-	return iProfiles.Count();
-	}
+		  
+	  CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	       
+	  TInt adapterCount( 0 );	  
+		TInt getErr = repository->Get( KOMAProvCriticalAdapterSettingCount, adapterCount);
+		if(getErr != KErrNone)
+    	{
+        _DBG_FILE("CWPMessage::ProcessL: get KOMAProvCriticalAdapterSettingCount Failed" );
+      }	
+    TInt criticalAdapterSettingCount =   adapterCount +  iProfiles.Count();    	
+    
+    TInt setErr = repository->Set(KOMAProvCriticalAdapterSettingCount, criticalAdapterSettingCount);      
+    if(setErr != KErrNone)
+      {
+    		_DBG_FILE("CNSmlDmProvisioningAdapter::ItemCount(): set KOMAProvCriticalAdapterSettingCount failed");
+    	}
+    CleanupStack::PopAndDestroy(); // repository         
+	  return iProfiles.Count();
+	 }
 
 // -----------------------------------------------------------------------------
 // CNSmlDmProvisioningAdapter::SummaryTitle
@@ -488,7 +505,39 @@ void CNSmlDmProvisioningAdapter::VisitL( CWPCharacteristic& aCharacteristic )
 
 	if(iState!=CNSmlDmProvisioningAdapter::EStateNull)
 		{
-		aCharacteristic.AcceptL( *this );
+		
+		TInt authType( 0 );
+		TInt allowCriticalSetting( 0 );
+		CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );
+		
+		TInt error = repository->Get( KOMAProvMessageOpen, authType );
+		if(error !=KErrNone)
+			{
+				_DBG_FILE("CNSmlDmProvisioningAdapter::VisitL Get KOMAProvMessageOpen Failed");
+			}			
+			
+		error = repository->Get( KOMAProvAllowCriticalAdapterSetting, allowCriticalSetting );
+		if(error !=KErrNone)
+			{
+				_DBG_FILE("CNSmlDmProvisioningAdapter::VisitL Get KOMAProvMessageOpen Failed");
+			}			
+		CleanupStack::PopAndDestroy(); // repository
+		
+		if(allowCriticalSetting)
+			{
+				if(authType != 1)
+				{			
+				aCharacteristic.AcceptL( *this );
+				}
+				else
+				{
+				iState = CNSmlDmProvisioningAdapter::EStateNull;			
+				}	
+			}
+			else
+			{
+				aCharacteristic.AcceptL( *this );
+			}
 		}
 	_DBG_FILE("CNSmlDmProvisioningAdapter::VisitL(CWPCharacteristic): end");
 	}

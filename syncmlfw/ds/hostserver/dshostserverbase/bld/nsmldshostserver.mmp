@@ -59,6 +59,6 @@ LIBRARY		nsmldebug.lib smldataprovider.lib nsmldshostclient.lib NSmlAdapterLog.l
 LIBRARY		nsmlchangefinder.lib syncmldatafilter.lib
 
 #ifdef ARMCC
-LIBRARY ECOM.LIB
+LIBRARY ecom.lib
 #endif
 

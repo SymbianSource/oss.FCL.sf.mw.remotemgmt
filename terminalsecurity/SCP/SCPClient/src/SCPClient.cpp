@@ -32,7 +32,7 @@
 #include "SCPQueryDialog.h"
 #include "SCPParamObject.h"
 
-#include <SCPNotifier.rsg>
+#include <scpnotifier.rsg>
 #include "SCP_IDs.h"
 
 #include <centralrepository.h>
@@ -40,7 +40,7 @@
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 #include <TerminalControl3rdPartyAPI.h>
 #include <SCPServerInterface.h>
-#include <SecUi.rsg>
+#include <secui.rsg>
 #include <scptimestamppluginlang.rsg>
 #include <secui.hrh>
 #include <StringLoader.h>

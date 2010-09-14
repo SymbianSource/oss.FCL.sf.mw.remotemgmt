@@ -44,24 +44,24 @@ START RESOURCE 	../data/dcmo.rss
     LANGUAGE_IDS
 END 
 
-LIBRARY     	euser.lib commonengine.lib efsrv.lib
+LIBRARY     	euser.lib CommonEngine.lib efsrv.lib
 LIBRARY       ecom.lib
 LIBRARY       centralrepository.lib
 LIBRARY				aknnotify.lib eiksrv.lib
 LIBRARY    		flogger.lib
-LIBRARY 		TerminalControl.lib
-LIBRARY				nsmlprivateapi.lib
-LIBRARY     		commdb.lib
+LIBRARY 			terminalcontrol.lib
+LIBRARY				NSmlPrivateAPI.lib
+LIBRARY     	commdb.lib
 LIBRARY				apengine.lib	esock.lib 
 #ifdef __TARM_SYMBIAN_CONVERGENCY
- LIBRARY				dmtreeclient.lib
- LIBRARY				SmlClient.lib
+ LIBRARY			dmtreeclient.lib
+ LIBRARY			SmlClient.lib
 #else
  LIBRARY			nsmldmtreedbhandler.lib
- LIBRARY  			syncmlclientapi.lib
+ LIBRARY  		syncmlclientapi.lib
  LIBRARY 			nsmldmmodule.lib
- LIBRARY 			nsmldmtreedbclient.lib connmon.lib
- LIBRARY     		nsmltransporthandler.lib
-LIBRARY     		nsmltransport.lib cone.lib javaregistryclient.lib avkon.lib eikcore.lib  apparc.lib
+ LIBRARY 			nsmldmtreedbclient.lib ConnMon.lib
+ LIBRARY     	nsmltransporthandler.lib
+LIBRARY     	nsmltransport.lib cone.lib javaregistryclient.lib avkon.lib eikcore.lib  apparc.lib
 #endif // __TARM_SYMBIAN_CONVERGENCY
 SMPSAFE

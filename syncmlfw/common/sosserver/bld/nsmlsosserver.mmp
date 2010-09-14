@@ -74,7 +74,7 @@ SOURCE      	NSmlDataProvider.cpp
 SOURCE      	NSmlJobObject.cpp
 
 LIBRARY     	euser.lib estor.lib ecom.lib bafl.lib efsrv.lib nsmldebug.lib edbms.lib
-LIBRARY     	nsmldssettings.lib 
+LIBRARY     	NSmlDSSettings.lib 
 LIBRARY     	nsmldmsettings.lib 
 LIBRARY			nsmltransport.lib
 LIBRARY     	nsmltransporthandler.lib

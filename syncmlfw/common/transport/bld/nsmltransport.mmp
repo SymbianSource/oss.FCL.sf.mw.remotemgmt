@@ -47,17 +47,17 @@ SYSTEMINCLUDE		/epoc32/include/libc /epoc32/include/ecom	/epoc32/include/http
 USERINCLUDE     ../inc ../../http/inc ../../inc ../../wbxml/inc ../../wbxml/inc/syncml ../../syncagent/inc ../../debug/inc
 USERINCLUDE      ../../obex/obexcommserver/inc ../../obex/obexserverbinding/inc ../../obex/obexclient/inc
 
-LIBRARY         euser.lib
+LIBRARY     euser.lib
 LIBRARY			bluetooth.lib
 LIBRARY			nsmldebug.lib
-LIBRARY 	commonengine.lib // 1.2 CHANGES: Offline mode
-LIBRARY         commdb.lib
-LIBRARY         apengine.lib
-LIBRARY	    CENTRALREPOSITORY.LIB
-LIBRARY			FeatMgr.lib
+LIBRARY 		CommonEngine.lib // 1.2 CHANGES: Offline mode
+LIBRARY     commdb.lib
+LIBRARY     apengine.lib
+LIBRARY	    centralrepository.lib
+LIBRARY			featmgr.lib
 
 #ifdef ARMCC
-LIBRARY ECOM.LIB
+LIBRARY ecom.lib
 #endif
 
 SMPSAFE

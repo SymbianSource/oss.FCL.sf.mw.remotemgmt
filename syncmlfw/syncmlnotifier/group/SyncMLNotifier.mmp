@@ -57,7 +57,7 @@ SYSTEMINCLUDE   /epoc32/include/uikon
 LIBRARY euser.lib cone.lib                  // Symbian OS framework libraries
 LIBRARY avkon.lib                           // UI library
 LIBRARY bafl.lib                            // Basic Application Framework Library
-LIBRARY commonengine.lib                    // Series 60 common components library
+LIBRARY CommonEngine.lib                    // Series 60 common components library
 LIBRARY charconv.lib                        // Character conversion library
 LIBRARY eikcoctl.lib eiksrv.lib             // Eikon libraries
 LIBRARY eikdlg.lib                          // Eikon libraries

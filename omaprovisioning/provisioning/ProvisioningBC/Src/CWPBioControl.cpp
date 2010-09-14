@@ -361,6 +361,20 @@ void CWPBioControl::RestoreMsgL()
     TBool preAuthenticated( iMessage->Authenticated() );
     // If the message was not authenticated, give a warning
     AuthenticateL( *iMessage );
+    
+    // Identify the authentication type
+    TInt type = (entry->Entry()).MtmData2();
+    if(type == 1)
+    {    
+    CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	
+    TInt err = repository->Set(KOMAProvMessageOpen, type);  
+    if(err != KErrNone)
+    	{
+    		FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL Set KOMAProvMessageOpen failed" ) );
+    	}    
+    CleanupStack::PopAndDestroy(); // repository 
+    }
+    	
     FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL 3 " ) );
     if( !tentry.ReadOnly() && preAuthenticated != iMessage->Authenticated() )
         {
@@ -375,6 +389,16 @@ void CWPBioControl::RestoreMsgL()
     FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL 5 " ) );
     iEngine->PopulateL();
     FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL 6 " ) );
+    
+    //Reset the cenrep so it can used for next message.		
+	 CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );	
+    TInt err = repository->Set(KOMAProvMessageOpen, 0); 
+    if(err != KErrNone)
+    	{
+    		FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL Set KOMAProvMessageOpen failed" ) );
+    	} 	     
+    CleanupStack::PopAndDestroy();
+    	
     // Empty messages are not supported
     if( iEngine->ItemCount() == 0 )
         {
@@ -396,7 +420,7 @@ void CWPBioControl::RestoreMsgL()
         {
         iEngine->SetCurrentContextL( KWPMgrUidNoContext );
         }
-
+	
     CleanupStack::PopAndDestroy(2); // orig16, entry
     FLOG( _L( "[ProvisioningBC] CWPBioControl::RestoreMsgL done" ) );
     }

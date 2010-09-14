@@ -31,7 +31,7 @@
 #include <avkon.mbg>
 #include <aknconsts.h>
 #include <utf.h>
-#include <SyncMLNotifier.rsg>   // Own resources
+#include <syncmlnotifier.rsg>   // Own resources
 #include "SyncMLDlgNotifier.h"  // Class definition
 #include "SyncMLTimedMessageQuery.h"
 #include "SyncMLAppLaunchNotifier.h"

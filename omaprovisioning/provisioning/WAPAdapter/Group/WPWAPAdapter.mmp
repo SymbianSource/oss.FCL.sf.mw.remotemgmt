@@ -64,7 +64,7 @@ LIBRARY         provisioningengine.lib
 LIBRARY         msgs.lib
 LIBRARY         apengine.lib
 LIBRARY         commdb.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         favouritesengine.lib
 LIBRARY         centralrepository.lib
 

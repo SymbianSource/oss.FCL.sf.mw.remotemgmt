@@ -154,7 +154,25 @@ void CWPMessage::ProcessL()
         }
 
     FLOG( _L( "CWPMessage::ProcessL: Creating engine" ) );
-
+		
+				
+	  TInt value( 0 );
+    CRepository* rep = CRepository::NewLC( KOMAProvAuthenticationLV );	
+    	
+    TInt error = rep->Set(KOMAProvIsUserPin, value);              
+    if(error != KErrNone)
+    	{
+        FLOG( _L( "CWPMessage::ProcessL: set KOMAProvIsUserPin Failed" ) );
+      }
+    
+    error =  rep->Set(KOMAProvCriticalAdapterSettingCount, value);      
+    if(error != KErrNone)
+    	{
+        FLOG( _L( "CWPMessage::ProcessL: set KOMAProvCriticalAdapterSettingCount Failed" ) );
+      }
+      
+    CleanupStack::PopAndDestroy(); // rep
+    	
     // Read the message into the engine
     CWPEngine* engine = CWPEngine::NewLC(); // on CS
 
@@ -162,6 +180,7 @@ void CWPMessage::ProcessL()
     engine->ImportDocumentL( iMessage->Body() );
 
     FLOG( _L( "CWPMessage::ProcessL: Populating adapters" ) );
+   	
     engine->PopulateL();
 
     FTRACE(RDebug::Print(_L(" WPMessage::ProcessL: Number of settings: (%d)"), engine->ItemCount()));
@@ -180,13 +199,41 @@ void CWPMessage::ProcessL()
     FLOG( _L( "CWPMessage::ProcessL: Bootstrapping" ) );
     CWPBootstrap* bootstrap = CWPBootstrap::NewL( iPhone->SubscriberId() );
     CleanupStack::PushL( bootstrap );
-
+    	
     CWPBootstrap::TBootstrapResult result( 
         bootstrap->BootstrapL( *iMessage, *engine, KNullDesC ) );
     CleanupStack::PopAndDestroy(); // bootstrap
 
     FTRACE(RDebug::Print(_L(" WPMessage::ProcessL: Bootstrap result: (%d)"), result));
         // See UI specs figure 1 
+        
+	TInt adapterCount( 0 );
+	TInt userPin(0);
+	TInt allowCriticalSetting(0);
+	
+	CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );
+	TInt getErr = repository->Get( KOMAProvCriticalAdapterSettingCount, adapterCount);
+	if(getErr != KErrNone)
+    	{
+        FLOG( _L( "CWPMessage::ProcessL: set KOMAProvCriticalAdapterSettingCount Failed" ) );
+      }
+      
+  getErr = repository->Get( KOMAProvIsUserPin, userPin );  
+	if(getErr != KErrNone)
+      { 
+      FLOG( _L( "CWPMessage::PrepareEntryLC: set KOMAProvIsUserPin Failed" ) );
+      }
+  
+  getErr = repository->Get( KOMAProvAllowCriticalAdapterSetting, allowCriticalSetting );  
+	if(getErr != KErrNone)
+      { 
+      FLOG( _L( "CWPMessage::PrepareEntryLC: set KOMAProvIsUserPin Failed" ) );
+      }    
+	        
+	CleanupStack::PopAndDestroy(); // repository		
+		
+
+		    
     TBool haveSettings( engine->ItemCount() > 0 );
     switch( result )
         {
@@ -194,9 +241,24 @@ void CWPMessage::ProcessL()
             {
             FLOG( _L( "CWPMessage::ProcessL: Bootstrapping ENoBootstrap" ) );
             // If there's no bootstrap, just save the message
-            if( haveSettings )
+            
+            if( haveSettings)
                 {
-                StoreMsgL();
+ 	               	 if(allowCriticalSetting)
+ 	               	 	{
+ 	               	 		if(!userPin)
+                			{
+                		 	StoreMsgL();
+                			}
+                			else if(adapterCount != engine->ItemCount())
+                			{
+                			StoreMsgL();
+                			}
+                		}
+                		else
+                		{
+                			StoreMsgL();
+                		}	
                 }
             else
                 {
@@ -208,36 +270,75 @@ void CWPMessage::ProcessL()
         case CWPBootstrap::ENotAuthenticated:
             {
             FLOG( _L( "CWPMessage::ProcessL: Bootstrapping ENotAuthenticated" ) );
-            if( haveSettings )
-                {
-                StoreMsgL();
-                }
+            
+            if(haveSettings)
+            	{
+            		if(allowCriticalSetting)
+            			{
+            				if(adapterCount != engine->ItemCount())
+            					{
+            		       StoreMsgL();
+                			}
+              		}
+              		else
+              		{ 
+              		StoreMsgL();
+              		}
+              }
             else
             {
-                
             // Message is ignored and an information SMs is put to Inbox.
             //Information SMs can be Class0,  based on operator requirement.
-            TInt auth_value;
-            CRepository * rep = 0;
-            TRAPD( err, rep = CRepository::NewL( KCRUidOMAProvisioningLV ));
-            if(err == KErrNone)
-            {
-            	rep->Get( KOMAProvAuthFailMsgHandling, auth_value );
-            	delete rep;
+            if(allowCriticalSetting)
+            	{
+            		if(adapterCount != engine->ItemCount())
+            		{
+            		TInt auth_value;
+            		CRepository * rep = 0;
+            		TRAPD( err, rep = CRepository::NewL( KCRUidOMAProvisioningLV ));
+            			if(err == KErrNone)
+            			{
+            			rep->Get( KOMAProvAuthFailMsgHandling, auth_value );
+            			delete rep;
             	
-            	if(auth_value == 1)
-            	StoreMsgclass0L(R_TEXT_AUTHENTICATION_FAILED);
+            			if(auth_value == 1)
+            			StoreMsgclass0L(R_TEXT_AUTHENTICATION_FAILED);
+            			else
+            			StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            	
+            			User::Leave( KErrAccessDenied ); 
+            			}
+            			else
+            			{
+            			StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            			User::Leave( KErrAccessDenied );                         
+            			}
+            		}
+            	}
             	else
-            	StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            	{
+            	TInt auth_value;
+            	CRepository * rep = 0;
+            	TRAPD( err, rep = CRepository::NewL( KCRUidOMAProvisioningLV ));
+            	if(err == KErrNone)
+            	{
+            		rep->Get( KOMAProvAuthFailMsgHandling, auth_value );
+            		delete rep;
             	
-            	User::Leave( KErrAccessDenied ); 
+            		if(auth_value == 1)
+            		StoreMsgclass0L(R_TEXT_AUTHENTICATION_FAILED);
+            		else
+            		StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            	
+            		User::Leave( KErrAccessDenied ); 
+            	}
+            	else
+            	{
+            		StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
+            		User::Leave( KErrAccessDenied );                         
+            	}
             }
-            else
-            {
-            StoreMsgL(R_TEXT_AUTHENTICATION_FAILED);
-            User::Leave( KErrAccessDenied );                         
-            }
-                }
+              }
             break;
             }
 
@@ -246,12 +347,26 @@ void CWPMessage::ProcessL()
             FLOG( _L( "CWPMessage::ProcessL: Bootstrapping EPinRequired" ) );
             
             // If PIN is required, defer authentication to ProvisioningBC
-            if( haveSettings )
+            if(haveSettings)
                 {
-                StoreMsgL();
+                	if(allowCriticalSetting)
+                		{             			
+                			if(!userPin)
+                			{
+                			StoreMsgL();
+                			}
+                			else if(adapterCount != engine->ItemCount())
+                			{
+                			StoreMsgL();	
+                			}
+                		}
+                		else
+                		{
+                		StoreMsgL();
+                		}                			
                 }
             else
-                {
+                {              	            
                 User::Leave( KErrCorrupt );
                 }
             break;
@@ -571,6 +686,22 @@ void CWPMessage::PrepareEntryLC( TMsvEntry& aEntry )
     aEntry.iError = KErrNone;
     // iMtmData1 is been used/reserved for count, please don't use for any other purpose.
     aEntry.SetMtmData1(3);
+    aEntry.SetMtmData2(0);   
+
+    TInt userPin = 0;
+	  CRepository* repository = CRepository::NewLC( KOMAProvAuthenticationLV );
+	  TInt err = repository->Get( KOMAProvIsUserPin, userPin );
+	  if(err != KErrNone)
+      { 
+      FLOG( _L( "CWPMessage::PrepareEntryLC: set KOMAProvIsUserPin Failed" ) );
+      }
+	  CleanupStack::PopAndDestroy(); // repository	
+		
+	  if(userPin == 1)
+	    {			
+	    aEntry.SetMtmData2(1);		
+	    }
+				
     FLOG( _L( "CWPMessage::PrepareEntryLC create an invisible blank entry done" ) );
     // Look up the details
     HBufC* details = NULL;

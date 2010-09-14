@@ -23,7 +23,7 @@
 #include <SCPParamObject.h>
 
 #include "SCPHistoryPlugin.h"
-#include <SCPHistoryPluginLang.rsg>
+#include <scphistorypluginlang.rsg>
 #include "SCP_IDs.h"
 
 

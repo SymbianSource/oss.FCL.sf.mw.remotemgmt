@@ -32,7 +32,7 @@
 #include	<smsclnt.h>
 #include	<smuthdr.h>
 #include	<smutset.h>
-#include	<ProvisioningSC.rsg> 
+#include	<provisioningsc.rsg> 
 #include	<pushmessage.h>
 #include	<e32std.h>  
 #include	<sysutil.h>
