@@ -32,6 +32,7 @@ const TUint32 KLawmoRootNode = 0x00000001;
 const TUint32 KLawmoCorrelator = 0x00000002;
 const TUint32 KLawmoWipeStatus = 0x00000003;
 const TUint32 KLawmoSourceURI = 0x00000004;
+const TUint32 KLawmoSyncRetVal = 0x00000005;
 
 #endif // LawmoADAPTERCRKEYS_H
             

@@ -181,7 +181,7 @@ void CWPWAPBrowserItem::SetAsDefaultL()
                                                                   (TInt)iUID));
     
     // Force the browser to use the User Defined AP selection mode.
-    User::LeaveIfError( repository->Set( KBrowserAccessPointSelectionMode,
+    User::LeaveIfError( repository->Set( KBrowserOccAccessPointSelectionMode,
                                          KUserDefined ) );
     // This sets the accesspoint default for browser.
     User::LeaveIfError( repository->Set( KBrowserDefaultAccessPoint,

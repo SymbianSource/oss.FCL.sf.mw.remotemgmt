@@ -167,6 +167,7 @@ void CFotaSrvSession::ServiceL(const RMessage2& aMessage)
 	TFullName cltnm = clt.FullName();
 	FLOG(_L( "CFotaSrvSession::ServiceL      %d   serving for %S?" )
 			,aMessage.Function(), &cltnm );
+	clt.Close();
 
 	TInt cmd = aMessage.Function();
 	if(( cmd!= EGetState ) && (cmd!= EGetResult ))

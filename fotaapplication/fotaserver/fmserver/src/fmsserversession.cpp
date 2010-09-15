@@ -104,6 +104,7 @@ void CFMSSession::ServiceL(const RMessage2& aMessage)
 	RThread clt; aMessage.ClientL(clt); TFullName cltnm = clt.FullName();
 	FLOG(_L( "CFMSSession::ServiceL      %d   serving for %S?" )
 			,aMessage.Function(), &cltnm );
+	clt.Close();
 	if( CheckClientSecureIdL( aMessage ) )
 		{
 		//already one request pending
