@@ -131,7 +131,7 @@ void CSCPPluginManager::LoadPluginsL()
             }
         else
             {
-            iPlugins.Append( thisPlugin );            
+            iPlugins.AppendL( thisPlugin );            
             thisPlugin->SetEventHandler( iServer->GetEventHandlerL() );
             
             Dprint( (_L("CSCPPluginManager::LoadPluginsL(): Plugin active,\

@@ -423,8 +423,27 @@ void CRepositoryContent::CreateMaskBackupL( RPointerArray<CRangeMeta>& aSettings
 	if ( !aSettings.Count() )
 	{	
 		CRangeMeta * setting = CRangeMeta::NewL( aCompareValue, 0, aMask, KBackupBitMask);
-		aSettings.AppendL( setting );
-		iRangeMetas.AppendL( setting);
+		TInt err = KErrNone;
+		TRAP(err, aSettings.AppendL( setting ));
+		if(err != KErrNone)
+		    {
+		    delete setting;
+			User::Leave( err );
+		    }
+		else
+		    {
+		    TRAP(err, iRangeMetas.AppendL( setting));
+		    if(err != KErrNone)
+		        {
+		        TInt indx = aSettings.Find( setting );
+		        if(indx != KErrNotFound)
+		            {
+		            aSettings.Remove(indx);
+					User::Leave( err );
+		            }
+		        
+		        }
+		    }
 	}
 }
 
@@ -533,8 +552,27 @@ void CRepositoryContent::CreateRangeSettingsL( RPointerArray<CRangeSetting>& aSe
 	if ( !aSettings.Count() )
 	{	
 		CRangeSetting * setting = CRangeSetting::NewL( aRangeStart, aRangeEnd, 0);
-		aSettings.Append( setting );
-		iRangeSettings.Append( setting);
+		TInt err = KErrNone;
+		TRAP(err, aSettings.AppendL( setting ));
+		if(err != KErrNone)
+		    {
+		    delete setting;
+			User::Leave( err );
+		    }
+		else
+		    {
+		    TRAP(err, iRangeSettings.AppendL( setting));
+		    if(err != KErrNone)
+		        {
+		        TInt indx = aSettings.Find( setting );
+		        if(indx != KErrNotFound)
+		            {
+		            aSettings.Remove(indx);
+					User::Leave( err );
+		            }
+
+		        }
+		    }
 	}	
 	
 	iRangeSettings.Sort( linearOrder);
@@ -572,8 +610,27 @@ void CRepositoryContent::CreateMaskSettingsL( RPointerArray<CRangeSetting>& aSet
 	if ( !aSettings.Count() )
 	{	
 		CRangeSetting * setting = CRangeSetting::NewL( aCompareValue, 0, aMask);
-		aSettings.Append( setting );
-		iRangeSettings.Append( setting);
+		TInt err = KErrNone;
+		TRAP(err, aSettings.AppendL( setting ));
+		if(err != KErrNone)
+		    {
+		    delete setting;
+			User::Leave( err );
+		    }
+		else
+		    {
+		    TRAP(err, iRangeSettings.AppendL( setting));
+		    if(err != KErrNone)
+		        {
+		        TInt indx = aSettings.Find( setting );
+		        if(indx != KErrNotFound)
+		            {
+		            aSettings.Remove(indx);
+					User::Leave( err );
+		            }
+
+		        }
+		    }
 	}
 	
 	

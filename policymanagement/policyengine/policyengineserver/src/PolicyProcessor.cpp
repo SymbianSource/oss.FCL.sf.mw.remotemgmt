@@ -33,10 +33,26 @@
 #include <hbdevicedialogsymbian.h>
 #include <hbdevicenotificationdialogsymbian.h>
 #include <hbtextresolversymbian.h>
+
+#include "DMUtilClient.h"
+#include "PMUtilInternalCRKeys.h"
+
+#include <eikenv.h>
+#include <centralrepository.h>
+
+#include <s32mem.h>
 // CONSTANTS
 const TUid KUidPolicyEngineUi = { 0x10207817 };
 const TUint KDelimeterChar = '|';
 _LIT8( KUserAcceptMark, "A");
+
+const TInt KMaxServerIdLength = 250;
+const TInt KMaxLabelIdLength = 25;
+const TInt KMaxCertSize = 1024;
+        
+_LIT(KSymbianCertificateStoreLabel, "Software certificate store");
+_LIT(KDMTrustedCertLabel,"DMTrustedServer_");
+_LIT8(KNoKeyFound,"");
 
 enum TUserResponse
     {
@@ -121,8 +137,12 @@ CPolicyProcessor * CPolicyProcessor::NewL()
 //
 
 CPolicyProcessor::~CPolicyProcessor()
-{
-	ResetRequestContext();
+{  
+    delete iCertBuffer;
+    iCertBuffer=NULL;
+    delete iStore;
+    ////
+    ResetRequestContext();
 	delete iRequestBuffer;
 
 	CPolicyEngineServer::RemoveActiveObject( this);
@@ -137,6 +157,123 @@ void CPolicyProcessor::ConstructL()
 {
 	CPolicyEngineServer::AddActiveObjectL( this);
 }
+
+// -----------------------------------------------------------------------------
+// CPolicyProcessor::AddCertificateToStoreL()
+// -----------------------------------------------------------------------------
+//
+
+TInt CPolicyProcessor::AddCertificateToStoreL(const RMessage2& aMessage)
+    {
+    RDEBUG("CPolicyProcessor::AddCertificateToStore" );
+    TInt size = aMessage.Int1();
+    TBuf<KMaxCertSize> certData;    
+    
+    aMessage.ReadL(0, certData, 0);     
+    iCertBuffer = HBufC8::NewL(size);     
+    iCertBuffer->Des().Copy(certData);
+    
+    //check if the trust already exists with same server
+    TInt result = CheckCurrentServerIdFromCR();     
+    if(result == KErrInUse)
+        {       
+        return KErrInUse;    
+        }
+    
+    iStore = CCertStore::NewL();
+    iStore->InitializeCertStore();
+    TInt res = iStore->AddCert(iCertBuffer);
+    if(res == KErrNone)
+        {        
+        //update the new counter value in CR
+        iStore->UpdateLabelCounterInCR();  
+        // return the newly generated label
+        aMessage.WriteL( 2, iStore->GetCurrentCertLabel()->Des() );     
+        }
+    
+    return res; 
+    }
+
+
+
+// -----------------------------------------------------------------------------
+// CPolicyProcessor::RemoveCertificateFromStoreL()
+// -----------------------------------------------------------------------------
+//
+TInt CPolicyProcessor::RemoveCertificateFromStoreL(const RMessage2& aMessage)
+    {
+    RDEBUG("CPolicyProcessor::RemoveCertificateFromStoreL" );
+    TBuf<128> certLabel;
+    aMessage.ReadL(0, certLabel, 0);   
+       
+    HBufC *label = HBufC::NewL(aMessage.GetDesLength(0));
+    label->Des().Copy(certLabel);  
+    TInt result = CheckCurrentServerIdFromCR();
+    
+    //check if the trust already exists with same server
+    if(result == KErrInUse)
+        {
+        RDEBUG("CPolicyProcessor::RemoveCertificateFromStore -14" );
+        return KErrInUse;    
+        }
+  
+    if ( iStore != NULL )
+       {
+       delete iStore;
+       iStore = NULL;
+       }
+    iStore = CCertStore::NewL();
+    iStore->InitializeCertStore();    
+    
+    TInt res;
+    if(label->Des() == KNullDesC)
+        {
+        // If NULL is passed for removing label then remove the current label
+        HBufC* rLabel = iStore->GetCurrentCertLabel()->AllocL();
+        res = iStore->RemoveCert(*rLabel);
+        delete rLabel;
+        }
+    else
+        {
+        res = iStore->RemoveCert(*label); 
+        }
+ 
+    delete label;
+    label = NULL;
+    return res;
+    }
+
+// -----------------------------------------------------------------------------
+// CPolicyProcessor::CheckCurrentServerIdFromCR()
+// -----------------------------------------------------------------------------
+//
+TInt CPolicyProcessor::CheckCurrentServerIdFromCR()
+    {
+    RDEBUG("CPolicyProcessor::CheckCurrentServerIdFromCR" );
+    TBuf8<KMaxServerIdLength>  serverIdCR;         
+    TRAPD( err, 
+           {
+           CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+           CleanupStack::PushL( rep );
+           rep->Get( KTrustedServerId, serverIdCR );
+           CleanupStack::PopAndDestroy( rep );
+           } );
+  
+    if(err!=KErrNone)
+        {
+        return err;
+        }    
+    TBool result = CPolicyStorage::PolicyStorage()->IsServerIdValid(serverIdCR);    
+    if(result)
+        {
+        return KErrInUse;
+        }
+    else
+        {
+        return KErrNone;
+        }
+        
+    }
 
 // -----------------------------------------------------------------------------
 // CPolicyProcessor::HandleErrorL()
@@ -733,6 +870,57 @@ void CPolicyProcessor::MakeBooleanResponseL( const TBool aValue, CAttributeValue
 
 
 // -----------------------------------------------------------------------------
+// CPolicyProcessor::GetCertCounterValue()
+// -----------------------------------------------------------------------------
+//
+TInt CPolicyProcessor::GetCertCounterValue()
+    {
+    RDEBUG("CPolicyProcessor::GetCertCounterValue" );
+
+    TInt counter = -1;
+    
+    TRAPD( err, 
+       {
+       CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+       CleanupStack::PushL( rep );
+       rep->Get( KCertificateCounter, counter );
+       CleanupStack::PopAndDestroy( rep );
+       } );
+   
+    return counter;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CPolicyProcessor::UpdateSilentTrustServerId()
+// -----------------------------------------------------------------------------
+//
+void CPolicyProcessor::UpdateSilentTrustServerId()
+    { 
+    RDEBUG("CPolicyProcessor::UpdateSilentTrustServerId" );
+    //get server id and store in cenrep
+    //connect to DM util client...
+    RDMUtil dmutil;
+    dmutil.Connect();
+    CleanupClosePushL( dmutil);
+    
+    //..and get server id
+    TBuf8<KMaxServerIdLength> serverid;
+    dmutil.GetDMSessionServerId( serverid);
+    CleanupStack::PopAndDestroy( &dmutil); 
+    
+    TInt ret;
+    TRAPD( err, 
+      {
+        CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+        CleanupStack::PushL( rep );
+        ret = rep->Set( KTrustedServerId, serverid );
+        CleanupStack::PopAndDestroy( rep );
+      } );
+
+    }
+
+// -----------------------------------------------------------------------------
 // CPolicyProcessor::CorporateUserAcceptFunctionL()
 // -----------------------------------------------------------------------------
 //
@@ -762,14 +950,56 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 	RDEBUG8_2("CPolicyProcessor::fingerPrint: %S", &ptr);
 	    
 	TUserResponse response = EUserDeny;
+	
+    TBool showUserScreen = ETrue;
+      
+    if(GetCertCounterValue() > 0)
+        {   
+        if ( iStore != NULL )
+                {
+                delete iStore;
+                iStore = NULL;
+                }
+        iStore = CCertStore::NewL();
+        iStore->InitializeCertStore();
+        HBufC* certLabel = iStore->GetCurrentCertLabel();       
+        const TDesC8& fingerPrintSilent = iStore->RetrieveCertFPrint(*certLabel);      
+        
+        // Compare the fingerprints of cert stored with received from server  
+        TInt result = fingerPrintSilent.Compare(fingerPrint); 
+        RDEBUG_2("CorporateUserAcceptFunction FP Match ( %d )", result ); 
+        
+        if(result==KErrNone)
+            {
+            UpdateSilentTrustServerId();
+            response = EUserAccept;
+            showUserScreen = EFalse;
+            
+            // call device dialog to show notification                
+            _LIT(KDialogText, "Silent Trust Done!");
+            _LIT(KDialogTitle, "TRUST");
+            _LIT(KDialogIcon, "qtg_large_info");                
+            CHbDeviceNotificationDialogSymbian* dialog = CHbDeviceNotificationDialogSymbian::NewL();
+            CleanupStack::PushL(dialog);
+            dialog->SetTextL(KDialogText);
+            dialog->SetTitleL(KDialogTitle);
+            dialog->SetIconNameL(KDialogIcon);
+            dialog->ShowL();
+            CleanupStack::PopAndDestroy(dialog);            
+            }
+               
+        }
 
-    CProcessorClient *client = new CProcessorClient();
-    TInt res = client->LaunchDialog(ptr, name);
-    
-    if(res == 0)
-        response = EUserAccept;
-    else
-        response = EUserDeny;  
+    if(showUserScreen)
+        {       
+        CProcessorClient *client = new CProcessorClient();
+        TInt res = client->LaunchDialog(ptr, name);
+        
+        if(res == 0)
+            response = EUserAccept;
+        else
+            response = EUserDeny; 
+        }
 
 
 	MakeBooleanResponseL( response == EUserAccept, aResponseElement);
@@ -1384,4 +1614,349 @@ TMatchResponse TCombiningAlgorith::Result()
 	
 	return response;
 }
-	
+
+
+void CCertStore::ConstructL()
+    {
+    RDEBUG("CCertStore::ConstructL" );
+
+    }
+
+CCertStore::CCertStore():CActive(EPriorityStandard)
+    {
+    RDEBUG("CCertStore::CCertStore" );
+    iCertState = EReady;
+    iCertStore = NULL;
+   
+    CActiveScheduler::Add(this);
+    iWait = new CActiveSchedulerWait();
+    }
+
+CCertStore::~CCertStore()
+    {
+    RDEBUG("CCertStore::~CCertStore" );
+
+    delete iWait;     
+    delete iCertLabel;
+    iCertLabel = NULL;    
+    delete iCertBuffer;
+    iCertBuffer = NULL;    
+    delete iCertStore;
+    iCertStore = NULL;
+  
+    }
+
+CCertStore* CCertStore::NewL()
+    { 
+    RDEBUG("CCertStore::NewL" );
+
+    CCertStore* self = new(ELeave) CCertStore();   
+    CleanupStack::PushL(self);
+    self->ConstructL();
+    CleanupStack::Pop();
+    return self;    
+    }
+
+
+void CCertStore::InitializeCertStore()
+    {
+    RDEBUG("CCertStore::InitializeCertStore");
+    if(iCertStore == NULL)
+        {
+        RFs* fs = new RFs();
+        fs->Connect();
+        iCertStore = CUnifiedCertStore::NewL(*fs, ETrue);         
+         
+        iCertStore->Initialize(iStatus);
+        iCertState = EInitializeStore;    
+       
+        SetActive();   
+        iWait->Start();
+        TInt res = iStatus.Int();
+        }     
+    }
+
+
+
+// Checks for the existence of a certificate
+ // -----------------------------------------------------------------------------
+ TBool CCertStore::CheckCertInStore( const TDesC& aLabel )
+     {
+     RDEBUG("CCertStore::CheckCertInStore");
+
+    // Create filter
+    CCertAttributeFilter* filter = CCertAttributeFilter::NewL();
+    TCertLabel label( aLabel );
+    filter->SetLabel( label ); 
+    filter->SetFormat(EX509Certificate);
+    filter->SetOwnerType(ECACertificate);
+    iCertState = EExistsInStore;
+    
+    iCertStore->List( iCertInfoArray, *filter, iStatus );   
+    SetActive();    
+    iWait->Start();
+    
+    delete filter;
+    TBool retVal = ( iCertInfoArray.Count() > 0 ); 
+    
+    if(retVal)
+      {
+      iCertInfoRetrieved = iCertInfoArray[0];
+      }            
+    return retVal;    
+    }
+ 
+
+TInt CCertStore::RemoveCert(const TDesC& aCertLabel)
+    { 
+    RDEBUG("CCertStore::RemoveCert");
+    if(CheckCertInStore(aCertLabel))
+        {        
+        MCTWritableCertStore& writableStore = iCertStore->WritableCertStore(iStoreIndex);         
+        writableStore.Remove(*iCertInfoRetrieved, iStatus);        
+        iCertState = ERemoveCert;       
+        WaitUntilOperationDone();               
+        return KErrNone;             
+        }
+    else
+        return KErrNotFound;                 
+    }
+
+
+TInt CCertStore::GenerateNewCertLabel()
+    {
+    RDEBUG("CCertStore::GenerateNewCertLabel");
+    TInt result = KErrNone;
+    TInt counter=0;
+   
+    TRAPD( err, 
+            {
+            CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+            CleanupStack::PushL( rep );           
+            result = rep->Get( KCertificateCounter, counter );
+            RDEBUG_2("CCertStore::GenerateNewCertLabel( %d )", result );
+            CleanupStack::PopAndDestroy( rep );
+            } );
+    if( err != KErrNone )
+        {
+        result = err;
+        return err;
+        }   
+    iCertLabel=HBufC::NewL(KMaxLabelIdLength);     
+    // use central repository to generte new label each time for addition
+    *iCertLabel = KDMTrustedCertLabel;
+    TPtr ptr = iCertLabel->Des();
+    counter++;
+    ptr.AppendNum(counter);
+    iLabelCounter = counter;
+ 
+    return result;
+    }
+
+
+
+
+void CCertStore::UpdateLabelCounterInCR()
+    {
+    RDEBUG("CCertStore::UpdateLabelCounterInCR");
+
+    TInt res;
+    //update the CR with new counter value
+    TRAPD( err1, 
+           {
+           CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+           CleanupStack::PushL( rep );
+           res = rep->Set( KCertificateCounter, iLabelCounter );
+           RDEBUG_2("CCertStore::UpdateLabelCounterInCR( %d )", res );
+           CleanupStack::PopAndDestroy( rep );
+           } );
+
+    }
+
+
+HBufC* CCertStore::GetCurrentCertLabel()
+    {  
+    RDEBUG("CCertStore::GetCurrentCertLabel");
+
+    TInt counter;
+    TRAPD( err, 
+           {
+           CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+           CleanupStack::PushL( rep );
+           TInt res = rep->Get( KCertificateCounter, counter );           
+           CleanupStack::PopAndDestroy( rep );
+           } );
+    if(iCertLabel)
+        {
+        delete iCertLabel;
+        iCertLabel = NULL;
+        }
+    iCertLabel=HBufC::NewL(KMaxLabelIdLength);     
+    // use central repository to generte new label each time for addition
+    *iCertLabel = KDMTrustedCertLabel;
+    TPtr ptr = iCertLabel->Des();   
+    ptr.AppendNum(counter);
+    return iCertLabel;
+    }
+
+
+TInt CCertStore::AddCert(HBufC8 *aCertBuffer)
+    {  
+    RDEBUG("CCertStore::AddCert");
+
+    GenerateNewCertLabel();  
+    //create object of writable certificate store 
+    MCTWritableCertStore& writableStore = iCertStore->WritableCertStore(iStoreIndex);
+  
+    writableStore.Add(*iCertLabel,EX509Certificate, ECACertificate, NULL, NULL, *aCertBuffer,EFalse,iStatus);
+    iCertState = EAddCert;  
+    //SetActive();
+    WaitUntilOperationDone();    
+    return iStatus.Int();      
+    }
+
+
+void CCertStore::WaitUntilOperationDone()
+    {
+    SetActive();
+    iWait->Start();
+    }
+
+
+//Sets the writable certificate store index used for addition and removal
+void CCertStore::GetWritableCertStoreIndex()
+    {
+    RDEBUG("CCertStore::GetWritableCertStoreIndex");
+
+    //count total availiable cert stores.
+    TInt count = iCertStore->WritableCertStoreCount();                
+    
+    TBool found = EFalse;
+    TInt i = 0;
+    TPtrC pElementID(KSymbianCertificateStoreLabel());
+    
+    for (i = 0; (i < count) && (!found); i++)
+      {
+      // Select the first store with the specified label.
+     const TDesC& storeLabel = iCertStore->WritableCertStore(i).Token().Label();
+     if (storeLabel == pElementID)
+            {
+            found = ETrue;
+            iStoreIndex = i;
+            }                
+      }
+
+    }
+
+const TDesC8&  CCertStore::RetrieveCertFPrint(const TDesC& aCertLabel)
+    {
+    RDEBUG("CCertStore::RetrieveCertFPrint");
+
+    if(CheckCertInStore(aCertLabel))
+        {
+        MCTWritableCertStore& WritableStore = iCertStore->WritableCertStore(iStoreIndex);        
+        
+        iCertData = HBufC8::NewMaxL(iCertInfoRetrieved->Size());        
+        TPtr8 ptr = iCertData->Des();
+        
+        WritableStore.Retrieve(*iCertInfoRetrieved,ptr,iStatus);    
+        
+        iCertState = EGetFPrint;
+        
+        WaitUntilOperationDone();
+        RDEBUG("CCertStore::RetrieveCertFPrint");
+        return iFingerPrint;
+        
+        }
+    else
+      
+        RDEBUG("CCertStore::RetrieveCertFPrint-- not Found");
+        return TDesC8(KNoKeyFound) ;
+   
+    
+    
+    }
+
+void CCertStore::RunL()
+    {
+    RDEBUG("CCertStore::RunL");
+
+    TInt result = iStatus.Int();
+        if (iStatus == KErrNone) 
+            {
+            switch (iCertState) {              
+                    
+                case EInitializeStore:
+                    {                                 
+                    GetWritableCertStoreIndex();
+                    iWait->AsyncStop();  
+                    break;
+                    }
+                case ERemoveCert:                    
+                case EAddCert: 
+                case EExistsInStore:    
+                    {                   
+                    iWait->AsyncStop();                       
+                    break;
+                    }   
+                    
+               case EGetFPrint:
+                   {
+                   iWait->AsyncStop();
+                    CX509Certificate* certR = CX509Certificate::NewL(*iCertData);  
+                                       
+                    HBufC8* fingerprint = certR->Fingerprint().AllocL(); 
+                
+                    TBuf8<20> fingerP;                
+                    fingerP.Copy(fingerprint->Des());
+                    
+                                   
+                    iFingerPrint.Zero();
+                    
+                    //convert fingerprint to plain text
+                    for ( TInt i(0); i < fingerP.Length(); i++)
+                      {
+                      iFingerPrint.AppendNumFixedWidth(fingerP[i] , EHex,2);
+                      iFingerPrint.UpperCase();
+                      }                      
+                  
+                   delete fingerprint;
+                   delete certR;
+                   certR = NULL;
+                   break;                   
+                   }                   
+              
+              default:
+                    break;       
+            } 
+            
+           }
+        else
+            {
+            if(iWait)
+                {
+                iWait->AsyncStop();
+                }
+            }
+                
+          
+    }
+
+void CCertStore::DoCancel()
+    {
+    RDEBUG("CCertStore::DoCancel");
+
+    if (iWait && iWait->IsStarted() && iWait->CanStopNow()) 
+        {        
+        iWait->AsyncStop();
+        }  
+    switch( iCertState )
+       {
+          case EInitializeStore:          
+               {
+               iCertStore->CancelInitialize();
+               break;
+               }
+       }  
+
+    }

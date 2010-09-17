@@ -583,6 +583,18 @@ void CPolicyEngineSession::DispatchMessageL(const RMessage2& aMessage)
 			subSession->iPolicyManager->IsServerIdValidL( aMessage);	
 			return;
 		}
+		
+        case EServerCertAddRequest:
+                {
+                subSession->iPolicyProcessor->AddCertificateToStoreL(aMessage);
+                return;
+                }
+        case EServerCertRemoveRequest:
+                {
+                subSession->iPolicyProcessor->RemoveCertificateFromStoreL(aMessage);
+                return;
+                }
+            
 		case ECertificateRole :
 		{
 			subSession->iPolicyManager->GetCertificateRoleL( aMessage);	

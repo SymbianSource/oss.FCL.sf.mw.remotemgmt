@@ -85,7 +85,7 @@ LIBRARY			nsmlhistorylog.lib
 LIBRARY			ecom.lib
 //RD_AUTO_RESTART
 LIBRARY 		ConnMon.lib
-LIBRARY        	connmonext.lib
+LIBRARY        	ConnMonExt.lib
 LIBRARY         NsmlProfileUtil.lib
 LIBRARY         syncmlclientapi.lib
 LIBRARY			centralrepository.lib

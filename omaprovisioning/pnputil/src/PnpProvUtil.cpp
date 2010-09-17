@@ -350,7 +350,7 @@ void CPnpProvUtil::ParseValueL(TDesC& aValue, RPointerArray<HBufC>& array )
 
 
         HBufC *buf18 = aPtr.AllocL();
-        array.Append(buf18); 
+        array.AppendL(buf18); 
 
         if(aLex.Peek()=='\x00') // end of string
             break; 

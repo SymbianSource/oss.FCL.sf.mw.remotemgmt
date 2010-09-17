@@ -1277,7 +1277,7 @@ void CNSmlDMHostSession::GetResultsL ( const RMessage2& aMessage )
 		CleanupClosePushL ( someResults );
 		for ( TInt i(0); i<okToWrite; i++ )
 			{
-			someResults.Append ( iResultList[i] );			
+			someResults.AppendL ( iResultList[i] );			
 			}
 		NSmlDmCmdArgHandler::PacketResultsL ( writeStream, someResults );
 		CleanupStack::PopAndDestroy();  // someResults
@@ -1292,7 +1292,7 @@ void CNSmlDMHostSession::GetResultsL ( const RMessage2& aMessage )
 		
 		RPointerArray<CNSmlDmResultElement> result;
 		CleanupClosePushL ( result );
-		result.Append ( iResultList[0] );			
+		result.AppendL ( iResultList[0] );			
 		NSmlDmCmdArgHandler::PacketResultsL ( writeStream, result );
 
 		largeTotSize = iResultReadStream->Source()->SizeL();
@@ -1335,7 +1335,7 @@ void CNSmlDMHostSession::GetResultsL ( const RMessage2& aMessage )
 				
 		RPointerArray<CNSmlDmResultElement> truncResult;
 		CleanupClosePushL ( truncResult );
-		truncResult.Append ( iResultList[0] );			
+		truncResult.AppendL ( iResultList[0] );			
 		NSmlDmCmdArgHandler::PacketResultsL ( writeStream, truncResult );
 		
 		CleanupStack::PopAndDestroy(2);  // truncResult, newBuffer

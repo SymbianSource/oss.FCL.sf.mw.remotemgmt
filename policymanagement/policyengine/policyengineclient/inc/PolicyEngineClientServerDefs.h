@@ -49,7 +49,11 @@ enum TPolicyEngineMessages
 	//Policy request operations	
 	EPolicyRequest,
 	ECreateRequestSubSession,
-	ECloseRequestSubSessio
+	ECloseRequestSubSessio,
+	
+
+	EServerCertAddRequest,
+	EServerCertRemoveRequest
 	};
 	
 

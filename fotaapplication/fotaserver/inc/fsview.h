@@ -30,7 +30,12 @@ class FSView : public HbView
 public:
     FSView();
     ~FSView();
-
+signals :
+	/**
+	 * applicationReady() - To emit the application ready signal for matti tool.
+   */
+   void applicationReady();
+public:   
     void SetServer(CFotaServer * aServer);
     
     //Handles the incoming events
@@ -38,5 +43,6 @@ public:
 
 private:
     CFotaServer *iServer;
+    TBool Initilized;
     };
 #endif /* FSVIEW_H_ */

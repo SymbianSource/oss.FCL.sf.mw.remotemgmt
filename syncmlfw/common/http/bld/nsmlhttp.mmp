@@ -56,7 +56,7 @@ USERINCLUDE ../../xml/inc ../../xml/inc/syncml ../../xml/inc/devinf ../../wbxml/
 
 USERINCLUDE  ../../../../inc  // internal header include path
 
-LIBRARY         euser.lib 
+LIBRARY     euser.lib 
 LIBRARY			commdb.lib 
 LIBRARY 		nsmldebug.lib
 LIBRARY			http.lib 
@@ -65,12 +65,12 @@ LIBRARY			bafl.lib
 LIBRARY			nsmlxml.lib 
 LIBRARY			esock.lib
 LIBRARY			ecom.lib
-LIBRARY		    centralrepository.lib
+LIBRARY		  centralrepository.lib
 LIBRARY			nsmlagentcommon.lib
 LIBRARY			featmgr.lib
 LIBRARY			cmmanager.lib
 LIBRARY			ezlib.lib
 LIBRARY			connmon.lib
-LIBRARY         	connmonext.lib
+LIBRARY     ConnMonExt.lib
 
 SMPSAFE

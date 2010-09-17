@@ -28,6 +28,7 @@
 
 #include <e32std.h>
 #include <ssl.h>
+#include <x509cert.h>
 
 // CONSTANTS
 // MACROS
@@ -144,6 +145,23 @@ class RPolicyManagement : public RSubSessionBase
 	    * @return Symbian error code
         */
 		IMPORT_C TInt CertificateRole( TCertInfo& aCertInfo, TRole& aRole);			
+		
+        /**
+        * AddServerCert sets the certificate received from 
+        * server and makes it as trusted.
+        * @param aCert certificate recieved for storage
+        * @return KErrNone Symbian error code
+        */		
+		IMPORT_C TInt AddServerCert(const CX509Certificate& aCert, TDes& aLabel);
+        
+		
+		/**
+        * RemoveServerCert removes the certificate stored 
+        * in the cert store.
+        * @param aLabel label of certificate to be removed
+        * @return KErrNone Symbian error code
+        */
+        IMPORT_C TInt RemoveServerCert(const TDesC& aLabel = KNullDesC);
 };
 
 /**

@@ -884,7 +884,14 @@ EXPORT_C void CNSmlDmDbHandler::UpdateMappingInfoL(TUint32 aAdapterId,
 		childUriPtr.Append ( aURI );
 		childUriPtr.Append ( KNSmlDmLitSeparator );
 		childUriPtr.Append ( tmpDesc.Left ( segEnds ) );	
-		currentUris.Append ( childUri );
+		
+		TRAPD(err, currentUris.AppendL ( childUri ));
+		if(err != KErrNone)
+		    {
+		    delete childUri;
+		    User::Leave( err );
+		    }
+		        
 		startPos += segEnds + 1;
 		}
 	

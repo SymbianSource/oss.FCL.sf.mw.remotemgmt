@@ -19,7 +19,7 @@
 #ifndef __PROVISIONING_IBY__
 #define __PROVISIONING_IBY__
 
-
+data=DATAZ_\BIOFILE_DIR\prov.rsc                                  BIOFILE_DIR\prov.rsc
 // Engine
 file=ABI_DIR\BUILD_DIR\ProvisioningEngine.dll   SHARED_LIB_DIR\ProvisioningEngine.dll
 // Parser

@@ -118,5 +118,32 @@ const TUint32 KSyncMLSessionParamsKey = 0x00000005;
 */
 const TUint32 KSyncMLForcedCertificateCheckKey = 0x00000006;
 
+/**
+* CenRep key for certificate label counter:
+* Indicates current label value of certificate.
+*
+* Possible integer values:
+* Positive numbers
+*
+* Default value: 0 (not defined)
+*
+*
+*/
+const TUint32 KCertificateCounter = 0x00000007;
+
+/**
+* CenRep key for server id:
+* Indicates current trusted server id.
+*
+* Possible string values:
+* some string names
+*
+* Default value: NULL(not defined)
+*
+*
+*/
+const TUint32 KTrustedServerId = 0x00000008;
+
+
 #endif // PM_UTIL_PRIVATE_CR_KEYS_H
 

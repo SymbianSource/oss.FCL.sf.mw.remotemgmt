@@ -1601,12 +1601,42 @@ void CDataProviderSessionData::InternalizeL( RReadStream& aStream )
 	TInt mimeCount = aStream.ReadInt32L();
 	for ( TInt i = 0; i < mimeCount; ++i )
 		{
-		iMimeTypes.Append( HBufC::NewL( aStream, aStream.ReadInt32L() ) );
+		TRAPD(err, iMimeTypes.AppendL( HBufC::NewL( aStream, aStream.ReadInt32L() ) ));
+		if(err != KErrNone)
+		    {
+		    delete iDisplayName;
+		    iDisplayName = NULL;
+		    User::Leave( err );
+		    }
 		}
 		
 	for ( TInt j = 0; j < mimeCount; ++j )
 		{
-		iMimeVersions.Append( HBufC::NewL( aStream, aStream.ReadInt32L() ) );
+		TRAPD(err, iMimeVersions.AppendL( HBufC::NewL( aStream, aStream.ReadInt32L() ) ));
+		if(err != KErrNone)
+		    {
+		    delete iDisplayName;
+		    iDisplayName = NULL;
+		    //rolling back the previous iMimeTypes append.
+		    TInt total = iMimeTypes.Count();
+		    for(TInt k = 1; k<= mimeCount; k++ )
+		        {
+		        if((total - k) >= 0)
+		            {
+		            iMimeTypes.Remove(total - k);
+		            }
+		        }
+		    
+		    total =  iMimeVersions.Count();
+		    for(TInt l=1; l<j+1; l++)
+		        {
+		        if((total - l) >= 0)
+		            {
+		            iMimeVersions.Remove(total - l);
+		            }
+		        }
+		    User::Leave( err );
+		    }
 		}
 	
 	TInt dataStoreCount = aStream.ReadInt8L();

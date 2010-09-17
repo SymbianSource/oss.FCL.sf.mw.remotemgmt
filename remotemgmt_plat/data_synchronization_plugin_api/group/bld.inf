@@ -24,20 +24,11 @@ DEFAULT
 
 PRJ_EXPORTS
 
-//../inc/SmlDataProvider.h     MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataProvider.h)
-//../inc/SyncMLDataFilter.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.h)
-//../inc/SmlDataFormat.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.hrh)
-//../inc/SyncMLDataFilter.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.hrh)
-//../inc/SyncMLDataFilter.rh     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.rh)
-//../inc/syncml/SmlDataSyncDefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(syncml/SmlDataSyncDefs.h)
-//../inc/SmlDataFormat.h     MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.h)
-//../inc/SmlDataFormat.rh     MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.rh)
-
-../inc/SmlDataProvider.h		/epoc32/include/SmlDataProvider.h
-../inc/SmlDataFormat.hrh		/epoc32/include/SmlDataFormat.hrh
-../inc/SyncMLDataFilter.h		/epoc32/include/SyncMLDataFilter.h
-../inc/SyncMLDataFilter.rh		/epoc32/include/SyncMLDataFilter.rh
-../inc/SyncMLDataFilter.hrh		/epoc32/include/SyncMLDataFilter.hrh
-../inc/syncml/SmlDataSyncDefs.h		/epoc32/include/syncml/SmlDataSyncDefs.h
-../inc/SmlDataFormat.h			/epoc32/include/SmlDataFormat.h
-../inc/SmlDataFormat.rh		/epoc32/include/SmlDataFormat.rh
+../inc/SmlDataProvider.h		MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataProvider.h)
+../inc/SmlDataFormat.hrh		MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.hrh)
+../inc/SyncMLDataFilter.h		MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.h)
+../inc/SyncMLDataFilter.rh		MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.rh)
+../inc/SyncMLDataFilter.hrh		MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDataFilter.hrh)
+../inc/syncml/SmlDataSyncDefs.h		MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataSyncDefs.h)
+../inc/SmlDataFormat.h			MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.h)
+../inc/SmlDataFormat.rh			MW_LAYER_PLATFORM_EXPORT_PATH(SmlDataFormat.rh)

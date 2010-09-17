@@ -27,7 +27,7 @@
 #include "PolicyEngineClientServerDefs.h"
 // CONSTANTS
 
-const TUint KPolicyEngineRangeCount = 6;
+const TUint KPolicyEngineRangeCount = 7;
 
 const TInt KPolicyEngineRanges[KPolicyEngineRangeCount] = 
         {
@@ -62,8 +62,12 @@ const TInt KPolicyEngineRanges[KPolicyEngineRangeCount] =
 //		EPolicyRequest
 //		ECreateRequestSubSession
 //		ECloseRequestSubSessio
-      
-        ECloseRequestSubSessio + 1				
+	
+		EServerCertAddRequest,
+//      6th range function ids
+//      EServerCertRemoveRequest,
+		
+		EServerCertRemoveRequest+1
         //ENotSupported
         }; 
         
@@ -76,6 +80,7 @@ const TUint8 KPolicyEngineSecurityElementsIndex[ KPolicyEngineRangeCount] =
         1,									//applies to 3rd range
         2,									//applies to 4rd range
         3,									//applies to 5rd range
+        4,                                  //applies to 6rd range
         CPolicyServer::ENotSupported  
         };
 
@@ -85,7 +90,8 @@ const CPolicyServer::TPolicyElement KPolicyEngineSecurityElements[] =
         {_INIT_SECURITY_POLICY_S2( 0x101f9a02, ECapabilityWriteDeviceData, ECapabilityReadDeviceData),  CPolicyServer::EPanicClient}, 	 
         {_INIT_SECURITY_POLICY_S0( 0x102073EA /*RFS SID*/),  CPolicyServer::EPanicClient}, 	 
         {_INIT_SECURITY_POLICY_C2(ECapabilityReadDeviceData, ECapabilityWriteDeviceData),  CPolicyServer::EPanicClient}, 	 
-        {_INIT_SECURITY_POLICY_C2(ECapabilityReadDeviceData, ECapabilityWriteDeviceData),  CPolicyServer::EPanicClient} 	 
+        {_INIT_SECURITY_POLICY_C2(ECapabilityReadDeviceData, ECapabilityWriteDeviceData),  CPolicyServer::EPanicClient} ,
+        {_INIT_SECURITY_POLICY_C1( ECapability_None ), CPolicyServer::EFailClient}
         };
 
 //Package all the above together into a policy

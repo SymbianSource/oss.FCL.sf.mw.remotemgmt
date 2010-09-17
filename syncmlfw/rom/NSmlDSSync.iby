@@ -30,18 +30,6 @@ REM Policy files
 data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FD.SPD		private\100012a5\policy\101F99FD.SPD
 data=ABI_DIR\BUILD_DIR\z\private\100012a5\policy\101F99FE.SPD		private\100012a5\policy\101F99FE.SPD
 
-REM SyncML  Data Synchronisation plug-in adapters
-
-REM #ifdef  __SYNCML_DS_CAL // SyncML data synchronization calendar plug-in
-REM ECOM_PLUGIN(nsmlagendadataprovider.dll,nsmlagendadataprovider.rsc)
-REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc		RESOURCE_FILES_DIR\NSmlAgendaDataStore_1_1_2.rsc
-REM #endif // __SYNCML_DS_CAL
-
-REM #ifdef __SYNCML_DS_CON //  SyncML data synchronization contacts plug-in
-REM ECOM_PLUGIN(nsmlcontactsdataprovider.dll,nsmlcontactsdataprovider.rsc)
-REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_1_2.rsc
-REM data=DATAZ_\RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc	RESOURCE_FILES_DIR\NSmlContactsDataStoreFormat_1_2.rsc
-REM #endif // __SYNCML_DS_CON
 
 data=DATAZ_\RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc             RESOURCE_FILES_DIR\NSmlDSProfileRes.rsc
 REM \ds\adapters\dataproviderbase
@@ -93,9 +81,7 @@ file=ABI_DIR\BUILD_DIR\smlstoreformat.dll		SHARED_LIB_DIR\smlstoreformat.dll
 file=ABI_DIR\BUILD_DIR\NsmlProfileUtil.dll			SHARED_LIB_DIR\NsmlProfileUtil.dll
 file=ABI_DIR\BUILD_DIR\nsmlfolderparser.dll		SHARED_LIB_DIR\nsmlfolderparser.dll
 
-REM defaultagendahandler plugin
-ECOM_PLUGIN(nsmldefaultagendahandler.dll,nsmldefaultagendahandler.rsc)
-data=DATAZ_\resource\nsmldefaultagendahandler_1_2.RSC \resource\nsmldefaultagendahandler_1_2.rsc
+
 REM \ds\syncagent
 file=ABI_DIR\BUILD_DIR\nsmldsagent.dll			SHARED_LIB_DIR\nsmldsagent.dll
 

@@ -24,9 +24,6 @@ DEFAULT
 
 PRJ_EXPORTS
 
-//../inc/smldmadapter.inl     MW_LAYER_PLATFORM_EXPORT_PATH(smldmadapter.inl)
-//../inc/smldmadapter.h     MW_LAYER_PLATFORM_EXPORT_PATH(smldmadapter.h)
+../inc/smldmadapter.inl     MW_LAYER_PLATFORM_EXPORT_PATH(smldmadapter.inl)
+../inc/smldmadapter.h     MW_LAYER_PLATFORM_EXPORT_PATH(smldmadapter.h)
 
-
-../inc/smldmadapter.inl		/epoc32/include/smldmadapter.inl
-../inc/smldmadapter.h			/epoc32/include/smldmadapter.h

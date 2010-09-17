@@ -24,24 +24,14 @@ DEFAULT
 
 PRJ_EXPORTS
 
-//../inc/SyncMLHistory.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLHistory.h)
-//../inc/SyncMLErr.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLErr.h)
-//../inc/SyncMLClientDM.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClientDM.h)
-//../inc/SyncMLAlertInfo.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLAlertInfo.h)
-//../inc/SyncMLDef.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDef.h)
-//../inc/SyncMLClient.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClient.h)
-//../inc/SyncMLTransportProperties.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLTransportProperties.h)
-//../inc/SyncMLObservers.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLObservers.h)
-//../inc/SyncMLClientDS.h     MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClientDS.h)
 
-
-../inc/SyncMLHistory.h			/epoc32/include/SyncMLHistory.h
-../inc/SyncMLErr.h			/epoc32/include/SyncMLErr.h
-../inc/SyncMLClientDM.h		/epoc32/include/SyncMLClientDM.h
-../inc/SyncMLAlertInfo.h		/epoc32/include/SyncMLAlertInfo.h
-../inc/SyncMLDef.h			    /epoc32/include/SyncMLDef.h
-../inc/SyncMLClient.h			/epoc32/include/SyncMLClient.h	
-../inc/SyncMLContactSuiteProgressClient.h			/epoc32/include/SyncMLContactSuiteProgressClient.h	
-../inc/SyncMLTransportProperties.h	/epoc32/include/SyncMLTransportProperties.h
-../inc/SyncMLObservers.h		/epoc32/include/SyncMLObservers.h
-../inc/SyncMLClientDS.h		/epoc32/include/SyncMLClientDS.h
+../inc/SyncMLHistory.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLHistory.h)
+../inc/SyncMLErr.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLErr.h)
+../inc/SyncMLClientDM.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClientDM.h)
+../inc/SyncMLAlertInfo.h		MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLAlertInfo.h)
+../inc/SyncMLDef.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLDef.h)
+../inc/SyncMLClient.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClient.h)
+../inc/SyncMLContactSuiteProgressClient.h	MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLContactSuiteProgressClient.h)
+../inc/SyncMLTransportProperties.h	MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLTransportProperties.h)
+../inc/SyncMLObservers.h		MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLObservers.h)
+../inc/SyncMLClientDS.h			MW_LAYER_PLATFORM_EXPORT_PATH(SyncMLClientDS.h)

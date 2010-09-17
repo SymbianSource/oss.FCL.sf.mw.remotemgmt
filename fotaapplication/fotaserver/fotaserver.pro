@@ -12,8 +12,6 @@
 TEMPLATE = app
 TARGET = fotaserver
 
-RSS_RULES += "hidden = KAppIsHidden;"
-
 DEPENDPATH += . \
     ./inc \
     ./src \
@@ -107,11 +105,12 @@ symbian {
 		/epoc32/include/mw/hb/hbwidgets	\
 		/epoc32/include/mw/hb/hbutils \
 		tmp
+
+RSS_RULES += "hidden = KAppIsHidden;"
 	
     LIBS += -laknskins \
         -lapgrfx \
         -lapparc \
-        -lapsettingshandlerui \
         -lavkon \
         -lbafl \
         -lcone \

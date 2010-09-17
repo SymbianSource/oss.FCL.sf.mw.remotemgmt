@@ -29,7 +29,10 @@
 #include "ErrorCodes.h"
 #include "debug.h"
 
+#include <f32file.h>
+#include <s32file.h>
 
+const TInt KMaxLabelIdLength = 25; //take 25 from cert store or some header file
 
 
 // Standard server startup code
@@ -267,6 +270,41 @@ EXPORT_C TInt RPolicyManagement::AddSessionTrust( TCertInfo& aCertInfo)
 	//Send CertInfo to server
 	return SendReceive( EAddSessionTrust, TIpcArgs( &certInfoPck));	
 }
+
+EXPORT_C TInt RPolicyManagement::AddServerCert(const CX509Certificate& aCert, TDes& aLabel)
+{
+    RDEBUG("RPolicyManagement::AddServerCert()" );
+    
+    TPtrC8 ptr(aCert.Encoding());   
+    TInt size =ptr.Length();
+          
+    TBuf<1024> certData;
+    certData.Copy(ptr);
+    //label buffer to be written by server
+    TBuf<KMaxLabelIdLength> cLabel;
+    
+    TIpcArgs args(&certData,size,&cLabel);       
+    
+    TInt err = SendReceive(EServerCertAddRequest, args); 
+    // copy returned label 
+    aLabel.Append(cLabel);    
+    
+    return err; 
+ 
+}
+
+
+EXPORT_C TInt RPolicyManagement:: RemoveServerCert(const TDesC& aLabel)
+{  
+    RDEBUG("RPolicyManagement:: RemoveServerCert");
+
+    TBuf<KMaxLabelIdLength> labelData;
+    labelData.Copy(aLabel);    
+    
+    TInt err = SendReceive(EServerCertRemoveRequest, TIpcArgs(&labelData));    
+    return err;    
+}
+
 
 EXPORT_C TInt RPolicyManagement::IsAllowedServerId( const TDesC& aServerID)
 {

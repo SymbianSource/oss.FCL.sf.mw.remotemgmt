@@ -169,6 +169,9 @@ NONSHARABLE_CLASS(Cpolicy_management_request_api) : public CScriptBase
 		TInt GetElememtListL( CStifItemParser& aItem );
 		TInt GetElememtL (CStifItemParser& aItem);
 		TInt GetXACMLDescriptionL(CStifItemParser& aItem);
+		TInt AddServerCertL(CStifItemParser& aItem);
+		TInt RemoveServerCertL(CStifItemParser& aItem);
+		
     public:     // Data
         // ?one_line_short_description_of_data
         //?data_declaration;

@@ -50,4 +50,6 @@ EXPORTS
 	_ZTI23CSettingEnforcementInfo @ 49 NONAME ; #<TI>#
 	_ZTV23CSettingEnforcementInfo @ 50 NONAME ; #<VT>#
 	_ZN23CSettingEnforcementInfo18EnforcementActiveLERK6TDesC8Ri @ 51 NONAME
+	_ZN17RPolicyManagement13AddServerCertERK16CX509CertificateR6TDes16 @ 52 NONAME
+	_ZN17RPolicyManagement16RemoveServerCertERK7TDesC16 @ 53 NONAME
 

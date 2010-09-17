@@ -224,7 +224,7 @@ CActiveObserver* CActiveObserver::NewL( TPolicyManagementEventTypes aType)
 void CActiveObserver::SubscribeEventL( MActiveCallBackObserver* aDynamicCallBackObserver)
 {
 	//add subsribers info to list
-	iSubcribers.Append( aDynamicCallBackObserver);
+	iSubcribers.AppendL( aDynamicCallBackObserver);
 	
 	if ( !iSubscribed)
 	{

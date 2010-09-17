@@ -131,6 +131,7 @@ void PolicyEngineUI::ShowInputDialog()
     QObject::connect(secondaryAction, SIGNAL(triggered()), this,
             SLOT(onCancelSelected()));
 
+	emit applicationReady();
     if (dialog1)
         dialog1->show();
 

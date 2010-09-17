@@ -30,12 +30,13 @@
 #include <f32file.h>
 #include <e32cmn.h>
 
+#include <x509cert.h>
 
 _LIT( KServerID, "TarmBlr");
 //_LIT( KTarmBlrCer, "TarmBlrcer");
 _LIT( KTestFilePath, "E:\\testing\\data\\");
 
-
+const TInt KMaxLabelIdLength = 25;
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -77,6 +78,9 @@ TInt Cpolicy_management_request_api::RunMethodL(
         ENTRY( "GetElememtList", Cpolicy_management_request_api::GetElememtListL ),
         ENTRY( "GetElememt", Cpolicy_management_request_api::GetElememtL ),
         ENTRY( "GetXACMLDescription", Cpolicy_management_request_api::GetXACMLDescriptionL ),
+       
+        ENTRY( "AddServerCert", Cpolicy_management_request_api::AddServerCertL ),
+        ENTRY( "RemoveServerCert", Cpolicy_management_request_api::RemoveServerCertL ),
         //ADD NEW ENTRY HERE
         // [test cases entries] - Do not remove
 
@@ -199,6 +203,71 @@ TInt Cpolicy_management_request_api::IsAllowedServerIDL( CStifItemParser& aItem 
 	
 	return err;
 }
+
+TInt Cpolicy_management_request_api::AddServerCertL(CStifItemParser& aItem)
+    {
+    //Load X.509 certificate 
+    RFs fs;
+    User::LeaveIfError(fs.Connect());
+    CleanupClosePushL(fs);
+    
+    RFile certFile;
+    User::LeaveIfError(certFile.Open(fs, _L("c:\\dm2.blrtesting.der"), EFileRead));   
+    CleanupClosePushL(certFile);
+    
+    TInt size(0);
+    User::LeaveIfError(certFile.Size(size));   
+    
+    HBufC8* certData = HBufC8::NewLC(size);
+    TPtr8 buf = certData->Des();
+    User::LeaveIfError(certFile.Read(buf,size));       
+    CX509Certificate* cert = CX509Certificate::NewLC(*certData);  
+    //create the empty label to be filled later with certificate name after adding to store. 
+    HBufC *testLabel = HBufC::NewL(KMaxLabelIdLength);
+    testLabel->Des().Zero();
+    
+    //connect to policy engine
+    RPolicyEngine engine;
+    User::LeaveIfError(engine.Connect());
+    
+    RPolicyManagement management;
+    User::LeaveIfError(management.Open(engine));
+    
+    TPtr ptr = testLabel->Des();
+    TInt err = management.AddServerCert(*cert,ptr);  
+        
+    management.Close();
+    engine.Close();
+        
+    
+    CleanupStack::PopAndDestroy(4, &fs); 
+    delete testLabel;
+    
+    return err;
+    }
+
+
+TInt Cpolicy_management_request_api::RemoveServerCertL(CStifItemParser& aItem)
+    {
+    RPolicyEngine engine;
+    User::LeaveIfError(engine.Connect());
+    
+    RPolicyManagement management;
+    User::LeaveIfError(management.Open(engine));
+    
+    //create the empty label 
+    HBufC *testLabel = HBufC::NewL(KMaxLabelIdLength);
+    testLabel->Des().Zero();
+    TInt err = management.RemoveServerCert(*testLabel); 
+       
+    management.Close();
+    engine.Close();
+    
+    delete testLabel;
+    
+    return err;
+    }
+
 
 TInt Cpolicy_management_request_api::CertificateRoleL( CStifItemParser& aItem )
 {

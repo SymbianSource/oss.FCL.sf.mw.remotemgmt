@@ -31,12 +31,17 @@
 #include <msvapi.h>
 #include <hbsymbianvariant.h>
 #include <hbdevicedialogsymbian.h>
-
+#include <x509cert.h>
+#include <unifiedcertstore.h> 
+#include <mctwritablecertstore.h> 
+#include <ccertattributefilter.h>
 // CONSTANTS
 // MACROS
 // DATA TYPES
 // FUNCTION PROTOTYPES
 // FORWARD DECLARATIONS
+class CCertStore;
+class CRepository;
 
 class CDataType;
 class CAttribute;
@@ -107,6 +112,15 @@ class CPolicyProcessor : public CActive
 		//For management functions
 		void SetTargetElement( CElementBase * aElement);
 		void SetSessionTrust( CTrustedSession * aTrustedSession);	
+     
+		//certificate store functions
+        TInt AddCertificateToStoreL(const RMessage2& aMessage);
+        //Read that counter value from central repository
+        TInt GetCertCounterValue();
+        TInt RemoveCertificateFromStoreL(const RMessage2& aMessage);
+        void UpdateSilentTrustServerId();
+        TInt CheckCurrentServerIdFromCR();
+        
 	protected:
 		//From CActive
 		void RunL();
@@ -143,7 +157,75 @@ class CPolicyProcessor : public CActive
 		const RMessage2 * iMessage;
 		HBufC8 * iRequestBuffer;		
 		TInt iProcessorState;
-};	
+		
+		//cert store pointer
+		 CCertStore* iStore; 
+		 HBufC8 *iCertBuffer;    	
+		
+	};	
+
+
+class CCertStore:public CActive
+    {
+    enum TCertState
+            {
+             EReady,             
+             EInitializeStore,           
+             EGetFPrint,            
+             EAddCert, 
+             ERemoveCert,
+             EExistsInStore            
+            }  iCertState; 
+    public:
+    
+        static CCertStore* NewL();
+       
+       ~CCertStore();
+    
+       
+        void InitializeCertStore();
+        TInt AddCert(HBufC8 *aCertBuffer);
+        void GetWritableCertStoreIndex();
+        TInt GenerateNewCertLabel();
+        void UpdateLabelCounterInCR();
+        HBufC* GetCurrentCertLabel();      
+        TInt RemoveCert(const TDesC& aCertLabel);       
+        const TDesC8&  RetrieveCertFPrint(const TDesC& aCertLabel);
+        TBool CheckCertInStore( const TDesC& aLabel ); 
+        void WaitUntilOperationDone();        
+                
+    protected:         
+        virtual void RunL();      
+        virtual void DoCancel();
+
+    private:        
+        CCertStore();
+        void ConstructL();          
+   
+    private:
+     // Data
+        CUnifiedCertStore* iCertStore;        
+        TInt iStoreIndex;        
+        RMPointerArray< CCTCertInfo > iCertInfoArray;
+        CCTCertInfo* iCertInfoRetrieved;       
+        HBufC8* iCertData; 
+        
+        // to track the counter of cert labels
+        TInt iLabelCounter;
+        
+        //cert data from SCCM cerver
+        HBufC8 *iCertBuffer;
+        
+        //cert Label to be used for storage and removal
+        HBufC  *iCertLabel;
+        
+        //Waits for the operation to complete. Owned.
+        CActiveSchedulerWait* iWait;        
+        TBuf8<40> iFingerPrint; 
+
+    };
+
+
 
 
 //Class to launch PolicyEngine Dialog

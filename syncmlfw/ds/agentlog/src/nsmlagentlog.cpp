@@ -1453,7 +1453,12 @@ EXPORT_C void CNSmlDSAgentLog::GetServerDeviceInfoL( RPointerArray<CNSmlDbCaps>&
 
 						case EDataStore:
 							dbCaps = CNSmlDbCaps::NewL();
-							aDbCaps.Append(dbCaps);
+							TRAPD(err, aDbCaps.AppendL(dbCaps));
+							if(err != KErrNone)
+							    {
+							    delete dbCaps;
+								User::Leave( err );								
+							    }
 						break;
 
 						case ESourceRef:

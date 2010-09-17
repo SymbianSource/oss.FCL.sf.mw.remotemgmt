@@ -21,7 +21,7 @@
 //
 #include <SyncMLDef.h>
 #include <SyncMLDataFilter.h>
-#include <syncml/SmlDataSyncDefs.h>
+#include <SmlDataSyncDefs.h>
 #include <SmlDataFormat.h>
 //
 /**

@@ -35,7 +35,7 @@ symbian: {
     TARGET.UID3 = 0x10207817
 
     hblib.sources = Hb.dll
-    hblib.path = \sys\bin
+    hblib.path = /sys/bin
     hblib.depends = "(0xEEF9EA38), 1, 0, 0, {\"Hb\"}"
 
     pluginstub.sources = PolicyEngUINotifiersplugin.dll

@@ -682,7 +682,15 @@ void CNSmlDmCallbackSession::DefaultAclsToChildrenL( const RMessage2& aMessage )
 		childUriPtr.Append ( uriPtr );
 		childUriPtr.Append ( KNSmlDmLitSeparator );
 		childUriPtr.Append ( tmpDesc.Left ( segEnds ) );	
-		currentUris.Append ( childUri );
+		TRAPD(err, currentUris.AppendL ( childUri ));
+		if(err != KErrNone)
+		    {
+		    delete childUri;
+		    ret = err;
+		    CleanupStack::PopAndDestroy(3);
+		    aMessage.Complete(ret);
+		    return;
+		    }
 		startPos += segEnds + 1;
 		}
 	TBool aclUpdated(EFalse);

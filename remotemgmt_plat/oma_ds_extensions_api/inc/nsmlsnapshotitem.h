@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <syncml/SmlDataSyncDefs.h>
+#include <SmlDataSyncDefs.h>
 
 // CLASS DECLARATION
 

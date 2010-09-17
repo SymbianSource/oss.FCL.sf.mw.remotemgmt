@@ -1461,7 +1461,7 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
                             }
                             else {
                                 lSpecStrArray.Remove(i);
-                                lSharedStrArray.Append(lPtr);
+                                lSharedStrArray.AppendL(lPtr);
                                 i--;
                                 lCnt--;
                             }
@@ -1547,7 +1547,7 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
                                                 }
 
                                                 lBuff->Des().Append(lToken);
-                                                lSpecStrArray.Append(lBuff);
+                                                lSpecStrArray.AppendL(lBuff);
                                                 lex.Inc();
                                                 lex.Mark();
                                             }

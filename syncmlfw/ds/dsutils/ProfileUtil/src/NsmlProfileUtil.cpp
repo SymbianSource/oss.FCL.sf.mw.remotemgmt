@@ -190,7 +190,7 @@ EXPORT_C void CNsmlProfileUtil::InternalizeFromSettingsDBL(TInt aProfileId)
 	    //SyncType is same for all the contents from UI
 	    iSyncType=static_cast<TSmlSyncType>(contentType->IntValue(EDSAdapterSyncType));
 	    // Add to this object
-	    iContents.Append(contentData);			
+	    iContents.AppendL(contentData);			
 	}
 	
 	// Cleanup
@@ -277,7 +277,7 @@ EXPORT_C void CNsmlProfileUtil::InternalizeFromCenrepL()
 	        
 	        data->SetContentEnabled(stream.ReadInt32L()); 	
 	        
-	        iContents.Append(data);
+	        iContents.AppendL(data);
 	    }
 	    
 	    iSyncType=static_cast<TSmlSyncType>(stream.ReadInt32L());

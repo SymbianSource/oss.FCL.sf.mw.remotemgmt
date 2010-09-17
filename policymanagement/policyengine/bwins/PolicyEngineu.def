@@ -40,4 +40,6 @@ EXPORTS
 	?SetResponseValue@TResponse@@QAEXW4TResponseValue@@@Z @ 39 NONAME ; void TResponse::SetResponseValue(enum TResponseValue)
 	?Zero@TParserResponse@@QAEXXZ @ 40 NONAME ; void TParserResponse::Zero(void)
 	?EnforcementActiveL@CSettingEnforcementInfo@@QAEXABVTDesC8@@AAH@Z @ 41 NONAME ; void CSettingEnforcementInfo::EnforcementActiveL(class TDesC8 const &, int &)
+	?RemoveServerCert@RPolicyManagement@@QAEHABVTDesC16@@@Z @ 42 NONAME ; int RPolicyManagement::RemoveServerCert(class TDesC16 const &)
+	?AddServerCert@RPolicyManagement@@QAEHABVCX509Certificate@@AAVTDes16@@@Z @ 43 NONAME ; int RPolicyManagement::AddServerCert(class CX509Certificate const &, class TDes16 &)
 

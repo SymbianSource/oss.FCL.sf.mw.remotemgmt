@@ -55,6 +55,7 @@ LIBRARY 	  	PolicyEngine.lib
 LIBRARY 	  	PMRFSClient.lib
 LIBRARY 	  	TrustClient.lib
 LIBRARY         efsrv.lib
+LIBRARY			x509.lib 
 LANG            SC
 
 /*

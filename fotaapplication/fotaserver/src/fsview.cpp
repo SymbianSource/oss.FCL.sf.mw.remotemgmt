@@ -23,7 +23,7 @@
 // ------------------------------------------------------------------------------------------------
 FSView::FSView()
     {
-    
+    	Initilized = EFalse;
     }
 // ------------------------------------------------------------------------------------------------
 // FSView::~FSView()
@@ -37,6 +37,11 @@ FSView::~FSView()
 // ------------------------------------------------------------------------------------------------
 bool FSView::eventFilter(QObject *object, QEvent *event)
 {   
+    if( Initilized == EFalse )
+    {
+    		emit applicationReady();
+    		Initilized = ETrue;
+    }
     switch (event->type())
         {
         case QEvent::ApplicationActivate:

@@ -44,7 +44,7 @@ PRJ_EXPORTS
 ../Rom/Provisioning.iby										CORE_MW_LAYER_IBY_EXPORT_PATH(provisioning.iby)
 ../Rom/ProvisioningResources.iby					LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(provisioningresources.iby)
 ../loc/Provisioning.loc									MW_LAYER_LOC_EXPORT_PATH(provisioning.loc)
-
+../loc/prov.rsc /epoc32/data/z/resource/messaging/bif/prov.rsc
 PRJ_EXTENSIONS
 
 PRJ_MMPFILES

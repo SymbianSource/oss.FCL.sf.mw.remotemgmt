@@ -214,7 +214,7 @@ EXPORT_C TInt CSCPParamObject::Set( TInt aParamID, TDes& aValue )
             iParamValues.Remove( i );
             delete tmpValue;
                 
-            iParamValues.Insert( newValue, i );
+            iParamValues.InsertL( newValue, i );
             isNewParam = EFalse;
             }
         }
@@ -222,8 +222,24 @@ EXPORT_C TInt CSCPParamObject::Set( TInt aParamID, TDes& aValue )
     if ( isNewParam )
         {
         // Create a new value
-        iParamIDs.Append( aParamID );
-        iParamValues.Append( newValue );
+        TInt err = KErrNone;
+        TRAP(err, iParamIDs.AppendL( aParamID ));
+        if(err != KErrNone)
+            {
+            delete newValue;
+            ret = err;
+            }
+        else 
+            {
+            TRAP(err, iParamValues.AppendL( newValue ));
+            if(err != KErrNone)
+                {
+                delete newValue;
+                //Rollback append.
+                iParamIDs.Remove(iParamIDs.Count()-1);
+                ret = err;
+                }
+            }
         }
 
     return ret;

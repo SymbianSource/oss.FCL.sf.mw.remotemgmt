@@ -45,7 +45,7 @@ LIBRARY       	eikcore.lib
 LIBRARY 	  		centralrepository.lib	
 LIBRARY 	  		featmgr.lib	
 library 		inetprotutil.lib
-LIBRARY         dmutil.lib
+LIBRARY         dmutil.lib x509.lib ctframework.lib crypto.lib efsrv.lib 
 
 
 SMPSAFE

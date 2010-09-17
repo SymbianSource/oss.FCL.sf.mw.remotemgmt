@@ -96,7 +96,10 @@ const TUint32 KSCPSTIF( 0x102073E4 ); // STIF exe
 const TUint32 KSCPServerSIDTelephone( 0x100058B3 ); // Terminal Control Server
 const TUint32 KSCPServerSIDLog( 0x101f4cd5 ); // Terminal Control Server
 const TUint32 KSCPServerSIDTerminalControl( 0x10207825 ); // Terminal Control Server
-const TUint32 KSCPServerSIDGeneralSettings( 0x100058EC ); // General Settings
+
+//const TUint32 KSCPServerSIDGeneralSettings( 0x100058EC ); // General Settings
+const TUint32 KSCPServerSIDGeneralSettings( 0X20025FD9 ); // General Settings
+
 //const TUint32 KSCPServerSIDSecurityObserver( 0x10000938 ); // Security Observer
 const TUint32 KAknNfySrvUid( 0x10281EF2 ); // Security Notifier
 const TUint32 KSCPServerSIDAutolock( 0x100059B5 ); // Autolock

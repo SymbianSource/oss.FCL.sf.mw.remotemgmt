@@ -118,8 +118,8 @@
 ""-"z:\sys\bin\wpds.dll"
 ""-"z:\resource\plugin\wpds.r*"
 
-""-"z:\sys\bin\nsmldefaultagendahandler.dll"
-""-"z:\resource\plugin\nsmldefaultagendahandler.r*"
+
+
 ; from dm
 ""-"z:\sys\bin\nsmldmdevdetailadapter.dll"
 ""-"z:\resource\plugin\nsmldmdevdetailadapter.r*"
@@ -176,7 +176,7 @@
 ""-"z:\resource\NSmlTransport.r*"
 ""-"z:\resource\NSmlDSProfileRes.r*"
 ""-"z:\resource\NSmlDSTypesRes.r*"
-""-"z:\resource\nsmldefaultagendahandler_1_2.r*"
+
 
 
 ; Misc files

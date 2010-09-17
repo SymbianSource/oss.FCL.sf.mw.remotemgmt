@@ -53,7 +53,10 @@ signals:
     //signal to be sent to client
     void deviceDialogClosed();
     void deviceDialogData(QVariantMap data);
-    
+  /**
+	 * applicationReady() - To emit the application ready signal for matti tool.
+   */
+    void applicationReady();
 private:
     // number of tries user does
     int estbTrustCount;
