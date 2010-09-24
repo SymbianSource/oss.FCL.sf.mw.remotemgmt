@@ -579,7 +579,9 @@ void CSCPSession :: HandleGetPoliciesL(const RMessage2 &aMessage) {
     // Check the access for this parameter
     if((aMessage.SecureId() != KSCPServerSIDTerminalControl) &&
        (aMessage.SecureId() != KSCPServerSIDGeneralSettings) &&
-       (aMessage.SecureId() != KDevEncUiUid)) {
+       (aMessage.SecureId() != KDevEncUiUid) && 
+       (aMessage.SecureId() != KSCPSecuiDialogNotifierSrv) &&
+       (aMessage.SecureId() != KSecUiTest )) {
        
         Dprint((_L("CSCPSession::HandleSetParamMessageL(): ERROR: Permission denied")));
         User :: Leave( KErrPermissionDenied);
@@ -790,20 +792,19 @@ void CSCPSession::HandleGetParamMessageL( const RMessage2 &aMessage )
     Dprint( (_L("--> CSCPSession::HandleGetParamMessageL()") ));
     
 #ifdef SCP_ENFORCE_SECURITY
-
     // Check the access for this parameter
-    switch ( (TSCPParameterID)aMessage.Int0() )
-        {
+    switch ( (TSCPParameterID)aMessage.Int0() ) {
         default:        
             // For the current parameters, we allow Gs and Terminal Control Server
-            if (    ( aMessage.SecureId() != KSCPServerSIDTerminalControl ) &&
-                    ( aMessage.SecureId() != KSCPServerSIDGeneralSettings ) &&
-                 ( aMessage.SecureId() != KDevEncUiUid ) )
-                {
-                Dprint( (_L("CSCPSession::HandleSetParamMessageL(): ERROR:\
-                    Permission denied") ));
-                User::Leave( KErrPermissionDenied );
-                }
+            if(( aMessage.SecureId() != KSCPServerSIDTerminalControl ) &&
+               ( aMessage.SecureId() != KSCPServerSIDGeneralSettings ) &&
+               ( aMessage.SecureId() != KDevEncUiUid ) &&
+               ( aMessage.SecureId() != KSCPSecuiDialogNotifierSrv ) &&
+               ( aMessage.SecureId() != KSecUiTest ) ) {
+                    Dprint( (_L("CSCPSession::HandleSetParamMessageL(): ERROR:\
+                        Permission denied") ));
+                    User :: Leave( KErrPermissionDenied );
+            }
         break;        
         }
 #endif // SCP_ENFORCE_SECURITY
@@ -884,6 +885,8 @@ void CSCPSession :: HandleAuthenticationMessageL( const RMessage2 &aMessage ) {
         case KSCPServerSIDTerminalControl:
         case KSCPServerSIDTelephone:
         case KSCPServerSIDLog:
+        case KSCPSecuiDialogNotifierSrv:
+        case KSecUiTest:
             break;
         default: {
             Dprint( (_L("[CSCPSession]-> ERROR: Permission denied") ));
