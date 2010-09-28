@@ -109,6 +109,11 @@ CSession2* CNSmlDSHostServer2::NewSessionL( const TVersion& aVersion, const RMes
 //
 GLDEF_C TInt E32Main()
     {
+    // Temporary Workaround for Kernel Issue (ou1cimx1#131074)
+    // Load libc here because otherwise plugins which link to Qt will result in libc constructors being called twice
+    RLibrary lib;
+    lib.Load(_L("libc"));
+
     return CNSmlDSHostServer2::LaunchServer( NULL );
     }
 
