@@ -78,7 +78,7 @@ LIBRARY         nsmlwbxml.lib
 LIBRARY         nsmlagentlog.lib         
 LIBRARY         nsmldbcaps.lib
 LIBRARY         nsmlchangefinder.lib 
-LIBRARY         NSmlDSSettings.lib
+LIBRARY         nsmldssettings.lib
 LIBRARY         nsmlfilter.lib
 LIBRARY			nsmldshostclient.lib
 LIBRARY			nsmlhistorylog.lib

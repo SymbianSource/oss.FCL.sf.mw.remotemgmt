@@ -56,7 +56,7 @@ LIBRARY         eikcore.lib
 LIBRARY         bafl.lib
 LIBRARY         avkon.lib
 LIBRARY         cone.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         eikcoctl.lib 
 LIBRARY	    		eikdlg.lib 
 LIBRARY         eikctl.lib

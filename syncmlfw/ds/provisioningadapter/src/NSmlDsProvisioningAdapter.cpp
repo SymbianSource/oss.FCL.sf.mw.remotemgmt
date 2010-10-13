@@ -24,7 +24,7 @@
 #include <utf.h>
 #include <stringresourcereader.h>
 #include <barsread.h>
-#include <nsmldsprovisioningadapter.rsg>
+#include <NSmlDSProvisioningAdapter.rsg>
 #include <bautils.h>
 #include <ApUtils.h>
 #include <barsc.h>

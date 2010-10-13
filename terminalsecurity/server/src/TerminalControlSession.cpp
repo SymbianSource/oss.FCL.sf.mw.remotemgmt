@@ -177,10 +177,6 @@ void CTerminalControlSession::DispatchMessageL(const RMessage2& aMessage)
             case E3rdPartySetterSet:
             SetDeviceLockParameterL( aMessage );
             break;
-			
-            case E3rdPartySetterReset:
-                Server().ResetParametersL(aMessage.SecureId().iId);
-                break;
             }
         }
 

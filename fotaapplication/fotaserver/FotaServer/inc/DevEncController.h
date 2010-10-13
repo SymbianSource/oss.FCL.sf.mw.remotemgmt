@@ -52,7 +52,6 @@ class CDevEncController : public CBase
         void ReportDevEncOpnCompleteL(TInt aResult);
         
         TInt GetDEOperation();
-        void CheckIfDeviceMemoryBusyL();
         
     private:
     // Functions

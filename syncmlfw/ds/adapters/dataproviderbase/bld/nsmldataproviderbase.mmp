@@ -43,5 +43,5 @@ MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   	/epoc32/include/syncml 
 SYSTEMINCLUDE 		/epoc32/include/ecom
 
-LIBRARY			euser.lib estor.lib ecom.lib
+LIBRARY			euser.lib estor.lib ECom.lib
 

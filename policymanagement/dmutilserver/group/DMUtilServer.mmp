@@ -75,7 +75,7 @@ LIBRARY					flogger.lib
 // S60
 LIBRARY         rfs.lib
 LIBRARY         sysutil.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 // TARM
 LIBRARY					policyengine.lib
 LIBRARY					centreptool.lib

@@ -20,7 +20,10 @@
 
 
 #include <commdb.h>
-
+#include <cmmanagerext.h>
+#include <cmdestinationext.h>
+#include <cmconnectionmethoddef.h>
+#include <cmconnectionmethodext.h>
 #include "CommsDatEnforcement.h"
 #include "XACMLconstants.h"
 #include "debug.h"
@@ -39,24 +42,10 @@
 // CONSTANTS
 
 _LIT( KCommsDatEnformentPanic, "CommsDat enforcement panic");
-
-
-//Repository UIDs
-
-const TUid TCommsDatRepository = { 0xCCCCCC00 };
-const TUint32 KCDMaskRecordType = 0x7f800000;
-
-const TUint32 KWLANServiceExtRecord			  = 0x05000000; 
-
-const TPtrC KWLANServiceExtTable( _S("WLANServiceExtensionTable"));
-const TPtrC KWLANServiceTable( _S("WLANServiceTable"));
-const TPtrC KWLANDeviceTable( _S("WLANDeviceTable"));
-const TPtrC KWLANSecondarySSID( _S("SecondarySSID"));
-const TPtrC KDestinationNetwork( _S("DestinationNetwork"));
-
-
 _LIT8( KAPURI, "AP");
 
+const TInt KDelayBeforeProtection = 1000000; // 1 Sec
+const TInt KMaxProtectionRetries = 10; 
 
 // -----------------------------------------------------------------------------
 // CCommsDatEnforcement::CCommsDatEnforcement()
@@ -73,21 +62,12 @@ CCommsDatEnforcement::CCommsDatEnforcement()
 // -----------------------------------------------------------------------------
 //
 CCommsDatEnforcement::~CCommsDatEnforcement()
-	{
-	RDEBUG("CCommsDatEnforcement::~CCommsDatEnforcement()");
-	
-	if( iSession )
-        {
-        iSession->Close();
-        delete iSession; 
-        }
-	
-	iMaskList.Close();	
-	iTableList.Close();	
-	iCommsDatEnforcement.Close();
-	iCentRepServer.Close();	
-	iDMUtil.Close();
-	}
+    {
+    RDEBUG("CCommsDatEnforcement::~CCommsDatEnforcement()");
+
+    iCentRepServer.Close();
+    iDMUtil.Close();
+    }
 
 
 // -----------------------------------------------------------------------------
@@ -95,66 +75,37 @@ CCommsDatEnforcement::~CCommsDatEnforcement()
 // -----------------------------------------------------------------------------
 //		
 void CCommsDatEnforcement::ConstructL()
-	{
-	RDEBUG("CCommsDatEnforcement::ConstructL()");	
-	//no implementation needed
-    iSession = CMDBSession::NewL( CMDBSession::LatestVersion() );
-	}
+    {
+    RDEBUG("CCommsDatEnforcement::ConstructL()");
+    //no implementation needed
+    }
 
 // -----------------------------------------------------------------------------
 // CCommsDatEnforcement::NewL()
 // -----------------------------------------------------------------------------
 //		
-CCommsDatEnforcement* CCommsDatEnforcement::NewL( const TDesC8& aEnforcementId )
-	{
-	RDEBUG("CCommsDatEnforcement::NewL()");
+CCommsDatEnforcement* CCommsDatEnforcement::NewL(const TDesC8& aEnforcementId)
+    {
+    RDEBUG("CCommsDatEnforcement::NewL()");
 	CCommsDatEnforcement* self = 0;
+    
 
-	if( aEnforcementId == PolicyLanguage::Constants::EAPEnforcementPolicy )
-		{
-		RDEBUG("	-> EAPEnforcementPolicy");
+    if (aEnforcementId == PolicyLanguage::Constants::EAPEnforcementPolicy)
+        {
+        RDEBUG("	-> EAPEnforcementPolicy");
 		self = new ( ELeave ) CCommsDatEnforcement();	
 		self->ConstructL();
-		CleanupStack::PushL( self );
-		self->iMaskList.AppendL( KCDTIdWAPAccessPointRecord );
-		self->iTableList.AppendL( TPtrC(KCDTypeNameWAPAccessPoint ));
-		self->iMaskList.AppendL( KCDTIdWAPSMSBearerRecord );
-		self->iTableList.AppendL( TPtrC(KCDTypeNameWAPSMSBearer) );
-		self->iMaskList.AppendL( KCDTIdWAPIPBearerRecord );
-		self->iTableList.AppendL( TPtrC(KCDTypeNameWAPIPBearer) );
-		self->iMaskList.AppendL( KCDTIdIAPRecord );
-		self->iTableList.AppendL( TPtrC(KCDTypeNameIAP) );
-		self->iSettingType = EAPEnforcement;
-		CleanupStack::Pop( self );
-		}
-	else if( aEnforcementId == PolicyLanguage::Constants::EWLANEnforcementPolicy )
-		{
-		RDEBUG("	-> EWLANEnforcementPolicy");
+        self->iSettingType = EAPEnforcement;
+        }
+
+    else if (aEnforcementId
+            == PolicyLanguage::Constants::EWLANEnforcementPolicy)
+        {
+        RDEBUG("    -> EWLANEnforcementPolicy");
 		self = new ( ELeave ) CCommsDatEnforcement();	
 		self->ConstructL();	
-		CleanupStack::PushL( self );
-		self->iMaskList.AppendL( KWLANServiceExtRecord );
-		self->iTableList.AppendL( KWLANServiceExtTable );
-
-		TUint32 wlanServiceTableId = self->GetRecordIdL( KWLANServiceTable );
-		self->iMaskList.AppendL( wlanServiceTableId );
-		self->iTableList.AppendL( KWLANServiceTable );
-		
-		TUint32 wlanDeviceTableId = self->GetRecordIdL( KWLANDeviceTable );
-		self->iMaskList.AppendL( wlanDeviceTableId );
-		self->iTableList.AppendL( KWLANDeviceTable );
-		
-		TUint32 wlanSSIDTableId = self->GetRecordIdL( KWLANSecondarySSID );
-		self->iMaskList.AppendL( wlanSSIDTableId );
-		self->iTableList.AppendL( KWLANSecondarySSID );
-		
-		TUint32 wlanDestinationNetworkTableId = self->GetRecordIdL( KDestinationNetwork );
-		self->iMaskList.AppendL( wlanDestinationNetworkTableId );
-		self->iTableList.AppendL( KDestinationNetwork );	
-
-		self->iSettingType = EWLANEnforcement;
-		CleanupStack::Pop( self );
-		}
+        self->iSettingType = EWLANEnforcement;
+        }
 
 	return self;
 	}
@@ -164,97 +115,83 @@ CCommsDatEnforcement* CCommsDatEnforcement::NewL( const TDesC8& aEnforcementId )
 // CCommsDatEnforcement::ValidEnforcementElement()
 // -----------------------------------------------------------------------------
 //
-TBool CCommsDatEnforcement::ValidEnforcementElement( const TDesC8& aEnforcementId )
-	{
-	RDEBUG("CCommsDatEnforcement::ValidEnforcementElement()");
-	if ( aEnforcementId == PolicyLanguage::Constants::EAPEnforcementPolicy )
-		{
-		RDEBUG("	-> valid EAPEnforcementPolicy");
-		return ETrue;
-		} 
-	else if ( aEnforcementId == PolicyLanguage::Constants::EWLANEnforcementPolicy )
-		{
-		RDEBUG("	-> valid EWLANEnforcementPolicy");
-		return ETrue;	
-		}
-	
-	return EFalse;
-	}
+TBool CCommsDatEnforcement::ValidEnforcementElement(
+        const TDesC8& aEnforcementId)
+    {
+    RDEBUG("CCommsDatEnforcement::ValidEnforcementElement()");
+    if (aEnforcementId == PolicyLanguage::Constants::EAPEnforcementPolicy
+            || aEnforcementId
+                    == PolicyLanguage::Constants::EWLANEnforcementPolicy)
+        {
+        RDEBUG("   -> valid EnforcementPolicy");
+        return ETrue;
+        }
+
+    return EFalse;
+    }
 
 	
 // -----------------------------------------------------------------------------
 // CCommsDatEnforcement::InitEnforcement()
 // -----------------------------------------------------------------------------
 //
-void CCommsDatEnforcement::InitEnforcementL( TRequestStatus& aRequestStatus )
-	{
-	RDEBUG("CCommsDatEnforcement::InitEnforcementL()");
-	//set restore flag
-	if ( iAccessControlList->Count() )
-		{
-		iRestore = EFalse;
-		}
-	else
-		{
-		iRestore = ETrue;
-		iInitState++;
-		}
+void CCommsDatEnforcement::InitEnforcementL(TRequestStatus& aRequestStatus)
+    {
+    RDEBUG("CCommsDatEnforcement::InitEnforcementL()");
 
-	//in first phase open connections to centreptool
-	if ( iInitState == 0 || iRestore )
-		{
-		RDEBUG("	-> Opening connections ... ");
-		User::LeaveIfError( iCentRepServer.Connect() );
-		User::LeaveIfError( iCommsDatEnforcement.Open( TCommsDatRepository , iCentRepServer ) );
-		User::LeaveIfError( iDMUtil.Connect());
-		RDEBUG("	-> Opening connections ... DONE!");
-		}
-	
-	//init each session in own cycle....
-	switch ( iInitState )
-		{
-		case 0:
-			{
-			RDEBUG("CCommsDatEnforcement: Protect AP tables ... ");
-			CCommsDatabaseProtect* dbprotect = CCommsDatabaseProtect::NewL();
-			
-			//add protection for GS
-			for ( TInt i( 0 ); i < iTableList.Count(); i++ )
-				{
-				TInt err = dbprotect->ProtectTable( iTableList[ i ] );
-				RDEBUG_2("CCommsDatEnforcement: Protection status %d", err );
-				}			
-			
-			delete dbprotect;
-			dbprotect = NULL;	
-			
-			// enable all WLAN AP locks
-		    if(iSettingType == EWLANEnforcement)
-		    {
-				LockWLANAccessPointsL( ETrue );
-		    }
-				
-			//compelete request
-			TRequestStatus * status = &aRequestStatus;
-			User::RequestComplete( status, KErrNone );
-			}
-		break;
-		case 1:
-			{
-			RDEBUG("CCommsDatEnforcement: Init commsDat enforcement session");
-			iCommsDatEnforcement.InitSession( aRequestStatus );
-			}
-		break;
-		default:
-			{
-			RDEBUG("**** CCommsDatEnforcement PANIC, invalid switch-case!");
-			User::Panic( KCommsDatEnformentPanic, KErrAbort );
-			}
-		break;
-		}
-	
-	iInitState++;
-	}
+    RDEBUG_2("CCommsDatEnforcement@@iInitState %d )", iInitState );
+    //set restore flag
+    if (iAccessControlList->Count())
+        {
+        iRestore = EFalse;
+        }
+    else
+        {
+        iRestore = ETrue;
+        iInitState++;
+        }
+
+    //in first phase open connections to centreptool
+    if (iInitState == 0 || iRestore)
+        {
+        RDEBUG("	-> Opening connections ... ");
+        User::LeaveIfError(iCentRepServer.Connect());
+        User::LeaveIfError(iDMUtil.Connect());
+        RDEBUG("	-> Opening connections ... DONE!");
+        }
+
+    //init each session in own cycle....
+    switch (iInitState)
+        {
+        case 0:
+            {
+            //Protect the destinations
+            SetProtectionL(EProtLevel1);
+            
+
+            //compelete request
+            TRequestStatus * status = &aRequestStatus;
+            User::RequestComplete(status, KErrNone);
+            }
+            break;
+        case 1:
+            {
+            RDEBUG("CCommsDatEnforcement:InitEnforcementL Case 1");
+
+            TRequestStatus * status = &aRequestStatus;
+            User::RequestComplete(status, KErrNone);
+            }
+            break;
+        default:
+            {
+            RDEBUG("**** CCommsDatEnforcement PANIC, invalid switch-case!");
+            User::Panic(KCommsDatEnformentPanic, KErrAbort);
+            }
+            break;
+        }
+
+    iInitState++;
+    }
 
 
 // -----------------------------------------------------------------------------
@@ -272,38 +209,32 @@ TBool CCommsDatEnforcement::InitReady()
 // CCommsDatEnforcement::InitReady()
 // -----------------------------------------------------------------------------
 //
-void CCommsDatEnforcement::DoEnforcementL( TRequestStatus& aRequestStatus )
-	{
-	RDEBUG("CCommsDatEnforcement::DoEnforcementL()");
-	if( !iRestore )
-		{
-		//if there any number subject which have exclusively right for setting, give access only for DM client
-		for ( TInt i( 0 ); i < iMaskList.Count(); i++ )
-			{
-			RDEBUG_3("	making enforcement: %d/%d", i, iMaskList.Count() );
-			User::LeaveIfError( iCommsDatEnforcement.SetSIDWRForMask( iMaskList[ i ], KCDMaskRecordType, KDMClientUiD));
-			User::LeaveIfError( iCommsDatEnforcement.RemoveBackupFlagForMask( iMaskList[ i ], KCDMaskRecordType));
-			CPolicyStorage::PolicyStorage()->ActivateEnforcementFlagL( iSettingType );	
-			}
-		
-		//ACL...
-		RDEBUG("	making ACL modifications for enforcement ... ");
-		User::LeaveIfError( iDMUtil.SetMngSessionCertificate( SessionCertificate() ) );
-		User::LeaveIfError( iDMUtil.AddACLForNode( KAPURI, EForChildrens, EACLDelete ) );
-		User::LeaveIfError( iDMUtil.AddACLForNode( KAPURI, EForNode, EACLGet ) );
-		User::LeaveIfError( iDMUtil.SetACLForNode( KAPURI, EForNode, EACLAdd ) );
-		RDEBUG("	making ACL modifications for enforcement ... DONE!");
-		}
-	else
-		{
-		//Clear default settings
-		for ( TInt i( 0 ); i < iMaskList.Count(); i++ )
-			{
-			RDEBUG_3("	clearing default settings: %d/%d", i, iMaskList.Count() );
-			User::LeaveIfError( iCommsDatEnforcement.RestoreMask( iMaskList[ i ], KCDMaskRecordType ));
-			User::LeaveIfError( iCommsDatEnforcement.RestoreBackupFlagForMask( iMaskList[ i ], KCDMaskRecordType));
-			CPolicyStorage::PolicyStorage()->DeactivateEnforcementFlagL( iSettingType );
-			}
+void CCommsDatEnforcement::DoEnforcementL(TRequestStatus& aRequestStatus)
+    {
+    RDEBUG("CCommsDatEnforcement::DoEnforcementL()");
+    if (!iRestore)
+        {
+        CPolicyStorage::PolicyStorage()->ActivateEnforcementFlagL(
+                iSettingType);
+
+        //ACL...
+        RDEBUG("	making ACL modifications for enforcement ... ");
+        User::LeaveIfError(iDMUtil.SetMngSessionCertificate(
+                SessionCertificate()));
+        User::LeaveIfError(iDMUtil.AddACLForNode(KAPURI, EForChildrens,
+                EACLDelete));
+        User::LeaveIfError(iDMUtil.AddACLForNode(KAPURI, EForNode, EACLGet));
+        User::LeaveIfError(iDMUtil.SetACLForNode(KAPURI, EForNode, EACLAdd));
+        RDEBUG("	making ACL modifications for enforcement ... DONE!");
+        }
+    else
+        {
+        //Unprotect the destinations
+        SetProtectionL(EProtLevel0);
+        
+
+        CPolicyStorage::PolicyStorage()->DeactivateEnforcementFlagL(
+                iSettingType);
 
 		//ACL...
 		RDEBUG("	removing ACL modifications for enforcement ... ");
@@ -331,61 +262,31 @@ TBool CCommsDatEnforcement::EnforcementReady()
 // CCommsDatEnforcement::FinishEnforcementL()
 // -----------------------------------------------------------------------------
 //
-void CCommsDatEnforcement::FinishEnforcementL( TBool aFlushSettings)
-	{
-	RDEBUG("CCommsDatEnforcement::FinishEnforcementL()");
-	//Close sessions
-	if( aFlushSettings )
-		{
-		iCommsDatEnforcement.Flush();
-		iDMUtil.Flush();
-		}
-	
-	iCommsDatEnforcement.Close();
+void CCommsDatEnforcement::FinishEnforcementL(TBool aFlushSettings)
+    {
+    RDEBUG("CCommsDatEnforcement::FinishEnforcementL()");
+    //Close sessions
+    if (aFlushSettings)
+        {
+        iDMUtil.Flush();
+        }
 
-	//Close centrep server...
-	iCentRepServer.Close();
-	
-	iDMUtil.Close();
+    //Close centrep server...
+    iCentRepServer.Close();
 
-		
-	if( iRestore && aFlushSettings )
-		{
-		RDEBUG("PolicyEngineServer: Remove AP table Protection");
-	
-		CCommsDatabaseProtect* dbprotect = CCommsDatabaseProtect::NewL();
-		CleanupStack::PushL( dbprotect );
-		
-		TRAP_IGNORE( LockWLANAccessPointsL( EFalse ) );
-		//remove protection for GS
-		for ( TInt i( 0 ); i < iTableList.Count(); i++ )
-			{
-			TInt err = dbprotect->UnProtectTable( iTableList[ i ] );
-			RDEBUG_2("PolicyEngineServer: Protection status %d", err );
-			}			
-	//Condition when AP + WLAN are enforced and AP is being removed
-	//GS should still show lock icons for WLANs
-	      RDbRowSet::TAccess checkAccessType = RDbRowSet::EReadOnly ;
-		   	TRAP_IGNORE( checkAccessType =  dbprotect->GetTableAccessL(TPtrC(WLAN_SERVICE)));
-    		switch(checkAccessType)
-    		{
-    			case RDbRowSet::EReadOnly :
-				 	TRAP_IGNORE(LockWLANAccessPointsL( ETrue ));
-				default :	break;
-    		}
-		CleanupStack::PopAndDestroy( dbprotect );
-		}
-	}
-				
+    iDMUtil.Close();
+    }
+
 // -----------------------------------------------------------------------------
 // CCommsDatEnforcement::AccessRightList()
 // -----------------------------------------------------------------------------
 //
-void CCommsDatEnforcement::AccessRightList( RAccessControlList& aAccessControlList)
-	{
-	RDEBUG("CCommsDatEnforcement::AccessRightList()");
-	iAccessControlList = &aAccessControlList;
-	}
+void CCommsDatEnforcement::AccessRightList(
+        RAccessControlList& aAccessControlList)
+    {
+    RDEBUG("CCommsDatEnforcement::AccessRightList()");
+    iAccessControlList = &aAccessControlList;
+    }
 
 
 // -----------------------------------------------------------------------------
@@ -393,113 +294,154 @@ void CCommsDatEnforcement::AccessRightList( RAccessControlList& aAccessControlLi
 // -----------------------------------------------------------------------------
 //
 void CCommsDatEnforcement::ResetEnforcementL()
-	{
-	RDEBUG("CCommsDatEnforcement::ResetEnforcementL()");
-	
-	User::LeaveIfError( iCentRepServer.Connect() );
-	User::LeaveIfError( iCommsDatEnforcement.Open( TCommsDatRepository , iCentRepServer ) );
-	User::LeaveIfError( iDMUtil.Connect());
+    {
+    RDEBUG("CCommsDatEnforcement::ResetEnforcementL()");
 
-	TRequestStatus request;
-	iCommsDatEnforcement.InitSession( request );
-	User::WaitForRequest( request);
-	
-		for ( TInt i( 0 ); i < iMaskList.Count(); i++ )
-			{
-			User::LeaveIfError( iCommsDatEnforcement.RestoreMask( iMaskList[ i ], KCDMaskRecordType ));
-			User::LeaveIfError( iCommsDatEnforcement.RestoreBackupFlagForMask( iMaskList[ i ], KCDMaskRecordType));
-			}
+    User::LeaveIfError(iCentRepServer.Connect());
+    User::LeaveIfError(iDMUtil.Connect());
 
-	//ACL...
-	User::LeaveIfError( iDMUtil.RemoveACL( KAPURI, ETrue ) );
+    //ACL...
+    User::LeaveIfError(iDMUtil.RemoveACL(KAPURI, ETrue));
 
+    iCentRepServer.Close();
+    iDMUtil.Close();
+    }
 
-	iCommsDatEnforcement.Flush();
-	iCommsDatEnforcement.Close();
-	iCentRepServer.Close();	
-	iDMUtil.Close();
-	}
 
 
 // -----------------------------------------------------------------------------
-// CCommsDatEnforcement::LockWLANAccessPointsL()
+// CCommsDatEnforcement::SetProtectionL()
+// Sets Protection level to all the destinations
 // -----------------------------------------------------------------------------
 //
-void CCommsDatEnforcement::LockWLANAccessPointsL( TBool aLockValue )
-	{
-	RDEBUG_2("CCommsDatEnforcement::LockAccessPoint( %d )", aLockValue );
-	
-	//Get WLAN service table and get ServiceID--> which is nothing but IAP ID and lock that record
+void CCommsDatEnforcement::SetProtectionL(TProtectionLevel aProtLevel)
+    {
+    RDEBUG("CCommsDatEnforcement::SetProtectionL() Start");
 
-	//TBool ret = EFalse;
-	TUint32 apIAPID = 0;
-		
-    CCommsDbTableView*  checkView;
-	CCommsDatabase* commsDataBase = CCommsDatabase::NewL();
-	CleanupStack::PushL( commsDataBase );
-    checkView = commsDataBase->OpenTableLC(TPtrC(IAP));
-   	RDEBUG("		-> After opening IAP table ");
-   	TBuf<KCommsDbSvrMaxFieldLength> serviceType;
-    TInt error = checkView->GotoFirstRecord();
-    RDEBUG("		-> After going to first record ");
-    while (error == KErrNone)
+    RCmManagerExt cmm;
+    cmm.OpenL();
+    CleanupClosePushL(cmm);
+
+    RArray<TUint32> destinations;
+    cmm.AllDestinationsL(destinations);
+    CleanupClosePushL(destinations);
+    TInt destcount = destinations.Count();
+
+    RCmDestinationExt destination;
+
+    //Set the Protection level for all the destinations
+    for (TInt i = 0; i < destcount; i++)
         {
-        RDEBUG("		-> KERRNONE ");
-       		// Get the ID and check for service type
-       	checkView->ReadTextL(TPtrC(IAP_SERVICE_TYPE), serviceType);
-        if(serviceType == TPtrC(LAN_SERVICE))
+        TInt err = KErrNone;
+        TInt retries = 1;
+        // Retry, at the max, 10 times, if transaction fails due to KErrLocked
+        // This is not an optimal solution for this problem, but, due to limitations
+        // from CMManager, after a lot of Development and testing effort, below code
+        // is found out to be a working one for most of the cases
+        do
             {
-               	checkView->ReadUintL(TPtrC(COMMDB_ID), apIAPID);
-               		RDEBUG_2("	->found %d WLAN AP. being protected or unprotected", apIAPID );
-               	if(aLockValue)
-               	{
-               	((CCommsDbProtectTableView*)checkView)->ProtectRecord();
-               	RDEBUG("		-> WLAN AP protected successfully!");	
-               	}
-               	else
-               	{
-               		((CCommsDbProtectTableView*)checkView)->UnprotectRecord();
-               		RDEBUG("		-> WLAN AP UN protected successfully!");
-               	}
-               	
+            if (retries > 1)
+                {
+                User::After( KDelayBeforeProtection);
+                }
+
+            RDEBUG_2(
+                    "CCommsDatEnforcement::SetProtectionL() DestinationL Retry No.  %d",
+                    retries);
+            TRAP(err, destination = cmm.DestinationL(destinations[i]));
+            retries++;
             }
-            error = checkView->GotoNextRecord();
-            
+        while (err == KErrLocked && retries <= KMaxProtectionRetries);
+        RDEBUG_2(
+                "CCommsDatEnforcement::SetProtectionL() DestinationL error is  %d",
+                err);
+
+        if ((err != KErrNone && err != KErrLocked) || (err == KErrLocked
+                && retries > KMaxProtectionRetries))
+            {
+            User::Leave(err);
+            }
+
+        CleanupClosePushL(destination);
+
+        RDEBUG("CCommsDatEnforcement::SetProtectionL() SetProtectionL Start");
+        destination.SetProtectionL(aProtLevel);
+        RDEBUG("CCommsDatEnforcement::SetProtectionL() SetProtectionL End");
+        //Connection Methods are not getting unlocked, eventhough the destinations are unlocked
+        // Unlocking the Connecting Methods in the destination
+        if (aProtLevel == EProtLevel0)
+            {
+            SetCMProtectionL(destination, EProtLevel0);
+            }
+        RDEBUG("CCommsDatEnforcement::SetProtectionL() UpdateL  Start");
+
+        err = KErrNone;
+        retries = 1;
+        do
+            {
+            if (retries > 1)
+                {
+                User::After( KDelayBeforeProtection);
+                }
+            RDEBUG_2(
+                    "CCommsDatEnforcement::SetProtectionL() UpdateL Retry No.  %d",
+                    retries);
+            TRAP(err, destination.UpdateL());
+            retries++;
+            }
+        while (err == KErrLocked && retries <= KMaxProtectionRetries);
+        RDEBUG_2(
+                "CCommsDatEnforcement::SetProtectionL() UpdateL error is  %d",
+                err);
+
+        if ((err != KErrNone && err != KErrLocked) || (err == KErrLocked
+                && retries > KMaxProtectionRetries))
+            {
+            User::Leave(err);
+            }
+        RDEBUG("CCommsDatEnforcement::SetProtectionL() UpdateL  End");
+        CleanupStack::PopAndDestroy();
         }
-    CleanupStack::PopAndDestroy(); // checkView
 
-    CleanupStack::PopAndDestroy( commsDataBase );	
+    CleanupStack::PopAndDestroy(2);
+    RDEBUG("CCommsDatEnforcement::SetProtectionL() End");
 
-
-	}	
-
-
-// -----------------------------------------------------------------------------
-// CCommsDatEnforcement::GetRecordId()
-// -----------------------------------------------------------------------------
-//	
-TUint32 CCommsDatEnforcement::GetRecordIdL( const TDesC& aTableName )
-	{
-	RDEBUG_2("looking rentrep record id for table: %S", &aTableName );
-	TMDBElementId tableRecordId = 0;
-	CMDBGenericRecord* tempUserDefinedRecord = static_cast<CMDBGenericRecord*>(CCDRecordBase::RecordFactoryL(0));
-    CleanupStack::PushL(tempUserDefinedRecord);
+    }
     
-    tempUserDefinedRecord->InitializeL(aTableName, NULL);
-	tempUserDefinedRecord->LoadL(*iSession);
-	
-    // Get the Id that we're interested in...
-    tableRecordId = tempUserDefinedRecord->TableId();
-	RDEBUG_2("	found tableRecordId: %08x", tableRecordId );
-	CleanupStack::PopAndDestroy(tempUserDefinedRecord);
 
-    // ..and validate it.
-    if ((tableRecordId & KCDMaskShowRecordType) < KCDInitialUDefRecordType)
-    	{
-	   	RDEBUG("Error validating tableRecordId");
-        User::Leave(KErrNotFound);
+
+// -----------------------------------------------------------------------------
+// CCommsDatEnforcement::SetCMProtectionL()
+// Sets Protection level to all the Connection Methods in the  destination
+// -----------------------------------------------------------------------------
+//
+void CCommsDatEnforcement::SetCMProtectionL(RCmDestinationExt& aDestination,
+        TProtectionLevel aProtLevel)
+    {
+    RDEBUG("CCommsDatEnforcement::SetCMProtectionL() Start");
+    TInt APSNAPCount = aDestination.ConnectionMethodCount();
+
+    RCmConnectionMethodExt connection;
+
+    if (APSNAPCount)
+        {
+        for (TInt j = 0; j < APSNAPCount; j++)
+            {
+            connection = aDestination.ConnectionMethodL(j);
+            CleanupClosePushL(connection);
+            if (aProtLevel == EProtLevel0)
+                {
+                connection.SetBoolAttributeL(ECmProtected, EFalse);
+                }
+            else if (aProtLevel == EProtLevel1 || aProtLevel == EProtLevel3)
+                {
+                connection.SetBoolAttributeL(ECmProtected, ETrue);
+                }
+            CleanupStack::PopAndDestroy();
+            }
+
         }
-
-	return tableRecordId;
-	}
-
+    RDEBUG("CCommsDatEnforcement::SetCMProtectionL() End");
+    }
+    
+    

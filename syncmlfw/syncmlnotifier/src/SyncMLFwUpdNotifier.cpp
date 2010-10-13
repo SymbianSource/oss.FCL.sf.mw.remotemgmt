@@ -31,7 +31,7 @@
 #include <centralrepository.h>
 #include <DevManInternalCRKeys.h>   
 #include <SyncMLNotifierDomainCRKeys.h> 
-#include <syncmlnotifier.rsg>           // Own resources
+#include <SyncMLNotifier.rsg>           // Own resources
 #include <aknnotewrappers.h>
 #include <e32property.h>
 

@@ -24,7 +24,7 @@
 #include <featmgr.h>
 
 #include "SCPPatternPlugin.h"
-#include <scppatternpluginlang.rsg>
+#include <SCPPatternPluginLang.rsg>
 #include "SCP_IDs.h"
 
 

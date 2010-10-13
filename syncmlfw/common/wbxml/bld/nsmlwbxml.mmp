@@ -70,7 +70,7 @@ SOURCE		WBXMLDevInfGenerator.cpp
 LIBRARY         euser.lib estor.lib
 
 #ifdef ARMCC
-LIBRARY ecom.lib
+LIBRARY ECOM.LIB
 #endif
 
 SMPSAFE

@@ -46,8 +46,6 @@
 #include "../diagnostics_framework_api/group/bld.inf"
 #include "../diagnostics_results_api/group/bld.inf"
 #include "../diagnostics_plugin_pool_api/group/bld.inf"
-#include "../adaptive_history_list_api/group/bld.inf"
-#include "../adaptive_history_list_session_api/group/bld.inf"
 #include "../fota_engine_api/group/bld.inf"
 #include "../update_package_storage_plugin_api/group/bld.inf"
 #include "../syncml_notifier_roaming_api/group/bld.inf"
@@ -58,4 +56,3 @@
 #include "../dm_native_notifier_api/group/bld.inf"
 #include "../syncml_ds_customization_api/group/bld.inf"
 #include "../syncml_ds_error_reporting_api/group/bld.inf"
-#include "../lawmo_plugin_api/group/bld.inf"

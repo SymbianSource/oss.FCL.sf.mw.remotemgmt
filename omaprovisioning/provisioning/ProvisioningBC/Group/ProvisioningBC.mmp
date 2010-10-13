@@ -60,10 +60,10 @@ LIBRARY         eikdlg.lib          // dialog base
 LIBRARY         bafl.lib 
 LIBRARY         eikcore.lib 
 LIBRARY         eikcoctl.lib        // bordered control
-LIBRARY         MsgEditorUtils.lib
+LIBRARY         msgeditorutils.lib
 LIBRARY         cone.lib
 LIBRARY         msgs.lib            // Messaging Centre interface
-LIBRARY         CommonEngine.lib    // StringLoader
+LIBRARY         commonengine.lib    // StringLoader
 LIBRARY         richbio.lib
 LIBRARY         provisioningengine.lib
 LIBRARY         avkon.lib

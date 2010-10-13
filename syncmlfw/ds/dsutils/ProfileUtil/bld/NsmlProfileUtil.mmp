@@ -38,7 +38,7 @@ SOURCE        NsmlProfileUtil.cpp
 
 LIBRARY       euser.lib
 LIBRARY       estor.lib
-LIBRARY       NSmlDSSettings.lib
+LIBRARY       nsmldssettings.lib
 LIBRARY       centralrepository.lib
 LIBRARY       nsmldebug.lib
 

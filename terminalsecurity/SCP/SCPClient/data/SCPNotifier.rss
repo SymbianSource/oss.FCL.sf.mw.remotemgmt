@@ -110,21 +110,6 @@ RESOURCE TBUF r_set_sec_code_setting_query_server
     buf = qtn_set_sec_code_setting_query_server;
     }
     
-RESOURCE TBUF r_scp_lawmo_locked
-    {
-    buf = qtn_device_locked_remotely;
-    }
-
-RESOURCE TBUF r_code_mismatch_discreet_popup_heading
-    {
-    buf = qtn_code_mismatch_discreet_popup_heading;
-    }
-
-RESOURCE TBUF r_code_mismatch_discreet_popup_text
-    {
-    buf = qtn_code_mismatch_discreet_popup_text;
-    }
-    
 RESOURCE DIALOG r_dialog_warning
 {
     flags = EAknWarningNoteFlags | EEikDialogFlagWait;

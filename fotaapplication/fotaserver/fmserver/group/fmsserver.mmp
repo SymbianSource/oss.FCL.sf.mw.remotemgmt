@@ -42,7 +42,7 @@ USERINCLUDE   ../../cenrep
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY       euser.lib
-LIBRARY       ConnMon.lib // for connection monitoring
+LIBRARY       connmon.lib // for connection monitoring
 LIBRARY       sysutil.lib 
 LIBRARY       efsrv.lib 
 LIBRARY       flogger.lib

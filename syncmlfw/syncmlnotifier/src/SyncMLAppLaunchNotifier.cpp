@@ -30,7 +30,7 @@
 #include <ecom/ecom.h>
 #include <centralrepository.h>
 #include <SyncMLNotifierDomainCRKeys.h>
-#include <syncmlnotifier.rsg>           // Own resources
+#include <SyncMLNotifier.rsg>           // Own resources
 #include "SyncMLAppLaunchNotifier.h"    // Class declaration
 #include "SyncMLTimedMessageQuery.h"
 #include "SyncMLTimedQueryDialog.h"

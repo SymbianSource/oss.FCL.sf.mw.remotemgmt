@@ -31,7 +31,6 @@
 #include <nsmlconstants.h>
 #include <centralrepository.h>
 #include <sysversioninfo.h>
-#include <featdiscovery.h>
 #include "FotaSrvApp.h"
 #include "FotaServer.h"
 #include "FotaSrvDebug.h"
@@ -2416,14 +2415,6 @@ TBool CFotaServer::NeedToDecryptL(const TInt &aPkgId, TDriveNumber &aDrive)
             __LEAVE_IF_ERROR(err);
             }
         }
-    
-    if(!IsFOTANeedToDecryptL())
-       {
-       iDEController->CheckIfDeviceMemoryBusyL();
-       return EFalse;
-       }
-    
-        
     TRAPD(err, ret = iDEController->NeedToDecryptL(drive));
     
     delete iDEController; iDEController = NULL;
@@ -2598,22 +2589,4 @@ TInt CFotaServer::GetDEOperation()
     FLOG(_L("CFotaServer::GetDEOperation, ret = %d <<"), ret);
     return ret;
     }
-
-// --------------------------------------------------------------------------
-// CFotaServer::IsFOTANeedToDecryptL
-// This method returns the device encryption operation.
-// 
-// --------------------------------------------------------------------------
-// 
-TBool CFotaServer::IsFOTANeedToDecryptL()
-    {
-    FLOG(_L("CFotaServer::IsFOTANeedToDecryptL >>"));
-
-    TBool ret(EFalse);
-    ret = CFeatureDiscovery::IsFeatureSupportedL(TUid::Uid(KFeatureIdFfFotaDecryptMemBeforeUpdate));
-    
-    FLOG(_L("CFotaServer::IsFOTANeedToDecryptL, ret = %d <<"), ret);
-    return ret;
-    }
-
 

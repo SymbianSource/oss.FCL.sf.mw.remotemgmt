@@ -16,7 +16,7 @@
 */
 
 
-#include <nsmldmprofileres.rsg>
+#include <NSmlDMProfileRes.rsg>
 #include <SyncMLDef.h>
 #include <utf.h>
 

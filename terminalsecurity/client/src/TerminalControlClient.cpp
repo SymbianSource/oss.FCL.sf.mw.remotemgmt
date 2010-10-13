@@ -1317,9 +1317,4 @@ EXPORT_C TInt RTerminalControl3rdPartySession::GetDeviceLockParameter(TInt aType
     return SendReceive( E3rdPartySetterGet, args1 );
     }
 
-EXPORT_C TInt RTerminalControl3rdPartySession :: ResetDeviceLockParameters() {
-    RDEBUG("RTerminalControl3rdPartySession::SetDeviceLockParameter");
-    TIpcArgs args1;
-    return SendReceive(E3rdPartySetterReset, args1);
-}
 

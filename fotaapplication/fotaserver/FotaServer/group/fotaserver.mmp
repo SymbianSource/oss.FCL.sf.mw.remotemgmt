@@ -83,7 +83,7 @@ LIBRARY     avkon.lib
 LIBRARY     bafl.lib
 LIBRARY     cone.lib
 LIBRARY     commdb.lib
-LIBRARY     CommonEngine.lib
+LIBRARY     commonengine.lib
 LIBRARY     edbms.lib
 LIBRARY     efsrv.lib
 LIBRARY     eikctl.lib
@@ -112,12 +112,11 @@ LIBRARY			  sysversioninfo.lib //For reading software version
 LIBRARY     nsmldmtreedbclient.lib
 LIBRARY		akncapserverclient.lib // AknUiServer
 LIBRARY		starterclient.lib
-LIBRARY		ConnMon.lib
+LIBRARY		connmon.lib
 LIBRARY		featmgr.lib
 LIBRARY		fmsclient.lib	//FMS Client
 LIBRARY     	cmmanager.lib 	//Connection Manager
-LIBRARY     	inetprotutil.lib
-LIBRARY         featdiscovery.lib
+LIBRARY		inetprotutil.lib
 
 LIBRARY		aknnotify.lib
 // #ifdef _FOTA_DEBUG

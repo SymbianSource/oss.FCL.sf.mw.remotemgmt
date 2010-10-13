@@ -16,7 +16,7 @@
 */
 
 #include "SCPUserInf.h"
-#include <scptimestamppluginlang.rsg>
+#include <SCPTimestampPluginLang.rsg>
 
 #include <AknGlobalNote.h>
 #include <aknnotewrappers.h>

@@ -77,7 +77,7 @@ LIBRARY     irobex.lib
 LIBRARY		nsmlobexcommserver.lib
 LIBRARY		ecom.lib			
 LIBRARY		nsmlxml.lib
-LIBRARY		NSmlPrivateAPI.lib
+LIBRARY		nsmlprivateapi.lib
 
 
 

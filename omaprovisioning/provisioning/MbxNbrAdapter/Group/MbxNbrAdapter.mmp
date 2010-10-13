@@ -54,7 +54,7 @@ SYSTEMINCLUDE 	/epoc32/include/ecom
 
 LIBRARY         euser.lib
 LIBRARY         provisioningengine.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         vmbx.lib
 LIBRARY 		centralrepository.lib
 

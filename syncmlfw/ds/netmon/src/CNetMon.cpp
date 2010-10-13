@@ -106,8 +106,6 @@ CNetMon::~CNetMon()
 {
 	 DBG_FILE(_S8("CNetMon::~CNetMon() begins"));
 	 
-	 Cancel();
-	 
 	 DBG_FILE(_S8("CNetMon::~CNetMon() ends"));
 }
 
@@ -178,7 +176,12 @@ void CNetMon::DoCancel()
 	
 	//CancelTimer();
 
-    Complete();
+    // Un-register for events
+    iConnectionMonitor.CancelNotifications();
+    iConnectionMonitor.Close();
+
+    // Cleanup sync session
+    CloseSyncSession();
 	
 	DBG_FILE(_S8("CNetMon::DoCancel() ends"));
 }
@@ -507,12 +510,7 @@ void CNetMon::Complete()
 {
     DBG_FILE(_S8("CNetMon::Complete() begins"));
     
-    // Un-register for events
-    iConnectionMonitor.CancelNotifications();
-    iConnectionMonitor.Close();
-    
-    // Cleanup sync session
-    CloseSyncSession();
+	Cancel();
 
     // Close the server
     CActiveScheduler::Stop();

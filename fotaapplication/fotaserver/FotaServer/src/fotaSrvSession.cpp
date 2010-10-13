@@ -163,7 +163,7 @@ void CFotaSrvSession::ServiceL(const RMessage2& aMessage)
 	TInt        err(KErrNone);
 	TInt        pkgid = 0;
 	TPackageState       state;
-	RThread clt; aMessage.ClientL(clt); 
+	RThread clt; aMessage.ClientL(clt);
 	TFullName cltnm = clt.FullName();
 	FLOG(_L( "CFotaSrvSession::ServiceL      %d   serving for %S?" )
 			,aMessage.Function(), &cltnm );

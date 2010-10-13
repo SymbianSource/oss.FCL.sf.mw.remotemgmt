@@ -65,7 +65,7 @@ LIBRARY eikcoctl.lib
 LIBRARY avkon.lib
 LIBRARY provisioningengine.lib
 LIBRARY bafl.lib
-LIBRARY CommonEngine.lib
+LIBRARY commonengine.lib
 LIBRARY featmgr.lib
 LIBRARY hlplch.lib
 LIBRARY apengine.lib

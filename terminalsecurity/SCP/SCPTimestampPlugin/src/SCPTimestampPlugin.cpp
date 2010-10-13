@@ -21,7 +21,7 @@
 #include <e32std.h>
 #include <ecom/implementationproxy.h>
 #include <SCPParamObject.h>
-#include <scptimestamppluginlang.rsg>
+#include <SCPTimestampPluginLang.rsg>
 #include "SCP_IDs.h"
 #include <bautils.h>
 #include <hal.h>

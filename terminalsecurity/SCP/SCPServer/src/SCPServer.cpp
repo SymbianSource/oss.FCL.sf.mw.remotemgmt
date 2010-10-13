@@ -737,7 +737,6 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
     User::LeaveIfError(err);
 }
 
-
         
     
     
@@ -1280,74 +1279,84 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
     TInt lRetStatus(KErrNone);
     Dprint(_L("[CSCPServer]-> Initiating branching on parameter..."));
     
-    switch(aID) {
-        case ESCPAutolockPeriod:
-        case ESCPMaxAutolockPeriod: {
+    switch ( aID )
+        {
+        case ( ESCPAutolockPeriod ):
+        // Flow through            
+        case ( ESCPMaxAutolockPeriod ):
+            {
             // Convert the value, and set it
             TInt value;
             TLex lex(aValue);
             lRetStatus = lex.Val(value);
+             
 
             if((lRetStatus != KErrNone ) || ( value < 0) || ( value > KSCPAutolockPeriodMaximum )) {
                 lRetStatus = KErrArgument;
                 break;
-            }
+                }
                   
             //Check if the device memory is encrypted or not.
             TBool encryptionEnabled = IsDeviceMemoryEncrypted();
-            CSCPParamDBController* lParamDB = CSCPParamDBController :: NewLC();
             
             // Value OK
-            if(aID == ESCPMaxAutolockPeriod) {
-                if( encryptionEnabled ) {
-                    Dprint(_L("[CSCPServer]-> Memory is encrypted"));
-                    
-                    if(( 0 == value) || value > KMaxAutolockPeriod) {
-                        Dprint((_L("[CSCPServer]-> Denying setting of max auto lock as value is %d"), value));
-                        User :: Leave( KErrPermissionDenied );
-                    }
-                }
-                else {
+            if(aID == ESCPMaxAutolockPeriod) 
+						{
+						   if (  encryptionEnabled )
+                  {
+                  Dprint(_L("Memory is encrypted"));
+                  if (( 0 == value) || value > KMaxAutolockPeriod)
+                      {
+                      Dprint((_L("Denying setting of max auto lock as value is %d"), value));
+                      User::Leave( KErrPermissionDenied );
+                      }
+                      
+                  }
+                else
+                    {
                     Dprint(_L("Memory is decrypted, hence no restrictions to max autolock"));
-                }
+                    }
                     
-                Dprint(_L("[CSCPServer]-> Branched to ESCPMaxAutolockPeriod..."));                
+                Dprint(_L("[CSCPServer]-> Branched to ESCPMaxAutolockPeriod..."));
+                CSCPParamDBController* lParamDB = CSCPParamDBController :: NewLC();
                 lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: EMaxTimeout, aValue, aCallerIdentity, lParamDB);
 
-                if(lRetStatus == KErrNone) {
+                if(lRetStatus == KErrNone) 
+								{
                     // Do we have to change the Autolock period as well?
                     TInt currentALperiod;
                     lRetStatus = GetAutolockPeriodL(currentALperiod);
 
-                    if(lRetStatus == KErrNone) {
-                        if( (iConfiguration.iMaxTimeout > 0) && 
-                            ((iConfiguration.iMaxTimeout < currentALperiod) ||
-                            (currentALperiod == 0))) {
-                        
+                    if(lRetStatus == KErrNone) 
+										{
+                        if((iConfiguration.iMaxTimeout > 0) && ((iConfiguration.iMaxTimeout < currentALperiod) || (currentALperiod == 0))) 
+												{
                            Dprint((_L("[CSCPServer]-> Changing AL period to Max. AL period (Current ALP: %d, Max. ALP: %d)"), currentALperiod, value));
-                           //lRetStatus = SetAutolockPeriodL(value);                           
-                           /*
-                            * Call to SetBestPolicyL will not check for Stronger/Weaker. The value of ETimeout just gets stored in 
-                            * both the internal DB and the CenRep
-                           */
-                           lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: ETimeout, aValue, aCallerIdentity, lParamDB);
+                           lRetStatus = SetAutolockPeriodL(value);
                         }
                     }
-                    else {
+                    else 
+										{
                         Dprint((_L("[CSCPServer]-> ERROR: Couldn't get the Autolock period: %d"), lRetStatus));
                     }
                 }
-            }
-            // Autolock Period
-            else {
-                //Code is commented as it is already taken care by the below condition #1343 irrespective of the drive encryption state.
-                /*  if ( 0 == value ) {
-                    if(encryptionEnabled) {
-                        Dprint(_L("Permission denied!"));
-                        User :: Leave(KErrPermissionDenied);
-                    }
-                }*/
 
+                CleanupStack :: PopAndDestroy(); //lParamDB
+            }
+            
+            else 
+            { // Autolock Period
+            	
+            			//Code is commented as it is already taken care by the below condition #1343 irrespective of the drive encryption state.
+            	     /*  if ( 0 == value )
+                    {
+                    if ( encryptionEnabled )
+                        {
+                        Dprint(_L("Permission denied!"));
+                        User::Leave( KErrPermissionDenied );
+                        }
+                    }*/
+                    
                 Dprint(_L("[CSCPServer]-> Branched to ESCPAutolockPeriod..."));
                 //  Check if this value is not allowed by the Max. Autolock period
                 if ((iConfiguration.iMaxTimeout > 0) && ((iConfiguration.iMaxTimeout < value) || (value == 0))) {
@@ -1356,20 +1365,13 @@ TInt CSCPServer::SetParameterValueL( TInt aID, const TDesC& aValue, TUint32 aCal
                     lRetStatus = KErrArgument;
                 }
                 else {
-                    //lRetStatus = SetAutolockPeriodL(value);
-                    /*
-                     * Call to SetBestPolicyL will not check for Stronger/Weaker. The value of ETimeout just gets stored in 
-                     * both the internal DB and the CenRep
-                    */
-                    lRetStatus = SetBestPolicyL(RTerminalControl3rdPartySession :: ETimeout, aValue, aCallerIdentity, lParamDB);
+                    lRetStatus = SetAutolockPeriodL(value);
 
                     if(lRetStatus != KErrNone) {
                         Dprint((_L("[CSCPServer]-> ERROR: Couldn't set the Autolock period: %d"), lRetStatus));
                     }
                 }
             }
-            
-            CleanupStack :: PopAndDestroy(); //lParamDB
         }
         break;
         case ESCPCodeChangePolicy:
@@ -2597,10 +2599,9 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     TBool lFirstTime(EFalse);
     TInt32 lNumValue (-1);
     TInt32 lNumValDB (-1);
-    TInt lRetStatus = KErrNone;
+    TInt32 lRetStatus = KErrNone;
 
     switch(aID) {
-        case RTerminalControl3rdPartySession :: ETimeout:
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMinLength:
         case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -2642,9 +2643,6 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     else {
         // Fetch the previous value of the parameter from the private database
         switch(aID) {
-            case RTerminalControl3rdPartySession :: ETimeout:
-                // No need to fetch previous value for ETimeout since Stronger/Weaker check is not required for it.
-                break;
             case RTerminalControl3rdPartySession :: EMaxTimeout:
             case RTerminalControl3rdPartySession :: EPasscodeMinLength:
             case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
@@ -2713,12 +2711,6 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
 
         // Decision code that verifies if policy is strongest
         switch(aID) {
-        case RTerminalControl3rdPartySession :: ETimeout:
-            /* 
-             * No need to check stronger/weaker for ETimeout. The value just has to be maintained in both
-             * DB and the CenRep
-            */
-            break;
         case RTerminalControl3rdPartySession :: EMaxTimeout:
         case RTerminalControl3rdPartySession :: EPasscodeMaxRepeatedCharacters:
         case RTerminalControl3rdPartySession :: EPasscodeExpiration:
@@ -2772,17 +2764,11 @@ TInt CSCPServer :: SetBestPolicyL( TInt aID, const TDesC& aValue, TUint32 aCalle
     */
     if (lRetStatus == KErrNone) {
         switch (aID) {
-        case RTerminalControl3rdPartySession :: ETimeout:
-            lRetStatus = SetAutolockPeriodL(TInt(lNumValue));
-            Dprint(_L("[CSCPServer]-> After setting ETimeout lRetStatus = %d "), lRetStatus);
-            break;
-			
         case RTerminalControl3rdPartySession :: EMaxTimeout:
             iConfiguration.iMaxTimeout = lNumValue;
             lRetStatus = iConfiguration.WriteSetupL();
             Dprint(_L("[CSCPServer]-> After setting EMaxTimeout lRetStatus = %d "), lRetStatus);
             break;
-			
         default:
             TUint16* ptr = const_cast<TUint16*>(aValue.Ptr());
             TPtr valBuf(ptr, aValue.Length(), aValue.Length());
@@ -2877,31 +2863,14 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                 Dprint(_L("[CSCPServer]-> Old Index of EPasscodeHistoryBuffer=%d"), lHistBuffIndex);
                 Dprint(_L("[CSCPServer]-> Old Index of EPasscodeMinChangeTolerance=%d"), lMinTolIndex);
             }
-			
-            /*
-             * If both ETimeout and EMaxTimeout are marked for cleanup then interchange the cleanup order of 
-             * ETimeout and EMaxTimeout since AutoLock (ETimeout) cannot be disabled
-             * if MaxAutolock (EMaxTimeout) is still enabled
-             */
-            if( lParamIds[0] == RTerminalControl3rdPartySession :: ETimeout &&
-                lParamIds[1] == RTerminalControl3rdPartySession :: EMaxTimeout) {
-            
-                lParamIds[0] = RTerminalControl3rdPartySession :: EMaxTimeout;
-                lParamIds[1] = RTerminalControl3rdPartySession :: ETimeout;
-            }
        	}
 
         for(TInt j=0; j < lCount; j++) {
             TInt lCurrParamID = lParamIds[j];            
             lDefValueBuf->Des().Zero();
             lDefValueBuf->Des().Format(_L("%d "), 0);
-			
             // Initialize the default values here...
             switch(lCurrParamID) {
-                case RTerminalControl3rdPartySession :: ETimeout:
-                    // lDefValueBuf already has the default value, 0 initialized...
-                    lCurrParamID = ESCPAutolockPeriod;
-                    break;
                 case RTerminalControl3rdPartySession :: EMaxTimeout:
                     // lDefValueBuf already has the default value, 0 initialized...
                     lCurrParamID = ESCPMaxAutolockPeriod;
@@ -2930,7 +2899,6 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                         
                         for(TInt k=0; k < lDesCount; k++) {
                             TRAP(lStatus, lStatus = SetParameterValueL(lCurrParamID, lDesArr[k]->Des(), lAppID));
-							
                             if(KErrNone != lStatus) {
                                 Dprint(_L("[CSCPServer]-> ERROR: Unable to cleanup parameter %d error %d"), lParamIds[j], lStatus);
                                 lSubOpsFailed = ETrue;
@@ -2944,40 +2912,6 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                     CleanupStack :: PopAndDestroy(1); // lDesArray
                 }
                 break;
-				
-                case ESCPAutolockPeriod: {
-                    TInt32 lParamValueDB(0);
-                    TInt lParamValueCenRep(0);
-                    TInt32 lCurrParamOwner(0);
-					
-                    lStatus = lParamDB->GetValueL(RTerminalControl3rdPartySession :: ETimeout, lParamValueDB, lCurrParamOwner);
-					
-                    if(lStatus != KErrNone) {
-                        Dprint(_L("[CSCPServer]-> ERROR: Unable to get current value of ETimeout from DB..."));
-                        lSubOpsFailed = ETrue;
-                        break;
-                    }
-					
-                    lStatus = GetAutolockPeriodL(lParamValueCenRep);
-					
-                    if(lStatus != KErrNone) {
-                        Dprint(_L("[CSCPServer]-> ERROR: Unable to get current value of ETimeout from CenRep..."));
-                        lSubOpsFailed = ETrue;
-                        break;
-                    }
-                    
-                    /*
-                     *  It is possible that AutoLock set from UI is different. In that case internal DB and CenRep 
-                     *  are not in sync. Compare the two values and if they are same assume that the values are in sync.
-                     *  Limitation is that if the user sets the AutoLock with the same value as set by the current app then
-                     *  AutoLock will get disabled.
-                     *  
-                    */
-                    if(lParamValueCenRep != lParamValueDB) {
-                        break;
-                    }
-                }
-				
                 default: {
                     iOverrideForCleanup = ETrue;
                     TRAP(lStatus, lStatus = SetParameterValueL(lCurrParamID, lDefValueBuf->Des(), lAppID));
@@ -2994,8 +2928,7 @@ TInt CSCPServer :: PerformCleanupL(HBufC8* aAppIDBuffer, RArray<const TParamChan
                         aParamValArray.AppendL(lTmpBuffer);
                     }
                 }
-                break;
-            };
+            }
             
             if(KErrNone != lStatus) {
                 Dprint(_L("[CSCPServer]-> ERROR: Unable to cleanup parameter %d error %d"), lParamIds[j], lStatus);

@@ -36,7 +36,7 @@
 #include <es_sock_partner.h>
 #endif
 #include <es_enum.h>
-#include <nsmldmsync.rsg>	//OMA DM UI for reading resource
+#include <NSmlDMSync.rsg>	//OMA DM UI for reading resource
 #include <bautils.h>
 #include <StringLoader.h>
 #include <DevManInternalCRKeys.h> //for reading san feature

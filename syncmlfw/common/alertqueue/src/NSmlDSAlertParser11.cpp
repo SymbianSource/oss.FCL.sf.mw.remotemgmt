@@ -24,7 +24,7 @@
 #include <barsc.h>
 #include <s32mem.h>
 #include <data_caging_path_literals.hrh>
-#include <nsmldstypesres.rsg>
+#include <NSmlDSTypesRes.rsg>
 
 #include <nsmlconstants.h>
 #include <nsmlunicodeconverter.h>

@@ -41,16 +41,6 @@
 //l:  popup_info_list_pane_t2/opt1
 //r: 5.2
 #define qtn_set_sec_code_setting_query_server "Lock Code has not been set. Please set the Lock Code."
-//d: The text informing user that phone is locked by an Operator server
-//l: popup_query_data_window
-#define qtn_device_locked_remotely "Locked by %U"
-//d: This popup heading string is to alert the user that he has entered a wrong lock code.
-//l: popup_query_data_window
-//r: 5.2
-#define qtn_code_mismatch_discreet_popup_heading "Wrong code"
-//d: This string would inform the user to try entering the lock code again.
-//l: popup_query_data_window
-//r: 5.2
-#define qtn_code_mismatch_discreet_popup_text "please try again"
+
 // End of File
 

@@ -61,14 +61,13 @@ MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE 	/epoc32/include/ecom
 
 LIBRARY         euser.lib
-LIBRARY         provisioningengine.lib
+LIBRARY         ProvisioningEngine.lib
 LIBRARY         apengine.lib
 LIBRARY         commdb.lib
-LIBRARY         featmgr.lib
+LIBRARY         FeatMgr.lib
 LIBRARY         ecom.lib
 LIBRARY 		centralrepository.lib
 LIBRARY			cmmanager.lib
-LIBRARY         policyengine.lib
 DEBUGLIBRARY    flogger.lib     // Only in debug builds
 
 // End of File

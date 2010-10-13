@@ -70,7 +70,7 @@ LIBRARY         etel.lib
 LIBRARY         etelmm.lib
 LIBRARY         inetprotutil.lib
 LIBRARY         sysutil.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         edbms.lib
 LIBRARY         centralrepository.lib
 LIBRARY         cmmanager.lib 

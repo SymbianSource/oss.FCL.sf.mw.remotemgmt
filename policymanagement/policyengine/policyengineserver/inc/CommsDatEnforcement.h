@@ -20,7 +20,7 @@
 #define _COMMSDAT_ENFORCEMENT_HEADER__
 
 // INCLUDES
-
+#include <cmmanagerdef.h>
 #include "SettingEnforcementManager.h"
 
 #include "CentRepToolClient.h"
@@ -29,62 +29,61 @@
 #include <SettingEnforcementInfo.h>
 #include <commdb.h>
 
-
+using namespace CMManager;
+class RCmDestinationExt;
 
 class CCommsDatEnforcement : public CEnforcementBase
-{
-	public:
-		//construction
-		CCommsDatEnforcement();
-		virtual ~CCommsDatEnforcement();
-		static CCommsDatEnforcement* NewL( const TDesC8& aEnforcementId );
-		void ConstructL();
-		
-		//from MEnforcementBase
-		void InitEnforcementL( TRequestStatus& aRequestStatus);
-		void DoEnforcementL( TRequestStatus& aRequestStatus);
-		TBool InitReady();
-		TBool EnforcementReady();
-		void FinishEnforcementL( TBool aFlushSettings);
-		void ResetEnforcementL();
+    {
+public:
+    //construction
+    CCommsDatEnforcement();
+    virtual ~CCommsDatEnforcement();
+    static CCommsDatEnforcement* NewL(const TDesC8& aEnforcementId);
+    void ConstructL();
 
-				
-		void AccessRightList( RAccessControlList& aAccessControlList);		
-		
-		static TBool ValidEnforcementElement( const TDesC8& aEnforcementId);
-		
-		void LockWLANAccessPointsL( TBool aLockValue );
-		
-		TInt CheckTableL( const TDesC& aTableName );
-		
-		
-		TUint32 CCommsDatEnforcement::GetRecordIdL( const TDesC& aTableName );
-		
-	private:
-		//active state 
-		TInt iInitState;
-		TInt iEnforcementState;
-		TBool iRestore;
-		
-		//mask value for setting
-		RArray<TUint32> iMaskList;
-		RArray<TPtrC> iTableList;
-		
-		//editor list
-		RAccessControlList* iAccessControlList;
-		
-		//CentRep tool 
-		RCentRepTool iCentRepServer;
-		
-		RSettingManagement iCommsDatEnforcement;
-		//ACL editing
-		RDMUtil iDMUtil;
-				
-		KSettingEnforcements iSettingType;
-		
-		//@var session - Owned
-        CMDBSession* iSession;
-};
+    //from MEnforcementBase
+    void InitEnforcementL(TRequestStatus& aRequestStatus);
+    void DoEnforcementL(TRequestStatus& aRequestStatus);
+    TBool InitReady();
+    TBool EnforcementReady();
+    void FinishEnforcementL(TBool aFlushSettings);
+    void ResetEnforcementL();
+
+    void AccessRightList(RAccessControlList& aAccessControlList);
+
+    static TBool ValidEnforcementElement(const TDesC8& aEnforcementId);
+    TInt CheckTableL(const TDesC& aTableName);
+
+    /**Sets Protection level to all the destinations
+     * @param aProtLevel Protection level to be set on the destinations
+     */
+    void SetProtectionL(TProtectionLevel aProtLevel);
+    
+    /**Sets Protection level to all the Connection Methods in the  destination
+     * @param destination Destination in which the Protection is set on the Connection Methods
+     * @param aProtLevel Protection level to be set on the Connection Methods
+     */
+    void SetCMProtectionL(RCmDestinationExt& aDestination,
+            TProtectionLevel aProtLevel);
+
+private:
+    //active state 
+    TInt iInitState;
+    TInt iEnforcementState;
+    TBool iRestore;
+
+    //editor list
+    RAccessControlList* iAccessControlList;
+
+    //CentRep tool 
+    RCentRepTool iCentRepServer;
+
+    //ACL editing
+    RDMUtil iDMUtil;
+
+    KSettingEnforcements iSettingType;
+
+    };
 
 
 #endif

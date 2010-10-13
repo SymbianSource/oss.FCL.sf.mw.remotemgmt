@@ -31,7 +31,7 @@
 #include <avkon.mbg>
 #include <aknconsts.h>
 #include <utf.h>
-#include <syncmlnotifier.rsg>   // Own resources
+#include <SyncMLNotifier.rsg>   // Own resources
 #include "SyncMLDlgNotifier.h"  // Class definition
 #include "SyncMLTimedMessageQuery.h"
 #include "SyncMLAppLaunchNotifier.h"
@@ -168,6 +168,16 @@ void CSyncMLDlgNotifier::GetParamsL( const TDesC8& aBuffer,
         {
         User::Leave( KErrInUse );
         }
+    
+    if ( AutoLockOnL() )
+        {
+        // The phone is locked, access denied.
+        // Write results back to caller and complete message.
+        aMessage.Complete( KErrLocked );
+        iNeedToCompleteMessage = EFalse;
+        return;
+        }
+
     iMessage = aMessage;
     iNeedToCompleteMessage = ETrue;
     iReplySlot = aReplySlot;

@@ -60,5 +60,4 @@ EXPORTS
 	_ZN23RTerminalControlSession31SetPasscodeMinSpecialCharactersEl @ 59 NONAME
 	_ZN23RTerminalControlSession25GetPasscodeDisallowSimpleERi @ 60 NONAME
 	_ZN23RTerminalControlSession25SetPasscodeDisallowSimpleEi @ 61 NONAME
-	_ZN31RTerminalControl3rdPartySession25ResetDeviceLockParametersEv @ 62 NONAME
 

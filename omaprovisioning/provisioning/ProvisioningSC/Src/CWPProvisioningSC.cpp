@@ -25,7 +25,7 @@
 #include	<e32base.h>
 #include	<CWPEngine.h>
 #include	<AknGlobalNote.h> 
-#include	<provisioningsc.rsg>
+#include	<ProvisioningSC.rsg>
 #include	<WPAdapterUtil.h>
 #include	"MWPPhone.h"
 #include	"CWPPushMessage.h"

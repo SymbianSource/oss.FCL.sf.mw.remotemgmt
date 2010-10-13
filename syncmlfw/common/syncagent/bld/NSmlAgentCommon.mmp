@@ -79,7 +79,7 @@ LIBRARY         bafl.lib
 LIBRARY         inetprotutil.lib
 
 #ifdef ARMCC
-LIBRARY ecom.lib
+LIBRARY ECOM.LIB
 #endif
 //RD_AUTO_RESTART
 LIBRARY         commdb.lib 

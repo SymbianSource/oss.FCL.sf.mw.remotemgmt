@@ -59,14 +59,15 @@ LIBRARY         avkon.lib
 LIBRARY         aknnotify.lib
 LIBRARY         eikdlg.lib
 LIBRARY         ws32.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         bafl.lib
 LIBRARY					flogger.lib
 LIBRARY         featmgr.lib
 LIBRARY     centralrepository.lib  // CenRep
 LIBRARY					aknnotify.lib
 LIBRARY 		estor.lib
-LIBRARY     apgrfx.lib
+LIBRARY     apgrfx.lib 
+
 SMPSAFE
 
 // End of file

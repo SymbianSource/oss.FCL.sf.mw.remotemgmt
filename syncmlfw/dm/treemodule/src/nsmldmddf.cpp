@@ -634,8 +634,7 @@ void CNSmlDmDDF::ExecuteObjectL(const TDesC8& aURI,
 		// FOTA 
 		// For the FOTA adapter put the correlator to aObject instead of
 		// data.
-		if ( iAdapterId == KNSmlDMFotaAdapterImplUid || iAdapterId == KNSmlDMAMAdapterImplUid
-				|| iAdapterId == KNSmlDMLawMoAdapterImplUid)
+		if ( iAdapterId == KNSmlDMFotaAdapterImplUid || iAdapterId == KNSmlDMAMAdapterImplUid)
 			{
 			iSessionArray[iSessionId-1].ExecuteCommandL(iAdapterId,*luid,
 				aStatusRef,aURI,aCorrelator,aType,aLargeItem);

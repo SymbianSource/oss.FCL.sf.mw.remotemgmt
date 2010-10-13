@@ -22,18 +22,17 @@
 #include <StringLoader.h>
 #include <aknappui.h> 
 #include <avkon.rsg>
-#include <secui.rsg>
+#include <SecUi.rsg>
 // Include the SecUi definitions
 #include <secui.hrh>
 #include "SCPDebug.h"
-#include <scpnotifier.rsg>
+#include <SCPNotifier.rsg>
 // For Central Repository
 #include <centralrepository.h>
 #include <AknIncallBubbleNotify.h>
 #include <e32property.h>
 #include <ctsydomainpskeys.h>
 #include "SCPCodePrivateCRKeys.h"
-#include <DevManInternalCRKeys.h>
 #include <featmgr.h>
 #include <aknglobalpopupprioritycontroller.h>
 
@@ -52,7 +51,7 @@
 #endif // _DEBUG*/
 
 const TInt KSCPSpecialDeleteEvent( 63529 );
-const TInt KLockedbyLawmo (30);
+
 // ================= MEMBER FUNCTIONS =======================
 //
 // ----------------------------------------------------------
@@ -79,9 +78,8 @@ CSCPQueryDialog::CSCPQueryDialog(   TDes& aDataText,
 			  iPreviousCharacterWasInvalid( EFalse ),
 			  iPrioritySet( EFalse ),
 			  iPriorityDropped( EFalse ),
-			  iLockedByLawMo( EFalse ),
-			  iKeyUsed ( NULL ),
-			  iContextSensitive(aContextSensitive)
+			  iContextSensitive(aContextSensitive),
+			  iKeyUsed ( NULL )
 	{
         def_mode = 0;
         iAppKey = 0;
@@ -313,48 +311,23 @@ void CSCPQueryDialog :: PreLayoutDynInitL()
         }
 	        
         Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Changing Window Priority") ));
-        DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
-        ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityAlwaysAtFront);
+        DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityNormal);
     }
     else {
         AknGlobalPopupPriorityController :: SetPopupPriorityL(*this, 0);
         DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityNormal);
-        ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0, ECoeWinPriorityNormal);
     }
 
     // this must be done always to keep the reference count in synch  
     // this does not have any effect if autoforwarding has not been set true (normal application.)
     iEikonEnv->BringForwards(ETrue, ECoeWinPriorityAlwaysAtFront+1);
-
-    Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));
-    // Key sounds
-    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->PushContextL(R_AVKON_DEFAULT_SKEY_LIST);
-    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->BringToForeground();
-    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
-    iFront = ETrue;
 	
-    TInt currentLawmoState(0); 
-    Dprint( (_L("CSCPQueryDialog::lawmo cenrep") ));
-    CRepository* crep = CRepository::NewLC( KCRUidDeviceManagementInternalKeys );
-    TInt reterr = crep->Get( KLAWMOPhoneLock, currentLawmoState ); 
-    Dprint( (_L("CSCPQueryDialog::lawmo cenrep done") ));
-
-    if(reterr != KErrNone) 
-        {
-        Dprint(_L("[RSCPClient]-> ERROR: Unable to perform get on CenRep lawmo, lErr=%d"), reterr);
-        CleanupStack :: PopAndDestroy(crep);
-        return;
-        }
-    
-    if(currentLawmoState!=KLockedbyLawmo)
-        {
-        // Hide the OK key
-        Dprint( (_L("CSCPQueryDialog::lawmo state !=30, dim key") ));
-        iLockedByLawMo = ETrue;
-        ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-        ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-        }	
-	CleanupStack::PopAndDestroy();
+	Dprint( (_L("CSCPQueryDialog::PreLayoutDynInitL(): Key sounds") ));
+	// Key sounds
+    static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->PushContextL(R_AVKON_DEFAULT_SKEY_LIST);	    	                                                             
+	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->BringToForeground();
+	static_cast<CAknAppUi*>(iEikonEnv->EikAppUi())->KeySounds()->LockContext();
+	iFront = ETrue;
 }
 //
 // ---------------------------------------------------------
@@ -649,11 +622,6 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
                         ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
                         }
                     TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0,EAknSoftkeyOk,*cbaLabel) );
-	                if(iLockedByLawMo)
-	                {
-	                ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-	                ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-	                }
                     ButtonGroupContainer().DrawDeferred();
                     delete cbaLabel;
                     }
@@ -671,13 +639,6 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
     else
         {
         return CAknTextQueryDialog::OfferKeyEventL(aKeyEvent,aType);
-        }  
-    
-    if(iLockedByLawMo)
-	    {
-	    Dprint( (_L("dim key hit 2") ));
-	    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-	    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
         }    
 	}
 //
@@ -796,11 +757,6 @@ void CSCPQueryDialog::HandleEcsEvent(CAknEcsDetector* aDetector,
 							ButtonGroupContainer().RemoveCommandFromStack(0,EAknSoftkeyOk);
 						}
                 	TRAP ( err , ButtonGroupContainer().AddCommandToStackL(0, EAknSoftkeyOk, *cbaLabel) );
-                    if(iLockedByLawMo)
-                    {
-                    ButtonGroupContainer().MakeCommandVisible( EAknSoftkeyOk, ETrue );
-                    ButtonGroupContainer().DimCommand(EAknSoftkeyOk, ETrue);
-                    }
                 	ButtonGroupContainer().DrawDeferred();
                 	delete cbaLabel;
                 }
@@ -864,10 +820,6 @@ void CSCPQueryDialog::TryCancelQueryL(TInt aReason) {
         case ESecUiDeviceLocked:
             Dprint(_L("[CSCPQueryDialog]-> TryExitL 4"));
             TryExitL(EAknSoftkeyCancel);
-            break;
-        case ESecUiNone:
-            Dprint(_L("[CSCPQueryDialog]-> TryExitL 5"));
-            TryExitL(EAknSoftkeyOk);
             break;
         default:
             break;

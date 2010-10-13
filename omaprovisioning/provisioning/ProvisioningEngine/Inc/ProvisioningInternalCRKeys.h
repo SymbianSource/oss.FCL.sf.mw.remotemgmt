@@ -35,10 +35,6 @@ const TUint32 KOMAProvisioningLVFlag = 0x00000000;
 const TUint32 KOMAProvAuthenticationLVFlag 	= 0x00000001;
 const TUint32 KOMAProvAuthFailMsgHandling = 0x00000002;   
 const TUint32 KOMAProvOriginatorContent =  0x00000003;  
-const TUint32 KOMAProvIsUserPin =  0x00000004;  
-const TUint32 KOMAProvCriticalAdapterSettingCount =  0x00000005;  
-const TUint32 KOMAProvMessageOpen = 0x00000006;
-const TUint32 KOMAProvAllowCriticalAdapterSetting = 0x00000007;
 
 #endif      // PROVISIONINGINTERNALCRKEYS_H
 

@@ -77,5 +77,6 @@ LIBRARY		  commsdat.lib
 LIBRARY		  flogger.lib
 LIBRARY 	  featmgr.lib
 LIBRARY     inetprotutil.lib
+LIBRARY	      cmmanager.lib
 
 SMPSAFE

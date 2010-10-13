@@ -269,7 +269,10 @@ class RSCPClient : public RSessionBase
         * Fetch the limit-values for code length
         */          
         void FetchLimits( TInt& aMin, TInt& aMax );
-		void InformAutolockTask();
+        /**
+        * Inform the autolock to unlock the screen
+        */
+				void InformAutolockTask();
         TBool isFlagEnabled;        
     };
 
