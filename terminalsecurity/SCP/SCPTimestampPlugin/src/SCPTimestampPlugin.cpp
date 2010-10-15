@@ -22,12 +22,10 @@
 #include <ecom/implementationproxy.h>
 #include <SCPParamObject.h>
 #include <SCPServerInterface.h>
-#include <scptimestamppluginlang.rsg>
+
 #include "SCP_IDs.h"
-#include <bautils.h>
 #include <hal.h>
-#include <AknGlobalNote.h>
-#include <AknGlobalConfirmationQuery.h>
+
 // For wipe
 #include <starterclient.h>
 #include <sysutil.h>

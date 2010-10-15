@@ -99,15 +99,21 @@ EXPORT_C TInt RDCMOClient::OpenL()
 	{	
 	RDEBUG("RDCMOClient::OpenL()- Begin");
 	TInt res = KErrNone;	
-	res = CreateSession( KDCMOServerName,TVersion(KDCMOServerMajorVersionNumber, KDCMOServerMinorVersionNumber, KDCMOServerBuildVersionNumber), KDCMOServerMessageSlotNumber );
-	if ( res == KErrNotFound || res == KErrServerTerminated )
-		{
-		RDEBUG("RDCMOClient::OpenL()- session not created");
-		res = StartServerL();
-		User::LeaveIfError( res );
-		res = CreateSession( KDCMOServerName,TVersion(KDCMOServerMajorVersionNumber, KDCMOServerMinorVersionNumber, KDCMOServerBuildVersionNumber), KDCMOServerMessageSlotNumber );
-		}
-	User::LeaveIfError( res );
+	const int maxRetry(4);
+	TInt retry = maxRetry;
+	do {
+        res = CreateSession( KDCMOServerName,TVersion(KDCMOServerMajorVersionNumber, KDCMOServerMinorVersionNumber, KDCMOServerBuildVersionNumber), KDCMOServerMessageSlotNumber );
+        if (KErrNotFound != res && KErrServerTerminated != res) {
+            retry =0;
+        } else {
+            TRAP(res, StartServerL());
+            if (KErrNone == res || KErrAlreadyExists == res) {
+                retry =0;
+                res = CreateSession( KDCMOServerName,TVersion(KDCMOServerMajorVersionNumber, KDCMOServerMinorVersionNumber, KDCMOServerBuildVersionNumber), KDCMOServerMessageSlotNumber );
+            }
+        }
+    } while (--retry > 0);
+	User::LeaveIfError( res );	
 	RDEBUG_2("RDCMOClient::OpenL()- End with Errorcode as %d",res);	
 	return res;
 	}

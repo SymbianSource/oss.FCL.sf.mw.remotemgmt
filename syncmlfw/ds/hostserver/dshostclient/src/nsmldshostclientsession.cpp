@@ -53,13 +53,28 @@ TInt RNSmlDSHostClient::Connect( const TDesC& aServerName, const TVersion& aVers
 	iMode = ENSmlNormalMode;
 	TInt result( CreateSession( aServerName, aVersion ) );
 	
-	if ( result == KErrNotFound || result == KErrServerTerminated )
+	if ( result != KErrNone )
 		{
 		result = LaunchServer( aServerName );
-		if ( result == KErrNone || result == KErrAlreadyExists )
+		if ( result == KErrNone )
 			{
 			result = CreateSession( aServerName, aVersion );
 			}
+		else if ( result == KErrAlreadyExists )
+		{
+			TInt retryCount = 3;
+				
+			while ( result != KErrNone && retryCount )
+			{
+				result = CreateSession( aServerName, aVersion );
+				if( result != KErrNone )
+				{
+				 // wait 1.5 seconds to give the server a chance to reach its serviceable state
+				 User::After( 1500000 );
+				 --retryCount;
+				}
+			}
+		}			
 		}
 	return result;
 	}

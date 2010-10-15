@@ -62,6 +62,8 @@ public:
     static CFotaUpdate* NewL(CFotaServer* aServer);
 
     virtual ~CFotaUpdate();
+    
+    void ConstructL();
 
     /*****Functions called before update*****/
 

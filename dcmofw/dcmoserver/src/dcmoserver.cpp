@@ -300,10 +300,10 @@ TDCMOStatus CDCMOServer::GetIntAttributeL(TDes& category, TDCMONode id, TInt& va
 	if(categotyNumber != -1)
 	{
 			RDEBUG("CDCMOServer::GetIntAttributeL(): LocalCategory");
-			CDCMOGenericControl* iGenericControl = new(ELeave) CDCMOGenericControl;
-			err = iGenericControl->GetIntAttributeL(categotyNumber, id, value);
-			delete iGenericControl;
-			iGenericControl = NULL;
+			CDCMOGenericControl* genericControl = new(ELeave) CDCMOGenericControl;
+			CleanupStack::PushL(genericControl);
+			err = genericControl->GetIntAttributeL(categotyNumber, id, value);
+			CleanupStack::PopAndDestroy(genericControl); //genericControl 	
 	}
 	else
 	{
@@ -335,10 +335,10 @@ TDCMOStatus CDCMOServer::GetStrAttributeL(TDes& category, TDCMONode id, TDes& st
 	if(categotyNumber != -1)
 	{
 			RDEBUG("CDCMOServer::GetStrAttributeL(): LocalCategory");
-			CDCMOGenericControl* iGenericControl = new(ELeave) CDCMOGenericControl;
-			err = iGenericControl->GetStrAttributeL(categotyNumber, id, strValue);	
-			delete iGenericControl;
-			iGenericControl = NULL;
+			CDCMOGenericControl* genericControl = new(ELeave) CDCMOGenericControl;
+			CleanupStack::PushL(genericControl);
+			err = genericControl->GetStrAttributeL(categotyNumber, id, strValue);	
+			CleanupStack::PopAndDestroy(genericControl); //genericControl
 	}
 	else
 	{
@@ -372,8 +372,9 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
 	if(categotyNumber != -1)
 	{
 			RDEBUG("CDCMOServer::SetIntAttributeL(): LocalCategory");
-			CDCMOGenericControl* iGenericControl = new(ELeave) CDCMOGenericControl;
-			err = iGenericControl->SetIntAttributeL(categotyNumber, id, value);	
+			CDCMOGenericControl* genericControl = new(ELeave) CDCMOGenericControl;
+			CleanupStack::PushL(genericControl);
+			err = genericControl->SetIntAttributeL(categotyNumber, id, value);	
 			
 			TBool result = HbTextResolverSymbian::Init(KdcmoResourceFileName, KdcmoResourceFilePath );					
 
@@ -389,8 +390,7 @@ TDCMOStatus CDCMOServer::SetIntAttributeL(TDes& category, TDCMONode id, TInt val
 					_LIT(KTextFOTA, "txt_device_update_info_firmware_update");
 					stringHolder = HbTextResolverSymbian::LoadL(KTextFOTA);
 			    }		
-  	 delete iGenericControl;
-		 iGenericControl = NULL;
+  	 CleanupStack::PopAndDestroy(genericControl); //genericControl
 	}
 	else
 	{

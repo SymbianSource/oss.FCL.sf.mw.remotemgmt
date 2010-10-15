@@ -568,13 +568,14 @@ void CElementBase::AddToElementListL( CElementBase * aElement, TBool aDeleteWith
 {	
 	//create new container for element
 	TElementContainer * container = new (ELeave) TElementContainer;
-
+  	CleanupStack::PushL(container);
 		
 	//fill container and apppend it to list
 	container->iElement = aElement;
 	container->iDeleteWithElement = aDeleteWithElement;
 	
 	iElements.AppendL( container);
+	CleanupStack::Pop(container); //container
 }
 
 // -----------------------------------------------------------------------------

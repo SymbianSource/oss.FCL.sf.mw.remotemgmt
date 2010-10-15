@@ -113,9 +113,9 @@ TInt CNSmlProfileContentHandler::StartElement(TDesC& /*aURI*/, TDesC& /*aLocalNa
 		{
 			iDSContentInProgress = TRUE;
 			CNSmlDSContentSettingType* content = CNSmlDSContentSettingType::NewL();
+			CleanupStack::PushL(content);
 			iContentArray->AppendL(content);
-			
-						
+			CleanupStack::Pop(content); // content   						
 		}
 		if (iDSSettingInProgress)
 		{

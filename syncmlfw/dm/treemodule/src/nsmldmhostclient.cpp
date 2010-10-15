@@ -105,8 +105,24 @@ TInt RNSmlDMDataSession::ConnectL(const TDesC& aServerName,
 			{
 			result = CreateSession( aServerName, ver );
 			}
-		}
+			else if ( result == KErrAlreadyExists )
+			{
+				TInt retryCount = 3;
+				
+				while ( result != KErrNone && retryCount )
+				{
+					result = CreateSession( aServerName, ver );
+					if( result != KErrNone )
+					{
+					 // wait 1.5 seconds to give the server a chance to reach its serviceable state
+					 User::After( 1500000 );
+					 --retryCount;
+					}
+				}
+			}
+		}	
 	
+  User::LeaveIfError( result );	
 	return result; 
 	}
 	

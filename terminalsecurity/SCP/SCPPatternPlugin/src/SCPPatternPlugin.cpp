@@ -24,11 +24,8 @@
 #include <featmgr.h>
 
 #include "SCPPatternPlugin.h"
-#include <scppatternpluginlang.rsg>
 #include "SCP_IDs.h"
 #include <SCPServerInterface.h>
-
-
 
 // ============================= LOCAL FUNCTIONS  =============================
 

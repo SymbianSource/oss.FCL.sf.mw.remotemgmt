@@ -55,17 +55,24 @@ EXPORT_C TInt RDmDevDialog::OpenL()
 	{	
 	FLOG(_L("RDmDevDialog::OpenL()- Begin"));
 	TInt res = KErrNone;
-		FLOG(_L("RDmDevDialog::OpenL()- Secured client"));
-		res = CreateSession( KDMDEVDIALOGSERVER,TVersion(KDmDevDialogServerVersionMajor,
+	FLOG(_L("RDmDevDialog::OpenL()- Secured client"));		
+	const int maxRetry(4);
+	TInt retry = maxRetry;
+	do {
+        res = CreateSession( KDMDEVDIALOGSERVER,TVersion(KDmDevDialogServerVersionMajor,
 		        KDmDevDialogServerVersionMinor,0),KDefaultMessageSlots );
-		if ( res != KErrNone )
-			{
-			FLOG(_L("RDmDevDialog::OpenL()- session not created"));
-			res = StartServerL();
-			User::LeaveIfError( res );
-			res = CreateSession( KDMDEVDIALOGSERVER,TVersion(KDmDevDialogServerVersionMajor,
+        if (KErrNotFound != res && KErrServerTerminated != res) {
+            retry =0;
+        } else {
+            TRAP(res, StartServerL());
+            if (KErrNone == res || KErrAlreadyExists == res) {
+                retry =0;
+                res = CreateSession( KDMDEVDIALOGSERVER,TVersion(KDmDevDialogServerVersionMajor,
 	                KDmDevDialogServerVersionMinor,0),KDefaultMessageSlots );
-			}							
+            }
+        }
+    } while (--retry > 0);
+	User::LeaveIfError( res );		
 	FLOG(_L("RDmDevDialog::OpenL()- End %d"),res);	
 	return res;
 	}

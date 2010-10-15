@@ -225,7 +225,9 @@ EXPORT_C void CNSmlHistoryArray::InternalizeL(RReadStream& aStream)
 	for (TInt i = 0; i < count; i++)
 		{
 		CSyncMLHistoryEntry* entry = CSyncMLHistoryEntry::NewL(aStream);
+		CleanupStack::PushL(entry);
 		iHistory.AppendL(entry);
+		CleanupStack::Pop(); // entry   
 		}
 	}
 

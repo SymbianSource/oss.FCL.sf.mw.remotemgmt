@@ -46,8 +46,8 @@ void CustomListView::editItem()
 	HbInputDialog *dialog = new HbInputDialog();
 	dialog->setAttribute(Qt::WA_DeleteOnClose, true); 
 	dialog->setPromptText(text);
-	dialog->setPrimaryAction(new HbAction("Ok"));
-	dialog->setSecondaryAction(new HbAction("Cancel"));
+	dialog->addAction(new HbAction("Ok"));
+	dialog->addAction(new HbAction("Cancel"));
 	dialog->setInputMode(HbInputDialog::TextInput);
 	dialog->setValue(content);
 	dialog->open(this, SLOT(handleEditItem(HbAction*)));
@@ -207,8 +207,8 @@ void CustomListView::syncNow()
     HbInputDialog *dialog = new HbInputDialog();
     dialog->setAttribute(Qt::WA_DeleteOnClose, true); 
     dialog->setPromptText(tr("Profile ID"));
-    dialog->setPrimaryAction(new HbAction("Ok"));
-    dialog->setSecondaryAction(new HbAction("Cancel"));
+    dialog->addAction(new HbAction("Ok"));
+    dialog->addAction(new HbAction("Cancel"));
     dialog->setInputMode(HbInputDialog::TextInput);
     dialog->open(this, SLOT(startSync(HbAction*)));
     }

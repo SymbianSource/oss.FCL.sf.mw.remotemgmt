@@ -892,6 +892,7 @@ void CTerminalControlSession::NewTrustedSessionL( const RMessage2& aMessage)
 	    }
       else
       {
+      CleanupStack::PushL(trustedSession);	
     	iContainer->AddL( trustedSession );
     	TInt handle = iTrustedSessions->AddL( trustedSession );
 
@@ -899,7 +900,7 @@ void CTerminalControlSession::NewTrustedSessionL( const RMessage2& aMessage)
     	TPckg<TInt> handlePckg( handle );
     	TInt checkValue = handlePckg();
     	TRAPD( r, aMessage.WriteL(3, handlePckg))
-
+			CleanupStack::Pop(trustedSession);  
     	RDEBUG_2("CTerminalControlSession::NewTrustedSessionL: %d", handle );
 
       if ( r != KErrNone)
@@ -1398,9 +1399,10 @@ HBufC8* CTerminalControlSession::CopyParameterL( const RMessage2 &aMsg, TInt aIn
     TInt length = aMsg.GetDesLengthL( aIndex );
     
     HBufC8* buffer = HBufC8::NewL( length );
+    CleanupStack::PushL(buffer);
     TPtr8 ptr( buffer->Des() );
     aMsg.ReadL( aIndex, ptr );
-
+		CleanupStack::Pop(buffer);
     return buffer;
     }
 

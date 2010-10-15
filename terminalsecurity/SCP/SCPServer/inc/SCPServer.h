@@ -226,6 +226,7 @@ const CPolicyServer::TPolicy CSCPServerPolicy =
     };      
 
 const TInt KSCPDefaultMaxTO( 1440 );
+const TInt KSCPNoTimeOut( 0 );
 
 // reasons for server panic
 enum TSCPServPanic

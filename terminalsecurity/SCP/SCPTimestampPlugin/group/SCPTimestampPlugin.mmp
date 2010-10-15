@@ -46,13 +46,6 @@ TARGETPATH      ECOM_RESOURCE_DIR
 LANGUAGE_IDS
 END
 
-START RESOURCE  SCPTimestampPluginLang.rss
-HEADER
-TARGETPATH      RESOURCE_FILES_DIR
-LANGUAGE_IDS
-END
-
-
 LIBRARY         euser.lib 
 LIBRARY         ecom.lib 
 LIBRARY         scpclient.lib

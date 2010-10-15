@@ -24,8 +24,6 @@ NAME SCPT
 #include <SCPPServerPluginDefs.hrh>
 #include <eikon.rh>
 
-#include <scptimestampplugin.loc>
-
 // CONSTANTS  
 
 // MACROS  

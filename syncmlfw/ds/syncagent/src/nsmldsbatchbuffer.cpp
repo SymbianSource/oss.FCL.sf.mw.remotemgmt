@@ -71,7 +71,7 @@ CNSmlDSBatchBuffer::~CNSmlDSBatchBuffer()
 void CNSmlDSBatchBuffer::CreateNewItemL( const TDesC8& aCommand )
     {
     CNSmlDSBatchItem* newItem = new ( ELeave ) CNSmlDSBatchItem;
-    
+    CleanupStack::PushL(newItem);
     newItem->iStatus = 0;
     newItem->iNumberOfResults = 0;
     newItem->iCommand = aCommand;
@@ -80,6 +80,7 @@ void CNSmlDSBatchBuffer::CreateNewItemL( const TDesC8& aCommand )
     newItem->iStatusEntryId = 0;
 
     iBuffer.AppendL( newItem );
+    CleanupStack::Pop(newItem);
     }
     
 // -----------------------------------------------------------------------------

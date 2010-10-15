@@ -337,6 +337,7 @@ CBufFlat* CTerminalControlServer::GetRunningProcessesL( )
     TFullName    processName;
     TFindProcess findProcess;
     CBufFlat *buffer = CBufFlat::NewL(128);
+    CleanupStack::PushL(buffer);
     iProcessInfoArray->Reset();
 
     while( KErrNone == findProcess.Next( processName ) )
@@ -421,6 +422,7 @@ CBufFlat* CTerminalControlServer::GetRunningProcessesL( )
 		return EAllThreadsCritical;
 	return ENotCritical;
 */
+		CleanupStack::Pop(); // buffer   
     return buffer;
     }
 

@@ -118,7 +118,7 @@ class CPolicyProcessor : public CActive
         //Read that counter value from central repository
         TInt GetCertCounterValue();
         TInt RemoveCertificateFromStoreL(const RMessage2& aMessage);
-        void UpdateSilentTrustServerId();
+        void UpdateSilentTrustServerIdL();
         TInt CheckCurrentServerIdFromCR();
         
 	protected:
@@ -183,7 +183,7 @@ class CCertStore:public CActive
        ~CCertStore();
     
        
-        void InitializeCertStore();
+        void InitializeCertStoreL();
         TInt AddCert(HBufC8 *aCertBuffer);
         void GetWritableCertStoreIndex();
         TInt GenerateNewCertLabel();
@@ -222,6 +222,8 @@ class CCertStore:public CActive
         //Waits for the operation to complete. Owned.
         CActiveSchedulerWait* iWait;        
         TBuf8<40> iFingerPrint; 
+        
+        RFs iFs;
 
     };
 

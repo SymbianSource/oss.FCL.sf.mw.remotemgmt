@@ -239,10 +239,12 @@ EXPORT_C CNSmlDevInfProp* CNSmlFilter::AddFieldDataPropLC( const TDesC8& aPropNa
 
 void CNSmlFilter::PcdataNewL( SmlPcdata_t*& aPcdata, const TDesC8& aContent ) const
 	{
-    aPcdata = new( ELeave ) SmlPcdata_t;
+  	aPcdata = new( ELeave ) SmlPcdata_t;
+  	CleanupStack::PushL(aPcdata);  
 	aPcdata->SetDataL( aContent );
 	aPcdata->contentType = SML_PCDATA_OPAQUE;   
 	aPcdata->extension = SML_EXT_UNDEFINED; 
+	CleanupStack::Pop(aPcdata);
 	}
 
 // ------------------------------------------------------------------------------------------------

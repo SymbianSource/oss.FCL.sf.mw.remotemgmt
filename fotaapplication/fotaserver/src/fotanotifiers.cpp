@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- * Description: 
+ * Description: The class is responsible for showing the device dialog from fotaserver.
  *
  */
 #include "fotanotifiers.h"
@@ -29,7 +29,7 @@ CFotaDownloadNotifHandler* CFotaDownloadNotifHandler::NewL(
     __ASSERT_ALWAYS( aObserver, User::Panic(KFotaPanic, KErrArgument) );
     CFotaDownloadNotifHandler* h = new (ELeave) CFotaDownloadNotifHandler;
     h->iObserver = aObserver;
-    
+    h->ConstructL();
     FLOG(_L("CFotaDownloadNotifHandler::NewL <<"));
 
     return h;
@@ -37,7 +37,7 @@ CFotaDownloadNotifHandler* CFotaDownloadNotifHandler::NewL(
 
 // --------------------------------------------------------------------------
 CFotaDownloadNotifHandler::CFotaDownloadNotifHandler() :
-    iDevDialog(NULL), iDialogID(0)
+    iDevDialog(NULL)
     {
     FLOG(_L("CFotaDownloadNotifHandler::CFotaDownloadNotifHandler()"));
     }
@@ -52,6 +52,18 @@ CFotaDownloadNotifHandler::~CFotaDownloadNotifHandler()
     }
 
 // ---------------------------------------------------------------------------
+// CFotaDownloadNotifHandler::ConstructL
+// ---------------------------------------------------------------------------
+//
+
+void CFotaDownloadNotifHandler::ConstructL()
+    {
+    FLOG(_L("CFotaDownloadNotifHandler::ConstructL() >>"));
+    iDevDialog = CHbDeviceDialogSymbian::NewL();
+    FLOG(_L("CFotaDownloadNotifHandler::ConstructL() <<"));
+    }
+
+// ---------------------------------------------------------------------------
 // CFotaDownloadNotifHandler::LaunchNotifierL
 // This function is used the observer which uses this notifer to lauch the notifier
 // It puts the necessary parameters to lauch the notifier in CHbSymbianVariantMap
@@ -61,27 +73,27 @@ void CFotaDownloadNotifHandler::LaunchNotifierL(
         CHbSymbianVariantMap *aNotifParams, TInt aDialogId)
     {
     FLOG(_L("CFotaDownloadNotifHandler::LaunchNotifierL() >>"));
-    if (!iDevDialog)
-        iDevDialog = CHbDeviceDialogSymbian::NewL();
-    FLOG(_L("CFotaDownloadNotifHandler::CHbDeviceDialogSymbian::NewL()"));
+    
     if (iDevDialog == NULL)
         FLOG(_L("Error in CHbDeviceDialogSymbian::NewL()"));
 
-    iDialogID = aDialogId;
-    //connect(mDeviceDialog, SIGNAL(dataReceived(QVariantMap)), this, SLOT(dataReceived(QVariantMap)));
-
     TInt Err = iDevDialog->Show(KHbNotifier, *aNotifParams, this);
-    FLOG(
-            _L("CFotaDownloadNotifHandler::CHbDeviceDialogSymbian::Show() - %d"),
+    FLOG(_L("CFotaDownloadNotifHandler::CHbDeviceDialogSymbian::Show() - %d"),
             Err);
 
     FLOG(_L("CFotaDownloadNotifHandler::LaunchNotifierL() <<"));
     }
 
+// ---------------------------------------------------------------------------
+// CFotaDownloadNotifHandler::Cancel
+// To Cancel the notifier manually.
+// ---------------------------------------------------------------------------
+//
+
 void CFotaDownloadNotifHandler::Cancel()
     {
     FLOG(_L("CFotaDownloadNotifHandler::Cancel >>"));
-    if (iDialogID)
+    if(iDevDialog)
         iDevDialog->Cancel();
     FLOG(_L("CFotaDownloadNotifHandler::Cancel <<"));
     }
@@ -97,12 +109,16 @@ void CFotaDownloadNotifHandler::DataReceived(CHbSymbianVariantMap& aData)
     {
     FLOG(_L("CFotaDownloadNotifHandler::DataReceived() >>"));
     iDevDialog->Cancel();
-    TFwUpdNoteTypes ret;
-    const CHbSymbianVariant* dialogId = aData.Get(KResult);
-    ret = *(TFwUpdNoteTypes *) dialogId->Value<TInt> ();
-    TInt temp = iDialogID;
-    iDialogID = 0;
-    iObserver->HandleDialogResponse(ret, temp);
+    TInt ret;
+    TFwUpdNoteTypes DialogId;
+    
+    const CHbSymbianVariant* dialogId = aData.Get(KKeyDialog);
+    DialogId = *(TFwUpdNoteTypes *) dialogId->Value<TInt> ();
+    
+    const CHbSymbianVariant* retVal = aData.Get(KResult);
+    ret = *(retVal->Value<TInt> ());
+    
+    iObserver->HandleDialogResponse(ret, DialogId);
 
     FLOG(_L("CFotaDownloadNotifHandler::DataReceived() <<"));
     }

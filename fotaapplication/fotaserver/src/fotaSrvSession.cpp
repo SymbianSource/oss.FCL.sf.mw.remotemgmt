@@ -93,7 +93,7 @@ TFotaClient CFotaSrvSession::CheckClientSecureIdL(const RMessage2& aMessage)
         client = EFotaScheduler;
         }
     else if (aMessage.SecureId() == 0x0323231 || aMessage.SecureId()
-            == testapp.iUid || aMessage.SecureId() == testapp2.iUid)
+            == testapp.iUid || aMessage.SecureId() == testapp2.iUid || aMessage.SecureId() == 0x2001133B)
         {
         client = EFotaTestApp;
         }
@@ -341,14 +341,6 @@ void CFotaSrvSession::ServiceL(const RMessage2& aMessage)
             TInt size(0);
 
             FotaServer()->GetCurrentFwDetailsL(name, version, size);
-
-            /*
-            aMessage.Write(1, name);
-            aMessage.Write(2, version);
-            TPckg<TInt> psize(size);
-            aMessage.Write(3, psize);
-
-            aMessage.Complete(KErrNone);*/
             
             aMessage.Write(0, name);
             aMessage.Write(1, version);

@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     FLOG(_L("CFotaServer::HbApplication >>"));
     HbApplication a(argc, argv);
     
-    FSView* view = new FSView();
+    HbFSView* view = new HbFSView();
     FLOG(_L("CFotaServer::HbView >>"));
     view->hideItems(Hb::AllItems);
     FLOG(_L("CFotaServer::hideItems >>"));
@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
     mainWindow.show();
 
     FLOG(_L("CFotaServer::show <<"));
-    //app.installEventFilter(view);
     RSemaphore sem;
     TInt ret = sem.OpenGlobal(KFotaServerScem);
     FLOG(_L("CFotaServer::OpenGlobal >>"));

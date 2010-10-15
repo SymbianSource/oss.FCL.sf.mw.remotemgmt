@@ -391,6 +391,8 @@ HBufC8 * CACLNode::SaveStringL()
 
 	//create buffer for string
 	HBufC8* buf = HBufC8::NewL( Length());
+	CleanupStack::PushL( buf );
+		
 	TPtr8 ptr = buf->Des();
 
 	//clearflag
@@ -416,7 +418,7 @@ HBufC8 * CACLNode::SaveStringL()
 		
 		delete buf;
 	}
-	
+	CleanupStack::Pop( buf );
 	RDEBUG("DMUtilServer: CACLNode::SaveStringL - End");
 	return buf;
 }
@@ -520,7 +522,8 @@ CACLNode * CACLNode::CreateACLL( const TDesC8& aACLString)
 
 	//Create ACL node
 	CACLNode * node = new (ELeave) CACLNode();
-
+	CleanupStack::PushL( node);
+		
 	TPtrC8 ptr( aACLString);
 	TInt err( KErrNone);
 	
@@ -598,7 +601,7 @@ CACLNode * CACLNode::CreateACLL( const TDesC8& aACLString)
 			CleanupStack::Pop( command);	
 		}
 	}
-	
+	CleanupStack::Pop( node);	
 	RDEBUG("DMUtilServer: CACLNode::CreateACLL - End");
 	return node;	
 }
@@ -971,8 +974,9 @@ void CACLStorage::UpdateACLL( const CACLNode *aACLNode, const TDesC8& aURI)
 	//get old ACL values from dmdbhandler
 	CBufFlat* bufBase = CBufFlat::NewL( 1);
 	User::LeaveIfError( iDbSession.Connect() );
+	CleanupClosePushL( iDbSession );
 	iDbSession.GetAclL( aURI, *bufBase, EFalse);
-iDbSession.Close();
+	CleanupStack::PopAndDestroy( ); // iDbSession
 
 	TPtrC8 aclPtr = bufBase->Ptr( 0 );
 	
@@ -1054,8 +1058,9 @@ iDbSession.Close();
 	CleanupStack::PushL( aclStr);
 	RDEBUG8_2("DMUtilServer: New ACL string for node: %S", aclStr);
 	User::LeaveIfError( iDbSession.Connect() );
+	CleanupClosePushL( iDbSession );
 	iDbSession.UpdateAclL( aURI, *aclStr);
-	iDbSession.Close();
+	CleanupStack::PopAndDestroy( ); // iDbSession
 	CleanupStack::PopAndDestroy( aclStr);
 
 	CleanupStack::PopAndDestroy( acl);

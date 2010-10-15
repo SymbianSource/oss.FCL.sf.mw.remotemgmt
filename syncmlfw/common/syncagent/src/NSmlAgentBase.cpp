@@ -1585,8 +1585,14 @@ void CNSmlAgentBase::ReadAcessPointL()
     RSocketServ socketServer;
     TInt err( KErrNone );
     err = socketServer.Connect();
+    if ( err == KErrNone)
+    {
+    CleanupClosePushL( socketServer );
     RConnection myConnection;
     err = myConnection.Open( socketServer );
+    if ( err == KErrNone)
+    {
+    CleanupClosePushL( myConnection );
     TUint connectionCount( 0 );
     err = myConnection.EnumerateConnections( connectionCount );
     DBG_FILE_CODE(connectionCount, _S8("CNSmlAgentBase::ReadAcessPointL(), The Connection count is:"));
@@ -1621,10 +1627,12 @@ void CNSmlAgentBase::ReadAcessPointL()
 		{
 			iAllowAutoRestart = ETrue;
 		}
-	}
+		}
 
-    myConnection.Close();
-    socketServer.Close();
+    CleanupStack::PopAndDestroy();  // myConnection
+    }
+    CleanupStack::PopAndDestroy();  // socketServer
+    }
 }
 //RD_AUTO_RESTART
 

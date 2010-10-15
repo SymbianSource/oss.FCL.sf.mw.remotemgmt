@@ -111,13 +111,29 @@ EXPORT_C TInt RNSmlDMCallbackSession::Connect()
 		
 	result = CreateSession( KNSmlDmCallbackServerName, ver );
 	if(result!=KErrNone)
-		{
+	{
 		TRAPD(error, result = LaunchServerL());
 		if ( (error == KErrNone) && ( result == KErrNone ) )
 			{
 			result = CreateSession( KNSmlDmCallbackServerName, ver );
 			}
+		else if ( result == KErrAlreadyExists )
+		{
+			TInt retryCount = 3;
+				
+			while ( result != KErrNone && retryCount )
+			{
+				result = CreateSession( KNSmlDmCallbackServerName, ver );
+				if( result != KErrNone )
+				{
+				 // wait 1.5 seconds to give the server a chance to reach its serviceable state
+				 User::After( 1500000 );
+				 --retryCount;
+				}
+			}
 		}
+	}
+	User::LeaveIfError( result );	
 	return result;
 	}
 	

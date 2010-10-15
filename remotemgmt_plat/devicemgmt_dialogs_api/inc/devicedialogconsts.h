@@ -95,6 +95,11 @@ enum TSoftkeys
     EHbRSK
     };
 
+enum TErrorCodes
+    {
+    ENoError = 0, 
+    EInvalidDeviceDialogType
 
+    };
 
 #endif /* DEVICEDIALOGCONSTS_H_ */

@@ -43,14 +43,19 @@ EXPORT_C void RContactSuiteSyncMLSession::RequestContactSuiteProgressL( TInt aPr
     if( loadedProcess.SecureId() != KSmlContactSuiteAppUID )
         {
         return ;
-        }
-    
+        }  
    if ( iContactSuiteCallBack == NULL )
         {
         // callback not yet created, create
-        iContactSuiteCallBack = new (ELeave) CSmlContactSuiteActiveCallback( *this );            
+        iContactSuiteCallBack = new (ELeave) CSmlContactSuiteActiveCallback( *this );                   
         }
 
     Send( ECmdContactSuiteRegisterObserversWithProfileId, TIpcArgs (aProfileId) );
-    iContactSuiteCallBack->SetProgressObserverL( aProgressObserver );               
+    TRAPD( err, iContactSuiteCallBack->SetProgressObserverL( aProgressObserver ));
+    delete iContactSuiteCallBack;
+		iContactSuiteCallBack = NULL;
+    if(err != KErrNone)
+		    {		    
+		    User::Leave( err );
+		    }      			          
     };

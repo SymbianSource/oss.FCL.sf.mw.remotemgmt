@@ -95,14 +95,21 @@ EXPORT_C TInt RFMSClient::OpenL()
 	if( IsSecureClient(FotaStartUp))
 		{
 		FLOG(_L("RFMSClient::OpenL()- Secured client"));
-		res = CreateSession( KFMSServerName,TVersion(1,0,0),2 );
-		if ( res != KErrNone )
-			{
-			FLOG(_L("RFMSClient::OpenL()- session not created"));
-			res = StartServerL();
-			User::LeaveIfError( res );
-			res = CreateSession( KFMSServerName,TVersion(1,0,0),2 );
-			}
+		
+		const int maxRetry(4);
+		TInt retry = maxRetry;
+		do {
+         res = CreateSession( KFMSServerName,TVersion(1,0,0),2 );
+         if (KErrNotFound != res && KErrServerTerminated != res) {
+             retry =0;
+         } else {
+             TRAP(res, StartServerL());
+             if (KErrNone == res || KErrAlreadyExists == res) {
+                 retry =0;
+                 res = CreateSession( KFMSServerName,TVersion(1,0,0),2 );
+             }
+         }
+     } while (--retry > 0);
 		User::LeaveIfError( res );
 		FLOG(_L("RFMSClient::OpenL()- session created"));
 		CRepository* centrep2 = NULL;

@@ -717,10 +717,10 @@ CCertificateMaps::CRolesInfo::~CRolesInfo()
 CCertificateMaps::CRolesInfo* CCertificateMaps::CRolesInfo::NewL( const TDesC8& aRole, TElementState aState)
 {
 	CRolesInfo * self = new (ELeave) CRolesInfo();
-	
+	CleanupStack::PushL(self);
 	self->iRole = aRole.AllocL();
 	self->iState = aState;
-	
+	CleanupStack::Pop(self);
 	return self;
 }
 
@@ -1297,6 +1297,7 @@ HBufC8* CCertificateMaps::CasnForCertInfoL( const TCertInfo& aCertInfo)
 	certLength += aCertInfo.iFingerprint.Length() * 2;
 	
 	HBufC8* casn = HBufC8::NewL( certLength + 5 );
+	CleanupStack::PushL(casn);
 	TPtr8 ptr = casn->Des();
 	
 	if ( aCertInfo.iIssuerDNInfo.iCommonName.Length())
@@ -1347,7 +1348,7 @@ HBufC8* CCertificateMaps::CasnForCertInfoL( const TCertInfo& aCertInfo)
 		CleanupStack::PopAndDestroy( fingerPrint);
 	}
 
-
+	CleanupStack::Pop(); // casn  
 	return casn;
 }
 

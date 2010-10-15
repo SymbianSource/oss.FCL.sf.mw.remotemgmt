@@ -11,44 +11,37 @@
  *
  * Contributors:
  *
- * Description: Implementation of applicationmanagement components
+ * Description: Implementation of Fotaapplication components
  *
  */
 
 #include "fsview.h"
-#include "FotaServer.h"
+#include "fotaserver.h"
 
 // ------------------------------------------------------------------------------------------------
-// FSView::FSView()
+// HbFSView::HbFSView()
 // ------------------------------------------------------------------------------------------------
-FSView::FSView()
-    {
-    	Initilized = EFalse;
-    }
-// ------------------------------------------------------------------------------------------------
-// FSView::~FSView()
-// ------------------------------------------------------------------------------------------------
-FSView::~FSView()
+HbFSView::HbFSView()
     {
     
     }
 // ------------------------------------------------------------------------------------------------
-// FSView::eventFilter()
+// HbFSView::~HbFSView()
 // ------------------------------------------------------------------------------------------------
-bool FSView::eventFilter(QObject *object, QEvent *event)
-{   
-    if( Initilized == EFalse )
+HbFSView::~HbFSView()
     {
-    		emit applicationReady();
-    		Initilized = ETrue;
+    
     }
+// ------------------------------------------------------------------------------------------------
+// HbFSView::eventFilter()
+// ------------------------------------------------------------------------------------------------
+bool HbFSView::eventFilter(QObject *object, QEvent *event)
+{   
     switch (event->type())
         {
         case QEvent::ApplicationActivate:
             {
-//            RDEBUG( "eventFilter: QEvent::ApplicationActivate start" );
-	    iServer->SetVisible(ETrue);
-//            RDEBUG( "eventFilter: end" );
+            m_Server->SetVisible(ETrue);
             break;
             }
         default:
@@ -59,7 +52,7 @@ return HbView::eventFilter(object, event);
 
 
 
-void FSView::SetServer(CFotaServer * aServer)
+void HbFSView::SetServer(CFotaServer * aServer)
 {
-	iServer = aServer;
+    m_Server = aServer;
 }

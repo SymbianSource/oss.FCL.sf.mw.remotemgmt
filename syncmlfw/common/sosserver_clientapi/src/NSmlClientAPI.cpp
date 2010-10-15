@@ -111,9 +111,26 @@ EXPORT_C void RSyncMLSession::OpenL()
 	if ( res != KErrNone )
 		{
 		res = LaunchServerL();
-		User::LeaveIfError( res );
-		res = CreateSession( KSOSServerName, KServerVersion, KDefaultMessageSlots );
+		if ( res == KErrNone )
+		{
+			res = CreateSession( KSOSServerName, KServerVersion, KDefaultMessageSlots );
 		}
+		else if ( res == KErrAlreadyExists )
+		{
+			TInt retryCount = 3;
+				
+			while ( res != KErrNone && retryCount )
+			{
+				res = CreateSession( KSOSServerName, KServerVersion, KDefaultMessageSlots );
+				if( res != KErrNone )
+				{
+				 // wait 1.5 seconds to give the server a chance to reach its serviceable state
+				 User::After( 1500000 );
+				 --retryCount;
+				}
+			}
+		}
+		}	
 
 	User::LeaveIfError( res );
 	
@@ -139,10 +156,10 @@ EXPORT_C void RSyncMLSession::RequestEventL( MSyncMLEventObserver& aEventObserve
 	if ( !iEventCallback )
 		{
 		// callback not yet created, create
-		iEventCallback = new (ELeave) CSmlActiveCallback( *this );
+		iEventCallback = new (ELeave) CSmlActiveCallback( *this );		
 		}
 	
-	iEventCallback->SetEventObserverL( aEventObserver );
+	iEventCallback->SetEventObserverL( aEventObserver );	
 	
 	_DBG_FILE("RSyncMLSession::RequestEventL(): end");
 	}
@@ -178,9 +195,10 @@ EXPORT_C void RSyncMLSession::RequestProgressL( MSyncMLProgressObserver& aProgre
 		// callback not yet created, create
 		iEventCallback = new (ELeave) CSmlActiveCallback( *this );
 		}
-
-	iEventCallback->SetProgressObserverL( aProgressObserver );
 	
+	iEventCallback->SetProgressObserverL( aProgressObserver );
+	  
+		
 	_DBG_FILE("RSyncMLSession::RequestProgressL(): end");
 	}
 	

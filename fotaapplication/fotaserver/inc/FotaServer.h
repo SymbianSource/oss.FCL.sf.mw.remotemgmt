@@ -45,7 +45,7 @@ const TUint32 KFotaServerActive = 0x0000008;
 #define __LEAVE_IF_ERROR(x) if(KErrNone!=x) {FLOG(_L("LEAVE in %s: %d"), __FILE__, __LINE__); User::Leave(x); }
 
 //Forward declarations
-class FotaFullscreenDialog;
+class HbFotaFullscreenDialog;
 /** File that stores the firmware version at the start of download. This is in fota's private directory*/
 _LIT (KSWversionFile, "swv.txt");
 
@@ -118,7 +118,7 @@ public:
     /**
      * Pauses ongoing download
      *
-     * @since   S60   v3.1
+     * @since   SF4
      * @param   none
      * @return  none, can leave with system wide errors
      */
@@ -164,7 +164,7 @@ public:
     /**
      * Tries to resume the download.
      *
-     * @since   S60   v5.2
+     * @since   SF3
      * @param   aClient the client which triggers resume
      * @param   aSilentDl	Whether to query user for resume?
      * @return  None, can leave with system wide errors
@@ -189,6 +189,16 @@ public:
      */
     void GetUpdateTimeStampL(TDes16& aTime);
 
+
+		/**
+     * Get Name,Version and aSize of the current software.
+     *
+     * @since   S60   v3.1
+     * @param   aName       Name of the software that is last updated.
+     * @param   aVersion    Version of the software that is last updated.
+     * @param   aSize		    Size of the software that is last updated.
+     * @return  None, can leave with system wide errors
+     */
     void GetCurrentFwDetailsL(TDes8& aName, TDes8& aVersion, TInt& aSize);
 
     /**
@@ -212,7 +222,7 @@ public:
     /**
      * Callback function to notify the network status
      *
-     * @since S60	v3.2
+     * @since   SF4
      * @param Status of network connection
      * @return None
      */
@@ -275,20 +285,43 @@ public:
      * @param none
      * @return pointer to full screen dialog instance
      */
-    FotaFullscreenDialog* FullScreenDialog();
+    HbFotaFullscreenDialog* FullScreenDialog();
 
     /**
      * Sets the phone's startup reason which will used by Fota Startup Pluggin to any decision.
      *
-     * @since   S60   v3.2
+     * @since   SF3
      * @param   aReason     Startup reason, either download interrupted
      * @return  None
      */
     void SetStartupReason(TInt aReason);
 
+		/**
+     * Brings the fotaserver to the foreground or background according to the paramter aVal Passed.
+     *
+     * @since   SF4
+     * @param   aVal     Value which determines if fotaserver is to be in foreground or in background.
+     * @return  None
+     */
     void ConstructApplicationUI(TBool aVal);
+    
+    /**
+     * To show that some fotaoperation is taking place in the device. It is used by Device Updatesto disabled
+     * update button.
+     *
+     * @since   SF4
+     * @param   aValue - True if fota operation is ongoing, false otherwise.
+     * @return  None
+     */
     void SetServerActive(TBool aValue);
     
+    
+    /**
+     * This function is called to free the resources which was taken when update takes place.
+     *
+     * @since   SF4
+     * @return  None
+     */
     void FinalizeUpdate();
 
 public:
@@ -369,10 +402,34 @@ public:
      */
     void StopServerWhenPossible();
 
+		/**
+     * Sets a flag, which determines if server can be shutdown or not.
+     *
+     * @since   SF4
+     * @param aParams - True if server can shut, false otherwise.
+     * @return  None
+     */
     void ServerCanShut(TBool aParam);
     
+    
+    /**
+     * Decrements the download restart counter, it is used when previous software update is failed
+     * and user tries to resume the same.
+     *
+     * @since   SF4
+     * @param None
+     * @return  None
+     */
     TBool DecrementDownloadRestartCount();
 	
+	
+		/**
+     * Calls the fullscreen dialog setvisible function to make it visible.
+     *
+     * @since   SF4
+     * @param aVisible - True if fullscreen dialog is to be visible, false otherwise.
+     * @return  None
+     */
     void SetVisible(TBool aVisible);
 
 protected:
@@ -588,20 +645,42 @@ private:
     void ShowFullScreenDialog(TInt aType);
 
     /**
-     * Swaps the fota process from background to foreground
+     * Resets the postpone counter to zero
      *
      * @since SF4
-     * @param aState - true will bring to foreground, false to background
+     * @param None
      * @return None
      */
-    //void swapProcess(TBool aState);
-
     void ResetCounters();
 
+
+		/**
+     * Checks if user's postpone counter is expired or not.
+     *
+     * @since SF4
+     * @param None
+     * @return Tbool - True if postpone is allowed, false otherwise.
+     */
     TBool IsUserPostponeAllowed();
 
+
+		/**
+     * Decrements the user postpone count, if user has used it.
+     *
+     * @since SF4
+     * @param None
+     * @return None
+     */
     void DecrementUserPostponeCount();
     
+    
+    /**
+     * Sets a flag, which stops the shut down of fotaserver.
+     *
+     * @since SF4
+     * @param None
+     * @return None
+     */
     void WakeupServer();
 
 private:
@@ -710,13 +789,16 @@ private:
     /**
      * The full screen dialog 
      */
-    FotaFullscreenDialog *iFullScreenDialog;
+    HbFotaFullscreenDialog *iFullScreenDialog;
 
     /**
      * The notifier params to the dialogs
      */
     CHbSymbianVariantMap * iNotifParams;
 
+    /**
+     * The notifier which shows the device dialog.
+     */
     CFotaDownloadNotifHandler * iNotifier;
     /**
      * Can the server shut?
@@ -728,7 +810,6 @@ private:
      */
     TBool iAsyncOperation;
 
-    TInt iDialogId;
 
     TBool iConstructed;
     

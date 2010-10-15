@@ -16,7 +16,7 @@
  */
 
 // INCLUDE FILES
-#include <StringLoader.h>
+
 #include <centralrepository.h>
 #include <AknUtils.h>
 #include <AknBidiTextUtils.h> 
@@ -24,8 +24,6 @@
 #include <gdi.h>
 #include <fotaengine.h>
 #include <apgtask.h>
-#include <aknradiobuttonsettingpage.h> 
-#include <akntitle.h>
 #include <schtime.h>
 #include <csch_cli.h>
 #include <fotaengine.h>
@@ -65,6 +63,17 @@ CFotaUpdate::~CFotaUpdate()
 
     if (iProperty.Handle())
         iProperty.Close();
+    
+    if(iNotifier)
+        {
+         delete iNotifier;
+         iNotifier = NULL;
+        }
+    if(iNotifParams)
+        {
+         delete iNotifParams;
+         iNotifParams = NULL;
+        }            
 
     FLOG(_L("CFotaUpdate::~CFotaUpdate <<"));
     }
@@ -76,8 +85,21 @@ CFotaUpdate::~CFotaUpdate()
 CFotaUpdate* CFotaUpdate::NewL(CFotaServer* aServer)
     {
     CFotaUpdate* ao = new (ELeave) CFotaUpdate();
+	CleanupStack::PushL( ao );
+    ao->ConstructL();
     ao->iFotaServer = aServer;
+	CleanupStack::Pop(ao);
     return ao;
+    }
+
+// ---------------------------------------------------------------------------
+// CFotaUpdate::ConstructL 
+// ---------------------------------------------------------------------------
+//
+
+void CFotaUpdate::ConstructL()
+    {
+    iNotifier = CFotaDownloadNotifHandler::NewL(this);
     }
 
 // ---------------------------------------------------------------------------
@@ -633,7 +655,7 @@ void CFotaUpdate::ShowDialogL(TFwUpdNoteTypes aDialogid)
     iFotaServer->ServerCanShut(EFalse);
 
     if (iFotaServer->FullScreenDialog())
-        iFotaServer->FullScreenDialog()->Close();
+        iFotaServer->FullScreenDialog()->close();
 
     iNotifParams = CHbSymbianVariantMap::NewL();
 
@@ -644,7 +666,7 @@ void CFotaUpdate::ShowDialogL(TFwUpdNoteTypes aDialogid)
     CHbSymbianVariant* dialogId = CHbSymbianVariant::NewL(&aDialogid,
             CHbSymbianVariant::EInt);
     iNotifParams->Add(*keyDialog, dialogId);
-    iNotifier = CFotaDownloadNotifHandler::NewL(this);
+    
 
     iNotifier->LaunchNotifierL(iNotifParams, aDialogid);
 

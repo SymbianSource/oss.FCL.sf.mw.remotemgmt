@@ -155,7 +155,7 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
 //#endif
    
     // Assign the default max timeout
-    iConfiguration.iMaxTimeout = KSCPDefaultMaxTO;
+    iConfiguration.iMaxTimeout = KSCPNoTimeOut;
    	iConfiguration.iBlockedInOOS = 0;
    
     // Read the configuration, overwriting the default values

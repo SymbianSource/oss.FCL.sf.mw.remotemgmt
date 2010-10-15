@@ -132,6 +132,7 @@ void CTcFileScan::ScanDirectoryL( RFs& aFileSession,
     //
     iRecurseLevel ++;
     TFindFile* fileFinder1 = new (ELeave) TFindFile( aFileSession );
+    CleanupStack::PushL( fileFinder1 );
     CDir*      fileList1;
 
     TInt err = fileFinder1->FindWildByPath(aDirectory, &KNullDesC(), fileList1);
@@ -187,7 +188,7 @@ void CTcFileScan::ScanDirectoryL( RFs& aFileSession,
         err = fileFinder1->FindWild( fileList1 );
         }
 
-    delete fileFinder1;
+    CleanupStack::PopAndDestroy( fileFinder1 ); 
     
     iRecurseLevel --;
     }

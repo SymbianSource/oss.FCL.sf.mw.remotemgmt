@@ -1507,7 +1507,9 @@ CPmCommand::~CPmCommand()
 CPmCommand *CPmCommand::NewL( TInt aStatusRef, const TDesC8& aURI, const TDesC8 &aArgument )
 	{
 	CPmCommand *self = new ( ELeave ) CPmCommand( aStatusRef, aURI );
+	CleanupStack::PushL(self);
 	self->ConstructL( aArgument );
+	CleanupStack::Pop(self); //self
 	return self ;
 	}
 	

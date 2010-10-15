@@ -67,7 +67,7 @@ TInt DownloadClient::CreateDownload(const QString &url, DownloadType type)
 
     TInt ret = ENotOk;
 
-    iDownload = iFotaDlMgrClient->Manager()->createDownload(url, type); //Step 6
+    iDownload = iFotaDlMgrClient->Manager()->createDownload(url, type);
 
     if (iDownload)
         {
@@ -93,8 +93,8 @@ TInt DownloadClient::SetDownloadAttributes()
 
     int ret(EOk);
 
-    iDownload->setAttribute(ProgressInterval, 100); //Step 7
-    iDownload->setAttribute(Priority, High); //Step 8
+    iDownload->setAttribute(ProgressInterval, 100);
+    iDownload->setAttribute(Priority, High);
 
     //Setting the default path
     iDownload->setAttribute(DestinationPath, DefaultPath);
@@ -114,7 +114,7 @@ TInt DownloadClient::Start()
     FLOG(_L("DownloadClient::Start >>"));
 
     iClientinterrupted = false;
-    iDownload->start(); //Step 9
+    iDownload->start();
 
     FLOG(_L("DownloadClient::Start <<"));
     return EOk;

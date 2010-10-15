@@ -94,10 +94,26 @@ EXPORT_C void RNSmlPrivateAPI::OpenL()
 	if ( res != KErrNone )
 		{
 		res = LaunchServer();
-		User::LeaveIfError( res );
-		res = CreateSession( KSOSServerName, version, KDefaultMessageSlots );
+		if ( res == KErrNone )
+		{
+			res = CreateSession( KSOSServerName, version, KDefaultMessageSlots );
 		}
-
+		else if ( res == KErrAlreadyExists )
+		{
+			TInt retryCount = 3;
+				
+			while ( res != KErrNone && retryCount )
+			{
+				res = CreateSession( KSOSServerName, version, KDefaultMessageSlots );
+				if( res != KErrNone )
+				{
+				 // wait 1.5 seconds to give the server a chance to reach its serviceable state
+				 User::After( 1500000 );
+				 --retryCount;
+				}
+			}
+		}
+		}
 	User::LeaveIfError( res );
 	
 	_DBG_FILE("RNSmlPrivateAPI::OpenL(): end");

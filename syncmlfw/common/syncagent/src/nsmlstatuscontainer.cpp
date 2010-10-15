@@ -491,9 +491,11 @@ TBool CNSmlStatusContainer::AnyOtherThanOkSyncHdrStatus() const
 void CNSmlStatusContainer::CreatePcdataL( SmlPcdata_t*& aPcdata, const TDesC8& aContent ) const
 	{
 	aPcdata = new( ELeave ) SmlPcdata_t;
+	CleanupStack::PushL( aPcdata);
 	aPcdata->SetDataL( aContent );
 	aPcdata->contentType = SML_PCDATA_OPAQUE;   
 	aPcdata->extension = SML_EXT_UNDEFINED; 
+	CleanupStack::Pop( );
 	}
 // ---------------------------------------------------------
 // CNSmlStatusContainer::CopyPcdataL()
@@ -552,11 +554,13 @@ void CNSmlStatusContainer::CopyMetInfL ( const void* aFromMetInf, void*& aToMetI
 		{
 		SmlMetInfMetInf_t* fromMetInf = (SmlMetInfMetInf_t*) aFromMetInf;
 		SmlMetInfMetInf_t* toMetInf = new( ELeave ) SmlMetInfMetInf_t;
+		CleanupStack::PushL( toMetInf );
 		if ( fromMetInf->anchor )
 			{
 			toMetInf->anchor = new( ELeave ) SmlMetInfAnchor_t;
 			CopyPcdataL( fromMetInf->anchor->next, toMetInf->anchor->next );
 			}
+		CleanupStack::Pop();  //toMetInf 	
 		aToMetInf = toMetInf;
 		}
 	}

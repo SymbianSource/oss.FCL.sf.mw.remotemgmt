@@ -163,14 +163,16 @@ TInt CWPBindingContextManager::ContextDataCountL( TUint32 aUid )
     delete colset;
     
     User::LeaveIfError( table.SetIndex( KDbIndexDataContextId ) );
-    table.SeekL( TDbSeekKey( TUint( aUid ) ) );
-    TInt found( 0 );
-    while( table.AtRow() && 
+    TInt found( 0 );	
+    if(table.SeekL( TDbSeekKey( TUint( aUid ) ) ))
+    {    	
+    	while( table.AtRow() && 
         (table.GetL(), table.ColUint32( contextId ) == aUid ) )
         {
         found++;
         table.NextL();
         }
+    }
     FTRACE(RDebug::Print(_L("[Provisioning] CWPBindingContextManager::ContextDataCountL count (%d)"), found));
     CleanupStack::PopAndDestroy(); // table
     return found;

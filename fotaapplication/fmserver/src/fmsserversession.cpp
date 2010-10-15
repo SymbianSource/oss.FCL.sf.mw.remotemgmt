@@ -433,19 +433,21 @@ void CFMSSession::PhoneModeL()
 	__UHEAP_MARK; 
 	RTelServer telServer;
 	User::LeaveIfError( telServer.Connect());
+	CleanupClosePushL( telServer );
 	FLOG(_L("CFMSSession::PhoneModeL--telServer Connected"));
 	RTelServer::TPhoneInfo teleinfo;
 	User::LeaveIfError( telServer.GetPhoneInfo( 0, teleinfo ) );
 	FLOG(_L("CFMSSession::PhoneModeL--telServer getting tel info"));
 	RMobilePhone phone;
 	User::LeaveIfError( phone.Open( telServer, teleinfo.iName ) );
+	CleanupClosePushL( phone );
 	FLOG(_L("CFMSSession::PhoneModeL--RMobilePhone opened"));
 	User::LeaveIfError(phone.Initialise());	
 	FLOG(_L("CFMSSession::PhoneModeL--phone.Initialise() success"));
 	RMobilePhone::TMobilePhoneNetworkMode mode;        	        	
 	TInt err = phone.GetCurrentMode( mode );
-	phone.Close();
-	telServer.Close();
+	CleanupStack::PopAndDestroy(); // phone
+	CleanupStack::PopAndDestroy(); // telServer
 	__UHEAP_MARKEND;
 
 	if( KErrNone == err )

@@ -157,9 +157,11 @@ EXPORT_C void CNsmlProfileUtil::InternalizeFromSettingsDBL(TInt aProfileId)
 
     DBG_FILE(_S8("CNsmlProfileUtil::InternalizeFromSettingsDBL, BEGIN"));
     // Read the profile details from settings database
-	CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewL();	       
+	CNSmlDSSettings* dsSettings = CNSmlDSSettings::NewL();	 
+	CleanupStack::PushL(dsSettings);      
 	CNSmlDSProfile* profile = dsSettings->ProfileL( aProfileId );
-	
+	CleanupStack::PushL(profile);  
+		
 	iProfileId = aProfileId;	
 	iDisplayName = 	profile->StrValue( EDSProfileDisplayName ).AllocL();
 	iProtocolVer = static_cast<TSmlProtocolVersion>( profile->IntValue( EDSProfileProtocolVersion ) );	
@@ -178,7 +180,7 @@ EXPORT_C void CNsmlProfileUtil::InternalizeFromSettingsDBL(TInt aProfileId)
 	for ( int i = 0; i < profile->iContentTypes->Count(); i++ ) 
 	{
 	    CNsmlContentData* contentData = CNsmlContentData::NewL();
-	    
+	    CleanupStack::PushL(contentData);  
 	    // From settings DB
 	    CNSmlDSContentType* contentType = static_cast<CNSmlDSContentType*>(profile->iContentTypes->At(i));
 	   
@@ -190,12 +192,13 @@ EXPORT_C void CNsmlProfileUtil::InternalizeFromSettingsDBL(TInt aProfileId)
 	    //SyncType is same for all the contents from UI
 	    iSyncType=static_cast<TSmlSyncType>(contentType->IntValue(EDSAdapterSyncType));
 	    // Add to this object
-	    iContents.AppendL(contentData);			
+	    iContents.AppendL(contentData);		
+	    CleanupStack::Pop(contentData);	
 	}
 	
 	// Cleanup
-	delete profile;
-	delete dsSettings;
+	CleanupStack::PopAndDestroy(profile);
+	CleanupStack::PopAndDestroy(dsSettings);
 	DBG_FILE(_S8("CNsmlProfileUtil::InternalizeFromSettingsDBL, END"));
 }
 

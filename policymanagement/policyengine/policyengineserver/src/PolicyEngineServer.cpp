@@ -701,7 +701,9 @@ void CPolicyEngineSession::NewSubSessionL( const RMessage2& aMessage)
 	{
 	//add new session objects object into container and object index
 	CPolicyProcessor * policyProcessor = CPolicyProcessor::NewL(); 
+	CleanupStack::PushL(policyProcessor);
 	CTrustedSession * trustedSession = CTrustedSession::NewL();
+	CleanupStack::PushL(trustedSession);
 	trustedSession->AddSessionSIDL( aMessage.SecureId());
 	policyProcessor->SetSessionTrust( trustedSession);
 	CPolicyManager * policyManager = NULL;
@@ -709,18 +711,25 @@ void CPolicyEngineSession::NewSubSessionL( const RMessage2& aMessage)
  	if ( aMessage.Function() == ECreateManagementSubSession)
  	{
  		policyManager = CPolicyManager::NewL( policyProcessor);
+ 		CleanupStack::PushL(policyManager);	
  	}	
 	
 	//Create new subsession object for subsession
 	CSubSessionObjects * subSessionObjects = CSubSessionObjects::NewL( policyProcessor, policyManager, trustedSession); 
-
+  CleanupStack::PushL(subSessionObjects);	
+  	
 	iContainer->AddL( subSessionObjects);
 	TInt handle = iSessionsObjects->AddL( subSessionObjects);
 
 	//transmit handle to client 
 	TPckg<TInt> handlePckg(handle);
 	TRAPD( r, aMessage.WriteL(3, handlePckg))
-
+  CleanupStack::Pop(subSessionObjects);
+  if ( policyManager )	
+  	CleanupStack::Pop(policyManager);	
+  CleanupStack::Pop(trustedSession);
+  CleanupStack::Pop(policyProcessor);
+  			
 	if ( r != KErrNone)
 	{
 		iSessionsObjects->Remove(handle);

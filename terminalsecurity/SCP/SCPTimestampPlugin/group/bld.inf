@@ -21,9 +21,6 @@
 
 PRJ_PLATFORMS
 
-PRJ_EXPORTS
-../loc/SCPTimestampPlugin.loc								MW_LAYER_LOC_EXPORT_PATH(scptimestampplugin.loc)
-
 PRJ_MMPFILES
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 SCPTimestampPlugin.mmp

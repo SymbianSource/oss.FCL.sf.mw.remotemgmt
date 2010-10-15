@@ -2123,7 +2123,10 @@ void CNSmlSOSSession::StoreToProgessEventBuffer( const TNSmlProgressEvent& aProg
     // Acquire mutex
     RMutex mutex;
 	TInt mutexError = NSmlGrabMutex( mutex, KNSmlSOSServerMutexName() );
-	
+	if ( !mutexError )
+	    {
+	    CleanupClosePushL( mutex );
+	    }
     switch ( aProgressEventItem.iEventType )
         {
         case ENSmlSyncError:
@@ -2173,12 +2176,14 @@ void CNSmlSOSSession::StoreToProgessEventBuffer( const TNSmlProgressEvent& aProg
         default:
         break;               
         };
-        
+    
     if ( !mutexError )
         {
-        mutex.Signal(); // Finished buffering
-        mutex.Close();
-        }
+        // Release mutex
+        mutex.Signal();   // Finished buffering
+        CleanupStack::PopAndDestroy( &mutex );
+        }       
+    
     
     // Handle buffered progress events
     TRAP_IGNORE( CompleteBufferedProgressEventL() );

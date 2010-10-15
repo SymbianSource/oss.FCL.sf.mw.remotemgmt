@@ -43,20 +43,10 @@ MW_LAYER_SYSTEMINCLUDE
 
 SOURCEPATH      ../data
 
-
-
 // PlugIn's RSS for History & SpecificStrings
 START RESOURCE  SCPHistoryPlugin.rss
 HEADER
 TARGETPATH      ECOM_RESOURCE_DIR
-LANGUAGE_IDS
-END
-
-
-// PlugIn's Localisation RSS for History & SpecificStrings
-START RESOURCE  SCPHistoryPluginLang.rss
-HEADER
-TARGETPATH      RESOURCE_FILES_DIR
 LANGUAGE_IDS
 END
 

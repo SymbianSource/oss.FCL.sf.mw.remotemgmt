@@ -218,7 +218,8 @@ void CRepositoryContent::ReadOptionalDataL()
 		//try to create RangeMeta data 
 		TLex lex( line);
 		CRangeMeta * rangeMeta = CRangeMeta::NewL( lex);
-		
+		CleanupStack::PushL(rangeMeta);
+			
 		//if the line content is not a range meta data check is the content is it default meta data 
 		if ( rangeMeta)
 		{
@@ -232,7 +233,8 @@ void CRepositoryContent::ReadOptionalDataL()
 				User::LeaveIfError( !lex.Eos());			
 			}
 		}
-		
+		CleanupStack::Pop(rangeMeta); //rangeMeta
+			
 	} while ( defaultMeta.Length());
 	
 }
@@ -267,6 +269,7 @@ void CRepositoryContent::ReadPlatSecL()
 		
 		TLex lex( sectionPtr);
 		CRangeSetting* rangeSetting = CRangeSetting::NewL( lex);
+		CleanupStack::PushL(rangeSetting);	
 		
 		if ( rangeSetting )
 		{
@@ -275,6 +278,7 @@ void CRepositoryContent::ReadPlatSecL()
 		else 
 		{
 			CDefaultSetting* defaultSetting = CDefaultSetting::NewL( lex);
+			CleanupStack::PushL(defaultSetting);	
 				
 			if ( defaultSetting  )
 			{
@@ -294,8 +298,9 @@ void CRepositoryContent::ReadPlatSecL()
 				//line contains invalid format -> Corrupted
 				User::Leave( KErrCorrupt);
 			}
+		CleanupStack::Pop(defaultSetting); //defaultSetting	
 		}
-
+		CleanupStack::Pop(rangeSetting); //rangeSetting
 		
 	} while ( platSecPtr.Length());
 	
@@ -660,7 +665,8 @@ void CRepositoryContent::ReadMainL()
 		}
 
 		CIndividualSetting * setting = CIndividualSetting::NewL( lex);		
-		
+		CleanupStack::PushL(setting);
+			
 		if ( setting )
 		{
 			//add settting to settings list
@@ -671,7 +677,8 @@ void CRepositoryContent::ReadMainL()
 			//file is corrupted if setting is not valid
 			User::Leave( KErrCorrupt);
 		}
-
+		CleanupStack::Pop(setting); //setting
+			
 		//repeat until contetn left
 	} while ( iContentPtr.Length());
 }
@@ -1670,8 +1677,10 @@ void CRepositoryContent::ReadStreamL( RReadStream& aStream, TBool aOnlyHeader)
 	for ( TInt i = 0; i < countUint32; i++)
 	{
 		CIndividualSetting* singlePolicy = new(ELeave) CIndividualSetting();
+		CleanupStack::PushL(singlePolicy);
 		singlePolicy->InternalizePlatSecL( aStream);
 		AddIndividualSettingL( singlePolicy);
+		CleanupStack::Pop(singlePolicy); //singlePolicy
 	}
 		
 	//read range policies
@@ -1683,8 +1692,10 @@ void CRepositoryContent::ReadStreamL( RReadStream& aStream, TBool aOnlyHeader)
 	for ( TInt i = 0; i < countInt32; i++)
 	{
 		CRangeSetting* rangePolicy = new(ELeave) CRangeSetting();
+		CleanupStack::PushL(rangePolicy);
 		aStream >> *rangePolicy;
 		User::LeaveIfError( iRangeSettings.Append( rangePolicy));
+		CleanupStack::Pop(rangePolicy); //rangePolicy	
 	}
 		
 
@@ -1703,8 +1714,10 @@ void CRepositoryContent::ReadStreamL( RReadStream& aStream, TBool aOnlyHeader)
 	for ( TInt i = 0; i < countInt32; i++)
 	{
 		CRangeMeta* rangeMeta = new(ELeave) CRangeMeta();
+		CleanupStack::PushL(rangeMeta);
 		aStream >> (*rangeMeta);
 		User::LeaveIfError( iRangeMetas.Append( rangeMeta));
+		CleanupStack::Pop(rangeMeta); //rangeMeta	
 	}
 	
 	//read time stamp

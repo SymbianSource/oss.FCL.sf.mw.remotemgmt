@@ -19,9 +19,6 @@
 
 PRJ_PLATFORMS
 
-PRJ_EXPORTS
-../loc/SCPHistoryPlugin.loc						MW_LAYER_LOC_EXPORT_PATH(scphistoryplugin.loc)
-
 PRJ_MMPFILES
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 SCPHistoryPlugin.mmp

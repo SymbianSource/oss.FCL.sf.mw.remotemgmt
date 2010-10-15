@@ -15,6 +15,7 @@
  *
  */
 // INCLUDE FILES
+#include <eikenv.h>
 #include <apgtask.h>
 #include <apgwgnam.h>
 #include <schtime.h>
@@ -199,18 +200,18 @@ void CFotaServer::StartDownloadDialog(const QString &aName,
     if (!iFullScreenDialog)
         {
         //ConstructApplicationUI(ETrue);
-        iFullScreenDialog = new FotaFullscreenDialog(this);
+        iFullScreenDialog = new HbFotaFullscreenDialog(this);
         }
 
-    iFullScreenDialog->SetSoftwareDetails(aSize, aVersion, aName);
+    iFullScreenDialog->setSoftwareDetails(aSize, aVersion, aName);
 
-    iFullScreenDialog->SetWarningDetails(EHbFotaDownload);
+    iFullScreenDialog->setWarningDetails(EHbFotaDownload);
 
     TBool postpone = IsUserPostponeAllowed();
     if (!postpone)
         {
         FLOG(_L("Disabling option to resume later!"));
-        iFullScreenDialog->DisableRSK(ETrue);
+        iFullScreenDialog->disableRSK(ETrue);
         }
     
     FLOG(_L("CFotaServer::StartDownloadDialog <<"));
@@ -229,7 +230,7 @@ void CFotaServer::UpdateDownloadDialog(TInt aProgress)
         ConstructApplicationUI(ETrue);
         }
 
-    iFullScreenDialog->UpdateProgressBar(aProgress);
+    iFullScreenDialog->updateProgressBar(aProgress);
     FLOG(_L("CFotaServer::UpdateDownloadDialog <<"));
     }
 
@@ -244,7 +245,6 @@ void CFotaServer::ShowDialogL(TFwUpdNoteTypes adialogid)
         }
 
     ServerCanShut(EFalse);
-    iDialogId = (TInt) adialogid;
 
     iNotifParams = CHbSymbianVariantMap::NewL();
 
@@ -270,11 +270,8 @@ void CFotaServer::ShowDialogL(TFwUpdNoteTypes adialogid)
 
     CHbSymbianVariant* dialogId = CHbSymbianVariant::NewL(&adialogid,
             CHbSymbianVariant::EInt);
-    CleanupStack::PushL(dialogId);
+    //CleanupStack::PushL(dialogId);
     iNotifParams->Add(*keyDialog, dialogId);
-
-    if (!iNotifier)
-        iNotifier = CFotaDownloadNotifHandler::NewL(this);
 
     switch (adialogid)
         {
@@ -291,28 +288,28 @@ void CFotaServer::ShowDialogL(TFwUpdNoteTypes adialogid)
             FLOG(_L("CFotaServer::EFwUpdResumeUpdate / EFwUpdResumeDownload"));
             CHbSymbianVariant* param1Val = CHbSymbianVariant::NewL(
                     &iPackageState.iPkgSize, CHbSymbianVariant::EInt);
-            CleanupStack::PushL(param1Val);
+            //CleanupStack::PushL(param1Val);
             iNotifParams->Add(*keyParam1, param1Val);
             TBuf16<KFotaMaxPkgNameLength>    temp1;
             temp1.Copy(iPackageState.iPkgVersion);
             CHbSymbianVariant* param2Val = CHbSymbianVariant::NewL(
                     //&iPackageState.iPkgVersion, CHbSymbianVariant::EDes);
                     &temp1, CHbSymbianVariant::EDes);
-            CleanupStack::PushL(param2Val);
+            //CleanupStack::PushL(param2Val);
             iNotifParams->Add(*keyParam2, param2Val);
             TBuf16<KFotaMaxPkgNameLength>    temp2;
             temp2.Copy(iPackageState.iPkgName);
             CHbSymbianVariant* param3Val = CHbSymbianVariant::NewL(
                     &temp2, CHbSymbianVariant::EDes);
-            CleanupStack::PushL(param3Val);
+            //CleanupStack::PushL(param3Val);
             iNotifParams->Add(*keyParam3, param3Val);
             TBool postpone = IsUserPostponeAllowed();
             CHbSymbianVariant* param4Val = CHbSymbianVariant::NewL(&postpone,
                     CHbSymbianVariant::EInt);
-            CleanupStack::PushL(param4Val);
+            //CleanupStack::PushL(param4Val);
             iNotifParams->Add(*keyParam4, param4Val);
             iNotifier->LaunchNotifierL(iNotifParams, adialogid);
-            CleanupStack::PopAndDestroy(4);
+            //CleanupStack::PopAndDestroy(4);
 
             }
             break;
@@ -324,7 +321,7 @@ void CFotaServer::ShowDialogL(TFwUpdNoteTypes adialogid)
             }
             break;
         }
-    CleanupStack::PopAndDestroy(6);
+    CleanupStack::PopAndDestroy(5);
     FLOG(_L("CFotaServer::ShowDialogL >>"));
 
     }
@@ -410,17 +407,7 @@ void CFotaServer::HandleDialogResponse(int response, TInt aDialogId)
             }
             break;
         }
-    /*
-     if(iNotifParams)
-     {
-     delete iNotifParams; iNotifParams = NULL;
-     }
-     
-     if(iNotifier)
-     {
-     delete iNotifier; iNotifier = NULL;
-     }*/
-    iDialogId = 0;
+
     FLOG(_L("CFotaServer::HandleDialogResponse<<"));
     }
 
@@ -453,30 +440,30 @@ void CFotaServer::ShowFullScreenDialog(TInt aType)
         {
         const QString  ver =   QString::fromUtf8( reinterpret_cast<const char*> (iPackageState.iPkgVersion.Ptr()), iPackageState.iPkgVersion.Length());
         const QString name =   QString::fromUtf8( reinterpret_cast<const char*> (iPackageState.iPkgName.Ptr()), iPackageState.iPkgName.Length());
-        iFullScreenDialog = new FotaFullscreenDialog(this);
+        iFullScreenDialog = new HbFotaFullscreenDialog(this);
 
-        iFullScreenDialog->SetSoftwareDetails(iPackageState.iPkgSize, ver, name);
-        iFullScreenDialog->SetWarningDetails(EHbFotaDownload);
+        iFullScreenDialog->setSoftwareDetails(iPackageState.iPkgSize, ver, name);
+        iFullScreenDialog->setWarningDetails(EHbFotaDownload);
         ConstructApplicationUI(ETrue);
         }
 
     if (aType == EHbFotaUpdate)
         {
-        iFullScreenDialog->UpdateProgressBar(100);
+        iFullScreenDialog->updateProgressBar(100);
         TBool postpone = IsUserPostponeAllowed();
         if (!postpone)
             {
             FLOG(_L("Disabling option to resume later!"));
-            iFullScreenDialog->DisableRSK(ETrue);
+            iFullScreenDialog->disableRSK(ETrue);
             }
 
-        iFullScreenDialog->ShowUpdateDialog();
+        iFullScreenDialog->showUpdateDialog();
         }
     else if (aType == EHbFotaLowBattery)
         {
-        iFullScreenDialog->UpdateProgressBar(100);
-        iFullScreenDialog->DisableRSK(EFalse);
-        iFullScreenDialog->SetWarningDetails(EHbFotaLowBattery);
+        iFullScreenDialog->updateProgressBar(100);
+        iFullScreenDialog->disableRSK(EFalse);
+        iFullScreenDialog->setWarningDetails(EHbFotaLowBattery);
         }
 
     FLOG(_L("CFotaServer::ShowFullScreenDialog <<"));
@@ -607,7 +594,7 @@ CFotaServer::CFotaServer(HbMainWindow& mainwindow) :
             iDownloadFinalizer(0), iUpdateFinalizer(0), iTimedExecuteResultFile(0), iTimedSMLSessionClose(0),
             iAppShutter(0), iMonitor(NULL), iSyncMLAttempts(0), iSyncJobId(-1),iRetryingGASend(EFalse),
             iNetworkAvailable(EFalse),iFullScreenDialog(NULL), iNotifParams(NULL), iNotifier(NULL),
-            iServerCanShut(EFalse), iAsyncOperation(EFalse),iDialogId (0), iConstructed(EFalse), iMainwindow(mainwindow)
+            iServerCanShut(EFalse), iAsyncOperation(EFalse), iConstructed(EFalse), iMainwindow(mainwindow)
     {
     RProcess pr;
     TFullName fn = pr.FullName();
@@ -671,6 +658,8 @@ void CFotaServer::ConstructL()
     StartL(KFotaServerName);
 
     __LEAVE_IF_ERROR(iFs.Connect());
+    
+    iNotifier = CFotaDownloadNotifHandler::NewL(this);
 
     err = iFs.CreatePrivatePath(EDriveC);
     if (err != KErrNone && err != KErrAlreadyExists)
@@ -752,7 +741,6 @@ void CFotaServer::ClientAwareConstructL(const RMessage2 &aMessage)
 
         //Download was started earlier and was interrupted.
         if (tmp.iState == RFotaEngineSession::EStartingUpdate || tmp.iState
-                == RFotaEngineSession::EDownloadProgressing || tmp.iState
                 == RFotaEngineSession::EDownloadProgressing)
 
             {
@@ -937,7 +925,7 @@ void CFotaServer::DoFinalizeDownloadL()
         FLOG(_L("Download has paused due to an error. Invoking FMS..."));
         if (iFullScreenDialog)
             {
-            iFullScreenDialog->Close();
+            iFullScreenDialog->close();
             iFullScreenDialog->deleteLater();
             iFullScreenDialog = NULL;
             }
@@ -951,7 +939,7 @@ void CFotaServer::DoFinalizeDownloadL()
         {
         if (iFullScreenDialog)
             {
-            iFullScreenDialog->Close();
+            iFullScreenDialog->close();
             iFullScreenDialog->deleteLater();
             iFullScreenDialog = NULL;
             }
@@ -1211,6 +1199,7 @@ void CFotaServer::InvokeFmsL()
             case RFotaEngineSession::EResLowBattery:
                 {
                 reason = EUpdMonitorbattery;
+                break;
                 }
             default:
                 {
@@ -1377,18 +1366,18 @@ CFotaServer::~CFotaServer()
         iFullScreenDialog->deleteLater();
         }
 
-		/*
-    if (iNotifParams)
-        {
-        delete iNotifParams;
-        iNotifParams = NULL;
-        }
-
+    
     if (iNotifier)
         {
         delete iNotifier;
         iNotifier = NULL;
-        }*/
+        }
+        
+    if (iNotifParams)
+        {
+        delete iNotifParams;
+        iNotifParams = NULL;
+        }            
 
     FLOG(_L("CFotaServer::~CFotaServer  <<"));
     }
@@ -1640,7 +1629,7 @@ void CFotaServer::FinalizeUpdate()
     }
 
 
-FotaFullscreenDialog* CFotaServer::FullScreenDialog()
+HbFotaFullscreenDialog* CFotaServer::FullScreenDialog()
     {
     return iFullScreenDialog;
     }
@@ -1751,7 +1740,7 @@ void CFotaServer::HandleFullScreenDialogResponse(TInt aResponse)
 
             iUpdater->CancelMonitor();
 
-            if (iFullScreenDialog->IsLSKEnabled())
+            if (iFullScreenDialog->isLSKEnabled())
                 {
                 DecrementUserPostponeCount();
                 }
@@ -2700,7 +2689,7 @@ void CFotaServer::SetVisible(TBool aVisible)
     FLOG(_L("CFotaServer::SetVisible >>"));
 
     if(iFullScreenDialog)
-	iFullScreenDialog->SetVisible(aVisible);
+	iFullScreenDialog->setVisible(aVisible);
 
     FLOG(_L("CFotaServer::SetVisible <<"));
 }

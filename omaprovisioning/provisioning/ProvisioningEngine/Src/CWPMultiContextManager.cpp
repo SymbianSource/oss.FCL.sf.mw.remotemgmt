@@ -503,18 +503,17 @@ CDesCArray* CWPMultiContextManager::ContextProxiesL( TUint32 aUid )
     delete colset;
 
     User::LeaveIfError( proxies.SetIndex( KDbIndexProxiesContextId ) );
-    proxies.SeekL( TDbSeekKey( TUint( aUid ) ) );
-
     CDesCArray* array = new(ELeave) CDesCArrayFlat( KProxiesGranularity );
-    CleanupStack::PushL( array );
-
-    while( proxies.AtRow()
+    CleanupStack::PushL( array );	
+    if(proxies.SeekL( TDbSeekKey( TUint( aUid ) ) ))
+    {
+    	while( proxies.AtRow()
         && (proxies.GetL(), proxies.ColUint32( contextCol ) == aUid ) )
         {
         array->AppendL( proxies.ColDes16( proxyCol ) );
         proxies.NextL();
-        }
-    
+        }    	
+    }
     CleanupStack::Pop(); // array
     CleanupStack::PopAndDestroy(); // proxies
     

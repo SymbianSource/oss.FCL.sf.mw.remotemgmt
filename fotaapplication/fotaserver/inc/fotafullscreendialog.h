@@ -42,18 +42,28 @@ enum TFotaWarningType
 // CLASS DECLARATION
 
 /**
- *  FotaFullscreenDialog
+ *  HbFotaFullscreenDialog
  * 
  */
-class FotaFullscreenDialog : public QObject
+class HbFotaFullscreenDialog : public QObject
     {
 Q_OBJECT
 
 public:
 
-    FotaFullscreenDialog(CFotaServer* aObserver);
+		/**
+     * Constructor to construct the fullscreen dialog.
+     * @param   aObserver - Observer to notify the user inputs from the fullscreen dialog
+     * @return   void
+     */
+    HbFotaFullscreenDialog(CFotaServer* aObserver);
 
-    ~FotaFullscreenDialog();
+
+		/**
+     * Destructor for the full screen dialog
+     * @return   void
+     */
+    ~HbFotaFullscreenDialog();
 
     /**
      * This function updates the details of the update to the fullscreen dialog.
@@ -62,7 +72,7 @@ public:
      * @param   aName - the package name of the current update.
      * @return   void
      */
-    void SetSoftwareDetails(int size, const QString version,
+    void setSoftwareDetails(int size, const QString version,
             const QString aName);
 
     /**
@@ -70,39 +80,48 @@ public:
      * @param   aType - the state in which the firmware update is in(downloading or donwload complete)
      * @return   void
      */
-    void SetWarningDetails(TFotaWarningType aType);
+    void setWarningDetails(TFotaWarningType aType);
 
     /**
      * This function updates the download progress bar to the progress value passed.
      * @param   aProgress - the progress value to be update to the progress bar.
      * @return   void
      */
-    void UpdateProgressBar(TInt aProgress);
+    void updateProgressBar(TInt aProgress);
 
     /**
      * Used to change the warnings and softkeys required for the update dialog
      * @param   void
      * @return   void
      */
-    void ShowUpdateDialog();
+    void showUpdateDialog();
 
     /**
      * Used to refresh the dialog when the content of the dialog content changes.
      * @param   void
      * @return   void
      */
-    void Close();
+    void close();
 
     /**
      * Used to disable the RSK of the dialog when resume dialogs
      * @param   aVal - to enable or disable the key
      * @return   void
      */
-    void DisableRSK(TBool aVal);
+    void disableRSK(TBool aVal);
 
-    bool IsLSKEnabled();
+    /**
+     * Used to determine if the LSK of the dialog is enabled or not.
+     * @return   bool: returns if LSK id enabled or disabled.
+     */
+    bool isLSKEnabled();
 
-    void SetVisible(TBool aVisible);
+    /**
+     * Used to set the fullscreen dialog visible
+     * @param   aVisible - To set the visibility to true/false.
+     * @return   void
+     */
+    void setVisible(TBool aVisible);
 
 private:
 
@@ -111,7 +130,7 @@ private:
      * @param   void
      * @return   void
      */
-    void RefreshDialog();
+    void refreshDialog();
 
 public slots:
 
@@ -120,14 +139,14 @@ public slots:
      * @param   void
      * @return   void
      */
-    void LSKSelected();
+    void lSKSelected();
 
     /**
      * Slot to be called when user selects the Right soft key.
      * @param   void
      * @return   void
      */
-    void RSKSelected();
+    void rSKSelected();
 
     /**
      * Slot to be called when the dialog is about to get closed.
@@ -139,53 +158,54 @@ public slots:
 private:
 
     // dialog instance
-    HbDialog * idialog;
+    HbDialog * m_dialog;
 
     //document loader to load the widgets
-    HbDocumentLoader iloader;
+    HbDocumentLoader m_loader;
 
     //progress bar for updating download progress
-    HbProgressBar * iprogressBar;
+    HbProgressBar * m_progressBar;
 
     // Fota server instance to send the keypress event
-    CFotaServer* iServer;
+    CFotaServer* m_Server;
 
     // LSK of the dialog
-    HbPushButton * iPrimaryAction;
+    HbPushButton * m_PrimaryAction;
 
     // RSK of the dialog
-    HbPushButton * iSecondaryAction;
+    HbPushButton * m_SecondaryAction;
 
     // Flag to differentiate from keypress and dialog timeout case.
-    TBool iClicked;
+    TBool m_Clicked;
 
     // Warning note displayed in the full screen dialog 
-    HbLabel *iInstallNote;
+    HbLabel *m_InstallNote;
 
     // Warning note displayed in the full screen dialog
-    HbLabel *iRestartNote;
+    HbLabel *m_RestartNote;
 
     // Warning note displayed in the full screen dialog
-    HbLabel *iRestartIcon;
+    HbLabel *m_RestartIcon;
 
     // Warning note displayed in the full screen dialog
-    HbLabel *iEmergencyNote;
+    HbLabel *m_EmergencyNote;
 
     // Warning note displayed in the full screen dialog
-    HbLabel *iEmergencyIcon;
+    HbLabel *m_EmergencyIcon;
 
     // Warning note displayed in the full screen dialog
-    HbLabel *iChargerNote;
+    HbLabel *m_ChargerNote;
 
-    HbLabel *iChargerIcon;
+		// Variable which holds the charger icon from the docml.
+    HbLabel *m_ChargerIcon;
 
     // To display the state of the download above progress bar
-    HbLabel *iDownloadState;
+    HbLabel *m_DownloadState;
 
     // Fullscreen dialog title.
-    HbLabel *iTitle;
+    HbLabel *m_Title;
     // Firmware details that is to be shwon in full screen dialog.
-    HbLabel *iSwDetails;
+    HbLabel *m_SwDetails;
     };
 
 #endif // CLASSNAME_H

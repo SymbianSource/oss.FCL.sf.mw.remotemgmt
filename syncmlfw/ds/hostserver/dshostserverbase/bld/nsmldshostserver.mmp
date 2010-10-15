@@ -57,8 +57,3 @@ SOURCE		NsmldschangedItemsFetcher.cpp
 LIBRARY     euser.lib ecom.lib efsrv.lib edbms.lib estor.lib bafl.lib smlstoreformat.lib
 LIBRARY		nsmldebug.lib smldataprovider.lib nsmldshostclient.lib NSmlAdapterLog.lib
 LIBRARY		nsmlchangefinder.lib syncmldatafilter.lib
-
-#ifdef ARMCC
-LIBRARY ecom.lib
-#endif
-

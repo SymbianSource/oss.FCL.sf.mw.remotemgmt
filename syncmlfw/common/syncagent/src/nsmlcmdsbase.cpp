@@ -1013,9 +1013,11 @@ EXPORT_C void CNSmlCmdsBase::DoMetInfLC( SmlMetInfMetInf_t*& aMeta ) const
 EXPORT_C void CNSmlCmdsBase::PcdataNewL( SmlPcdata_t*& aPcdata, const TDesC8& aContent ) const
 	{
 	aPcdata = new( ELeave ) SmlPcdata_t;
+	CleanupStack::PushL( aPcdata);
 	aPcdata->SetDataL( aContent );
 	aPcdata->contentType = SML_PCDATA_OPAQUE;   
 	aPcdata->extension = SML_EXT_UNDEFINED; 
+	CleanupStack::Pop( );
 	}
 
 //1.2 CHANGES
@@ -1027,10 +1029,12 @@ EXPORT_C void CNSmlCmdsBase::PcdataNewL( SmlPcdata_t*& aPcdata, const TDesC8& aC
 EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC& aLocURIData ) const
 	{
 	aSource = new( ELeave ) sml_source_s; 
+	CleanupStack::PushL( aSource);
 	HBufC8* locURIDataInUTF8 = NULL;
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocURIData, locURIDataInUTF8 );
 	PcdataNewL ( aSource->locURI, *locURIDataInUTF8 );
 	CleanupStack::PopAndDestroy(); //locURIDataInUTF8
+	CleanupStack::Pop( );
 	aSource->locName = NULL;
 	}
 
@@ -1041,7 +1045,9 @@ EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC& aLo
 EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC8& aLocURIData ) const
 	{
 	aSource = new( ELeave ) sml_source_s; 
+	CleanupStack::PushL( aSource);
 	PcdataNewL ( aSource->locURI, aLocURIData );
+	CleanupStack::Pop( );
 	aSource->locName = NULL;
 	}
 
@@ -1052,6 +1058,7 @@ EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC8& aL
 EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC& aLocURIData, const TDesC& aLocNameData ) const
 	{
 	aSource = new( ELeave ) sml_source_s; 
+	CleanupStack::PushL( aSource);
 	HBufC8* locURIDataInUTF8 = NULL;
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocURIData, locURIDataInUTF8 );
 	PcdataNewL ( aSource->locURI, *locURIDataInUTF8 );
@@ -1060,6 +1067,7 @@ EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC& aLo
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocNameData, locNameDataInUTF8 );
 	PcdataNewL ( aSource->locName, *locNameDataInUTF8 );
 	CleanupStack::PopAndDestroy(); //locNameDataInUTF8
+	CleanupStack::Pop( );
 	}
 
 // ---------------------------------------------------------
@@ -1069,10 +1077,12 @@ EXPORT_C void CNSmlCmdsBase::DoSourceL( sml_source_s*& aSource, const TDesC& aLo
 EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC& aLocURIData ) const
 	{
 	aTarget = new( ELeave ) sml_target_s; 
+	CleanupStack::PushL( aTarget);
 	HBufC8* locURIDataInUTF8 = NULL;
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocURIData, locURIDataInUTF8 );
 	PcdataNewL ( aTarget->locURI, *locURIDataInUTF8 );
 	CleanupStack::PopAndDestroy(); //locURIDataInUTF8
+	CleanupStack::Pop( );
 	aTarget->locName = NULL;
 	}
 	
@@ -1083,8 +1093,10 @@ EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC& aLo
 EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC8& aLocURIData ) const
 	{
 	aTarget = new( ELeave ) sml_target_s; 
+	CleanupStack::PushL( aTarget);
 	PcdataNewL ( aTarget->locURI, aLocURIData );
 	aTarget->locName = NULL;
+	CleanupStack::Pop( );
 	}
 	
 // ---------------------------------------------------------
@@ -1094,6 +1106,7 @@ EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC8& aL
 EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC& aLocURIData, const TDesC& aLocNameData ) const
 	{
 	aTarget = new( ELeave ) sml_target_s; 
+	CleanupStack::PushL( aTarget);
 	HBufC8* locURIDataInUTF8 = NULL;
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocURIData, locURIDataInUTF8 );
 	PcdataNewL ( aTarget->locURI, *locURIDataInUTF8 );
@@ -1102,6 +1115,7 @@ EXPORT_C void CNSmlCmdsBase::DoTargetL( sml_target_s*& aTarget, const TDesC& aLo
 	NSmlUnicodeConverter::HBufC8InUTF8LC( aLocNameData, locNameDataInUTF8 );
 	PcdataNewL ( aTarget->locName, *locNameDataInUTF8 );
 	CleanupStack::PopAndDestroy(); //locNameDataInUTF8
+	CleanupStack::Pop( );	
 	}
 //end changes
 

@@ -631,6 +631,7 @@ void CSecuritySetting::Set(const TDesC8& aDes, ECapTypes aCapType)
 		{
 			case TSecurityPolicy::ETypeFail :
 				*defaultType = EAlwaysFail;
+			break;
 			case TSecurityPolicy::ETypePass :
 			{
 				cap[0] = TUint8(ECapability_None);				
@@ -2007,7 +2008,8 @@ HBufC* TIniFileHelper::ReadFileL(RFile& aFile)
 	TInt len = size/2-1;
 	
 	HBufC16* buf = HBufC16::NewL(len);
-	
+	CleanupStack::PushL(buf);
+		
 	TPtr16 ptr16 = buf->Des();
 	TPtr8 ptr8( (TUint8*)ptr16.Ptr(), 0, 2);
 	
@@ -2022,7 +2024,8 @@ HBufC* TIniFileHelper::ReadFileL(RFile& aFile)
 	ptr8.Set((TUint8*)ptr16.Ptr(), 0, size-2);
 	User::LeaveIfError(aFile.Read(ptr8));
 	ptr16.SetLength(len);
-
+	CleanupStack::Pop(buf); //buf
+		
 	return buf;
 }		
 

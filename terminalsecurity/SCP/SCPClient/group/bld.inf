@@ -24,8 +24,6 @@ DEFAULT
 PRJ_EXPORTS
 
 ../rom/SCPClient.iby        		CORE_MW_LAYER_IBY_EXPORT_PATH(scpclient.iby)
-../rom/SCPClientResources.iby 	LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(scpclientresources.iby)
-../loc/SCPNotifier.loc					MW_LAYER_LOC_EXPORT_PATH(scpnotifier.loc)
 
 PRJ_MMPFILES
 SCPClient.mmp

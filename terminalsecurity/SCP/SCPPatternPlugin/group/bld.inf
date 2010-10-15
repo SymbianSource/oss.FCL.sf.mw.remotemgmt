@@ -20,9 +20,6 @@
 
 PRJ_PLATFORMS
 
-PRJ_EXPORTS
-../loc/SCPPatternPlugin.loc							MW_LAYER_LOC_EXPORT_PATH(scppatternplugin.loc)
-
 PRJ_MMPFILES
 //#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
 SCPPatternPlugin.mmp

@@ -41,11 +41,6 @@ USERINCLUDE     ../../../../inc   // domain private headers
 
 MW_LAYER_SYSTEMINCLUDE
 
-START RESOURCE ../data/SCPNotifier.rss
-HEADER
-TARGETPATH      RESOURCE_FILES_DIR  
-LANGUAGE_IDS
-END
 
 LIBRARY         euser.lib
 LIBRARY         cone.lib

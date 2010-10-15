@@ -36,7 +36,9 @@
 DownloadManagerClient* DownloadManagerClient::NewL(CFotaServer* aServer)
     {
     DownloadManagerClient* self = new (ELeave) DownloadManagerClient(aServer);
+    CleanupStack::PushL( self );
     self->ConstructL();
+    CleanupStack::Pop(self);
     return self;
     }
 
@@ -68,21 +70,23 @@ DownloadManagerClient::~DownloadManagerClient()
 
     iFs.Close();
     
-    	/*
-    if (iNotifParams)
-        {
-        FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifParams >>"));
-        delete iNotifParams;
-        iNotifParams = NULL;
-        FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifParams <<"));
-        }
+
+    
     if (iNotifier)
         {
         FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifier >>"));
         delete iNotifier;
         iNotifier = NULL;
         FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifier <<"));
-        }*/
+        }
+    if (iNotifParams)
+        {
+        FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifParams >>"));
+        delete iNotifParams;
+        iNotifParams = NULL;
+        FLOG(_L("DownloadManagerClient::~DownloadManagerClient, iNotifParams <<"));
+        }    
+        
     FLOG(_L("DownloadManagerClient::~DownloadManagerClient <<"));
     }
 
@@ -104,7 +108,9 @@ void DownloadManagerClient::ConstructL()
 
     delete centrep;
     centrep = NULL;
-
+    
+    iNotifier = CFotaDownloadNotifHandler::NewL(this);
+    
     __LEAVE_IF_ERROR(iFs.Connect());
 
     iProgress = EFalse;
@@ -660,12 +666,7 @@ void DownloadManagerClient::MapDownloadErrors(int err0)
         //No network coverage
         iFotaServer->iPackageState.iResult
                 = RFotaEngineSession::EResDLFailDueToNWIssues;
-        }
-    else if (err0 >= HttpRestartFailed && err0 <= ContentExpired)
-        {
-        iFotaServer->iPackageState.iResult
-                = RFotaEngineSession::EResUndefinedError;
-        }
+        }    
     else if (err0 == ObjectNotFound)
         {
         iFotaServer->iPackageState.iResult
@@ -1011,7 +1012,7 @@ void DownloadManagerClient::ShowDialogL(TFwUpdNoteTypes adialogid,
     FLOG(_L("DownloadManagerClient::ShowDialog, dialogid = %d >>"), adialogid);
     iFotaServer->ServerCanShut(EFalse);
     if (iFotaServer->FullScreenDialog())
-        iFotaServer->FullScreenDialog()->Close();
+        iFotaServer->FullScreenDialog()->close();
 
     if (iFotaServer->iPackageState.iSessionType && adialogid
             != EFwDLNeedMoreMemory)
@@ -1030,20 +1031,12 @@ void DownloadManagerClient::ShowDialogL(TFwUpdNoteTypes adialogid,
     CleanupStack::PushL(keyParam1);
     *keyParam1 = KKeyParam1;
 
-    HBufC* keyParam2 = HBufC::NewL(10);
-    CleanupStack::PushL(keyParam2);
-    *keyParam2 = KKeyParam2;
-
-    HBufC* keyParam3 = HBufC::NewL(10);
-    CleanupStack::PushL(keyParam3);
-    *keyParam3 = KKeyParam3;
-
     //adialogid = EFwUpdResumeUpdate;
     CHbSymbianVariant* dialogId = CHbSymbianVariant::NewL(&adialogid,
             CHbSymbianVariant::EInt);
-    CleanupStack::PushL(dialogId);
+    //CleanupStack::PushL(dialogId);
     iNotifParams->Add(*keyDialog, dialogId);
-    iNotifier = CFotaDownloadNotifHandler::NewL(this);
+    
 
     switch (adialogid)
         {
@@ -1078,7 +1071,7 @@ void DownloadManagerClient::ShowDialogL(TFwUpdNoteTypes adialogid,
             }
             break;
         }
-    CleanupStack::PopAndDestroy(5);
+    CleanupStack::PopAndDestroy(2);
 
     FLOG(_L("DownloadManagerClient::ShowDialog <<"));
     }

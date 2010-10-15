@@ -1214,7 +1214,7 @@ void CAttribute::ConstructL( const TDesC8& aAttributeId, const TDesC8& aAttribut
 CAttribute::~CAttribute()
 {
 	delete iDataType;
-	delete iAttributeId;
+	delete iAttributeId; // iAttributeValue is deleted by base class .	
 }
 
 // -----------------------------------------------------------------------------

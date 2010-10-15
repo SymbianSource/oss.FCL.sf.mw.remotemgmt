@@ -246,6 +246,7 @@ void CNSmlDSSettings::CreateXMLProfilesL(TBool aRestore)
 	return;
 	}
 	
+	CleanupClosePushL(wSession);
 	RXMLReader DSProfileParser;
 	DSProfileParser.CreateL();
 	CArrayPtrFlat<CNSmlDSProfile>* customProfileArray = new (ELeave) CArrayPtrFlat<CNSmlDSProfile> (5);
@@ -348,6 +349,7 @@ void CNSmlDSSettings::CreateXMLProfilesL(TBool aRestore)
 	
 	customProfileArray->ResetAndDestroy();
 	CleanupStack::PopAndDestroy(); //customProfileArray
+	CleanupStack::PopAndDestroy(&wSession); // wSession
 	
 	
 	}

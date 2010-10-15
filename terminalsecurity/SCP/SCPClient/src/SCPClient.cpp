@@ -21,15 +21,10 @@
 #include <e32svr.h>
 #include <e32math.h>
 #include <e32uid.h>
-#include <AknGlobalNote.h>
-#include <aknnotewrappers.h> 
-#include <AknQueryDialog.h>
-#include <AknGlobalConfirmationQuery.h>
 
 #include "SCPClient.h"
 #include "SCPParamObject.h"
 
-#include <scpnotifier.rsg>
 #include "SCP_IDs.h"
 
 #include <centralrepository.h>
@@ -38,8 +33,6 @@
 #include <TerminalControl3rdPartyAPI.h>
 #include <SCPServerInterface.h>
 #include <secui.hrh>
-#include <StringLoader.h>
-#include <bautils.h>
 //#endif // DEVICE_LOCK_ENHANCEMENTS
 
 #include <featmgr.h>
@@ -62,12 +55,6 @@
 static const TUint KDefaultMessageSlots = 3;
 static const TInt KSCPConnectRetries( 2 );
 
-
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
-_LIT( KDriveZ, "Z:" );
-_LIT( KSCPResourceFilename, "\\Resource\\SCPNotifier.RSC" );
-_LIT( KSCPSecUIResourceFilename, "\\Resource\\SecUi.RSC" );
-//#endif // __SAP_DEVICE_LOCK_ENHANCEMENTS
 
 // Uid for the application; this should match the mmp file
 const TUid KServerUid3 = {0x10207836};
@@ -166,64 +153,6 @@ static TInt CreateServerProcess()
     Dprint( (_L("<-- SCPClient::CreateServerProcess(): %d"), result ));
     return result;
     }
-
-//#ifdef __SAP_DEVICE_LOCK_ENHANCEMENTS
-
-
-// ---------------------------------------------------------
-// LoadResources() Resource loader
-// Load the resources for the library
-// Returns: TInt: A generic error code.
-//
-// Status : Approved
-// ---------------------------------------------------------
-//
-TInt LoadResources( TInt& aRes1, TInt& aRes2 )
-    {
-    
-   TRAPD ( err, FeatureManager::InitializeLibL() );   
-   if ( err == KErrNone )
-   {
-    if(!FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
-	{
-			FeatureManager::UnInitializeLib();
-		return KErrNotSupported;
-	}
-		FeatureManager::UnInitializeLib();
-    // Load the resource files for this DLL
-    TInt err = KErrNone;
-    TInt err2 = KErrNone;
-       
-    // Localize the file name, and load the SCP resources
-    TFileName resFile;
-    resFile.Copy( KDriveZ );
-    resFile.Append( KSCPResourceFilename );
-    BaflUtils::NearestLanguageFile( CCoeEnv::Static()->FsSession(), resFile );    
-    TRAP( err, aRes1 = CCoeEnv::Static()->AddResourceFileL( resFile ) );
-    
-    if ( err == KErrNone )
-        {
-        // Localize the file name, and load the SecUi resources
-        resFile.Copy( KDriveZ );
-        resFile.Append( KSCPSecUIResourceFilename );
-        BaflUtils::NearestLanguageFile( CCoeEnv::Static()->FsSession(), resFile );
-        TRAP( err2, aRes2 = CCoeEnv::Static()->AddResourceFileL( resFile ) );
-        }   
-             
-    if ( ( err != KErrNone ) || ( err2 != KErrNone ) )
-        {        
-        if ( err == KErrNone )             
-            {
-            // First resource was loaded OK, remove it
-            CCoeEnv::Static()->DeleteResourceFile( aRes1 );
-            err = err2;
-            }
-        } 
-    }        
-    return err;           
-    }     
-
-//#endif //  __SAP_DEVICE_LOCK_ENHANCEMENTS
 
 // ================= MEMBER FUNCTIONS =======================
 

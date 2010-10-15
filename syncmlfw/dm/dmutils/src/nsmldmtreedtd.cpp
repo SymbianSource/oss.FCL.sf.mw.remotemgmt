@@ -470,11 +470,13 @@ TUint CNSmlDmNodeList::ParseNodeListWBXMLL(RReadStream& aReader,
 	if (tag == EDDFNode )
 	    {
 		newNode = new (ELeave) CNSmlDmNode();
-       	newNode->iParent= aParent;
+		CleanupStack::PushL(newNode);
+    	newNode->iParent= aParent;
 		aNodeListPtr->iNode = newNode;
 		lastInList=aNodeListPtr;
     
 		ParseNodeWBXMLL( aReader, newNode );
+		CleanupStack::Pop(newNode);
 		newNode = NULL;
 		}
 	else
@@ -496,6 +498,7 @@ TUint CNSmlDmNodeList::ParseNodeListWBXMLL(RReadStream& aReader,
    		lastInList=lastInList->iNext;
 		   
 		newNode = new (ELeave) CNSmlDmNode();
+		CleanupStack::PushL(newNode);
 	   	newNode->iParent= aParent;
 	   	lastInList->iNode = newNode;
 	        
@@ -503,6 +506,7 @@ TUint CNSmlDmNodeList::ParseNodeListWBXMLL(RReadStream& aReader,
             
       	// read next tag
     	tag = aReader.ReadUint8L();
+    	CleanupStack::Pop(newNode);
 		}
 	return tag;
 	}

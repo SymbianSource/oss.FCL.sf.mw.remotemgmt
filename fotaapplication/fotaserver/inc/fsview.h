@@ -23,26 +23,41 @@
 
 class CFotaServer;
 
-class FSView : public HbView
+class HbFSView : public HbView
     {
     Q_OBJECT
 
 public:
-    FSView();
-    ~FSView();
-signals :
-	/**
-	 * applicationReady() - To emit the application ready signal for matti tool.
-   */
-   void applicationReady();
-public:   
+    /**
+     * Used to disable the RSK of the dialog when resume dialogs
+     * @param   aVal - to enable or disable the key
+     * @return   void
+     */
+    HbFSView();
+    
+    /**
+     * Used to disable the RSK of the dialog when resume dialogs
+     * @param   aVal - to enable or disable the key
+     * @return   void
+     */
+    ~HbFSView();
+
+    /**
+     * Sets the instance of the fotaserver to the view to access server related variables.
+     * @param   aServer - Instance of the fotaserver which is to be set.
+     * @return   void
+     */
     void SetServer(CFotaServer * aServer);
     
-    //Handles the incoming events
+    /**
+     * Implements the eventFilter function of HbView and sets the fullscreen dialog to be visible
+     * @param   object - The object on which the event is activated. 
+     * @param   event - the event ID of the event which is received
+     * @return   void
+     */
     bool eventFilter(QObject *object, QEvent *event);
 
 private:
-    CFotaServer *iServer;
-    TBool Initilized;
+    CFotaServer *m_Server;
     };
 #endif /* FSVIEW_H_ */

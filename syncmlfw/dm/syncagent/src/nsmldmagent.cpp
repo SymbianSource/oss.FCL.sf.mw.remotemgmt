@@ -85,6 +85,7 @@ CNSmlDMAgent::~CNSmlDMAgent()
 	// FOTA
 	iGenAlerts.ResetAndDestroy();
 	iGenAlerts.Close();
+	
 	// FOTA end	
 if(FeatureManager::FeatureSupported(KFeatureIdSapPolicyManagement))
 {
@@ -140,7 +141,9 @@ void CNSmlDMAgent::SetGenericAlertL ( const TDesC8& aFwMgmtUri, const TDesC8& aM
 						TInt aFinalResult, const TDesC8& aFwCorrelator )
 	{
 	CNSmlDMGenericAlert* genAlert = CNSmlDMGenericAlert::NewL ( aFwMgmtUri, aMetaType, aMetaFormat, aFinalResult, aFwCorrelator );
+	CleanupStack::PushL(genAlert);
 	iGenAlerts.AppendL ( genAlert );	
+	CleanupStack::Pop(genAlert);
 	}
 
 // FOTA end
@@ -160,7 +163,9 @@ void CNSmlDMAgent::SetGenericAlertL ( const TDesC8& aFwMgmtUri, const TDesC8& aM
 void CNSmlDMAgent::SetGenericAlertL ( const TDesC8& aCorrelator, const RArray<CNSmlDMAlertItem>& aItemList  )
     {
     CNSmlDMGenericAlert* genAlert = CNSmlDMGenericAlert::NewL ( aCorrelator, aItemList );
-    iGenAlerts.AppendL ( genAlert );	
+    CleanupStack::PushL(genAlert);
+    iGenAlerts.AppendL ( genAlert );
+    CleanupStack::Pop(genAlert);	
     }
 
 //

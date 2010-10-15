@@ -2410,9 +2410,9 @@ CDesCArray* CNSmlDSContent::StoreNamesL() const
 	{
 	TInt result( KErrNone );
 	CDesCArrayFlat* storeNames = new ( ELeave ) CDesCArrayFlat( 1 );
-	
+	CleanupStack::PushL(storeNames);  
 	iHostClient->ListStoresL( storeNames, iStores[iIndex]->iImplementationUID, result );
-	
+	CleanupStack::Pop(storeNames);
 	return storeNames;
 	}
 	
@@ -2476,11 +2476,16 @@ void CNSmlDSContent::PackupRequestL( const TTime& aAnchor )
 	DBG_FILE(_S8("CNSmlDSContent::PackupRequestL begins"));
 	RMutex mutex;
 	if(mutex.OpenGlobal( KNSmlDSContentAtomicOperationName ) != KErrNone )
-		mutex.CreateGlobal( KNSmlDSContentAtomicOperationName );
+	{
+		TInt createErr (mutex.CreateGlobal( KNSmlDSContentAtomicOperationName ));
+		if (( createErr != KErrNone )&& (createErr != KErrAlreadyExists))
+				return;
+	}
+	CleanupClosePushL(mutex);	
 	mutex.Wait();
 	SaveMapInfoL( aAnchor );
 	mutex.Signal();
-	mutex.Close();
+	CleanupStack::PopAndDestroy(&mutex); // mutex
 	DBG_FILE(_S8("CNSmlDSContent::PackupRequestL ends"));
 	}
 

@@ -105,7 +105,12 @@ void CNetMon::ConstructL()
 CNetMon::~CNetMon()
 {
 	 DBG_FILE(_S8("CNetMon::~CNetMon() begins"));
-	 
+	 if ( iGlobalTimer )
+    {
+	    iGlobalTimer->Cancel();
+	    delete iGlobalTimer;
+	    iGlobalTimer = NULL;
+    }
 	 DBG_FILE(_S8("CNetMon::~CNetMon() ends"));
 }
 

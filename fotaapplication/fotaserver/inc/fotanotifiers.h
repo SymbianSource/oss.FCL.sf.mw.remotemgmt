@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- * Description: 
+ * Description: Fota notifier.
  *
  */
 #ifndef FOTANOTIFIER_H
@@ -43,7 +43,7 @@ public:
     /**
      * Construction and setting of observer happens here
      *
-     * @since   S60   SF4
+     * @since   SF4
      * @param   aObserver is the parent class which owns the notifier and information is
      * passed to the parent class from the device dialog.
      */
@@ -54,7 +54,7 @@ public:
     /**
      * constructor for CFotaDownloadNotifHandler
      *
-     * @since   S60   SF4
+     * @since   SF4
      * @param   None
      */
 
@@ -63,7 +63,7 @@ public:
     /**
      * Destructor for CFotaDownloadNotifHandler
      *
-     * @since   S60   SF4
+     * @since   SF4
      * @param   None
      */
 
@@ -72,14 +72,26 @@ public:
     /**
      * Shows notifier and/or ends download
      *
-     * @since   S60   SF4
+     * @since   SF4
      * @param   aNotifParams   Contains necessary information to lauch a notifier
      */
 
     void CFotaDownloadNotifHandler::LaunchNotifierL(
             CHbSymbianVariantMap *aNotifParams, TInt aDialogId);
-
+    
+    /**
+     * Cancels the device dialog
+     *
+     * @since   SF4
+     */
     void Cancel();
+    
+    /**
+     * Constructs the device dialog
+     *
+     * @since   SF4
+     */
+    void ConstructL();
 
 public:
     // from MHbDeviceDialogObserver
@@ -100,13 +112,11 @@ public:
 
 private:
 
-    //DownloadClient* iDownload;
+    //To notify the class using the notifier about the device dialog user response.
     MfotadevicedialogObserver * iObserver;
 
     // Device dialog instance
     CHbDeviceDialogSymbian* iDevDialog;
-
-    TInt iDialogID;
 
     };
 

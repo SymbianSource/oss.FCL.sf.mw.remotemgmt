@@ -113,7 +113,13 @@ CDMNetworkMon::~CDMNetworkMon()
     iConnectionMonitor.Close();
 
     }
-
+		
+		if ( iGlobalTimer )
+        {
+        iGlobalTimer->Cancel();
+        delete iGlobalTimer;
+        iGlobalTimer = NULL;
+        }
     // Cleanup sync session
     CloseSyncSession();
 

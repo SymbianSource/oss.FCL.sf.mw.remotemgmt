@@ -181,7 +181,7 @@ TInt CPolicyProcessor::AddCertificateToStoreL(const RMessage2& aMessage)
         }
     
     iStore = CCertStore::NewL();
-    iStore->InitializeCertStore();
+    iStore->InitializeCertStoreL();
     TInt res = iStore->AddCert(iCertBuffer);
     if(res == KErrNone)
         {        
@@ -223,7 +223,7 @@ TInt CPolicyProcessor::RemoveCertificateFromStoreL(const RMessage2& aMessage)
        iStore = NULL;
        }
     iStore = CCertStore::NewL();
-    iStore->InitializeCertStore();    
+    iStore->InitializeCertStoreL();    
     
     TInt res;
     if(label->Des() == KNullDesC)
@@ -518,9 +518,10 @@ void CPolicyProcessor::RunL()
 				CAttribute * attribute = CAttribute::NewL( aAttributeId, 
 													   aAttributeValue, 
 													   aDataType);
-			
+				CleanupStack::PushL(attribute);
 				//append attribute to attribute list
 				list->AppendL( attribute);
+				CleanupStack::Pop(attribute);
 			}
 		}
 
@@ -892,16 +893,16 @@ TInt CPolicyProcessor::GetCertCounterValue()
 
 
 // -----------------------------------------------------------------------------
-// CPolicyProcessor::UpdateSilentTrustServerId()
+// CPolicyProcessor::UpdateSilentTrustServerIdL()
 // -----------------------------------------------------------------------------
 //
-void CPolicyProcessor::UpdateSilentTrustServerId()
+void CPolicyProcessor::UpdateSilentTrustServerIdL()
     { 
     RDEBUG("CPolicyProcessor::UpdateSilentTrustServerId" );
     //get server id and store in cenrep
     //connect to DM util client...
     RDMUtil dmutil;
-    dmutil.Connect();
+    User::LeaveIfError(dmutil.Connect());
     CleanupClosePushL( dmutil);
     
     //..and get server id
@@ -909,15 +910,10 @@ void CPolicyProcessor::UpdateSilentTrustServerId()
     dmutil.GetDMSessionServerId( serverid);
     CleanupStack::PopAndDestroy( &dmutil); 
     
-    TInt ret;
-    TRAPD( err, 
-      {
-        CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
-        CleanupStack::PushL( rep );
-        ret = rep->Set( KTrustedServerId, serverid );
-        CleanupStack::PopAndDestroy( rep );
-      } );
-
+    CRepository* rep = CRepository::NewL( KCRUidPolicyManagementUtilInternalKeys );
+    CleanupStack::PushL( rep );
+    rep->Set( KTrustedServerId, serverid );
+    CleanupStack::PopAndDestroy( rep );
     }
 
 // -----------------------------------------------------------------------------
@@ -961,7 +957,7 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
                 iStore = NULL;
                 }
         iStore = CCertStore::NewL();
-        iStore->InitializeCertStore();
+        iStore->InitializeCertStoreL();
         HBufC* certLabel = iStore->GetCurrentCertLabel();       
         const TDesC8& fingerPrintSilent = iStore->RetrieveCertFPrint(*certLabel);      
         
@@ -971,7 +967,7 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
         
         if(result==KErrNone)
             {
-            UpdateSilentTrustServerId();
+            UpdateSilentTrustServerIdL();
             response = EUserAccept;
             showUserScreen = EFalse;
             
@@ -993,6 +989,7 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
     if(showUserScreen)
         {       
         CProcessorClient *client = new CProcessorClient();
+        CleanupStack::PushL(client);
         TInt res = client->LaunchDialog(ptr, name);
         
         if(res == 0)
@@ -1003,6 +1000,10 @@ void CPolicyProcessor::CorporateUserAcceptFunctionL( const RParameterList& aPara
 
 
 	MakeBooleanResponseL( response == EUserAccept, aResponseElement);
+	if(showUserScreen)
+        {
+			CleanupStack::Pop(); // client    
+        }
 }
 
 // -----------------------------------------------------------------------------
@@ -1294,10 +1295,12 @@ TInt CProcessorClient::LaunchDialog(const TDesC8& aFringerPrint,
 
     CHbSymbianVariant* fingerprintid = CHbSymbianVariant::NewL(&fingerBuf,
             CHbSymbianVariant::EDes);
-
+		CleanupStack::PushL(fingerprintid);
+			
     CHbSymbianVariant* serverdisplayname = CHbSymbianVariant::NewL(
             &serverName, CHbSymbianVariant::EDes);
-
+		CleanupStack::PushL(serverdisplayname);
+			
     RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &fingerprintid);
     RDEBUG_2("CPolicyProcessor::fingerPrint: %S", &serverdisplayname);
 
@@ -1308,6 +1311,8 @@ TInt CProcessorClient::LaunchDialog(const TDesC8& aFringerPrint,
     TInt err1 = iDevDialog->Show(KHbNotifier, *varMap, this);
     TInt err = WaitUntilDeviceDialogClosed();
 
+		CleanupStack::Pop(serverdisplayname);
+		CleanupStack::Pop(fingerprintid);
     CleanupStack::PopAndDestroy();
 
     if (iDevDialog)
@@ -1643,6 +1648,10 @@ CCertStore::~CCertStore()
     iCertBuffer = NULL;    
     delete iCertStore;
     iCertStore = NULL;
+    
+    
+    if (iFs.Handle())
+    	iFs.Close();
   
     }
 
@@ -1658,14 +1667,13 @@ CCertStore* CCertStore::NewL()
     }
 
 
-void CCertStore::InitializeCertStore()
+void CCertStore::InitializeCertStoreL()
     {
-    RDEBUG("CCertStore::InitializeCertStore");
+    RDEBUG("CCertStore::InitializeCertStoreL");
     if(iCertStore == NULL)
         {
-        RFs* fs = new RFs();
-        fs->Connect();
-        iCertStore = CUnifiedCertStore::NewL(*fs, ETrue);         
+        User::LeaveIfError(iFs.Connect());
+        iCertStore = CUnifiedCertStore::NewL(iFs, ETrue);         
          
         iCertStore->Initialize(iStatus);
         iCertState = EInitializeStore;    

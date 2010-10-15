@@ -207,9 +207,11 @@ void CNSmlDSMapContainer::SetMapItemList( SmlMapItemList_t* aMapItemList )
 void CNSmlDSMapContainer::PcdataNewL( SmlPcdata_t*& aPcdata, const TDesC8& aContent ) const
 	{
 	aPcdata = new( ELeave ) SmlPcdata_t;
+	CleanupStack::PushL(aPcdata);
 	aPcdata->SetDataL( aContent );
 	aPcdata->contentType = SML_PCDATA_OPAQUE;   
-	aPcdata->extension = SML_EXT_UNDEFINED; 	
+	aPcdata->extension = SML_EXT_UNDEFINED; 
+	CleanupStack::Pop(aPcdata);	
 	}
 
 // -----------------------------------------------------------------------------

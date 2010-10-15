@@ -428,14 +428,16 @@ void CCentRepToolSession::NewRepositorySessionL( const RMessage2& aMessage)
 	
 	//add new CTrustedSession object into container and object index
 	CRepositorySession * repositorySession = CRepositorySession::NewL( repositoryUid);
-	
+	CleanupStack::PushL(repositorySession);
+		
 	iContainer->AddL( repositorySession);
 	TInt handle = iRepositorySessions->AddL( repositorySession);
 
 	//transmit handle to client 
 	TPckg<TInt> handlePckg(handle);
 	TRAPD( r, aMessage.WriteL(3, handlePckg))
-
+	CleanupStack::Pop( repositorySession ); //repositorySession	
+		
 	if ( r != KErrNone)
 		{
 		iRepositorySessions->Remove(handle);
