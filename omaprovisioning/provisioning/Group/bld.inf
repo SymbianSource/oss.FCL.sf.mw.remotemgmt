@@ -53,6 +53,11 @@ PRJ_MMPFILES
 ../ProvisioningParser/Group/ProvisioningParser.mmp
 ../ProvisioningHandler/Group/ProvisioningHandler.mmp
 
+#ifdef __SMART_CARD_PROV
+../ProvisioningSC/Group/ProvisioningSC.mmp
+#endif
+
+
 PRJ_TESTMMPFILES
 
 //  End of File  

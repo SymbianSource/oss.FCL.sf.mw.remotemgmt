@@ -272,13 +272,13 @@ void CWPProvisioningSC::ShowMemoryLowNoteL()
 	Dll::FileName( fileName );
 	#endif
 
-	HBufC* memLowText = WPAdapterUtil::ReadHBufCL( fileName,
+	/*HBufC* memLowText = WPAdapterUtil::ReadHBufCL( fileName,
 												KWPProvSCName,
 												R_TEXT_MEM_SUCS );
     CleanupStack::PushL( memLowText );  // 1
 	CAknGlobalNote* note = CAknGlobalNote::NewLC();  // 2
 	note->ShowNoteL( EAknGlobalInformationNote, *memLowText );
-	CleanupStack::PopAndDestroy( 2 ); // note, memLowText
+	CleanupStack::PopAndDestroy( 2 ); // note, memLowText*/
 	}
 
 // -----------------------------------------------------------------------------

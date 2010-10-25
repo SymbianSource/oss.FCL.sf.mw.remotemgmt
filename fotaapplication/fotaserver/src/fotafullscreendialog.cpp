@@ -17,6 +17,7 @@
 
 #include "fotafullscreendialog.h"
 
+#include <hbparameterlengthlimiter.h>
 #include <HbAction.h>
 #include <hbprogressbar.h>
 #include <hbicon.h>
@@ -161,12 +162,12 @@ void HbFotaFullscreenDialog::setSoftwareDetails(int size,
         {
         TReal sizeMB = sizeKB / 1024;
         Math::Round(sizeRounded,sizeMB,2);
-        content = hbTrId("txt_device_update_info_new_device_software_availab_Mb") .arg(aName) .arg(version).arg(sizeRounded);
+        content = HbParameterLengthLimiter("txt_device_update_info_new_device_software_availab_Mb").arg(aName).arg(version).arg(sizeRounded);
         }
     else
         {
         Math::Round(sizeRounded,sizeKB,2);
-        content = hbTrId("txt_device_update_info_new_device_software_availab_Kb") .arg(aName) .arg(version).arg(sizeRounded);
+        content = HbParameterLengthLimiter("txt_device_update_info_new_device_software_availab_Kb").arg(aName).arg(version).arg(sizeRounded);
         }
 
     m_SwDetails->setPlainText(content);
