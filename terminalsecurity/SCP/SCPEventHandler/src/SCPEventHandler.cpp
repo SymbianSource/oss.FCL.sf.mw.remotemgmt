@@ -130,6 +130,7 @@ EXPORT_C void CSCPEventHandler::NotifyChangesL(THandlerServiceId aEvent, THandle
                 case KNSmlDMHostServer2ID:
                 case KNSmlDMHostServer3ID:
                 case KNSmlDMHostServer4ID:
+                case KNSmlMFE:
                     _DMEVNT_DEBUG(_L("[CSCPEventHandler]-> INFO: UID is marked as an exception, cleanup request bypassed..."));
                     break;
                 default: {

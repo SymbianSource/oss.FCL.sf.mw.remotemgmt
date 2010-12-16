@@ -684,17 +684,18 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
     }
     else {
         RDebug::Print(_L("CSCPServer::CheckISACodeL(): config lock code %s"), storedCode.PtrZ());
-        TRAP( err, CheckISACodeL( storedCode ) );
+
+        //TRAP( err, CheckISACodeL( storedCode ) );
+
+        TRAP( err, CheckISACodeL( defaultLockcode ) );
+
         if (err == KErrNone) {
-            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA and config are in SYNC !! "));
-            iConfiguration.iConfigFlag = KSCPConfigOK;
-            isDefaultLockcode = EFalse;
-        }
-        else {
             iConfiguration.iSecCode.Zero();
             iConfiguration.iSecCode.Append(KSCPDefaultSecCode);
+
             RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@May be ISA has KSCPDefaultSecCode "));
-            TRAP(err,ChangeISACodeL(storedCode));
+            TRAP(err, ChangeISACodeL(storedCode));
+
             if (err == KErrNone) {
                 RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()chnaged ISA code with config value "));
                 iConfiguration.iConfigFlag = KSCPConfigOK;
@@ -704,6 +705,11 @@ void CSCPServer::ValidateConfigurationL( TInt aMode )
             {
                 RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()it shouldn't reach this :( "));
             }
+        }
+        else {
+            RDebug::Print(_L("--> CSCPServer::ValidateConfigurationL()@ISA and config are in SYNC !! "));
+            iConfiguration.iConfigFlag = KSCPConfigOK;
+            isDefaultLockcode = EFalse;
         }
     }
 
@@ -1712,6 +1718,37 @@ if(FeatureManager::FeatureSupported(KFeatureIdSapDeviceLockEnhancements))
                 
         break;
         }
+		
+	if(ret == KErrNotFound) {
+        Dprint( (_L("[CSCPServer]-> Unable to find value for parameter %d, returning default value..."), aID ));
+        aValue.Zero();
+        
+        // Initialize the default values here...
+        switch(aID) {
+            case RTerminalControl3rdPartySession :: ETimeout:
+                Dprint( (_L("[CSCPServer]-> Branched to ETimeout") ));
+                aValue.AppendNum( ESCPAutolockPeriod );
+                break;
+            case RTerminalControl3rdPartySession :: EMaxTimeout:
+                Dprint( (_L("[CSCPServer]-> Branched to EMaxTimeout") ));
+                aValue.AppendNum( ESCPMaxAutolockPeriod );
+                break;
+            case RTerminalControl3rdPartySession :: EPasscodeMinLength:
+                Dprint( (_L("[CSCPServer]-> Branched to EPasscodeMinLength") ));
+                aValue.AppendNum( KSCPDefaultMinLCLnt );
+                break;
+            case RTerminalControl3rdPartySession :: EPasscodeMaxLength:
+                Dprint( (_L("[CSCPServer]-> Branched to EPasscodeMaxLength") ));
+                aValue.AppendNum( KSCPDefaultMaxLCLnt );
+                break;
+            default:
+                Dprint( (_L("[CSCPServer]-> Branched to default") ));
+                aValue.AppendNum( 0 );                            
+                break;
+        }
+        
+        ret = KErrNone;
+    }
         
     Dprint( (_L("<-- CSCPServer::GetParameterValueL(): %d"), ret )); 
     return ret;        

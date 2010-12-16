@@ -21,7 +21,11 @@
 
 // This server has read and write capabilities for device and user data
 CAPABILITY		ReadUserData WriteUserData ReadDeviceData WriteDeviceData NetworkServices
+
 EPOCHEAPSIZE	0x500 0x800000	// minimum and maximum heap sizes
+
+EPOCSTACKSIZE       0x5000   //Stack size is increased to 20kb for avoiding stack overflow condition.
+
 VENDORID		VID_DEFAULT
 UID				0 0x101F99FE
 TARGET			nsmldshostserver2.exe

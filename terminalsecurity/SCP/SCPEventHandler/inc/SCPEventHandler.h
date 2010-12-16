@@ -39,6 +39,7 @@ const TUint32 KNSmlDMHostServer1ID = 270506498;  // 0x101F9A02
 const TUint32 KNSmlDMHostServer2ID = 270506499;  // 0x101F9A03
 const TUint32 KNSmlDMHostServer3ID = 270506500;  // 0x101F9A04
 const TUint32 KNSmlDMHostServer4ID = 270506501;  // 0x101F9A05
+const TUint32 KNSmlMFE = 536947692;  // 0x20012BEC
 
 /**
  * This checks for uninstallation (presently only for sisx uninstallation) or 

@@ -488,10 +488,32 @@ TKeyResponse CSCPQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventC
         // Reset the field text
         QueryControl()->SetTextL( iTextBuffer );        
         }
-            
-	TKeyResponse ret = QueryControl()->OfferKeyEventL( aKeyEvent, aType );
-                
-    // Check that only alphanumeric letters are entered    
+		
+	TLanguage lang = User::Language();
+	Dprint( (_L("CSCPQueryDialog::OfferKeyEventL language is %d, "), lang ));
+	TKeyResponse ret = EKeyWasConsumed;
+if ((lang == ELangArabic) || (lang == ELangUrdu) || (lang == ELangFarsi))
+{
+
+    TInt keyCode = aKeyEvent.iCode;
+    TKeyEvent event(aKeyEvent);
+    
+    if(keyCode >= 0x660 && keyCode <= 0x669) {
+        // this range is Arabic number, convert it back to normal number
+        event.iCode -= 0x630;
+    }
+    else if( keyCode >= 0x6F0 && keyCode <= 0x6F9 ) {
+        // this range is Urdu/Farsi, convert it back to normal number
+        event.iCode -= 0x6C0;
+    }
+	 ret = QueryControl()->OfferKeyEventL( event, aType );
+	}
+	else
+	{
+	 ret = QueryControl()->OfferKeyEventL( aKeyEvent, aType );
+	}
+
+    // Check that only alphanumeric letters are entered
     if ( ( QueryControl() != NULL ) && ( QueryControl()->GetTextLength() > iValidTextLen ) )
         {                    
         // A new character was added to the editor
